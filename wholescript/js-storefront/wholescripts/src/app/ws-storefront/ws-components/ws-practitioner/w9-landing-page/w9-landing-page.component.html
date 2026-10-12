@@ -1,0 +1,104 @@
+<cx-page-slot [position]="'TopBannerSlot'" role="banner"></cx-page-slot>
+<cx-page-slot [position]="'PatientDirectCardsSlot'" role="banner"></cx-page-slot>
+
+<div>
+    <ng-container *ngIf="whatstheProcess$ | async as whatstheProcess">
+        <div [innerHTML]="whatstheProcess['content']" role="region" aria-label="processContent"></div>
+    </ng-container>
+
+    <div class="process-container" role="region" aria-labelledby="processSection">
+        <section class="process" id="processSection">
+            <ng-container *ngIf="bannerOne$ | async as bannerOne">
+                <article class="process__step" role="article" aria-labelledby="bannerOneHeadline">
+                    <cx-media [container]="bannerOne['media']" [alt]="bannerOne['headline']"></cx-media>
+                    <div class="para">
+                        <div class="process__text" id="bannerOneHeadline">
+                            {{bannerOne['headline']}}
+                        </div>
+                        <div class="process__subtext">
+                            {{bannerOne['content']}}
+                        </div>
+                    </div>
+                </article>
+            </ng-container>
+
+            <ng-container *ngIf="bannerTwo$ | async as bannerTwo">
+                <article class="process__step" role="article" aria-labelledby="bannerTwoHeadline">
+                    <cx-media [container]="bannerTwo['media']" [alt]="bannerTwo['headline']"></cx-media>
+                    <div class="para">
+                        <div class="process__text" id="bannerTwoHeadline">
+                            {{bannerTwo['headline']}}
+                        </div>
+                        <div class="process__subtext">
+                            {{bannerTwo['content']}}
+                        </div>
+                    </div>
+                </article>
+            </ng-container>
+
+            <ng-container *ngIf="bannerThree$ | async as bannerThree">
+                <article class="process__step" role="article" aria-labelledby="bannerThreeHeadline">
+                    <cx-media [container]="bannerThree['media']" [alt]="bannerThree['headline']"></cx-media>
+                    <div class="para">
+                        <div class="process__text" id="bannerThreeHeadline">
+                            {{bannerThree['headline']}}
+                        </div>
+                        <div class="process__subtext">
+                            {{bannerThree['content']}}
+                        </div>
+                    </div>
+                </article>
+            </ng-container>
+        </section>
+
+        <div class="bottom-section">
+            <div class="mx-auto text-center checkbox check-primary consult" role="group"
+                aria-labelledby="consultationFeesOptOutLabel">
+                <input type="checkbox" id="consultationFeesOptOut" [(ngModel)]="checkBox"
+                    aria-labelledby="consultationFeesOptOutLabel">
+                <ng-container *ngIf="consultationFeesOpt$ | async as consultationFeesOpt">
+                    <label class="form-check-label bolder text-left text-black consult__check" for="consultationFeesOptOut"
+                        id="consultationFeesOptOutLabel" [innerHTML]="consultationFeesOpt['content']">
+                    </label>
+                </ng-container>
+            </div>
+        
+            <ng-container *ngIf="getStartedLink$ | async as getStarted">
+                <a class="btn btn-primary btn-rounded mx-auto" (click)="goTow9Form(getStarted.url)"
+                    [innerText]="getStarted['linkName']" role="button" aria-label="Start Process"></a>
+            </ng-container>
+        </div>
+    </div>
+</div>
+
+<ng-template #Popup>
+    <div role="dialog" aria-labelledby="popupTitle" aria-modal="true">
+        <div class="modal-header">
+            <h3 class="modal-title mx-auto bolder text-center" id="popupTitle">CONSULTATION FEES OPT OUT</h3>
+            <button type="button" class="close" (click)="closePopup()" aria-label="Close">
+                <span aria-hidden="true">×</span>
+            </button>
+        </div>
+        <hr class="m-0" >
+        <div class="modal-content">
+            <div class="modal-body text-center text-black py-0">
+               
+                <p class="my-5 fs-16">
+                    Practitioners participating in our Patient Direct program will receive a 30% consultation fee on
+                    their patients’ WholeScripts orders. You are OPTING OUT and therefore agreeing to NOT receive any
+                    consultation fees. PLEASE BE ADVISED: There are no retroactive consultation fees; consultation fees
+                    are only payable from the opt-in date forward.
+                </p>
+                <p class="bolder my-5 fs-16">
+                    Are you sure you want to opt out of receiving consultation fees?
+                </p>
+                <div class="d-flex float-right">
+                    <a class="btn btn-rounded btn-outline-primary d-flex align-items-center" (click)="closePopup()" role="button"
+                        aria-label="Cancel">Cancel</a>
+                    <a class="btn btn-rounded btn-primary ml-2" (click)="navigator()" role="button"
+                        aria-label="Confirm Opt-Out">Yes, I'm Sure</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>

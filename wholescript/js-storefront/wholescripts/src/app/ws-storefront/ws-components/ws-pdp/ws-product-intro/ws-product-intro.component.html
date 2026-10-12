@@ -1,0 +1,30 @@
+<div *ngFor="let alert of alerts">
+    <alert [type]="alert.type" [dismissOnTimeout]="alert.timeout" (onClosed)="onClosed(alert)">{{ alert.msg }}</alert>
+</div>
+<ng-container *ngIf="product$ | async as product">
+    <div class="ws-product-intro-container">
+        <div class="brand-favaourites">
+            <div class="brand">
+                <span>
+                    Brand:
+                </span>
+                <a [routerLink]="$any(product).brandUrl" class="brand-name" [innerHTML]="$any(product).brandName" tabindex="0"> </a>
+            </div>
+
+            <div *ngIf = "isLoggedIn" class="favourites" tabindex="0">
+                    <span class="add-favourites">{{ isFavorite(product) ? 'Added as favorite' : 'Add favorite'}}</span>
+                    <button aria-label="Facts button" (click)="updateFavorites(product, isFavorite(product))" class="heart-btn"><i class="fa-solid fa-heart" [ngClass]="isFavorite(product) && 'fa-active'"></i></button>
+            </div>
+        </div>
+
+        <ws-product-status *ngIf="product" [product]="product"></ws-product-status>
+
+        <div class="product-name pt-1">
+            {{ product.name }}
+        </div>
+
+        <div class="short-description" *ngFor="let description of shortDescription">
+            <div [innerHTML]="description?.featureValues[0]?.value"></div>
+        </div>
+    </div>
+</ng-container>

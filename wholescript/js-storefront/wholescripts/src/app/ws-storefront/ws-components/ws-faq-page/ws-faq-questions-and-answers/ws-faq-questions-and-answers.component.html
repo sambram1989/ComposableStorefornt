@@ -1,0 +1,88 @@
+<section id="faq-questions-and-answers-search-main">
+    <div class="search-bar container-fluid">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="input-group mb-3">
+                    <input type="search" class="form-control" [(ngModel)]="searchTerm" id="search-box" (input)="search()" placeholder="What do you need help with?">
+                    <div class="input-group-append">
+                        <button class="btn btn-default" role="presentation" id="search-button" aria-label="Search">
+                            <i class="fas fa-search" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <button class="clear-search" *ngIf="searchTerm?.length > 2" (click)="clearSearch()">Clear search</button>
+</section>
+<section id="faq-questions-and-answers-main">
+    <nav class="faq-buttons-container">
+        <ul id="buttons">
+            <li class="faq-button" *ngFor="let faqQuestionsAndAnswer of faqQuestionsAndAnswers"><a (click)="goToTopic(faqQuestionsAndAnswer)" [class.active]="faqQuestionsAndAnswer.uid === activeTopicUid">{{faqQuestionsAndAnswer?.title}}</a>
+                <ul *ngIf="faqQuestionsAndAnswer.expanded && faqQuestionsAndAnswer.child && faqQuestionsAndAnswer.child?.length" class="child-list">
+                    <li *ngFor="let child of faqQuestionsAndAnswer.child" class="faq-button">
+                        <a (click)="goToTopic(child)" [class.active]="child.uid === activeTopicUid">{{child?.title}}</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+
+    <hr id="onlysmall">
+
+    <div id="questions" *ngIf="faqQuestionsAndAnswers?.length > 0">
+
+        <div class="faq-section" *ngFor="let faqQuestionsAndAnswer of faqQuestionsAndAnswers" >
+            <h2 id="{{faqQuestionsAndAnswer?.title}}" class="faq-subtitles" >{{faqQuestionsAndAnswer?.title}}</h2>
+
+            <div class="faq-card" *ngFor="let topic of faqQuestionsAndAnswer?.faqTopicList" [ngClass]="[toggleAnswer[topic?.uid] ? 'highlighted' : '']">
+                <button class="accordion" aria-expanded="false" (click)="toggleQuestion(topic)">
+                    <p class="faq-card-question" [innerHTML]="boldSearchTerm(topic?.question)"></p>
+                    <div class="chevron">
+                        <i class="fas fa-chevron-down" aria-hidden="true" *ngIf="!toggleAnswer[topic?.uid]"></i>
+                        <i class="fas fa-chevron-up" aria-hidden="false" *ngIf="toggleAnswer[topic?.uid]"></i>
+                    </div>
+                </button>
+
+                <div class="panel" id="{{topic?.uid}}" *ngIf="toggleAnswer[topic?.uid]">
+                    <p class="faq-card-answer" [innerHTML]="boldSearchTerm(topic?.answer)"></p>
+                </div>
+            </div>
+
+            <span *ngIf="faqQuestionsAndAnswer?.child && faqQuestionsAndAnswer?.child.length > 0" class="w-100">
+                <div class="faq-section" *ngFor="let faqQuestionsAndAnswerChild of faqQuestionsAndAnswer?.child" >
+                    <h2 id="{{faqQuestionsAndAnswerChild?.title}}" class="faq-subtitles" >{{faqQuestionsAndAnswer?.title + " " + faqQuestionsAndAnswerChild?.title}}</h2>
+        
+                    <div class="faq-card" *ngFor="let childTopic of faqQuestionsAndAnswerChild?.faqTopicList" [ngClass]="[toggleAnswer[childTopic?.uid] ? 'highlighted' : '']">
+                        <button class="accordion" aria-expanded="false" (click)="toggleQuestion(childTopic)">
+                            <p class="faq-card-question" [innerHTML]="boldSearchTerm(childTopic?.question)"></p>
+                            <div class="chevron">
+                                <i class="fas fa-chevron-down" aria-hidden="true" *ngIf="!toggleAnswer[childTopic?.uid]"></i>
+                                <i class="fas fa-chevron-up" aria-hidden="false" *ngIf="toggleAnswer[childTopic?.uid]"></i>
+                            </div>
+                        </button>
+        
+                        <div class="panel" id="{{childTopic?.uid}}" *ngIf="toggleAnswer[childTopic?.uid]">
+                            <p class="faq-card-answer" [innerHTML]="boldSearchTerm(childTopic?.answer)"></p>
+                        </div>
+                    </div>
+                </div>
+            </span>
+        </div>
+
+        <!-- NO RESULTS FOUND -->
+        <div id="no-results" *ngIf="noResultsFound">
+            <div class="no-results-content">
+                <div class="no-results-image">
+                    <img src="/assets/icons/common_icons/empty-search.svg" alt="No results found">
+                </div>
+                <div class="no-results-title">No results found</div>
+                <div class="no-results-text">
+                    We couldn’t find any matches for <span class="search-term">{{searchTerm}}</span><br>
+                    Please try searching a different term
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>

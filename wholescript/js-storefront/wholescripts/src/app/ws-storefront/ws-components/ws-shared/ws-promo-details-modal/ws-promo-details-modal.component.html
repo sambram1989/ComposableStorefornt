@@ -1,0 +1,52 @@
+<div class="promotions-modal-wrapper" >
+    <div class="modal fade slide-right show" id="showPromoDetailsModal" #modalContainer tabindex="-1" role="dialog"
+        aria-labelledby="showPromoDetailsModal" style="display: block;">
+        <div class="modal-dialog">
+            <div class="modal-content-wrapper">
+                <div class="container-xs-height full-height">
+                    <div class="row-xs-height">
+                        <div class="modal-content col-xs-height">
+                            <div class="modal-header">
+                                <h3 class="modal-title">
+                                    <i class="fas fa-tag"></i>
+                                    PROMO DETAILS
+                                </h3>
+                                <button type="button" class="close" (click)="closePopup()" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <h4 class="product-detail-promocodes-code wstooltip">
+                                    <span class="wstooltiptext" *ngIf="showTooltip">Click to copy promo code.</span>
+                                    <span class="product-detail-promocodes-code-content" tabindex="0" (keydown.enter)="copyPromoCode(selectedPromotion?.code)"
+                                        [ngClass]="showTooltip && 'primary'" (mouseenter)="promoCodeMouseEnter()"
+                                        (mouseleave)="promoCodeMouseLeave()" (click)="copyPromoCode(selectedPromotion?.code)">
+                                        {{selectedPromotion?.code}}
+                                    </span>
+                                </h4>
+  
+                                <div class="pc-description">
+                                    {{selectedPromotion?.title}}
+                                </div>
+
+                                <div class="pc-disclaimer">
+                                    {{selectedPromotion?.description}}
+                                </div>
+  
+                                <div class="row mt-3">
+                                    <div class="col-12 text-right">
+                                        <button type="submit" (click)="closePopup()"
+                                            class="btn btn-secondary btn-rounded">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+
+  <alert *ngIf="alert?.msg" [type]="alert.type" [dismissOnTimeout]="alert.timeout" (onClosed)="onClosed()">{{
+    alert.msg }}</alert>

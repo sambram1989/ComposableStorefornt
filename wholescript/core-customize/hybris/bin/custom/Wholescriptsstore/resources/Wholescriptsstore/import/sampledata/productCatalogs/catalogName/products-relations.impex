@@ -1,0 +1,27 @@
+# -----------------------------------------------------------------------
+# Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+# -----------------------------------------------------------------------
+# ImpEx for Related Products
+
+# Macros / Replacement Parameter definitions
+$productCatalog = Catalog_1710_10
+$productCatalogName = Catalog_1710_10
+$catalogVersion = catalogversion(catalog(id[default = $productCatalog]), version[default = 'Staged'])[unique = true, default = $productCatalog:Staged]
+
+# Insert Product References
+INSERT_UPDATE ProductReference;source(code,$catalogVersion)[unique=true];target(code,$catalogVersion)[unique=true];referenceType(code);active[default=true];preselected[default=false]
+
+
+INSERT_UPDATE Ingredient;code[unique=true];name;rda;priority;unit(code)
+                        ;8;Biotin;30.00;14;mcg
+                        ;151;Choline (as choline dihydrogen citrate);550.00;27;mg
+                        ;167;Inositol;0.00;50;mg
+
+INSERT_UPDATE IngredientReference;product(code,$catalogVersion)[unique=true];ingredient(code)[unique=true];units
+                                 ;0005101;8;250
+                                 ;0005101;151;9
+                                 ;0005101;167;9
+                                 ;0005375;8;250
+                                 ;0005375;151;10
+                                 ;0005375;167;9
+

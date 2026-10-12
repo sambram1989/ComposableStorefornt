@@ -1,0 +1,21 @@
+::ng-deep {
+   .recommendationItem {
+      .pro-data-patient-proto-img {
+         display: flex;
+         justify-content: center;
+         cx-media {
+            width: 80px;
+            height: 80px;
+         }
+      }
+   }
+   .fa-shopping-cart {
+      color: var(--ws-success-text)!important;
+   }
+}
+.favourite{
+   font-weight: 900!important;
+   .fav-btn__icon--active {
+      color: var(--ws-success-text)!important; 
+    }
+}

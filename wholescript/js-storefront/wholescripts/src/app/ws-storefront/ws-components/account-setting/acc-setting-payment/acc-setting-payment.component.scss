@@ -1,0 +1,55 @@
+
+.close{
+    color: var(--cx-color-dange);
+}
+.payment-box{
+background-color: var(--cx-color-inverse);
+}
+.ws-d-flex{  
+    gap: 30px;
+}
+.dot-icon{
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+  }
+@media (max-width: 767px) {
+    .payment-box.col-4,
+    .payment-box.col-6 {
+        width: 360px !important;
+        max-width: 100% !important;
+    }
+
+    .mb-f {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .d-flex.row {
+        display: block !important;
+        margin-left: 0 !important;
+    }
+
+    .f-d {
+        flex-direction: column;
+    }
+
+    .col-md-12 {
+        flex: 0 0 100% !important;
+        max-width: 100% !important;
+    }
+}
+
+.progress-success {
+    background-color: #10cfbd !important;
+}
+.progress-warning {
+    background-color: #f8d053 !important;
+}
+.progress-danger {
+    background-color: #f55753 !important;
+}
+.progress-empty {
+    background-color: transparent !important;
+}

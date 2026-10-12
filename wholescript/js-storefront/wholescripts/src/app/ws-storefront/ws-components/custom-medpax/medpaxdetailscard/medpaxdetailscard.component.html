@@ -1,0 +1,63 @@
+<div class="sum-header">
+    <div class="d-inline" aria-label="MedPax Details">MedPax Details</div>
+    @if(this.location.path().includes('protocol/edit/medpax/review') ||
+    this.location.path().includes('recommendation/edit/medpax/review')){
+
+    }@else {
+    <div class="d-inline float-right " aria-live="polite">Total: $ {{(total() || 0.00) | number:'1.2-2'}}</div>
+    }
+</div>
+<div class="sum-body">
+    @if (checkRoleExist('pluser') | async) {
+    <div class="row p-3">
+        <div class="col-2 text-center" style="max-width:100%;">
+            <ng-container *ngIf="details()?.carton?.image?.url; else noImage">
+                <img class="carton-medpax-img" [src]="currentBaseSite+details()?.carton?.image?.url" alt="Carton-Medpax-Img">
+            </ng-container>
+            <ng-template #noImage>
+                <img src="assets/images/private-label/pl-generic-icon.png" alt="Carton-Medpax-Img" class="img-fluid no-image">
+            </ng-template>
+           
+        </div>
+        <div class="col-7">
+            <p class="bolder">
+                Carton Selected:
+            </p>
+            <p>
+                {{details()?.carton?.cartonName}}
+            </p>
+        </div>
+        <div class="col-3 text-right">
+            <a class="d-sm-inline bolder text-link cursor-pointer" (click)="goToPrevPage()" (keydown.enter)="goToPrevPage()" tabindex="0">
+                Edit
+            </a>
+        </div>
+    </div>
+    <hr>
+    }
+    <section class="sum-details pt-3">
+        <div class="d-flex align-items">
+            <div>
+                <img src="/assets/qa/medpax-icon-dark.svg" class="mr-1" alt="medpax-box">
+                {{details()?.box}} Box*
+            </div>
+            <div>
+                <img src="/assets/qa/packet-icon-dark.svg" class="mr-1" alt="medpax-packet">
+                {{details()?.packetCount}} Packets*
+            </div>
+            <div>
+                <i class="fas fa-pills mr-1"></i>
+                {{details()?.formulas}} Formulas
+            </div>
+        </div>
+        <div class="text-center">
+            *Quantities are estimated and may not match final packaging.
+        </div>
+        <hr class="mp-disclaimer-hr">
+        <div class="mp-disclaimer alert alert-info d-block" role="alert" aria-live="polite">
+            <span class="bolder">Please note: </span>
+            <span>It is recommended that MedPax be used within 60 days of the dispensing/fulfillment date as shown on
+                package.</span>
+        </div>
+    </section>
+</div>

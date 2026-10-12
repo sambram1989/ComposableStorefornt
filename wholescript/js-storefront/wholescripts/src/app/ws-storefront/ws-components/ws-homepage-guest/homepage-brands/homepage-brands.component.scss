@@ -1,0 +1,218 @@
+section.brands {
+	background: url("/assets/images/home/dot-pattern-left.svg") top left -5% no-repeat, url("/assets/images/home/dot-pattern-right.svg") bottom right -5% no-repeat;
+	background-size: 25vw, 25vw;
+	background-size: clamp(350px, 25vw, 470px), clamp(350px, 25vw, 470px);
+	position: relative;
+	@media screen and (max-width: 990px) {
+        background-size: 200px, 200px, 800px;
+        background-size: 200px, 200px, min(800px, 100%);
+        background-position: top left -5%, bottom right -5%, top 50% right -300px;
+	}
+}
+.brands-hexagon {
+	position: relative;
+	padding-block-end: 80px;
+}
+
+div.angle-down {
+	position: relative;
+	margin-block-start: 80px;
+	@media screen and (max-width: 990px) {
+		margin-block-start: 0;
+	}
+}
+
+div.angle-down img {
+	position: absolute;
+	top: -1px;
+	z-index: 2;
+    width: 100%;
+	height: 70px;
+	@media screen and (max-width: 990px) {
+		height: 20px;
+	}
+}
+
+.brands-hexagon::before {
+	content: "";
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	background-image: url("/assets/images/home/green-hex.svg");
+	background-repeat: no-repeat;
+	background-position: top 60% right;
+	background-size: min(600px, 35%);
+	@media screen and (max-width: 1024px) {
+		background-position: top 32% right;
+	}
+	@media screen and (max-width: 990px) {
+		background-position: top 25% right;
+	}
+	@media screen and (max-width: 767px) {
+		background-position: top 15% right;
+	}
+}
+
+.brands .container-full {
+	display: grid;
+	grid-template-areas: "h2 h2 h2" "sum grid grid";
+	grid-template-columns: 1.25fr 1fr 1fr;
+	grid-gap: 1.5rem;
+	@media screen and (max-width: 990px) {
+		grid-template-areas:
+	"h2"
+	"grid"
+	"sum"
+	"slider";
+	grid-template-columns: 1fr;
+	margin: 0 6rem;
+	}
+	
+	@media screen and (max-width: 575px) {
+		margin: 0 1rem;
+	}
+}
+
+.container-full {
+    margin: 0 15%;
+}
+
+cx-media {
+	display: flex;
+    align-items: center;
+    padding: 8px;
+}
+
+section.brands .header {
+	grid-area: h2;
+	margin: 2rem 0 8rem 0;
+	position: relative;
+	@media screen and (max-width: 990px) {
+		margin-bottom: 4rem;
+	}
+}
+
+section.brands .header h2 {
+	background: #fafafa;
+	position: relative;
+	z-index: 2;
+	display: inline-block;
+	line-height: 1.2;
+	@media screen and (max-width: 990px) {
+		font-size: 29px;
+	}
+}
+
+section.brands .header img {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	z-index: 1;
+}
+section.brands .brands-summary {
+	grid-area: sum;
+	margin-right: 3rem;
+
+	@media screen and (max-width: 990px) {
+		margin: 3rem 0;
+		text-align: center;
+	}
+
+		a {
+			align-items: center;
+			display: flex;
+			width: fit-content;
+			font-weight: 900;
+
+			@media screen and (max-width: 990px) {
+				
+			}
+			@media screen and (max-width: 575px) {
+				margin: auto;
+			}
+		}
+}
+section.brands .brands-grid {
+	grid-area: grid;
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	grid-gap: 2rem;
+	margin-left: 3rem;
+	align-content: center;
+	@media screen and (min-width: 900px) and (max-width: 1024px) {
+		grid-template-columns: 1fr 1fr;
+		margin-left: 0;
+	}
+	@media screen and (max-width: 899px) {
+		grid-template-columns: 1fr 1fr 1fr;
+		margin-left: 0;
+	}
+	@media screen and (max-width: 575px) {
+		grid-template-columns: 1fr 1fr;
+		margin-left: 0;
+	}
+}
+
+h4.text-center,
+.text-center h4,
+.get-started h4 {
+	margin-left: auto;
+	margin-right: auto;
+	max-width: 600px;
+}
+
+.brands-summary__h {
+	margin-bottom: 20px;
+}
+
+.brands-summary__sh {
+	margin-bottom: 40px;
+	font-weight: 900;
+	white-space: pre-line;
+	line-height: 1.6;
+}
+
+.brands-cta-description {
+	margin-bottom: 20px;
+	font-weight: 700;
+}
+
+.brands .home-brand-card {
+	background: #fff;
+	position: relative;
+	overflow: hidden;
+	display: flex;
+	padding: 0.75rem 0;
+	aspect-ratio: 1.25/1;
+	align-items: center;
+}
+
+.brands .home-brand-card:hover {
+	filter: brightness(0.97);
+}
+
+.brands .home-brand-card img {
+	width: calc(100% - 1.3rem);
+	margin: auto;
+	object-fit: contain;
+}
+
+.brands .home-brand-card:first-child {
+	background: #00b2e2;
+}
+
+div.angle-down {
+	position: relative;
+	margin-block-start: 100px;
+}
+
+div.angle-down svg {
+	position: absolute;
+	top: 100%;
+	z-index: 2;
+}
+
+div.angle-down path {
+	fill: #fafafa;
+}

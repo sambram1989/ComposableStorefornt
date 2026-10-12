@@ -1,0 +1,135 @@
+::ng-deep {
+  .close {
+    margin-bottom: 0px !important;
+  }
+  .modal-dialog {
+    float: right;
+    min-width: 50%;
+    height: 100% !important;
+    width: 50%;
+    margin: 0 !important;
+    @media (min-width:320px) and (max-width: 475px) {
+      width: 90% !important;
+    .modal-content {
+      height: auto;
+      min-height: 100%;
+    }
+  }
+}
+  .modal-open .modal {
+    z-index: 9999 !important;
+  }
+  .tab-container {
+    li.nav-item {
+      span {
+        background: rgba(0, 0, 0, 0.01) !important;
+      }
+    }
+  }
+}
+.modal-header {
+  line-height: 1.5;
+  color: var(--ws-gray-light-700);
+  font-weight: normal;
+  letter-spacing: 0.01em;
+  font-size: 16px !important;
+  box-sizing: inherit;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 0 !important;
+  text-transform: uppercase;
+  text-align: left;
+  border-bottom: 0;
+  position: relative;
+  flex-direction: column;
+  align-items: baseline;
+  .modal-title {
+    margin: 10px 0;
+    margin-bottom: 0;
+    font-weight: 900 !important;
+    line-height: 33px;
+    letter-spacing: normal;
+    font-size: 30px !important;
+  }
+  .close {
+    box-sizing: inherit;
+    margin: 0;
+    overflow: visible;
+    text-transform: none;
+    touch-action: manipulation;
+    float: right;
+    font-size: 1.5rem;
+    line-height: 1;
+    text-shadow: 0 1px 0 var(--cx-color-inverse);
+    padding: 0;
+    cursor: pointer;
+    background: rgba(0, 0, 0, 0.01);
+    border: 0;
+    top: 0px;
+    bottom: 40px;
+    margin-right: 0 !important;
+    font-weight: 900 !important;
+    color: #3e3c49;
+    opacity: 1;
+    position: absolute;
+    right: 0;
+    z-index: 10;
+    span {
+      color: inherit;
+      font-weight: 900;
+      opacity: 0.85;
+    }
+  }
+}
+
+.modal-container {
+  .modal-content-section {
+    section {
+      .modal-body {
+        .image-container {
+          .overlay-container {
+            position: relative; 
+            display: inline-block;
+          }
+        
+          img {
+            height: 100%;
+          }
+        
+          .overlay-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: var(--cx-color-secondary);
+            font-size: 2rem;
+            font-weight: 900;
+            margin: 0;
+            text-shadow: 0 0 2px rgba(0, 0, 0, 0.2);
+            background: transparent;
+          }
+        }
+        .product-summary {
+            .clinical-applications {
+                ul {
+                    padding-left: 40px;
+                }
+            }
+        }
+        .tab-container {
+          .tab-content {
+            border: solid 1px var(--ws-custom-border-color);
+            padding: 1rem;
+            margin-bottom: 1rem;
+          }
+        }
+        .modal-btns {
+          display: flex;
+          justify-content: end;
+          align-items: center;
+          gap: 10px;
+        }
+      }
+    }
+  }
+}

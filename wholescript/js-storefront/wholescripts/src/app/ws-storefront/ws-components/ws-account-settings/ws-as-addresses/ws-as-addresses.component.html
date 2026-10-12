@@ -1,0 +1,263 @@
+<div id="practitioner-addresses-container">
+  <div>
+    <div class="page-header">
+      <div>
+        <h1 class="ws-h1">Addresses</h1>
+        <p>Manage your saved addresses for a smooth shopping experience.</p>
+      </div>
+      <button
+        (click)="showNewAddress = true; isEdit = false"
+        id="show-modal"
+        data-toggle="modal"
+        data-target="#addNewAppModal"
+        class="btn btn-primary btn-rounded"
+        ng-disabled="IsProcessing"
+        role="button"
+        aria-label="New address"
+        tabindex="0"
+      >
+        <i class="fa fa-plus"></i> New address
+      </button>
+    </div>
+    <div *ngIf="!loader">
+      <div class="ws-input-container">
+        <div>
+          <ws-search-box class="ws-search-box" (searchChange)="updateSearch($event)"
+          aria-label="Search box" [placeholder]="'Search Addresses...'"
+          [attr.aria-placeholder]="'Search Addresses...'">
+        </ws-search-box>
+        </div>
+      </div>
+
+      <div class="ws-table-container addresses-table">
+        <div class="loadingSection ng-hide" ng-show="ShowLoadingSection"></div>
+        <div class="ws-table-content" ng-hide="ShowLoadingSection">
+          <div class="ws-table-header">
+            <div class="ws-table-header__cell">
+              ADDRESS DESCRIPTION
+              <button
+                [disabled]="!allAddresses.length"
+                (click)="sortByDescription()"
+                class="sort-button"
+                [attr.aria-label]="isAscendingDescritpion ? 'Sort in descending order' : 'Sort in ascending order'"
+              >
+              <span class="sr-only">
+                {{ isAscendingDescritpion ? 'Sort in descending order' : 'Sort in ascending order' }}
+              </span>
+                <i
+                  class="fa"
+                  [ngClass]="{
+                    'fa-arrow-up': isAscendingDescritpion,
+                    'fa-arrow-down': !isAscendingDescritpion
+                  }"
+                  aria-hidden="true"
+                ></i>
+              </button>
+            </div>
+            <div class="ws-table-header__cell sorting">
+              NAME
+              <button
+                [disabled]="!allAddresses.length"
+                (click)="sortByName()"
+                class="sort-button"
+                [attr.aria-label]="isAscendingName ? 'Sort names in descending order' : 'Sort names in ascending order'"
+              >
+              <span class="sr-only">
+                {{ isAscendingName ? 'Sort names in descending order' : 'Sort names in ascending order' }}
+              </span>
+                <i
+                  class="fa"
+                  [ngClass]="{
+                    'fa-arrow-up': isAscendingName,
+                    'fa-arrow-down': !isAscendingName
+                  }"
+                  aria-hidden="true"
+                ></i>
+              </button>
+            </div>
+            <div class="ws-table-header__cell sorting">
+              ADDRESS
+              <button
+                [disabled]="!allAddresses.length"
+                (click)="sortByAddress()"
+                class="sort-button"
+                [attr.aria-label]="isAscendingAddress ? 'Sort addresses in descending order' : 'Sort addresses in ascending order'"
+              >
+              <span class="sr-only">
+                {{ isAscendingAddress ? 'Sort addresses in descending order' : 'Sort addresses in ascending order' }}
+              </span>
+                <i
+                  class="fa"
+                  [ngClass]="{
+                    'fa-arrow-up': isAscendingAddress,
+                    'fa-arrow-down': !isAscendingAddress
+                  }"
+                  aria-hidden="true"
+                ></i>
+              </button>
+            </div>
+            <div class="ws-table-header__cell addresses-actions">ACTIONS</div>
+          </div>
+          <div
+            class="ws-table-row"
+            *ngFor="
+              let address of allAddresses
+                | slice
+                  : (paginationSignal().currentPage - 1) *
+                      paginationSignal().itemPerPage
+                  : paginationSignal().currentPage *
+                      paginationSignal().itemPerPage;
+              let i = index
+            "
+            tabindex="0"
+            (keydown)="onRowKeydown($event, i)"
+            (click)="selectRow(i)"
+            [attr.aria-selected]="selectedRowIndex === i"
+            [class.selected]="selectedRowIndex === i"
+            [class.focused]="focusedRowIndex === i"
+          >
+            <div class="ws-table-body__cell">
+              {{ address?.addressDescription }}
+              <span
+                *ngIf="address?.addressNumber == orgUnitId"
+                class="bolder"
+              >
+                Default</span
+              >
+              <i
+                *ngIf="address?.isCardAvailable"
+                class="fa fa-credit-card"
+                aria-hidden="true"
+              ></i>
+            </div>
+            <div class="ws-table-body__cell">{{ address?.firstName }} {{ address?.lastName }}</div>
+            <div class="ws-table-body__cell">
+              {{ address?.formattedAddress}}
+            </div>
+
+            <div class="bolder ws-table-body__cell">
+              <div class="default-address d-flex justify-content-end mr-1">
+                <div
+                  class="code-tooltip"
+                  *ngIf="address?.addressNumber == orgUnitId && !isPatient()"
+                >
+                  <div class="copy-code">
+                    <span class="code-tooltiptext" [class.show]="showTooltip"
+                      >This is your main account address. To update it, please
+                      contact customer service at
+                      <a
+                        class="text-white"
+                        href="mailto:New.Accounts&#64;wholescripts.com"
+                        >New.Accounts&#64;wholescripts.com</a
+                      ></span
+                    >
+                    <button class="ques-button" aria-label="Help" (keydown)="onTooltipKey($event)"
+                    (blur)="onTooltipBlur()">
+                      <span class="sr-only">Help</span>
+                      <i class="fas fa-question" aria-hidden="true"></i>
+                    </button>
+                  </div>
+                </div>
+
+                <div *ngIf="address?.addressNumber == orgUnitId && isPatient()" class="edit-close-btn">
+                  <a #editBtnRef 
+                    (click)="editAddress(address, editBtnRef)"
+                    (keydown.enter)="editAddress(address,editBtnRef)"
+                    (keydown.space)="editAddress(address,editBtnRef)"
+                    class="text-link bolder edit-address-btn cursor-pointer"
+                    tabindex="0"
+                  >
+                    Edit
+                  </a>
+                </div>
+              </div>
+
+              <div *ngIf="!(address?.addressNumber == orgUnitId)" class="edit-close-btn">
+                <a #editBtnRef
+                  (click)="editAddress(address,editBtnRef)"
+                  (keydown.enter)="editAddress(address,editBtnRef,$event)"
+                  (keydown.space)="editAddress(address,editBtnRef,$event)"
+                  class="text-link bolder edit-address-btn cursor-pointer"
+                  tabindex="0"
+                >
+                  Edit
+                </a>
+                <span class="mx-2"> | </span>
+                <a #deleteBtnRef
+                  (click)="deleteAddress(address,deleteBtnRef)"
+                  (keydown.enter)="deleteAddress(address,deleteBtnRef, $event)"
+                  data-target="#deleteAddressModal"
+                  class="cursor-pointer"
+                  tabindex="0"
+                >
+                  <i class="fa fa-times text-danger"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div
+        *ngIf="!loader && !isSearchLoading && allAddresses.length === 0"
+        class="addresses-no-results ws-empty-state"
+      >
+        <div class="ws-empty-state-inner">
+          <h6 class="ws-empty-state-title">No results found</h6>
+          <div>
+            We couldn't find any matches for
+            <span class="bolder">{{ searchText }}</span>
+          </div>
+          <div>Please try searching with another term</div>
+        </div>
+      </div>
+
+      <div class="pagination-style">
+        <div class="pagination">
+          <ws-pagination-entry-list
+            [endLine]="''"
+            [itemPerPage]="pagination.itemPerPage"
+            [totalItems]="pagination.totalItems"
+            [currentPage]="pagination.currentPage"
+          ></ws-pagination-entry-list>
+        </div>
+        <div class="pagination">
+          <ws-pagination
+            [resetReposition]="true"
+            (currentPageChange)="pageChanged($event)"
+            [itemsPerPage]="pagination.itemPerPage"
+            [totalItems]="pagination.totalItems"
+            [numberOfPagesNeedTOBeShown]="5"
+            aria-label="Pagination controls"
+          ></ws-pagination>
+        </div>
+      </div>
+    </div>
+    <div
+      *ngIf="loader"
+      class="d-flex align-items-center justify-content-center"
+    >
+      <cx-spinner></cx-spinner>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="showNewAddress">
+  <ws-as-addresses-new-address (hideNewAddressModal)="hideNewAddressModal()" [disableEmail]="disableEmailForEdit" [isEdit]="isEdit"
+    [addressToEdit]="addressToEdit" (showValidateAddressModal)="showValidateAddressModal($event)"
+    (refreshAddresses)="refreshAddresses()"></ws-as-addresses-new-address>
+</div>
+
+<div *ngIf="showValidateAddress">
+  <ws-as-addresses-validate-address (hideValidateAddressModal)="hideValidateAddressModal()"
+    (refreshAddresses)="refreshAddresses()" [addressToEdit]="newAndValidateAddressDetails?.addressToEdit"
+    [isEdit]="newAndValidateAddressDetails?.isEdit" [newAddress]="newAndValidateAddressDetails?.newAddress"
+    [activeCartId]="activeCartId" [validatedAddressResponse]="
+      newAndValidateAddressDetails?.validatedAddressResponse
+    "></ws-as-addresses-validate-address>
+</div>
+
+<div *ngIf="showDeleteAddress">
+  <ws-as-addresses-delete-address [addressToDelete]="addressToDelete"
+    (hideDeleteAddressModal)="hideDeleteAddressModal($event)"></ws-as-addresses-delete-address>
+</div>

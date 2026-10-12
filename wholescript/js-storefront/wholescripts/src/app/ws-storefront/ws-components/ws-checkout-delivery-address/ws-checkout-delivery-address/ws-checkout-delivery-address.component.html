@@ -1,0 +1,260 @@
+<div id="checkout-delivery-address" class="container-fluid">
+    <section class="section-content pt-0">
+        <div class="container-fluid p-0">
+            <div class="card card-transparent">
+
+                <div class="card-header pt-0 pl-0 pr-0">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="container-fluid p-0">
+                                <div class="row">
+                                    <div *ngIf="wsShippingPageTopParagraphComponent$ | async as wsShippingPageTopParagraphComponent"
+                                        class="col-md-8 heading-left-section"
+                                        [innerHTML]="wsShippingPageTopParagraphComponent?.content"></div>
+                                    <div class="col-md-4 text-right heading-right-section">
+                                        <button #newAddressBtn id="show-modal" (click)="showNewAddress = true" data-toggle="modal"
+                                            data-target="#addNewAppModal" class="btn btn-primary btn-rounded mt-3"
+                                            tabindex="0">
+                                            <i class="fa fa-plus"></i> &nbsp;
+                                            <span>New Address</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 text-right"> &nbsp;</div>
+                    </div>
+                </div>
+
+                <div class="container-fluid p-0 m-0">
+                    <section class="section-content padding-y pt-0" *ngIf="!loader">
+                        <div class="container-fixed-lg">
+                            <div class="row mb-2 search-wrapper" *ngIf="!showAgeRestrictionDetails()">
+                                <div class="col-sm-6 search-and-clear-search">
+                                    <div class="input-group search-input-wrapper">
+                                        <label for="searchInputId" class="visually-hidden">Search Addresses</label>
+                                        <input type="text" class="form-control w-100 searchtext"
+                                            [value]="searchText"
+                                            (input)="updateSearch(searchInput.value)" placeholder="Search Addresses..."
+                                            #searchInput aria-label="Search Addresses...">
+                                        <span class="input-group-addon primary" title="Search">
+                                            <i class="fa fa-search"></i>
+                                        </span>
+                                    </div>
+                                    <div class="clear-search" (keydown.enter)="clearSearch()" (click)="clearSearch()" *ngIf="searchText" tabindex="0">
+                                        Clear Search
+                                    </div>
+                                </div>
+                                <div class="col-sm-6"> &nbsp; </div>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="row justify-content-between">
+                                <main class="col-lg-8 col-md-6">
+                                    <div *ngIf="showAgeRestrictionDetails()">
+                                        <ws-checkout-delivery-address-age-restriction 
+                                            [products]="notValidProducts" 
+                                            (showDeliveryAddress)="showDeliveryAddress()" 
+                                            (removeItems)="removeItems()"
+                                            (verificationSuccess)="onAgeVerificationSuccess()">
+                                        </ws-checkout-delivery-address-age-restriction>
+                                    </div>
+                                    <div *ngIf="!showAgeRestrictionDetails()">
+                                        <div class="card card-transparent">
+                                            <div class="card card-default" style="background:none; border:none;">
+                                                <div class="card-block no-padding">
+                                                    <table
+                                                        class="address-table table table-hover demo-table-search table-responsive-block">
+                                                        <thead>
+                                                            <tr class="card-header bg-gray text-dark pt-3 pb-3">
+                                                                <th class="text-dark bg-gray">
+                                                                    ADDRESS DESCRIPTION
+                                                                </th>
+                                                                <th class="text-dark bg-gray px-md-auto px-lg-0">
+                                                                    NAME
+                                                                </th>
+                                                                <th style="width:50%"
+                                                                    class="text-dark bg-gray px-md-auto px-lg-0">
+                                                                    ADDRESS
+                                                                </th>
+                                                                <th class="text-center bg-gray text-dark">
+                                                                    ACTIONS
+                                                                </th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr class="clickable-row"
+                                                                *ngFor="let address of allAddresses | slice
+                                                                : ((paginationSignal().currentPage - 1) * paginationSignal().itemPerPage) :
+                                                                    ((paginationSignal().currentPage) * paginationSignal().itemPerPage);
+                                                            let i = index
+                                                          ">
+                                                                <td class="v-align-middle py-0 mt-3">
+                                                                    <p class="ng-binding">
+                                                                        {{address?.addressDescription}}
+                                                                    </p>
+                                                                </td>
+                                                                <td class="v-align-middle px-md-auto px-lg-0">
+                                                                    <p class="ng-binding">
+                                                                        {{ address?.firstName }} {{ address?.lastName }}
+                                                                    </p>
+                                                                </td>
+                                                                <td class="v-align-middle px-md-auto px-lg-0">
+                                                                    <p class="ng-binding">
+                                                                        {{ address?.formattedAddress}}
+                                                                    </p>
+                                                                </td>
+                                                                <td class="v-align-middle text-lg-right col-12">
+                                                                    <div
+                                                                        class="offset-7 col-5 offset-md-0 col-md-12 d-inline-block py-0">
+                                                                        <button (click)="verifyAddress(address)"
+                                                                            class="btn btn-outline-primary btn-rounded btn-sm add-item-btn float-right"
+                                                                            tabindex="0">
+                                                                            Select
+                                                                        </button>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+    
+                                            </div>
+                                        </div>
+
+                                        <div *ngIf="allAddresses?.length === 0" class="no-addresses-found">
+                                            <h3 class="text-left">No matches found for <em>"{{searchText}}"</em></h3>
+                                        </div>
+    
+                                        <div class="pagination-style" *ngIf="allAddresses?.length > 0">
+                                            <div class="pagination">
+                                                <ws-pagination-entry-list [endLine]="''" [itemPerPage]="pagination.itemPerPage"
+                                                    [totalItems]="pagination.totalItems"
+                                                    [currentPage]="pagination.currentPage"></ws-pagination-entry-list>
+                                            </div>
+                                            <div class="pagination">
+                                                <ws-pagination [resetReposition]="true" (currentPageChange)="pageChanged($event)" [itemsPerPage]="pagination.itemPerPage"
+                                                    [totalItems]="pagination.totalItems" [numberOfPagesNeedTOBeShown]="5"
+                                                    aria-label="Pagination controls"></ws-pagination>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </main>
+                                <aside class="col-md-4" style="margin-bottom:8rem;">
+
+                                    <div class="order-totals-section" *ngIf="cart$ | async as cart">
+                                        <div class="card mt-1 ng-scope">
+                                            <div class="card-header bg-gray text-dark pt-3 pb-3">
+                                                <div class="card-title v-align-middle">
+                                                    Order Total
+                                                </div>
+                                            </div>
+
+                                            <section class="free-shipping"
+                                                *ngIf="shippingMessage && isPatient() ? (PATIENT_SHIPPING_PRICE - cartTotalPrice) > 0 : (PRACTITIONER_SHIPPING_PRICE - cartTotalPrice) > 0">
+                                                <p class="m-0">
+                                                    {{shippingMessage?.replace('{{shippingPrice}}', isPatient() ? ('$' + (PATIENT_SHIPPING_PRICE -
+                                                    cartTotalPrice).toFixed(2)) : ('$' + (PRACTITIONER_SHIPPING_PRICE - cartTotalPrice).toFixed(2)))}}
+                                                </p>
+                                            </section>
+
+                                            <div *ngIf="cart?.success == false">
+                                                <ws-order-total-calculating-error></ws-order-total-calculating-error>
+                                            </div>
+
+                                            <div class="card-body p-4">
+                                                <div class="row pb-2" *ngIf="cart?.subTotal?.value || isFriendsFamily">
+                                                    <div class="col-6 text-left bolder"  >
+                                                        Subtotal:
+                                                    </div>
+                                                    <div class="col-6 bold text-right">
+                                                        {{cart?.subTotal?.formattedValue}}
+                                                    </div>
+                                                </div>
+                                                <div class="row pb-2">
+                                                    <div class="col-6 text-left bolder">
+                                                        Shipping:
+                                                    </div>
+                                                    <div class="col-6 bold text-right">
+                                                        Calculated during checkout
+                                                    </div>
+                                                </div>
+                                                <div class="row pb-2" *ngIf="cart?.totalDiscounts?.value || isFriendsFamily">
+                                                    <div class="col-6 text-left bolder">
+                                                        Discounts:
+                                                    </div>
+                                                    <div class="col-6 bold text-right text-danger">
+                                                        ({{cart?.totalDiscounts?.formattedValue}})
+                                                    </div>
+                                                </div>
+
+                                                <!-- TODO as of now no promoCode need to do in future -->
+                                                <!-- <hr>
+                                                <div class="row mb-0">
+                                                    <div class="col-6 text-left bolder">Promo Code</div>
+                                                    <div class="col-6 bold text-right pl-0">
+                                                        <div id="promoOn">
+                                                            <div class="bolder"></div>
+                                                        </div>
+                                                    </div>
+                                                </div> -->
+                                                <hr>
+                                                <div class="row mb-0" *ngIf="cart?.totalPrice?.value || isFriendsFamily">
+                                                    <div class=" bolder col-6 text-left">
+                                                        TOTAL:
+                                                    </div>
+                                                    <div class="col-6 bolder text-right">
+                                                         ${{cart?.totalPrice?.value - (cart?.totalTax?.value || 0) - (cart?.deliveryCost?.value || 0) | number : "1.2-2"}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="row m-auto p-0 secure-checkout-wrapper">
+                                        <div class="col-9 p-0">
+                                            <div class="col-12 row">
+                                                <img
+                                                src="../../../../../assets/icons/common_icons/shield-text.svg"
+                                                alt="shield-text"
+                                                style="width: 20px"
+                                                 />                                                <!-- <i class="fa-solid fa-shield col-1 p-0"></i> -->
+                                                <div *ngIf="wsSecureCheckoutParagraphComponent$ | async as wsSecureCheckoutParagraphComponent"
+                                                    class="secure-checkout-section"
+                                                    [innerHTML]="wsSecureCheckoutParagraphComponent?.content">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </aside>
+                            </div>
+                        </div>
+                    </section>
+                    <div *ngIf="loader" class="d-flex align-items-center justify-content-center">
+                        <cx-spinner></cx-spinner>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+</div>
+
+<div *ngIf="showNewAddress">
+  <ws-checkout-delivery-new-address (hideNewAddressModal)="hideNewAddressModal()" [regions]="regions"
+        (showValidateAddressModal)="showValidateAddressModal($event)"></ws-checkout-delivery-new-address>
+</div>
+
+<div *ngIf="showValidateAddress">
+    <ws-checkout-delivery-validate-address (hideValidateAddressModal)="hideValidateAddressModal()" (refreshDeliveryAddresses)="refreshDeliveryAddresses()"
+        [newDeliveryAddress]="newAndValidateAddressDetails?.newDeliveryAddress" [activeCartId]="activeCartId"
+        [validatedAddressResponse]="newAndValidateAddressDetails?.validatedAddressResponse"></ws-checkout-delivery-validate-address>
+</div>
+
+<div *ngIf="showRemoveItemsModal">
+    <ws-checkout-delivery-address-remove-item-modals (hideRemoveItemsModal)="hideRemoveItemsModal()" [type]="removeItemModalType" [products]="notValidProducts" (removeItems)="removeItems()"></ws-checkout-delivery-address-remove-item-modals>
+</div>
+
+<ng-container *ngIf=" isCurrentUser$|async"></ng-container>

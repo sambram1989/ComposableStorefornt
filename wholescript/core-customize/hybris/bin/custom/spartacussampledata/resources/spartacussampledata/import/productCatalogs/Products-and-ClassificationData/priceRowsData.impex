@@ -1,0 +1,30 @@
+INSERT_UPDATE ProductPriceGroup; code[unique=true] ; description[lang=en]  ;codeLowerCase
+                               ;01;01;01
+                               ;02;02;02
+
+
+INSERT_UPDATE UserPriceGroup; code[unique=true];
+                            ;01;
+                            ;02;
+
+
+INSERT_UPDATE PriceRow; &Item  ; channel(code, itemtype(code)); currency(isocode)[allownull = true]; owner(&Item)[forceWrite = true]; pg(code, itemtype(code))[forceWrite = true]; price[allownull = true]; product(catalogVersion(catalog(id), version), code)[forceWrite = true]; productId[forceWrite = true]; productMatchQualifier; sequenceId; ug(code, itemtype(code))               ; unit(code)[allownull = true]; unitFactor[allownull = true]; user(uid);minqtd[unique=true]
+                      ; Item29 ;                              ; USD                                ;                                ;                                            ; 14.17                  ; Catalog_1710_10:ERP_IMPORT:000000000300085541                         ;                             ; 8796158853121        ;           ;                                        ; EA                          ; 1                           ;             ;1
+                      ; Item30 ;                              ; USD                                ;                                ;                                            ; 23.59                  ; Catalog_1710_10:ERP_IMPORT:000000000300085541                         ;                             ; 8796158853121        ;           ;                                        ; EA                          ; 1                           ;             ;2
+                      ; Item31 ;                              ; USD                                ;                                ;                                            ; 32.99                  ; Catalog_1710_10:ERP_IMPORT:000000000300057005                         ;                             ; 8796224126977        ;           ;                                        ; EA                          ; 1                           ;             ;3
+                      ; Item32 ;                              ; USD                                ;                                ;                                            ; 53.99                  ; Catalog_1710_10:ERP_IMPORT:000000000300057005                         ;                             ; 8796224126977        ;           ;                                        ; EA                          ; 1                           ;             ;4
+                      ; Item33 ;                              ; USD                                ;                                ;                                            ; 0                      ; Catalog_1710_10:ERP_IMPORT:000000000300088766                         ;                             ; 8796159049729        ;           ; B2B_DEFAULT_PRICE_GROUP:UserPriceGroup ; EA                          ; 1                           ;             ;5
+                      ; Item34 ;                              ; USD                                ;                                ;                                            ; 0                      ; Catalog_1710_10:ERP_IMPORT:000000000300088766                         ;                             ; 8796159049729        ;           ; B2B_DEFAULT_PRICE_GROUP:UserPriceGroup ; EA                          ; 1                           ;             ;6
+                      ; Item35 ;                              ; USD                                ;                                ;                                            ; 29.35                  ; Catalog_1710_10:ERP_IMPORT:000000000300088766                         ;                             ; 8796159049729        ;           ; 01:UserPriceGroup                      ; EA                          ; 1                           ;             ;7
+                      ; Item36 ;                              ; USD                                ;                                ;                                            ; 58.69                  ; Catalog_1710_10:ERP_IMPORT:000000000300088766                         ;                             ; 8796159049729        ;           ; 02:UserPriceGroup                      ; EA                          ; 1                           ;             ;8
+
+
+$productCatalog=catalog_1710_10_ProductCatalog
+# Product catalog
+REMOVE Catalog;id[unique=true];name
+              ;$productCatalog;Product Catalog for 1710_10
+
+# Product versions for product catalogs
+REMOVE CatalogVersion;catalog(id)[unique=true];version[unique=true];active;languages(isoCode);readPrincipals(uid)
+                     ;$productCatalog;ERP_IMPORT;false;;employeegroup
+                     ;$productCatalog;Online;true;;employeegroup

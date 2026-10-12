@@ -1,0 +1,119 @@
+::ng-deep {
+    #validateAddressModal {
+        overflow-y: scroll !important;
+        .modal-dialog {
+            max-width: 500px;
+            margin: 30px auto;
+
+            .modal-content {
+                box-shadow: none;
+                border-radius: 3px;
+
+                .modal-header {
+                    text-align: center;
+                    border-bottom: 0;
+                    padding: 25px 25px 0 25px;
+                    position: relative;
+                    flex-direction: column;
+                    align-items: center;
+
+                    .modal-title {
+                        text-transform: uppercase;
+                        font-weight: 900;
+                        letter-spacing: normal;
+                        font-size: 19px !important;
+                        line-height: 28px !important;
+                        margin-bottom: 0 !important;
+                    }
+
+                    button {
+                        position: absolute;
+                        right: 25px;
+                        top: 15px;
+                        padding: 0;
+                        cursor: pointer;
+                        background: 0 0;
+                        border: 0;
+                        -webkit-appearance: none;
+                        float: right;
+                        font-size: 1.5rem;
+                        font-weight: 700;
+                        line-height: 1;
+                        color: #000;
+                        text-shadow: 0 1px 0 var( --ws-base-whit);
+                        opacity: .5;
+                    }
+                }
+
+                .modal-body {
+                    box-shadow: none;
+                    padding: 25px;
+                    padding-top: 0;
+                    white-space: normal;
+
+                    p {
+                        display: block;
+                        font-weight: normal;
+                        letter-spacing: 0.01em;
+                        line-height: 1.5;
+                        margin: 0px 0px 10px 0px !important;
+                        font-style: normal;
+                        white-space: normal;
+                    }
+
+                    .address-container {
+                        h3 {
+                            font-weight: 900;
+                            letter-spacing: normal;
+                            font-size: 30px !important;
+                            line-height: 33px !important;
+                            margin: 10px 0 !important;
+                        }
+
+                        .text-success {
+                            color: var(--ws-success-800) !important;
+                            font-weight: bold !important;
+                        }
+
+                        #ModalAddressesWrapperDIV {
+                            #SuggestedAddressP {
+                                #SuggestedAddressBTN {
+                                    background-color: var(--cx-color-primary);
+                                    color: var(--ws-base-white) !important;
+                                    font-weight: 900;
+                                    border-radius: 0;
+                                    border: 3px solid var(--cx-color-primary) !important;
+                                    padding: 8px 16px !important;
+                                    text-align: center;
+                                    min-height: 42px;
+                                    margin-top: 8px;
+                                    @media (max-width:576px) {
+                                        width: 100% !important;
+                                        padding: 10px 8px;
+                                     }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                .modal-footer {
+                    border-top: none;
+                    box-shadow: none;
+                    margin-top: 0;
+                    padding: 25px;
+                    padding-top: 0;
+
+                    button {
+                        min-height: 42px;
+                        padding: 8px 16px !important;
+                        @media screen and (max-width: 576px) {
+                                width: 100% !important;
+                                padding: 10px 8px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,187 @@
+<div id="ws-special-offers-page">
+    <alert *ngIf="alert?.msg" [type]="alert.type" [dismissOnTimeout]="alert.timeout" (onClosed)="onClosed()">{{
+        alert.msg }}</alert>
+    <section class="header-section">
+        <div class="header-wrapper"
+            *ngIf="SpecialOffersHeaderParagraphComp$ | async as SpecialOffersHeaderParagraphComp">
+            <div [outerHTML]="SpecialOffersHeaderParagraphComp?.content"></div>
+        </div>
+    </section>
+    <section class="main-section" *ngIf="!loader">
+        <div class="no-promo-codes-wrapper" *ngIf="promotions?.length === 0">
+            <div class="img-wrapper">
+                <img src="/assets/images/special-offers/Illustration.svg" alt="" />
+            </div>
+            <div class="no-promo-codes-text">
+                There are no promo codes available
+            </div>
+            <p class="please-check-text">
+                Please check this page constantly for exciting deals
+            </p>
+            <button class="btn-primary btn-rounded" (click)="navigateToCatalog('', '')">Back to catalog</button>
+        </div>
+        <div class="available-promo-codes" *ngIf="promotions?.length > 0">
+            <div class="promo-codes">
+                <div class="each-promo-code-wrapper" *ngFor="let promotion of promotions | slice
+                : ((paginationSignal().currentPage - 1) * paginationSignal().itemPerPage) :
+                ((paginationSignal().currentPage) * paginationSignal().itemPerPage);
+                let i = index">
+                    <div class="offer-valid-wrapper-mobile">
+                        <span class="offer-valid-text">
+                            Offer valid through {{promotion?.endDate | date:'MM/dd/yyyy'}}.
+                        </span>
+                        <span class="see-details-text" (click)="seeDetails(promotion)" (keydown)="onKeyDown($event,'seeDetails',promotion)" tabindex="0">
+                            See details
+                        </span>
+                    </div>
+                    <div class="each-promo-code">
+                        <div class="top-section" [style.background-color]="promotion.colorBackground">
+                            <div  class="heading" [title]="promotion?.title" [style.color]="promotion.colorText">
+                                {{promotion?.title}}
+                            </div>
+                        </div>
+                        <div *ngIf="promotion?.promotionBanner?.url" class="promo-image-container">
+                            <img [src]="getProductImageUrl(promotion)" format="product" [alt]="promotion?.name" role="img">
+                        </div>
+                        <div class="bottom-section">
+                            <div class="promo-code-text">
+                                Promo code:
+                            </div>
+                            <div class="promo-code" (click)="copyPromoCode(promotion?.code)" (keydown)="onKeyDown($event,'copyPromoCode',promotion?.code)" tabindex="0">
+                                {{promotion?.code}}
+                                <span>
+                                    <i class="fa-solid fa-copy" tabindex="0"></i>
+                                </span>
+                            </div>
+                            <button class="btn btn-rounded btn-outline-primary" (click)="navigateToCatalog(promotion?.redirectUrl, promotion?.nonDiscountable)" tabindex="0">Order now</button>
+                            <div class="offer-valid-wrapper">
+                                <span class="offer-valid-text">
+                                    Offer valid through {{promotion?.endDate | date:'MM/dd/yyyy'}}.
+                                </span>
+                                <span class="see-details-text" (click)="seeDetails(promotion)" (keydown)="onKeyDown($event,'seeDetails',promotion)" tabindex="0">
+                                    See details
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="each-promo-code-wrapper">
+                    <div class="offer-valid-wrapper-mobile">
+                        <span class="offer-valid-text">
+                            Offer valid through 02/31/2022.
+                        </span>
+                        <span class="see-details-text" (click)="seeDetails()">
+                            See details
+                        </span>
+                    </div>
+                    <div class="each-promo-code">
+                        <div class="top-section">
+                            <div class="heading">
+                                Nunc donec diam aliquam ante dictum sed ut in et ullam corper lorem.
+                            </div>
+                            <div class="details">
+                                Eget orci morbi elit pellentesque lorem
+                            </div>
+                            <div class="promo-image-container">
+                                <img>
+                            </div>
+                        </div>
+                        <div class="bottom-section">
+                            <div class="promo-code-text">
+                                Promo code:
+                            </div>
+                            <div class="promo-code">
+                                SP-BODYLOGIX-50
+                                <span>
+                                    <i class="fa-solid fa-copy" (click)="copyPromoCode('SP-BODYLOGIX-50')"></i>
+                                </span>
+                            </div>
+                            <button class="btn btn-secondary btn-rounded">Order now</button>
+                            <div class="offer-valid-wrapper">
+                                <span class="offer-valid-text">
+                                    Offer valid through 02/31/2022.
+                                </span>
+                                <span class="see-details-text" (click)="seeDetails()">
+                                    See details
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+            </div>
+            <!-- Changes added for bugfix CCW- 7539 -->
+            <div class="pagination-style">
+                <div class="see-all-offers-link" *ngIf="isPractitionerDashboard">
+                    <a [routerLink]="'/specialoffers'" tabindex="0"> See all offers </a>
+                </div>
+                <div class="pagination">
+                    <div class="entry" *ngIf="isPractitionerDashboard">
+                     {{pagination?.currentPage}} of {{pagination?.totalItems}}
+                    </div>
+                    <ws-pagination-entry-list *ngIf="!isPractitionerDashboard && promotions?.length > 10" [endLine]="''" [itemPerPage]="pagination.itemPerPage"
+                        [totalItems]="pagination.totalItems"
+                        [currentPage]="pagination.currentPage"></ws-pagination-entry-list>
+                </div>
+                <div class="pagination">
+                    <ws-pagination (currentPageChange)="pageChanged($event)" [itemsPerPage]="pagination.itemPerPage"
+                        [totalItems]="pagination.totalItems" [numberOfPagesNeedTOBeShown]="5"
+                        aria-label="Pagination controls"></ws-pagination>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div *ngIf="loader" class="d-flex align-items-center justify-content-center">
+        <cx-spinner></cx-spinner>
+    </div>
+</div>
+
+
+<div class="promotions-modal-wrapper" *ngIf="showPromoDetailsModal">
+    <div class="modal fade slide-right show" id="showPromoDetailsModal" tabindex="-1" role="dialog"
+        aria-labelledby="showPromoDetailsModal" style="display: block;">
+        <div class="modal-dialog" #modalContent>
+            <div class="modal-content-wrapper">
+                <div class="container-xs-height full-height">
+                    <div class="row-xs-height">
+                        <div class="modal-content col-xs-height">
+                            <div class="modal-header">
+                                <h3 class="modal-title">
+                                    <i class="fas fa-tag"></i>
+                                    PROMO DETAILS
+                                </h3>
+                                <button type="button" class="close" (click)="closeModal()" aria-label="Close" tabindex="0">
+                                    <span aria-hidden="true">×</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <h4 class="product-detail-promocodes-code wstooltip">
+                                    <span class="wstooltiptext" *ngIf="showTooltip">Click to copy promo code.</span>
+                                    <span class="product-detail-promocodes-code-content"
+                                        [ngClass]="showTooltip && 'primary'" (mouseenter)="promoCodeMouseEnter()"
+                                        (mouseleave)="promoCodeMouseLeave()" (click)="copyPromoCode(selectedPromotion?.code)">
+                                        {{selectedPromotion?.code}}
+                                    </span>
+                                </h4>
+
+                                <div class="pc-description">
+                                    {{selectedPromotion?.title}}
+                                </div>
+
+                                <div class="pc-disclaimer">
+                                    {{selectedPromotion?.description}}
+                                </div>
+
+                                <div class="row mt-3">
+                                    <div class="col-12 text-right">
+                                        <button type="submit" (click)="closeModal()"
+                                            class="btn btn-secondary btn-rounded">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

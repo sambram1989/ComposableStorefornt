@@ -1,0 +1,360 @@
+#practitioner-addresses-container {
+    padding-inline: 10px;
+    position: relative;
+    width: 100%;
+    max-width: 1620px;
+    margin-inline: auto;
+
+    .page-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 1rem;
+        margin-block-end: 2rem;
+
+        h1 {
+            font-weight: 900 !important;
+            font-size: 2.5rem !important;
+            margin-bottom: 0;
+            line-height: 1.2;
+            margin-top: 0;
+        }
+
+        button {
+            height: fit-content;
+            min-height: 44px;
+            font-weight: bold;
+        }
+    }
+
+    i.fa-plus {
+        margin-inline-end: 0.5rem;
+    }
+
+    .ws-input-container {
+        margin-block-end: 2rem;
+        display: flex;
+
+        .ws-input-elements {
+            display: flex;
+            width: 100%;
+            max-width: 70%;
+            border: 1px solid var(--ws-gray-dark-200);
+            border-radius: 5px;
+            min-height: 42px;
+            position: relative;
+
+            .ws-text-input {
+                border-radius: 5px;
+                border: none;
+                outline: none;
+                flex-grow: 1;
+                font-size: 1rem;
+                padding: 6px 10px;
+                min-width: 0;
+                &:focus {
+                    border: inherit;
+                    outline: inherit;
+                }
+            }
+
+            .ws-input-button {
+                border: none;
+                outline: none;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background-color: var(--ws-brand-500);
+                cursor: pointer;
+                min-width: 35px;
+                border-top-right-radius: 5px;
+                border-bottom-right-radius: 5px;
+
+                i {
+                    display: flex;
+                    color: var(--ws-base-white);
+                    font-size: 0.875rem;
+                    font-weight: 900;
+                }
+            }
+        }
+    }
+
+    .fa-question {
+        background-color: var(--cx-color-border-bottom-color);
+        border-radius: 50%;
+        font-size: 12px;
+        padding: 8px 10px;
+    }
+
+    .optional-last {
+        display: flex;
+        justify-content: end;
+    }
+
+    .addresses-actions {
+        cursor: initial;
+    }
+
+    .wstooltip {
+        &.addresses-tooltip {
+            .wstooltiptext {
+                max-width: 300px;
+                left: initial;
+                right: 0;
+                transform: none;
+                bottom: calc(100% + 15px);
+
+                &::after {
+                    left: calc(100% - 15px);
+                }
+            }
+        }
+    }
+
+    .ws-modal {
+        .ws-input-elements {
+            label {
+                padding-inline-end: 4rem;
+            }
+        }
+    }
+
+    .ws-modal {
+        .ws-input-elements {
+            label[for="phoneNumber"] {
+                padding-inline-end: 10rem;
+            }
+        }
+
+        .ws-address-card {
+            margin-block-end: 3rem;
+        }
+
+        .delete-confirm-text {
+            margin-block-start: 2rem;
+        }
+
+        &#deleteAddressModal {
+            .modal-footer {
+                border-top: none;
+                margin-block-start: 1rem;
+            }
+        }
+    }
+
+    .add-address-loading {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        background-position: center;
+        background-color: rgba(255, 255, 255, 0.75);
+    }
+
+    .addresses-table {
+        .ws-table-content {
+            @media(max-width: 575px) {
+                overflow-x: scroll;
+            }
+            overflow-x: unset;
+            display: grid;
+            grid-template-columns: auto auto 1fr auto;
+            background-color: var(--ws-base-white);
+
+            .ws-table-header {
+                display: contents;
+                .ws-table-header__cell {
+                    background: var(--ws-gray-dark-50) !important;
+                    padding-block: 1rem;
+                    font-size: 0.875rem;
+                    font-weight: 700;
+                    border-block-start: 1px solid var(--ws-gray-dark-200);
+                    border-block-end: 1px solid var(--ws-gray-dark-200);
+                    cursor: pointer;
+                    display: flex;
+                    align-items: center;
+                    justify-content: start;
+                    gap: 0.2rem;
+
+                    &:first-of-type {
+                        padding-inline-start: 1rem;
+                        border-top-left-radius: 5px;
+                        border-inline-start: 1px solid var(--ws-gray-dark-200);
+                    }
+
+                    &::after {
+                        content: "";
+                        display: inline-block;
+                        width: 19px;
+                        height: 19px;
+                        background-position: center center;
+                        opacity: 1;
+                    }
+
+                    &:last-of-type {
+                        padding-inline-end: 1rem;
+                        border-top-right-radius: 5px;
+                        border-inline-end: 1px solid var(--ws-gray-dark-200);
+                        cursor: initial;
+                        &::after {
+                            display: none;
+                        }
+                    }
+                    button {
+                        background-color: var(--ws-gray-dark-300);
+                        &::focus {
+                            background-color: var(--ws-gray-dark-300)!important;
+                        }
+                    }
+                }
+                .sort-button {
+                    background: var( --ws-gray-dark-50) !important;
+                }
+            }
+
+            .ws-table-row {
+                display: contents;
+
+                .ws-table-body__cell {
+                    padding-block: 0.5rem;
+                    font-size: 1rem;
+                    border-block-end: 1px solid var(--ws-gray-dark-200);
+
+                    &:first-of-type {
+                        padding-inline-start: 1rem;
+                        border-inline-start: 1px solid var(--ws-gray-dark-200);
+                    }
+
+                    .bolder {
+                        font-weight: 900 !important;
+                    }
+                }
+
+                .optional-last {
+                    display: flex;
+                    justify-content: end;
+                    padding-inline-end: 1rem;
+                    border-inline-end: 1px solid var(--ws-gray-dark-200);
+
+                    .addresses-tooltip {
+                        position: relative;
+                        display: inline-block;
+
+                        .wstooltiptext {
+                            max-width: 300px;
+                            left: initial;
+                            right: 0;
+                            transform: none;
+                            bottom: calc(100% + 15px);
+                            visibility: hidden;
+                            white-space: normal;
+                            width: max-content;
+                            background-color: var(--ws-gray-light-700);
+                            color: var(--ws-base-white);
+                            text-align: center;
+                            padding: 5px 10px;
+                            border-radius: 3px;
+                            position: absolute;
+                            z-index: 1;
+                            font-size: 14px;
+                            font-weight: 500;
+                            opacity: 0;
+
+                            .text-white {
+                                color: var(--ws-base-white) !important;
+                            }
+                        }
+                    }
+                }
+            }
+
+            .default-address {
+                .code-tooltip {
+                    .code-tooltiptext {
+                        right: 0;
+                        padding: 10px;
+                        font-size: 14px;
+                    }
+                }
+                button {
+                    border-radius: 50% !important;
+                }
+                .ques-btn {
+                    position: absolute;
+                    right: 10px;
+                    bottom: 8px;
+                    width: 40px;
+                    height: 40px;
+                    background-color: transparent;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    .fa-question {
+                        color: var(--ws-gray-light-300);
+                        font-size: 19px;
+                    }
+                    &:hover {
+                        background-color: var(--ws-brand-50);
+                        transition: all 0.2s;
+                    }
+                }
+            }
+        }
+    }
+    .ws-empty-state {
+        text-align: center;
+        padding: 1rem;
+        background: var(--cx-color-inverse);
+        border-radius: 3px;
+        border: solid 1px var(--ws-custom-border-color);
+        .ws-empty-state-inner {
+            background: var(--cx-color-background-alt);
+            border-radius: 3px;
+            padding: 2rem;
+            .ws-empty-state--title {
+                font-weight: 900;
+                font-size: 1.125rem;
+            }
+        }
+    }
+
+    @media (min-width: 1220px) {
+        padding-left: 0 !important;
+    }
+}
+
+@media (min-width: 768px) {
+    #practitioner-addresses-container {
+        padding-inline: 32px;
+    }
+}
+
+#NewAddressAgeVerificationRequired {
+    a {
+        text-decoration: underline;
+    }
+}
+
+@media (max-width: 767px) {
+    .edit-close-btn {
+      margin-left: 29px;
+    }
+    .mx-2{
+      display: none;
+    }
+}
+button:focus-visible,
+input:focus-visible,
+.btn:focus-visible,
+a:focus-visible,
+ws-search-box:focus-visible {
+  outline: 3px solid var(--cx-color-darkest) !important;
+  outline-offset: 2px;
+  box-shadow: none;
+}

@@ -1,0 +1,67 @@
+
+<div class="modal-content border-unset" #modalContent>
+    <div class="modal-header text-white border-unset ">
+        <div>
+            @if(product$|async; as product){
+            <h2 class="bolder mb-1 fs-26 text-white">{{product?.name}}</h2>
+            <div class="font-weight-normal text-white"><i class="fas fa-archive text-white"></i> &nbsp;
+                {{product?.description}}
+            </div>
+        }
+        </div>
+        <span class="text-white bolder close-icon" #closeBtn style="cursor: pointer;z-index: 1;" (click)="closePopup()" (keypress)="closePopup()">×</span>
+    </div>
+    @if(product$|async; as product){
+    <div class="modal-body">
+        <hr *ngIf="!isMobile">
+        <div class="{{ isMobile ? 'd-block py-4 ' : 'd-flex justify-content-between align-items-center py-4 '}}">
+            <hr *ngIf="isMobile">
+            <div *ngIf="!isMobile" class="lastUpdated h-fit"> Last Updated {{product.modifiedTime|date :'MMMM d,yyyy'}}</div>
+            <div class=" {{isMobile ? 'd-block ': 'd-flex '}} align-items-center " style="column-gap: 10px;">
+                <span class="bolder"> Total:&nbsp;<span class="{{isMobile ? 'float-right ': ''}}">{{product?.msrpSubTotalPrice?.formattedValue}}</span></span>
+                <button class="d-block text-align-center btn btn-primary btn-rounded my-3 my-sm-0 btn-style bolder {{isMobile ? 'w-100 ': ''}} " (click)="addToCart()" > Add All to Cart
+                    &nbsp;<i class="fa fa-shopping-cart text-success"></i>
+                </button>
+            </div>
+            <div *ngIf="isMobile" class="lastUpdated h-fit"> Last Updated {{product.modifiedTime|date :'MMMM d,yyyy'}}</div>
+        </div>
+        <div class="card card-body">
+            @if(isMedPax()){
+                <ws-medpax-protocol-review-card [data]="currentMedPax()"  [protocolId]="protocolId"></ws-medpax-protocol-review-card>
+                <hr>
+                }
+            @for(item of product.protocolEntries; track item; let i = $index){
+             <ws-product-data (emitAddToCartEvent)="showToasterMsg(item?.product?.name)"  [item]="item"></ws-product-data>
+                @if (i < product.protocolEntries.length - 1) {
+                    <hr>
+                }
+            }
+        </div>
+        <div class="mb-3"><hr>
+            <span class="bolder">Protocol Note</span> {{ product?.notes }} 
+             <hr>
+        </div>
+        <h4 class="py-3 my-2 bolder text-sm-right fs-18 ">Total: <span
+                class="bolder float-right float-sm-none price">{{product?.msrpSubTotalPrice?.formattedValue}}</span></h4>
+        <div class=" {{isMobile ? 'd-block' : 'd-flex '}} justify-content-end">
+            <button class="btn btn-rounded btn-outline-primary mb-2 mb-sm-0 mr-sm-2 btn-style {{isMobile ? 'w-100 ': ''}} " (click)="closePopup()">
+                Close
+            </button>
+            <button type="button" class="d-block text-align-center btn btn-primary btn-rounded text-white px-3 addToCart-btn btn-style {{isMobile ? 'w-100 ': ''}} " (click)="addToCart()"> Add
+                All to Cart &nbsp;<i class="fa fa-shopping-cart fs-12 text-success"></i>
+            </button>
+        </div>
+    </div>
+}
+</div>
+
+<div class="toast-wrapper" *ngIf="toastMessage">
+    <div class="toast">
+        <div class="d-flex toast-header">
+            <div class="d-flex toast-header-message-wrapper">
+                <p>{{toastMessage}}</p>
+                <i class="fa fa-close" (click)="toastMessage = ''"></i>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,36 @@
+<div class="row">
+  <div class="col-4 left-section d-none" style="overflow: hidden;">
+      <div>
+          <div class="border-style">
+              <ng-container [ngTemplateOutlet]="account">
+              </ng-container>
+          </div>
+      </div>
+      <div>
+    <ws-patient-nav  [leftNavData]="componentListArray"></ws-patient-nav>
+
+      </div>
+  </div>
+  <div class="col-12 right-section">
+     <router-outlet></router-outlet>
+  </div>
+</div>
+
+<ng-template #account>
+  @if(userData$|async ; as userDetails){
+      <div class="patient-account-details">
+          <h3 class="patient-account-name">{{ userDetails?.firstName }} {{ userDetails?.lastName }}</h3>
+          <div>
+              Account ID: {{ userDetails?.defaultAddress?.id }}
+          </div>
+          <div>
+              {{ userDetails?.email }}
+          </div>
+          <div>
+              {{ userDetails?.defaultAddress?.cellphone }}
+          </div>
+      </div>
+  }
+
+</ng-template>
+

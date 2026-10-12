@@ -1,0 +1,61 @@
+<section id="age-verification-section">
+
+    <button id="change-address-button" class="btn btn-outline-primary btn-rounded modal-buttons" tabindex="0" (click)="changeAddress()">
+        Change Address
+    </button>
+
+    <div id="id-verification">
+        <div class="ws-card__body">
+            <ws-checkout-delivery-address-id-verification  
+                (verificationComplete)="onVerificationSuccess()">
+             </ws-checkout-delivery-address-id-verification>
+        </div>
+    </div>
+
+
+    <div class="ws-card">
+        <div class="ws-card__header ws-card__header-grey restricted-items-header">
+            The product(s) below are age restricted for the selected shipping state
+            <button class="text-link" (click)="removeItemClick()">
+                Remove All
+            </button>
+
+        </div>
+
+        <div class="ws-card__body" *ngIf="products?.length">
+            <div class="restricted-item__container">
+
+                <div class="restricted-item" *ngFor="let entry of products">
+                    <div class="restricted-item__image">
+                        <a [routerLink]="{ cxRoute: 'product', params: entry.product } | cxUrl" tabindex="0">
+                            <cx-media [container]="entry.product?.images" [alt]="entry?.product?.image?.altText || entry?.product?.name" format="cartIcon"></cx-media>
+                        </a>
+                    </div>
+
+                    <div class="restricted-item__name">
+                        <p>{{entry?.product?.name}}</p>
+
+                    </div>
+
+                    <div class="restricted-item__info">
+                        <div class="restricted-item__frequency">
+                            <div>Frequency:</div>
+                            {{entry?.autoShipCode}}
+                        </div>
+
+                        <div class="restricted-item__quantity">
+                            <div>Qty:</div>
+                            {{entry?.quantity}}
+                        </div>
+
+                        <div class="restricted-item__totals">
+                            <div class="bolder">{{entry?.totalPrice?.formattedValue}}</div>
+                            <span class="unit-price">each: {{entry?.basePrice?.formattedValue}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>

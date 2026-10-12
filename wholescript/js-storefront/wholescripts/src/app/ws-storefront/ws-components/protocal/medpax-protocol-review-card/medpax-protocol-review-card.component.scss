@@ -1,0 +1,79 @@
+// style re-work
+
+.color{
+    color: var(--ws-gray-light-700);
+}
+.b-top{
+    border-top: 1px solid var(--cx-color-medium);
+}
+.medpax-notes {
+    font-size: 1rem;
+    font-weight: 500;
+    line-height: 1.5;
+    text-align: left;
+    cursor: pointer;
+    word-wrap: break-word;
+    box-sizing: border-box;
+    margin: 0;
+    position: relative;
+    padding: 0.75rem 1.25rem;
+    margin-bottom: 1rem;
+    border: 1px solid transparent;
+    border-radius: 0.3125rem;
+    background-color: var(--cx-color-background-info-primary);
+    border-color: var(--ws-cyan-700);
+    color: var(--cx-color-secondary);
+    margin-top: 5px;
+}
+table {
+    thead {
+        tr {
+            border-bottom: 1px solid var(--ws-base-black);
+            th {
+                font-size: 12px;
+                padding: 20px 20px 5px 0;
+                &:nth-child(2) {
+                    padding-right: 0;
+                }
+            }
+        }
+    }
+    tbody {
+        tr {
+            td {
+                padding: 10px 10px 10px 0;
+                &:nth-child(2) {
+                    padding-right: 0;
+                }
+            }
+        }
+    }
+}
+@media(min-width: 1024px) {
+    .quantity {
+        display: flex;
+        justify-content: center;
+    }
+}
+.medpax-review-notes{
+    word-wrap: break-word;
+}
+
+::ng-deep .product-row {
+    div {
+      img {
+        width: 40px;
+        height: 100%;
+
+        @media (max-width: 376px) {
+            width: 15px;
+            height: 25%;
+        }
+
+        @media (min-width: 376px) and (max-width: 476px) {
+            width: 30px;
+            height: 50%;
+        }
+      }
+    }
+  }

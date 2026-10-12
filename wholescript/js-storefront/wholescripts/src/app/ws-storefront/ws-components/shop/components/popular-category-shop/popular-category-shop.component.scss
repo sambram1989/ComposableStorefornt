@@ -1,0 +1,10 @@
+.popular-categories {
+    a:focus-visible {
+    outline: 3px solid var(--cx-color-darkest) !important;
+    outline-offset: 2px !important;
+    box-shadow: unset;
+    .category-name {
+        font-size: 1.5rem;
+    }
+ }
+}

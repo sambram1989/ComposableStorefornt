@@ -1,0 +1,200 @@
+/* Accordion Styles */
+.filter-container {
+  .filter-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--ws-gray-light-200);
+      padding-bottom: 8px;
+      h3 {
+          margin: 0;
+          font-size: 14px !important;
+          font-weight: 700;
+      }
+      button {
+          background: none;
+          border: none;
+          color: var(--cx-color-primary);
+          cursor: pointer;
+          font-size: 0.9rem;
+          text-decoration: underline;
+          font-weight: 700;
+      }
+  }
+}
+
+#filter {
+  border-radius: 8px;
+  border: 1px solid var( --ws-gray-light-200);
+  background: var(--cx-color-inverse);
+  box-shadow: 0px 1px 2px 0px  rgba(16, 24, 40, 0.05);
+}
+
+.ws-accordion {
+  display: block;
+  max-width: 500px;
+
+  
+ .ws-accordion-item:last-child {
+  border:none !important;
+}
+  .ws-accordion-item {
+    display: block;
+    border-bottom: 1px solid #ccc;
+
+    .ws-accordion-item-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 16px;
+      padding-bottom: 16px;
+      cursor: pointer;
+
+      .filter-heading {
+        font-size: 16px;
+        font-weight: 600;
+        text-decoration: none;
+      }
+    }
+
+    .ws-accordion-item-description {
+      font-size: 0.85em;
+      color: #21252b !important;
+    }
+
+    .ws-accordion-item-body {
+      padding: 0px;
+    }
+  }
+}
+
+.ft-header {
+  font-size: 20px;
+  font-weight: 900;
+}
+
+.btn-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: fit-content;
+  min-height: fit-content;
+  gap: 4px;
+  &:hover {
+    text-decoration: none;
+  }
+  span {
+    text-decoration: underline;
+  }
+}
+
+/* Filter Tags Styles */
+span.filter {
+  background: var(--ws-brand-25);
+  color: var(--cx-color-primary);
+  font-weight: 900;
+  border: 1px solid var(--cx-color-primary);
+  border-radius: 3px;
+
+  .filter-text {
+    padding: 3px;
+  }
+
+  .filter-remove {
+    cursor: pointer;
+    z-index: 1;
+    padding: 0 5px;
+    border-left: 1px solid var(--cx-color-primary);
+  }
+}
+
+/* Bootstrap Tags Input Styles */
+.bootstrap-tagsinput {
+  border: none;
+  padding: 10px;
+  display: contents;
+}
+
+/* List Styles */
+ul {
+  padding-left: 0px;
+
+  li {
+    list-style-type: none;
+  }
+}
+
+/* Custom Checkbox Styles */
+.checkbox-wrapper {
+  display: flex;
+  align-items: center;
+  position: relative;
+  cursor: pointer;
+
+  input[type="checkbox"] {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    margin: 0;
+    cursor: pointer;
+    z-index: 1;
+  }
+
+  label {
+    display: inline-flex;
+    align-items: center;
+    position: relative;
+    padding-left: 30px;
+    width: 100%;
+    font-size: 14px;
+    font-weight: 300;
+    word-wrap: break-word;
+    display: block;
+  }
+
+  &.highlighted label::before {
+    background-color: var(--ws-gray-light-300);
+  }
+}
+
+.bolder {
+  font-weight: 900;
+  border: none;
+  background: none;
+}
+
+.border-unset {
+  border: unset;
+}
+
+.disable {
+  pointer-events: none;
+  opacity: .5;
+}
+.undisable {
+  pointer-events: none;
+  opacity: .5;
+}
+
+input[type="checkbox"]:focus-visible {
+  outline: 3px solid var(--cx-color-darkest) !important;
+  outline-offset: 2px;
+  box-shadow: none;
+}
+
+/* Optional: Improve focus visibility */
+input:focus-visible {
+  border: 2px solid var(--cx-color-darkest);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+}
+span:focus-visible,
+button:focus-visible,
+input:focus-visible,
+.btn:focus-visible,
+a:focus-visible,
+p:focus-visible,
+ws-search-box:focus-visible {
+outline: 3px solid var(--cx-color-darkest) !important;
+outline-offset: 2px;
+box-shadow: none;
+}

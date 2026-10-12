@@ -1,0 +1,23 @@
+# -----------------------------------------------------------------------
+# Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+# -----------------------------------------------------------------------
+# ImpEx for Importing Category Classifications into Wholescripts Store
+
+# Macros / Replacement Parameter definitions
+###############################localized impex
+#% impex.setLocale(Locale.ENGLISH);
+# Macros / Replacement Parameter definitions
+$productCatalog = Default
+$catalogVersion = catalogversion(catalog(id[default = $productCatalog]), version[default = 'Staged'])[unique = true, default = $productCatalog:Staged]
+$clAttrModifiers = system = 'PIMClassification', version = '1.0', translator = de.hybris.platform.catalog.jalo.classification.impex.ClassificationAttributeTranslator, lang = en
+
+$inactiveIngredients=@inactiveIngredients[$clAttrModifiers];
+
+
+UPDATE Product; code[unique = true]; $inactiveIngredients; $catalogVersion
+	;	000000000500070042;"<h4>Drainage</h4> <p>USP Purified water; USP Gluten-free, non-GMO, organic cane alcohol 20%.</p>"
+	;	000000000300000574;"USP Purified water; USP Gluten-free, non-GMO, organic cane alcohol 20%.	"
+	;	000000000300103562;"Arnica Extract, amphor, Colloidal Oatmeal, Emulsifying Wax, Ginger Extract, Honeysuckle Oil, Jojoba Oil, MCT/Coconut Oil, Mushroom Extracts - USDA Organic (Cordyceps, Lion's Mane, Reishi, Shiitake), Purified Water, Shea Butter, Sorbic Acid, Sunflower Oil, Sweet Orange Oil, Turmeric Extract"
+	;	000000000300103561;"Arnica Extract, Ginger Extract, Honeysuckle Oil, Jojoba Oil, MCT/Coconut Oil, Mushroom Extracts - USDA Organic (Cordyceps, Lion's Mane, Reishi, Shiitake), Sweet Orange Oil, Turmeric Extract"
+	;	000000000300103560;"Amica Extract, Beeswax, Colloidal Oatmeal, Ginger Extract, Honeysuckle Oil, Jojoba Oil, MCT/Coconut Oil, Mushroom Extracts - USDA Organic (Cordyceps, Lion's Mane, Reishi, Shiitake}, Sorbic Acid, Sunflower Oil, Sweet Orange Oil, Turmeric Extract"
+	;	000000000300103558;"Arnica Extract, Beeswax, Colloidal Oatmeal, Ginger Extract, Honeysuckle Oil, Jojoba Oil, MCT/Coconut Oil, Mushroom Extracts - USDA Organic (Cordyceps, Lion's Mane, Reishi, Shiitake), Shea Butter, Sorbic Acid, Sunflower Oil, Sweet Orange Oil, Turmeric Extract"

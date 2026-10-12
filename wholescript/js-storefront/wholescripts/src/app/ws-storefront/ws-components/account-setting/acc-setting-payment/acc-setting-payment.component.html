@@ -1,0 +1,28 @@
+<div class="account-setting-payment row">
+    <div class="col-12 d-flex justify-content-between align-items-center">
+        <div>
+            <h2>Payment</h2>
+            <p>
+                Manage your credit card(s) for a faster and hassle-free checkout
+                experience.
+            </p>
+        </div>
+        <div>
+            <button class="btn btn-primary btn-rounded" (click)="showAddCardSection.set(true)">New credit card</button>
+        </div>
+    </div>
+</div>
+@if(showAddCardSection()){
+    <div class="col-12 row mx-0">
+      <div class="col-8">
+        <ws-add-new-creditcard></ws-add-new-creditcard>
+      </div>
+      <div class="col-4">
+        <ws-card-parent [isRow]="false" ></ws-card-parent>
+      </div>
+    </div>
+  }@else {
+    <div >
+      <ws-card-parent></ws-card-parent>
+    </div>
+  }

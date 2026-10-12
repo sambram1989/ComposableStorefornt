@@ -1,0 +1,27 @@
+<div class="modal-content p-3 unset-style" role="dialog" aria-label="modal-title"
+    aria-details="modal-description">
+    <div class="modal-body p-0">
+        <section>
+            <div class="row">
+                <div class="col-2 edit-protocol-img">
+                    <cx-media [container]="(product()?.product?.images && product()?.product?.images?.length) ? product()?.product?.images[1] : null" [alt]="product()?.product?.name"></cx-media>
+                </div>
+                <div class="col-9">
+                    <span class="bolder product-name">{{product()?.product?.name}}</span>
+                    <p class="mt-2 mb-0">
+                        Dosing:{{product()?.dosing|slice:0:4|dosingPipe}}
+                    </p>
+                    <p>
+                        Duration: {{weekMapItems.get(product()?.itemDuration) | capitalCase}}, 1 Unit(s)
+                    </p>
+                    <p class="mt-2 mb-0 fw-900">
+                        {{product()?.totalPrice?.formattedValue}}
+                    </p>
+                    <p class="bolder">
+                        MSRP: {{product()?.msrpTotalPrice?.formattedValue }}
+                    </p>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>

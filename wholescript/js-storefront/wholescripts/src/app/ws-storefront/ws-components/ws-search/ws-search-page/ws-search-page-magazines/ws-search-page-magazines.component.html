@@ -1,0 +1,20 @@
+<div class="search-page-magazines">
+    <ws-search-page-common-heading [totalResultsCount]="342" [heading]="'Magazines'" [viewAllFlag]="viewAllFlag" (viewAll)="viewAllEmit()"></ws-search-page-common-heading>
+    <div class="search-magazines-wrapper">
+        <div class="search-each-magazine">
+            <div class="magazine-image">
+                <img width="100" height="154" alt="magazine-image"/>
+            </div>
+            <div class="magazine-details-section">
+                <p class="magazine-volume">Volume 5 Issue 2</p>
+                <div class="magazine-description">
+                    Learn how to keep your gut happy, make small steps to fitness, and discover natural alternatives to semaglutide in this edition.
+                </div>
+                <a class="magazine-download-link">
+                    Free PDF download
+                </a>
+            </div>
+        </div>
+    </div>
+    <ws-search-page-common-pagination [currentPage]="currentPage" [totalPageCount]="totalPageCount" (setCurrentPage)="setCurrentPage($event)"></ws-search-page-common-pagination>
+</div>

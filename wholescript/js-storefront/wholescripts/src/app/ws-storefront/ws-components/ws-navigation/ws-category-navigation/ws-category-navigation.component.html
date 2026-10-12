@@ -1,0 +1,44 @@
+<nav class="header d-md-flex d-none">
+  <div *ngIf="node$ | async as node" class="nav-links">
+    <div *ngFor="let link of node.children">
+      <ng-container *ngIf="!(hideMedpaxPage && link.title === 'MedPax')">
+      <!-- dropdown -->
+      <a *ngIf="link.children"
+         tabindex="0"
+         class="dropdown-link"
+         [attr.data-title]="link.title"
+         (mouseover)="handleHover(link.title)"
+         (mouseleave)="handleMouseLeave()"
+         (keydown.enter)="toggleDropdown(link.title)"
+         (click)="toggleDropdown(link.title)">
+        {{ link?.title }}
+        <i class="fa fa-caret-down"></i>
+        <!-- Dropdown Menu -->
+        <div class="menu"
+             *ngIf="showDropdown && showDropdown === link.title"
+             [style.top]="headerHeight + 'px'"
+             (mouseover)="handleHover(link.title)"
+             (mouseleave)="handleMouseLeave()">
+          <a tabindex="0" class="item" *ngFor="let category of link.children; index as i" [routerLink]="category.url"  routerLinkActive="activeLink">
+            <cx-media *ngIf="getMedia(category.title) && link?.title === 'Categories'"
+                      class="float-left"
+                      [container]="getMedia(category.title)"
+                      format="product"
+            [alt]="link?.title || ''"
+          ></cx-media>
+           <span> {{ category.title }} </span>
+          </a>
+        </div>
+      </a>
+      <!-- links display -->
+      <a *ngIf="link.url !== '/'" [routerLink]="link.url" [ngClass]="link.children ? '' : 'active-link'">
+        {{ link?.title }}
+      </a>
+      </ng-container>
+
+    </div>
+  </div>
+</nav>
+<ng-container class="d-md-none">
+  <ws-navigation></ws-navigation>
+</ng-container>

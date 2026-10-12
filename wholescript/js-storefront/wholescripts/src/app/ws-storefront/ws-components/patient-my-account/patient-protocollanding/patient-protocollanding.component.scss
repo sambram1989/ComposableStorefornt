@@ -1,0 +1,73 @@
+:host{
+    margin-top: 30px;
+}
+::ng-deep .PatientAccountTemplate {
+    cx-paragraph {
+        display: none;
+    }
+}
+
+::ng-deep {
+  ws-formcontrol-input {
+    .ng-select-container {
+      width: 200px !important;
+    }
+    .select-span {
+      left: auto !important;
+    }
+  }
+}
+
+.patient-protocol-container{
+  padding: 50px 200px 120px 200px;
+  @media(max-width: 768px) {
+    padding: 50px 15px 120px 15px;
+  }
+}
+
+.no-results-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 160px 50px 50px;
+    height: 70%;
+    color: var(--ws-gray-light-900);
+    background: url(/assets/qa/accurals-bg.svg) center no-repeat;
+    
+  
+    img {
+      margin-bottom: 16px;
+    }
+  
+    h2 {
+      font-size: 18px !important;
+      font-weight: 600 !important;
+      color: var(--ws-gray-light-900);
+      margin-bottom: 10px;
+    }
+  
+    .description {
+      font-size: 14px;
+      color: var(--ws-gray-light-700);
+      margin-bottom: 30px;
+      strong {
+        color: var(--ws-gray-light-900);
+      }
+    }
+  
+    .clear-search-btn {
+      background-color: white;
+      border: 1px solid var(--ws-gray-light-300);
+      border-radius: 25px;
+      padding: 10px 20px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      
+      &:hover {
+        background-color: var(--ws-gray-light-200);
+      }
+    }
+  }

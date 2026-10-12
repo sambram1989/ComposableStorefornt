@@ -1,0 +1,79 @@
+<div class="promotions-carousel-container-wrapper" style="max-width: fit-content; width: 100%;" *ngIf="promotions?.length > 0 && carouselWidth > 0 ">
+    <div class="promotions-carousel-container" [style]="getCarouselWidth()">
+        <ngx-slick-carousel class="carousel" #slickModal="slick-carousel" [config]="slickConfig">
+            <div ngxSlickItem *ngFor="let promotion of promotions; index as i" class="slide promo-codes">
+                <div class="slide-content">
+                    <div class="offer-valid-wrapper-mobile">
+                        <span class="offer-valid-text">
+                            Offer valid through {{promotion?.endDate | date:'MM/dd/yyyy'}}.
+                        </span>
+                        <span class="see-details-text" (click)="seeDetails(promotion)" (keydown)="onKeyDown($event,'seeDetails',promotion)" tabindex="0">
+                            See details
+                        </span>
+                    </div>
+                    <div class="each-promo-code">
+                        <div class="top-section" [style.background-color]="promotion.colorBackground">
+                            <div class="heading" [title]="promotion?.title" [style.color]="promotion.colorText">
+                                {{promotion?.title}}
+                            </div>
+                            <div *ngIf="promotion?.promotionBanner?.url" class="promo-image-container">
+                                <img [src]="getProductImageUrl(promotion)" format="product" [alt]="promotion?.name"
+                                    role="img">
+                            </div>
+                        </div>
+                        <div class="bottom-section">
+                            <div class="promo-code-text">
+                                Promo code:
+                            </div>
+                            <div class="promo-code" (keydown)="onKeyDown($event,'copyPromoCode',promotion?.code)"
+                                tabindex="0">
+                                {{promotion?.code}}
+                                <span>
+                                    <i class="fa-solid fa-copy" (click)="copyPromoCode(promotion?.code)"
+                                        tabindex="0"></i>
+                                </span>
+                            </div>
+                            
+                            <div class="offer-valid-wrapper">
+                                <div>
+                                    <span class="offer-valid-text">
+                                        Offer valid through {{promotion?.endDate | date:'MM/dd/yyyy'}}.
+                                    </span>
+                                    <span class="see-details-text" (click)="seeDetails(promotion)"
+                                        (keydown)="onKeyDown($event,'seeDetails',promotion)" tabindex="0">
+                                        See details
+                                    </span>
+                                </div>
+                                <div>
+                                    <button class="btn btn-secondary btn-rounded"
+                                    (click)="navigateToCatalog(promotion?.redirectUrl)" tabindex="0">Order now</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bottom-section-mobile">
+                        <div class="promo-code-text">
+                            Promo code:
+                        </div>
+                        <div class="promo-code" (keydown)="onKeyDown($event,'copyPromoCode',promotion?.code)"
+                            tabindex="0">
+                            {{promotion?.code}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ngx-slick-carousel>
+    </div>
+</div>
+<div class="see-all-offers-link" *ngIf="promotions?.length > 0 && carouselWidth > 0 ">
+    <a [routerLink]="'/specialoffers'" tabindex="0"> See all offers </a>
+</div>
+
+
+<div *ngIf="showPromoDetailsModal">
+    <ws-promo-details-modal [selectedPromotion]="selectedPromotion"
+        (closeModal)="closeModal()"></ws-promo-details-modal>
+</div>
+
+<alert *ngIf="alert?.msg" [type]="alert.type" [dismissOnTimeout]="alert.timeout" (onClosed)="onClosed()">{{
+    alert.msg }}</alert>

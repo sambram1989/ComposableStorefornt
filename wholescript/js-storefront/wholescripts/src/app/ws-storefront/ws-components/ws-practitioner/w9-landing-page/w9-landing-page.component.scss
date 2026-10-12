@@ -1,0 +1,113 @@
+:host {
+    margin-top: 50px;
+    margin: 0 5% 10%; 
+    @media screen and (max-width: 767px) {
+        margin: 0 16px;
+    }  
+}
+::ng-deep{
+    .modal-header,.modal-content{
+        border: none;
+    }
+}
+.process-container {
+    background-color: #fff;
+    box-shadow: 0 -5px 5px -5px #C6BBDB;
+    margin-left: -10px;
+    margin-right: -10px;
+    padding: 0 !important;
+    margin-top: 50px;
+    text-align: center;
+    @media screen and (max-width: 767px)  {
+        padding: 80px 24px !important;
+    }
+}
+.check-primary.consult {
+    @media screen and (max-width: 767px)  {
+        margin-top: 32px !important;
+        padding-left: 32px;
+    }
+}
+
+@media screen and (min-width: 576px) {
+    .process {
+        flex-direction: row;
+        gap: 80px;
+        position: relative;
+        top: -50px;
+        flex-wrap: wrap;
+    }
+}
+
+.process {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.process__step {
+    max-width: 340px;
+    text-align: center;
+    width: 100%;
+}
+.process__text {
+    font-size: 18px !important;
+}
+
+::ng-deep .modal-dialog {
+    float: right;
+    width: -webkit-fill-available;
+    margin-right: 0 !important;
+    margin-top: 0 !important;
+    z-index: 9999 !important;
+    height: 100vh;
+}
+
+@media (max-width: 1025px), (max-device-width: 1025px) {
+    .process-container {
+        background-color: unset !important;
+        box-shadow: none !important;
+
+        .process {
+            flex-wrap: nowrap;
+
+            .process__step {
+                max-width: 30%;
+
+                cx-media {
+                    top: 5%;
+                }
+
+                .para {
+                    background-color: #fff;
+                    box-shadow: 0 -5px 5px -5px #C6BBDB;
+                    padding: 15%;
+                    border-radius: 10px;
+    
+                    .process__text {
+                        font-weight: 600;
+                    }
+                }
+            }
+        }
+    }
+
+    .bottom-section {
+        display: flex;
+
+        .consult {
+            input {
+                margin-top: 10px;
+            }
+
+            label {
+                font-size: 16px;
+            }
+        }
+
+        a {
+            margin-top: 0;
+        }
+    }
+}

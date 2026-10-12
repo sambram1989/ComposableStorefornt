@@ -1,0 +1,298 @@
+<cx-page-slot [position]="'TopBannerSlot'" role="banner"></cx-page-slot>
+<ng-container [ngTemplateOutlet]="patientDirectOrdering"></ng-container>
+
+<ng-template #patientDirectOrdering>
+    <div class="container w9-container">
+        <section class="w9form mx-auto" tabindex="0">
+            <div class="loadingSection ng-hide" ng-show="isProcessing" aria-live="polite">
+            </div>
+            <div class="pdintro">
+                <div class="bolder fs-18">
+                    Please complete the W-9 form below.
+                </div>
+                <div class="text-center">
+                    To view the full form and/or read instructions for W-9 visit
+                    <a class="primary-text bolder w9" href="https://www.irs.gov/forms-pubs/about-form-w-9"
+                        target="_blank" aria-label="Visit IRS website for W-9 form instructions">
+                        www.irs.gov
+                    </a>
+                </div>
+            </div>
+            <div class="card rounded">
+                <div class="resell card-header bolder text-center">
+                    W-9 Form
+                </div>
+                <form [formGroup]="w9Form" (ngSubmit)="canNavigate()" aria-labelledby="form-title">
+                    <div class="m-3">
+                        <div class="row align-items-center">
+                            <label class="col-12 col-lg-6 w9form__label" for="name">
+                                <span class="bolder">1. </span>Name (as shown on your income tax return)
+                            </label>
+                            <div class="form-group col-12 col-lg-6">
+                                <ws-formcontrol-input [wsLabel]="'Name'" [wsControlName]="w9Form.controls.name"
+                                    [wswidth]="'100%'" [wsheight]="'44px'" [isSelectBox]="false" [isShowStart]="true"
+                                    aria-required="true">
+                                </ws-formcontrol-input>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row align-items-center">
+                            <label class="col-12 col-lg-6 w9form__label" for="businessName">
+                                <span class="bolder">2. </span>Business name/disregard entity name, if different from
+                                above.
+                            </label>
+                            <div class="form-group col-12 col-lg-6">
+                                <ws-formcontrol-input [wsLabel]="'BUSINESS NAME'"
+                                    [wsControlName]="w9Form.controls.businessName" [wswidth]="'100%'"
+                                    [wsheight]="'44px'" [isSelectBox]="false" [isShowStart]="false"
+                                    aria-required="false">
+                                </ws-formcontrol-input>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <label class="col-12 w9form__label" id="tax-class"
+                                ng-class="taxClassificationInvalid ? 'fontWeightError' : ''"
+                                [ngClass]="{'radio-group-error': w9Form.controls.radioGroup.invalid && formContainsError}">
+                                <span class="bolder">3. </span>
+                                Check appropriate box for federal tax classification; check only
+                                <span class="bolder">one</span>
+                                of the following seven boxes:
+                                <i class="text-danger fas fa-asterisk required-asterisk" aria-hidden="true"></i>
+                            </label>
+                        </div>
+                        <div class="form-group radio-btn-section">
+                            @for(item of  radioGrouptax;track item){
+                            <div>
+                                <input type="radio" formControlName="radioGroup" [value]="item.key" id="tax-class-individual"
+                                    aria-labelledby="tax-class-individual-label">
+                                <label id="tax-class-individual-label" for="tax-class-individual">{{item.value}}</label>
+                            </div>
+                        }
+                            <div class="row">
+                                <div class="col-12 col-lg-8 long-radio">
+                                    <input type="radio" formControlName="radioGroup" [value]="limitedLiabilityfedTax.key"
+                                        id="tax-class-limited" aria-labelledby="tax-class-limited-label">
+                                    <label id="tax-class-limited-label" for="tax-class-limited">{{limitedLiabilityfedTax.value}}</label>
+                                </div>
+                                <div class="col-12 col-lg-4 mb-3">
+                                    <ws-formcontrol-input [wsControlName]="w9Form.controls.radioOne" [wswidth]="'100%'"
+                                        [wsheight]="'44px'" [isSelectBox]="false" [isShowStart]="false"
+                                        aria-required="false">
+                                    </ws-formcontrol-input>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12 col-lg-6 long-radio">
+                                    <input type="radio" formControlName="radioGroup" [value]="otherFedTax.key" id="tax-class-other"
+                                        aria-labelledby="tax-class-other-label">
+                                    <label id="tax-class-other-label" for="tax-class-other">{{otherFedTax.value}}</label>
+                                </div>
+                                <div class="col-12 col-lg-6">
+                                    <ws-formcontrol-input [wsControlName]="w9Form.controls.radioTwo" [wswidth]="'100%'"
+                                        [wsheight]="'44px'" [isSelectBox]="false" [isShowStart]="false"
+                                        aria-required="false">
+                                    </ws-formcontrol-input>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr>
+                        <div class="row">
+                            <label class="col-12 w9form__label"><span class="bolder">4. </span>Exemptions (codes apply
+                                only to certain entities, not individuals; see instructions on page 3)</label>
+                        </div>
+                        <div class="row">
+                            <label class="col-12 col-lg-3" for="exempt-payee">Exempt payee code (if any)</label>
+                            <div class="col-12 col-lg-3 mb-3 mb-lg-0">
+                                <ws-formcontrol-input [wsControlName]="w9Form.controls.exemptionPayeeCode"
+                                    [wswidth]="'100%'" [wsheight]="'44px'" [isSelectBox]="false" [isShowStart]="false"
+                                    aria-required="false">
+                                </ws-formcontrol-input>
+                            </div>
+                            <label class="col-12 col-lg-3 pr-0" for="exempt-fatca">Exemption from FATCA reporting code (if
+                                any)</label>
+                            <div class="col-12 col-lg-3 mb-3 mb-lg-0">
+                                <ws-formcontrol-input [wsControlName]="w9Form.controls.exemptionFATCAcode"
+                                    [wswidth]="'100%'" [wsheight]="'44px'" [isSelectBox]="false" [isShowStart]="false"
+                                    aria-required="false">
+                                </ws-formcontrol-input>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <label class="col-12 w9form__label" for="address"><span class="bolder">5. </span>Address
+                                (number, street, and apt. or suite no.) See instructions on page 3.</label>
+                            <div class="form-group col-12">
+                                <ws-formcontrol-input [wsLabel]="'ADDRESS'" [wsControlName]="w9Form.controls.address"
+                                    [wswidth]="'100%'" [wsheight]="'44px'" [isSelectBox]="false" [isShowStart]="true"
+                                    aria-required="true">
+                                </ws-formcontrol-input>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <label class="col-12 w9form__label"><span class="bolder">6. </span>City, state and ZIP
+                                code</label>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-12 col-lg-4">
+                                <ws-formcontrol-input [wsLabel]="'CITY'" [wsControlName]="w9Form.controls.city"
+                                    [wswidth]="'100%'" [wsheight]="'44px'" [isSelectBox]="false" [isShowStart]="true"
+                                    aria-required="true">
+                                </ws-formcontrol-input>
+                            </div>
+                            <div class="form-group col-12 col-lg-4">
+                                @if(regions$| async ; as regions){
+                                <ws-formcontrol-input [wsLabel]="'STATE'" [wsControlName]="w9Form.controls.state"
+                                [selectBoxData]="regions"
+                                    [wswidth]="'100%'" [wsheight]="'44px'" [isSelectBox]="true" [isShowStart]="true"
+                                    aria-required="true">
+                                </ws-formcontrol-input>
+                            }
+                            </div>
+                            <div class="form-group col-12 col-lg-4">
+                                <ws-formcontrol-input [wsLabel]="'ZIP CODE'" [wsControlName]="w9Form.controls.zipCode"
+                                    [wswidth]="'100%'" [wsheight]="'44px'" [isSelectBox]="false" [isShowStart]="true"
+                                    aria-required="true" [attr.maxlength]="'10'" [attr.inputmode]="'numeric'" [attr.pattern]="'\\d{5}(-\\d{4})?'"
+                                    (input)="onZipCodeInput($event)" >
+                                </ws-formcontrol-input>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <label class="col-12 w9form__label" for="account-numbers"><span class="bolder">7.
+                                </span>List account number(s) here (Optional)</label>
+                        </div>
+                        <ws-formcontrol-input [wsControlName]="w9Form.controls.listAccountNumber" [wswidth]="'100%'"
+                            [wsheight]="'44px'" [isSelectBox]="false" [isShowStart]="false" aria-required="false">
+                        </ws-formcontrol-input>
+                        <div class="row pt-3">
+                            <label class="col-12 w9form__label" for="requester-info">Requester's name and address
+                                (Optional)</label>
+                        </div>
+                        <ws-formcontrol-input [wsControlName]="w9Form.controls.RequesterName" [wswidth]="'100%'"
+                            [wsheight]="'44px'" [isSelectBox]="false" [isShowStart]="false" aria-required="false">
+                        </ws-formcontrol-input>
+                        <hr>
+                        <div class="row">
+                            <label class="col-12 bolder" for="ssn">
+                                Taxpayer Identification Number (TIN)
+                                <i class="text-danger fas fa-asterisk required-asterisk" aria-hidden="true"></i>
+                            </label>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-12 col-lg-5">
+                                <ws-formcontrol-input [wsControlName]="w9Form.controls.tinNumber" [isMasked]='true'
+                                    [isShowMaskTyped]="true" [maskValue]="'000-00-0000'" [wswidth]="'100%'"
+                                    [wsheight]="'44px'" [isSelectBox]="false" [isShowStart]="false"
+                                    [wsLabel]="'Social Security number'" aria-required="true">
+                                </ws-formcontrol-input>
+                            </div>
+                            <p class="col-12 col-lg-2 text-center mb-2 mt-0">or</p>
+                            <div class="form-group col-12 col-lg-5">
+                                <ws-formcontrol-input [wsControlName]="w9Form.controls.tinNumberOp" [isMasked]='true'
+                                    [isShowMaskTyped]="true" [maskValue]="'00-000-0000'" [wswidth]="'100%'"
+                                    [wsheight]="'44px'" [isSelectBox]="false" [isShowStart]="false"
+                                    [wsLabel]="'Employer identification number'" aria-required="true">
+                                </ws-formcontrol-input>
+                            </div>
+                        </div>
+                        <p class="bolder">Certification</p>
+                        <p>Under penalties of perjury, I certify that:</p>
+                        <ol>
+                            <li class="pl-3">1. The number shown on this form is my correct taxpayer identification
+                                number (or I am
+                                waiting for a number to be issued to me); and</li>
+                            <li class="pl-3">
+                                2. I am not subject to backup withholding because: (a) I am exempt from backup
+                                withholding,
+                                or (b) I have not been notified by the Internal Revenue Service (IRS) that I am subject
+                                to backup withholding as a result of a failure to report all interest or dividends, or
+                                (c) the IRS has notified me that I am no longer subject to backup withholding; and
+                            </li>
+                            <li class="pl-3">3. I am a U.S. citizen or other U.S. person (See page 2); and</li>
+                            <li class="pl-3">4. The FATCA code(s) entered on this form (if any) indicating that I am
+                                exempt from FATCA reporting is correct.</li>
+                        </ol>
+                        <p>
+                            <span class="bolder">Certifications Instructions.</span>
+                            Certifications Instructions. You must not check item 2 above you have been notified by the
+                            IRS that you are currently subject to backup withholding because you have failed to report
+                            all interests and dividends on your tax return. For real estate transactions, item 2 does
+                            not apply. For mortgage interest paid, acquisition or abandonment of secured property,
+                            cancellation of debt, contributions to an individual retirement arrangement (IRA), and
+                            generally, payments other than interests and dividends, you are not required to sign the
+                            certification, but you must provide your correct TIN. See the instructions on page 3.
+                        </p>
+                        <hr>
+                        <p class="text-primary bolder"><i class="fas fa-pen"></i>&nbsp;Sign here:</p>
+                        <div class="row pb-5">
+                            <label for="signature" class="col-12 col-lg-4 w9form__label">Signature of U.S.
+                                person</label>
+                            <div class="form-group col-12 col-lg-4">
+                                <ws-formcontrol-input [wsLabel]="'Name'" [wsControlName]="w9Form.controls.signatureName"
+                                    [wswidth]="'100%'" [wsheight]="'44px'" [isSelectBox]="false" [isShowStart]="true"
+                                    aria-required="true">
+                                </ws-formcontrol-input>
+                            </div>
+                            <div class="form-group col-12 col-lg-4">
+                                <ws-formcontrol-input [wsLabel]="'DATE'" [wsControlName]="w9Form.controls.date"
+                                    [wswidth]="'100%'" [wsheight]="'44px'" [isSelectBox]="false" [isShowStart]="true"
+                                    aria-required="true" [isReadOnly]="true">
+                                </ws-formcontrol-input>
+                            </div>
+                        </div>
+                        <div *ngIf = "formContainsError" class="col-lg-12 p-0 justify-content-center mt-3">
+                            <div class="col-12 col-md-10 alert-danger alert-danger mx-auto py-4 border border-danger rounded"
+                                 role="alert"
+                                >
+                                <ul class="mb-0">
+                                    @if(w9Form.controls.name.invalid){
+                                    <li>Please Enter Name</li>
+                                    }
+                                    @if(w9Form.controls.address.invalid){
+                                    <li>Please Enter address</li>
+                                    }
+                                    @if(w9Form.controls.radioGroup.invalid){
+                                    <li>check Atleast one federal tax classification</li>
+                                    }
+                                    @if(w9Form.get('radioOne')?.hasError('required') && w9Form.get('radioOne')?.touched){
+                                    <li>please Fill federal tax classification input Box for Limited</li>
+                                    }
+                                    @if(w9Form.get('radioTwo')?.hasError('required') && w9Form.get('radioTwo')?.touched){
+                                    <li>please Fill federal tax classification input Box for Other</li>
+                                    }    
+                                    @if(w9Form.controls.city.invalid){
+                                    <li>Please Enter city</li>
+                                    }
+                                    @if(w9Form.controls.state.invalid){
+                                    <li>Please Enter state</li>
+                                    }
+                                    @if(w9Form.controls.zipCode.invalid){
+                                    <li>Please Enter zipCode</li>
+                                    }
+                                    @if(w9Form.controls.tinNumber.invalid){
+                                    <li>Please Enter tinNumber</li>
+                                    }
+                                    @if(w9Form.controls.signatureName.invalid){
+                                    <li>Please Enter signatureName</li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col-12 p-0 text-right">
+                <div class="float-left text-danger fs-14">* Required</div>
+                <div class="d-flex justify-content-end my-3">
+                    <a class="btn btn-outline-primary btn-rounded" (click)="back()" tabindex="0"
+                        aria-label="Go back to previous page">Back</a>&nbsp;
+                    <a class="btn btn-primary btn-rounded" type="submit" (click)="canNavigate()" tabindex="0"
+                        aria-label="Submit the form">Next</a>
+                </div>
+            </div>
+        </section>
+    </div>
+</ng-template>

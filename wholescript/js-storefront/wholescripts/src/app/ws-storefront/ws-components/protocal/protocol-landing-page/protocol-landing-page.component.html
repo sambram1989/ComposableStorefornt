@@ -1,0 +1,822 @@
+<div class="content mt-5 myprotocol-layout">
+    <div class="row">
+        <div class="col-6 proto-title">
+            <cx-page-slot position="myProtocolListTitle"></cx-page-slot>
+        </div>
+
+        <div class="col-6 proto-head-btn">
+            @if(currentUser$|async; as user)
+            {
+            <button (click)="goToPage()" class="btn btn-outline-primary btn-rounded btn-h" *ngIf="user.indexOf('doctor') == -1">WholeScripts Protocols</button>
+            }
+            <button (click)="createNewProtocol('CREATE NEW PROTOCOL', '')" class="btn btn-primary btn-rounded btn-h">
+                <i class="fa fa-plus"></i>
+                New Protocol
+            </button>
+        </div>
+    </div>
+    <div class="mt-25">
+        <div class="row ">
+            <h6 class="sub-title col-12 bolder">Search Protocols:</h6>
+        </div>
+        <div class="row mb-2">
+            <div class="col-12 col-md-6">
+                <ws-search-box  (searchChange)="updateSearch($event)"
+                    aria-label="Search box" [attr.aria-placeholder]="'Search for patients or other criteria'" [placeholder]="placeholder">
+                </ws-search-box>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        @if(currentUser$|async; as user)
+        {
+        <div class="col-12">
+            <div class="outer-wrapper">
+                <div class="table-wrapper">
+                    <table class="table table-hover demo-table-search table-responsive-inline-block"
+                        id="tableWithSearch">
+                        <thead class="bg-gray table-header">
+                            <tr>
+                                <th style="width:8%" class="last-updated">Last Updated</th>
+                                <th style="width:23%; text-align: left;">Protocol Name</th>
+                                <th style="width:9%" aria-label="th"></th>
+                                <th class="text-left" style="width:10%">Price</th>
+                                @if((user.indexOf("patientdirect") > -1) && patientList?.patients?.length > 0){
+                                <th class="text-left" style="width:15%">Share Status</th>
+                                }@else if (user.indexOf("doctor") > -1) {
+                                <th class="text-left" style="width:15%">Publish Status</th>
+                                }
+                                <th class="text-right" style="width:35%">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody *ngIf="protocolsList | async">
+                            <tr *ngFor="let protocol of protocolsList | async" class="tr-hover">
+                                <td class="v-align-middle">
+                                    <span>{{protocol.modifiedTime | date:'MM/dd/yyyy'}}</span>
+                                </td>
+                                <td class="v-align-middle template-name pl-4">
+                                    <div>
+                                        <button (click)="openPopup('product',protocol?.id,protocol?.name,protocol)"
+                                            class="btn btn-link">
+                                            {{protocol?.name}}
+                                        </button>
+                                        <span class="draft-label" *ngIf="protocol.protocolStatus === 'DRAFT'">
+                                            <label class="label label-gray text-dark">Draft</label>
+                                        </span>
+                                    </div>
+                                </td>
+                                <td class="v-align-middle text-left template-items">{{protocol?.totalUnitCount}} item(s)</td>
+                                <td class="v-align-middle text-left">
+                                    <span class="bolder template-price">{{protocol?.totalPrice?.formattedValue}}</span><br>
+                                    <span>MSRP: </span><span class="italic template-price">{{protocol?.msrpSubTotalPrice?.formattedValue}}</span>
+                                </td>
+                                @if(user.indexOf('patientdirect') > -1 && patientList?.patients?.length > 0){
+                                <td class="v-align-middle share-status">
+                                    <div *ngIf="protocol.protocolStatus !== 'DRAFT'">
+                                        @if(protocol.protocolSharedStatus == 'SHARED_WITH_ALL' && protocol.totalUnitCount > 0){
+                                        <button type="button" class="btn-link"
+                                            (click)="openPopup('shareall',protocol?.id,protocol.name,protocol)">
+                                            <i class="fa-solid fa-share"></i>
+                                            <span class="bolder pl-1">Shared with All Patients</span>
+                                        </button>
+                                        }
+                                        @if(protocol.protocolSharedStatus == 'NOT_SHARED') {
+                                        <button type="button" class="btn-link"
+                                            (click)="openPopup('notshare',protocol?.id,protocol.name,protocol)">
+                                            <span class="bolder pl-1">Not Shared</span>
+                                        </button>
+                                        }
+                                        @if((protocol.protocolSharedStatus == 'SHARED_WITH_SELECTED' && protocol.totalUnitCount > 0)){
+                                        <button type="button" class="btn-link"
+                                            (click)="openPopup('share',protocol?.id,protocol.name,protocol)">
+                                            <i class="fa-solid fa-share"></i>
+                                            <span class="bolder pl-1">Shared with</span>
+                                            <span class="bolder">
+                                                {{protocol?.patientList.length}} 
+                                                {{ protocol?.patientList.length === 1 ? 'Patient' : 'Patients' }}
+                                              </span>
+                                              
+                                        </button>
+                                        }
+                                    </div>
+                                </td>
+                                }
+                                @else if (user.indexOf("doctor") > -1) {
+                                <td class="v-align-middle share-status">
+                                    <button type="button" class="btn-link">
+                                        <span> @if(protocol.protocolStatus == 'UNPUBLISHED'){
+                                            Not Published
+                                            }
+                                            @if(protocol.protocolStatus == 'PUBLISHED'){
+                                            <i class="fas text-success fa-solid fa-paper-plane"></i>&nbsp;
+                                            Published
+                                            }</span>
+                                    </button>
+                                </td>
+                                }
+
+                                <td class="v-align-middle">
+                                    <div class="right-buttons">
+                                        <div class="btn-group" dropdown *ngIf="protocol.protocolStatus != 'DRAFT'">
+                                            <button id="button-basic" dropdownToggle type="button"
+                                                class="btn dropdown-toggle button-basic" aria-controls="dropdown-basic">
+                                                Additional Options &nbsp; <i class="fa-solid fa-chevron-down"></i>
+                                            </button>
+                                            <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu" role="menu"
+                                                aria-label="button-basic">
+                                                @if(user.indexOf('patientdirect') > -1 && patientList?.patients?.length > 0){
+                                                <li role="menuitem"><a class="dropdown-item"
+                                                        (click)="openPopup(protocol.sharedWithAll ? ' share ' : 'notshare',protocol?.id,protocol.name,protocol)" (keydown)="onKeyDown($event,protocol.sharedWithAll ? ' share ' : 'notshare',protocol?.id,protocol.name,protocol)" tabindex="0">
+                                                        Share Options </a>
+                                                </li>
+                                                }
+                                                @else if (user.indexOf("doctor") > -1) {
+                                                <li role="menuitem"><a class="dropdown-item"
+                                                        (click)="openPopup('publish',protocol?.id,protocol.name,protocol)" (keydown)="onKeyDown($event,'publish',protocol?.id,protocol.name,protocol)" tabindex="0">
+                                                        @if(protocol?.protocolStatus == 'UNPUBLISHED'){
+                                                        Publish
+                                                        }@else {
+                                                        UnPublish
+                                                        }
+
+                                                    </a>
+                                                </li>
+                                                }
+                                                <li role="menuitem">
+                                                    @if(protocol.protocolSharedStatus == 'NOT_SHARED') {
+                                                        <a class="dropdown-item"
+                                                        [routerLink]="'/protocol/edit/'| parseUrl:[protocol?.id]" tabindex="0">Edit</a>
+                                                    }@else {
+                                                        <a class="dropdown-item"
+                                                        (click)="openPopup('edit',protocol?.id,protocol.name,protocol)" (keydown)="onKeyDown($event,'edit',protocol?.id,protocol.name,protocol)" tabindex="0">Edit</a>
+                                                    }
+                                                </li>
+                                                <li role="menuitem"><a class="dropdown-item"
+                                                        (click)="openPopup('duplicate',protocol?.id,protocol.name,protocol)" (keydown)="onKeyDown($event,'duplicate',protocol?.id,protocol.name,protocol)" tabindex="0">Duplicate</a>
+                                                </li>
+                                                <li role="menuitem"><a class="dropdown-item"
+                                                        (click)="openPopup('delete',protocol?.id,protocol.name,protocol)" (keydown)="onKeyDown($event,'delete',protocol?.id,protocol.name,protocol)" tabindex="0"
+                                                        id="menu-item-delete">Delete</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        @if(user.indexOf('patientdirect') > -1 && patientList?.patients?.length > 0){
+                                        <button *ngIf="protocol.protocolStatus != 'DRAFT'"
+                                            class="btn btn-rounded mt-1 mb-1 btn-outline-primary btn-h"
+                                            (click)=recommendThisProtocol(protocol?.id)>
+                                            Recommend
+                                        </button>
+                                        }
+                                        <button *ngIf="protocol.protocolStatus != 'DRAFT'"
+                                            class="btn btn-primary btn-rounded ml-1 addtocart btn-h"
+                                            [disabled]="(cartIsLoading$ | async)"
+                                            (click)="addToCartFunctionality(protocol)">
+                                            Add to cart &nbsp;
+                                        </button>
+                                        <a [routerLink]="'/protocol/edit/'| parseUrl:[protocol?.id]"
+                                            *ngIf="protocol?.protocolStatus === 'DRAFT'"
+                                            class="btn btn-primary btn-rounded btn-h">
+                                            Continue Editing
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tbody *ngIf="loader">
+                            <div class="d-flex align-items-center justify-content-center">
+                                <cx-spinner></cx-spinner>
+                            </div>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <ng-container>
+                    <div  class="row d-md-flex d-none" style="align-items: center">
+                        <div class="col-6">
+                          {{getPaginationMessage(pagination())}}
+                        </div>
+                        <div class="col-6 pagination">
+                          <ws-pagination [resetReposition]="true" (currentPageChange)="pageChanged($event -1)" [itemsPerPage]="pagination()?.count" [totalItems]="pagination()?.totalCount"
+                            [numberOfPagesNeedTOBeShown]="5" aria-label="Pagination controls"></ws-pagination>
+                        </div>
+                      </div>
+            </ng-container>
+        </div>
+        }
+    </div>
+</div>
+
+<!-- shareOptionsProtocol -->
+<ng-template #notShareOption>
+    <div class="modal-content p-4 unset-border-all mt-3">
+        <div class="d-flex justify-content-end">
+            <button type="button" class="close" aria-label="Close" (click)="closePopup()">
+                <span aria-hidden="true" class="close-icon">×</span>
+            </button>
+        </div>
+        <div class="modal-header unset-border-b p-0">
+            <h3 class="modal-title bolder">SHARED PROTOCOL</h3>
+        </div>
+        <hr class="grey-line">
+        <div class="modal-body p-0">
+            <h3 class="popup-title-landing">
+                <i class="fas fa-archive"></i>
+                {{currentProtocolName}}
+            </h3>
+
+            <div class="shared-info mx-auto">
+                <div class="shared-info-status text-center">
+                    <span class="bolder">Share Status: </span>
+                    <span class="ng-binding">
+                        @if(currentProtocol.protocolSharedStatus == 'SHARED_WITH_ALL' ){
+                        Shared with All Patients
+                        }
+                        @if(currentProtocol.protocolSharedStatus == 'NOT_SHARED' ){
+                        Not Shared
+                        }
+                        @if(currentProtocol.protocolSharedStatus == 'SHARED_WITH_SELECTED'){
+                        Shared with 1 Patient
+                        }
+                    </span>
+                </div>
+            </div>
+
+            <section id="template-to-share" class="mt-40 text-center">
+                <p class="bolder fs-18">Sharing is caring.</p>
+                <p class="mb-40 fs-18">
+                    Sharing protocols with your patients will grant them easier access to the protocols you
+                    create.
+                </p>
+                <hr>
+                <p class="bolder mt-40 fs-18">Who would you like to share this protocol with?</p>
+            </section>
+            <div>
+                <div class="share-options-top">
+                    <div class="share-other-button">
+                        <a class="btn btn-primary btn-rounded btn-h"
+                            [routerLink]="'/protocol/share/select-patient/'| parseUrl:[currentProtocolId,'true']">Share
+                            with All Patients</a>
+                        <a class="btn btn-outline-primary btn-rounded btn-h text-transform-none"
+                            [routerLink]="'/protocol/share/select-patient/'| parseUrl:[currentProtocolId,'false']">Share
+                            with Select Patients</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #ShareWithAll>
+    <div class="modal-content p-4 unset-border-all mt-3">
+        <div class="d-flex justify-content-end">
+            <button type="button" class="close" aria-label="Close" (click)="closePopup()">
+                <span aria-hidden="true" class="close-icon">×</span>
+            </button>
+        </div>
+        <div class="modal-header unset-border-b p-0">
+            <h3 class="modal-title bolder">SHARED PROTOCOL</h3>
+        </div>
+        <hr class="grey-line">
+        <div class="modal-body p-0">
+            <h3 class="popup-title-landing">
+                <i class="fas fa-archive"></i>
+                {{currentProtocolName}}
+            </h3>
+
+            <div class="shared-info mx-auto">
+                <div class="shared-info-status text-center">
+                    <span class="bolder">Share Status: </span>
+                    <span><i class="fas text-success fa-share pr-1"></i>Shared with All Patients</span>
+                </div>
+            </div>
+
+            <section class="copy-link">
+                <p class="bolder"> Use the link below to share this protocol with your patients.</p>
+                <div class="input-group col-12 mb-5">
+                    <input id="shareTemplateLink" type="text" aria-label="Share link input" class="form-control" style="color:black; cursor:auto"
+                        [value]="url + '/customer/protocol/' + currentProtocolId" #inputBox>
+                    <button class="btn btn-primary input-group-addon btn-small py-0" type="button"
+                        [cdkCopyToClipboard]="inputBox.value" (click)="closePopup()">
+                        Copy
+                    </button>
+                </div>
+                <hr>
+            </section>
+            <div>
+                <div class="share-options-top">
+                    <div class="share-other-button">
+                        <button type="button" class="text-danger stop-text" (click)="stopShare()" (keydown)="onKeyDown($event,'stopShare')">
+                            Stop sharing
+                        </button>
+                        <a class="btn btn-outline-primary btn-rounded btn-h text-transform-none"
+                            [routerLink]="'/protocol/share/select-patient/'| parseUrl:[currentProtocolId,'false']">Share
+                            with Select Patients</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<!-- shareOptionsProtocol -->
+<ng-template #shareOptions>
+    <div class="modal-content p-4 unset-border-all">
+        <div class="d-flex justify-content-end">
+            <button type="button" class="close mt-3" aria-label="Close" (click)="closePopup()">
+                <span aria-hidden="true" class="close-icon">×</span>
+            </button>
+        </div>
+        <div class="modal-header unset-border-b p-0 mt-2">
+            <h3 class="modal-title bolder ">SHARED PROTOCOL</h3>
+        </div>
+        <hr class="grey-line">
+        <div class="modal-body p-0">
+            <h3 class="popup-title-landing">
+                <i class="fas fa-archive"></i>
+                {{currentProtocolName}}
+            </h3>
+            <div class="shared-info">
+                <div class="shared-info-status">
+                    <span class="bolder">Share Status: </span>
+                    <i class="fas text-success fa-share"></i>
+                    <span class="text-transform-none"> @if(currentProtocol.protocolSharedStatus == 'SHARED_WITH_ALL' ){
+                        Shared With All Patient
+                        }
+                        @if(currentProtocol.protocolSharedStatus == 'NOT_SHARED' ){
+                        Not Shared
+                        }
+                        @if(currentProtocol.protocolSharedStatus == 'SHARED_WITH_SELECTED'){
+                        Shared with 1 Patient
+                        }</span>
+                </div>
+            </div>
+            <div class="col-12 col-md-8 popup-search">
+                <ws-search-box  (searchChange)="updateSearch($event)"
+                    aria-label="Search box" [attr.aria-placeholder]="'Search for patients or other criteria'">
+                </ws-search-box>
+            </div>
+            <section>
+                <div class="rec-table">
+                    <table class="table">
+                        <thead class="bg-gray table-header">
+                            <tr>
+                                <th>
+                                    Name
+                                </th>
+                                <th>
+                                    Referral Code
+                                </th>
+                                <th>
+                                    Last Active
+                                </th>
+                                <th class="text-right">
+                                    Discount
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if(currentProtocol; as patientData){
+                            @for(patientDatas of currentProtocol.patientList;track patientDatas){
+                            <tr>
+                                <td class="v-align-middle">
+                                    <a class="text-link bolder ">{{patientDatas?.name}}</a>
+                                </td>
+                                <td class="v-align-middle ">
+                                    {{ patientDatas?.referralCode}}
+                                </td>
+                                <td class="v-align-middle ">
+                                    {{patientDatas?.modifiedTime | date:'MM/dd/yyyy'}}
+                                </td>
+                                <td class="v-align-middle text-right ">
+                                    {{ patientDatas?.discount ? patientDatas?.discount + '%' : '' }}
+                                </td>
+                            </tr>
+
+                            }
+                            }
+                        </tbody>
+                    </table>
+                    <!-- <div class="mb-5 mt-3 dataTables_info">
+                        Showing <b class="">
+                            1 to
+                            1
+                        </b> of 1 entries
+                    </div> -->
+                </div>
+            </section>
+            <div class="share-other-button d-flex justify-content-end mt-4" style="column-gap:20px">
+                <button type="button" class="text-danger stop-text" (click)="stopShare()" (keydown)="onKeyDown($event,'stopShare')">
+                    Stop sharing
+                </button>
+                <a class="btn btn-outline-primary btn-rounded btn-h"
+                    [routerLink]="'/protocol/share/select-patient/'| parseUrl:[currentProtocolId,'false']">Share
+                    with All Patients</a>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<!-- Edit Protocol -->
+<ng-template #editProtocol>
+    <div class="modal-content p-4 unset-border-all">
+        <div class="modal-header p-0 unset-border-b">
+            <div class="d-flex justify-content-end mb-3">
+                <button type="button" class="close" aria-label="Close" (click)="closePopup()">
+                    <span aria-hidden="true" class="close-icon">×</span>
+                </button>
+            </div>
+            <h3 class="modal-title mx-auto bolder ">{{editPopup ? 'EDIT' : 'DELETE'}} PROTOCOL</h3>
+        </div>
+        <hr class="grey-line">
+        <div class="modal-body p-0 text-center d-flex justify-content-center flex-column ">
+            <h3 class="popup-title-edit">
+                <i class="fas fa-archive"></i>
+                {{currentProtocolName}}
+            </h3>
+            <div class="shared-info mb-4">
+                <div class="shared-info-status  ">
+                    <span class="bolder">Share Status: </span>
+                    <i class="fas text-success fa-share"></i>&nbsp;
+                    <span class=""> @if(currentProtocol.protocolSharedStatus == 'SHARED_WITH_ALL' ){
+                        Shared With All
+                        }
+                        @if(currentProtocol.protocolSharedStatus == 'NOT_SHARED' ){
+                        Not Shared
+                        }
+                        @if(currentProtocol.protocolSharedStatus == 'SHARED_WITH_SELECTED'){
+                        Shared with 1 Patient
+                        }</span>
+                </div>
+            </div>
+            <section>
+                @if((currentProtocol.protocolSharedStatus == 'SHARED_WITH_ALL' || currentProtocol.protocolSharedStatus ==
+                'SHARED_WITH_SELECTED') && editPopup) {
+                <p>
+                    You are currently sharing this protocol. Changes made to this protocol will be visible to all
+                    shared
+                    patients.
+                </p>
+                }
+                @if((currentProtocol.protocolSharedStatus == 'SHARED_WITH_ALL' || currentProtocol.protocolSharedStatus ==
+                    'SHARED_WITH_SELECTED') && !editPopup){
+                    <p>This Protocol is currently being shared with patients. Deleting this protocol will also stop
+                        sharing it with them.
+                    </p>
+                }
+            </section>
+            <hr>
+            @if(editPopup) {
+            <p class="bolder mt-3">Would you like to edit this protocol?</p>
+             } @else {
+            <p class="text-center bolder ">
+                Are you sure you want to delete this Protocol?
+            </p>
+            }
+        </div>
+        <div class="d-flex justify-content-end  " style="column-gap: 5px;">
+            <button class="btn btn-outline-primary btn-rounded bolder btn-h" (click)="closePopup()">CANCEL</button>
+            <a class="btn btn-rounded btn-outline-danger bolder btn-h btn-cancel" tabindex="0" (keydown)="onKeyDown($event,'editAndDeletePopup', editPopup)"
+                (click)="editAndDeletePopup(editPopup)">Yes, {{editPopup ? 'Edit' : 'Delete'}}</a>
+        </div>
+    </div>
+</ng-template>
+
+<!-- Duplicate Protocol -->
+<ng-template #duplicateProtocol>
+    <div class="modal-header p-0">
+        <h3 class="modal-title mx-auto">
+            <span class="bolder">DUPLICATE PROTOCOL</span>
+        </h3>
+        <button type="button" class="close" (click)="closePopup()">
+            x
+        </button>
+    </div>
+    <hr>
+    <form [formGroup]="createProtocol" (ngSubmit)="onSubmit()">
+        <div class="modal-body p-0">
+            <p class="bolder text-center">Please provide the name of this Protocol:</p>
+            <input type="text" aria-label="Protocol Name" class="form-control text-center w-75 mx-auto" placeholder="ENTER PROTOCOL NAME"
+                formControlName="name" />
+            @if(createProtocol.invalid && createProtocol.touched){
+            <div class="text-center text-danger"> Please enter a name for your Protocol</div>
+            }
+            <div class="text-muted text-center fs-13 mt-1 mb-4">Limit of 50 characters</div>
+            <hr>
+            <div class="mb-2" style="width: 87%;margin-left: 20px;">
+                <span class="bolder">Please provide a short description about this Protocol:</span>
+                (Optional)
+            </div>
+            <div class="alert alert-warning text-left">
+                <span class="bolder">Please note:</span>&nbsp;
+                This description will be visible by your patients if you choose to share this Protocol. Please
+                do not create a description in a way that would express or imply any claims regarding the products
+                or includes your patient's name or any personal information in this protocol.
+            </div>
+            <textarea class="notes" cols="50" rows="4" aria-label="notes" formControlName="notes"
+                placeholder="Type your description here"></textarea>
+            <div class="text-muted text-center fs-13 mb-4">Limit of 500 characters</div>
+            <hr>
+            <div class="checkbox check-primary" style="margin-left: 20px;width: 90%;">
+                <input class="form-check-input checkbox check-primary" aria-label="checkbox input" style="width: 17px;" type="checkbox"
+                    formControlName="checkbox" />
+                <label class="form-check-label bolder fs-16 mt-3" style="line-height:1.5rem;">
+                    By checking this box, I certify the transmission of all information via this messaging platform,
+                    including all attachments and/or notes, will be done in compliance with all applicable
+                    regulations, including HIPAA, and does not reveal or make known the confidential and/or private
+                    health information of any one individual to other members of this—or any other—messaging thread.
+                </label>
+            </div>
+            <div class="col-lg-12 justify-content-center mt-3">
+                <div class="col-10 alert-danger alert-danger mx-auto py-4 border border-danger rounded"
+                    [hidden]="!(createProtocol.invalid && createProtocol.touched)" role="alert"
+                    [attr.aria-hidden]="!(createProtocol.invalid && createProtocol.touched)">
+                    Protocol name can't be empty.
+                </div>
+            </div>
+            <div class="row pt-4 mx-3">
+                <div style="column-gap: 10px;" class="col-12 d-flex align-items-center justify-content-end">
+                    <button type="button" class="btn btn-outline-primary btn-rounded btn-h"
+                        (click)="closePopup()">Cancel</button>
+                    <button type="submit" [disabled]="!createProtocol.controls.checkbox.value"
+                        class="btn btn-primary btn-rounded saveGroupName-btn btn-h">Continue</button>
+
+                </div>
+            </div>
+        </div>
+    </form>
+</ng-template>
+
+<!-- Product -->
+<ng-template #productProtocol>
+    @if(currentUser$|async; as user)
+    {
+    <div class="p-4" *ngIf="protocolProducts$ | async as product; else loading">
+        <div class="modal-header p-0 flex-column align-items-center" style="border-bottom:unset ;">
+            <div class="d-flex justify-content-end mb-3">
+                <button type="button" class="close" aria-label="Close" (click)="closePopup()">
+                    <span aria-hidden="true" class="close-icon mt-3">×</span>
+                </button>
+            </div>
+                <h3 class="modal-title mx-auto">
+                    <span>{{product?.name}}</span>
+                </h3>
+                <p class="mb-0">
+                    <i class="fas fa-archive"></i>
+                    Protocol
+                </p>
+                <button class="edit-proto"
+                [routerLink]="'/protocol/edit/'| parseUrl:[product?.id]">
+                    Edit Protocol
+                </button>
+                <div *ngIf="product?.protocolStatus == 'DRAFT'" class="mb-2" >
+                    <span class="label label-gray text-dark text-center d-inline-block">Draft</span>
+                </div>
+        </div>
+            <div class="mb-20" *ngIf="user.indexOf('practitioner') <= 0">
+                @if(product?.description) {
+                    <hr>
+                    <p class="fw-900 fs-16 mb-0">Description:</p>
+                    <p>{{product?.description}}</p>
+                }
+            </div>
+            <div *ngFor="let items of product?.protocolEntries">
+                <ws-product [product]="items"></ws-product>
+            </div>
+            @if(medPaxProtocol){
+                <ws-medpax-card [medPaxData]="medPaxProtocol"  [isPlUser]="checkRoleExist('pluser') | async"></ws-medpax-card>
+                <ws-rightmedpax-table [showMedpaxPLNameOrName]="true" [medPaxData]="medPaxProtocol" [products]="medPaxProtocol?.medpaxEntry" [isActionsVisible]="false" [isFromProtocol]="true"
+                [isMedPaxAvailable]="medPaxProtocol?.medpaxEntry && medPaxProtocol?.medpaxEntry?.length"
+                aria-label="MedPax Table"></ws-rightmedpax-table>
+                <hr>
+            }
+
+            <div class="col-12 text-right mb-4" *ngIf="currentProtocol.protocolStatus !== 'DRAFT'">
+                <h5 class="mt-1 mb-0 bolder">
+                    Total: {{product?.totalPrice?.formattedValue}}
+                </h5>
+                <!-- TODO:MSRP Need to be updated -->
+                <h5 style="font-size: 14px !important;">
+                    MSRP Total: {{product?.msrpSubTotalPrice?.formattedValue}}
+                </h5>
+            </div>
+
+            <ng-container *ngIf="
+                currentProtocol.protocolStatus === 'DRAFT' &&
+                (!product?.protocolEntries || product.protocolEntries.length === 0) &&
+                (!medPaxProtocol?.medpaxEntry || medPaxProtocol.medpaxEntry.length === 0)
+            ">
+                <div class="empty-template">
+                    <div class="bolder">No products have been added</div>
+                    <div class="ng-binding">Add products to complete this Protocol</div>
+                </div>
+                <hr />
+            </ng-container>
+
+            <ng-container *ngIf="currentProtocol.protocolStatus === 'DRAFT'">
+                <div id="details-draft-buttons" class="row col-12 text-right justify-content-end gap-10 mt-4">
+                    <button type="button" class="btn btn-outline-danger btn-rounded bolder border-w-3"
+                        (click)="deleteProtocolApi(product?.id)">
+                        Delete
+                    </button>
+                    <a class="btn btn-primary btn-rounded" tabindex="0"
+                        [routerLink]="'/protocol/edit/'| parseUrl:[product?.id]">Continue Editing</a>
+                </div>
+            </ng-container>
+        @if(user.indexOf("doctor") > -1 && (currentProtocol.protocolStatus == 'UNPUBLISHED' || currentProtocol.protocolStatus == 'PUBLISHED') ){
+            <div id="details-shared-buttons" class="">
+                <div class="row col-12 pr-0 share-status" >
+                    <div class="col-6 p-0">
+                        <p style="font-weight: 900;font-size: 16px;margin-bottom:0">Publish Status:</p>
+                        <span style="font-size: 16px;">
+                            <span> @if(currentProtocol.protocolStatus == 'UNPUBLISHED'){
+                                Not Published
+                                }
+                                @if(currentProtocol.protocolStatus == 'PUBLISHED'){
+                                Published
+                                }
+                            </span>
+                        </span>
+                    </div>
+                    <div class="btn-group col-6 justify-content-end p-0">
+                        <button id="button-basic" type="button" *ngIf="currentProtocol.protocolStatus == 'UNPUBLISHED'"
+                            (click)="publishApi('PUBLISHED')"
+                            class="btn btn btn-rounded btn-outline-primary dropdown-toggle button-basic " 
+                            aria-controls="dropdown-basic"
+                            style="max-width: fit-content;">
+                            Publish
+                        </button>
+                        <button id="button-basic" type="button" *ngIf="currentProtocol.protocolStatus == 'PUBLISHED'"
+                            (click)="publishApi('UNPUBLISHED')"
+                            class="btn btn btn-rounded btn-outline-primary dropdown-toggle button-basic " 
+                            aria-controls="dropdown-basic"
+                            style="max-width: fit-content;">
+                            UnPublish
+                        </button>
+                    </div>
+                    <hr>
+                </div>
+                <hr>
+                <div  class="row col-12 gap-10 p-0 ml-1 justify-content-end"  style="margin-top: 30px;">
+                    <a class="" tabindex="0" 
+                        [routerLink]="'/protocol/details/'| parseUrl:[currentProtocol?.id]" 
+                        style="font-weight: 900;font-size: 16px;text-decoration: none;color: #584091;padding: 2% 0;" >
+                        View More Details
+                    </a>
+                    <button
+                        class="btn btn-primary btn-rounded addtocart btn-h"
+                        [disabled]="(cartIsLoading$ | async)"
+                        (click)="addToCartFunctionality(currentProtocol)">
+                        Add to cart &nbsp;
+                        <i class="fa fa-shopping-cart" aria-hidden="true" style="color: #5cb85c;"></i>
+                    </button>
+                </div>
+            </div>
+        } @else {
+            <div id="details-shared-buttons" *ngIf="currentProtocol.protocolStatus != 'DRAFT'" class="row col-12 p-0 ml-1 mt-5 pb-5">
+                <div class="row col-12 pr-0 share-status" style="margin-bottom: 30px;">
+                    @if(user.indexOf('patientdirect') > -1 && patientList?.patients?.length > 0){
+                    <div class="col-6 p-0">
+                        <p style="font-weight: 900;font-size: 16px;">Share Status:</p>
+                        <span style="font-size: 16px;">
+                            <span> @if(currentProtocol.protocolSharedStatus == 'SHARED_WITH_ALL' ){
+                                <i class="fa-solid fa-share shared-info-statu"></i> Shared with All Patients
+                                }
+                                @if(currentProtocol.protocolSharedStatus == 'NOT_SHARED' ){
+                                Not Shared
+                                }
+                                @if(currentProtocol.protocolSharedStatus == 'SHARED_WITH_SELECTED'){
+                                <i class="fa-solid fa-share shared-info-statu"></i>  Shared with {{currentProtocol?.patientList.length}} 
+                                {{ currentProtocol?.patientList.length === 1 ? 'Patient' : 'Patients' }}
+                                }
+                            </span>
+                        </span>
+                    </div>
+                    <div class="btn-group col-6 justify-content-end p-0" dropdown *ngIf="currentProtocol.protocolStatus != 'DRAFT'">
+                        <button id="button-basic" dropdownToggle type="button"
+                            class="btn btn-rounded btn-outline-primary" 
+                            style="max-width: fit-content;">
+                            Share Options &nbsp; <i class="fa-solid fa-chevron-down"></i>
+                        </button>
+                        <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu" role="menu"
+                            aria-label="button-basic">
+                            <li role="menuitem">
+                                <a class="dropdown-item"
+                                    [routerLink]="'/protocol/share/select-patient/'| parseUrl:[currentProtocolId,'false']"  (keypress)="onKeyDown($event,'protocolShareSelectPatient', currentProtocolId)" tabindex="0">
+                                    Share with all Patients
+                                </a>
+                            </li>
+                            <li role="menuitem">
+                                <a class="dropdown-item"
+                                    [routerLink]="'/protocol/share/select-patient/'| parseUrl:[currentProtocolId,'false']"  (keypress)="onKeyDown($event,'protocolShareSelectPatient', currentProtocolId)" tabindex="0">
+                                    Share with Select Patients
+                                </a>
+                            </li>
+                            <li role="menuitem">
+                                <a  class="dropdown-item text-danger"
+                                    (click)="stopShare()" (keypress)="onKeyDown($event,'stopShare')"
+                                    id="menu-item-delete" tabindex="0">
+                                    Stop sharing
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <hr>
+                }
+                </div>
+                <hr style="border-top: 1px solid #ccc; width: 100%;">
+                <div  class="row col-12 gap-10 p-0 ml-1 view-more"  style="margin-top: 30px;">
+                    <a class="" tabindex="0" 
+                        [routerLink]="'/protocol/details/'| parseUrl:[currentProtocol?.id]" 
+                        style="font-weight: 900;font-size: 16px;text-decoration: none;color: #584091;padding: 2% 0;margin-left: -15px;" >
+                        View More Details
+                    </a>
+                    @if(user.indexOf('patientdirect') > -1 && patientList?.patients?.length > 0){
+                        <button *ngIf="currentProtocol.protocolStatus != 'DRAFT'"
+                            class="btn btn-rounded btn-outline-primary btn-h"
+                            (click)=recommendThisProtocol(currentProtocol?.id)>
+                            Recommend
+                        </button>
+                    }
+                    <button *ngIf="currentProtocol.protocolStatus != 'DRAFT'"
+                        class="btn btn-primary btn-rounded addtocart btn-h"
+                        [disabled]="(cartIsLoading$ | async)"
+                        (click)="addToCartFunctionality(currentProtocol)">
+                        Add to cart &nbsp;
+                        <i class="fa fa-shopping-cart" aria-hidden="true" style="color: #5cb85c;"></i>
+                    </button>
+                </div>
+            </div>
+        }
+    </div>
+
+    <ng-template #loading>
+        <div class="d-flex align-items-center justify-content-center">
+            <cx-spinner></cx-spinner>
+        </div>
+      </ng-template>
+
+    }
+</ng-template>
+
+<!-- PUBLISH Protocol -->
+<ng-template #publishProtocol>
+    <div class="modal-content p-4 unset-border-all">
+        <div class="modal-header p-0 unset-border-b">
+            <div class="d-flex justify-content-end mb-3">
+                <button type="button" class="close" aria-label="Close" (click)="closePopup()">
+                    <span aria-hidden="true" class="close-icon">×</span>
+                </button>
+            </div>
+            <h3 class="modal-title mx-auto bolder ">{{editPopup ? 'PUBLISH' : 'UNPUBLISH'}} PROTOCOL</h3>
+        </div>
+        <hr class="grey-line">
+        <div class="modal-body p-0 text-center d-flex justify-content-center flex-column ">
+            <h3 class="popup-title-edit">
+                <i class="fas fa-archive"></i>
+                {{currentProtocolName}}
+            </h3>
+            <div class="shared-info mb-4">
+                <div class="shared-info-status  ">
+                    <span class="bolder">Publish Status: </span>
+
+                    <span class="">
+                        @if(currentProtocol.protocolStatus == 'UNPUBLISHED'){
+                        Not Published
+                        }
+                        @if(currentProtocol.protocolStatus == 'PUBLISHED'){
+                        <i class="fas text-success fa-solid fa-paper-plane"></i>&nbsp;
+                        Published
+                        }
+                    </span>
+                </div>
+            </div>
+            <section>
+                <p>
+                    @if(currentProtocol.protocolStatus == 'UNPUBLISHED'){
+                    Publishing this protocol will make it visible by all WholeScripts practitioners.
+                    }
+                    @if(currentProtocol.protocolStatus == 'PUBLISHED'){
+                    This protocol is now published and visible to all verified WholeScripts practitioners with online
+                    accounts.
+                    }
+                </p>
+
+            </section>
+            <hr>
+            <p class="bolder mt-3">
+                @if(currentProtocol.protocolStatus == 'UNPUBLISHED'){
+                Are you sure you want to publish this protocol?
+                }
+                @if(currentProtocol.protocolStatus == 'PUBLISHED'){
+                Are you sure you want to unpublish this protocol?
+                }
+            </p>
+        </div>
+        <div class="d-flex justify-content-end  " style="column-gap: 5px;">
+            <button class="btn btn-outline-primary btn-rounded bolder btn-h" (click)="closePopup()">CANCEL</button>
+            <a class="btn btn-rounded btn-outline-danger bolder btn-h btn-cancel" tabindex="0"
+                (click)="publishApi(currentProtocol.protocolStatus == 'PUBLISHED' ? 'UNPUBLISHED' : 'PUBLISHED')">{{currentProtocol.protocolStatus
+                == 'PUBLISHED' ? 'Yes, Unpublish' : 'Publish'}}</a>
+        </div>
+    </div>
+</ng-template>

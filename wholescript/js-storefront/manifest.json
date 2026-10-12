@@ -1,0 +1,12 @@
+{
+  "applications": [
+    {
+      "name": "wholescripts",
+      "path": "wholescripts",
+      "csr": {
+        "webroot": "dist/wholescripts/browser/"
+      }
+  }
+  ],
+  "nodeVersion": "22"
+}

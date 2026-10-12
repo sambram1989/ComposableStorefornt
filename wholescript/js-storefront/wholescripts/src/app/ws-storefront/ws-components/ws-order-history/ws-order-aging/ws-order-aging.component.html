@@ -1,0 +1,86 @@
+<div class="tab-aging">
+<div class="col-12 align-items-center col-md-4 d-flex pl-0">
+    <div class="rewards-card__header card-default flex-grow-1 h-100">
+        <div class="totals">
+            <h3 class="mb-1">Total balance</h3>
+            <p>per <strong>{{ today | date: 'MMMM'}}, {{ today | date: 'yyyy'}}</strong></p>
+        </div>
+        <h4>{{ totalBalance | currency }}</h4>
+    </div>
+</div>
+
+<div *ngIf="this.agingRecords?.etItems?.item?.length" class="m-0 row card-block p-0 mt-5 flex-wrap">
+    <div class="col-md-1 col-lg-1 pr-0">
+        <div class="days-table-left h-100 b-right pl-3">
+            <div class="pt-3 days-slot">
+                <button (click)="setSelectionDaysRange(day)" *ngFor="let day of days"
+                    [ngClass]="day.selected && 'b-r-red'" class="text-muted pr-3 py-3 mb-0">{{ day?.dayRange }}</button>
+            </div>
+        </div>
+    </div>
+    <div class="days-table-right col-md-11 col-lg-11 py-5">
+        <div class="d-flex justify-content-between w-100 mb-2">
+            <p class="h3 fw-300">{{ selectedRange }} <span class="fw-600">Days</span></p>
+            <p class="h3 fw-300">{{ selectedRange }} Day Total <span class="fw-600"> {{ rangeTotal | currency }}</span></p>
+        </div>
+        <div class="scroll">
+            <table class="w-100 table table-condensed mb-0">
+                <thead>
+                    <tr>
+                        <th>Invoice</th>
+                        <th>Total</th>
+                        <th>Date</th>
+                        <th class="text-right ">View</th>
+                    </tr>
+                </thead>
+    
+                <tbody>
+                    <tr *ngFor="let item of initialLoad | slice: (paginationSignal().currentPage - 1) * paginationSignal().itemPerPage: paginationSignal().currentPage * paginationSignal().itemPerPage; let i = index">
+                        <td class="align-middle">{{ item.invoice }}</td>
+                        <td class="align-middle">{{ item.dmbtr1 | currency }}</td>
+                        <td class="align-middle">{{ item.dueDate | date: 'MM/dd/yyyy' }}</td>
+                        <td class="text-right"><button (click)="printPDF(item.invoice)"
+                                class="btn btn-primary btn-rounded btn-h filter-btn ml-auto">Print
+                                PDF</button></td>
+                    </tr>
+                    <tr class="no-records" *ngIf="!initialLoad.length">
+                       No records found
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="pagination-style">
+            <div class="pagination">
+              <ws-pagination-entry-list
+                [endLine]="'orders'"
+                [itemPerPage]="pagination.itemPerPage"
+                [totalItems]="pagination.totalItems"
+                [currentPage]="pagination.currentPage"
+              ></ws-pagination-entry-list>
+            </div>
+            <div class="pagination">
+              <ws-pagination
+                [resetReposition]="true"
+                (currentPageChange)="pageChanged($event)"
+                [itemsPerPage]="pagination.itemPerPage"
+                [totalItems]="pagination.totalItems"
+                [numberOfPagesNeedTOBeShown]="5"
+                aria-label="Pagination controls"
+              ></ws-pagination>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Empty view -->
+
+<div *ngIf="!this.agingRecords?.etItems?.item?.length" class="no-results-container">
+    <img src="/assets/qa/cards-with-dollar-sign.png" alt="'empty-state-image'"/>
+
+    <h2>You’re all set!</h2>
+    <p class="description">
+        Looks like your invoices are up to date
+    </p>
+</div>
+</div>

@@ -1,0 +1,14 @@
+<div *ngIf="recommendationCouunt$ | async as recommendationCouunt" [ngClass]="{ 'has-data': recommendationCouunt > 0 }">
+<div id="recommendations-card" role="button" (click)="goToRecommendation()" tabindex="0" aria-label="Your Latest Recommendation"  (keydown.enter)="goToRecommendation()" (keydown.space)="goToRecommendation()">
+  <div class="rec-prot-title">
+    <i class="fas fa-prescription-bottle" aria-hidden="true"></i> Your Latest Recommendation
+  </div>
+  <div class="recommendation-card__footer">
+    <span class="number-of-items">
+     {{recommendationCouunt}}
+      Item<span>{{recommendationCouunt > 1 ? 's' : ''}}</span> Recommended 
+    </span>
+    <span class="view-all" tabindex="0" role="button" aria-label="View All Recommendations" (keydown.enter)="goToRecommendation()" (keydown.space)="goToRecommendation()">View All</span>
+  </div>
+</div>
+</div>

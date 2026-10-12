@@ -1,0 +1,407 @@
+@for $i from 6 through 40 {
+    .fs-#{$i} {
+        font-size: #{$i}px;
+    }
+
+    .mt-#{$i} {
+        margin-top: #{$i}px;
+    }
+
+    .mb-#{$i} {
+        margin-bottom: #{$i}px;
+    }
+
+    .ml-#{$i} {
+        margin-left: #{$i}px;
+    }
+
+    .mr-#{$i} {
+        margin-right: #{$i}px;
+    }
+
+    .pt-#{$i} {
+        padding-top: #{$i}px;
+    }
+
+    .pb-#{$i} {
+        padding-bottom: #{$i}px;
+    }
+
+    .pl-#{$i} {
+        padding-left: #{$i}px;
+    }
+
+    .pr-#{$i} {
+        padding-right: #{$i}px;
+    }
+    .px-#{$i}{
+        padding-left: #{$i}px;
+        padding-right: #{$i}px;
+    }
+    .py-#{$i}{
+        padding-bottom: #{$i}px;
+        padding-top: #{$i}px;
+    }
+}
+
+@for $s from 1 through 9 {
+    .fw-#{$s * 100} {
+        font-weight: #{$s * 100};
+    }
+}
+
+
+
+@mixin W-h-fs {
+    font-size: 35px;
+    font-weight: 900;
+    letter-spacing: normal;
+    margin-bottom: 10px;
+
+    @media(min-width:992px) {
+        font-size: 54px;
+    }
+
+    @media(min-width:766px) {
+        font-size: 45px;
+    }
+}
+
+@mixin W-p-fs {
+    font-size: 20px;
+    font-weight: 500 !important;
+    line-height: 1.875;
+    margin-top: 10px;
+
+    @media(min-width:992px) {
+        font-size: 24px;
+    }
+}
+
+.ws-title-fs {
+    font-size: clamp(2rem, 5vw + 1rem, 3.5rem);
+}
+
+.ws-subtitle-fs {
+    font-size: clamp(1.5rem, 4vw + 0.5rem, 2.5rem);
+}
+
+.ws-paragraph-fs {
+    font-size: clamp(1rem, 2.5vw + 0.5rem, 1.25rem);
+}
+
+.ws-anchor-fs {
+    font-size: clamp(1rem, 2.5vw + 0.5rem, 1.25rem);
+}
+
+.pagination-style {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    padding-top: 1rem;
+
+    @media(max-width:605px) {
+        justify-content: center;
+    }
+}
+
+.wstoast {
+    position: absolute;
+    right: 20px;
+    top: 100px;
+    width: 300px;
+    font-size: 16px;
+    color: green;
+    pointer-events: auto;
+    background-color: rgb(233, 241, 233);
+    background-clip: padding-box;
+    border: 1px solid green;
+    box-shadow: unset;
+    border-radius: 2px;
+
+    &.showing {
+        opacity: 0;
+    }
+}
+
+.wstoast-header {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    color: green;
+    background-color: rgb(208, 244, 208);
+    background-clip: padding-box;
+    border-bottom: 1px solid green;
+
+    .btn-close {
+        margin-right: 10px;
+        margin-left: 10px;
+    }
+}
+
+.wstoast-body {
+    padding: 10px;
+    word-wrap: break-word;
+
+    div {
+        color: var(--cx-color-primary);
+    }
+}
+
+.main-layout:has(.WebinarPageTemplate) {
+    padding: 0 !important;
+}
+
+.custom-text-color {
+    color: #000;
+}
+
+
+
+.web-banner-heading {
+    cx-page-slot.webBannersAndSnippetsHeadingAndPara {
+        align-self: stretch;
+
+        cx-paragraph {
+            div {
+                h2 {
+                    color: var(--ws-gray-light-900);
+                    font-size: 18px;
+                    font-style: normal;
+                    font-weight: 600;
+                    line-height: 28px;
+                    letter-spacing: 0px;
+                }
+
+                br {
+                    display: none;  /* This will remove the <br> from the layout */
+                }
+
+                p {
+                    max-width: 640px;
+                    color: var(--ws-gray-light-600);
+                    font-size: 14px;
+                    font-style: normal;
+                    font-weight: 300;
+                    line-height: 20px;
+                    letter-spacing: 0px;
+                }
+            }
+        }
+    }
+
+    cx-page-slot.webBannersAndSnippetsParaSection2 {
+        display: flex;
+        padding: 16px;
+        align-items: flex-start;
+        gap: 16px;
+        align-self: stretch;
+        border-radius: 8px;
+        border: 1px solid var(--ws-cyan-700);
+        background-color: var(--cx-color-background-info-primary);
+
+        cx-banner {
+            cx-media {
+                width: 32px;
+                height: 32px;
+                gap: 0px;
+                border-radius: 16px 0px 0px 0px;
+                opacity: 0px;
+            }
+        }
+
+        cx-paragraph {
+            div {
+                strong {
+                    flex: 1 0 0;
+                    color: var(--ws-gray-light-700);
+                    font-size: 14px;
+                    font-style: normal;
+                    font-weight: 600;
+                    line-height: 20px;
+                    letter-spacing: 0px;
+                }
+
+                p {
+                    color: var(--ws-gray-light-600);
+                    font-size: 14px;
+                    font-style: normal;
+                    font-weight: 300;
+                    line-height: 20px;
+                    letter-spacing: 0px;
+                }
+            }
+        }
+    }
+}
+
+ws-webinar-parent {
+
+    .WebinarListingHeader {
+        cx-paragraph {
+            div {
+                padding: 80px 80px 40px;
+                @extend .custom-text-color;
+
+                background-color: #f6f6f6;
+                background-image: url(../../../../../assets/images/home/ws-logo-grey-lg.svg), url(../../../../../assets/images/home/dot-pattern-left.svg);
+                background-size: 19%;
+                background-repeat: no-repeat, no-repeat;
+                background-position: 96% center, left top 45%;
+                width: 100%;
+                box-shadow: inset 0px -20px 15px -14px #DDDAEF;
+
+                @media(max-width:768px) {
+                    padding: 80px 40px 40px;
+                }
+
+                @media(max-width:576px) {
+                    padding: 80px 20px 40px;
+                }
+
+                h1 {
+                    @include W-h-fs;
+
+                }
+
+
+                p {
+                    @include W-p-fs;
+
+                }
+            }
+        }
+    }
+}
+
+cx-category-navigation {
+
+    span,
+    button:not(cx-generic-link + button),
+    cx-navigation-ui>nav>ul>li>cx-generic-link {
+        text-transform: capitalize !important;
+        font-weight: 600;
+        width: 100%;
+    }
+}
+
+
+
+// LOcAL DEv
+
+// .SearchBox{
+//     display: none  !important;
+// }
+
+.custom-inline-alert{
+        width: 100%;
+        font-weight: 500;
+        border-radius: 5px !important;
+        padding: 0.75rem 1.25rem;
+        color: #3e3b49;
+        background-color: #fff0f3;
+        border: 1px solid #ff8ea4;
+}
+.topsection {
+    text-align: center;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+ 
+    // h3 {
+    // //    @include font-style($primary-color, $text-medium, 900);
+    // }
+ }
+ 
+ .close-btn {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    font-size: 24px;
+    color: var(--cx-color-secondary);
+    font-weight: 700;
+    cursor: pointer;
+ }
+
+ .cursor-pointer{
+    cursor: pointer;
+ }
+
+ .wsMyFavoriteIcon {
+    margin-left: 13px;
+    cx-banner:hover {
+        opacity: 0.7;
+    }
+
+    cx-banner {
+        a {
+            &:focus {
+                outline: 3px solid var(--cx-color-secondary) !important;
+                outline-offset: 2px;
+            }
+        }
+    }
+
+    @media (min-width: 1220px) {
+      margin: 0; 
+    }
+    @media (min-width: 991px) and (max-width: 1024px) { 
+        margin-left: 5px;
+    }
+    @media screen and (max-width: 767px) {
+        margin-left: 18px !important;
+
+         cx-media {
+            height: 22px;
+            width: 22px;
+            margin-bottom: 4px;
+        }
+      }
+ }
+ cx-mini-cart:hover {
+    opacity: 0.7;
+ }
+
+ button {
+    background: none; 
+ }
+
+.pdf-spinner {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.7);
+    display: flex;
+    justify-content: center;
+    z-index: 10;
+    pointer-events: none;
+}
+.ws-bg-white{
+    background-color: var(--ws-base-white);
+  }
+
+
+
+@media (min-width: 768px) {
+    cx-product-image-zoom-dialog .cx-image-zoom-dialog {
+        max-width: 80vw !important;
+        min-width: 70vw !important;
+        min-height: 70vh !important;
+    }
+}
+
+@media (min-width: 992px) {
+    .modal-lg, cx-product-image-zoom-dialog .cx-image-zoom-dialog, .modal-xl {
+        max-width: 800px;
+    }
+}
+
+.cxFeat_a11yImproveContrast .ng-select-focused{
+    outline-style: unset;
+    outline-color: unset;
+    outline-width: unset !important;
+    outline-offset: unset !important;
+    box-shadow: unset !important;
+}

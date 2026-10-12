@@ -1,0 +1,76 @@
+####### CustomerMaterialInfoOutboundRequest OUTBOUND ##################
+INSERT_UPDATE IntegrationObject ; code[unique = true]                 ; integrationType(code)
+                                ; OutboundCustomerMaterialInformationRequest ; INBOUND
+                                
+INSERT_UPDATE IntegrationObjectItem ; integrationObject(code)[unique = true] ; code[unique = true]                ; type(code)                         ; root[default = false] ; itemTypeMatch(code)     
+                                    ; OutboundCustomerMaterialInformationRequest    ; CustomerMaterialInformationRequest ; CustomerMaterialInformationRequest ; true                  ; ALL_SUB_AND_SUPER_TYPES ;  
+                                    ; OutboundCustomerMaterialInformationRequest    ; SAPSalesOrganization               ; SAPSalesOrganization               ;                       ; ALL_SUB_AND_SUPER_TYPES ;  
+                                    
+INSERT_UPDATE IntegrationObjectItemAttribute ; integrationObjectItem(integrationObject(code), code)[unique = true]    ; attributeName[unique = true] ; attributeDescriptor(enclosingType(code), qualifier) ; returnIntegrationObjectItem(integrationObject(code), code) ; unique[default = false] ; autoCreate[default = false]
+                                             ; OutboundCustomerMaterialInformationRequest:CustomerMaterialInformationRequest ; account                      ; CustomerMaterialInformationRequest:account          ;                                                            ; true                    ;                            
+                                             ; OutboundCustomerMaterialInformationRequest:CustomerMaterialInformationRequest ; salesOrg                     ; CustomerMaterialInformationRequest:salesOrg         ; OutboundCustomerMaterialInformationRequest:SAPSalesOrganization   ; true                    ;                            
+                                             ; OutboundCustomerMaterialInformationRequest:SAPSalesOrganization               ; salesOrganization            ; SAPSalesOrganization:salesOrganization              ;                                                            ; true                    ;                            
+                                             ; OutboundCustomerMaterialInformationRequest:SAPSalesOrganization               ; distributionChannel          ; SAPSalesOrganization:distributionChannel            ;                                                            ; true                    ;                            
+                                             ; OutboundCustomerMaterialInformationRequest:SAPSalesOrganization               ; division                     ; SAPSalesOrganization:division                       ;                                                            ; true                    ;                            
+
+INSERT_UPDATE InboundChannelConfiguration; integrationObject(code)[unique = true]                ; authenticationType(code)
+                                         ; OutboundCustomerMaterialInformationRequest            ; OAUTH 
+####### CustomerMaterialInfoOutboundRequest OUTBOUND ##################
+
+###Material Exclusion###                     
+INSERT_UPDATE IntegrationObject              ; code[unique = true]                                                    ; integrationType(code)        
+                                             ; OutboundMaterialRestrictionRequest                                     ; INBOUND                      
+                                             
+INSERT_UPDATE IntegrationObjectItem ; integrationObject(code)[unique = true] ; code[unique = true]        ; type(code)                 ; root[default = false] ; itemTypeMatch(code)     
+                                    ; OutboundMaterialRestrictionRequest     ; MaterialRestrictionRequest ; MaterialRestrictionRequest ; true                  ; ALL_SUB_AND_SUPER_TYPES ;  
+                                    
+INSERT_UPDATE IntegrationObjectItemAttribute ; integrationObjectItem(integrationObject(code), code)[unique = true] ; attributeName[unique = true] ; attributeDescriptor(enclosingType(code), qualifier) ; returnIntegrationObjectItem(integrationObject(code), code) ; unique[default = false] ; autoCreate[default = false]
+                                             ; OutboundMaterialRestrictionRequest:MaterialRestrictionRequest       ; inclusion                    ; MaterialRestrictionRequest:inclusion                ;                                                            ; true                    ;                            
+                                             ; OutboundMaterialRestrictionRequest:MaterialRestrictionRequest       ; exclusion                    ; MaterialRestrictionRequest:exclusion                ;                                                            ; true                    ;                            
+
+INSERT_UPDATE InboundChannelConfiguration; integrationObject(code)[unique = true]                ; authenticationType(code)                  
+										 ; OutboundMaterialRestrictionRequest                    ; OAUTH   
+######Material Exclusion###
+
+####### OutboundInventoryRequest OUTBOUND ##################
+INSERT_UPDATE IntegrationObject ; code[unique = true]                 ; integrationType(code)
+                                ; OutboundInventoryRequest ; INBOUND
+
+INSERT_UPDATE IntegrationObjectItem ; integrationObject(code)[unique = true] ; code[unique = true]                ; type(code)                         ; root[default = false] ; itemTypeMatch(code)
+                                    ; OutboundInventoryRequest    ; InventoryOutboundRequest ; InventoryOutboundRequest ; true                  ; ALL_SUB_AND_SUPER_TYPES ;
+
+INSERT_UPDATE IntegrationObjectItemAttribute ; integrationObjectItem(integrationObject(code), code)[unique = true]    ; attributeName[unique = true] ; attributeDescriptor(enclosingType(code), qualifier) ; returnIntegrationObjectItem(integrationObject(code), code) ; unique[default = false] ; autoCreate[default = false]
+                                             ; OutboundInventoryRequest:InventoryOutboundRequest ; plant                      ; InventoryOutboundRequest:plant          ;                                                            ; true                    ;
+
+INSERT_UPDATE InboundChannelConfiguration; integrationObject(code)[unique = true]                ; authenticationType(code)
+                                         ; OutboundInventoryRequest            ; OAUTH
+
+####### OutboundInventoryRequest OUTBOUND ##################
+
+####### RegionProductAgeRestrictionOutboundRequest OUTBOUND ##################
+INSERT_UPDATE IntegrationObject ; code[unique = true]                 ; integrationType(code)
+                                ; OutboundRegionProductAgeRestrictionRequest ; INBOUND
+                                
+INSERT_UPDATE IntegrationObjectItem ; integrationObject(code)[unique = true]      ; code[unique = true]                        ; type(code)                                 ; root[default = false] ; itemTypeMatch(code)     
+                                    ; OutboundRegionProductAgeRestrictionRequest  ; RegionProductAgeRestrictionOutboundRequest ; RegionProductAgeRestrictionOutboundRequest ; true                  ; ALL_SUB_AND_SUPER_TYPES ;  
+
+INSERT_UPDATE IntegrationObjectItemAttribute ; integrationObjectItem(integrationObject(code), code)[unique = true]                   ; attributeName[unique = true] ; attributeDescriptor(enclosingType(code), qualifier)    ; returnIntegrationObjectItem(integrationObject(code), code) ; unique[default = false] ; autoCreate[default = false]
+                                             ; OutboundRegionProductAgeRestrictionRequest:RegionProductAgeRestrictionOutboundRequest ; createdDate                  ; RegionProductAgeRestrictionOutboundRequest:createdDate ;                                                            ;                         ;                            
+                                             ; OutboundRegionProductAgeRestrictionRequest:RegionProductAgeRestrictionOutboundRequest ; inactiveReg                  ; RegionProductAgeRestrictionOutboundRequest:inactiveReg ;                                                            ;                         ;                            
+                       
+INSERT_UPDATE InboundChannelConfiguration; integrationObject(code)[unique = true]                ; authenticationType(code)
+                                         ; OutboundRegionProductAgeRestrictionRequest            ; OAUTH 
+####### RegionProductAgeRestrictionOutboundRequest OUTBOUND ##################
+
+####### RegionProductSwapRestrictionOutboundRequest OUTBOUND ##################
+INSERT_UPDATE IntegrationObject ; code[unique = true]                        ; integrationType(code)
+                                ; OutboundRegionProductSwapRestrictionRequest ; INBOUND
+                                
+INSERT_UPDATE IntegrationObjectItem ; integrationObject(code)[unique = true]      ; code[unique = true]                          ; type(code)                                  ; root[default = false] ; itemTypeMatch(code)     
+                                    ; OutboundRegionProductSwapRestrictionRequest  ; RegionProductSwapRestrictionOutboundRequest ; RegionProductSwapRestrictionOutboundRequest ; true                  ; ALL_SUB_AND_SUPER_TYPES ;  
+
+INSERT_UPDATE IntegrationObjectItemAttribute ; integrationObjectItem(integrationObject(code), code)[unique = true]                   ; attributeName[unique = true] ; attributeDescriptor(enclosingType(code), qualifier)    ; returnIntegrationObjectItem(integrationObject(code), code) ; unique[default = false] ; autoCreate[default = false]
+
+INSERT_UPDATE InboundChannelConfiguration; integrationObject(code)[unique = true]                ; authenticationType(code)
+                                         ; OutboundRegionProductSwapRestrictionRequest            ; OAUTH 
+####### RegionProductSwapRestrictionOutboundRequest OUTBOUND ##################

@@ -1,0 +1,107 @@
+@if(alertsSignal() && alertsSignal().length){
+@for(alert of alertsSignal();track alert){
+<alert [type]="alert.type" [dismissOnTimeout]="alert.timeout" (onClosed)="onClosed(alert)">{{ alert.msg }}</alert>
+}
+}
+<table class="table mt-0" role="table" aria-label="Product List">
+    <thead>
+        <tr role="row">
+            <th aria-label="favorite" class="fav-btn pl-4 w-10" role="columnheader" scope="col">
+                <i class="fa-regular fa-heart fav-btn__icon" aria-hidden="true"></i>
+            </th>
+            <th role="columnheader" aria-label="product" scope="col" class="w-10"></th>
+            <th role="columnheader" scope="col" class="w-35 pl-0">Product Name</th>
+            <th role="columnheader" scope="col" class="w-15 pl-0">Price</th>
+            <th class="text-right w-30" role="columnheader" scope="col">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for(product of products().products| sortFavorites:this.favoriteListSignal(); track product){
+        <tr class="rec-table__row" role="row" [ngClass]="addOrRemove(product?.code) ? 'highlight-row' : ''">
+            <td role="button" tabindex="0" class="align-middle w-10" (keypress)="updateFavorites(product, isFavorite(product))" (click)="updateFavorites(product, isFavorite(product))">
+                <div class="d-flex justify-content-around">
+                <div class="code-tooltip cursor-pointer ">
+                    <div class="copy-code">
+                        <span class="code-tooltiptext" aria-live="polite">
+                            {{isFavorite(product) ? 'Remove from Favorites' : 'Add to Favorites'}}
+                        </span>
+                        <i class="fa-heart fav-btn__icon fav-btn__icon--active fa"
+                        [ngClass]="isFavorite(product) ? 'fav-btn__icon--active fa' : 'far'"></i>
+                    </div>
+                </div>
+            </div>
+            </td>
+            <td class="align-middle img-size">
+                <img *ngIf="product?.materialProductForm === 'Tablets' || product?.materialProductForm === 'Packets' || product?.materialProductForm === 'Lozenges'" src="/assets/images/home/tablets.svg" alt="tablets" class="w-75">
+                <img *ngIf="product?.materialProductForm === 'Softgels'" src="/assets/images/home/softgels.svg" alt="softgels" class="w-75">
+                <img *ngIf="product?.materialProductForm === 'Capsules'" src="/assets/images/home/capsules.svg" alt="capsules" class="w-75">
+                <img *ngIf="product?.materialProductForm === 'Caplets'" src="/assets/images/home/caplets.svg" alt="caplets" class="w-75">
+            </td>
+            
+                <td class="align-middle product-name rec-table__name w-35">
+                    <ws-product-status *ngIf="product?.stock?.stockLevelStatus === 'outOfStock'" [product]="product"></ws-product-status>
+                    <button  (click)="openProductDetailPopup(product?.code)" class="text-link bolder" [innerHTML]="product.name" aria-label="View details"></button>
+                    <ws-private-label-tag [class.d-none]="!product?.genericPLName" [labelName]="product?.genericPLName" [productCode]="product?.code" (labelClick)="openProductDetailPopup($event)"></ws-private-label-tag>
+                    <span> Dosing:
+                        <ng-container *ngIf="getCustomDosingOnProductLevel(product.code,(savedAsCustomProductCode()==product?.code))|async as dosingData">
+                        @if(selectedProductCodes()?.includes(product.code)){
+                        {{medPaxData() |getDosingOnEntryLevel:product.code:'medpax'|slice:0:4|dosingPipe:true}}
+                        }@else if($any(dosingData)?.dosingList?.length){
+                        {{$any(dosingData)?.dosingList|slice:0:4|dosingPipe}}
+                        }
+                        @else {
+                        {{ +product?.inAM ? product.inAM + ' in AM' : '' }}
+                        {{((+product?.inAM)&&(+product?.inPM)) ? ' | ' : '' }}
+                        {{ +product?.inPM ? product.inPM + ' in PM' : '' }}
+                        {{((+product?.inPM)&&(+product?.inDaily)) ? ' | ' : '' }}
+                        {{ +product?.inDaily ? product.inDaily + ' in Daily' : '' }}
+                        {{((+product?.inDaily)&&(+product?.inBedtime)) ? ' | ' : '' }}
+                        {{ +product?.inBedtime ? product.inBedtime + ' in Bedtime' : '' }}
+                        }
+                    </ng-container>
+                    </span>
+                </td>
+                <!-- <td class="align-middle text-center text-lg-left rec-table__mp"></td> -->
+                <td class="align-middle rec-table__price w-25">
+                    <span class="bolder">Per 
+                        <span>{{getProductMaterialFromName(product?.materialProductForm)}}</span>
+                        : {{product?.wholeSalePrice?.formattedValue}}</span><br>
+                    <span>30 day supply:
+                        @if(product.code | medpaxPrice:medPaxData()){
+                            ${{product.code | medpaxPrice:medPaxData()| number:'1.2-2'}}
+                            }@else {
+                        <ng-container *ngIf="getCustomDosingOnProductLevel(product.code)|async as dosingData">
+                        @if(selectedProductCodes()?.includes(product.code)){
+                            ${{product?.wholeSalePrice?.value|calculateQuantity:medPaxData():product?.code:false| number:'1.2-2'}}
+                        }@else if($any(dosingData)?.dosingList?.length){
+                            ${{product?.wholeSalePrice?.value|calculateQuantity:$any(dosingData):product?.code:true| number:'1.2-2'}}
+                        }
+                        @else {
+                        ${{ ((30 * ((+product?.inAM || 0) + (+product?.inPM || 0) + (+product?.inDaily || 0) + (+product?.inBedtime || 0)
+                            )) * (+product?.wholeSalePrice?.value || 0)) | number:'1.2-2' }}
+                        }
+                    </ng-container>
+                }
+                    </span>
+                </td>
+
+            <td
+                class="d-flex flex-lg-column flex-xl-row  align-items-lg-end flex-xl-wrap justify-content-end  button-td pe-unset border-top-unset border-top-unset clo-gap-10">
+                <button class="btn btn-outline-primary btn-rounded bolder text-primary my-1 btn-h cur-point btn-width text-nowrap"
+                    [class.disabled]="getAddToCartDisableFlag(product)"
+                    (click)="openEditDosingPopup(addOrRemove(product?.code) ? 'Remove' : 'Add',product)"
+                    aria-label="Edit Dosing for">Edit
+                    Dosing </button>
+                <button class="bolder my-1 ml-2 border-danger btn-width"
+                    [attr.disabled]="isBtnDisabled ? true : null"
+                    [class.disabled]="getAddToCartDisableFlag(product)"
+                    (click)="addAndRemove(addOrRemove(product?.code),getEntryNumber(product?.code),product)"
+                    [ngClass]="addOrRemove(product?.code) ? 'btn btn-outline-danger btn-rounded ml-sm-2 border-3 btn-h remove-btn':' btn btn-primary btn-rounded btn-h'"
+                    aria-label="protocol">
+                    {{ product?.code|addOrRemove:selectedProductCodes() }}</button>
+            </td>
+        </tr>
+        }
+
+    </tbody>
+</table>

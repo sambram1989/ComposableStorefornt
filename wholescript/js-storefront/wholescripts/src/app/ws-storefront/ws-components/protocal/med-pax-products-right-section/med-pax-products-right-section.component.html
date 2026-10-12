@@ -1,0 +1,68 @@
+@if(products()?.medpaxEntry && products()?.medpaxEntry?.length){
+<div class="d-flex flex-lg-row flex-md-row">
+    <div class="col-10">
+            <ws-medpax-card [medPaxData]="products()"
+             [isPlUser]="isPlUser && !!products()?.carton.productCode" ></ws-medpax-card>
+    </div>
+    <div class="col-2 text-right bolder">
+        <i tabindex="0" class="fa fa-times remove-buttonn text-danger" aria-hidden="true" (click)="deleteAllEntriesOfMedPax()" (keypress)="deleteAllEntriesOfMedPax()"></i>
+    </div>
+</div>
+<div *ngFor="let alert of alerts">
+    <alert [type]="alert.type" [dismissOnTimeout]="alert.timeout" (onClosed)="onClosed(alert)">{{ alert.msg }}</alert>
+  </div>
+@if(products()?.medpaxEntry && products()?.medpaxEntry?.length < 3){ 
+    <div
+    class="custom-inline-alert text-center w-100 mb-3">
+    Minimum of 3 items required for MedPax
+    </div>
+    }
+    @if(products()?.medpaxEntry){
+    <div tabindex="0" class="text-primary bolder supp-facts" (click)="openSupplementsPopup()" (keypress)="openSupplementsPopup()">
+        View Supplement Facts
+    </div>
+    <ws-protocol-medpax-right-table [products]="products()"></ws-protocol-medpax-right-table>
+    <div class="medpax-notes">
+        @if(medPaxNoteSectionToggler() && !medPaxNote()){
+        <div class="bolder">
+            <div class="d-flex justify-content-between">
+                <p>MedPax Note:</p>
+                <div tabindex="0" class="cursor-pointer text-primary text-right" (click)="medPaxNote.set(true)" (keypress)="medPaxNote.set(true)">
+                    Edit Note
+                </div>
+            </div>
+        </div>
+        @if(metPaxNotes?.value?.trim()?.length || medPaxNote()){
+        <input aria-label="Saved note" type="text" class="w-100 mt-1 disabler" [formControl]="metPaxNotes" readOnly />
+        } }@else if(!medPaxNote()) {
+        <div tabindex="0" class="text-primary bolder text-right add-medpax-note" (click)="medPaxNote.set(true)" (keypress)="medPaxNote.set(true)">
+            Add MedPax Note
+        </div>
+        }
+         @if(medPaxNote()){
+        <div class="bolder">
+            <div class="d-flex justify-content-between">
+                <p>MedPax Note:</p>
+                <div tabindex="0" role="button" class="cursor-pointer text-right medpax-note" (keypress)="createMedpaxNotes(true)" (click)="createMedpaxNotes(true)">
+                    x
+                </div>
+            </div>
+        </div>
+        <input aria-label="medpax note" type="text" [maxLength]="500" class="w-100 mt-1" [formControl]="metPaxNotes" />
+        <div class="d-flex justify-content-end mt-3">
+            <button tabindex="0" class="btn btn-outline-primary btn-rounded" (click)="medPaxNote.set(false)">
+                Cancel
+            </button>
+            <button tabindex="0" class="btn btn-primary btn-rounded" (click)="createMedpaxNotes(false)">
+                Save
+            </button>
+        </div>
+        }
+    </div>
+    }@else {
+        <cx-spinner></cx-spinner>
+    }
+}
+    <ng-template #Supplements>
+        <ws-view-supplement-facts-popup [productIds]="productCodes" [productName]="productName"></ws-view-supplement-facts-popup>
+    </ng-template>

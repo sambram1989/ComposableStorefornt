@@ -1,0 +1,259 @@
+::ng-deep {
+    #ws-autoships-next-shipment {
+        display: flex;
+        max-width: 459px;
+        padding: 24px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+        flex: 1 0 0;
+        border-radius: 8px;
+        border: 1px solid var(--ws-gray-light-200);
+        background: var(--ws-gray-dark-50);
+        box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
+
+        @media (max-width: 1023px) {
+            max-width: 100%;
+            margin: 32px 16px;
+        }
+
+        .bottom-section {
+            display: flex;
+            width: 100%;
+            align-items: center;
+            justify-content: center;
+            @media (min-width: 1023px) {
+                display: none;
+            }
+            .view-more-wrapper, .view-less-wrapper {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: var(--spacing-sm, 6px);
+                cursor: pointer;
+                .view-more-text, .view-less-text {
+                    color: var(--ws-brand-700);
+                    font-size: 14px;
+                    font-weight: 600;
+                    line-height: 20px;
+                    text-decoration-line: underline;
+                    text-decoration-style: solid;
+                    text-decoration-skip-ink: none;
+                    text-decoration-thickness: auto;
+                    text-underline-offset: auto;
+                }
+            }
+        }
+
+        .next-shipment-heading-and-total {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 8px;
+            align-self: stretch;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--ws-gray-light-200);
+            margin-bottom: 16px;
+
+            .next-shipment-heading {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                align-content: center;
+                row-gap: 4px;
+                align-self: stretch;
+                flex-wrap: wrap;
+
+                h4 {
+                    color: var(--ws-gray-light-900);
+                    font-size: 23px !important;
+                    font-weight: 700;
+                    line-height: 25.3px !important;
+                    margin: 0;
+                }
+
+                p {
+                    color: var(--ws-gray-light-900);
+                    font-size: 18px;
+                    font-style: normal;
+                    font-weight: 300;
+                    line-height: 20px;
+                    margin: 0;
+                }
+            }
+
+            .next-shipment-total {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                align-content: center;
+                row-gap: 4px;
+                align-self: stretch;
+                flex-wrap: wrap;
+
+                h6 {
+                    color: var(--ws-gray-light-900);
+                    font-size: 16px;
+                    font-weight: 700;
+                    line-height: 24px;
+                    margin: 0;
+                }
+
+                p {
+                    color: var(--ws-gray-light-900);
+                    font-size: 16px;
+                    font-weight: 300;
+                    line-height: 24px;
+                    margin: 0;
+                }
+            }
+        }
+
+        .products-wrapper {
+            width: 100%;
+            @media (max-width: 1023px) {
+                &.none {
+                    display: none;
+                }
+            }
+            .product-details-wrapper {
+                display: flex;
+                align-items: flex-start;
+                gap: 12px;
+                align-self: stretch;
+                margin-bottom: 16px;
+                .product-image-wrapper {
+                    cx-media {
+                        width: 50px;
+                        height: 50px;
+                        img {
+                            width: 50px;
+                            height: 50px;
+                        }
+                    }
+                }
+
+                .product-details {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: flex-start;
+                    flex: 1 0 0;
+
+                    .out-of-stock {
+                        display: flex;
+                        padding: 2px 6px;
+                        align-items: center;
+                        border-radius: 6px;
+                        border: 1px solid var(--ws-orange-200);
+                        background: var(--ws-orange-50);
+                        color: var(--ws-orange-700);
+                        text-align: center;
+                        font-size: 12px;
+                        font-weight: 400;
+                        line-height: 18px;
+                        margin-bottom: 6px;
+                    }
+
+                    .product-name {
+                        color: var(--ws-gray-light-600);
+                        font-size: 14px;
+                        font-weight: 600;
+                        line-height: 20px;
+                    }
+
+                    .quantity {
+                        color: var(--ws-gray-light-600);
+                        font-size: 14px;
+                        font-weight: 300;
+                        line-height: 20px;
+                    }
+
+                    .autoship-frequency {
+                        color: var(--ws-gray-light-600);
+                        font-size: 14px;
+                        font-weight: 300;
+                        line-height: 20px;
+                    }
+
+                    .autoship-order-number {
+                        a {
+                            color: var(--ws-brand-700);
+                            font-size: 14px;
+                            font-weight: 600;
+                            line-height: 20px;
+                            text-decoration-line: underline;
+                            text-decoration-style: solid;
+                            text-decoration-skip-ink: none;
+                            text-decoration-thickness: auto;
+                            text-underline-offset: auto;
+                            cursor: pointer;
+                        }
+                    }
+                }
+
+                .product-price {
+                    .total-price {
+                        color: var(--ws-gray-light-900);
+                        text-align: right;
+                        font-size: 14px;
+                        font-weight: 600;
+                        line-height: 20px;
+                    }
+
+                    .each-price {
+                        color: var(--ws-gray-light-600);
+                        text-align: right;
+                        font-size: 14px;
+                        font-weight: 300;
+                        line-height: 20px;
+                    }
+                }
+            }
+
+            .medpax-details-wrapper {
+                border-radius: 8px;
+                border: 1px solidvar(--ws-gray-light-200);
+                background: var(--ws-gray-light-50);
+                box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
+                display: flex;
+                padding: 0px 12px;
+                flex-direction: column;
+                align-items: center;
+                align-self: stretch;
+                margin-bottom: 16px;
+                .medpax-detail {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    width: 100%;
+                    min-height: 52px;
+                    border-bottom: 1px solid var(--ws-gray-light-200);
+                    .medpax-product-name {
+                        color: var(--ws-gray-light-900);
+                        font-size: 14px;
+                        font-weight: 300;
+                        line-height: 20px;
+                    }
+
+                    .medpax-product-time {
+                        color: var(--ws-gray-light-900);
+                        font-size: 14px;
+                        font-weight: 300;
+                        line-height: 20px;
+                    }
+                }
+            }
+        }
+    }
+    .patient-tab {
+        max-width: none!important;
+    }
+    button:focus-visible,
+        .btn:focus-visible,
+        select:focus-visible,
+        a:focus-visible {
+        outline: 3px solid var(--cx-color-darkest) !important;
+        outline-offset: 2px;
+        box-shadow: none;
+        }
+}

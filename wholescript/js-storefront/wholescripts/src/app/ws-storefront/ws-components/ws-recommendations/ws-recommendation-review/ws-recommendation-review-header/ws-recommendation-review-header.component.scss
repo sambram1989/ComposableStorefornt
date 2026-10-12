@@ -1,0 +1,61 @@
+::ng-deep ws-recommendation-review-header {
+    width: 100%;
+    position: relative;
+}
+
+.rec-header {
+    margin: 32px 0 16px 0;
+
+    h1 {
+        margin: 0 0 10px 0;
+        padding: 0;
+        position: relative;
+        display: flex;
+        font-size: 48px;
+        font-weight: 900;
+        color: var(--cx-color-secondary);
+        line-height: 55px;
+    }
+
+    h6 {
+        margin: 14px 0 8px 0;
+        padding: 0;
+        position: relative;
+        display: flex;
+        font-size: 1.125rem;
+        color: var(--cx-color-text);
+        .patient-name {
+            a {
+                font-weight: 900 ;
+                color: var(--cx-color-link-primary);
+                cursor: pointer;
+                @media (max-width: 767px) {
+                    margin-top: 1.35rem;
+                    width: 7.1rem;
+                    margin-right: 0.83rem;
+                }
+            }
+           
+        }
+    }
+}
+
+@media only screen and (max-width: 576px) {
+    .rec-header {
+        h1 {
+            margin: 0 0 10px 0;
+            font-size: 35px;
+            line-height: 44px;
+        }
+    }
+}
+
+@media (min-width: 320px) and (max-width:767px) {
+    h6 {
+        display: inline !important;
+    }
+
+    .patient-name>a {
+        display: inline;
+    }
+}

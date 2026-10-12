@@ -1,0 +1,27 @@
+a {
+    background: #F3F4FF;
+    color: #584091;
+    font-weight: 900;
+    border: solid 1px #584091;
+    border-radius: 3px;
+    white-space: nowrap;
+    display: flex;
+    font-size: 12px;
+    text-decoration: underline;
+
+    &:focus {
+        outline: 2px solid #3e3b49 !important;
+
+    }
+
+    &:hover {
+        background-color: #584091;
+        color: #fff;
+        text-decoration: none;
+    }
+}
+
+span {
+    padding: 3px;
+    align-self: center;
+}

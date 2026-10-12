@@ -1,0 +1,465 @@
+$contentCatalog=wholescriptsContentCatalog
+$contentCV=catalogVersion(CatalogVersion.catalog(Catalog.id[default=$contentCatalog]),CatalogVersion.version[default=Online])[default=$contentCatalog:Online]
+$lang=en
+
+
+
+INSERT_UPDATE FedTaxClass ; code[unique=true]    ; name[lang=en]                                                                                           
+                          ; TaxClassIndividual   ; INDIVIDUAL/SOLE PROPRIRTER OR SINGLE-MEMBER LLC                                                         
+                          ; TaxClasscCorporation ; C CORPORATION                                                                                           
+                          ; TaxClasssCorporation ; S CORPORATION                                                                                           
+                          ; TaxClassPartnership  ; PARTNERSHIP                                                                                             
+                          ; TaxClassTrust        ; TRUST/ESTATE                                                                                            
+                          ; TaxClassLimited      ; LIMITED LIABILITY COMPANY.ENTER THE TAX CLASSIFICATION (C=C CORPORATION, S=S CORPORATION, P=PARTNERSHIP)
+                          ; TaxClassOther        ; OTHER (SEE INSTRUCTIONS ON PAGE 3)                                                                      
+
+INSERT_UPDATE ContactSelectedCategoryEnum ; code[unique=true] ; name[lang=en]     
+                                          ; GENERAL_INQUIRY   ; General Inquiry   
+                                          ; CUSTOMER_SERVICE  ; Customer Service  
+                                          ; INTEGRATION_API   ; Integration & APIs
+                                          ; SHIPPING          ; Shipping          
+                                          ; EVENTS            ; Events            
+                                          ; SUGGESTION        ; Suggestions   
+                                          
+UPDATE SearchRestriction;code[unique=true]     ;active
+                        ;employee_restriction  ; false
+
+##Enum data##
+INSERT_UPDATE UserPriceGroup; code[unique = true]; name[lang = en];
+                            ;01;Wholesale
+                            ;02;Retail
+                            ;03;Intercompany
+                            ;04;MAP
+INSERT_UPDATE sapCustomerPriceGroupEnum; code[unique = true]; name[lang = en];
+                                       ;01;Standard
+                                       ;02;Silver
+                                       ;03;Gold
+                                       ;04;Platinum
+                                       ;05;Premier
+                                       ;06;Premier+
+                                       ;07;Standard
+                                       ;08;No SharedRewards
+INSERT_UPDATE sapCustomerGroupEnum;code[unique = true]; name[lang = en];
+                                  ;01;Practitioner
+                                  ;02;Patient
+                                  ;03;Distributor
+                                  ;04;Student
+                                  ;05; Employee
+                                  ;06;Sales Rep
+                                  ;07;Webinar/Seminar
+                                  ;08;Friends/Family
+                                  ;09;Prospect
+                                  ;10;XYMO-Company
+                                  ;11;Ship-to Only
+                                  ;12;Payer Only
+                                  ;13;Standard
+INSERT_UPDATE sapPaymentTermsEnum;code[unique = true]; name[lang = en];
+                                 ;NT90;within 90 days Due net
+                                 ;NT60;within 60 days Due net
+                                 ;Z260;within 60 days 2 % cash discount
+                                 ;NT45;within 45 days Due net
+                                 ;NT30;within 30 days Due net
+                                 ;Z230;within 30 days 2 % cash discount
+                                 ;N180;within 180 days Due net
+                                 ;NT15;within 15 days Due net
+                                 ;ZGGL;Purchases made using Google Pay
+                                 ;ZPPL;Purchases made using a PayPal
+                                 ;XCRD;Purchases made using a Credit Card
+                                 ;ZAPP;Purchases made using a Apple Pay
+                                 ;Z50D;Payable in 2 partial amounts
+                                 ;Z502;Payable in 2 partial amounts
+                                 ;Z501;Payable in 2 partial amounts
+                                 ;Z25D;Payable in 2 partial amounts
+                                 ;Z253;Payable in 2 partial amounts
+                                 ;Z203;Payable in 2 partial amounts
+                                 ;Z10D;Payable in 2 partial amounts
+                                 ;ZWIR;Customer will pay by Wire
+                                 ;ZTEL;Customer will pay by telephone
+                                 ;ZACH;Customer will pay by eCheck
+                                 ;ZCDT;Credit applied to Invoice
+                                 ;ZCHK;Check due apon Receipt
+                                 ;ZCOD;Cash on Delivery
+                                 ;ZCSH;Cash Due at location
+                                 ;Z67;2% Net 67
+                                 ;Z210;2% in 10, Net 30
+                                 ;ZPRE;100 Down payment Due when Order Created
+INSERT_UPDATE sapShippingCondEnum;code[unique = true]; name[lang = en];
+                                 ;01;Standard
+                                 ;02;Pick-up
+                                 ;03;USPS Only
+                                 ;04;Freight
+                                 ;05;Third Party
+                                 ;06;UPS only
+                                 ;07;Override
+                                 ;08;Ship from Pharmacy
+                                 ;1D;1 Day
+                                 ;2D;2 Day
+                                 ;3D;3 Day
+                                 ;3P;3PL Transfer
+                                 ;IN;Inetercompany Ship
+                                 ;RE;Returns
+INSERT_UPDATE sapIncotermsEnum;code[unique = true]; name[lang = en];
+                              ;CFR;Costs and freight
+                              ;CIF;Costs, insurance & freight
+                              ;CIP;Carriage and insurance paid to
+                              ;CPT;Carriage paid to
+                              ;DAF;Delivered at frontier
+                              ;DAP;Delivered at Place
+                              ;DAT;Delivered at Terminal
+                              ;DDP;Delivered Duty Paid
+                              ;DDU;Delivered Duty Unpaid
+                              ;DEQ;Delivered ex quay (duty paid)
+                              ;DES;Delivered ex ship
+                              ;EXW;Ex Works
+                              ;FAS;Free Alongside Ship
+                              ;FCA;Free Carrier
+                              ;FH;Free house
+                              ;FOB;Free on board
+                              ;UN;Not Free
+INSERT_UPDATE sapCustomerClassificationEnum;code[unique = true]; name[lang = en];
+                                           ;10;Doctor
+                                           ;11;Audiologist
+                                           ;12;Doctor
+                                           ;13;CA_PATIENT
+                                           ;14;Clinical Nutritionis
+                                           ;15;Contract Manufacturi
+                                           ;16;Colon Therapist
+                                           ;17;Chiropractor
+                                           ;18;Doctor of Dental Sur
+                                           ;19;DISTRIBUTOR
+                                           ;20;Doctor of Osteopathi
+                                           ;21;Doctor of Oriental M
+                                           ;22;Doctor of Veterinary
+                                           ;23;Employee
+                                           ;24;Herbalist
+                                           ;25;International Doctor
+                                           ;26;Licensed Acupuncturi
+                                           ;27;Licensed Clinical So
+                                           ;28;XYMOPrint
+                                           ;29;Licensed Massage The
+                                           ;30;Medical Doctor
+                                           ;31;Master of Science
+                                           ;32;Doctor of Naturopath
+                                           ;33;Nurse Practitioner
+                                           ;34;Obstetrician/ Gyneco
+                                           ;35;OPTOMETRIST
+                                           ;36;OPTOMETRIST
+                                           ;37;Occupational Therapi
+                                           ;38;Physician Assistant
+                                           ;39;Patient
+                                           ;40;Patient S Price Leve
+                                           ;41;Doctor of Philososop
+                                           ;42;PROSPECT
+                                           ;43;Physical Therapist
+                                           ;44;Registered Dietician
+                                           ;45;Registered Nurse
+                                           ;46;Registered Pharmacis
+                                           ;47;Student
+                                           ;48;Vendor
+                                           ;49;WEBINAR
+                                           ;50;Ship-to
+                                           ;51;Certified Healthcare
+                                           ;52;Certified Nutritiona
+                                           ;53;Nurse Midwife
+                                           ;54;Certified Nurse Tech
+                                           ;55;Dentistry
+                                           ;56;Podiatrist
+                                           ;57;Doctor of Veteranary
+                                           ;58;Functional Medical C
+                                           ;59;Homeopathic Holistic
+                                           ;60;Holistic Health Care
+                                           ;61;Mental Health Practi
+                                           ;62;Marriage & Family Th
+                                           ;63;Medical Nutritional
+                                           ;64;Nuclear Cardiologist
+                                           ;65;Naturopathic Practit
+                                           ;66;Osteopathic Doctor
+                                           ;67;Optometrist
+                                           ;68;Respiratory Care Pra
+                                           ;69;Registered Dietitian
+                                           ;70;Nurses/Nurse Practit
+                                           ;71;Pharmacist
+                                           ;72;Chinese Healing
+                                           ;73;Chinese Medicine
+                                           ;74;Wellness coach
+                                           ;75;Doctor of Oriental M
+                                           ;76;Licensed Counselor
+                                           ;77;Opthomalogist
+                                           ;78;General Customer
+                                           ;80;Atrantil Dr
+INSERT_UPDATE ProductPriceGroup;code[unique = true]; name[lang = en];
+                               ;01;Normal
+                               ;02;Non-Discountable
+INSERT_UPDATE SapMaterialGroupEnum;code[unique = true]; name[lang = en];
+                                  ;1000000;Capsule Shell
+                                  ;1000001;Ingredients
+                                  ;1000002;Packaging
+                                  ;1000003;Capsule
+                                  ;1000004;Softgel
+                                  ;1000005;Tablet
+                                  ;1000006;Powder
+                                  ;1000007;Packaged Bulk
+                                  ;1000008;Labels
+                                  ;1000009;Cartons
+                                  ;1000010;Film
+                                  ;1000011;Blister Cartons
+                                  ;1000012;Bright Stock
+                                  ;1000013;Blue Label
+                                  ;1000014;Private Label
+                                  ;1000015;California Label
+                                  ;1000016;Contract
+                                  ;1000017;Canada Blue Label
+                                  ;1000018;Canada Priv. Label
+                                  ;1000019;International
+                                  ;1000020;Substrates
+                                  ;1000021;Top Coats
+                                  ;1000022;Die Plates
+                                  ;1000023;Apparel
+                                  ;1000024;MedPax
+                                  ;1000025;Private Label MedPax
+                                  ;1000026;PharmaceutiX
+                                  ;1000027;Customer Supplied
+                                  ;1000028;Outside Labels
+                                  ;1000029;Outside Cartons
+                                  ;1000030;Outside Film
+                                  ;1000031;Outside Apparel
+                                  ;1000032;Outside Collateral
+                                  ;1000033;WholeScripts
+                                  ;1000034;PL Labels
+                                  ;1000035;Discontinued Product
+                                  ;1000036;In Development
+                                  ;1000037;NonInterchangeableBS
+                                  ;1000038;PL Cartons
+                                  ;1000039;Contract Labels
+                                  ;1000040;Contract Cartons
+                                  ;1000041;Contract Film
+                                  ;1000042;Contract Collateral
+                                  ;1000043;MP time desc.
+                                  ;1000044;WS Bulk MP
+                                  ;1001000;Production Supplies
+                                  ;1001001;Office Supplies
+                                  ;1001002;Lab Supplies
+                                  ;1001003;Gas (Liquid)
+                                  ;1001004;Shipping Supplies
+                                  ;1001005;Embroidery Supplies
+                                  ;1001006;Eng./ Fac. Supplies
+                                  ;1001007;Marketing Supplies
+                                  ;1001008;IT Supplies
+                                  ;1001009;Comp. Hardware
+                                  ;1001010;Comp. Software
+                                  ;1001011;Literature
+                                  ;1001012;Assets
+                                  ;1001013;Events
+                                  ;1001014;Service
+                                  ;1001015;GR Purchase Order
+                                  ;1001016;In Process
+                                  ;1001017;GR Process Order
+                                  ;1001018;PL Contract
+                                  ;1001019;Xymoprint Roll Stock
+                                  ;1001020;Xymoprint Lam Roll
+                                  ;1001021;Xymoprint Sheet
+                                  ;1001022;Xymoprint Sheet Lam
+                                  ;1001023;MKTG/WEB KIT
+                                  ;1001024;Private Label Kit
+                                  ;1001025;Web Kit
+                                  ;A001;On Account Billed
+                                  ;A002;On Account Utilized
+                                  ;B001;One Time Credit
+                                  ;B002;Cloud Revenue
+                                  ;E001;Accommodation
+                                  ;E002;Airfare
+                                  ;E003;Ground Transp.
+                                  ;E004;Travel Expenses misc
+                                  ;L001;Trading Materials
+                                  ;L002;Raw Materials
+                                  ;L003;Semi-Finished Goods
+                                  ;L004;Finished Goods
+                                  ;L005;Unvaluated Materials
+                                  ;L006;Returnable Packaging
+                                  ;L007;Licenses
+                                  ;L008;Hardware
+                                  ;P000;Contract Type
+                                  ;P001;Services
+                                  ;P002;Expenses
+                                  ;P003;Periodic Service
+                                  ;XYMOPR01;Xymoprint Roll Stock
+                                  ;XYMOPR02;Xymoprint Lam Roll
+                                  ;XYMOPR03;Xymoprint Sheet
+                                  ;XYMOPR04;Xymoprint Sheet Lam
+                                  ;YBF01;Product Group F01
+                                  ;YBMM00;Non-Sto Mat. w.o ID
+                                  ;YBMM01;Non-Sto Mat. w. ID
+                                  ;YBPM01;Spare parts
+                                  ;YBPM02;Spare parts services
+
+
+INSERT_UPDATE Unit; code[unique = true]; unitType[unique = true]; name;
+                  ; GRM                ; GRM                    ; GRM
+                  ; ACR                ; ACR                    ; Acre
+                  ; AU                 ; AU                     ; Activity unit
+                  ; BAG                ; BAG                    ; Bag
+                  ; BT                 ; BT                     ; Bottle
+                  ; Bqm                ; Bqm                    ; Becquerel/Cubic Meter
+                  ; C3S                ; C3S                    ; Cubic centimeter/second
+                  ; CAN                ; CAN                    ; Canister
+                  ; CAR                ; CAR                    ; Carton
+                  ; CCM                ; CCM                    ; Cubic centimeter
+                  ; CD3                ; CD3                    ; Cubic decimeter
+                  ; CL                 ; CL                     ; Centiliter
+                  ; CM                 ; CM                     ; Centimeter
+                  ; CM2                ; CM2                    ; Square centimeter
+                  ; CMS                ; CMS                    ; Centimeter/second
+                  ; CRT                ; CRT                    ; Crate
+                  ; CV                 ; CV                     ; Case
+                  ; D                  ; D                      ; Days
+                  ; DAY                ; DAY                    ; Days
+                  ; DEG                ; DEG                    ; Degree
+                  ; DM                 ; DM                     ; Decimeter
+                  ; DR                 ; DR                     ; Drum
+                  ; DZ                 ; DZ                     ; Dozen
+                  ; EA                 ; EA                     ; each
+                  ; EML                ; EML                    ; Enzyme Units/Milliliter
+                  ; EU                 ; EU                     ; Enzyme Units
+                  ; FOZ                ; FOZ                    ; Fluid Ounce US
+                  ; FT                 ; FT                     ; Foot
+                  ; FT2                ; FT2                    ; Square foot
+                  ; FT3                ; FT3                    ; Cubic foot
+                  ; G                  ; G                      ; Gram
+                  ; G/L                ; G/L                    ; Gram Active Ingredient/Liter
+                  ; GAI                ; GAI                    ; Gram Active Ingredient
+                  ; GAL                ; GAL                    ; US gallon
+                  ; GAU                ; GAU                    ; Gram Gold
+                  ; GJ                 ; GJ                     ; Gigajoule
+                  ; GLI                ; GLI                    ; Gram/liter
+                  ; GM                 ; GM                     ; Gram/Mole
+                  ; GM2                ; GM2                    ; Gram/square meter
+                  ; GM3                ; GM3                    ; Gram/Cubic meter
+                  ; GOH                ; GOH                    ; Gigaohm
+                  ; GPH                ; GPH                    ; Gallons per hour (US)
+                  ; GPM                ; GPM                    ; Gallons per mile (US)
+                  ; GPM                ; GPM                    ; Gallons per mile (US)
+                  ; GRO                ; GRO                    ; Gross
+                  ; H                  ; H                      ; Hour
+                  ; HA                 ; HA                     ; Hectare
+                  ; HL                 ; HL                     ; Hectoliter
+                  ; HR                 ; HR                     ; Hours
+                  ; JKG                ; JKG                    ; Joule/Kilogram
+                  ; JKK                ; JKK                    ; Spec. Heat Capacity
+                  ; JMO                ; JMO                    ; Joule/Mole
+                  ; KAI                ; KAI                    ; Kilogram Active Ingredient
+                  ; KD3                ; KD3                    ; Kilogram/cubic decimeter
+                  ; KG                 ; KG                     ; Kilogram
+                  ; KGM                ; KGM                    ; Kilogram/Mole
+                  ; KGS                ; KGS                    ; Kilogram/second
+                  ; KGV                ; KGV                    ; Kilogram/cubic meter
+                  ; KIK                ; KIK                    ; kg Active Ingredient/kg
+                  ; KJK                ; KJK                    ; Kilojoule/kilogram
+                  ; KJM                ; KJM                    ; Kilojoule/Mole
+                  ; KM                 ; KM                     ; Kilometer
+                  ; KM2                ; KM2                    ; Square kilometer
+                  ; KMH                ; KMH                    ; Kilometer/hour
+                  ; KML                ; KML                    ; Kilomol
+                  ; KMN                ; KMN                    ; Kelvin/Minute
+                  ; KMS                ; KMS                    ; Kelvin/Second
+                  ; KPA                ; KPA                    ; Kilopascal
+                  ; KT                 ; KT                     ; Kiloton
+                  ; KVA                ; KVA                    ; Kilovoltampere
+                  ; L                  ; L                      ; Liter
+                  ; LB                 ; LB                     ; Pound
+                  ; LHK                ; LHK                    ; Liter per 100 km
+                  ; M                  ; M                      ; Meter
+                  ; M-2                ; M-2                    ; 1/Square Meter
+                  ; M/H                ; M/H                    ; Meter/Hour
+                  ; M/L                ; M/L                    ; Mole per Liter
+                  ; M/M                ; M/M                    ; Mole per Cubic Meter
+                  ; M/S                ; M/S                    ; Meter/second
+                  ; M2                 ; M2                     ; Square meter
+                  ; M2S                ; M2S                    ; Square meter/second
+                  ; M3                 ; M3                     ; Cubic meter
+                  ; M3D                ; M3D                    ; Cubic meter/day
+                  ; M3H                ; M3H                    ; Cubic meter/Hour
+                  ; M3S                ; M3S                    ; Cubic meter/second
+                  ; MEJ                ; MEJ                    ; Megajoule
+                  ; MG                 ; MG                     ; Milligram
+                  ; MGL                ; MGL                    ; Milligram/liter
+                  ; MGO                ; MGO                    ; Megohm
+                  ; MGQ                ; MGQ                    ; Milligram/cubic meter
+                  ; MHV                ; MHV                    ; Megavolt
+                  ; MI                 ; MI                     ; Mile
+                  ; MI2                ; MI2                    ; Square mile
+                  ; MIN                ; MIN                    ; Minute
+                  ; MIS                ; MIS                    ; Microsecond
+                  ; ML                 ; ML                     ; Milliliter
+                  ; MLI                ; MLI                    ; Milliliter Active Ingredient
+                  ; MM                 ; MM                     ; Millimeter
+                  ; MM2                ; MM2                    ; Square millimeter
+                  ; MM3                ; MM3                    ; Cubic millimeter
+                  ; MN                 ; MN                     ; Meganewton
+                  ; MNM                ; MNM                    ; Millinewton/meter
+                  ; MON                ; MON                    ; Months
+                  ; MPG                ; MPG                    ; Miles per gallon (US)
+                  ; MPL                ; MPL                    ; Millimole per Liter
+                  ; MPS                ; MPS                    ; Millipascal seconds
+                  ; MS2                ; MS2                    ; Meter/Square Second
+                  ; MSC                ; MSC                    ; Microsiemens per centimeter
+                  ; MSE                ; MSE                    ; Millisecond
+                  ; MVA                ; MVA                    ; Megavoltampere
+                  ; MWH                ; MWH                    ; Megawatt hour
+                  ; NA                 ; NA                     ; Nanoampere
+                  ; NAM                ; NAM                    ; Nanometer
+                  ; NI                 ; NI                     ; Kilonewton
+                  ; NM                 ; NM                     ; Newton/meter
+                  ; NMM                ; NMM                    ; Newton/Square millimeter
+                  ; NS                 ; NS                     ; Nanosecond
+                  ; OCM                ; OCM                    ; Specific Electrical Resistance
+                  ; OM                 ; OM                     ; Specific Electrical Resistance
+                  ; OZ                 ; OZ                     ; Ounce
+                  ; P                  ; P                      ; Points
+                  ; PAA                ; PAA                    ; Pair
+                  ; PAC                ; PAC                    ; Pack
+                  ; PAL                ; PAL                    ; Pallet
+                  ; PAS                ; PAS                    ; Pascal second
+                  ; PC                 ; PC                     ; Piece
+                  ; PDA                ; PDA                    ; Consultant Days
+                  ; PF                 ; PF                     ; Pikofarad
+                  ; PMI                ; PMI                    ; 1/minute
+                  ; PMR                ; PMR                    ; Permeation Rate SI
+                  ; PPB                ; PPB                    ; Parts per billion
+                  ; PPM                ; PPM                    ; Parts per million
+                  ; PPT                ; PPT                    ; Parts per trillion
+                  ; PRM                ; PRM                    ; Permeation Rate
+                  ; PRS                ; PRS                    ; Number of Persons
+                  ; PS                 ; PS                     ; Picosecond
+                  ; PT                 ; PT                     ; Pint, US liquid
+                  ; QT                 ; QT                     ; Quart, US liquid
+                  ; R-U                ; R-U                    ; Nanofarad
+                  ; RF                 ; RF                     ; Millifarad
+                  ; RHO                ; RHO                    ; Gram/Cubic Centimeter
+                  ; ROL                ; ROL                    ; Role
+                  ; S/M                ; S/M                    ; Siemens per meter
+                  ; TO                 ; TO                     ; Ton
+                  ; TOM                ; TOM                    ; Ton/Cubic meter
+                  ; TON                ; TON                    ; US Ton
+                  ; TS                 ; TS                     ; Thousands
+                  ; VAL                ; VAL                    ; Value-Only Material
+                  ; VAM                ; VAM                    ; Voltampere
+                  ; WK                 ; WK                     ; Weeks
+                  ; WKY                ; WKY                    ; Evaporation Rate
+                  ; WMK                ; WMK                    ; Heat Conductivity
+                  ; YD                 ; YD                     ; Yards
+                  ; YD2                ; YD2                    ; Square Yard
+                  ; YD3                ; YD3                    ; Cubic yard
+                  ; YR                 ; YR                     ; Years
+                  ; dBA                ; dBA                    ; Decibels (A Weighting)
+                  ; dBC                ; dBC                    ; Decibels (C Weighting)
+                  ; kgb                ; kgb                    ; Kilogram/US Barrel
+                  ; lhh                ; lhh                    ; US Pound/Horsepower-Hour
+                  ; lht                ; lht                    ; US Pound/100,000 Hph
+                  ; lth                ; lth                    ; US Pounds/1000 Horsepower-Hrs
+                  ; µA                 ; µA                     ; Microampere
+                  ; µF                 ; µF                     ; Microfarad
+                  ; µGL                ; µGL                    ; Microgram/liter
+                  ; µGQ                ; µGQ                    ; Microgram/cubic meter
+                  ; µL                 ; µL                     ; Microliter
+                  ; µM                 ; µM                     ; Micrometer
+

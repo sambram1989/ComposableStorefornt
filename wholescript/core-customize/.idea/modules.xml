@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/hybris/bin/custom/Wholescriptscore/Wholescriptscore.iml" filepath="$PROJECT_DIR$/hybris/bin/custom/Wholescriptscore/Wholescriptscore.iml" />
+      <module fileurl="file://$PROJECT_DIR$/hybris/bin/custom/Wholescriptsocc/Wholescriptsocc.iml" filepath="$PROJECT_DIR$/hybris/bin/custom/Wholescriptsocc/Wholescriptsocc.iml" />
+      <module fileurl="file://$PROJECT_DIR$/hybris/bin/custom/Wholescriptsstore/Wholescriptsstore.iml" filepath="$PROJECT_DIR$/hybris/bin/custom/Wholescriptsstore/Wholescriptsstore.iml" />
+      <module fileurl="file://$PROJECT_DIR$/hybris/bin/custom/wholescriptsbackoffice/backoffice/backoffice.iml" filepath="$PROJECT_DIR$/hybris/bin/custom/wholescriptsbackoffice/backoffice/backoffice.iml" />
+      <module fileurl="file://$PROJECT_DIR$/hybris/bin/custom/paymetric/paymetric.iml" filepath="$PROJECT_DIR$/hybris/bin/custom/paymetric/paymetric.iml" />
+      <module fileurl="file://$PROJECT_DIR$/hybris/bin/custom/spartacussampledata/spartacussampledata.iml" filepath="$PROJECT_DIR$/hybris/bin/custom/spartacussampledata/spartacussampledata.iml" />
+      <module fileurl="file://$PROJECT_DIR$/hybris/bin/custom/paymetric/web/web.iml" filepath="$PROJECT_DIR$/hybris/bin/custom/paymetric/web/web.iml" />
+      <module fileurl="file://$PROJECT_DIR$/hybris/bin/custom/wholescritpsextwebservices/web/web2.iml" filepath="$PROJECT_DIR$/hybris/bin/custom/wholescritpsextwebservices/web/web2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/hybris/bin/custom/wholescriptsbackoffice/wholescriptsbackoffice.iml" filepath="$PROJECT_DIR$/hybris/bin/custom/wholescriptsbackoffice/wholescriptsbackoffice.iml" />
+      <module fileurl="file://$PROJECT_DIR$/hybris/bin/custom/wholescritpsextwebservices/wholescritpsextwebservices.iml" filepath="$PROJECT_DIR$/hybris/bin/custom/wholescritpsextwebservices/wholescritpsextwebservices.iml" />
+    </modules>
+  </component>
+</project>

@@ -1,0 +1,75 @@
+$padding: 16px;
+$margin: 20px 0;
+$border-radius: 10px;
+
+$info-border: #0E7090;
+$info-bg: #F5FEFF;
+
+$warning-border: #C56000;
+$warning-bg: #FFF4E6;
+
+$error-border: #FF8EA4;
+$error-bg: #FFF0F3;
+
+@mixin section-style($border-color, $bg-color) {
+  padding: $padding;
+  margin: $margin;
+  border-radius: $border-radius;
+  border: 2px solid $border-color;
+  background-color: $bg-color;
+}
+
+:host {
+  padding: 0 20px;
+}
+
+h5 {
+  font-weight: 900;
+}
+
+.address-part,
+.shipping-method {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+
+a {
+  text-decoration: underline;
+  color: rgb(88, 64, 145);
+}
+
+section {
+  @include section-style($info-border, $info-bg);
+}
+
+.warning-section {
+  @include section-style($warning-border, $warning-bg);
+}
+
+.error-section {
+  @include section-style($error-border, $error-bg);
+}
+
+.w-50px {
+  width: 50px;
+}
+
+.gap-20px {
+  gap: 20px;
+}
+
+.free-shipping {
+  @include section-style($info-border, $info-bg);
+}
+::ng-deep{
+  .wsRightParagraphContent {
+    p{
+      &:first-child{
+        font-weight: 700;
+        margin-bottom: 8px;
+      }
+    }
+   
+  }
+}

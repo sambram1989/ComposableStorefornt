@@ -1,0 +1,38 @@
+<div class="row my-1 px-3 recommendationItem">
+    <div class="col-3 col-sm-2 p-0 text-center pro-data-patient-proto-img">
+        <cx-media [container]="item?.product && item?.product?.images?.length ?  item?.product?.images[1] : null" [alt]="item?.product?.name"></cx-media>
+    </div>
+    <div class="col-9 col-sm-6">
+        <h5 class="bolder" *ngIf="item?.product?.stock?.stockLevelStatus !== 'inStock'">
+            <span class="badge badge-danger">Out of Stock</span>
+        </h5>
+          
+        <div class="bolder"><a
+            [attr.aria-label]="
+            !item?.products?.images?.hasOwnProperty('PRIMARY')
+              ? ('productDetails.noProductImage'
+                | cxTranslate: { product: item?.product?.name })
+              : undefined
+          "
+          [routerLink]="{ cxRoute: 'product', params: item?.product } | cxUrl" >{{item?.product?.name}}</a></div>
+        <button class="favourite d-sm-none btn btn-link text-dark bolder text-decoration-none text-left px-0" (click)="updateFavorites(item, isFavorite(item))">
+            <span class="bolder">{{ isFavorite(item) ? 'Added to Favorites ' : 'Add to Favorites '}}</span> <i class="far fa-heart" [ngClass]="{'fav-btn__icon--active fa': isFavorite(item), 'far': !isFavorite(item)}"></i>
+        </button>
+        <div class="bolder">Price: <span class="price">{{item?.msrpBasePrice?.formattedValue}}</span></div>
+        <div>Qty: {{item?.quantity}}</div>
+        <div>Dosing: 1 in Daily</div>
+        <div>Duration: {{ getDurationValue(item?.itemDuration) | capitalCase }}</div>
+    </div>
+    <div class="d-none d-sm-block col-4 p-0">
+        <button class="favourite d-none d-sm-block btn btn-link text-dark bolder text-decoration-none px-0 ml-auto btn-style" (click)="updateFavorites(item, isFavorite(item))">
+          <span class="bolder">{{ isFavorite(item) ? 'Added to Favorites ' : 'Add to Favorites '}}</span> <i class="far fa-heart" [ngClass]="{'fav-btn__icon--active fa': isFavorite(item), 'far': !isFavorite(item)}"></i>
+        </button>
+
+        <button class="btn btn-outline-primary btn-rounded float-right btn-style" (click)="addSingleToCart(item)">
+            Add to Cart &nbsp;<i class="fa fa-shopping-cart text-success"></i>
+        </button>
+    </div>
+    <button class="btn btn-outline-primary btn-rounded d-sm-none mt-3 btn-style btn-responsive" (click)="addSingleToCart(item)"> Add to Cart
+        &nbsp;<i class="fa fa-shopping-cart text-success"></i>
+    </button>
+</div>

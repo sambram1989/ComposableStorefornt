@@ -1,0 +1,417 @@
+.view-recommendation-contaner{
+  padding: 50px 200px 120px 200px;
+  @media(min-width: 768px) and (max-width: 1024px) {
+    padding: 50px 100px 120px 100px;
+  }
+  @media(max-width: 767px) {
+    padding: 50px 15px 120px 15px;
+  }
+}
+.recommendation-container, a {
+  &:focus-visible {
+    outline: 3px solid var(--cx-color-darkest) !important;
+    outline-offset: 2px !important;
+    box-shadow: unset;
+}
+}
+.patient-account-item {
+  font-size: 16px;
+  color: #3e3b49;
+  padding: 0 16px;
+
+  &:nth-child(10) {
+    .patient-account-link {
+      border-bottom: none;
+    }
+  }
+  &:hover {
+    background-color: var(--cx-color-background-focus);
+    color: #3e3b49;
+  }
+}
+
+.card-title {
+  h3 {
+    font-size: 30px !important;
+    font-weight: 900 !important;
+    
+    @media (min-width: 575px) {
+      font-size: 22px !important;
+    }
+    @media (max-width: 575px) {
+      font-size: 18px !important;
+    }
+  }
+}
+
+.medpax-notes {
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.5;
+  text-align: left;
+  cursor: pointer;
+  word-wrap: break-word;
+  box-sizing: border-box;
+  margin: 0;
+  position: relative;
+  padding: 0.75rem 1.25rem;
+  margin-bottom: 1rem;
+  border: 1px solid transparent;
+  border-radius: 0.3125rem;
+  background-color: var(--cx-color-background-info-primary);
+  border-color: var(--ws-cyan-700);
+  color: var(--cx-color-secondary);
+}
+
+table {
+  tr {
+      border-bottom: none;
+      td {
+          font-size: 16px;
+          color: var(--cx-color-secondary);
+          padding: 16px 16px 0 0;
+      }
+      th {
+          color: black;
+          border-bottom: 1px solid black;
+          padding-left: 0;
+          padding-bottom: 5px;
+          font-weight: bold;
+          font-size: 12px;
+          text-transform: capitalize;
+      }
+      .item-name {
+        margin: 0 0 10px 0;
+        font-size: 14px !important;
+        font-weight: 700;
+      }
+  }
+}
+.container {
+
+  padding: 80px 0;
+}
+.recommendation-body {
+  display: none;
+  overflow: hidden;
+  border-left: 1px solid var(--ws-gray-dark-200);
+  border-right: 1px solid var(--ws-gray-dark-200);
+  border-bottom: 1px solid var(--ws-gray-dark-200);
+  height: 0;
+  min-height: 0;
+  opacity: 0;
+  transition: min-height 0.5s ease, display 1s ease;
+}
+.product-expand { 
+  display: block;
+  opacity: 1;
+  min-height: 200px;
+  height: 100%;
+  padding: 20px;
+  transition: min-height 0.5s ease, display 1s ease;
+}
+.Recommendations {
+  background-color: var(--cx-color-primary);
+  color: white;
+  margin: 0 !important;
+  padding: 0 16px;
+  .patient-account-link {
+    font-weight: 900;
+    border-bottom: none;
+  }
+}
+.patient-account-link {
+  padding: 10px 0;
+  display: block;
+  color: inherit;
+  font-weight: 500;
+  text-decoration: none !important;
+  border-bottom: solid 1px var(--ws-gray-dark-100);
+  i {
+    padding-right: 4px;
+  }
+}
+.card-header {
+  padding: 1rem;
+  margin-bottom: 0;
+  background-color: #eef0f1;
+  border-bottom: 1px solid rgba(44, 42, 51, 0.125);
+  font-weight: 700;
+  border-radius: calc(0.3125rem - 1px) calc(0.3125rem - 1px) 0 0;
+  color: #3e3b49;
+}
+.patient-account-details {
+  border-radius: 3px;
+  border: solid 1px #dfdfdf;
+  border-left: solid 6px #584091;
+  padding: 15px 30px;
+  margin-bottom: 30px;
+  background-color: #fff;
+}
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  word-wrap: break-word;
+  background-color: #fff;
+  background-clip: border-box;
+  border: 1px solid rgba(44, 42, 51, 0.125);
+  border-radius: 0.3125rem;
+  padding: 16px;
+}
+.card-header1 {
+  margin-bottom: 0;
+  background-color: #eef0f1;
+  border-bottom: 1px solid rgba(44, 42, 51, 0.125);
+  font-weight: 700;
+}
+.label-success {
+  background: #64dba8 !important;
+  padding: 5px 10px;
+  border-radius: 3px;
+  font-weight: 700;
+  color: #3e3b49;
+}
+.btn-link {
+  h4 {
+    font-size: 16px !important;
+    font-weight: 900;
+    padding-left: 8px;
+  }
+}
+.name-slot {
+  width: 100%;
+  padding-top: 16px;
+  flex-direction: row;
+  display: flex;
+  button {
+    display: flex;
+    justify-content: center;
+  }
+}
+.border-bottom {
+  h5 {
+    font-weight: 900;
+    font-size: 16px !important;
+  }
+}
+.recommendation-container {
+  border-bottom: 1px solid rgba(44, 42, 51, 0.125);
+  padding: 4px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  background-color: var(--cx-color-background-alt);
+}
+
+.recommendation-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 16px;
+  cursor: pointer;
+  h3 {
+    font-size: 16px !important;
+    font-weight: 900;
+    &:hover {
+      color: var(--cx-color-primary-dark);
+      text-decoration: underline;
+    }
+  }
+}
+
+.recommendation-header h3 {
+  color: var(--cx-color-primary);
+  margin: 0;
+}
+
+.add-to-cart-btn {
+  background-color: var(--cx-color-primary);
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  min-width: 180px;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 900;
+
+}
+p {
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--ws-gray-light-700);
+  line-height: 28px;
+}
+
+.rec-btn {
+  justify-content: space-between;
+  align-items: center;
+}
+.items-header {
+  border-bottom: 1px solid var(--ws-gray-dark-200);
+  padding-bottom: 16px;
+
+  @media (max-width: 575px) {
+    flex-direction: column;
+  }
+}
+
+.modal-title {
+  @media (max-width: 575px) {
+    font-size: 18px !important;
+  }
+}
+
+.cart-icon {
+  margin-left: 8px;
+}
+
+.recommendation-body p {
+  margin: 0 0 15px 0;
+}
+
+.item {
+  display: flex;
+  border-bottom: 1px solid var(--ws-gray-dark-200);
+  padding: 16px 0;
+  background-color: #fff;
+  border-radius: 5px;
+}
+
+.item-image {
+  height: auto;
+  max-height: 100px;
+}
+
+.item-details h4 {
+  margin: 0 0 10px 0;
+  font-size: 14px !important;
+  font-weight: 900;
+}
+.label-danger {
+  background-color: var(--ws-error-700) !important;
+  color: var(--cx-color-inverse) !important;
+  margin-left: 8px;
+  padding: 4px;
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.item-details p {
+  margin: 0;
+}
+
+.message {
+  margin-top: 20px;
+  color: var(--ws-gray-light-700);
+  font-size: 16px;
+  font-weight: 400;
+  strong {
+    font-weight: 900;
+  }
+}
+
+.delete {
+  margin-top: 10px;
+}
+// contrast ADA compliance
+.delete-link {
+  color: var(--error-contrast-red) !important; 
+  text-decoration: none;
+  font-weight: 900;
+  cursor: pointer;
+  font-size: 16px;
+  background-color: transparent !important;
+  outline: none !important;
+}
+
+.delete-link:hover,
+.delete-link:focus {
+  text-decoration: underline;
+  color: var(--error-contrast-hover-red);
+}
+
+.total-section {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-top: 16px;
+}
+
+.total {
+  font-size: 18px;
+  font-weight: 900;
+}
+.label-new {
+  background: var(--ws-success-50) !important;
+    padding: 5px 10px;
+    border-radius: 3px;
+    font-weight: 700;
+    color: var(--cx-color-secondary);
+}
+@keyframes slide-in {
+  from {
+    min-height: 0;
+    height: 0;
+    transform: translateY(0);
+  }
+
+  to {
+    min-height: 200px;
+    height: 100%;
+    transform: translateY(100);
+  }
+}
+@keyframes slide-out {
+  from {
+    min-height: 200px;
+    height: 100%;
+    transform: translateY(100);
+  }
+
+  to {
+    min-height: 0;
+    height: 0;
+    transform: translateY(0);
+  }
+}
+
+.bg-ws-blue{
+  background-color: var(--cx-color-primary);
+}
+.text-white{
+  color: var(--cx-color-inverse);
+}
+
+.no-rec{
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  border-bottom: none;
+
+  h4 {
+    font-weight: 900;
+    @media (max-width: 575px) {
+      font-size: 18px !important;
+    }
+  }
+}
+
+.recommendation-delete-body {
+  padding: 1.5rem;
+
+  strong {
+    margin-bottom: 1rem;
+    display: block;
+  }
+
+  ul {
+    li {
+      list-style-type: disc;
+      margin-bottom: 1rem;
+    }
+  }
+}

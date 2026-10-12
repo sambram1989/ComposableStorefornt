@@ -1,0 +1,308 @@
+<main class="condition-specific-medpax-individual-container">
+    <section class="hero-container">
+        <!-- Energy Section -->
+        <div class="hero__logo" *ngIf="medpaxSpecificContent['csmLogoenergyBannerComponent']">
+            <a href="/condition-specific-medpax">
+                <cx-media
+                    [container]="wsPageService.getImage(medpaxSpecificContent['csmLogoenergyBannerComponent'])"></cx-media>
+            </a>
+        </div>
+        <div class="hero__left" *ngIf="medpaxSpecificContent['csmLogoenergyBannerComponent']">
+            <h1 [outerHTML]="medpaxSpecificContent['csmLogoenergyBannerComponent']?.headline">
+            </h1>
+            <h2 [outerHTML]="medpaxSpecificContent['csmLogoenergyBannerComponent']?.content">
+            </h2>
+        </div>
+        <div class="hero__right" *ngIf="medpaxSpecificContent['energySection1BannerComponent1']">
+            <cx-media
+                [container]="wsPageService.getImage(medpaxSpecificContent['energySection1BannerComponent2'])"></cx-media>
+            <cx-media
+                [container]="wsPageService.getImage(medpaxSpecificContent['energySection1BannerComponent1'])"></cx-media>
+        </div>
+
+        <!-- Beauty Section -->
+        <div class="hero__logo" *ngIf="medpaxSpecificContent['csmLogoBeautyBannerComponent']">
+            <a href="/condition-specific-medpax">
+                <cx-media
+                    [container]="wsPageService.getImage(medpaxSpecificContent['csmLogoBeautyBannerComponent'])"></cx-media>
+            </a>
+        </div>
+        <div class="hero__left" *ngIf="medpaxSpecificContent['csmLogoBeautyBannerComponent']">
+            <h1 [outerHTML]="medpaxSpecificContent['csmLogoBeautyBannerComponent']?.headline">
+            </h1>
+            <h2 [outerHTML]="medpaxSpecificContent['csmLogoBeautyBannerComponent']?.content">
+            </h2>
+        </div>
+        <div class="hero__right" *ngIf="medpaxSpecificContent['BeautySection1BannerComponent1']">
+            <cx-media
+                [container]="wsPageService.getImage(medpaxSpecificContent['BeautySection1BannerComponent2'])"></cx-media>
+            <cx-media
+                [container]="wsPageService.getImage(medpaxSpecificContent['BeautySection1BannerComponent1'])"></cx-media>
+        </div>
+
+        <!-- Gut Section -->
+        <div class="hero__logo" *ngIf="medpaxSpecificContent['csmLogoGutBannerComponent']">
+            <a href="/condition-specific-medpax">
+                <cx-media
+                    [container]="wsPageService.getImage(medpaxSpecificContent['csmLogoGutBannerComponent'])"></cx-media>
+            </a>
+        </div>
+        <div class="hero__left" *ngIf="medpaxSpecificContent['csmLogoGutBannerComponent']">
+            <h1 [outerHTML]="medpaxSpecificContent['csmLogoGutBannerComponent']?.headline">
+            </h1>
+            <h2 [outerHTML]="medpaxSpecificContent['csmLogoGutBannerComponent']?.content">
+            </h2>
+        </div>
+        <div class="hero__right" *ngIf="medpaxSpecificContent['GutSection1BannerComponent1']">
+            <cx-media
+                [container]="wsPageService.getImage(medpaxSpecificContent['GutSection1BannerComponent2'])"></cx-media>
+            <cx-media
+                [container]="wsPageService.getImage(medpaxSpecificContent['GutSection1BannerComponent1'])"></cx-media>
+        </div>
+
+        <!-- immune Section -->
+        <div class="hero__logo" *ngIf="medpaxSpecificContent['csmLogoImmuneBannerComponent']">
+            <a href="/condition-specific-medpax">
+                <cx-media
+                    [container]="wsPageService.getImage(medpaxSpecificContent['csmLogoImmuneBannerComponent'])"></cx-media>
+            </a>
+        </div>
+        <div class="hero__left" *ngIf="medpaxSpecificContent['csmLogoImmuneBannerComponent']">
+            <h1 [outerHTML]="medpaxSpecificContent['csmLogoImmuneBannerComponent']?.headline">
+            </h1>
+            <h2 [outerHTML]="medpaxSpecificContent['csmLogoImmuneBannerComponent']?.content">
+            </h2>
+        </div>
+        <div class="hero__right" *ngIf="medpaxSpecificContent['ImmuneSection1BannerComponent1']">
+            <cx-media
+                [container]="wsPageService.getImage(medpaxSpecificContent['ImmuneSection1BannerComponent2'])"></cx-media>
+            <cx-media
+                [container]="wsPageService.getImage(medpaxSpecificContent['ImmuneSection1BannerComponent1'])"></cx-media>
+        </div>
+
+        <!-- Sleep Section -->
+        <div class="hero__logo" *ngIf="medpaxSpecificContent['csmLogosleepBannerComponent']">
+            <a href="/condition-specific-medpax">
+                <cx-media
+                    [container]="wsPageService.getImage(medpaxSpecificContent['csmLogosleepBannerComponent'])"></cx-media>
+            </a>
+        </div>
+        <div class="hero__left" *ngIf="medpaxSpecificContent['csmLogosleepBannerComponent']">
+            <h1 [outerHTML]="medpaxSpecificContent['csmLogosleepBannerComponent']?.headline">
+            </h1>
+            <h2 [outerHTML]="medpaxSpecificContent['csmLogosleepBannerComponent']?.content">
+            </h2>
+        </div>
+        <div class="hero__right" *ngIf="medpaxSpecificContent['sleepSection1BannerComponent1']">
+            <cx-media
+                [container]="wsPageService.getImage(medpaxSpecificContent['sleepSection1BannerComponent2'])"></cx-media>
+            <cx-media
+                [container]="wsPageService.getImage(medpaxSpecificContent['sleepSection1BannerComponent1'])"></cx-media>
+        </div>
+
+        <div class="hero__register">
+            <a class="btn btn-rounded btn-primary order-now-btn" *ngIf="medpaxSpecificContent['medpaxBeautyPdp']" [href]="medpaxSpecificContent['medpaxBeautyPdp']?.url">
+                {{medpaxSpecificContent['medpaxBeautyPdp']?.linkName}}
+            </a>
+            <a class="btn btn-rounded btn-primary order-now-btn" *ngIf="medpaxSpecificContent['medpaxEnergyPdp']" [href]="medpaxSpecificContent['medpaxEnergyPdp']?.url">
+                {{medpaxSpecificContent['medpaxEnergyPdp']?.linkName}}
+            </a>
+            <a class="btn btn-rounded btn-primary order-now-btn" *ngIf="medpaxSpecificContent['medpaxImmunePdp']" [href]="medpaxSpecificContent['medpaxImmunePdp']?.url">
+                {{medpaxSpecificContent['medpaxImmunePdp']?.linkName}}
+            </a>
+            <a class="btn btn-rounded btn-primary order-now-btn" *ngIf="medpaxSpecificContent['medpaxGutPdp']" [href]="medpaxSpecificContent['medpaxGutPdp']?.url">
+                {{medpaxSpecificContent['medpaxGutPdp']?.linkName}}
+            </a>
+            <a class="btn btn-rounded btn-primary order-now-btn" *ngIf="medpaxSpecificContent['medpaxSleepPdp']" [href]="medpaxSpecificContent['medpaxSleepPdp']?.url">
+                {{medpaxSpecificContent['medpaxSleepPdp']?.linkName}}
+            </a>
+            <div class="register-now --hide-logged-in">
+                {{medpaxSpecificContent['energySection1ParaComponent']?.content}}
+                <a class="bolder" [href]="medpaxSpecificContent['PatientHomeRegisterLink']?.url">
+                    {{medpaxSpecificContent['PatientHomeRegisterLink']?.linkName}}
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section class="csm-info-container-wrapper --energy">
+        <div class="csm-info-container">
+            <!-- Energy Section -->
+            <h3 [outerHTML]="medpaxSpecificContent['energyboxbottlesBannerComponent']?.headline"></h3>
+            <div class="csm-info__text" [innerHTML]="medpaxSpecificContent['energyboxbottlesBannerComponent']?.content">
+            </div>
+            <!-- Beauty Section -->
+            <h3 [outerHTML]="medpaxSpecificContent['beautyboxbottlesBannerComponent']?.headline"></h3>
+            <div class="csm-info__text" [innerHTML]="medpaxSpecificContent['beautyboxbottlesBannerComponent']?.content">
+            </div>
+            <!-- Gut Section -->
+            <h3 [outerHTML]="medpaxSpecificContent['GutboxbottlesBannerComponent']?.headline"></h3>
+            <div class="csm-info__text" [innerHTML]="medpaxSpecificContent['GutboxbottlesBannerComponent']?.content">
+            </div>
+            <!-- Immune Section -->
+            <h3 [outerHTML]="medpaxSpecificContent['ImmuneboxbottlesBannerComponent']?.headline"></h3>
+            <div class="csm-info__text" [innerHTML]="medpaxSpecificContent['ImmuneboxbottlesBannerComponent']?.content">
+            </div>
+            <!-- Sleep Section -->
+            <h3 [outerHTML]="medpaxSpecificContent['sleepboxbottlesBannerComponent']?.headline"></h3>
+            <div class="csm-info__text" [innerHTML]="medpaxSpecificContent['sleepboxbottlesBannerComponent']?.content">
+            </div>
+            <div class="csm-info__wi">
+                <div class="bold">
+                    {{medpaxSpecificContent['whatInsideParaComponent']?.content}}
+                </div>
+                <!-- Energy Section -->
+                <a *ngIf="medpaxSpecificContent['whatInsideEnergyLink1']"
+                    [href]="medpaxSpecificContent['whatInsideEnergyLink1']?.url" class="bolder">
+                    {{medpaxSpecificContent['whatInsideEnergyLink1']?.linkName}},
+                </a>
+                <a *ngIf="medpaxSpecificContent['whatInsideEnergyLink2']"
+                    [href]="medpaxSpecificContent['whatInsideEnergyLink2']?.url"
+                    class="bolder">{{medpaxSpecificContent['whatInsideEnergyLink2']?.linkName}},</a>
+                <a *ngIf="medpaxSpecificContent['whatInsideEnergyLink3']"
+                    [href]="medpaxSpecificContent['whatInsideEnergyLink3']?.url"
+                    class="bolder">{{medpaxSpecificContent['whatInsideEnergyLink3']?.linkName}}</a>
+                <!-- Beauty Section -->
+                <a *ngIf="medpaxSpecificContent['whatInsideBeautyLink1']"
+                    [href]="medpaxSpecificContent['whatInsideBeautyLink1']?.url" class="bolder">
+                    {{medpaxSpecificContent['whatInsideBeautyLink1']?.linkName}},
+                </a>
+                <a *ngIf="medpaxSpecificContent['whatInsideBeautyLink2']"
+                    [href]="medpaxSpecificContent['whatInsideBeautyLink2']?.url"
+                    class="bolder">{{medpaxSpecificContent['whatInsideBeautyLink2']?.linkName}},</a>
+                <a *ngIf="medpaxSpecificContent['whatInsideBeautyLink3']"
+                    [href]="medpaxSpecificContent['whatInsideBeautyLink3']?.url"
+                    class="bolder">{{medpaxSpecificContent['whatInsideBeautyLink3']?.linkName}}</a>
+                <!-- Gut Section -->
+                <a *ngIf="medpaxSpecificContent['whatInsideGutLink1']"
+                    [href]="medpaxSpecificContent['whatInsideGutLink1']?.url" class="bolder">
+                    {{medpaxSpecificContent['whatInsideGutLink1']?.linkName}},
+                </a>
+                <a *ngIf="medpaxSpecificContent['whatInsideGutLink2']"
+                    [href]="medpaxSpecificContent['whatInsideGutLink2']?.url"
+                    class="bolder">{{medpaxSpecificContent['whatInsideGutLink2']?.linkName}},</a>
+                <a *ngIf="medpaxSpecificContent['whatInsideGutLink3']"
+                    [href]="medpaxSpecificContent['whatInsideGutLink3']?.url"
+                    class="bolder">{{medpaxSpecificContent['whatInsideGutLink3']?.linkName}}</a>
+                <!-- Immune Section -->
+                <a *ngIf="medpaxSpecificContent['whatInsideImmuneLink1']"
+                    [href]="medpaxSpecificContent['whatInsideImmuneLink1']?.url" class="bolder">
+                    {{medpaxSpecificContent['whatInsideImmuneLink1']?.linkName}},
+                </a>
+                <a *ngIf="medpaxSpecificContent['whatInsideImmuneLink2']"
+                    [href]="medpaxSpecificContent['whatInsideImmuneLink2']?.url"
+                    class="bolder">{{medpaxSpecificContent['whatInsideImmuneLink2']?.linkName}},</a>
+                <a *ngIf="medpaxSpecificContent['whatInsideImmuneLink3']"
+                    [href]="medpaxSpecificContent['whatInsideImmuneLink3']?.url"
+                    class="bolder">{{medpaxSpecificContent['whatInsideImmuneLink3']?.linkName}}</a>
+                <!-- Sleep Section -->
+                <a *ngIf="medpaxSpecificContent['whatInsidesleepLink1']"
+                    [href]="medpaxSpecificContent['whatInsidesleepLink1']?.url" class="bolder">
+                    {{medpaxSpecificContent['whatInsidesleepLink1']?.linkName}},
+                </a>
+                <a *ngIf="medpaxSpecificContent['whatInsidesleepLink2']"
+                    [href]="medpaxSpecificContent['whatInsidesleepLink2']?.url"
+                    class="bolder">{{medpaxSpecificContent['whatInsidesleepLink2']?.linkName}},</a>
+                <a *ngIf="medpaxSpecificContent['whatInsidesleepLink3']"
+                    [href]="medpaxSpecificContent['whatInsidesleepLink3']?.url"
+                    class="bolder">{{medpaxSpecificContent['whatInsidesleepLink3']?.linkName}}</a>
+            </div>
+            <div class="csm__register">
+                <a class="btn btn-rounded btn-primary order-now-btn" *ngIf="medpaxSpecificContent['medpaxBeautyPdp']" [href]="medpaxSpecificContent['medpaxBeautyPdp']?.url">
+                    {{medpaxSpecificContent['medpaxBeautyPdp']?.linkName}}
+                </a>
+                <a class="btn btn-rounded btn-primary order-now-btn" *ngIf="medpaxSpecificContent['medpaxEnergyPdp']" [href]="medpaxSpecificContent['medpaxEnergyPdp']?.url">
+                    {{medpaxSpecificContent['medpaxEnergyPdp']?.linkName}}
+                </a>
+                <a class="btn btn-rounded btn-primary order-now-btn" *ngIf="medpaxSpecificContent['medpaxImmunePdp']" [href]="medpaxSpecificContent['medpaxImmunePdp']?.url">
+                    {{medpaxSpecificContent['medpaxImmunePdp']?.linkName}}
+                </a>
+                <a class="btn btn-rounded btn-primary order-now-btn" *ngIf="medpaxSpecificContent['medpaxGutPdp']" [href]="medpaxSpecificContent['medpaxGutPdp']?.url">
+                    {{medpaxSpecificContent['medpaxGutPdp']?.linkName}}
+                </a>
+                <a class="btn btn-rounded btn-primary order-now-btn" *ngIf="medpaxSpecificContent['medpaxSleepPdp']" [href]="medpaxSpecificContent['medpaxSleepPdp']?.url">
+                    {{medpaxSpecificContent['medpaxSleepPdp']?.linkName}}
+                </a>
+                <div class="register-now --hide-logged-in">
+                    {{medpaxSpecificContent['energySection1ParaComponent']?.content}}
+                    <a class="bolder" [href]="medpaxSpecificContent['PatientHomeRegisterLink']?.url">
+                        {{medpaxSpecificContent['PatientHomeRegisterLink']?.linkName}}</a>
+                </div>
+            </div>
+            <cx-media *ngIf="medpaxSpecificContent['energyboxbottlesBannerComponent']"
+                [container]="wsPageService.getImage(medpaxSpecificContent['energyboxbottlesBannerComponent'])"></cx-media>
+            <cx-media *ngIf="medpaxSpecificContent['beautyboxbottlesBannerComponent']"
+                [container]="wsPageService.getImage(medpaxSpecificContent['beautyboxbottlesBannerComponent'])"></cx-media>
+            <cx-media *ngIf="medpaxSpecificContent['GutboxbottlesBannerComponent']"
+                [container]="wsPageService.getImage(medpaxSpecificContent['GutboxbottlesBannerComponent'])"></cx-media>
+            <cx-media *ngIf="medpaxSpecificContent['ImmuneboxbottlesBannerComponent']"
+                [container]="wsPageService.getImage(medpaxSpecificContent['ImmuneboxbottlesBannerComponent'])"></cx-media>
+            <cx-media *ngIf="medpaxSpecificContent['sleepboxbottlesBannerComponent']"
+                [container]="wsPageService.getImage(medpaxSpecificContent['sleepboxbottlesBannerComponent'])"></cx-media>
+        </div>
+    </section>
+
+    <section class="medpax-specific-page-container">
+        <h4 [outerHTML]="medpaxSpecificContent['condsSection3ParaComponent']?.content">
+
+        </h4>
+        <div class="csm-card-container">
+            <a class="csm-card --energy" [href]="medpaxSpecificContent['condSpecificEnergyLink']?.url"
+                *ngIf="medpaxSpecificContent['condSpecificEnergyComp']">
+                <cx-media
+                    [container]="wsPageService.getImage(medpaxSpecificContent['condSpecificEnergyComp'])"></cx-media>
+                <span class="csm-card__title">
+                    {{medpaxSpecificContent['condSpecificEnergyLink']?.linkName}}
+                </span>
+            </a>
+            <a class="csm-card --beauty" [href]="medpaxSpecificContent['condSpecificBeautyLink']?.url"
+                *ngIf="medpaxSpecificContent['condSpecificBeautyComp']">
+                <cx-media
+                    [container]="wsPageService.getImage(medpaxSpecificContent['condSpecificBeautyComp'])"></cx-media>
+                <span class="csm-card__title">
+                    {{medpaxSpecificContent['condSpecificBeautyLink']?.linkName}}
+                </span>
+            </a>
+            <a class="csm-card --gut" [href]="medpaxSpecificContent['condSpecificGutLink']?.url"
+                *ngIf="medpaxSpecificContent['condSpecificGutComp']">
+                <cx-media [container]="wsPageService.getImage(medpaxSpecificContent['condSpecificGutComp'])"></cx-media>
+                <span class="csm-card__title">
+                    {{medpaxSpecificContent['condSpecificGutLink']?.linkName}}
+                </span>
+            </a>
+            <a class="csm-card --immune" [href]="medpaxSpecificContent['condSpecificImmuneLink']?.url"
+                *ngIf="medpaxSpecificContent['condSpecificImmuneComp']">
+                <cx-media
+                    [container]="wsPageService.getImage(medpaxSpecificContent['condSpecificImmuneComp'])"></cx-media>
+                <span class="csm-card__title">
+                    {{medpaxSpecificContent['condSpecificImmuneLink']?.linkName}}
+                </span>
+            </a>
+            <a class="csm-card --sleep" [href]="medpaxSpecificContent['condSpecificSleepLink']?.url"
+                *ngIf="medpaxSpecificContent['condSpecificSleepComp']">
+                <cx-media
+                    [container]="wsPageService.getImage(medpaxSpecificContent['condSpecificSleepComp'])"></cx-media>
+                <span class="csm-card__title">
+                    {{medpaxSpecificContent['condSpecificSleepLink']?.linkName}}
+                </span>
+            </a>
+        </div>
+    </section>
+
+    <section class="purple-bg-callout-container">
+        <div  class="w-600">
+            <h2 class="why-medpax__title">
+                <span>{{medpaxSpecificContent['condSpecificHandPacketComp']?.headline}}</span>
+
+            </h2>
+            <div class="why-medpax__text">
+                {{medpaxSpecificContent['condSpecificHandPacketComp']?.content}}
+            </div>
+            <a [href]="medpaxSpecificContent['condSpecificLearnLink']?.url">
+                {{medpaxSpecificContent['condSpecificLearnLink']?.linkName}}
+            </a>
+        </div>
+        <cx-media *ngIf="medpaxSpecificContent['condSpecificHandPacketComp']"
+            [container]="wsPageService.getImage(medpaxSpecificContent['condSpecificHandPacketComp'])"></cx-media>
+    </section>
+</main>

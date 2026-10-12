@@ -1,0 +1,7 @@
+<a class="mtp__link" [routerLink]="'/presenters'|parseUrl:[presenterDetails()?.code]" tabindex="-1">
+<img class="mtp__img" [src]="imagePrefix+(presenterDetails()?.image?.url || presenterDetails()?.image)"
+    [alt]="presenterDetails()?.name">
+</a>
+<div><a class="mtp__link" [routerLink]="'/presenters'|parseUrl:[presenterDetails()?.code]" tabindex="0">Todd
+        {{presenterDetails()?.name || 'Data Issue'}}</a>
+</div>

@@ -1,0 +1,66 @@
+<ng-container>
+  <div class="ws-order-history-container" [ngClass]="isPractioner ? '' : 'patient-tab'">
+    <section class="main-heading">
+      <cx-page-slot position="wsOrderHistoryHeadingPara"></cx-page-slot>
+    </section>
+
+    <ng-container *ngIf="isLoggedIn$ | async as isLoggedIn">
+      <ng-container *ngIf="curUser">
+        @if(componentListArray.length > 0) {
+          <section class="order-history-tabs-section">
+            <div class="ws-tab-container-desktop pb-2">
+              <ul class="nav-tabs-heading" role="tablist">
+                @for( data of componentListArray; track data) {
+                @if(this.cmsService.getComponentData(data)|async ; as getComponentData){
+                  @if (showingAgingTab(getComponentData?.uid)) {
+                  <li
+                    role="butoon"
+                    tabindex="0"
+                    class="tab-header-item"
+                    (click)="changeTab($any(getComponentData))"
+                    (keydown.enter)="changeTab($any(getComponentData))"
+                    (keydown.space)="changeTab($any(getComponentData))"
+                    [ngClass]="
+                    {'active': activeTabId === $any(getComponentData)?.uid}
+                  "
+                  >
+                    <a
+                      class="tab-header-link"
+                    >
+                    {{ $any(getComponentData)?.linkName }}
+                    </a>
+                  </li>
+                } } }
+              </ul>
+            </div>
+
+            <div class="ws-tab-container-mobile">
+              <div class="form-group">
+                <select
+                  class="form-control input-lg form-control-inquiry py-0"
+                  (change)="changeSelectedTab($event)"
+                >
+                  @for( data of componentListArray; track data){
+                  @if(this.cmsService.getComponentData(data)|async ; as getComponentData){
+                    @if (showingAgingTab(getComponentData?.uid)) {
+                    <option [value]="$any(getComponentData)?.url">
+                      <a
+                        class="search-header-link"
+                      >
+                      {{ $any(getComponentData)?.linkName }}
+                      </a>
+                    </option>
+                  }}}
+                </select>
+              </div>
+            </div>
+          </section>
+        }
+      </ng-container>
+    </ng-container>
+
+    <section class="oder-history-tab-results-container">
+     <router-outlet></router-outlet>
+    </section>
+  </div>
+</ng-container>

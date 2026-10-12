@@ -1,0 +1,72 @@
+
+.img-sm {
+    width: 80px;
+    height: 80px;
+}
+
+.collapse:not(.show) {
+    display: none !important;
+}
+.collapse.show {
+    display: block !important;
+}
+
+.error-block{
+    .ws-message{
+    padding: 16px;
+    border-radius: 4px;
+    border: 1px solid var(--ws-error-300);
+    background:  var(--ws-error-50);
+    }
+}
+@media (min-width:390px) and (max-width:576px){
+    #editPractitioner-btn {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    }
+    #practitionerMoreDetails-btn, #practitionerCloseDetails-btn{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    }
+    .submit-btn{
+    width: 100%;
+    display: flex;
+    justify-content: center; 
+    }
+    .practitionerName{
+        font-size: 18px;
+        padding-bottom: 1rem;
+    }
+    .location{
+        font-size: 18px;
+    }
+    .bold{
+        font-weight: 600;
+    }
+}
+@media (min-width:768px) {
+    h3{
+        font-size: 1.421875rem;
+    }
+}
+input{
+    &::placeholder {
+            color: var(--ws-gray-light-500);
+            font-weight: 300;
+        }
+}
+.bold{
+    font-weight: 600;
+}
+
+::ng-deep{
+    .alert-danger{
+        display: none !important;
+    }
+    .touched-only-invalid.ng-invalid.ng-touched {
+    border-color: black;
+    }
+}

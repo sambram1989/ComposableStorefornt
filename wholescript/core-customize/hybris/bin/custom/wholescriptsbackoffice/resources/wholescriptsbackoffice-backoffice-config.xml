@@ -1,0 +1,769 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--
+ Copyright (c) 2020 SAP SE or an SAP affiliate company. All rights reserved
+-->
+<config xmlns="http://www.hybris.com/cockpit/config"
+        xmlns:et="http://www.hybris.com/cockpitng/config/explorertree"
+        xmlns:ss="http://www.hybris.com/cockpitng/config/simplesearch"
+        xmlns:list-view="http://www.hybris.com/cockpitng/component/listView"
+        xmlns:as="http://www.hybris.com/cockpitng/config/advancedsearch"
+        xmlns:ea="http://www.hybris.com/cockpitng/component/editorArea">
+
+
+    <!-- wholescriptsbackoffice UI configuration should be provided here -->
+    <context component="explorer-tree" principal="marketingmanagerrole">
+        <et:explorer-tree>
+            <et:navigation-node id="hmc_treenode_catalog">
+                <et:type-node code="Product" id="hmc_typenode_product"/>
+            </et:navigation-node>
+            <et:navigation-node id="hmc_treenode_order">
+                <et:type-node code="Order" id="hmc_typenode_order"/>
+                <et:type-node code="OrderEntry" id="hmc_typenode_orderentry"/>
+            </et:navigation-node>
+            <et:navigation-node id="hmc_treenode_user">
+                <et:type-node code="UserGroup" id="hmc_typenode_usergroup"/>
+            </et:navigation-node>
+            <et:navigation-node id="hmc.b2bcommercegroup">
+                <et:type-node code="B2BUnit" id="B2BUnit"/>
+                <et:type-node code="B2BCustomer" id="B2BCustomer"/>
+            </et:navigation-node>
+            <et:navigation-node id="hmc_treenode_protocolrecommendation">
+                <et:type-node code="Protocol" id="hmc_typenode_protocol"/>
+                <et:type-node code="Recommendation" id="hmc_typenode_recommendation"/>
+            </et:navigation-node>
+        </et:explorer-tree>
+    </context>
+
+
+    <context component="explorer-tree" principal="cmsmanagerrole">
+        <et:explorer-tree>
+            <et:navigation-node id="hmc_treenode_catalog">
+                <et:type-node code="Product" id="hmc_typenode_product"/>
+            </et:navigation-node>
+            <et:navigation-node id="hmc_treenode_order">
+                <et:type-node code="Order" id="hmc_typenode_order"/>
+                <et:type-node code="OrderEntry" id="hmc_typenode_orderentry"/>
+            </et:navigation-node>
+            <et:navigation-node id="hmc_treenode_user">
+                <et:type-node code="UserGroup" id="hmc_typenode_usergroup"/>
+            </et:navigation-node>
+            <et:navigation-node id="hmc.b2bcommercegroup">
+                <et:type-node code="B2BUnit" id="B2BUnit"/>
+                <et:type-node code="B2BCustomer" id="B2BCustomer"/>
+            </et:navigation-node>
+            <et:navigation-node id="hmc_treenode_protocolrecommendation">
+                <et:type-node code="Protocol" id="hmc_typenode_protocol"/>
+                <et:type-node code="Recommendation" id="hmc_typenode_recommendation"/>
+            </et:navigation-node>
+            <et:navigation-node id="hmc_treenode_webinargroup">
+                <et:type-node code="Webinar" id="hmc_typenode_webinar"/>
+                <et:type-node code="Presenter" id="hmc_typenode_presenter"/>
+                <et:type-node code="WebinarCategoryTag" id="hmc_typenode_webinarcategorytag"/>
+                <et:type-node code="WatchTracker" id="hmc_typenode_watchtracker"/>
+            </et:navigation-node>
+            <et:navigation-node id="hmc.cms2">
+                <et:type-node code="CMSSite" id="CMSSite"/>
+                <et:type-node code="CMSPageType" id="CMSPageType"/>
+                <et:type-node code="PageTemplate" id="PageTemplate"/>
+                <et:type-node code="ContentSlotForTemplate" id="ContentSlotForTemplate"/>
+                <et:type-node code="AbstractPage" id="AbstractPage"/>
+                <et:type-node code="ContentSlot" id="ContentSlot"/>
+                <et:type-node code="ContentSlotForPage" id="ContentSlotForPage"/>
+                <et:type-node code="SimpleCMSComponent" id="SimpleCMSComponent"/>
+                <et:type-node code="ComponentTypeGroup" id="ComponentTypeGroup"/>
+                <et:type-node code="AbstractCMSComponentContainer" id="AbstractCMSComponentContainer"/>
+                <et:type-node code="RestrictionType" id="RestrictionType"/>
+                <et:type-node code="AbstractRestriction" id="AbstractRestriction"/>
+                <et:type-node code="CMSNavigationNode" id="CMSNavigationNode"/>
+                <et:type-node code="CMSVersion" id="CMSVersion"/>
+            </et:navigation-node>
+        </et:explorer-tree>
+    </context>
+
+    <context component="explorer-tree" principal="csrmanagerrole">
+        <et:explorer-tree>
+            <et:navigation-node id="hmc_treenode_catalog">
+                <et:type-node code="Product" id="hmc_typenode_product"/>
+                <et:navigation-node id="hmc_treenode_restrictiongroup">
+                    <et:type-node id="hmc_typenode_customerproductrestriction" code="CustomerProductRestriction"/>
+                    <et:type-node id="hmc_typenode_customerclassproductrestriction"
+                                  code="CustomerClassProductRestriction"/>
+                    <et:type-node id="hmc_typenode_brandcustomerclassrestriction" code="BrandCustomerClassRestriction"/>
+                    <et:type-node id="hmc_typenode_customerproductgrouprestriction"
+                                  code="CustomerProductGroupRestriction"/>
+                    <et:type-node id="hmc_typenode_regionproductrestriction" code="RegionProductRestriction"/>
+                    <et:type-node id="hmc_typenode_regionproductagerestriction" code="RegionProductAgeRestriction"/>
+                    <et:type-node id="hmc_typenode_regionproductswaprestriction" code="RegionProductSwapRestriction"/>
+                </et:navigation-node>
+            </et:navigation-node>
+            <et:navigation-node id="hmc_treenode_order">
+                <et:type-node code="Order" id="hmc_typenode_order"/>
+                <et:type-node code="OrderEntry" id="hmc_typenode_orderentry"/>
+            </et:navigation-node>
+            <et:navigation-node id="hmc.b2bcommercegroup">
+                <et:type-node code="B2BUnit" id="B2BUnit"/>
+                <et:type-node code="B2BCustomer" id="B2BCustomer"/>
+            </et:navigation-node>
+            <et:navigation-node id="hmc_treenode_protocolrecommendation">
+                <et:type-node code="Protocol" id="hmc_typenode_protocol"/>
+                <et:type-node code="Recommendation" id="hmc_typenode_recommendation"/>
+            </et:navigation-node>
+        </et:explorer-tree>
+    </context>
+
+
+    <context component="explorer-tree" merge-by="module">
+        <et:explorer-tree>
+            <et:navigation-node id="hmc_treenode_protocolrecommendation">
+                <et:type-node code="Protocol" id="hmc_typenode_protocol"/>
+                <et:type-node code="Recommendation" id="hmc_typenode_recommendation"/>
+            </et:navigation-node>
+            <et:navigation-node id="hmc_treenode_catalog" merge-mode="append">
+                <et:type-node id="hmc_typenode_wholeScriptsBrightStockProducts" code="WholeScriptsBrightStockProducts"/>
+                <et:navigation-node id="hmc_treenode_restrictiongroup">
+                    <et:type-node id="hmc_typenode_customerproductrestriction" code="CustomerProductRestriction"/>
+                    <et:type-node id="hmc_typenode_customerclassproductrestriction"
+                                  code="CustomerClassProductRestriction"/>
+                    <et:type-node id="hmc_typenode_brandcustomerclassrestriction" code="BrandCustomerClassRestriction"/>
+                    <et:type-node id="hmc_typenode_customerproductgrouprestriction"
+                                  code="CustomerProductGroupRestriction"/>
+                    <et:type-node id="hmc_typenode_regionproductrestriction" code="RegionProductRestriction"/>
+                    <et:type-node id="hmc_typenode_regionproductagerestriction" code="RegionProductAgeRestriction"/>
+                    <et:type-node id="hmc_typenode_regionproductswaprestriction" code="RegionProductSwapRestriction"/>
+                    <et:type-node id="hmc_typenode_customerMaterialInformation" code="CustomerMaterialInformation"/>
+                </et:navigation-node>
+            </et:navigation-node>
+            <et:navigation-node id="hmc_treenode_webinargroup">
+                <et:type-node code="Webinar" id="hmc_typenode_webinar"/>
+                <et:type-node code="Presenter" id="hmc_typenode_presenter"/>
+                <et:type-node code="WebinarCategoryTag" id="hmc_typenode_webinarcategorytag"/>
+                <et:type-node code="WatchTracker" id="hmc_typenode_watchtracker"/>
+            </et:navigation-node>
+
+        </et:explorer-tree>
+    </context>
+    <context component="explorer-tree" merge-by="module">
+        <et:explorer-tree>
+            <et:navigation-node id="hmc_treenode_system">
+                <et:navigation-node id="hmc_treenode_technicalObject">
+                    <et:type-node code="WholescriptsIntegrations" id="hmc_treenode_WholescriptsIntegrations"/>
+                </et:navigation-node>
+            </et:navigation-node>
+        </et:explorer-tree>
+    </context>
+
+    <context component="simple-search" type="Webinar" parent="GenericItem" merge-by="type">
+        <ss:simple-search>
+            <ss:field name="code"/>
+        </ss:simple-search>
+    </context>
+    <context component="simple-search" type="Presenter" parent="GenericItem" merge-by="type">
+        <ss:simple-search>
+            <ss:field name="code"/>
+        </ss:simple-search>
+    </context>
+    <context component="simple-search" type="WebinarCategoryTag" parent="GenericItem" merge-by="type">
+        <ss:simple-search>
+            <ss:field name="code"/>
+        </ss:simple-search>
+    </context>
+    <context component="simple-search" type="WatchTracker" parent="GenericItem" merge-by="type">
+        <ss:simple-search>
+            <ss:field name="userId"/>
+        </ss:simple-search>
+    </context>
+    <context component="simple-search" type="Protocol" parent="GenericItem" merge-by="type">
+        <ss:simple-search>
+            <ss:field name="code"/>
+        </ss:simple-search>
+    </context>
+
+    <context component="simple-search" type="Recommendation" parent="GenericItem" merge-by="type">
+        <ss:simple-search>
+            <ss:field name="code"/>
+        </ss:simple-search>
+    </context>
+    <context component="simple-search" type="CustomerProductRestriction" parent="GenericItem" merge-by="type">
+        <ss:simple-search>
+            <ss:field name="customerSAPId"/>
+        </ss:simple-search>
+    </context>
+
+    <context component="simple-search" type="CustomerClassProductRestriction" parent="GenericItem" merge-by="type">
+        <ss:simple-search>
+            <ss:field name="customerClass"/>
+        </ss:simple-search>
+    </context>
+
+    <context component="simple-search" type="BrandCustomerClassRestriction" parent="GenericItem" merge-by="type">
+        <ss:simple-search>
+            <ss:field name="brandCode"/>
+        </ss:simple-search>
+    </context>
+
+    <context component="simple-search" type="CustomerProductGroupRestriction" parent="GenericItem" merge-by="type">
+        <ss:simple-search>
+            <ss:field name="customerSAPId"/>
+        </ss:simple-search>
+    </context>
+
+    <context component="simple-search" type="RegionProductRestriction" parent="GenericItem" merge-by="type">
+        <ss:simple-search>
+            <ss:field name="regionCode"/>
+        </ss:simple-search>
+    </context>
+
+    <context component="simple-search" type="RegionProductAgeRestriction" parent="GenericItem" merge-by="type">
+        <ss:simple-search>
+            <ss:field name="regionCode"/>
+        </ss:simple-search>
+    </context>
+
+    <context component="simple-search" type="RegionProductSwapRestriction" parent="GenericItem" merge-by="type">
+        <ss:simple-search>
+            <ss:field name="regionCode"/>
+        </ss:simple-search>
+    </context>
+    <context component="simple-search" type="CustomerMaterialInformation" parent="GenericItem" merge-by="type">
+        <ss:simple-search>
+            <ss:field name="account"/>
+            <ss:field name="productCode"/>
+        </ss:simple-search>
+    </context>
+    <context component="simple-search" type="WholescriptsIntegrations" parent="GenericItem" merge-by="type">
+        <ss:simple-search>
+            <ss:field name="userId"/>
+            <ss:field name="destinationName"/>
+            <ss:field name="status"/>
+        </ss:simple-search>
+    </context>
+    <context component="simple-search" type="WholeScriptsBrightStockProducts" parent="GenericItem" merge-by="type">
+        <ss:simple-search>
+            <ss:field name="productCode"/>
+        </ss:simple-search>
+    </context>
+    <context component="advanced-search" type="WholeScriptsBrightStockProducts" parent="GenericItem" merge-by="type">
+        <as:advanced-search>
+            <as:field-list>
+                <as:field name="productCode" selected="true" operator="equals"/>
+                <as:field name="outOfStock" selected="true" operator="equals"/>
+            </as:field-list>
+        </as:advanced-search>
+    </context>
+    <context component="advanced-search" type="WholescriptsIntegrations" parent="GenericItem" merge-by="type">
+        <as:advanced-search>
+            <as:field-list>
+                <as:field name="userId" selected="true" operator="equals"/>
+                <as:field name="request" selected="true" operator="contains"/>
+                <as:field name="response" selected="true" operator="contains"/>
+                <as:field name="status" selected="true" operator="equals"/>
+                <as:field name="destinationName" selected="true" operator="contains"/>
+            </as:field-list>
+        </as:advanced-search>
+    </context>
+    <context component="advanced-search" type="CustomerMaterialInformation" parent="GenericItem" merge-by="type">
+        <as:advanced-search>
+            <as:field-list>
+                <as:field name="account" selected="true" operator="equals"/>
+                <as:field name="productCode" selected="true" operator="equals"/>
+                <as:field name="blueLabel" selected="true" operator="equals"/>
+            </as:field-list>
+        </as:advanced-search>
+    </context>
+    <context component="advanced-search" type="Protocol" parent="GenericItem" merge-by="type">
+        <as:advanced-search>
+            <as:field-list>
+                <as:field name="code" selected="true" operator="startsWith"/>
+                <as:field name="name" selected="true" operator="contains"/>
+                <as:field name="isWSProtocol" selected="true" operator="equals"/>
+                <as:field name="protocolStatus" operator="equals"/>
+            </as:field-list>
+        </as:advanced-search>
+    </context>
+    <context component="advanced-search" type="Webinar" parent="GenericItem" merge-by="type">
+        <as:advanced-search>
+            <as:field-list>
+                <as:field name="code" selected="true" operator="startsWith"/>
+                <as:field name="title" selected="true" operator="contains"/>
+                <as:field name="isFeatured" selected="true" operator="equals"/>
+                <as:field name="sponsorName"/>
+                <as:field name="shortDescription"/>
+                <as:field name="description"/>
+            </as:field-list>
+        </as:advanced-search>
+    </context>
+
+    <context component="advanced-search" type="Presenter" parent="GenericItem" merge-by="type">
+        <as:advanced-search>
+            <as:field-list>
+                <as:field name="code" selected="true" operator="startsWith"/>
+                <as:field name="name" selected="true" operator="contains"/>
+            </as:field-list>
+        </as:advanced-search>
+    </context>
+    <context component="advanced-search" type="WebinarCategoryTag" parent="GenericItem" merge-by="type">
+        <as:advanced-search>
+            <as:field-list>
+                <as:field name="code" selected="true" operator="startsWith"/>
+                <as:field name="name" selected="true" operator="contains"/>
+            </as:field-list>
+        </as:advanced-search>
+    </context>
+    <context component="advanced-search" type="WatchTracker" parent="GenericItem" merge-by="type">
+        <as:advanced-search>
+            <as:field-list>
+                <as:field name="userId" selected="true" operator="startsWith"/>
+                <as:field name="webinarCode" selected="true" operator="contains"/>
+            </as:field-list>
+        </as:advanced-search>
+    </context>
+
+
+    <context component="advanced-search" type="CustomerProductRestriction" parent="GenericItem" merge-by="type">
+        <as:advanced-search>
+            <as:field-list>
+                <as:field name="customerSAPId" selected="true" operator="startsWith"/>
+                <as:field name="productCode" selected="true" operator="contains"/>
+            </as:field-list>
+        </as:advanced-search>
+    </context>
+
+    <context component="advanced-search" type="B2BUnit" parent="Company" merge-by="type">
+        <as:advanced-search>
+            <as:field-list>
+                <as:field name="isPatientDirect" selected="true" operator="equals"/>
+                <as:field name="sapDeliveryBlock" selected="true" operator="equals"/>
+                <as:field name="sapCustomerGroup" selected="true" operator="equals"/>
+                <as:field name="salesPerson" selected="true" operator="equals"/>
+            </as:field-list>
+        </as:advanced-search>
+    </context>
+
+    <context component="advanced-search" type="Recommendation" parent="GenericItem" merge-by="type">
+        <as:advanced-search>
+            <as:field-list>
+                <as:field name="code" selected="true" operator="startsWith"/>
+                <as:field name="name" selected="true" operator="contains"/>
+                <as:field name="patient" selected="true" operator="equals"/>
+                <as:field name="recommendationStatus" operator="equals"/>
+            </as:field-list>
+        </as:advanced-search>
+    </context>
+
+    <context component="advanced-search" type="CustomerClassProductRestriction" parent="GenericItem" merge-by="type">
+        <as:advanced-search>
+            <as:field-list>
+                <as:field name="customerClass" selected="true" operator="startsWith"/>
+                <as:field name="productCode" selected="true" operator="contains"/>
+            </as:field-list>
+        </as:advanced-search>
+    </context>
+
+    <context component="advanced-search" type="BrandCustomerClassRestriction" parent="GenericItem" merge-by="type">
+        <as:advanced-search>
+            <as:field-list>
+                <as:field name="brandCode" selected="true" operator="startsWith"/>
+                <as:field name="customerClass" selected="true" operator="contains"/>
+            </as:field-list>
+        </as:advanced-search>
+    </context>
+
+    <context component="advanced-search" type="CustomerProductGroupRestriction" parent="GenericItem" merge-by="type">
+        <as:advanced-search>
+            <as:field-list>
+                <as:field name="customerSAPId" selected="true" operator="startsWith"/>
+                <as:field name="productGroup" selected="true" operator="contains"/>
+            </as:field-list>
+        </as:advanced-search>
+    </context>
+
+    <context component="advanced-search" type="RegionProductRestriction" parent="GenericItem" merge-by="type">
+        <as:advanced-search>
+            <as:field-list>
+                <as:field name="regionCode" selected="true" operator="startsWith"/>
+                <as:field name="productCode" selected="true" operator="contains"/>
+            </as:field-list>
+        </as:advanced-search>
+    </context>
+
+    <context component="advanced-search" type="RegionProductAgeRestriction" parent="GenericItem" merge-by="type">
+        <as:advanced-search>
+            <as:field-list>
+                <as:field name="regionCode" selected="true" operator="startsWith"/>
+                <as:field name="countryCode" selected="true" operator="contains"/>
+                <as:field name="productCode" selected="true" operator="contains"/>
+                <as:field name="inactive" selected="true" operator="equals"/>
+                <as:field name="age" selected="true" operator="contains"/>
+            </as:field-list>
+        </as:advanced-search>
+    </context>
+
+    <context component="advanced-search" type="RegionProductSwapRestriction" parent="GenericItem" merge-by="type">
+        <as:advanced-search>
+            <as:field-list>
+                <as:field name="regionCode" selected="true" operator="startsWith"/>
+                <as:field name="swapProductCode" selected="true" operator="contains"/>
+                <as:field name="productCode" selected="true" operator="contains"/>
+            </as:field-list>
+        </as:advanced-search>
+    </context>
+
+    <context type="Product" component="advanced-search" merge-by="module">
+        <as:advanced-search>
+            <as:field-list>
+                <as:field name="code" selected="true" operator="contains"/>
+                <as:field name="name" selected="true" operator="contains"/>
+                <as:field name="catalogVersion" selected="true" operator="equals"/>
+                <as:field name="approvalStatus" selected="true" operator="equals"/>
+                <as:field name="supercategories" selected="true" merge-mode="REPLACE"/>
+                <as:field name="wholescriptsBrand"/>
+                <as:field name="sapmaterialgroup"/>
+                <as:field name="sapproducttypes"/>
+                <as:field name="ismedpax"/>
+                <as:field name="sapbasicmaterial"/>
+                <as:field name="isFeatured"/>
+                <as:field name="isNew"/>
+                <as:field name="genericPLName"/>
+                <as:field name="variantType" merge-mode="REMOVE"/>
+                <as:field name="order" merge-mode="REMOVE"/>
+                <as:field name="endLineNumber" merge-mode="REMOVE"/>
+                <as:field name="startLineNumber" merge-mode="REMOVE"/>
+                <as:field name="deliveryTime" merge-mode="REMOVE"/>
+                <as:field name="contentUnit" merge-mode="REMOVE"/>
+                <as:field name="erpGroupBuyer" merge-mode="REMOVE"/>
+                <as:field name="erpGroupSupplier" merge-mode="REMOVE"/>
+                <as:field name="orderQuantityInterval" merge-mode="REMOVE"/>
+                <as:field name="supplierAlternativeAID" merge-mode="REMOVE"/>
+                <as:field name="segment" merge-mode="REMOVE"/>
+                <as:field name="articlestatus" merge-mode="REMOVE"/>
+                <as:field name="xmlcontent" merge-mode="REMOVE"/>
+                <as:field name="picture" merge-mode="REMOVE"/>
+                <as:field name="owner" merge-mode="REMOVE"/>
+                <as:field name="pk" merge-mode="REMOVE"/>
+                <as:field name="remarks" merge-mode="REMOVE"/>
+                <as:field name="thumbnail" merge-mode="REMOVE"/>
+                <as:field name="priceQuantity" merge-mode="REMOVE"/>
+                <as:field name="europe1pricefactory_ppg" merge-mode="REMOVE"/>
+            </as:field-list>
+        </as:advanced-search>
+    </context>
+
+    <context component="listview" type="WholeScriptsBrightStockProducts" merge-by="type" parent="GenericItem">
+        <list-view:list-view>
+            <list-view:column qualifier="productCode"/>
+            <list-view:column qualifier="outOfStock"/>
+        </list-view:list-view>
+    </context>
+    <context component="listview" type="WholescriptsIntegrations" merge-by="type" parent="GenericItem">
+        <list-view:list-view>
+            <list-view:column qualifier="userId"/>
+            <list-view:column qualifier="request"/>
+            <list-view:column qualifier="response"/>
+            <list-view:column qualifier="destinationName"/>
+            <list-view:column qualifier="status"/>
+            <list-view:column qualifier="creationtime"/>
+        </list-view:list-view>
+    </context>
+
+    <context component="listview" type="CustomerMaterialInformation" merge-by="type" parent="GenericItem">
+        <list-view:list-view>
+            <list-view:column qualifier="account"/>
+            <list-view:column qualifier="productCode"/>
+            <list-view:column qualifier="blueLabel"/>
+            <list-view:column qualifier="brightStock"/>
+            <list-view:column qualifier="productDescription"/>
+        </list-view:list-view>
+    </context>
+    <context component="listview" type="Recommendation" merge-by="type" parent="GenericItem">
+        <list-view:list-view>
+            <list-view:column qualifier="code"/>
+            <list-view:column qualifier="name"/>
+            <list-view:column qualifier="patient"/>
+            <list-view:column qualifier="recommendationStatus"/>
+        </list-view:list-view>
+    </context>
+
+    <context component="listview" type="CustomerProductRestriction" merge-by="type" parent="GenericItem">
+        <list-view:list-view>
+            <list-view:column qualifier="customerSAPId"/>
+            <list-view:column qualifier="productCode"/>
+            <list-view:column qualifier="validFrom"/>
+            <list-view:column qualifier="validTo"/>
+        </list-view:list-view>
+    </context>
+
+    <context component="listview" type="CustomerClassProductRestriction" merge-by="type" parent="GenericItem">
+        <list-view:list-view>
+            <list-view:column qualifier="customerClass"/>
+            <list-view:column qualifier="productCode"/>
+            <list-view:column qualifier="validFrom"/>
+            <list-view:column qualifier="validTo"/>
+        </list-view:list-view>
+    </context>
+
+    <context component="listview" type="BrandCustomerClassRestriction" merge-by="type" parent="GenericItem">
+        <list-view:list-view>
+            <list-view:column qualifier="brandCode"/>
+            <list-view:column qualifier="customerClass"/>
+            <list-view:column qualifier="validFrom"/>
+            <list-view:column qualifier="validTo"/>
+        </list-view:list-view>
+    </context>
+
+    <context component="listview" type="CustomerProductGroupRestriction" merge-by="type" parent="GenericItem">
+        <list-view:list-view>
+            <list-view:column qualifier="customerSAPId"/>
+            <list-view:column qualifier="productGroup"/>
+            <list-view:column qualifier="validFrom"/>
+            <list-view:column qualifier="validTo"/>
+        </list-view:list-view>
+    </context>
+
+    <context component="listview" type="RegionProductRestriction" merge-by="type" parent="GenericItem">
+        <list-view:list-view>
+            <list-view:column qualifier="regionCode"/>
+            <list-view:column qualifier="productCode"/>
+            <list-view:column qualifier="validFrom"/>
+            <list-view:column qualifier="validTo"/>
+        </list-view:list-view>
+    </context>
+
+    <context component="listview" type="RegionProductAgeRestriction" merge-by="type" parent="GenericItem">
+        <list-view:list-view>
+            <list-view:column qualifier="regionCode"/>
+            <list-view:column qualifier="countryCode"/>
+            <list-view:column qualifier="age"/>
+            <list-view:column qualifier="name"/>
+            <list-view:column qualifier="description"/>
+            <list-view:column qualifier="productCode"/>
+            <list-view:column qualifier="scExclusionRule"/>
+            <list-view:column qualifier="inactive"/>
+            <list-view:column qualifier="validFrom"/>
+            <list-view:column qualifier="validTo"/>
+        </list-view:list-view>
+    </context>
+
+    <context component="listview" type="RegionProductSwapRestriction" merge-by="type" parent="GenericItem">
+        <list-view:list-view>
+            <list-view:column qualifier="regionCode"/>
+            <list-view:column qualifier="productCode"/>
+            <list-view:column qualifier="swapProductCode"/>
+        </list-view:list-view>
+    </context>
+
+
+    <context component="listview" type="B2BUnit" merge-by="type" parent="Company">
+        <list-view:list-view>
+            <list-view:column qualifier="isPatientDirect"/>
+            <list-view:column qualifier="sapDeliveryBlock"/>
+            <list-view:column qualifier="sapCustomerGroup"/>
+        </list-view:list-view>
+    </context>
+
+    <context component="listview" type="Protocol" merge-by="type" parent="GenericItem">
+        <list-view:list-view>
+            <list-view:column qualifier="code"/>
+            <list-view:column qualifier="name"/>
+            <list-view:column qualifier="isWSProtocol"/>
+            <list-view:column qualifier="protocolStatus"/>
+        </list-view:list-view>
+    </context>
+
+    <context component="listview" type="Webinar" merge-by="type" parent="GenericItem">
+        <list-view:list-view>
+            <list-view:column qualifier="code"/>
+            <list-view:column qualifier="title"/>
+            <list-view:column qualifier="shortDescription"/>
+        </list-view:list-view>
+    </context>
+
+    <context component="listview" type="Presenter" merge-by="type" parent="GenericItem">
+        <list-view:list-view>
+            <list-view:column qualifier="image"/>
+            <list-view:column qualifier="code"/>
+            <list-view:column qualifier="name"/>
+        </list-view:list-view>
+    </context>
+    <context component="listview" type="WebinarCategoryTag" merge-by="type" parent="GenericItem">
+        <list-view:list-view>
+            <list-view:column qualifier="code"/>
+            <list-view:column qualifier="name"/>
+        </list-view:list-view>
+    </context>
+    <context component="listview" type="WatchTracker" merge-by="type" parent="GenericItem">
+        <list-view:list-view>
+            <list-view:column qualifier="userId"/>
+            <list-view:column qualifier="webinarCode"/>
+        </list-view:list-view>
+    </context>
+
+    <context merge-by="type" type="WholescriptsIntegrations" parent="GenericItem" component="editor-area">
+        <ea:editorArea>
+            <ea:tab name="hmc.properties" position="1">
+                <ea:section name="hmc.common">
+                    <ea:attribute qualifier="userId" readonly="true"/>
+                    <ea:attribute qualifier="request" readonly="true">
+                        <ea:editor-parameter>
+                            <ea:name>columns</ea:name>
+                            <ea:value>15</ea:value>
+                        </ea:editor-parameter>
+                        <ea:editor-parameter>
+                            <ea:name>rows</ea:name>
+                            <ea:value>15</ea:value>
+                        </ea:editor-parameter>
+                    </ea:attribute>
+                    <ea:attribute qualifier="response" readonly="true">
+                        <ea:editor-parameter>
+                            <ea:name>rows</ea:name>
+                            <ea:value>15</ea:value>
+                        </ea:editor-parameter>
+                        <ea:editor-parameter>
+                            <ea:name>columns</ea:name>
+                            <ea:value>15</ea:value>
+                        </ea:editor-parameter>
+                    </ea:attribute>
+                    <ea:attribute qualifier="status" readonly="true"/>
+                    <ea:attribute qualifier="destinationName" readonly="true"/>
+                </ea:section>
+            </ea:tab>
+        </ea:editorArea>
+    </context>
+    <context merge-by="type" type="WholeScriptsBrightStockProducts" parent="GenericItem" component="editor-area">
+        <ea:editorArea>
+            <ea:tab name="hmc.properties" position="1">
+                <ea:section name="hmc.common">
+                    <ea:attribute qualifier="productCode"/>
+                    <ea:attribute qualifier="outOfStock"/>
+                </ea:section>
+            </ea:tab>
+        </ea:editorArea>
+    </context>
+    <context merge-by="type" type="CustomerMaterialInformation" parent="GenericItem" component="editor-area">
+        <ea:editorArea>
+            <ea:tab name="hmc.properties" position="1">
+                <ea:section name="hmc.common">
+                    <ea:attribute qualifier="account"/>
+                    <ea:attribute qualifier="blueLabel"/>
+                    <ea:attribute qualifier="productCode"/>
+                    <ea:attribute qualifier="brightStock"/>
+                    <ea:attribute qualifier="productDescription"/>
+                </ea:section>
+            </ea:tab>
+        </ea:editorArea>
+    </context>
+    <context merge-by="type" type="Protocol" parent="GenericItem" component="editor-area">
+        <ea:editorArea>
+            <ea:tab name="hmc.properties" position="1">
+                <ea:section name="hmc.common">
+                    <ea:attribute qualifier="code"/>
+                    <ea:attribute qualifier="name"/>
+                    <ea:attribute qualifier="isWSProtocol"/>
+                    <ea:attribute qualifier="protocolStatus"/>
+                </ea:section>
+                <ea:section name="hmc.positions">
+                    <ea:attribute qualifier="entries"/>
+                </ea:section>
+            </ea:tab>
+        </ea:editorArea>
+    </context>
+
+    <context merge-by="type" type="Webinar" parent="GenericItem" component="editor-area">
+        <ea:editorArea>
+            <ea:tab name="hmc.properties" position="1">
+                <ea:section name="hmc.common">
+                    <ea:attribute qualifier="code"/>
+                    <ea:attribute qualifier="title"/>
+                    <ea:attribute qualifier="shortDescription"
+                                  editor="com.hybris.cockpitng.editor.localized(com.hybris.cockpitng.editor.wysiwyg)"/>
+                    <ea:attribute qualifier="description"
+                                  editor="com.hybris.cockpitng.editor.localized(com.hybris.cockpitng.editor.wysiwyg)"/>
+                    <ea:attribute qualifier="sponsorName"/>
+                    <ea:attribute qualifier="sponsorImageUrl"/>
+                    <ea:attribute qualifier="sponsorImageAltText"/>
+                    <ea:attribute qualifier="isFeatured"/>
+                    <ea:attribute qualifier="videoImage"/>
+                    <ea:attribute qualifier="video"/>
+                    <ea:attribute qualifier="videoStatus"/>
+                    <ea:attribute qualifier="creationtime"/>
+                </ea:section>
+
+            </ea:tab>
+        </ea:editorArea>
+    </context>
+
+    <context merge-by="type" type="Presenter" parent="GenericItem" component="editor-area">
+        <ea:editorArea>
+            <ea:tab name="hmc.properties" position="1">
+                <ea:section name="hmc.common">
+                    <ea:attribute qualifier="code"/>
+                    <ea:attribute qualifier="name"/>
+                    <ea:attribute qualifier="biography"
+                                  editor="com.hybris.cockpitng.editor.localized(com.hybris.cockpitng.editor.wysiwyg)"/>
+                    <ea:attribute qualifier="websiteUrl"/>
+                    <ea:attribute qualifier="image"/>
+
+                </ea:section>
+
+            </ea:tab>
+        </ea:editorArea>
+    </context>
+
+    <context merge-by="type" type="WebinarCategoryTag" parent="GenericItem" component="editor-area">
+        <ea:editorArea>
+            <ea:tab name="hmc.properties" position="1">
+                <ea:section name="hmc.common">
+                    <ea:attribute qualifier="code"/>
+                    <ea:attribute qualifier="name"/>
+                </ea:section>
+            </ea:tab>
+        </ea:editorArea>
+    </context>
+
+    <context merge-by="type" type="WatchTracker" parent="GenericItem" component="editor-area">
+        <ea:editorArea>
+            <ea:tab name="hmc.properties" position="1">
+                <ea:section name="hmc.common">
+                    <ea:attribute qualifier="userId"/>
+                    <ea:attribute qualifier="webinarCode"/>
+                </ea:section>
+            </ea:tab>
+        </ea:editorArea>
+    </context>
+
+    <context component="editor-area" type="Product" merge-by="module">
+        <ea:editorArea>
+            <ea:tab name="configurablebundlebackoffice.tab.product.bundling" merge-mode="REMOVE">
+            </ea:tab>
+            <ea:tab name="hmc.tab.product.variants" merge-mode="REMOVE">
+            </ea:tab>
+            <ea:tab name="hmc.tab.product.extendedattributes" merge-mode="REMOVE">
+            </ea:tab>
+            <ea:tab name="hmc.tab.product.properties" merge-mode="MERGE">
+                <ea:section name="hmc.section.product.sapgeneral" position="1">
+                    <ea:attribute qualifier="sapMaterialGroup"/>
+                    <ea:attribute qualifier="sapBasicMaterial"/>
+                    <ea:attribute qualifier="isMedpax"/>
+                    <ea:attribute qualifier="sapSalesUnits"/>
+                    <ea:attribute qualifier="isFeatured"/>
+                    <ea:attribute qualifier="isNew"/>
+                    <ea:attribute qualifier="supportedAutoShip"/>
+                    <ea:attribute qualifier="genericPLName"/>
+                    <ea:attribute qualifier="sapUnitOfMeasure"/>
+
+                </ea:section>
+                <ea:section name="hmc.section.product.sapshipping" position="2">
+                    <ea:attribute qualifier="height"/>
+                    <ea:attribute qualifier="width"/>
+                    <ea:attribute qualifier="length"/>
+                    <ea:attribute qualifier="dimensionUnit"/>
+                    <ea:attribute qualifier="weight"/>
+                    <ea:attribute qualifier="weightUnit"/>
+
+                </ea:section>
+                <ea:section name="hmc.product.descriptions" position="3">
+
+                </ea:section>
+            </ea:tab>
+        </ea:editorArea>
+    </context>
+</config>

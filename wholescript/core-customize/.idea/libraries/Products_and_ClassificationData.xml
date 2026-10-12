@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Products-and-ClassificationData">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/hybris/bin/custom/spartacussampledata/resources/spartacussampledata/import/productCatalogs/Products-and-ClassificationData/Product-Features.zip!/" />
+      <root url="jar://$PROJECT_DIR$/hybris/bin/custom/spartacussampledata/resources/spartacussampledata/import/productCatalogs/Products-and-ClassificationData/classification (2).zip!/" />
+      <root url="jar://$PROJECT_DIR$/hybris/bin/custom/spartacussampledata/resources/spartacussampledata/import/productCatalogs/Products-and-ClassificationData/Products-data.zip!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

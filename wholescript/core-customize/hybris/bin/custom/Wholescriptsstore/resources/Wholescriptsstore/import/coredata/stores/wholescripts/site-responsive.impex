@@ -1,0 +1,26 @@
+# -----------------------------------------------------------------------
+# Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+# -----------------------------------------------------------------------
+#
+# Import the Responsive CMS Site configuration
+#
+$productCatalog=Catalog_1710_10
+$contentCatalog=wholescriptsContentCatalog
+$defaultLanguage=en
+$storeUid=wholescripts
+$siteUid=wholescripts
+$contentCV=catalogVersion(CatalogVersion.catalog(Catalog.id[default=$contentCatalog]),CatalogVersion.version[default=Staged])[default=$contentCatalog:Staged]
+
+
+# Import config properties into impex macros
+UPDATE GenericItem[processor = de.hybris.platform.commerceservices.impex.impl.ConfigPropertyImportProcessor]; pk[unique = true]
+# Module gen config
+$jarResource = $config-jarResource
+
+# CMS Site
+INSERT_UPDATE CMSSite; uid[unique = true]; stores(uid);
+                     ; $siteUid          ; $storeUid  ;
+
+# CMS Site - Update the theme to be responsive
+UPDATE CMSSite; uid[unique = true]; theme(code);
+              ; $siteUid          ; alpha      ;

@@ -1,0 +1,69 @@
+<div class="table-section">
+    <table class="table mt-0" role="table" aria-label="Product List">
+        <thead>
+            <tr role="row">
+                <th role="columnheader" scope="col" [class.bolder]="hideActions()">FORMULA(S)</th>
+                <th role="columnheader" scope="col" [class.bolder]="hideActions()">
+                    @if(location.path().includes('Recommendation')){ PRICE }@else if(!hideActions()) { DOSING & TIME }
+                    @if(hideActions()){
+                        DOSING & TIME
+                    }
+                </th>
+                @if(!hideActions()){
+                    <th class="text-right" role="columnheader" scope="col">Actions</th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @for(product of products()?.medpaxEntry; track product){
+            <tr class="rec-table__row" role="row">
+                <td class="v-align-middle product-name"
+                [ngClass]="{ 'rec-table__name': !hideActions() }">
+                    @if(hideActions()) {
+                        <span class="productName" [innerHTML]="checkForDefaultCarton ? product?.product?.name : products()?.carton?.defaultCarton ? product?.product?.name : product?.product?.genericPLName"
+                        aria-label="View details"></span>
+                    } @else {
+                    <button (click)="openProductDetailPopup(product?.product?.code)" class="text-primary bolder text-link" [innerHTML]="checkForDefaultCarton ? product?.product?.name : products()?.carton?.defaultCarton ? product?.product?.name : product?.product?.genericPLName"
+                        aria-label="View details"></button><br />
+                    }
+                        <ws-private-label-tag [class.d-none]="!product?.product?.genericPLName" [labelName]="product?.product?.genericPLName" ></ws-private-label-tag><br>
+                    @if(location.path().includes('Recommendation')){
+                    <span>{{ product?.dosing | slice : 0 : 4 | dosingPipe }}</span>
+                    }
+                </td>
+                <td class="v-align-middle rec-table__price">
+                    @if(location.path().includes('Recommendation')){
+                    <span class="bolder">${{ product?.msrpPrice | number : "1.2-3" }}</span>
+                    }@else {
+                    <span> {{ product?.dosing | slice : 0 : 4 | dosingPipe }}</span>
+                    }
+                </td>
+                @if(!hideActions()){
+                    <td class="row justify-content-end button-td pe-unset action-buttons">
+                        <span tabindex="0" role="button" class="bolder text-primary my-1 cursor-pointer" (keypress)="editDosing(product)" (click)="editDosing(product)" aria-label="Edit Dosing for">
+                            Edit
+                        </span>
+                        <button
+                            tabindex="0" role="button" (keypress)="removeProduct(product, product?.entryNumber)"
+                            class="my-1 ml-2 d-inline bolder btn-link text-danger remove-btn bg-transparent cursor-pointer"
+                            (click)="removeProduct(product, product?.entryNumber)" aria-label="protocol">
+                            x
+                        </button>
+                    </td>
+                }
+            </tr>
+            } @if (products()?.medpaxEntry && products()?.medpaxEntry?.length == 1) {
+            @for (item of [1, 2];track item ) {
+            <ng-container [ngTemplateOutlet]="addAnotherformula"> </ng-container>
+            } } @if (products()?.medpaxEntry && products()?.medpaxEntry?.length == 2)
+            {
+            <ng-container [ngTemplateOutlet]="addAnotherformula"> </ng-container>
+            }
+        </tbody>
+    </table>
+</div>
+<ng-template #addAnotherformula>
+    <tr>
+        <div class="text-danger italic mb-2 pl-2">[Add another formula]</div>
+    </tr>
+</ng-template>

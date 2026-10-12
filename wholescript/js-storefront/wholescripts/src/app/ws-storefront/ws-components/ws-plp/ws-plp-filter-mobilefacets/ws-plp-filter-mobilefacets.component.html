@@ -1,0 +1,47 @@
+<div class="mobile-filter-container">
+    <div class="modal-header">
+      <h4>Filter By</h4>
+      <i (click)="closeModal()" class="fa-solid fa-xmark"></i>
+    </div>
+  
+    <div class="filter-container">
+        <div class="filter-header">
+          <button (click)="resetFilters()">Reset filters</button>
+        </div>
+
+        <div *ngFor = " let filter of facetFilters" class="filter-section">
+            <button class="filter-toggle" (click)="filter.visible = !filter.visible">
+              Filter by {{ filter.name }}
+              <i class="fa float-right" [ngClass]="filter.visible ? 'fa-chevron-up': 'fa-chevron-down'"></i>
+            </button>
+
+          <div *ngIf="filter.visible && showSearchFacets(filter.values)" role="presentation" class="search-icon">
+            <input  type="text" placeholder="Search {{filter?.name}}" aria-label="Search filters" [maxLength]="100" [(ngModel)]="searchValues[filter?.name]" (input)="searchFilters(filter, $event)">
+            <cx-icon [type]="iconTypes.SEARCH"></cx-icon>
+          </div>
+            <div *ngIf="filter.visible && filter.name !== 'allCategories'" class="filter-options">
+              <div *ngFor=" let option of filter.values">
+                <div class="ws-plp-custom-checkbox"*ngIf="option.name">
+                  <input (change)="setFilter(option)" wsCheckbox type="checkbox" [(ngModel)]="option.selected" [value] = "option.selected">
+                  <label > {{ option.name }}</label>
+                </div>
+              </div>
+            </div>
+
+            <div *ngIf="filter.visible && filter.name === 'allCategories'" class="filter-options allcategories">
+              <div *ngFor = " let option of filter.values ; let i = index">
+                <div *ngIf="option.name && i < itemsToShow" class="ws-plp-custom-checkbox">
+                  <input (change)="setFilter(option)" wsCheckbox  type="checkbox" [(ngModel)]="option.selected" [value] = "option.selected">
+                  <label> {{ option.name }}</label>
+                </div>
+
+              </div>
+              <button (click)="toggleView(filter.values)">
+                {{ showAll ? 'Show Less' : 'Show More' }}
+                <i class="fa fa-chevron-down pl-2"></i>
+              </button>
+            </div>
+          </div>
+      </div>
+  </div>
+  

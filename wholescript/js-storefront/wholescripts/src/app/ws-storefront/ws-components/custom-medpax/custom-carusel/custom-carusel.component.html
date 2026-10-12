@@ -1,0 +1,29 @@
+<div class="carousel-container">
+  <!-- Left Arrow Button -->
+  <button (click)="goToPrevious()" [style.display]="isLeftArrowVisible ? 'block' : 'none'" class="arrow left-arrow" aria-label="Previous slide">
+    <i class="fa-solid fa-chevron-left"></i>
+  </button>
+  <!-- Card Container -->
+  <div class="card-container" #cardContainer>
+    <div *ngFor="let slide of getSlides(); let index = index" class="card" [ngStyle]="{
+        'background-image': 'url(' + slide.backgroundSrc + ')',
+        'min-width':'270px'
+      }"
+      [attr.data-index]="index"
+      [attr.aria-label]="'Slide ' + (index + 1) + ' of ' + slides.length"
+    >
+    <a [href]="slide.url" [attr.aria-label]="'Go to ' + slide.name">
+      <div class="card-content">
+        <img [src]="slide.src" alt="slide-content-image " class="w-60px" >
+        <h3>{{ slide.name }}</h3>
+      </div>
+    </a>
+     
+    </div>
+  </div>
+
+  <!-- Right Arrow Button -->
+  <button (click)="goToNext()" [style.display]="isRightArrowVisible ? 'block' : 'none'" class="arrow right-arrow"  aria-label="Next slide">
+    <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+  </button>
+</div>

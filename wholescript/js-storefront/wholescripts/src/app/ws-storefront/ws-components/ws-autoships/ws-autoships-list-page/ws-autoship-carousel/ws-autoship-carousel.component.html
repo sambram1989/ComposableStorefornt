@@ -1,0 +1,22 @@
+<div class="carousel-container" #container>
+    <button
+      *ngIf="showScrollButtons"
+      class="nav-button left"
+      (click)="scrollLeft()"
+    >
+    <i class="fa-solid fa-chevron-left icon"></i>
+    </button>
+  
+    <div class="carousel-items" #itemsContainer>
+      <ng-content></ng-content>
+    </div>
+  
+    <button
+      *ngIf="showScrollButtons"
+      class="nav-button right"
+      (click)="scrollRight()"
+    >
+    <i class="fa-solid fa-chevron-right icon"></i>
+    </button>
+  </div>
+  

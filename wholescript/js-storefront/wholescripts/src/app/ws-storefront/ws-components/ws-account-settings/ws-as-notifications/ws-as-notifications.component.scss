@@ -1,0 +1,15 @@
+::ng-deep .heading {
+    color: var(--ws-gray-light-600);
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 300;
+    line-height: 20px;
+    width: 616px;
+    h2 {
+      color: var(--ws-gray-light-900) !important;
+      font-size: 18px !important;
+      font-style: normal;
+      font-weight: 600 !important;
+      line-height: 28px;
+    }
+  }

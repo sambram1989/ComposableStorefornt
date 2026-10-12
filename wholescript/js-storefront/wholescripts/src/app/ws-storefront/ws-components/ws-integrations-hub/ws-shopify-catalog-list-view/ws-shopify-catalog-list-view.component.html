@@ -1,0 +1,68 @@
+<div class="products-lt" >
+<div *ngFor="let product of shopifyProductsList()" class="product p-0">
+    <div [ngClass]="product?.isFeatured ? 'featured' : product?.isNew ? 'new' : product?.bestSeller ? 'bestseller' : 'd-none'"
+        class="badge">
+        <span
+            [ngClass]="product?.isFeatured ? 'featured' : product?.isNew? 'new' : product?.bestSeller? 'bestseller' : 'd-none'"
+            class="badge-text">{{ getBadge(product) }}
+        </span>
+    </div>
+
+    <div class="product-info col-lg col-10">
+        <div *ngIf="product?.stock === 'outOfStock'" class="badge-stock out-of-stock">
+            <div class="dot out-of-stock-dot"></div>
+            Out of stock
+        </div>
+        <br *ngIf="product?.stock !== 'outOfStock'" />
+        <a class="brand-name" [routerLink]="product?.brandUrl">{{ product?.brandName }}</a>
+        <a [routerLink]="product?.productUrl" class="product-title" [innerHTML]="product?.name">
+        </a>
+    </div>
+
+    <div class="pr-lg-4 pt-4">
+        <div *ngIf="isLoggedIn" class="code-tooltip">
+            <div style="position: relative" class="copy-code"><span class="code-tooltiptext">{{ product.favorite ? 'Remove from Favorites' :
+                    'Add to Favorites'}}</span>
+                <button (click)="updateFavorites.emit(product)" class="heart-button"><i class="fa-solid fa-heart"
+                        [ngClass]="product.favorite && 'fa-active'"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <div class="price-actions col-lg-3 col-12 flex-column">
+        <p class="bolder mb-0">{{ product?.mapPrice?.formattedValue }}</p>
+        <p class="bold" *ngIf="product?.wholesalePrice?.value"> Wholesale <span>{{ product?.wholesalePrice?.formattedValue }}</span></p>
+    </div>
+
+    <div class="action-buttons col-lg-3 col-11">
+        <button *ngIf="product?.importStatus === 'Not Imported'" class="import-product-btn"
+            (click)="importProducts.emit([product?.code])">
+            <span>
+                Import Product
+                <i class="fa fa-plus pl-1" aria-hidden="true"></i>
+            </span>
+        </button>
+        <button *ngIf="product?.importStatus === 'Imported Products'" class="resync-product-btn" 
+            (click)="importProducts.emit([product?.code])">
+            <span>
+                Resync Product
+                <i class="fas fa-redo pl-1" aria-hidden="true"></i>
+            </span>
+        </button>
+        <button *ngIf="product?.importStatus === 'Pending Import'" class="delete-product-btn"
+            (click)="deleteProducts.emit([product?.code])">
+            <span>
+                Remove Product
+                <i class="fa fa-trash pl-1" aria-hidden="true"></i>
+            </span>
+        </button>
+        <button *ngIf="product?.importStatus === 'Failed to Import'" class="retry-product-btn"
+            (click)="importProducts.emit([product?.code])">
+            <span>
+                Retry
+                <i class="fa fa-warning pl-1" aria-hidden="true"></i>
+            </span>
+        </button>
+    </div>
+</div>
+</div>

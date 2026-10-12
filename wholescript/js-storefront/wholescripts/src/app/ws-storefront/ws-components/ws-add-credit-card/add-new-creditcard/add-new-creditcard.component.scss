@@ -1,0 +1,35 @@
+:host{
+    color: var(--cx-color-secondary);
+}
+input[type="radio"]{
+  width: 16px;
+  height: 16px;
+  position: relative;
+}
+input[type="radio"]:checked::after{
+  width: 10px;
+  height: 10px;
+  position: absolute;
+  transform: translate(-28%, -30%);
+}
+.form-check .form-check-label {
+  display: inline-block;
+  position: relative;
+  top: 0px;
+}
+
+.cardTitle {
+  align-items: start;
+  justify-content: center;
+  border-bottom: 1px solid #e3e3e5;
+
+  h4 {
+    font-weight: 700 !important;
+  }
+
+  .close {
+    position: absolute;
+    top: 0;
+    right: 10px;
+  }
+}

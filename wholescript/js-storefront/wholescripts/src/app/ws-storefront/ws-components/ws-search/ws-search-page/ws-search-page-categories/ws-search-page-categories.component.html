@@ -1,0 +1,26 @@
+<div class="search-page-categories" *ngIf="searchData?.results?.length > 0">
+    <ws-search-page-common-heading [heading]="'Categories'"
+        [totalResultsCount]="searchData?.pagination?.totalResults || 0" [viewAllFlag]="viewAllFlag"
+        (showNumberOfResults)="showNumberOfResults($event)" (viewAll)="viewAllEmit()">
+    </ws-search-page-common-heading>
+    <div class="search-categories-wrapper">
+        <ng-container *ngFor="let category of searchData.results;let i = index">
+            <div class="search-each-category" *ngIf="category?.name" (click)="navigateTo(category?.catgeoryPath)" (keydown.enter)="navigateTo(category?.catgeoryPath)" tabindex="0" [ngStyle]="{'background-image' : dynamicBackgrounds[i]}">
+                <div class="search-each-category-text">
+                    {{category?.name}}
+                </div>
+            </div>
+        </ng-container>
+    </div>
+    <hr>
+    <ws-search-page-common-pagination [currentPage]="currentPage" *ngIf="searchData?.pagination?.totalPages > 1"
+        [totalPageCount]="searchData?.pagination?.totalPages || 0"
+        (setCurrentPage)="setCurrentPage($event)"></ws-search-page-common-pagination>
+</div>
+<div class="table-empty" *ngIf="searchData?.results?.length == 0 && viewAllFlag">
+   <div>
+      <h4 class="table-empty__h">No results found</h4>
+      <div>We couldn't find any matches for <span style="font-weight:900">{{searchTerm}}</span></div>
+      <div>Please try reducing your filters or searching with another term</div>
+   </div>
+</div>  

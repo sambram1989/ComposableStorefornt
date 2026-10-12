@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright (c) 2020 SAP SE or an SAP affiliate company. All rights reserved.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/context
+			  http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<!-- Field mapping configuration -->
+	<bean id="dataMapper"
+		class="de.hybris.platform.webservicescommons.mapping.impl.DefaultDataMapper">
+		<property name="fieldSetBuilder" ref="fieldSetBuilder" />
+	</bean>
+
+	<bean id="fieldSetBuilder"
+		class="de.hybris.platform.webservicescommons.mapping.impl.DefaultFieldSetBuilder">
+		<property name="defaultRecurrencyLevel" value="4" />
+		<property name="defaultMaxFieldSetSize" value="50000" />
+		<property name="fieldSetLevelHelper" ref="fieldSetLevelHelper" />
+	</bean>
+
+	<alias alias="fieldSetLevelHelper" name="defaultFieldSetLevelHelper" />
+	<bean id="defaultFieldSetLevelHelper"
+		class="de.hybris.platform.webservicescommons.mapping.impl.DefaultFieldSetLevelHelper">
+	</bean>
+
+	<bean class="de.hybris.platform.webservicescommons.mapping.filters.GeneralFieldFilter">
+		<property name="fieldSelectionStrategy" ref="fieldSelectionStrategy"/>
+	</bean>
+
+	<!-- Default Pagination field / fieldset mapping -->
+
+	<bean id="paginationFieldMapper" parent="fieldMapper">
+		<property name="sourceClass" value="de.hybris.platform.webservicescommons.dto.PaginationWsDTO"/>
+		<property name="destClass"   value="de.hybris.platform.core.servicelayer.data.PaginationData" />
+		<property name="fieldMapping">
+			<map>
+				<entry key="count" value="pageSize"/>
+				<entry key="totalCount" value="totalNumberOfResults"/>
+				<entry key="page" value="currentPage"/>
+				<entry key="totalPages" value="numberOfPages"/>
+			</map>
+		</property>
+	</bean>
+
+	<bean parent="fieldSetLevelMapping" id="paginationWsDTOFieldSetLevelMapping">
+		<property name="dtoClass"
+		          value="de.hybris.platform.webservicescommons.dto.PaginationWsDTO"/>
+		<property name="levelMapping">
+			<map>
+				<entry key="BASIC" value="count,totalCount,page,totalPages,hasNext,hasPrevious"/>
+				<entry key="DEFAULT" value="count,totalCount,page,totalPages,hasNext,hasPrevious"/>
+				<entry key="FULL" value="count,totalCount,page,totalPages,hasNext,hasPrevious"/>
+			</map>
+		</property>
+	</bean>
+
+		<bean parent="fieldSetLevelMapping" id="sortWsDTOFieldSetLevelMapping">
+		<property name="dtoClass"
+		          value="de.hybris.platform.webservicescommons.dto.SortWsDTO"/>
+		<property name="levelMapping">
+			<map>
+				<entry key="BASIC" value="code,asc"/>
+				<entry key="DEFAULT" value="code,asc"/>
+				<entry key="FULL" value="code,asc"/>
+			</map>
+		</property>
+	</bean>
+
+	<bean parent="fieldSetLevelMapping" id="pageWsDTOFieldSetLevelMapping">
+		<property name="dtoClass"
+			value="de.hybris.platform.webservicescommons.dto.SearchPageWsDTO" />
+		<property name="levelMapping">
+			<map>
+				<entry key="BASIC" value="pagination(BASIC),sorts(BASIC),results(BASIC)" />
+				<entry key="DEFAULT"
+					value="pagination(DEFAULT),sorts(DEFAULT),results(DEFAULT)" />
+				<entry key="FULL" value="pagination(FULL),sorts(FULL),results(FULL)" />
+			</map>
+		</property>
+	</bean>
+
+	<!-- Field mapping -->
+   	<bean id="userFieldMapper" parent="fieldMapper">
+		<property name="sourceClass" value="com.wholescritps.external.webservices.dto.UserWsDTO"/>
+		<property name="destClass"   value="com.wholescritps.external.webservices.data.UserData"/>
+		<property name="fieldMapping">
+			<map>
+				<entry key="info" value="description"/>
+				<entry key="billingAddress" value="defaultBillingAddress"/>
+				<entry key="shippingAddress" value="defaultShippingAddress"/>
+			</map>
+		</property>
+	</bean>
+
+   	<bean id="addressFieldMapper" parent="fieldMapper">
+		<property name="sourceClass" value="com.wholescritps.external.webservices.dto.AddressWsDTO"/>
+		<property name="destClass"   value="com.wholescritps.external.webservices.data.AddressData"/>
+		<property name="fieldMapping">
+			<map>
+				<entry key="street" value="streetname"/>
+				<entry key="streetNumber" value="streetnumber"/>
+			</map>
+		</property>
+	</bean>
+
+	<!-- Fieldset mapping -->
+
+	<bean parent="fieldSetLevelMapping" id="usersPageWsDTOFieldSetLevelMapping">
+		<property name="dtoClass" value="com.wholescritps.external.webservices.dto.UsersPageWsDTO"/>
+		<property name="levelMapping">
+			<map>
+				<entry key="BASIC" value="pagination(BASIC),sorts(BASIC),results(BASIC)"/>
+				<entry key="DEFAULT" value="pagination(DEFAULT),sorts(DEFAULT),results(DEFAULT)"/>
+				<entry key="FULL" value="pagination(FULL),sorts(FULL),results(FULL)"/>
+			</map>
+		</property>
+	</bean>
+
+	<bean parent="fieldSetLevelMapping" id="usersListWsDTOFieldSetLevelMapping">
+		<property name="dtoClass"
+		          value="com.wholescritps.external.webservices.dto.UsersListWsDTO"/>
+		<property name="levelMapping">
+			<map>
+				<entry key="BASIC" value="users(BASIC)"/>
+				<entry key="DEFAULT" value="users(DEFAULT)"/>
+				<entry key="FULL" value="users(FULL)"/>
+			</map>
+		</property>
+	</bean>
+
+	<bean parent="fieldSetLevelMapping" id="userWsDTOFieldSetLevelMapping">
+		<property name="dtoClass"
+		          value="com.wholescritps.external.webservices.dto.UserWsDTO"/>
+		<property name="levelMapping">
+			<map>
+				<entry key="BASIC" value="firstName,lastName"/>
+				<entry key="DEFAULT" value="firstName,lastName,addresses(DEFAULT)"/>
+				<entry key="FULL" value="firstName,lastName,info,addresses(FULL),billingAddress(FULL),shippingAddress(FULL)"/>
+			</map>
+		</property>
+	</bean>
+
+	<bean parent="fieldSetLevelMapping" id="addressWsDTOFieldSetLevelMapping">
+		<property name="dtoClass"
+		          value="com.wholescritps.external.webservices.dto.AddressWsDTO"/>
+		<property name="levelMapping">
+			<map>
+				<entry key="BASIC" value="town"/>
+				<entry key="DEFAULT" value="town,street"/>
+				<entry key="FULL" value="town,street,streetNumber"/>
+			</map>
+		</property>
+	</bean>
+
+
+	<bean parent="fieldSetLevelMapping" id="wholescriptsExternalAPIProductWsDTOFieldSetLevelMapping">
+		<property name="dtoClass"
+				  value="com.wholescripts.dto.WholescriptsExternalAPIProductWsDTO"/>
+		<property name="levelMapping">
+			<map>
+				<entry key="BASIC" value="productName,sku,medPaxSku,medPaxDetails,categories,quantity,releaseDate,wholesalePrice,retailPrice,upc,count,flavor,descriptionShort,descriptionFull,weight,length,width,height,productImage,supplementFactsHTML,defaultDosing,brand,drs,countUnit,weightUnit,warnings,brightstockSku,blueLabelSku,onlineMAP,materialGroup,caliProductSwapSKU,ageRestrictedRegions,isAvailableInCatalog,isOnBackOrder,images,genericName"/>
+				<entry key="DEFAULT" value="productName,sku,medPaxSku,medPaxDetails,categories,quantity,releaseDate,wholesalePrice,retailPrice,upc,count,flavor,descriptionShort,descriptionFull,weight,length,width,height,productImage,supplementFactsHTML,defaultDosing,brand,drs,countUnit,weightUnit,warnings,brightstockSku,blueLabelSku,onlineMAP,materialGroup,caliProductSwapSKU,ageRestrictedRegions,isAvailableInCatalog,isOnBackOrder,images,genericName"/>
+				<entry key="FULL" value="productName,sku,medPaxSku,medPaxDetails,categories,quantity,releaseDate,wholesalePrice,retailPrice,upc,count,flavor,descriptionShort,descriptionFull,weight,length,width,height,productImage,supplementFactsHTML,defaultDosing,brand,drs,countUnit,weightUnit,warnings,brightstockSku,blueLabelSku,onlineMAP,materialGroup,caliProductSwapSKU,ageRestrictedRegions,isAvailableInCatalog,isOnBackOrder,images,genericName"/>
+			</map>
+		</property>
+	</bean>
+
+	<bean parent="fieldSetLevelMapping" id="WsExternalRecommendationDataFieldSetLevelMapping">
+		<property name="dtoClass"
+				  value="com.wholescripts.data.WsExternalRecommendationData"/>
+		<property name="levelMapping">
+			<map>
+				<entry key="BASIC" value="id,practitionerEmail,patientEmail,patientFirstName,patientLastName,dateSentUtc,notes,status,referralCode,referralName,items"/>
+				<entry key="DEFAULT" value="id,practitionerEmail,patientEmail,patientFirstName,patientLastName,dateSentUtc,notes,status,referralCode,referralName,items"/>
+				<entry key="FULL" value="id,practitionerEmail,patientEmail,patientFirstName,patientLastName,dateSentUtc,notes,status,referralCode,referralName,items"/>
+			</map>
+		</property>
+	</bean>
+
+	<bean parent="fieldSetLevelMapping" id="wholescriptsExternalRestrictedProductsWsDTOFieldSetLevelMapping">
+		<property name="dtoClass"
+				  value="com.wholescripts.dto.WholescriptsExternalRestrictedProductsWsDTO"/>
+		<property name="levelMapping">
+			<map>
+				<entry key="BASIC" value="exclusion_custclas_brand,exclusion_custclas_material,exclusion_cust_matl,exclusion_cust_matlgrp"/>
+				<entry key="DEFAULT" value="exclusion_custclas_brand,exclusion_custclas_material,exclusion_cust_matl,exclusion_cust_matlgrp"/>
+				<entry key="FULL" value="exclusion_custclas_brand,exclusion_custclas_material,exclusion_cust_matl,exclusion_cust_matlgrp"/>
+			</map>
+		</property>
+	</bean>
+
+	<bean parent="fieldSetLevelMapping" id="wholescriptsExternalAPICustomerWsDTOFieldSetLevelMapping">
+		<property name="dtoClass"
+				  value="com.wholescripts.dto.WholescriptsExternalAPICustomerWsDTO"/>
+		<property name="levelMapping">
+			<map>
+				<entry key="BASIC" value="firstName,lastName,email,accessLevel,customerGroup,customerSAPId,createDate,updateDate,creditInfo,customerClass,block,deliveryBlock,onCreditHold,discount,paymentTerms,salesPerson,salesTerritory,shippingCondition,referralCodes,plDropShip,ageRestrictionData,emailOptedIn,smsOptedIn"/>
+				<entry key="DEFAULT" value="firstName,lastName,email,accessLevel,customerGroup,customerSAPId,createDate,updateDate,creditInfo,customerClass,block,deliveryBlock,onCreditHold,discount,paymentTerms,salesPerson,salesTerritory,shippingCondition,referralCodes,plDropShip,ageRestrictionData,emailOptedIn,smsOptedIn"/>
+				<entry key="FULL" value="firstName,lastName,email,accessLevel,customerGroup,customerSAPId,createDate,updateDate,creditInfo,customerClass,block,deliveryBlock,onCreditHold,discount,paymentTerms,salesPerson,salesTerritory,shippingCondition,referralCodes,plDropShip,ageRestrictionData,emailOptedIn,smsOptedIn"/>
+			</map>
+		</property>
+	</bean>
+
+	<bean parent="fieldSetLevelMapping" id="wholescriptsExternalAPIAddressListWsDTOFieldSetLevelMapping">
+		<property name="dtoClass"
+				  value="com.wholescripts.dto.WholescriptsExternalAPIAddressListWsDTO"/>
+		<property name="levelMapping">
+			<map>
+				<entry key="BASIC" value="AddressList"/>
+				<entry key="DEFAULT" value="AddressList"/>
+				<entry key="FULL" value="AddressList"/>
+			</map>
+		</property>
+	</bean>
+
+	<bean parent="fieldSetLevelMapping" id="wholescriptsExternalAPIPatientListWsDTOFieldSetLevelMapping">
+		<property name="dtoClass"
+				  value="com.wholescripts.dto.WholescriptsExternalAPIPatientListWsDTO"/>
+		<property name="levelMapping">
+			<map>
+				<entry key="BASIC" value="PatientList"/>
+				<entry key="DEFAULT" value="PatientList"/>
+				<entry key="FULL" value="PatientList"/>
+			</map>
+		</property>
+	</bean>
+
+	<bean parent="fieldSetLevelMapping" id="wholescriptsExternalAPIAddressWsDTOFieldSetLevelMapping">
+		<property name="dtoClass"
+				  value="com.wholescripts.data.WholescriptsExternalAPIAddressData"/>
+		<property name="levelMapping">
+			<map>
+				<entry key="BASIC"
+					   value="CustomerSAPId,FirstName,LastName,AddressName,Email,Street1,Street2,City,Region,Zip,Country,Language,Phone"/>
+				<entry key="DEFAULT"
+					   value="CustomerSAPId,FirstName,LastName,AddressName,Email,Street1,Street2,City,Region,Zip,Country,Language,Phone"/>
+				<entry key="FULL"
+					   value="CustomerSAPId,FirstName,LastName,AddressName,Email,Street1,Street2,City,Region,Zip,Country,Language,Phone"/>
+			</map>
+		</property>
+	</bean>
+
+</beans>

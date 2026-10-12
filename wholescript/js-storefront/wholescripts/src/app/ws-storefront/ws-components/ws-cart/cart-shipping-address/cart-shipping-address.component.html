@@ -1,0 +1,65 @@
+<ng-container *ngIf="cart$| async as cart">
+   <ng-container *ngIf="cart?.deliveryAddress">
+      <h5>Shipping address</h5>
+      <div class="address-part">
+         <div>
+            <p class="mb-1">{{cart?.deliveryAddress?.town}}</p>
+            <p class="mb-1">{{cart?.deliveryAddress?.firstName}} {{cart?.deliveryAddress?.lastName}}</p>
+            <p class="mb-0">{{cart?.deliveryAddress?.formattedAddress}}</p>
+         </div>
+
+         <div>
+            <a routerLink="/checkout/ShippingAddresses" class="bolder"> Edit</a>
+         </div>
+      </div>
+   </ng-container>
+   <section class="warning-section d-flex  gap-20px">
+      <div>
+         <img src="../../../../../assets/images/recomendation/Featured icon.svg" alt="" class="w-50px">
+      </div>
+      <div>
+         <cx-page-slot  position="wsRightParagraphContent">
+         </cx-page-slot>
+      </div>
+   </section>
+   <hr>
+   <ng-container *ngIf="cart?.deliveryMode">
+      <div class="shipping-method">
+         <div>
+            <p class="fw-900 ">Shipping-method:</p>
+            <p class="mb-0">{{cart?.deliveryMode?.name}}</p>
+         </div>
+         <div>
+            <a routerLink="/checkout/ShippingMethods" class="bolder"> Edit</a>
+         </div>
+      </div>
+   </ng-container>
+   <hr>
+   <ng-container *ngIf="cart?.paymentType">
+      <div class="shipping-method mb-4">
+         <div>
+            <p class="fw-900">Payment method:</p>
+            <div class="mb-2"> <img src="../../../../../assets/images/recomendation/Payment method icon.svg"
+                  alt="Payment method icon" class="mr-2">{{cart?.paymentType?.code}} {{cart?.paymentType?.displayName}}
+            </div>
+            <p class="mb-0">Exp. Date: 6/20</p>
+         </div>
+         <div>
+            <a routerLink="/checkout/PaymentMethods" class="bolder"> Edit</a>
+         </div>
+      </div>
+   </ng-container>
+
+   <hr>
+   <section *ngIf="false" class="error-section d-flex  gap-20px">
+      <div>
+         <img src="/assets/images/recomendation/Featured_icon_danger.svg" alt="" class="w-50px">
+      </div>
+      <div>
+         <p class=" fw-700 mb-1 ">Error encountered</p>
+         <p>We ran into an error calculating your totals. Please be advised your final total will be calculated later
+            on.
+         </p>
+      </div>
+   </section>
+</ng-container>

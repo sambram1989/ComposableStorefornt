@@ -1,0 +1,315 @@
+## messageSource=classpath:/Wholescriptscore/messages/email-accertify_$lang.properties
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+<title></title>
+<link rel="stylesheet" href="https://use.typekit.net/lvf3gap.css">
+<style type="text/css">
+body, table, td, a { /* CLIENT-SPECIFIC STYLES */
+-webkit-text-size-adjust: 100%;
+-ms-text-size-adjust: 100%;
+}
+table, td {
+mso-table-lspace: 0pt;
+mso-table-rspace: 0pt;
+}
+img {
+-ms-interpolation-mode: bicubic;
+}
+img { /* RESET STYLES */
+border: 0;
+height: auto;
+line-height: 100%;
+outline: none;
+text-decoration: none;
+}
+table {
+border-collapse: collapse !important;
+}
+body {
+height: 100% !important;
+margin: 0 !important;
+padding: 0 !important;
+width: 100% !important;
+}
+a[x-apple-data-detectors] { /* iOS BLUE LINKS */
+color: inherit !important;
+text-decoration: none !important;
+font-size: inherit !important;
+font-family: inherit !important;
+font-weight: inherit !important;
+line-height: inherit !important;
+}
+@media screen and (max-width: 600px) {/* MOBILE STYLES */
+.img-max {
+width: 100% !important;
+max-width: 100% !important;
+height: auto !important;
+}
+.img-logo {
+width: 100% !important;
+max-width: 70% !important;
+height: auto !important;
+}
+.max-width {
+max-width: 100% !important;
+}
+
+.mobile-wrapper {
+width: 85% !important;
+max-width: 85% !important;
+}
+.mobile-padding {
+padding-left: 5% !important;
+padding-right: 5% !important;
+}
+}
+@import url("https://use.typekit.net/lvf3gap.css");
+div[style*="margin: 16px 0;"] { /* ANDROID CENTER FIX */
+margin: 0 !important;
+}
+</style>
+</head>
+<body style="margin: 0 !important; padding: 0; !important background-color: #ffffff;"
+bgcolor="#ffffff">
+<table border="0" cellpadding="0" cellspacing="0" width="100%">
+<tr>
+<td align="center" valign="top" width="100%" bgcolor="#ffffff" style="padding: 30px 15px
+20px 15px;border-bottom:#594192 solid 3px;" class="mobile-padding">
+
+<table align="center" border="0" cellpadding="0" cellspacing="0" width="100%"
+
+style="max-width:600px;">
+
+<tr>
+<td align="center" valign="top" style="padding: 0 0 20px 0;">
+
+<img src="http://www.wholescripts.com/images/thumbs/0005846_ws-logo-
+pwrdby.png" width="350" height="70" border="0" style="display: block;width:350px;height:70px;"
+
+alt="WholeScripts" class="img-logo">
+
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr>
+<td align="center" height="100%" valign="top" width="100%" bgcolor="#f6f6f6"
+style="padding: 0 15px;" class="mobile-padding">
+<!--[if (gte mso 9)|(IE)]>
+
+<table align="center" border="0" cellspacing="0" cellpadding="0" width="600">
+<tr>
+<td align="center" valign="top" width="600">
+<![endif]-->
+<table align="center" border="0" cellpadding="0" cellspacing="0" width="100%"
+
+style="max-width:600px;">
+
+<tr>
+<td align="left" valign="top" style="padding: 50px 0 0 0; font-family: museo-sans,
+
+sans-serif;">
+
+<h3 style="color: #585662; font-size: 25px; line-height: 35px; margin: 0; font-
+weight: bold;"> Dear ${ctx.displayName},</h3>
+ <p>We detected a log in attempt with your account. Please click the link below to verify your email. If you did not request this change, please contact us at info@wholescripts.com.</p>
+ <form action="${ctx.baseUrl}/email-verification/${ctx.token}" method="get" target="_blank">
+
+        <button type="submit">verify Now</button>
+    </form>
+</td>
+</tr>
+
+   
+<!--[if (gte mso 9)|(IE)]>
+
+</td>
+</tr>
+</table>
+<![endif]-->
+</td>
+</tr>
+<tr>
+
+<td align="center" height="100%" valign="top" width="100%" bgcolor="#f6f6f6"
+style="padding: 40px 15px;">
+
+<!--[if (gte mso 9)|(IE)]>
+
+<table align="center" border="0" cellspacing="0" cellpadding="0" width="600">
+<tr>
+<td align="center" valign="top" width="600">
+<![endif]-->
+<table align="center" border="0" cellpadding="0" cellspacing="0" width="100%"
+
+style="max-width:600px;">
+
+<tr>
+
+<td align="center" style="font-size: 32px; font-family: museo-sans, Arial, sans-
+serif; color: #333333; padding-top: 30px;" class="padding-copy">How did we do?</td>
+
+</tr>
+<tr>
+<td align="center" style="padding: 20px 0 10px 0; font-size: 16px; line-height:
+25px; font-family: museo-sans, Arial, sans-serif; color: #999999;" class="padding-copy">
+Please take a moment to give us feedback on your experience. Click below to
+take our <span style="font-weight:600;color:#333333;">Customer Satisfaction Survey</span>.
+
+</td>
+</tr>
+<tr>
+<td align="center">
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td align="center" style="padding-top: 25px;padding-bottom:40px"
+
+class="padding">
+
+<table border="0" cellspacing="0" cellpadding="0" class="mobile-
+button-container">
+
+<tr>
+<td align="center" style="border-radius: 3px;" bgcolor="#594192">
+
+<a href="https://www.surveymonkey.com/r/XYMOGENFeedback" target="_blank" style="font-
+size: 16px; font-family: museo-sans, Arial, sans-serif; olor: #ffffff; text-decoration: none; color:
+
+#ffffff; text-decoration: none; border-radius: 3px; -webkit-border-radius: 3px; -moz-border-radius:
+3px; border-top: 12px solid #594192;border-bottom:12px solid #594192;border-left:18px solid
+
+#594192;border-right:18px solid #594192; display: inline-block;" class="mobile-
+button">Complete Survey</a></td>
+
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+
+<!--[if (gte mso 9)|(IE)]>
+
+</td>
+</tr>
+</table>
+<![endif]-->
+</td>
+</tr>
+<tr>
+<td align="center" height="100%" valign="top" width="100%" bgcolor="#64DBA8"
+style="padding: 40px 15px;">
+
+<!--[if (gte mso 9)|(IE)]>
+
+<table align="center" border="0" cellspacing="0" cellpadding="0" width="600">
+<tr>
+
+<td align="center" valign="top" width="600">
+<![endif]-->
+<table align="center" border="0" cellpadding="0" cellspacing="0" width="100%"
+
+style="max-width:600px;">
+
+<tr>
+<td colspan="2" align="center" valign="middle" style="font-family: museo-sans,
+
+sans-serif; padding: 40px 20px;">
+
+<p
+
+style="color: #FFFFFF; font-size: 20px; line-height: 25px; margin: 0; font-
+weight: bold;">
+
+Follow us on Twitter, Facebook, and Instagram for updates.<br><br>
+<a target="_blank" href="https://www.facebook.com/WholeScripts"><img
+src="http://www.wholescripts.com/images/thumbs/0005848_facebook.png" alt="Facebook"
+style="color: #584091; outline: medium none; text-decoration: none;
+
+padding-right: 2px;"
+
+height="30" width="29"></a>&nbsp;&nbsp;
+<a target="_blank" href="https://twitter.com/wholescripts"><img
+src="http://www.wholescripts.com/images/thumbs/0005849_twitter.png" alt="Twitter"
+style="color: #584091; outline: medium none; text-decoration: none;
+
+padding-right: 2px;"
+
+height="30" width="30"></a>&nbsp;&nbsp;
+<a target="_blank" href="https://instagram.com/wholescripts"><img
+src="http://www.wholescripts.com/images/thumbs/0005850_insta.png"
+
+alt="Instagram"
+
+style="color: #584091; outline: medium none; text-decoration: none;
+
+padding-right: 2px;"
+
+height="30" width="30"></a>
+</p>
+</td>
+</tr>
+</table>
+
+<!--[if (gte mso 9)|(IE)]>
+
+</td>
+</tr>
+</table>
+<![endif]-->
+</td>
+</tr>
+<tr>
+<td align="center" height="100%" valign="top" width="100%" bgcolor="#3e3b49"
+style="padding: 40px 15px;">
+
+<!--[if (gte mso 9)|(IE)]>
+
+<table align="center" border="0" cellspacing="0" cellpadding="0" width="600">
+<tr>
+<td align="center" valign="top" width="600">
+<![endif]-->
+<table align="center" border="0" cellpadding="0" cellspacing="0" width="100%"
+
+style="max-width:600px;">
+
+<tr>
+<td align="center" valign="top" style="padding: 15px 0 5px; font-family: museo-
+sans, sans-serif; color: #FFFFFF;font-size: 12px; line-height: 18px;">
+<p style="font-size: 12px; line-height: 18px;">&copy; %Store.XyCurrentYear%
+<a href="http://wholescripts.com/" style="color: #64dba8;">WholeScripts.com</a>. All rights reserved.</p>
+</td>
+</tr>
+<tr>
+<td align="center" valign="top" style="padding: 10px; font-family: museo-sans,
+
+sans-serif; color: #FFFFFF;">
+
+<p style="font-size: 12px; line-height: 18px;">
+6800 Kingspointe Pkwy, Orlando, FL 32819<br>(800) 647-6100<br><a
+href="mailto:info@wholescripts.com" style="color: #64dba8;">info@wholescripts.com</a><br>
+
+<br><br>To read our Privacy Policy please visit: <a
+href="https://www.wholescripts.com/privacy-policy/" target="_blank" style="color:
+#64dba8;">WholeScripts.com/privacy-policy</a>
+
+</p>
+</td>
+</tr>
+</table>
+
+<!--[if (gte mso 9)|(IE)]>
+
+</td>
+</tr>
+</table>
+<![endif]-->
+</td>
+</tr>
+</table>
+</body>
+</html>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+ Copyright (c) 2020 SAP SE or an SAP affiliate company. All rights reserved.
+--><extensioninfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="extensioninfo.xsd">
+           
+    
+    <extension abstractclassprefix="Generated" classprefix="Wholescritpsextwebservices" managername="WholescritpsextwebservicesManager" managersuperclass="de.hybris.platform.jalo.extension.Extension" name="wholescritpsextwebservices" usemaven="false">
+                               
+      
+        
+        <requires-extension name="webservicescommons"/>
+        <requires-extension name="commercefacades"/>
+        <requires-extension name="commercewebservicescommons"/>
+        <requires-extension name="Wholescriptscore"/>
+                         
+       
+      
+        
+        <coremodule generated="true" manager="com.wholescritps.external.webservices.jalo.WholescritpsextwebservicesManager" packageroot="com.wholescritps.external.webservices"/>
+                      
+        
+        <webmodule jspcompile="false" webroot="/external/API"/>
+                					
+		
+        
+        	
+
+   
+    
+    </extension>
+              
+
+
+</extensioninfo>

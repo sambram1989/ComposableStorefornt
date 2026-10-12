@@ -1,0 +1,104 @@
+@if(currentUser$| async ; as currentUser){
+  <div class="ws-d-flex col-12 row mx-0 pl-0" *ngIf="isPractioner">
+    <div class="col-xl-3 col-lg-12 col-sm-12 d-sm-row d-lg-block p-0">
+      <span class="pb-2 d-block heading">Practitioner Payments</span>
+      <ng-container
+        *ngTemplateOutlet="title; context: { $implicit: $any(currentUser)?.orgUnit?.name }"
+      ></ng-container>
+      @if($any(currentUser)?.paymentTerms?.code?.toLowerCase()?.startsWith('nt')) {
+        <ng-container
+        *ngTemplateOutlet="
+          paymentBtn;
+          context: { $implicit:{btn: 'View Account Balance',isUrl:'/order/history/aging'} }
+        "
+      ></ng-container>
+      }
+    </div>
+    <!-- you creditcard limit -->
+     @if(!(userDetails?.sapCentralDeliveryBlock?.code === '60' || isEmployeeCustomer) && $any(currentUser)?.paymentTerms?.code?.toLowerCase()?.startsWith('nt')) {
+      <div class="col-xl-4 col-lg-12 col-sm-12 payment-box p-3">
+        <div class="d-flex justify-content-between align-items-center">
+          <ng-container
+            *ngTemplateOutlet="title; context: { $implicit: 'Your Credit Limit' }"
+          ></ng-container>
+            <div [class]="'text-primary bolder dot-icon '+ProgressBar()?.className" [attr.aria-label]="'Credit limit usage: ' + ProgressBar()?.width.replace('width:','')"
+            [title]="'Credit limit usage: ' + ProgressBar()?.width.replace('width:','')"></div>
+        </div>
+        <div class="progress" role="progressbar">
+          <div [class]="'progress-bar '+ProgressBar()?.className"  [style]="ProgressBar()?.width"></div>
+          
+        </div>
+        <div class="d-flex justify-content-between">
+          <div>${{userDetails?.creditUsed | number : '1.2-2'}} Credit Used</div>
+          <div>${{userDetails?.creditAmount | number : '1.2-2'}} Credit Limit</div>
+        </div>
+      </div>
+     }
+    <!-- Payment Terms -->
+     @if($any(currentUser)?.paymentTerms?.code?.toLowerCase()?.startsWith('nt')){
+      <div class="col-xl-4 col-lg-12 col-sm-12 payment-box p-3">
+        <div class="d-flex justify-content-between">
+          <div>
+            <p>Payment Terms</p>
+            <ng-container
+              *ngTemplateOutlet="title; context: { $implicit: $any(currentUser)?.paymentTerms?.code }"
+            ></ng-container>
+          </div>
+          <!-- <ng-container
+            *ngTemplateOutlet="
+              paymentBtn;
+              context: { $implicit:{btn: 'Net 30 Application'} }
+            "
+          ></ng-container> -->
+        </div>
+        <div class="bolder">ACCOUNT ID:{{$any(currentUser)?.orgUnit?.uid}}</div>
+      </div>
+     }
+  </div>
+}@else{<cx-spinner></cx-spinner>}
+
+<!-- savedCreditCards -->
+<section class="mt-5">
+  <div class="d-flex justify-content-between align-items-center">
+    <ng-container
+      *ngTemplateOutlet="title; context: { $implicit: 'Saved Credit Cards' }"
+    ></ng-container>
+    <ng-container
+      *ngTemplateOutlet="paymentBtn; context: { $implicit: {btn: '+ Add New Card'} }"
+    ></ng-container>
+  </div>
+  @if (showAddCardSection()) {
+    <div class="the-grid">
+      <div class="col-5 col-md-12 add-credit-card">
+        <ws-add-new-creditcard></ws-add-new-creditcard>
+      </div>
+      <div>
+        <ws-card-parent [isRow]="false"></ws-card-parent>
+      </div>
+    </div>
+  } @else {
+    <div>
+      <ws-card-parent></ws-card-parent>
+    </div>
+  }
+  
+</section>
+
+<!-- Templates Section -->
+
+<ng-template #title let-head>
+  <h3 class="bolder paymentTitle">{{ head }}</h3>
+</ng-template>
+
+<ng-template #paymentBtn let-data>
+  <div class="paymentBtn">
+    @if(data?.btn?.includes('+Add') || data?.btn?.includes('+ Add')){
+      <a class="btn btn-primary btn-rounded" (click)="toggleAddCardSection()" tabindex="0">{{ data?.btn }}</a>
+    }@else {
+      <a class="btn btn-primary btn-rounded" [routerLink]="data?.isUrl||'/accounts-settings/Payment'" tabindex="0">{{ data?.btn }}</a>
+    }
+
+  </div>
+</ng-template>
+
+<ws-estore-redirect *ngIf = "previousPage !== ''" [display]="previousPage"></ws-estore-redirect>

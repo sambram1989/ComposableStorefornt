@@ -1,0 +1,15 @@
+<div class="navbar sticky-bottom">
+  <div *ngIf ="!estoreIntegration" class="row justify-content-center">
+    <strong>Once you have finished adding the new card to your file, please click the "Continue My Integration Sign-up" button to continue with your integration sign-up.</strong>
+    <a [routerLink]="display" class="btn btn-primary btn-rounded">
+        Continue My Integration Sign-up
+    </a>
+  </div>
+
+  <div *ngIf ="estoreIntegration" class="row justify-content-center">
+    <strong>Return to Online Store Integration Settings</strong>
+    <a [routerLink]="display" class="btn btn-primary btn-rounded">
+      My Online Store Integration
+    </a>
+  </div>
+</div>

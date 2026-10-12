@@ -1,0 +1,184 @@
+$contentCatalog=wholescriptsContentCatalog
+$contentCV=catalogVersion(CatalogVersion.catalog(Catalog.id[default=$contentCatalog]),CatalogVersion.version[default=Staged])[default=$contentCatalog:Staged]
+
+INSERT_UPDATE CMSUserGroupRestriction ; $contentCV[unique = true] ; uid[unique = true]                ; name                               ; userGroups(uid)      ; includeSubgroups ; components(uid, $contentCV)
+                                      ;                           ; practitioner_customer_restriction ; Practiotioner Customer Restriction ; practitionercustomergroup ; true             ; MyAccountIntegrationNodeMediaLink,wsLearnLink,wsEventsLink,DashboardMediaLink,MyAccountPageNodeMediaLink,MyAccPractitonerSettingsNodeMediaLink,wsOrderHistoryTabContainer,wsOrderHistoryHeadingParaSecondComponent,wsBodySearchWebinarsParagraph,practitionerExploreMedpaxLink,shippingMessagePractionerParagraphComponent
+                                      ;                           ; patient_customer_restriction      ; Pateint Customer Restriction       ; patientcustomergroup      ; true             ; MyAccountRecommendationsMediaLink,exploreMedpaxLink,createMedpaxLink,MyAccountProtocolsNavNodeMediaLink,MyAccPatientAutoshipNodeMediaLink,MyAccPatientOrderHistoryNodeMediaLink,MyAccPatientSettingsNodeMediaLink,latestRecommendationFlexComponent,practitionerProtocolFlexComponent,shopPageLink,ShopPagefooterLink,MyAccountNotificationSettingsNodeMediaLink,FindaPractitionerPageLink,shippingMessagePatientParagraphComponent
+#For shop page changes To show on guest user
+INSERT_UPDATE CMSUserRestriction; $contentCV[unique = true]; &userRestriction         ; name                       ; uid[unique = true]       ; users(uid); components(uid, $contentCV)
+                                ;                          ; anonymousUserRestriction ; Anonymous User Restriction ; anonymousUserRestriction ; anonymous ; WhyMedPaxPageLink,shopPageLink,ShopPagefooterLink,PractitionersPageLink,PatientsPageLink,FullCatalogBanner,AntioxidantCategoryBanner,BloodSugarCategoryBanner,AdrenalCategoryBanner,BodyCompositionCategoryBanner,BoneCategoryBanner,BrainAndNervousSystemCategoryBanner,CardiovascularCategoryBanner,CellularWellnessCategoryBanner,ChildrensHealthCategoryBanner,CytokineBalanceSupportCategoryBanner,DetoxBanner,FitnessBanner,EssentialFattyAcidsBanner,GutHealthBanner,ImmuneBanner,JointsAndMusclesBanner,LiverSupportBanner,MensHealthBanner,NSFCertifiedForSupportBanner,ProbioticBanner,StressAndSleepBanner,ThyroidBanner,VitaminAndMineralBanner,WomensHealthBanner,FindaPractitionerPageLink,homePageLink,guestexploreMedpaxLink,guescreateMedpaxLink
+
+INSERT_UPDATE CMSUserGroupRestriction ; $contentCV[unique = true] ; uid[unique = true]                		; name                               		; userGroups(uid)      		; includeSubgroups
+                                      ;                           ; practitioner_category_Nav_restriction 	; Practiotioner category nav Restriction 	; practitionercustomergroup ; true
+                                      ;                           ; patient_category_Nav_restriction      	; Pateint category nav Restriction       	; patientcustomergroup      ; true
+
+UPDATE CMSUserGroupRestriction; $contentCV[unique = true]; uid[unique = true]                    ; components(uid, $contentCV)
+                              ;                          ; practitioner_category_Nav_restriction ; PractitionerFullCatalogBanner,PractitionerAntioxidantCategoryBanner,PractitionerBloodSugarCategoryBanner,PractitionerAdrenalCategoryBanner,PractitionerBodyCompositionCategoryBanner,PractitionerBoneCategoryBanner,PractitionerCardiovascularCategoryBanner,PractitionerCellularWellnessCategoryBanner,PractitionerChildrensHealthCategoryBanner,PractitionerCytokineBalanceSupportCategoryBanner,PractitionerDetoxBanner,PractitionerEssentialFattyAcidsBanner,PractitionerGutHealthBanner,PractitionerImmuneBanner,PractitionerJointsAndMusclesBanner,PractitionerLiverSupportBanner,PractitionerMensHealthBanner,PractitionerNSFCertifiedForSupportBanner,PractitionerProbioticBanner,PractitionerRelaxAndSleepBanner,PractitionerThyroidBanner,PractitionerWomensHealthBanner,PractitionerNeurologicAndCognitiveBanner,PractitionerMultivitaminsBanner,DashboardPageLink,BulkItemsPageLink,CatalogNavNodeLink,wsMyFavoriteIcon
+                              ;                          ; patient_category_Nav_restriction      ; WhyMedPaxPageLink,FullCatalogBanner,AntioxidantCategoryBanner,BloodSugarCategoryBanner,AdrenalCategoryBanner,BodyCompositionCategoryBanner,BoneCategoryBanner,BrainAndNervousSystemCategoryBanner,CardiovascularCategoryBanner,CellularWellnessCategoryBanner,ChildrensHealthCategoryBanner,CytokineBalanceSupportCategoryBanner,DetoxBanner,FitnessBanner,EssentialFattyAcidsBanner,GutHealthBanner,ImmuneBanner,JointsAndMusclesBanner,LiverSupportBanner,MensHealthBanner,NSFCertifiedForSupportBanner,ProbioticBanner,StressAndSleepBanner,ThyroidBanner,WomensHealthBanner,VitaminAndMineralBanner,SpecialOffersPageLink,wsMyFavoriteIcon
+	      
+#####patient direct setting 
+INSERT_UPDATE CMSUserGroupRestriction ; $contentCV[unique = true] ; uid[unique = true]      ; name                                       ; userGroups(uid)                                                                                                                                                  ; includeSubgroups ; components(uid, $contentCV)  
+                                      ;                           ; patientDirectSettingRestriction ; patient Direct Setting Restriction ; patientdirectcustomergroup,employeecustomergroup,studentcustomergroup,salesrepcustomergroup,friendsfamilycustomergroup,patientcustomergroup,anonymousUserGroup   ; true             ;  
+									  
+# patient direct setting inverse restriction
+INSERT_UPDATE CMSInverseRestriction;$contentCV[unique=true];name                                         ;originalRestriction(uid,$contentCV)[allownull=true];uid[unique=true]                          ;components(uid,$contentCV)
+                                   ;                       ;patient direct setting inverse restriction   ;patientDirectSettingRestriction                      ;patientDirectSettingInverseRestriction  ;MyAccountPatientDirectNodeMediaLink
+								   
+
+################## Patient Direct Hub 
+INSERT_UPDATE CMSUserGroupRestriction ; $contentCV[unique = true] ; uid[unique = true]          ; name                           ; userGroups(uid)             ; includeSubgroups ; components(uid, $contentCV)  
+                                      ;                           ; patientDirectHubRestriction ; patient Direct Hub Restriction ; patientdirectcustomergroup  ; true             ; MyAccPatientDirectHubNodeMediaLink
+
+
+################## Reselling  
+INSERT_UPDATE CMSUserGroupRestriction ; $contentCV[unique = true] ; uid[unique = true]   ; name                   ; userGroups(uid)                                                                                                                    ; includeSubgroups ; components(uid, $contentCV)  
+                                      ;                           ; resellingRestriction ; Re-Selling Restriction ; employeecustomergroup,studentcustomergroup,salesrepcustomergroup,patientcustomergroup  ; true             ;
+																    
+
+# create a Reselling inverse restriction
+INSERT_UPDATE CMSInverseRestriction;$contentCV[unique=true];name                            ;originalRestriction(uid,$contentCV)[allownull=true];uid[unique=true]               ;components(uid,$contentCV)
+                                   ;                       ;Reselling inverse restriction   ;resellingRestriction                                 ;resellingInverseRestriction    ; MyAccountResellingNodeMediaLink
+								   																	
+																									
+################## Recommendation Restriction
+#INSERT_UPDATE CMSUserGroupRestriction ; $contentCV[unique = true] ; uid[unique = true]        ; name                       ; userGroups(uid)                                                                ; includeSubgroups ; components(uid, $contentCV)  
+#                                     ;                           ; recommendationRestriction ; Recommendation Restriction ; patientdirectcustomergroup,distributorcustomergroup,practitionercustomergroup  ; false             ; RecommendationsMediaLink
+
+################## Recommendation Restriction
+INSERT_UPDATE CMSUserGroupRestriction ; $contentCV[unique = true] ; uid[unique = true]        ; name                       ; userGroups(uid)                                                                ; includeSubgroups ; components(uid, $contentCV)  
+                                      ;                           ; recommendationRestriction ; Recommendation Restriction ; employeecustomergroup,studentcustomergroup,salesrepcustomergroup,friendsfamilycustomergroup,patientcustomergroup,anonymousUserGroup ;  true                ; 
+                                      
+# create a Recommendation inverse restriction
+INSERT_UPDATE CMSInverseRestriction;$contentCV[unique=true];name                            ;originalRestriction(uid,$contentCV)[allownull=true];uid[unique=true]               ;components(uid,$contentCV)
+                                   ;                       ;Recommendation inverse restriction   ;recommendationRestriction                                 ;recommendationInverseRestriction    ; RecommendationsMediaLink
+								   																	
+								
+
+################## protocol Restriction
+INSERT_UPDATE CMSUserGroupRestriction ; $contentCV[unique = true] ; uid[unique = true]  ; name                 ; userGroups(uid)                                                                                               ; includeSubgroups ; components(uid, $contentCV)  
+                                      ;                           ; protocolRestriction ; Protocol Restriction ; studentcustomergroup,salesrepcustomergroup,friendsfamilycustomergroup,anonymousUserGroup,patientcustomergroup ; true             ;  
+
+################## Protcol Inverse Restriction
+INSERT_UPDATE CMSInverseRestriction;$contentCV[unique=true];name                           ;originalRestriction(uid,$contentCV)[allownull=true];uid[unique=true]             ;components(uid,$contentCV)
+                                   ;                       ;protocol inverse restriction   ;protocolRestriction                                 ;protocolInverseRestriction    ;MyProtocolsMediaLink
+								   	
+##################Wholescripts protocol Restriction
+INSERT_UPDATE CMSUserGroupRestriction ; $contentCV[unique = true] ; uid[unique = true]    ; name                             ; userGroups(uid)        ; includeSubgroups ; components(uid, $contentCV)  
+                                      ;                           ; wsProtocolRestriction ;Wholescripts Protocol Restriction ; anonymousUserGroup,wholescriptdoctorgroup ; true             ;
+					
+##################Wholescripts Protcol Inverse Restriction
+INSERT_UPDATE CMSInverseRestriction;$contentCV[unique=true];name                                        ;originalRestriction(uid,$contentCV)[allownull=true];uid[unique=true]                 ;components(uid,$contentCV)
+                                   ;                       ;Wholescripts protocol inverse restriction   ;wsProtocolRestriction                                 ;wsProtocolInverseRestriction    ;wsProtocolListMediaLink
+											
+###################All Patient Restriction
+#INSERT_UPDATE CMSUserGroupRestriction ; $contentCV[unique = true] ; uid[unique = true]    ; name                    ; userGroups(uid)            ; includeSubgroups ; components(uid, $contentCV)  
+#                                      ;                           ; allPatientRestriction ;All Patient  Restriction ; patientdirectcustomergroup,practitionercustomergroup ; true             ; MyPatientMediaLink
+
+###################All Patient Restriction
+INSERT_UPDATE CMSUserGroupRestriction ; $contentCV[unique = true] ; uid[unique = true]    ; name                    ; userGroups(uid)            ; includeSubgroups ; components(uid, $contentCV)  
+                                      ;                           ; allPatientRestriction ;All Patient  Restriction ;  employeecustomergroup,studentcustomergroup,salesrepcustomergroup,friendsfamilycustomergroup,patientcustomergroup,anonymousUserGroup,distributorcustomergroup ; true             ; 
+
+                                      
+# All Patient inverse restriction
+INSERT_UPDATE CMSInverseRestriction;$contentCV[unique=true];name                            ;originalRestriction(uid,$contentCV)[allownull=true];uid[unique=true]               ;components(uid,$contentCV)
+                                   ;                       ;All Patient inverse restriction ;allPatientRestriction                                 ;allPatientInverseRestriction    ; MyPatientMediaLink
+			
+
+##################My Order  Restriction
+INSERT_UPDATE CMSUserGroupRestriction ; $contentCV[unique = true] ; uid[unique = true] ; name                ; userGroups(uid)    ; includeSubgroups ; components(uid, $contentCV)
+                                      ;                           ; myOrderRestriction ;My Order Restriction ; anonymousUserGroup,patientcustomergroup ; true             ;
+									  
+##################My Order Inverse Restriction
+INSERT_UPDATE CMSInverseRestriction;$contentCV[unique=true];name                           ;originalRestriction(uid,$contentCV)[allownull=true];uid[unique=true]             ;components(uid,$contentCV)
+                                   ;                       ;MY Order Inverse restriction   ;myOrderRestriction                                   ;myOrderinverseRestriction    ; MyAccPractitionerOrderHistoryNodeMediaLink
+
+
+##################My Invoice  Restriction
+INSERT_UPDATE CMSUserGroupRestriction ; $contentCV[unique = true] ; uid[unique = true] ; name                    ; userGroups(uid)                         ; includeSubgroups ; components(uid, $contentCV)  
+                                      ;                           ; myInvoiceRestriction ;My Invoice Restriction ; anonymousUserGroup,patientcustomergroup ; true             ;  									
+									  
+##################My Invoice Inverse Restriction
+INSERT_UPDATE CMSInverseRestriction;$contentCV[unique=true];name                             ;originalRestriction(uid,$contentCV)[allownull=true];uid[unique=true]             ;components(uid,$contentCV)
+                                   ;                       ;MY invoice Inverse restriction   ;myInvoiceRestriction                                   ;myInvoiceInverseRestriction    ; wsOrderHistoryTabInvoicesLinkComponent
+
+##################Aging  Restriction
+INSERT_UPDATE CMSUserGroupRestriction ; $contentCV[unique = true] ; uid[unique = true] ; name                    ; userGroups(uid)                         ; includeSubgroups ; components(uid, $contentCV)
+                                      ;                           ; AgingRestriction ; Aging Restriction ; anonymousUserGroup,patientcustomergroup ; true             ;
+
+##################My Invoice Inverse Restriction
+INSERT_UPDATE CMSInverseRestriction;$contentCV[unique=true];name                             ;originalRestriction(uid,$contentCV)[allownull=true];uid[unique=true]             ;components(uid,$contentCV)
+                                   ;                       ;Aging Inverse restriction   ;AgingRestriction                                   ;AgingInverseRestriction    ; wsOrderHistoryAgingLinkComponent
+
+
+################## Accurals
+INSERT_UPDATE CMSUserGroupRestriction ; $contentCV[unique = true] ; uid[unique = true]  ; name                 ; userGroups(uid)             ; includeSubgroups ; components(uid, $contentCV)  
+                                      ;                           ; accuralsRestriction ; Accurals Restriction ; patientdirectcustomergroup  ; true             ; patientDirectHubAccuralLinkComponent
+
+##################Medpax Restriction
+INSERT_UPDATE CMSUserGroupRestriction ; $contentCV[unique = true] ; uid[unique = true] ; name              ; userGroups(uid)                         ; includeSubgroups ; components(uid, $contentCV)  
+                                      ;                           ; medpaxRestriction  ;Medpax Restriction ; anonymousUserGroup,patientcustomergroup ; true             ;  									
+									  
+##################My Invoice Inverse Restriction
+INSERT_UPDATE CMSInverseRestriction;$contentCV[unique=true];name                         ;originalRestriction(uid,$contentCV)[allownull=true];uid[unique=true]           ;components(uid,$contentCV)
+                                   ;                       ;Medpax Inverse restriction   ;medpaxRestriction                                   ;medpaxInverseRestriction    ; MedpaxCustomPageLink
+
+##################Private Label  Restriction
+INSERT_UPDATE CMSUserGroupRestriction ; $contentCV[unique = true] ; uid[unique = true]      ; name                     ; userGroups(uid)           ; includeSubgroups ; components(uid, $contentCV)  
+                                      ;                           ; privateLabelRestriction ;private Label Restriction ; privatelabelcustomergroup ; true             ;  PrivateLabelMediaLink,wsBodySearchPrivateLabelParagraph
+									  
+##################Shopify Restriction
+INSERT_UPDATE CMSUserGroupRestriction ; $contentCV[unique = true] ; uid[unique = true] ; name               ; userGroups(uid)                                                                                                                  ; includeSubgroups ; components(uid, $contentCV)  
+                                      ;                           ; shopifyRestriction ;Shopify Restriction ; employeecustomergroup,studentcustomergroup,salesrepcustomergroup,patientcustomergroup,wholescriptdoctorgroup,anonymousUserGroup ; true             ;  									
+									  
+##################shopify Inverse Restriction
+INSERT_UPDATE CMSInverseRestriction;$contentCV[unique=true];name                          ;originalRestriction(uid,$contentCV)[allownull=true];uid[unique=true]             ;components(uid,$contentCV)
+                                   ;                       ;Shopify Inverse restriction   ;shopifyRestriction                                   ;shopifyInverseRestriction    ;ShopifySettingsLink
+																  
+
+##################Special Offer Restriction
+INSERT_UPDATE CMSUserGroupRestriction ; $contentCV[unique = true] ; uid[unique = true]      ; name                     ; userGroups(uid)    ; includeSubgroups ; components(uid, $contentCV)  
+                                      ;                           ; specialOfferRestriction ;Special Offer Restriction ; anonymousUserGroup ; true             ;  									
+									  
+##################Special Offer Inverse Restriction
+INSERT_UPDATE CMSInverseRestriction;$contentCV[unique=true];name                                ;originalRestriction(uid,$contentCV)[allownull=true];uid[unique=true]                ;components(uid,$contentCV)
+                                   ;                       ;Specail Offer Inverse restriction   ;specialOfferRestriction                              ;specialOfferinverseRestriction  ;SpecialOffersMediaLink
+																  																  																	   
+##################Webinar Restriction
+INSERT_UPDATE CMSUserGroupRestriction ; $contentCV[unique = true] ; uid[unique = true] ; name               ; userGroups(uid)                         ; includeSubgroups ; components(uid, $contentCV)  
+									  ;                           ; WebinarRestriction ;Webinar Restriction ; anonymousUserGroup,patientcustomergroup ; true             ;  									
+									  
+##################Webinar Inverse Restriction
+INSERT_UPDATE CMSInverseRestriction;$contentCV[unique=true];name                          ;originalRestriction(uid,$contentCV)[allownull=true];uid[unique=true]      ;components(uid,$contentCV)
+                                   ;                       ;Webinar Inverse restriction   ;WebinarRestriction                              ;WebinarInverseRestriction  ;wsWebinarsLink
+
+##################Autoship Restriction
+INSERT_UPDATE CMSUserGroupRestriction ; $contentCV[unique = true] ; uid[unique = true]  ; name                ; userGroups(uid)    ; includeSubgroups ; components(uid, $contentCV)
+									  ;                           ; autoshipRestriction ; Autoship Restriction ; anonymousUserGroup,patientcustomergroup ; true             ;
+									  
+##################Autoship Inverse Restriction
+INSERT_UPDATE CMSInverseRestriction;$contentCV[unique=true];name                           ;originalRestriction(uid,$contentCV)[allownull=true];uid[unique=true]            ;components(uid,$contentCV)
+                                   ;                       ;Autoship Inverse restriction   ;autoshipRestriction                                  ;autoshipInverseRestriction  ;MyAccPractitionerAutoshipNodeMediaLink
+
+##################chat Restriction
+INSERT_UPDATE CMSUserGroupRestriction ; $contentCV[unique = true] ; uid[unique = true] ; name           ; userGroups(uid)    ; includeSubgroups ; components(uid, $contentCV)  
+									  ;                           ; chatRestriction    ;Chat Restriction ; anonymousUserGroup ; true             ;  									
+									  
+##################chat Inverse Restriction
+INSERT_UPDATE CMSInverseRestriction;$contentCV[unique=true];name                       ;originalRestriction(uid,$contentCV)[allownull=true];uid[unique=true]        ;components(uid,$contentCV)
+                                   ;                       ;Chat Inverse restriction   ;chatRestriction                                      ;chatInverseRestriction  ;
+
+############ StressAndSleepNavNodeLink Inverse
+INSERT_UPDATE CMSUserGroupRestriction; $contentCV[unique = true]; uid[unique = true]        ; name                       ; userGroups(uid)           ; includeSubgroups; components(uid, $contentCV)
+                                     ;                          ; stressAndSleepRestriction ; StressAndSleep Restriction ; practitionercustomergroup ; true            ;
+INSERT_UPDATE CMSInverseRestriction; $contentCV[unique = true]; name                         ; originalRestriction(uid, $contentCV)[allownull = true]; uid[unique = true]        ; components(uid, $contentCV)
+                                   ;                          ; Stress And Sleep restriction ; stressAndSleepRestriction                             ; stressAndSleepInverseRestriction ; StressAndSleepNavNodeLink
+
+
+################## Find A practitioner Link Restriction
+INSERT_UPDATE CMSUserGroupRestriction ; $contentCV[unique = true] ; uid[unique = true]   ; name                   ; userGroups(uid)                                                                                                                    ; includeSubgroups ; components(uid, $contentCV)
+                                      ;                           ; findPractitionerRestriction ; Find Practitoner  Restriction ; employeecustomergroup,studentcustomergroup,salesrepcustomergroup,patientcustomergroup  ; true             ;
+
+
+# create a Reselling inverse restriction
+INSERT_UPDATE CMSInverseRestriction;$contentCV[unique=true];name                            ;originalRestriction(uid,$contentCV)[allownull=true];uid[unique=true]               ;components(uid,$contentCV)
+                                   ;                       ;Find Practitoner restriction   ;findPractitionerRestriction                                 ;findPractitionerInverseRestriction    ; FindAPractitionerLink

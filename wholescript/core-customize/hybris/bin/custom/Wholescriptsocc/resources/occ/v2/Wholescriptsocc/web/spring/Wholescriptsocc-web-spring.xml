@@ -1,0 +1,752 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright (c) 2020 SAP SE or an SAP affiliate company. All rights reserved.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context.xsd
+           http://www.springframework.org/schema/util
+		  http://www.springframework.org/schema/util/spring-util.xsd">
+
+
+    <context:component-scan base-package="com.wholescripts.occ.controllers"/>
+    
+    
+    
+    <bean parent="fieldSetLevelMapping" id="wholescriptsRecommendWsDTOFieldSetLevelMapping">
+		<property name="dtoClass" value="com.wholescripts.dto.WsRecommendationWsDTO"/>
+		<property name="levelMapping">
+			<map>
+				<entry key="BASIC" value="id,practitioner,status,referralCode,referralName,notes,creationDate,patient,subTotal(FULL),msrpSubTotalPrice(FULL),recommendationEntries(BASIC),isSmsNotificationEnabled,isEmailNotificationEnabled,patientUID,patientDefaultB2BUnit,totalUnitCount,statusName,externalOrder,sourceId,sourceName"/>
+				<entry key="DEFAULT" value="id,practitioner,status,referralCode,referralName,notes,creationDate,patient,subTotal(FULL),msrpSubTotalPrice(FULL),recommendationEntries(DEFAULT),isSmsNotificationEnabled,isEmailNotificationEnabled,patientUID,patientDefaultB2BUnit,totalUnitCount,statusName,externalOrder,sourceId,sourceName"/>
+				<entry key="FULL" value="id,practitioner,status,referralCode,referralName,patient,notes,creationDate,subTotal(FULL),msrpSubTotalPrice(FULL),recommendationEntries(FULL),isSmsNotificationEnabled,isEmailNotificationEnabled,patientUID,patientDefaultB2BUnit,totalUnitCount,statusName,externalOrder,sourceId,sourceName"/>
+			</map>
+		</property>
+	</bean>
+	<bean parent="fieldSetLevelMapping" id="wsRecommendationEntryWsDTOFieldSetLevelMapping">
+		<property name="dtoClass" value="com.wholescripts.dto.WsRecommendationEntryWsDTO"/>
+		<property name="levelMapping">
+			<map>
+				<entry key="BASIC"
+					   value="entryNumber,quantity,product(BASIC),itemDuration,dosing(BASIC),basePrice(BASIC),totalPrice(FULL),msrpBasePrice(FULL),msrpTotalPrice(FULL),templateId,notes"/>
+				<entry key="DEFAULT"
+					   value="entryNumber,quantity,product(DEFAULT),itemDuration,dosing(DEFAULT),basePrice(DEFAULT),totalPrice(FULL),msrpBasePrice(FULL),msrpTotalPrice(FULL),templateId,notes"/>
+				<entry key="FULL"
+					   value="entryNumber,quantity,product(FULL),itemDuration,dosing(FULL),basePrice(FULL),totalPrice(FULL),msrpBasePrice(FULL),msrpTotalPrice(FULL),templateId,notes"/>
+			</map>
+		</property>
+	</bean>
+
+
+	<bean parent="fieldSetLevelMapping" id="ProtocolLevelMapping">
+		<property name="dtoClass"
+			value="com.wholescripts.dto.protocol.ProtocolWsDTO" />
+		<property name="levelMapping">
+			<map>
+				<entry key="BASIC"
+					value="id,name,protocolSharedStatus,protocolStatus,modifiedTime,totalPrice(FULL),msrpSubTotalPrice(FULL),totalItems,patientList(BASIC),isWSProtocol,totalUnitCount" />
+				<entry key="DEFAULT"
+					value="id,name,description,protocolStatus,protocolSharedStatus,protocolEntries(DEFAULT),modifiedTime,totalPrice(FULL),msrpSubTotalPrice(FULL),totalItems,notes,patientList(BASIC),isWSProtocol,totalUnitCount" />
+				<entry key="FULL"
+					value="id,name,description,protocolStatus,protocolSharedStatus,protocolEntries(FULL),modifiedTime,totalPrice(FULL),msrpSubTotalPrice(FULL),totalItems,notes,patientList(BASIC),isWSProtocol,totalUnitCount" />
+			</map>
+		</property>
+	</bean>
+
+	<bean parent="fieldSetLevelMapping" id="ProtocolEnrtyLevelMapping">
+		<property name="dtoClass"
+			value="com.wholescripts.dto.protocol.ProtocolEntryWsDto" />
+		<property name="levelMapping">
+			<map>
+				<entry key="BASIC"
+					value="itemDuration,productItemType,dosing(BASIC),product(BASIC),quantity,basePrice(FULL),msrpBasePrice(FULL),msrpTotalPrice(FULL),entryNumber,notes,totalPrice(FULL)" />
+				<entry key="DEFAULT"
+					value="itemDuration,productItemType,dosing(DEFAULT),product(DEFAULT),quantity,basePrice(FULL),msrpBasePrice(FULL),msrpTotalPrice(FULL),entryNumber,notes,totalPrice(FULL)" />
+				<entry key="FULL"
+					value="itemDuration,productItemType,dosing(FULL),product(FULL),quantity,basePrice(FULL),msrpBasePrice(FULL),msrpTotalPrice(FULL),entryNumber,notes,totalPrice(FULL)" />
+			</map>
+		</property>
+	</bean>
+
+	<bean parent="fieldSetLevelMapping" id="dosingLevelMapping">
+		<property name="dtoClass"
+			value="com.wholescripts.dto.DosingWsDTO" />
+		<property name="levelMapping">
+			<map>
+				<entry key="BASIC"
+					value="id,product(BASIC),quantity,isSavedAsCustom,itemTimes(BASIC)" />
+				<entry key="DEFAULT"
+					value="id,product(DEFAULT),quantity,isSavedAsCustom,itemTimes(DEFAULT)" />
+				<entry key="FULL"
+					value="id,product(FULL),quantity,isSavedAsCustom,itemTimes(FULL)" />
+			</map>
+		</property>
+	</bean>
+
+	<bean parent="fieldSetLevelMapping" id="itemTimeMapping">
+		<property name="dtoClass"
+			value="com.wholescripts.dto.ItemTimeWsDTO" />
+		<property name="levelMapping">
+			<map>
+				<entry key="BASIC"
+					value="code,timeOfTheDay,iconImage(BASIC),displayOrder,isActive,sapValue,isDisplayable,parentItemTimeCode" />
+				<entry key="DEFAULT"
+					value="code,timeOfTheDay,iconImage(DEFAULT),displayOrder,isActive,sapValue,isDisplayable,parentItemTimeCode" />
+				<entry key="FULL"
+					value="code,timeOfTheDay,iconImage(FULL),displayOrder,isActive,sapValue,isDisplayable,parentItemTimeCode" />
+
+			</map>
+		</property>
+	</bean>
+
+	<bean parent="fieldSetLevelMapping" id="apiFilterMapping">
+		<property name="dtoClass"
+				  value="com.wholescripts.dto.ApiFilterWsDTO" />
+		<property name="levelMapping">
+			<map>
+				<entry key="BASIC"
+					   value="title,filters,config(BASIC)" />
+				<entry key="DEFAULT"
+					   value="title,filters,config(DEFAULT)" />
+				<entry key="FULL"
+					   value="title,filters,config(FULL)" />
+			</map>
+		</property>
+	</bean>
+	<bean parent="fieldSetLevelMapping" id="wholescriptsW9FormWsDTOFieldSetLevelMapping">
+		<property name="dtoClass" value="com.wholescripts.dto.W9FormWsDTO"/>
+		<property name="levelMapping">
+			<map>
+				<entry key="BASIC" value="b2bCustomer,name,businessName,fedTaxClass,taxClassLimitedText,taxClassOtherText,exemptPayee,exemptFatca,address(BASIC),accountNumbers,requestersInfo,ssn,ein,signature,signatureDate,browserString,ip"/>
+				<entry key="DEFAULT" value="b2bCustomer,name,businessName,fedTaxClass,taxClassLimitedText,taxClassOtherText,exemptPayee,exemptFatca,address(DEFAULT),accountNumbers,requestersInfo,ssn,ein,signature,signatureDate,browserString,ip"/>
+				<entry key="FULL" value="b2bCustomer,name,businessName,fedTaxClass,taxClassLimitedText,taxClassOtherText,exemptPayee,exemptFatca,address(FULL),accountNumbers,requestersInfo,ssn,ein,signature,signatureDate,browserString,ip"/>
+			</map>
+		</property>
+	</bean>
+	<bean parent="fieldSetLevelMapping" id="wholescriptsTopicWsDTOFieldSetLevelMapping">
+		<property name="dtoClass" value="com.wholescripts.dto.WholescriptsTopicWsDTO"/>
+		<property name="levelMapping">
+			<map>
+				<entry key="BASIC" value="code,page,childTopic,mainContent,images(BASIC),curlURL,authorization,requestURL,authorizationURL,specs,requestBody,response,requestValues,responseValues,headline"/>
+				<entry key="DEFAULT" value="code,page,childTopic,mainContent,images(BASIC),curlURL,authorization,requestURL,authorizationURL,specs,requestBody,response,requestValues,responseValues,headline"/>
+				<entry key="FULL" value="code,page,childTopic,mainContent,images(BASIC),curlURL,authorization,requestURL,authorizationURL,specs,requestBody,response,requestValues,responseValues,headline"/>
+			</map>
+		</property>
+	</bean>
+    
+      <bean parent="fieldSetLevelMapping" id="productWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="de.hybris.platform.commercewebservicescommons.dto.product.ProductWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC"
+                       value="purchasable,stock,name,baseProduct,availableForPickup,code,url,price,discontinuedDate,retailPrice,wholeSalePrice,mapPrice,yourPrice,isFeatured,isNew,isBestSeller,brandName,brandCode,brandUrl,materialProductForm,inAM,inPM,inDaily,inBedtime,sapEAN,otherAvailableProducts(productDisplyName),regionSwapDescription,isMedpax,isFavorite"/>
+                <entry key="DEFAULT"
+                       value="summary,averageRating,purchasable,stock(DEFAULT),description,variantMatrix(DEFAULT),name,baseOptions(DEFAULT),baseProduct,availableForPickup,variantOptions(DEFAULT),code,url,price(DEFAULT),numberOfReviews,manufacturer,categories(BASIC,name),priceRange,multidimensional,configuratorType,configurable,tags,sapAddToCartDisabled,sapAddToCartDisabledMessage,discontinuedDate,retailPrice(DEFAULT),wholeSalePrice(DEFAULT),mapPrice(DEFAULT),yourPrice(DEFAULT),isFeatured,isNew,isBestSeller,brandName,brandCode,brandUrl,materialProductForm,inAM,inPM,inDaily,inBedtime,sapEAN,otherAvailableProducts(DEFAULT),doctorReferenceSheet(DEFAULT),supplementFacts(DEFAULT),caseQty,deliveryForm,brightStock,blueLabel,productDescription,account,preLabeledUnit,preLabeledCases,casePrice(FULL),genericPLName,privateLabelDescription,autoShipFrequency(DEFAULT),shopifyImported,medPaxUrl,shortDescription,regionSwapDescription,isMedpax,stockStatus,forceOutOfStock,isPrivateLabel,privateLabelImage(DEFAULT),medPaxImage(DEFAULT),isFavorite,images(DEFAULT)"/>
+                <entry key="FULL"
+                       value="summary,productReferences(FULL),classifications(FULL),averageRating,purchasable,volumePrices(FULL),variantType,stock(FULL),description,variantMatrix(FULL),name,baseOptions(FULL),baseProduct,availableForPickup,variantOptions(FULL),reviews(FULL),code,url,price(FULL),numberOfReviews,manufacturer,volumePricesFlag,futureStocks(FULL),images(FULL),categories(FULL),potentialPromotions(FULL),priceRange,multidimensional,configuratorType,configurable,tags,sapAddToCartDisabled,sapAddToCartDisabledMessage,discontinuedDate,retailPrice(FULL),wholeSalePrice(FULL),mapPrice(FULL),yourPrice(FULL),isFeatured,isNew,isBestSeller,brandName,brandCode,brandUrl,materialProductForm,inAM,inPM,inDaily,inBedtime,sapEAN,otherAvailableProducts(FULL),doctorReferenceSheet(FULL),supplementFacts(FULL),caseQty,deliveryForm,brightStock,blueLabel,productDescription,account,preLabeledUnit,preLabeledCases,casePrice(FULL),genericPLName,privateLabelDescription,autoShipFrequency(FULL),shopifyImported,medPaxUrl,shortDescription,regionSwapDescription,isMedpax,stockStatus,forceOutOfStock,isPrivateLabel,privateLabelImage(FULL),medPaxImage(FULL),isFavorite"/>
+            </map>
+        </property>
+    </bean>
+
+	<bean parent="fieldSetLevelMapping">
+		<property name="dtoClass" value="com.wholescripts.dto.WsPopularCategoriesWsDTO" />
+		<property name="levelMapping">
+			<map>
+				<entry key="BASIC" value="popularCategories(BASIC),topBrands(BASIC)" />
+				<entry key="DEFAULT" value="popularCategories(DEFAULT),topBrands(DEFAULT)" />
+				<entry key="FULL" value="popularCategories(FULL),popularByCategory(FULL),topBrands(FULL)" />
+			</map>
+		</property>
+	</bean>
+	
+	    <bean parent="fieldSetLevelMapping" id="webinarSearchPageWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="de.hybris.platform.commercewebservicescommons.dto.search.facetdata.ProductSearchPageWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC"
+                       value="freeTextSearch,keywordRedirectUrl,categoryCode,products,pagination"/>
+                <entry key="DEFAULT"
+                       value="freeTextSearch,keywordRedirectUrl,categoryCode,spellingSuggestion(DEFAULT),currentQuery(DEFAULT),breadcrumbs(DEFAULT),products(DEFAULT),pagination(DEFAULT),sorts(DEFAULT)"/>
+                <entry key="FULL"
+                       value="freeTextSearch,keywordRedirectUrl,categoryCode,spellingSuggestion(FULL),currentQuery(FULL),facets(FULL),breadcrumbs(FULL),products(FULL),pagination(FULL),sorts(FULL)"/>
+            </map>
+        </property>
+    </bean>
+
+	<bean parent="fieldSetLevelMapping" id="pointOfServiceWsDTOFieldSetLevelMapping">
+		<property name="dtoClass"
+				  value="de.hybris.platform.commercewebservicescommons.dto.store.PointOfServiceWsDTO"/>
+		<property name="levelMapping">
+			<map>
+				<entry key="BASIC" value="name"/>
+				<entry key="DEFAULT"
+					   value="BASIC,displayName,address(DEFAULT),geoPoint,formattedDistance,pickUpInStoreInstructions,mapIcon(DEFAULT),phoneNumber,webSite,email,practitionerName,practitionerDirectoryOptIn"/>
+				<entry key="FULL"
+					   value="storeImages(FULL),geoPoint(FULL),address(FULL),openingHours(FULL),description,storeContent,name,mapIcon(FULL),formattedDistance,displayName,url,distanceKm,features,pickUpInStoreInstructions,phoneNumber,webSite,email,practitionerName,practitionerDirectoryOptIn"/>
+			</map>
+		</property>
+	</bean>
+
+	<bean parent="fieldSetLevelMapping" id="webBannersAndScriptsWsDTOFieldSetLevelMapping">
+		<property name="dtoClass"
+				  value="com.wholescripts.dto.WebBannersAndScriptsWsDTO"/>
+		<property name="levelMapping">
+			<map>
+				<entry key="BASIC" value="uid,referralLink"/>
+				<entry key="DEFAULT"
+					   value="BASIC,entries(DEFAULT)"/>
+				<entry key="FULL"
+					   value="uid,referralLink,entries(FULL)"/>
+			</map>
+		</property>
+	</bean>
+
+	<bean parent="fieldSetLevelMapping" id="webBannersAndScriptsEntryWsDTOFieldSetLevelMapping">
+		<property name="dtoClass"
+				  value="com.wholescripts.dto.WebBannersAndScriptsEntryWsDTO"/>
+		<property name="levelMapping">
+			<map>
+				<entry key="BASIC" value="optionId,optionName"/>
+				<entry key="DEFAULT"
+					   value="BASIC,script,image(DEFAULT),webPageViewName,webPageViewUrl"/>
+				<entry key="FULL"
+					   value="DEFAULT,script,image(FULL),webPageViewName,webPageViewUrl"/>
+			</map>
+		</property>
+	</bean>
+	<bean parent="fieldSetLevelMapping" id="wishlistWsDTOFieldSetLevelMapping">
+		<property name="dtoClass"
+				  value="com.wholescripts.dto.WishlistWsDTO"/>
+		<property name="levelMapping">
+			<map>
+				<entry key="BASIC" value="name,wishListEntries(productCode)"/>
+				<entry key="DEFAULT"
+					   value="name,wishListEntries(productCode)"/>
+				<entry key="FULL"
+					   value="name,wishListEntries(productCode)"/>
+			</map>
+		</property>
+	</bean>
+
+	<bean parent="fieldSetLevelMapping" id="ReferralCodeWsDTOFieldSetLevelMapping">
+		<property name="dtoClass"
+				  value="com.wholescripts.dto.referralCodes.ReferralCodeWsDTO"/>
+		<property name="levelMapping">
+			<map>
+				<entry key="BASIC" value="referralCode,discount,lastName,practitionerName,credential"/>
+				<entry key="DEFAULT"
+					   value="BASIC,patientDirectHubId,profileImage,referralLink,website,description,practitionerName,credential,address(DEFAULT)"/>
+				<entry key="FULL"
+					   value="referralCode,discount,lastName,patientDirectHubId,profileImage,referralLink,website,description,practitionerName,credential,address(FULL)"/>
+			</map>
+		</property>
+	</bean>
+	<bean parent="fieldSetLevelMapping" id="wholescriptsPresenterWsDTOFieldSetLevelMapping">
+		<property name="dtoClass"
+				  value="com.wholescripts.dto.WholescriptsPresenterWsDTO"/>
+		<property name="levelMapping">
+			<map>
+				<entry key="BASIC" value="code,name"/>
+				<entry key="DEFAULT"
+					   value="BASIC,websiteUrl,biography,image(DEFAULT)"/>
+				<entry key="FULL"
+					   value="code,name,websiteUrl,biography,image(FULL),relatedWebinars(FULL)"/>
+			</map>
+		</property>
+	</bean>
+	<bean parent="fieldSetLevelMapping" id="wholescriptsContentWsDTOFieldSetLevelMapping">
+		<property name="dtoClass"
+				  value="com.wholescripts.dto.WholescriptsContentWsDTO"/>
+		<property name="levelMapping">
+			<map>
+				<entry key="BASIC" value="code,name,description,brandLogo,brandImage,brandURL,brandPriority,isTopBrand,uid,question,answer,thumbnail,catgeoryPath,integrations,brandCode,brandName,categoryImage"/>
+				<entry key="DEFAULT"
+					   value="code,name,description,brandLogo,brandImage,brandURL,brandPriority,isTopBrand,uid,question,answer,thumbnail,catgeoryPath,integrations,brandCode,brandName,categoryImage"/>
+				<entry key="FULL"
+					   value="code,name,description,brandLogo,brandImage,brandURL,brandPriority,isTopBrand,uid,question,answer,thumbnail,catgeoryPath,integrations,brandCode,brandName,categoryImage"/>
+			</map>
+		</property>
+	</bean>
+	
+	<bean parent="fieldSetLevelMapping" id="wholescriptsWebinarWsDTOFieldSetLevelMapping">
+		<property name="dtoClass"
+				  value="com.wholescripts.dto.WholescriptsWebinarWsDTO"/>
+		<property name="levelMapping">
+			<map>
+				<entry key="BASIC" value="code"/>
+				<entry key="DEFAULT"
+					   value="code,title,shortDescription,description,videoImage,video,sponsorImageUrl,sponsorImageAltText,sponsorName,presenter,webinarTag,videoUrl,presenters(DEFAULT),webinarCategories,catalogCategories(DEFAULT),relatedWebinars(DEFAULT),videoCaptionUrl,sponsorImage"/>
+				<entry key="FULL"
+					   value="code,title,shortDescription,description,videoImage,video,sponsorImageUrl,sponsorImageAltText,sponsorName,presenter,webinarTag,videoUrl,presenters(FULL),webinarCategories,catalogCategories(FULL),relatedWebinars(FULL),videoCaptionUrl,sponsorImage"/>
+			</map>
+		</property>
+	</bean>
+	
+	<bean parent="fieldSetLevelMapping" id="wholescriptsMedpaxEntryWsDTOFieldSetLevelMapping">
+		<property name="dtoClass"
+				  value="com.wholescripts.dto.MedpaxEntryWsDTO"/>
+		<property name="levelMapping">
+			<map>
+				<entry key="BASIC" value="entryNumber,product(BASIC),dosing(BASIC),price,msrpPrice,quantity"/>
+				<entry key="DEFAULT"
+					   value="entryNumber,product(DEFAULT),dosing(DEFAULT),price,msrpPrice,quantity"/>
+				<entry key="FULL"
+					   value="entryNumber,product(FULL),dosing(FULL),price,msrpPrice,quantity"/>
+			</map>
+		</property>
+	</bean>
+	
+	<bean parent="fieldSetLevelMapping" id="wholescriptsMedPaxWsDTOFieldSetLevelMapping">
+		<property name="dtoClass"
+				  value="com.wholescripts.dto.MedPaxWsDTO"/>
+		<property name="levelMapping">
+			<map>
+				<entry key="BASIC" value="code,name,description,medpaxEntry(BASIC),notes,msrpTotalPrice,totalPrice,carton"/>
+				<entry key="DEFAULT"
+					   value="code,name,description,medpaxEntry(DEFAULT),notes,msrpTotalPrice,totalPrice,carton"/>
+				<entry key="FULL"
+					   value="code,name,description,medpaxEntry(FULL),notes,msrpTotalPrice,totalPrice,carton"/>
+			</map>
+		</property>
+	</bean>
+	
+    <bean parent="fieldSetLevelMapping" id="deliveryModeWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="de.hybris.platform.commercewebservicescommons.dto.order.DeliveryModeWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="code"/>
+                <entry key="DEFAULT" value="description,name,code,deliveryCost(DEFAULT),sapCarrier,sapCarrierShippingOption,apiCode"/>
+                <entry key="FULL" value="description,name,code,deliveryCost(FULL),sapCarrier,sapCarrierShippingOption,apiCode"/>
+            </map>
+        </property>
+    </bean>
+	
+	<bean parent="fieldSetLevelMapping" id="packetEntryWsDTOFieldSetLevelMapping">
+		<property name="dtoClass"
+				  value="com.wholescripts.dto.PacketEntryWsDTO"/>
+		<property name="levelMapping">
+			<map>
+				<entry key="BASIC" value="entryNumbers,product(BASIC),price,quantity"/>
+				<entry key="DEFAULT"
+					   value="entryNumbers,product(DEFAULT),price,quantity"/>
+				<entry key="FULL"
+					   value="entryNumbers,product(FULL),price,quantity"/>
+			</map>
+		</property>
+	</bean>
+	
+	
+	<bean parent="fieldSetLevelMapping" id="medPaxPacketsWsDTOFieldSetLevelMapping">
+		<property name="dtoClass"
+				  value="com.wholescripts.dto.MedPaxPacketsWsDTO"/>
+		<property name="levelMapping">
+			<map>
+				<entry key="BASIC" value="packetCode,itemTime(BASIC),packetEntries(BASIC)"/>
+				<entry key="DEFAULT"
+					   value="packetCode,itemTime(DEFAULT),packetEntries(DEFAULT)"/>
+				<entry key="FULL"
+					   value="packetCode,itemTime(FULL),packetEntries(FULL)"/>
+			</map>
+		</property>
+	</bean>
+	
+	
+	<bean parent="fieldSetLevelMapping" id="reviewMedPaxWsDTOFieldSetLevelMapping">
+		<property name="dtoClass"
+				  value="com.wholescripts.dto.ReviewMedPaxWsDTO"/>
+		<property name="levelMapping">
+			<map>
+				<entry key="BASIC" value="name,medPaxCode,description,packets(BASIC),box,packetCount,formulas,notes,carton,msrpTotalPrice,totalPrice"/>
+				<entry key="DEFAULT"
+					   value="name,medPaxCode,description,packets(DEFAULT),box,packetCount,formulas,notes,carton,msrpTotalPrice,totalPrice"/>
+				<entry key="FULL"
+					   value="name,medPaxCode,description,packets(FULL),box,packetCount,formulas,notes,carton,msrpTotalPrice,totalPrice"/>
+			</map>
+		</property>
+	</bean>
+	
+	 <bean parent="fieldSetLevelMapping" id="wholescriptsWebinarSearchPageWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="com.wholescripts.dto.WholescriptsWebinarSearchPageWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC"
+                       value="freeTextSearch,results,pagination,meetPresenter"/>
+                <entry key="DEFAULT"
+                       value="freeTextSearch,spellingSuggestion(DEFAULT),currentQuery(DEFAULT),facets(DEFAULT),breadcrumbs(DEFAULT),results(DEFAULT),pagination(DEFAULT),sorts(DEFAULT),meetPresenter"/>
+                <entry key="FULL"
+                       value="freeTextSearch,spellingSuggestion(FULL),currentQuery(FULL),facets(FULL),breadcrumbs(FULL),results(FULL),pagination(FULL),sorts(FULL),meetPresenter"/>
+            </map>
+        </property>
+    </bean>
+	
+	 <bean parent="fieldSetLevelMapping" id="wholescriptsContentSearchPageWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="com.wholescripts.dto.WholescriptsContentSearchPageWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC"
+                       value="freeTextSearch,results,pagination"/>
+                <entry key="DEFAULT"
+                       value="freeTextSearch,spellingSuggestion(DEFAULT),currentQuery(DEFAULT),facets(DEFAULT),breadcrumbs(DEFAULT),results(DEFAULT),pagination(DEFAULT),sorts(DEFAULT)"/>
+                <entry key="FULL"
+                       value="freeTextSearch,spellingSuggestion(FULL),currentQuery(FULL),facets(FULL),breadcrumbs(FULL),results(FULL),pagination(FULL),sorts(FULL)"/>
+            </map>
+        </property>
+    </bean>
+	<bean parent="fieldSetLevelMapping" id="wholescriptsCategoryOrBrandWsDTOFieldSetLevelMapping">
+		<property name="dtoClass"
+				  value="com.wholescripts.dto.CategoryOrBrandWsDTO"/>
+		<property name="levelMapping">
+			<map>
+				<entry key="BASIC" value="categoryDetails(code),categoryDetails(name),brandDetails(code),brandDetails(name),categoryDetails(retailName)"/>
+				<entry key="DEFAULT"
+					   value="categoryDetails(code),categoryDetails(name),categoryDetails(url),categoryDetails(description),categoryDetails(image(DEFAULT)),categoryDetails(categoryImage(FULL)),brandDetails(DEFAULT),categoryDetails(retailName)"/>
+				<entry key="FULL"
+					   value="categoryDetails(code),categoryDetails(name),categoryDetails(url),categoryDetails(description),categoryDetails(image(FULL)),categoryDetails(categoryImage(FULL)),brandDetails(FULL),categoryDetails(retailName)"/>
+			</map>
+		</property>
+	</bean>
+	<bean parent="fieldSetLevelMapping" id="searchStateWsDTOFieldSetLevelMapping">
+		<property name="dtoClass"
+				  value="de.hybris.platform.commercewebservicescommons.dto.search.SearchStateWsDTO"/>
+		<property name="levelMapping">
+			<map>
+				<entry key="BASIC" value="query,url,categoryCode,brandCode"/>
+				<entry key="DEFAULT" value="query(DEFAULT),url,categoryCode,brandCode"/>
+				<entry key="FULL" value="query(FULL),url,categoryCode,brandCode"/>
+			</map>
+		</property>
+	</bean>
+	<bean parent="fieldSetLevelMapping" id="categoryWsDTOFieldSetLevelMapping">
+		<property name="dtoClass"
+				  value="de.hybris.platform.commercewebservicescommons.dto.product.CategoryWsDTO"/>
+		<property name="levelMapping">
+			<map>
+				<entry key="BASIC" value="code"/>
+				<entry key="DEFAULT" value="image(DEFAULT),code,name,categoryUrl,retailName,categoryImage"/>
+				<entry key="FULL" value="image(FULL),code,name,url,categoryUrl,retailName,categoryImage"/>
+			</map>
+		</property>
+	</bean>
+	<bean parent="fieldSetLevelMapping" id="otherAvailableProductsWsDTOFieldSetLevelMapping">
+		<property name="dtoClass"
+				  value="com.wholescripts.dto.OtherAvailableProductsWsDTO"/>
+		<property name="levelMapping">
+			<map>
+				<entry key="BASIC" value="productDisplyName"/>
+				<entry key="DEFAULT" value="productDisplyName,productUrl"/>
+				<entry key="FULL" value="productDisplyName,productUrl"/>
+			</map>
+		</property>
+	</bean>
+	
+	  <bean parent="fieldSetLevelMapping" id="wsOrderEntryWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="de.hybris.platform.commercewebservicescommons.dto.order.OrderEntryWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="entryGroupNumbers,medpaxName,medpaxId,autoShipCode,regionSwapDescription,hidden,medPaxEntryNumber,abstractOrderQty,subTotal,totalTax,totalDiscounts,quantityByCase"/>
+                <entry key="DEFAULT"
+                       value="entryGroupNumbers,medpaxName,medpaxId,autoShipCode,regionSwapDescription,hidden,medPaxEntryNumber,abstractOrderQty,subTotal,totalTax,totalDiscounts,quantityByCase"/>
+                <entry key="FULL"
+                       value="entryGroupNumbers,medpaxName,medpaxId,autoShipCode,regionSwapDescription,hidden,medPaxEntryNumber,abstractOrderQty,subTotal,totalTax,totalDiscounts,quantityByCase"/>
+            </map>
+        </property>
+    </bean>
+    
+        <bean parent="fieldSetLevelMapping" id="wsCartWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="de.hybris.platform.commercewebservicescommons.dto.order.CartWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="DEFAULT"
+                       value="entryGroups(DEFAULT),headerInvalidsPromoCodes,itemInvalidsPromoCodes,success"/>
+                <entry key="FULL"
+                       value="entryGroups(FULL),headerInvalidsPromoCodes,itemInvalidsPromoCodes,success"/>
+            </map>
+        </property>
+    </bean>
+    	<bean parent="fieldSetLevelMapping">
+		<property name="dtoClass"
+				  value="de.hybris.platform.commercewebservicescommons.dto.user.UserWsDTO" />
+		<property name="levelMapping">
+			<map>
+				<entry key="BASIC"
+					   value="rootUrl" />
+				<entry key="DEFAULT"
+					   value="rootUrl,isSmsNotificationEnabled,isEmailNotificationEnabled,paymentTerms(DEFAULT),referralCode,discount,contactNumber,autoShips,perosnaExpirationDate,personaBlockedDate,receiveConsultationFee,creditAmount,creditUsed,sapCentralDeliveryBlock,sapOnCreditHold,sapCustomerClassification,hideMedpaxPage"/>
+				<entry key="FULL"
+					   value="rootUrl,isSmsNotificationEnabled,isEmailNotificationEnabled,paymentTerms(FULL),referralCode,discount,contactNumber,autoShips,perosnaExpirationDate,personaBlockedDate,receiveConsultationFee,creditAmount,creditUsed,sapCentralDeliveryBlock,sapOnCreditHold,sapCustomerClassification,hideMedpaxPage"/>
+			</map>
+		</property>
+	</bean>
+	<bean id="wsPaymentTermsWsDTO" parent="fieldSetLevelMapping">
+		<property name="dtoClass"
+				  value="com.wholescripts.dto.WholescriptsPaymentTermsWsDTO"/>
+		<property name="levelMapping">
+			<map>
+				<entry key="BASIC" value="code"/>
+				<entry key="DEFAULT"
+					   value="code,name"/>
+				<entry key="FULL"
+					   value="code,name"/>
+			</map>
+		</property>
+	</bean>
+
+	<bean id="wsGetCCResponseWsDTO" parent="fieldSetLevelMapping">
+		<property name="dtoClass"
+				  value="com.wholescripts.dto.WholescriptsGetCCResponseWsDTO"/>
+		<property name="levelMapping">
+			<map>
+				<entry key="BASIC" value="cartData"/>
+				<entry key="DEFAULT"
+					   value="cartData(DEFAULT)"/>
+				<entry key="FULL"
+					   value="cartData(FULL)"/>
+			</map>
+		</property>
+
+	</bean>
+	<bean id="wsGetCCCartItemResponseWsDTO" parent="fieldSetLevelMapping">
+		<property name="dtoClass"
+				  value="com.wholescripts.dto.WholescriptsGetCCCartItemResponseWsDTO"/>
+		<property name="levelMapping">
+			<map>
+				<entry key="BASIC" value="cardId,cardType,cardNumber,defaultCard,creditCardName,validTo,billingAddress(DEFAULT),payer,accountNumber"/>
+				<entry key="DEFAULT"
+					   value="cardId,cardType,cardNumber,defaultCard,creditCardName,validTo,billingAddress(DEFAULT),payer,accountNumber"/>
+				<entry key="FULL"
+					   value="cardId,cardType,cardNumber,defaultCard,creditCardName,validTo,billingAddress(FULL),payer,accountNumber"/>
+			</map>
+		</property>
+
+	</bean>
+	<bean id="wsGetCCCartItemListResponseWsDTO" parent="fieldSetLevelMapping">
+		<property name="dtoClass"
+				  value="com.wholescripts.dto.WholescriptsGetCCCartItemListResponseWsDTO"/>
+		<property name="levelMapping">
+			<map>
+				<entry key="BASIC" value="item"/>
+				<entry key="DEFAULT"
+					   value="item(DEFAULT)"/>
+				<entry key="FULL"
+					   value="item(FULL)"/>
+			</map>
+		</property>
+
+	</bean>
+	<bean parent="fieldSetLevelMapping">
+		<property name="dtoClass"
+				  value="de.hybris.platform.commercewebservicescommons.dto.order.PaymentDetailsListWsDTO"/>
+		<property name="levelMapping">
+			<map>
+				<entry key="BASIC" value="cartPaymentInfo"/>
+				<entry key="DEFAULT" value="cartPaymentInfo(DEFAULT)"/>
+				<entry key="FULL" value="cartPaymentInfo(FULL)"/>
+			</map>
+		</property>
+	</bean>
+	<bean parent="fieldSetLevelMapping" id="wsAddressWsDTOFieldSetLevelMapping">
+		<property name="dtoClass"
+				  value="de.hybris.platform.commercewebservicescommons.dto.user.AddressWsDTO"/>
+		<property name="levelMapping">
+			<map>
+				<entry key="BASIC" value="addressNumber,addressType,remarks,addressDescription,creditCardIds,isCardAvailable"/>
+				<entry key="DEFAULT"
+					   value="addressNumber,addressType,remarks,addressDescription,creditCardIds,isCardAvailable"/>
+				<entry key="FULL"
+					   value="addressNumber,addressType,remarks,addressDescription,creditCardIds,isCardAvailable"/>
+			</map>
+		</property>
+	</bean>
+	<bean parent="fieldSetLevelMapping">
+		<property name="dtoClass"
+				  value="de.hybris.platform.b2bwebservicescommons.dto.order.B2BPaymentTypeWsDTO" />
+		<property name="levelMapping">
+			<map>
+				<entry key="BASIC"
+					   value="description" />
+				<entry key="DEFAULT"
+					   value="description" />
+				<entry key="FULL"
+					   value="description" />
+			</map>
+		</property>
+	</bean>
+	<bean parent="fieldSetLevelMapping" id="wsOrderWsDTOFieldSetLevelMapping">
+		<property name="dtoClass"
+				  value="de.hybris.platform.commercewebservicescommons.dto.order.OrderWsDTO"/>
+		<property name="levelMapping">
+			<map>
+				<entry key="BASIC"
+					   value="entryGroups(DEFAULT)"/>
+				<entry key="DEFAULT"
+					   value="entryGroups(DEFAULT),paymentType(DEFAULT)"/>
+				<entry key="FULL"
+					   value="entryGroups(FULL),paymentType(FULL)"/>
+			</map>
+		</property>
+	</bean>
+	<bean parent="fieldSetLevelMapping" id="wsAutoShipFrequencyWsDTOFieldSetLevelMapping">
+		<property name="dtoClass"
+				  value="com.wholescripts.dto.SupportedAutoShipWsDTO"/>
+		<property name="levelMapping">
+			<map>
+				<entry key="BASIC"
+					   value="code"/>
+				<entry key="DEFAULT"
+					   value="code,name,priority"/>
+				<entry key="FULL"
+					   value="code,name,priority"/>
+			</map>
+		</property>
+	</bean>
+	<bean parent="fieldSetLevelMapping" id="wholescriptsProductFamilyWsDTOFieldSetLevelMapping">
+		<property name="dtoClass" value="com.wholescripts.dto.WholescriptsProductFamilyWsDTO"/>
+		<property name="levelMapping">
+			<map>
+				<entry key="BASIC" value="productName,brandName,sku,yourPrice"/>
+				<entry key="DEFAULT" value="productName,brandName,sku,description,summary,image,mapPrice,yourPrice,otherAvailableProducts(DEFAULT),productUrl,brandUrl"/>
+				<entry key="FULL" value="productName,brandName,sku,description,summary,image,mapPrice,yourPrice,otherAvailableProducts(FULL),productUrl,brandUrl"/>
+			</map>
+		</property>
+	</bean>
+
+	<bean parent="fieldSetLevelMapping" id="wholescriptsIngredientListWsDTOFieldSetLevelMapping">
+		<property name="dtoClass" value="com.wholescripts.dto.IngredientListWsDTO"/>
+		<property name="levelMapping">
+			<map>
+				<entry key="BASIC" value="ingredientList(BASIC)"/>
+				<entry key="DEFAULT" value="ingredientList(DEFAULT)"/>
+				<entry key="FULL" value="ingredientList(FULL)"/>
+			</map>
+		</property>
+	</bean>
+
+	<bean parent="fieldSetLevelMapping" id="wholescriptsIngredientWsDTOFieldSetLevelMapping">
+		<property name="dtoClass" value="com.wholescripts.dto.IngredientWsDTO"/>
+		<property name="levelMapping">
+			<map>
+				<entry key="BASIC" value="code,name,rda,priority"/>
+				<entry key="DEFAULT" value="code,name,rda,priority,percentageDV,unit,ingredientReferenceUnit"/>
+				<entry key="FULL" value="code,name,rda,priority,percentageDV,unit,ingredientReferenceUnit"/>
+			</map>
+		</property>
+	</bean>
+	<bean id="wholescriptsUserMatchingFilter" class="com.wholescripts.occ.filter.WholescriptsUserMatchingFilter">
+		<property name="sessionService" ref="sessionService" />
+  </bean>
+
+	<bean parent="fieldSetLevelMapping">
+		<property name="dtoClass"
+				  value="de.hybris.platform.commercewebservicescommons.dto.product.StockWsDTO"/>
+		<property name="levelMapping">
+			<map>
+				<entry key="BASIC" value="forceOutOfStock"/>
+				<entry key="DEFAULT" value="forceOutOfStock"/>
+				<entry key="FULL" value="forceOutOfStock"/>
+			</map>
+		</property>
+	</bean>
+		<bean parent="fieldSetLevelMapping">
+		<property name="dtoClass"
+				  value="com.wholescripts.dto.OrderedMedpaxProductsWsDTO"/>
+		<property name="levelMapping">
+			<map>
+				<entry key="BASIC" value="facets(BASIC),products(BASIC)"/>
+				<entry key="DEFAULT" value="facets(DEFAULT),products(DEFAULT)"/>
+				<entry key="FULL" value="facets(FULL),products(FULL)"/>
+			</map>
+		</property>
+	</bean>
+
+
+  	<alias name="defaultCommerceWebServicesFilterChainListV2" alias="commerceWebServicesFilterChainListV2" />
+	<util:list id="defaultCommerceWebServicesFilterChainListV2">
+		
+			<ref bean="exceptionTranslationFilter" />
+
+		<!-- generic platform filters -->
+		<ref bean="corsFilter"/>
+		<ref bean="log4jFilter" />
+		<ref bean="restSessionFilterV2" />
+		
+		<!-- commerceWebservices filters -->
+		<ref bean="baseSiteMatchingFilter" />
+
+		<!-- Security -->
+		<ref bean="springSecurityFilterChain" />
+		<ref bean="userMatchingFilter" />
+
+		<!-- occ v2 WebAppMediaFilter -->
+		<ref bean="polyglotPersistenceCallbackFilter"/>
+		<ref bean="commerceWebServicesV2WebAppMediaFilter" />
+
+		<!-- Anonymous Consents -->
+		<ref bean="commerceWebServicesConsentFilterV2"/>
+
+		<!-- Matching filters -->
+		<ref bean="commerceWebServicesEurope1AttributesFilterV2" />
+		<ref bean="commerceWebServicesSessionLanguageFilterV2" />
+		<ref bean="commerceWebServicesSessionCurrencyFilterV2" />
+		<ref bean="cartMatchingFilter" />
+
+		<!-- Guest Role -->
+		<ref bean="guestRoleFilterV2" />
+		<ref bean="wholescriptsUserMatchingFilter" />
+	</util:list>
+
+
+	<bean id="dashboardFieldMapper" parent="fieldMapper">
+		<property name="sourceClass" value="com.wholescripts.data.DashboardResponseData"/>
+		<property name="destClass"   value="com.wholescripts.dto.DashboardResponseWsDTO"/>
+	</bean>
+
+	<bean parent="fieldSetLevelMapping">
+		<property name="dtoClass"
+				  value="de.hybris.platform.cmsocc.data.CMSPageWsDTO" />
+		<property name="levelMapping">
+			<map>
+				<entry key="BASIC" value="keywords,properties" />
+				<entry key="DEFAULT" value="keywords,properties" />
+				<entry key="FULL" value="keywords,properties" />
+			</map>
+		</property>
+	</bean>
+
+	   <bean parent="fieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="de.hybris.platform.commercewebservicescommons.dto.user.RegionWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="isShippingTAxWarningEnabled"/>
+                <entry key="DEFAULT" value="isShippingTAxWarningEnabled"/>
+                <entry key="FULL" value="isShippingTAxWarningEnabled"/>
+            </map>
+        </property>
+    </bean>
+    
+       <bean parent="fieldSetLevelMapping" >
+        <property name="dtoClass"
+                  value="de.hybris.platform.commercewebservicescommons.dto.product.PromotionWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="promotionBanner(BASIC),productBanner(BASIC),productUrl,redirectUrl,colorBackground,colorText,showOnBanners,showOnPLP,nonDiscountable"/>
+                <entry key="DEFAULT"
+                       value="promotionBanner(DEFAULT),productBanner(DEFAULT),productUrl,redirectUrl,colorBackground,colorText,showOnBanners,showOnPLP,nonDiscountable"/>
+                <entry key="FULL"
+                       value="promotionBanner(FULL),productBanner(FULL),productUrl,redirectUrl,colorBackground,colorText,showOnBanners,showOnPLP,nonDiscountable"/>
+            </map>
+        </property>
+    </bean>
+</beans>

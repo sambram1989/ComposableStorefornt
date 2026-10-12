@@ -1,0 +1,1888 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright (c) 2021 SAP SE or an SAP affiliate company. All rights reserved.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+          http://www.springframework.org/schema/util
+			http://www.springframework.org/schema/util/spring-util-4.0.xsd">
+
+    <bean id="WholescriptscoreSystemSetup" class="com.wholescripts.core.setup.WholescriptscoreSystemSetup">
+        <!-- constructor arg injection example -->
+        <constructor-arg ref="wholescriptsCoreService"/>
+    </bean>
+    <!--Facade Starts-->
+    <bean id="wholescriptsCoreFacade" class="com.wholescripts.core.facade.impl.WholescriptsCoreFacadeImpl"/>
+    <bean id="wholescriptsProtocolFacade" class="com.wholescripts.core.facade.impl.WholescriptsProtocolFacadeImpl"
+          parent="defaultCartFacade"/>
+    <bean id="wholescriptsRecommendFacade" class="com.wholescripts.core.facade.impl.WholescriptsRecommendFacadeImpl"/>
+    <bean id="wholescriptsPatientDirectHubFacade"
+          class="com.wholescripts.core.facade.impl.WholescriptsPatientDirectHubFacadeImpl"/>
+    <bean id="wholescriptsUserFacade" class="com.wholescripts.core.facade.impl.WholescriptsUserFacadeImpl">
+        <property name="productModelUrlResolver" ref="productModelUrlResolver"/>
+    </bean>
+    <bean id="wholescriptsAccertifyFacade" class="com.wholescripts.core.facade.impl.WholescriptsAccertifyFacadeImpl"/>
+    <bean id="wholescriptsAccountsFacade" class="com.wholescripts.core.facade.impl.WholescriptsAccountsFacadeImpl"/>
+    <bean id="wholescriptsOrdersFacade" class="com.wholescripts.core.facade.impl.WholescriptsOrdersFacadeImpl"/>
+    
+    <alias name="wholescriptsProductsFacade" alias="cwsProductFacade" />
+    <bean id="wholescriptsProductsFacade" class="com.wholescripts.core.facade.impl.WholescriptsProductsFacadeImpl" parent="defaultProductFacade"/>
+    
+    <alias name="wsGigyaB2BLoginFacade" alias="gigyaLoginFacade" />
+    <bean id="wsGigyaB2BLoginFacade" class="com.wholescripts.core.facade.impl.WholescriptsGigyaB2BLoginFacadeImpl" parent="defaultGigyaB2BLoginFacade"/>
+	<!--Facade Ends-->
+    <!--Service Starts-->
+    <bean id="wholescriptsCoreService" class="com.wholescripts.core.service.impl.WholescriptsCoreServiceImpl"/>
+    <bean id="WholescriptscoreService" class="com.wholescripts.core.service.impl.DefaultWholescriptscoreService">
+        <!-- setter injection example -->
+        <property name="modelService" ref="modelService"/>
+        <property name="mediaService" ref="mediaService"/>
+        <property name="flexibleSearchService"
+                  ref="flexibleSearchService"/>
+    </bean>
+    <bean id="wholescriptsProtocolService" class="com.wholescripts.core.service.impl.WholescriptsProtocolServiceImpl"/>
+    <bean id="wsRecommendCommerceCartService"
+          class="com.wholescripts.core.service.impl.WholescriptsRecommendCommerceCartServiceImpl"/>
+    <bean id="wholescriptsUserService" class="com.wholescripts.core.service.impl.WholescriptsUserServiceImpl"/>
+    <bean id="wsRecommendOrderService" class="com.wholescripts.core.service.impl.WholescriptRecommendOrderServiceImpl"
+          parent="abstractOrderService"/>
+    <alias name="wholescriptsDeliveryService" alias="deliveryService"/>
+    <bean id="wholescriptsDeliveryService" class="com.wholescripts.core.service.impl.WholescriptsDeliveryServiceImpl"
+          parent="defaultDeliveryService"/>
+	<alias name="wsZoneDeliveryModePopulator" alias="zoneDeliveryModePopulator"/>
+    <bean id="wsZoneDeliveryModePopulator"
+          class="com.wholescripts.core.populators.WsZoneDeliveryModePopulator" parent="defaultZoneDeliveryModePopulator" />
+		
+		<!-- ZoneDeliveryModeValue -->
+	<bean id="wsZoneDeliveryModeValueValidator" class="com.wholescripts.core.page.validators.WsZoneDeliveryModeValueValidator">
+		<property name="zoneDeliveryModeService" ref="zoneDeliveryModeService"/>
+		<property name="zdmvConsistencyStrategy" ref="zdmvConsistencyStrategy"/>
+	</bean>
+
+	<bean id="wsZoneDeliveryModeValueValidatorMapping"  
+      class="de.hybris.platform.servicelayer.interceptor.impl.InterceptorMapping">
+	<property name="interceptor" ref="wsZoneDeliveryModeValueValidator"/>
+	<property name="typeCode" value="ZoneDeliveryModeValue"/>
+	<property name="replacedInterceptors" ref="zoneDeliveryModeValueValidator"/>
+	</bean>
+	
+    <bean id="wholescriptsRecommendService"
+          class="com.wholescripts.core.service.impl.WholescriptsRecommendServiceImpl"/>
+    <bean id="wsProtocolOrderService" class="com.wholescripts.core.service.impl.WholescriptsProtocolOrderServiceImpl"
+          parent="abstractOrderService"/>
+    <bean id="wholescriptsPatientDirectHubService"
+          class="com.wholescripts.core.service.impl.WholescriptsPatientDirectHubServiceImpl"/>
+    <bean id="wholescriptsWishlist2Service"
+          class="com.wholescripts.core.service.impl.WholescriptsWishlist2ServiceImpl"/>
+    <bean id="wholescriptsAbstractOrderService"
+          class="com.wholescripts.core.service.impl.WholescriptsAbstractOrderServiceImpl"
+          parent="abstractOrderService"/>
+    <bean id="wholescriptsAccertifyService"
+          class="com.wholescripts.core.service.impl.WholescriptsAccertifyServiceImpl"/>
+     <alias alias="calculationService" name="wholescriptsCalculationService" />
+     <bean id="wholescriptsCalculationService" class="com.wholescripts.core.service.impl.WholescriptsCalculationServiceImpl" parent="defaultCalculationService"/>
+      <alias name="wholescriptsCartService" alias="cartService"/>
+      <bean id="wholescriptsCartService" class="com.wholescripts.core.service.impl.WholescriptsCartServiceImpl" parent="defaultCartServiceForAccelerator"/>
+    <alias name="wsGigyaLoginService" alias="gigyaLoginService"/>
+    <bean id="wsGigyaLoginService" class="com.wholescripts.core.service.impl.WholescriptsGigyaLoginServiceImpl" parent="defaultGigyaLoginService"/>
+
+    <!--Service Ends-->
+    <!--Dao Starts-->
+    <bean id="wholescriptsCoreDao" class="com.wholescripts.core.dao.impl.WholescriptsCoreDaoImpl"/>
+    <bean id="wholescriptsProtocolDao" class="com.wholescripts.core.dao.impl.WholescriptsProtocolDaoImpl"/>
+    <bean id="wholescriptsUserDao" class="com.wholescripts.core.dao.impl.WholescriptsUserDaoImpl"/>
+    <bean id="wholescriptsRecommendationDao" class="com.wholescripts.core.dao.impl.WholescriptsRecommendationDaoImpl"/>
+    <bean id="wholescriptsItemTimeDao" class="com.wholescripts.core.dao.impl.WholescriptsItemTimeDaoImpl"/>
+    <bean id="wholescriptsWishListDao" class="com.wholescripts.core.dao.impl.WholescriptsWishListDaoImpl"/>
+     <alias alias="commerceCartDao" name="wholescriptsCommerceCartDao"/>
+    <bean id="wholescriptsCommerceCartDao" class="com.wholescripts.core.dao.impl.WholescriptsCommerceCartDaoImpl"
+          parent="defaultCommerceCartDao"/>
+    <bean id="wholescriptsDeliveryModeDao" class="com.wholescripts.core.dao.impl.WholescriptsDeliveryModeDaoImpl" parent="abstractItemDao"/>
+    <bean id="wholescriptsProductsDao" class="com.wholescripts.core.dao.impl.WholescriptsProductsDaoImpl"/>
+
+    <!--Dao Ends-->
+    <!--Populator Starts-->
+    <bean id="wsProtcolParameterBasicPopulator"
+          class="com.wholescripts.core.populators.WsCommerceProtocolParameterBasicPopulator"/>
+    <bean id="wholescriptsProtocolPopulator" class="com.wholescripts.core.populators.WholescriptsProtocolPopulator"/>
+    <bean id="wholescriptsProtocolEntryPopulator"
+          class="com.wholescripts.core.populators.WholescriptsProtocolEntryPopulator"/>
+    <bean id="wholescriptsDosingPopulator" class="com.wholescripts.core.populators.WholescriptsDosingPopulator"/>
+    <bean id="wholescriptsItemTimePopulator" class="com.wholescripts.core.populators.WholescriptsItemTimePopulator"/>
+    <bean id="wholescriptsTopicPopulator" class="com.wholescripts.core.populators.WholescriptsTopicPopulator"/>
+    <bean id="wsCartModificationPopulator"
+          class="com.wholescripts.core.populators.WholescriptCartModificationPopulator"/>
+    <bean id="wscommerceCartParameterBasicPopulator"
+          class="com.wholescripts.core.populators.WsCommerceCartParameterBasicPopulator"/>
+    <bean id="wholescriptsRecommendEntryPopulator"
+          class="com.wholescripts.core.populators.WholescriptsRecommendEntryPopulator">
+        <property name="orderEntryConverter" ref="orderEntryConverter"/>
+    </bean>
+    <bean id="wholescriptsRecommendPopulator" class="com.wholescripts.core.populators.WholescriptsRecommendPopulator"/>
+    <bean id="wholescriptsW9FormPopulator" class="com.wholescripts.core.populators.WholescriptsW9FormPopulator"/>
+    <bean id="wsPatientDirectHubPopulators"
+          class="com.wholescripts.core.populators.WholescriptsPatientDirectHubPopulators"/>
+    <bean id="wsFaqPopulators" class="com.wholescripts.core.populators.WholescriptsFaqPopulators"/>
+    <bean id="wsWebinarPopulator" class="com.wholescripts.core.populators.WholescriptsWebinarPopulator"/>
+    <!--Populator Ends-->
+    <!--Helper Starts-->
+    <bean id="wholescriptsHelper" class="com.wholescripts.core.helper.WholescriptsHelper"/>
+    <!--Helper Ends-->
+    <!--Converters Starts-->
+    <alias name="wsProtocolConverter" alias="wsProtocolsConverter"/>
+    <bean name="wsProtocolConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass"
+                  value="com.wholescripts.data.protocol.ProtocolData"/>
+        <property name="populators">
+            <list merge="true">
+                <ref bean="wholescriptsProtocolPopulator"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="wholescriptsRecommendConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass"
+                  value="com.wholescripts.dto.WsRecommendationData"/>
+        <property name="populators">
+            <list>
+                <ref bean="extendedCartPopulator"/>
+                <ref bean="orderAppliedVouchersPopulator"/>
+                <ref bean="pickupOrderEntryGroupPopulator"/>
+                <ref bean="deliveryOrderEntryGroupPopulator"/>
+                <ref bean="wholescriptsRecommendPopulator"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="wholescriptsW9FormConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass"
+                  value="com.wholescripts.dto.W9FormData"/>
+        <property name="populators">
+            <list>
+                <ref bean="wholescriptsW9FormPopulator"/>
+            </list>
+        </property>
+    </bean>
+    <bean name="wsRecommendEntryConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass"
+                  value="com.wholescripts.dto.WsRecommendationEntryData"/>
+        <property name="populators">
+            <list>
+                <ref bean="wholescriptsRecommendEntryPopulator"/>
+            </list>
+        </property>
+    </bean>
+    <bean name="wsCommerceCartParameterConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.wholescripts.dto.WsCommerceCartParameter"/>
+        <property name="populators">
+            <list>
+                <ref bean="wscommerceCartParameterBasicPopulator"/>
+            </list>
+        </property>
+    </bean>
+    <bean name="wsCartModificationConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.wholescripts.dto.WsCartModificationData"/>
+        <property name="populators">
+            <list>
+                <ref bean="wsCartModificationPopulator"/>
+            </list>
+        </property>
+    </bean>
+    <alias name="wsProtocolEntryConverter" alias="wsProtocolsEntryConverter"/>
+    <bean name="wsProtocolEntryConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass"
+                  value="com.wholescripts.data.protocol.ProtocolEntryData"/>
+        <property name="populators">
+            <list merge="true">
+                <ref bean="wholescriptsProtocolEntryPopulator"/>
+            </list>
+        </property>
+    </bean>
+    <alias name="wsDosingConverter" alias="wScriptDosingConverter"/>
+    <bean name="wsDosingConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass"
+                  value="com.wholescripts.dto.DosingData"/>
+        <property name="populators">
+            <list merge="true">
+                <ref bean="wholescriptsDosingPopulator"/>
+            </list>
+        </property>
+    </bean>
+    <alias name="wsItemTimeConverter" alias="wScriptsItemTimeConverter"/>
+    <bean name="wsItemTimeConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass"
+                  value="com.wholescripts.dto.ItemTimeData"/>
+        <property name="populators">
+            <list merge="true">
+                <ref bean="wholescriptsItemTimePopulator"/>
+            </list>
+        </property>
+    </bean>
+    <bean name="wScriptsTopicConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass"
+                  value="com.wholescripts.dto.WholescriptsTopicData"/>
+        <property name="populators">
+            <list merge="true">
+                <ref bean="wholescriptsTopicPopulator"/>
+            </list>
+        </property>
+    </bean>
+    <bean name="wsCommerceProtcolParameterConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.wholescripts.data.CommerceProtocolParameter"/>
+        <property name="populators">
+            <list>
+                <ref bean="wsProtcolParameterBasicPopulator"/>
+            </list>
+        </property>
+    </bean>
+    <bean name="wsPatientDirectHubConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.wholescripts.data.ReferralCodeData"/>
+        <property name="populators">
+            <list>
+                <ref bean="wsPatientDirectHubPopulators"/>
+            </list>
+        </property>
+    </bean>
+    <bean name="wsFaqConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.wholescripts.data.FaqListData"/>
+        <property name="populators">
+            <list>
+                <ref bean="wsFaqPopulators"/>
+            </list>
+        </property>
+    </bean>
+    <bean name="wsWebinarConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.wholescripts.data.WholescriptsWebinarData"/>
+        <property name="populators">
+            <list>
+                <ref bean="wsWebinarPopulator"/>
+            </list>
+        </property>
+    </bean>
+    <!--Converters ends-->
+    <!--Strategy Starts-->
+    <alias name="wsCommerceUpdateCartStrategy" alias="commerceUpdateCartEntryStrategy"/>
+    <bean id="wsCommerceUpdateCartStrategy"
+          class="com.wholescripts.core.strategies.impl.WholescriptsCommerceUpdateCartStrategyImpl"
+          parent="defaultCommerceUpdateCartEntryStrategy">
+        <property name="commerceUpdateCartEntryHooks" ref="commerceUpdateCartEntryMethodHooks"/>
+        <property name="configurationService" ref="configurationService"/>
+        <property name="entryMergeStrategy" ref="entryMergeStrategy"/>
+    </bean>
+    <alias name="wsCommerceAddToCartStrategy" alias="commerceAddToCartStrategy"/>
+    <bean id="wsCommerceAddToCartStrategy"
+          class="com.wholescripts.core.strategies.impl.WholescriptsCommerceAddToCartStrategyImpl"
+          parent="defaultCommerceAddToCartStrategy">
+          <property name="entryMergeFilters" ref="commerceCartEntryMergeFilters"/>
+          </bean>
+     <alias alias="commerceCartCalculationStrategy" name="wholescriptsCommerceCartCalculationStrategy"/>
+    <bean id="wholescriptsCommerceCartCalculationStrategy"
+          class="com.wholescripts.core.strategies.impl.WholescriptsCommerceCartCalculationStrategyImpl" parent="defaultCommerceCartCalculationStrategy"/>
+    <alias alias="commerceDeliveryModeStrategy" name="wholescriptsCommerceDeliveryModeStrategy"/>
+    <bean id="wholescriptsCommerceDeliveryModeStrategy"
+          class="com.wholescripts.core.strategies.impl.WholescriptsCommerceDeliveryModeStrategy" parent="defaultCommerceDeliveryModeStrategy"/>
+    <!--Strategy Ends-->
+    <!--CodeGenerator Starts-->
+    <bean id="wsCodeGenerator" class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.Recommendation.letter.code.name}"/>
+        <property name="digits" value="${keygen.Recommendation.letter.code.digits}"/>
+        <property name="start" value="${keygen.Recommendation.letter.code.start}"/>
+        <property name="type" value="${keygen.Recommendation.letter.code.type}"/>
+        <property name="template" value="${keygen.Recommendation.letter.code.template}"/>
+    </bean>
+    <bean id="wsDosingCodeGenerator" class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.Dosing.letter.code.name}"/>
+        <property name="digits" value="${keygen.Dosing.letter.code.digits}"/>
+        <property name="start" value="${keygen.Dosing.letter.code.start}"/>
+        <property name="type" value="${keygen.Dosing.letter.code.type}"/>
+        <property name="template" value="${keygen.Dosing.letter.code.template}"/>
+    </bean>
+    <bean id="wsMedPaxCodeGenerator" class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.MedPax.letter.code.name}"/>
+        <property name="digits" value="${keygen.MedPax.letter.code.digits}"/>
+        <property name="start" value="${keygen.MedPax.letter.code.start}"/>
+        <property name="type" value="${keygen.MedPax.letter.code.type}"/>
+        <property name="template" value="${keygen.MedPax.letter.code.template}"/>
+    </bean>
+    <bean id="wsMedPaxEntryCodeGenerator"
+          class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.MedPaxEntry.letter.code.name}"/>
+        <property name="digits" value="${keygen.MedPaxEntry.letter.code.digits}"/>
+        <property name="start" value="${keygen.MedPaxEntry.letter.code.start}"/>
+        <property name="type" value="${keygen.MedPaxEntry.letter.code.type}"/>
+        <property name="template" value="${keygen.MedPaxEntry.letter.code.template}"/>
+    </bean>
+    <bean id="wsProtocolCodeGenerator" class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.Protocol.letter.code.name}"/>
+        <property name="digits" value="${keygen.Protocol.letter.code.digits}"/>
+        <property name="start" value="${keygen.Protocol.letter.code.start}"/>
+        <property name="type" value="${keygen.Protocol.letter.code.type}"/>
+        <property name="template" value="${keygen.Protocol.letter.code.template}"/>
+    </bean>
+
+    <bean id="wsCommentCodeGenerator" class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.Comment.letter.code.name}"/>
+        <property name="digits" value="${keygen.Comment.letter.code.digits}"/>
+        <property name="start" value="${keygen.Comment.letter.code.start}"/>
+        <property name="type" value="${keygen.Comment.letter.code.type}"/>
+        <property name="template" value="${keygen.Comment.letter.code.template}"/>
+    </bean>
+    <bean id="wsPatientDirectHubCodeGenerator"
+          class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.PatientDirectHub.letter.code.name}"/>
+        <property name="digits" value="${keygen.PatientDirectHub.letter.code.digits}"/>
+        <property name="start" value="${keygen.PatientDirectHub.letter.code.start}"/>
+        <property name="type" value="${keygen.PatientDirectHub.letter.code.type}"/>
+        <property name="template" value="${keygen.PatientDirectHub.letter.code.template}"/>
+    </bean>
+    <!--CodeGenerator ends-->
+
+    <alias name="wholescriptsUserPopulator" alias="b2bUserPopulator"/>
+    <bean id="wholescriptsUserPopulator" class="com.wholescripts.core.populators.WholescriptsUserPopulator"/>
+
+    <alias name="wholescriptsUserConverter" alias="b2bUserConverter"/>
+    <bean id="wholescriptsUserConverter" parent="abstractPopulatingConverter">
+        <lookup-method name="createTarget" bean="customerData"/>
+        <property name="populators">
+            <list>
+                <ref bean="wholescriptsUserPopulator"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="w9FormDataReversePopulator" class="com.wholescripts.core.populators.W9FormDataReversePopulator"/>
+    <bean id="webinarVideoImageUrlValueProvider"
+          class="com.wholescripts.core.search.provider.impl.WebinarVideoImageUrlValueProvider"
+          parent="abstractPropertyFieldValueProvider">
+        <property name="fieldNameProvider" ref="solrFieldNameProvider"/>
+    </bean>
+
+    <bean id="webinarSponsorImageValueProvider"
+          class="com.wholescripts.core.search.provider.impl.WebinarSponsorImageValueProvider"
+          parent="abstractPropertyFieldValueProvider">
+        <property name="fieldNameProvider" ref="solrFieldNameProvider"/>
+    </bean>
+
+    <bean id="webinarVideoUrlValueProvider"
+          class="com.wholescripts.core.search.provider.impl.WebinarVideoUrlValueProvider"
+          parent="abstractPropertyFieldValueProvider">
+        <property name="fieldNameProvider" ref="solrFieldNameProvider"/>
+    </bean>
+    <bean id="webinarCatgeoryTagValueProvider"
+          class="com.wholescripts.core.search.provider.impl.WebinarCatgeoryTagValueProvider"
+          parent="abstractPropertyFieldValueProvider">
+        <property name="fieldNameProvider" ref="solrFieldNameProvider"/>
+        <property name="commonI18NService" ref="commonI18NService"/>
+    </bean>
+    <bean id="webinarPresenterValueProvider"
+          class="com.wholescripts.core.search.provider.impl.WebinarPresenterValueProvider"
+          parent="abstractPropertyFieldValueProvider">
+        <property name="fieldNameProvider" ref="solrFieldNameProvider"/>
+        <property name="commonI18NService" ref="commonI18NService"/>
+    </bean>
+    <bean id="webinarPresenterCodeValueProvider"
+          class="com.wholescripts.core.search.provider.impl.WebinarPresenterCodeValueProvider"
+          parent="abstractPropertyFieldValueProvider">
+        <property name="fieldNameProvider" ref="solrFieldNameProvider"/>
+        <property name="commonI18NService" ref="commonI18NService"/>
+    </bean>
+    <bean id="webinarDetailUrlValueProvider"
+          class="com.wholescripts.core.search.provider.impl.WebinarDetailUrlValueProvider"
+          parent="abstractPropertyFieldValueProvider">
+        <property name="fieldNameProvider" ref="solrFieldNameProvider"/>
+    </bean>
+
+    <bean id="wholescriptsClassificationAttributeValueResolver"
+          class="com.wholescripts.core.search.provider.impl.WholescriptsClassificationAttributeValueResolver"
+          parent="abstractValueResolver">
+        <property name="qualifierProvider"
+                  ref="languageQualifierProvider"/>
+        <property name="valueFilters">
+            <list>
+                <ref bean="formatValueFilter"/>
+                <ref bean="splitValueFilter"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="wholescriptsEnumClassificationAttributeValueResolver"
+          class="com.wholescripts.core.search.provider.impl.WholescriptsEnumClassificationAttributeValueResolver"
+          parent="abstractValueResolver">
+        <property name="qualifierProvider"
+                  ref="languageQualifierProvider"/>
+        <property name="valueFilters">
+            <list>
+                <ref bean="formatValueFilter"/>
+                <ref bean="splitValueFilter"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="referralCodesService" class="com.wholescripts.core.service.impl.ReferralCodesServiceImpl"/>
+    <bean id="referralCodesFacade" class="com.wholescripts.core.facade.impl.ReferralCodesFacadeImpl"/>
+    <bean id="referralCodesDao" class="com.wholescripts.core.dao.impl.ReferralCodesDaoImpl"/>
+
+    <bean id="getAvalaraTaxLinkJob" class="com.wholescripts.core.cronjobs.GetAvalaraTaxLinkCronjobPerformable"
+          parent="abstractJobPerformable"/>
+    <bean id="avalaraIntegrationStrategy" class="com.wholescripts.core.strategies.impl.AvalaraIntegrationStrategyImpl"/>
+    <bean id="xymonetIntegrationStrategy" class="com.wholescripts.core.strategies.impl.XymonetIntegrationStrategyImpl"/>
+    <bean id="wholescriptsIntegrationStrategy"
+          class="com.wholescripts.core.strategies.impl.WholescriptsIntegrationStrategyImpl"/>
+    <bean id="wholescriptsIntegrationsService"
+          class="com.wholescripts.core.service.impl.WholescriptsIntegrationsServiceImpl">
+        <property name="avalaraIntegrationStrategy" ref="avalaraIntegrationStrategy"/>
+    </bean>
+
+    <bean id="wholescriptsMRJob" class="com.wholescripts.core.cronjobs.WholescriptsMRJob"
+          parent="abstractJobPerformable">
+    </bean>
+
+    <bean id="wholescriptsPrivateLabelCustomerRolesJob" class="com.wholescripts.core.cronjobs.WholescriptsPrivateLabelCustomerRolesJob"
+          parent="abstractJobPerformable">
+    </bean>
+
+    <bean id="wholescriptsPopularCategoriesFacade"
+          class="com.wholescripts.core.facade.impl.WholescriptsPopularCategoriesFacadeImpl"/>
+    <bean id="wholescriptsPopularCategoriesService"
+          class="com.wholescripts.core.service.impl.WholescriptsPopularCategoriesServiceImpl"/>
+    <bean id="wholescriptsPopularCategoriesDao"
+          class="com.wholescripts.core.dao.impl.WholescriptsPopularCategoriesDaoImpl"/>
+
+    <alias name="wholescriptsProductUpdatesPopulator" alias="productUpdatesPopulator"/>
+    <bean id="wholescriptsProductUpdatesPopulator"
+          class="com.wholescripts.core.populators.WholescriptsProductUpdatesPopulator" parent="baseProductPopulator">
+    </bean>
+
+    <bean parent="configurablePopulatorModification">
+        <property name="target" ref="productConfiguredPopulator"/>
+        <property name="keyType" value="de.hybris.platform.commercefacades.product.ProductOption"/>
+        <property name="key" value="PRODUCT_UPDATES"/>
+        <property name="add" ref="productUpdatesPopulator"/>
+    </bean>
+    <bean name="wsBrandConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass"
+                  value="com.wholescripts.dto.WholescriptsBrandData"/>
+        <property name="populators">
+            <list>
+                <ref bean="brandPopulator"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="brandPopulator" class="com.wholescripts.core.populators.WholescriptsBrandPopulator"/>
+    <bean id="wholescriptsCMIRJob" class="com.wholescripts.core.cronjobs.WholescriptsCMIRJob"
+          parent="abstractJobPerformable"/>
+    <bean id="wholescriptsPractitionerFacade"
+          class="com.wholescripts.core.facade.impl.WholescriptsPractitionerFacadeImpl"/>
+    <bean id="wholescriptsPractitionerService"
+          class="com.wholescripts.core.service.impl.WholescriptsPractitionerServiceImpl"/>
+    <bean id="wholescriptsPractitionerDao" class="com.wholescripts.core.dao.impl.WholescriptsPractitionerDaoImpl"/>
+
+
+    <alias name="wholescriptsPointOfServicePopulator" alias="wsPointOfServicePopulator"/>
+    <bean id="wholescriptsPointOfServicePopulator" parent="defaultPointOfServicePopulator"
+          class="com.wholescripts.core.populators.wholeScriptsPointOfServicePopulator">
+    </bean>
+
+    <bean parent="modifyPopulatorList">
+        <property name="list" ref="pointOfServiceConverter"/>
+        <property name="add" ref="wsPointOfServicePopulator"/>
+    </bean>
+    <bean parent="modifyPopulatorList">
+        <property name="list" ref="customerConverter"/>
+        <property name="add" ref="wholescriptsB2BCustomerPopulator"/>
+    </bean>
+    <bean id="wholescriptsB2BCustomerPopulator"
+          class="com.wholescripts.core.populators.WholescriptsB2BCustomerPopulator" parent="b2bCustomerPopulator"/>
+
+    <alias name="wholescriptsSearchWebinarSearchStrategy" alias="webinarSearchStrategy"/>
+    <bean id="wholescriptsSearchWebinarSearchStrategy"
+          class="com.wholescripts.core.strategies.impl.WholescriptsSearchWebinarSearchStrategyImpl">
+        <property name="searchQueryPageableConverter" ref="wholescriptsSearchQueryPageableConverter"/>
+        <property name="searchRequestConverter" ref="commerceSolrSearchRequestConverter"/>
+        <property name="searchResponseConverter" ref="wsSolrSearchResponseConverter"/>
+        <property name="facetSearchConfigService" ref="facetSearchConfigService"/>
+        <property name="commonI18NService" ref="commonI18NService"/>
+        <property name="solrAutoSuggestService" ref="solrAutoSuggestService"/>
+        <property name="solrIndexedTypeCodeResolver" ref="solrIndexedTypeCodeResolver"/>
+        <property name="solrFacetSearchConfigSelectionStrategy" ref="solrFacetSearchConfigSelectionStrategy"/>
+        <property name="baseStoreService" ref="baseStoreService"/>
+        <property name="baseSiteService" ref="baseSiteService"/>
+        <property name="sessionService" ref="sessionService"/>
+    </bean>
+
+	<alias name="wholescriptsContentSearchStrategy" alias="contentSearchStrategy" />
+	<bean id="wholescriptsContentSearchStrategy" class="com.wholescripts.core.strategies.impl.WholescriptsContentSearchStrategyImpl">
+		<property name="searchQueryPageableConverter" ref="wholescriptsContentSearchQueryPageableConverter" />
+		<property name="searchRequestConverter" ref="commerceSolrSearchRequestConverter" />
+		<property name="searchResponseConverter" ref="wsSolrSearchResponseConverter" />
+		<property name="facetSearchConfigService" ref="facetSearchConfigService" />
+		<property name="commonI18NService" ref="commonI18NService" />
+		<property name="solrAutoSuggestService" ref="solrAutoSuggestService" />
+		<property name="solrIndexedTypeCodeResolver" ref="solrIndexedTypeCodeResolver" />
+		<property name="solrFacetSearchConfigSelectionStrategy" ref="solrFacetSearchConfigSelectionStrategy" />
+		<property name="baseStoreService" ref="baseStoreService"/>
+		<property name="baseSiteService" ref="baseSiteService"/>
+		<property name="sessionService" ref="sessionService"/>
+	</bean>
+	
+    <alias name="wholescriptsSearchFacade" alias="wholescriptsSearchFacade"/>
+    <bean id="wholescriptsSearchFacade"
+          class="com.wholescripts.core.facade.impl.WholescriptsSearchFacadeImpl">
+        <property name="wholescriptsSearchService" ref="wholescriptsSearchService"/>
+        <property name="autocompleteService" ref="commerceAutocompleteService"/>
+        <property name="wholscriptsSearchPageConverter" ref="wholscriptsSearchPageConverter"/>
+        <property name="wholscriptsContentSearchPageConverter" ref="wholscriptsContentSearchPageConverter"/>
+        <property name="searchQueryDecoder" ref="solrSearchQueryDecoder"/>
+        <property name="autocompleteSuggestionConverter" ref="autocompleteSuggestionConverter"/>
+        <property name="threadContextService" ref="threadContextService"/>
+    </bean>
+    
+	<alias name="wholescriptsSearchService" alias="wholescriptsSearchService" />
+	<bean id="wholescriptsSearchService" class="com.wholescripts.core.service.impl.WholescriptsSearchServiceImpl">
+		<property name="wholescriptsWebinarSearchFactory" ref="wholescriptsWebinarSearchFactory"/>
+		<property name="wholescriptsContentSearchFactory" ref="wholescriptsContentSearchFactory"/>
+	</bean>
+
+    <alias name="wholescriptsWebinarSearchFactory" alias="wholescriptsWebinarSearchFactory"/>
+	<bean id="wholescriptsWebinarSearchFactory"
+		  class="com.wholescripts.core.strategies.impl.WholescriptsWebinarSearchFactoryImpl">
+		<property name="searchStrategy" ref="webinarSearchStrategy"/>
+	</bean>
+
+    <alias name="wholescriptsContentSearchFactory" alias="wholescriptsContentSearchFactory"/>
+	<bean id="wholescriptsContentSearchFactory"
+		  class="com.wholescripts.core.strategies.impl.WholescriptsContentSearchFactoryImpl">
+		<property name="searchStrategy" ref="contentSearchStrategy"/>
+	</bean>
+
+	<alias name="wsSearchResultWebinarConverter" alias="wsSearchResultWebinarConverter"/>
+    <bean id="wsSearchResultWebinarConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.wholescripts.data.WholescriptsWebinarData"/>
+        <property name="populators">
+            <list>
+                <ref bean="wsSearchResultWebinarPopulator"/>
+            </list>
+        </property>
+    </bean>
+
+	<alias name="wsSearchResultContentConverter" alias="wsSearchResultContentConverter"/>
+    <bean id="wsSearchResultContentConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.wholescripts.data.WholescriptsContentData"/>
+        <property name="populators">
+            <list>
+                <ref bean="wsSearchResultContentPopulator"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="wsSearchResultWebinarPopulator"
+          class="com.wholescripts.core.populators.WsSearchResultWebinarPopulator">
+    </bean>
+
+    <bean id="wsSearchResultContentPopulator"
+          class="com.wholescripts.core.populators.WsSearchResultContentPopulator">
+    </bean>
+	
+    <alias name="wholscriptsSearchPageConverter" alias="wholscriptsSearchPageConverter"/>
+    <bean id="wholscriptsSearchPageConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass"
+                  value="com.wholescripts.search.facetdata.WholescriptsWebinarSearchPageData"/>
+        <property name="populators">
+            <list>
+                <ref bean="wholscriptsSearchPagePopulator"/>
+            </list>
+        </property>
+    </bean>
+
+    <alias name="wholscriptsContentSearchPageConverter" alias="wholscriptsContentSearchPageConverter"/>
+    <bean id="wholscriptsContentSearchPageConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass"
+                  value="com.wholescripts.search.facetdata.WholescriptsSearchPageData"/>
+        <property name="populators">
+            <list>
+                <ref bean="wholscriptsContentSearchPagePopulator"/>
+            </list>
+        </property>
+    </bean>
+
+    <alias name="wholscriptsContentSearchPagePopulator" alias="wholscriptsContentSearchPagePopulator"/>
+    <bean id="wholscriptsContentSearchPagePopulator"
+          class="com.wholescripts.core.populators.WholscriptsContentSearchPagePopulator" >
+        <property name="breadcrumbConverter" ref="breadcrumbConverter"/>
+        <property name="facetConverter" ref="facetConverter"/>
+        <property name="wsSearchResultContentConverter" ref="wsSearchResultContentConverter"/>
+        <property name="searchStateConverter" ref="solrSearchStateConverter"/>
+        <property name="spellingSuggestionConverter" ref="spellingSuggestionConverter"/>
+    </bean>
+
+
+    <alias name="wholscriptsSearchPagePopulator" alias="wholscriptsSearchPagePopulator"/>
+    <bean id="wholscriptsSearchPagePopulator"
+          class="com.wholescripts.core.populators.WholscriptsSearchPagePopulator">
+        <property name="breadcrumbConverter" ref="breadcrumbConverter"/>
+        <property name="facetConverter" ref="facetConverter"/>
+        <property name="wsSearchResultWebinarConverter" ref="wsSearchResultWebinarConverter"/>
+        <property name="searchStateConverter" ref="solrSearchStateConverter"/>
+        <property name="spellingSuggestionConverter" ref="spellingSuggestionConverter"/>
+    </bean>
+
+
+    <alias name="wsSearchResponseFreeTextSearchPopulator" alias="wsSearchResponseFreeTextSearchPopulator"/>
+    <bean id="wsSearchResponseFreeTextSearchPopulator"
+          class="com.wholescripts.core.populators.WsSearchResponseFreeTextSearchPopulator">
+    </bean>
+
+	<alias name="wsSolrSearchResponseConverter" alias="wsSolrSearchResponseConverter" />
+	<bean id="wsSolrSearchResponseConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.wholescripts.search.facetdata.WholescriptsSearchPageData" />
+		<property name="populators">
+			<list>
+				<ref bean="commerceSearchResponseQueryPopulator" />
+				<ref bean="commerceSearchResponsePaginationPopulator" />
+				<ref bean="commerceSearchResponseResultsPopulator" />
+				<ref bean="commerceSearchResponseFacetsPopulator" />
+				<ref bean="commerceSearchResponseFacetFilterPopulator" />
+				<ref bean="commerceSearchResponseBreadcrumbsPopulator" />
+				<ref bean="commerceSearchResponseSortsPopulator" />
+				<ref bean="wsSearchResponseFreeTextSearchPopulator" />
+<!-- 				<ref bean="commerceSearchResponseSpellingSuggestionPopulator" /> -->
+<!-- 				<ref bean="commerceSearchResponseKeywordRedirectPopulator" /> -->
+			</list>
+		</property>
+	</bean>
+    
+    <alias name="WsWebinarSearchConfigSelectionStrategy" alias="WsWebinarSearchConfigSelectionStrategy" />
+	<bean id="WsWebinarSearchConfigSelectionStrategy"
+		class="com.wholescripts.core.strategies.impl.WsWebinarSearchConfigSelectionStrategyImpl">
+		<property name="solrFacetSearchConfigDao" ref="solrFacetSearchConfigDao" />
+	</bean>
+
+    <alias name="wsContentSearchConfigSelectionStrategy" alias="wsContentSearchConfigSelectionStrategy" />
+	<bean id="wsContentSearchConfigSelectionStrategy"
+		class="com.wholescripts.core.strategies.impl.WsContentSearchConfigSelectionStrategyImpl">
+		<property name="solrFacetSearchConfigDao" ref="solrFacetSearchConfigDao" />
+	</bean>
+
+	<alias name="wholescriptsSearchSolrQueryPopulator" alias="wholescriptsSearchSolrQueryPopulator" />
+	<bean id="wholescriptsSearchSolrQueryPopulator" class="de.hybris.platform.commerceservices.search.solrfacetsearch.populators.SearchSolrQueryPopulator">
+		<property name="catalogVersionService" ref="catalogVersionService" />
+		<property name="baseSiteService" ref="baseSiteService" />
+		<property name="commonI18NService" ref="commonI18NService" />
+		<property name="baseStoreService" ref="baseStoreService" />
+		<property name="facetSearchService" ref="facetSearchService" />
+		<property name="facetSearchConfigService" ref="facetSearchConfigService" />
+		<property name="solrFacetSearchConfigSelectionStrategy" ref="WsWebinarSearchConfigSelectionStrategy" />
+		<property name="searchQueryTemplateNameResolver" ref="searchQueryTemplateNameResolver"/>
+	</bean>
+
+
+	<alias name="wholescriptsContentSearchSolrQueryPopulator" alias="wholescriptsContentSearchSolrQueryPopulator" />
+	<bean id="wholescriptsContentSearchSolrQueryPopulator" class="de.hybris.platform.commerceservices.search.solrfacetsearch.populators.SearchSolrQueryPopulator">
+		<property name="catalogVersionService" ref="catalogVersionService" />
+		<property name="baseSiteService" ref="baseSiteService" />
+		<property name="commonI18NService" ref="commonI18NService" />
+		<property name="baseStoreService" ref="baseStoreService" />
+		<property name="facetSearchService" ref="facetSearchService" />
+		<property name="facetSearchConfigService" ref="facetSearchConfigService" />
+		<property name="solrFacetSearchConfigSelectionStrategy" ref="wsContentSearchConfigSelectionStrategy" />
+		<property name="searchQueryTemplateNameResolver" ref="searchQueryTemplateNameResolver"/>
+	</bean>
+
+	<alias name="wholescriptsSearchQueryPageableConverter" alias="wholescriptsSearchQueryPageableConverter" />
+	<bean id="wholescriptsSearchQueryPageableConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="de.hybris.platform.commerceservices.search.solrfacetsearch.data.SolrSearchRequest" />
+		<property name="populators">
+			<list>
+				<ref bean="wholescriptsSearchSolrQueryPopulator" />
+				<ref bean="commerceSearchPagePopulator" />
+				<ref bean="commerceSearchSortPopulator" />
+				<ref bean="commerceSearchTextPopulator" />
+				<ref bean="commerceSearchFiltersPopulator" />
+			</list>
+		</property>
+	</bean>
+
+	<alias name="wholescriptsContentSearchQueryPageableConverter" alias="wholescriptsContentSearchQueryPageableConverter" />
+	<bean id="wholescriptsContentSearchQueryPageableConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="de.hybris.platform.commerceservices.search.solrfacetsearch.data.SolrSearchRequest" />
+		<property name="populators">
+			<list>
+				<ref bean="wholescriptsContentSearchSolrQueryPopulator" />
+				<ref bean="commerceSearchPagePopulator" />
+				<ref bean="commerceSearchSortPopulator" />
+				<ref bean="commerceSearchTextPopulator" />
+				<ref bean="commerceSearchFiltersPopulator" />
+			</list>
+		</property>
+	</bean>
+
+    <bean id="sendW9FormAction" class="com.wholescripts.core.actions.SendW9FormAction"/>
+
+    <bean id="webBannersAndScriptsFacade" class="com.wholescripts.core.facade.impl.WebBannersAndScriptsFacadeImpl"/>
+    <bean id="webBannersAndScriptsService" class="com.wholescripts.core.service.impl.WebBannersAndScriptsServiceImpl"/>
+    <bean id="webBannersAndScriptsDao" class="com.wholescripts.core.dao.impl.WebBannersAndScriptsDaoImpl"/>
+    <bean id="webBannersAndScriptsPopulator" class="com.wholescripts.core.populators.WebBannersAndScriptsPopulator"/>
+
+    <bean id="webBannersAndScriptsDataConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.wholescripts.dto.WebBannersAndScriptsData"/>
+        <property name="populators">
+            <list>
+                <ref bean="webBannersAndScriptsPopulator"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="wholeScriptsStoreFinderFacade"
+          class="com.wholescripts.core.facade.impl.WholeScriptsStoreFinderFacadeImpl">
+        <property name="baseStoreService" ref="baseStoreService"/>
+        <property name="pointOfServiceDistanceConverter" ref="pointOfServiceDistanceConverter"/>
+        <property name="searchPagePointOfServiceDistanceConverter" ref="searchPagePointOfServiceDistanceConverter"/>
+        <property name="pointOfServiceService" ref="pointOfServiceService"/>
+        <property name="wholeScriptsStoreFinderService" ref="wholeScriptsStoreFinderService"/>
+    </bean>
+
+
+    <bean id="wholeScriptsStoreFinderService"
+          class="com.wholescripts.core.service.impl.WholeScriptsStoreFinderServiceImpl">
+        <property name="pointOfServiceDao" ref="pointOfServiceDao"/>
+        <property name="geoWebServiceWrapper" ref="defaultGoogleMapsGeoServiceWrapper"/>
+        <property name="pointOfServiceGenericDao" ref="pointOfServiceGenericDao"/>
+    </bean>
+
+    <bean id="wholescriptsPresenterPopulator" class="com.wholescripts.core.populators.WholescriptsPresenterPopulator"/>
+
+    <bean id="wholescriptsPresenterConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.wholescripts.data.WholescriptsPresenterData"/>
+        <property name="populators">
+            <list>
+                <ref bean="wholescriptsPresenterPopulator"/>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="wholescriptsMedPaxService" class="com.wholescripts.core.service.impl.WholescriptsMedPaxServiceImpl"/>
+    <bean id="wholescriptsMedPaxFacade" class="com.wholescripts.core.facade.impl.WholescriptsMedPaxFacadeImpl"/>
+    <bean id="wholescriptsMedPaxDao" class="com.wholescripts.core.dao.impl.WholescriptsMedPaxDaoImpl"/>
+
+    <bean id="wholescriptsMedpaxPopulator" class="com.wholescripts.core.populators.WholescriptsMedpaxPopulator"/>
+
+    <bean id="wholescriptsMedpaxConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.wholescripts.data.MedPaxData"/>
+        <property name="populators">
+            <list>
+                <ref bean="wholescriptsMedpaxPopulator"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="wholescriptsMedpaxPacketsPopulator"
+          class="com.wholescripts.core.populators.WholescriptsMedpaxPacketsPopulator"/>
+
+    <bean id="wholescriptsMedpaxPacketsConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.wholescripts.data.ReviewMedPaxData"/>
+        <property name="populators">
+            <list>
+                <ref bean="wholescriptsMedpaxPacketsPopulator"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="wholescriptsMedpaxEntryPopulator"
+          class="com.wholescripts.core.populators.WholescriptsMedpaxEntryPopulator"/>
+
+    <bean id="wholescriptsMedpaxEntryConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.wholescripts.data.MedpaxEntryData"/>
+        <property name="populators">
+            <list>
+                <ref bean="wholescriptsMedpaxEntryPopulator"/>
+            </list>
+        </property>
+    </bean>
+	<!--<bean id="wholeScriptsProductPopulator" class="com.wholescripts.core.populators.WholeScriptsProductPopulator"/>
+	<bean parent="modifyPopulatorList">
+		<property name="list" ref="productConverter" />
+		<property name="add" ref="wholeScriptsProductPopulator" />
+	</bean>-->
+    <bean id="wholescriptsMedpaxReversePopulator"
+          class="com.wholescripts.core.populators.WholescriptsMedpaxReversePopulator"/>
+
+    <bean id="wholescriptsMedpaxReverseConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.wholescripts.core.model.MedPaxModel"/>
+        <property name="populators">
+            <list>
+                <ref bean="wholescriptsMedpaxReversePopulator"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="wholescriptsMedpaxEntryReversePopulator"
+          class="com.wholescripts.core.populators.WholescriptsMedpaxEntryReversePopulator"/>
+
+    <bean id="wholescriptsMedpaxEntryReverseConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.wholescripts.core.model.MedpaxEntryModel"/>
+        <property name="populators">
+            <list>
+                <ref bean="wholescriptsMedpaxEntryReversePopulator"/>
+            </list>
+        </property>
+    </bean>
+
+    <alias name="wholescriptsCommerceSearchTextPopulator" alias="wholescriptsCommerceSearchTextPopulator"/>
+    <bean id="wholescriptsCommerceSearchTextPopulator"
+          class="com.wholescripts.core.populators.WholescriptsSearchTextPopulator">
+        <property name="freeTextQueryBuilders">
+            <list>
+                <bean class="de.hybris.platform.commerceservices.search.solrfacetsearch.querybuilder.impl.DefaultFreeTextQueryBuilder">
+                    <property name="propertyName" value="ean"/>
+                    <property name="boost" value="100"/>
+                </bean>
+                <bean class="de.hybris.platform.commerceservices.search.solrfacetsearch.querybuilder.impl.DefaultFreeTextQueryBuilder">
+                    <property name="propertyName" value="code"/>
+                    <property name="boost" value="90"/>
+                </bean>
+                <bean class="de.hybris.platform.commerceservices.search.solrfacetsearch.querybuilder.impl.DefaultFreeTextQueryBuilder">
+                    <property name="propertyName" value="name"/>
+                    <property name="boost" value="50"/>
+                </bean>
+                <bean class="de.hybris.platform.commerceservices.search.solrfacetsearch.querybuilder.impl.DefaultFreeTextQueryBuilder">
+                    <property name="propertyName" value="manufacturerName"/>
+                    <property name="boost" value="40"/>
+                </bean>
+                <bean
+                        class="de.hybris.platform.commerceservices.search.solrfacetsearch.querybuilder.impl.ClassificationFreeTextQueryBuilder">
+                    <property name="boost" value="30"/>
+                </bean>
+                <bean class="de.hybris.platform.commerceservices.search.solrfacetsearch.querybuilder.impl.DefaultFreeTextQueryBuilder">
+                    <property name="propertyName" value="keywords"/>
+                    <property name="boost" value="20"/>
+                </bean>
+                <bean class="de.hybris.platform.commerceservices.search.solrfacetsearch.querybuilder.impl.DefaultFreeTextQueryBuilder">
+                    <property name="propertyName" value="categoryName"/>
+                    <property name="boost" value="10"/>
+                </bean>
+                <bean class="com.wholescripts.core.solrfacetsearch.querybuilder.impl.FavouritesQueryBuilder">
+                    <property name="propertyName" value="code"/>
+                    <property name="boost" value="100"/>
+                </bean>
+            </list>
+        </property>
+        <property name="favouritesPageQueryBuilders">
+            <list>
+                <bean class="com.wholescripts.core.solrfacetsearch.querybuilder.impl.FavouritesQueryBuilder">
+                    <property name="propertyName" value="code"/>
+                    <property name="boost" value="100"/>
+                </bean>
+            </list>
+        </property>
+
+    </bean>
+
+
+    <alias name="defaultCommerceSearchQueryPageableConverter" alias="commerceSearchQueryPageableConverter"/>
+    <bean id="defaultCommerceSearchQueryPageableConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass"
+                  value="de.hybris.platform.commerceservices.search.solrfacetsearch.data.SolrSearchRequest"/>
+        <property name="populators">
+            <list>
+                <ref bean="commerceSearchSolrQueryPopulator"/>
+                <ref bean="commerceSearchPagePopulator"/>
+                <ref bean="commerceSearchSortPopulator"/>
+                <ref bean="commerceSearchTextPopulator"/>
+                <ref bean="commerceSearchFiltersPopulator"/>
+                <ref bean="wholescriptsPromoteFavoritesPopulator"/>
+            </list>
+        </property>
+    </bean>
+
+
+    <alias name="wholescriptsUsSingleLineAddressFormatPopulator" alias="usSingleLineAddressFormatPopulator"/>
+    <bean id="wholescriptsUsSingleLineAddressFormatPopulator"
+          class="com.wholescripts.core.populators.WholescriptsSingleLineAddressFormatPopulator" parent="defaultUsSingleLineAddressFormatPopulator">
+        <property name="addressFormatList">
+            <list>
+                <value>line1</value>
+                <value>line2</value>
+                <value>town</value>
+                <value>region.name</value>
+                <value>postalcode</value>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean parent="modifyPopulatorList">
+        <property name="list" ref="categoryConverter"/>
+        <property name="add" ref="wholescriptsCategoryPopulator"/>
+    </bean>
+    <bean id="wholescriptsCategoryPopulator" class="com.wholescripts.core.populators.WholescriptsCategoryPopulator">
+
+    </bean>
+
+    <alias name="wholescriptsAddressVerificationService" alias="addressVerificationService"/>
+    <bean id="wholescriptsAddressVerificationService"
+          class="com.wholescripts.core.service.impl.WholescriptsAddressVerificationService"
+          parent="defaultAddressVerificationService"/>
+    <bean id="wholescriptsRegistraionFacade"
+          class="com.wholescripts.core.facade.impl.WholescriptsRegistraionFacadeImpl"/>
+    <alias name="wholescriptsCartFacade" alias="cartFacade"/>
+    <bean id="wholescriptsCartFacade" class="com.wholescripts.core.facade.impl.WholescriptsCartFacadeImpl"
+          parent="defaultCartFacade"/>
+    <bean id="wholescriptsRegistraionService"
+          class="com.wholescripts.core.service.impl.WholescriptsRegistraionServiceImpl"/>
+
+    <bean id="wholescriptsInvetoryJob" class="com.wholescripts.core.cronjobs.WholescriptsInvetoryJob"
+          parent="abstractJobPerformable"/>
+
+    <bean id="wholeScriptsProductPopulator" class="com.wholescripts.core.populators.WholeScriptsProductPopulator"/>
+    <bean parent="modifyPopulatorList">
+        <property name="list" ref="productConverter"/>
+        <property name="add" ref="wholeScriptsProductPopulator"/>
+    </bean>
+
+    <bean id="wholeScriptsSearchResultProductPopulator"
+          class="com.wholescripts.core.populators.WholeScriptsSearchResultProductPopulator">
+    </bean>
+
+    <bean id="wholeScriptsProductPriceValueResolver"
+          class="com.wholescripts.core.search.provider.impl.WholeScriptsProductPriceValueResolver"
+          parent="abstractValueResolver">
+    </bean>
+
+    <bean id="wholescriptsBrandValueResolver"
+          class="com.wholescripts.core.search.provider.impl.WholescriptsBrandValueResolver"
+          parent="modelAttributesValueResolver"/>
+    <bean id="wholescriptsFaqValueResolver"
+          class="com.wholescripts.core.search.provider.impl.WholescriptsFaqValueResolver"
+          parent="modelAttributesValueResolver"/>
+    <bean id="wholescriptsCategoryValueResolver"
+          class="com.wholescripts.core.search.provider.impl.WholescriptsCategoryValueResolver"
+          parent="modelAttributesValueResolver"/>
+    <bean id="wholescriptsIntegrationValueResolver"
+          class="com.wholescripts.core.search.provider.impl.WholescriptsIntegrationValueResolver"
+          parent="modelAttributesValueResolver"/>
+    <bean id="wholescriptsContentTypeValueResolver"
+          class="com.wholescripts.core.search.provider.impl.WholescriptsContentTypeValueResolver"
+          parent="modelAttributesValueResolver"/>
+
+    <bean parent="modifyPopulatorList">
+        <property name="list" ref="commerceSearchResultProductConverter"/>
+        <property name="add" ref="wholeScriptsSearchResultProductPopulator"/>
+    </bean>
+
+    <bean id="wholeScriptsProductBestSellerValueResolver"
+          class="com.wholescripts.core.search.provider.impl.WholeScriptsProductBestSellerValueResolver"
+          parent="abstractValueResolver">
+    </bean>
+    <bean id="wholescriptsBrandNameValueResolver"
+          class="com.wholescripts.core.search.provider.impl.WholescriptsBrandNameValueResolver"
+          parent="abstractValueResolver">
+	</bean>
+
+    <bean id="wholescriptsMaterialProductFormResolver"
+          class="com.wholescripts.core.search.provider.impl.WholescriptsMaterialProductFormResolver"
+          parent="abstractValueResolver">
+    </bean>
+
+    <bean id="wholescriptsProductStatusValueProvider"
+          class="com.wholescripts.core.search.provider.impl.WholescriptsProductStatusValueProvider"
+          parent="abstractPropertyFieldValueProvider">
+        <property name="fieldNameProvider" ref="solrFieldNameProvider"/>
+    </bean>
+	<bean id="wholescriptsSearchTermResolver"
+			class="com.wholescripts.core.search.provider.impl.WholescriptsSearchTermResolver"
+			parent="modelAttributesValueResolver" />
+    <bean id="wholescriptsBrandUrlValueResolver"
+          class="com.wholescripts.core.search.provider.impl.WholescriptsBrandUrlValueResolver"
+          parent="abstractValueResolver">
+    </bean>
+    <bean id="wholescriptsBrandCodeValueResolver"
+          class="com.wholescripts.core.search.provider.impl.WholescriptsBrandCodeValueResolver"
+          parent="abstractValueResolver">
+    </bean>
+    <bean id="wholescriptsCategoryUrlValueResolver"
+          class="com.wholescripts.core.search.provider.impl.WholescriptsCategoryUrlValueResolver"
+          parent="abstractValueResolver"/>
+    <bean id="wholescriptsSolrSearchStatePopulator"
+          class="com.wholescripts.core.populators.WholescriptsSolrSearchStatePopulator"/>
+    <bean parent="modifyPopulatorList">
+        <property name="list" ref="solrSearchStateConverter"/>
+        <property name="add" ref="wholescriptsSolrSearchStatePopulator"/>
+    </bean>
+
+    <bean id="wholescriptsExternalAPIFacade"
+          class="com.wholescripts.core.facade.impl.WholescriptsExternalAPIFacadeImpl"/>
+    <bean id="wholescriptsExternalAPIService"
+          class="com.wholescripts.core.service.impl.WholescriptsExternalAPIServiceImpl"/>
+    <bean id="wholescriptsExternalAPIDao" class="com.wholescripts.core.dao.impl.WholescriptsExternalAPIDaoImpl"/>
+
+    <bean id="wholescriptsCategoryDao" class="com.wholescripts.core.dao.impl.WholescriptsCategoryDaoImpl"/>
+    <bean id="wholescriptsCategoryService" class="com.wholescripts.core.service.impl.WholescriptsCategoryServiceImpl"/>
+
+    <bean id="wholescriptsPageFacade" class="com.wholescripts.core.facade.impl.WholescriptsPageFacadeImpl"/>
+
+    <alias name="wholescriptsCatBrandUrlExistsPredicate" alias="cmsWholescriptsCatBrandUrlExistsPredicate"/>
+    <bean id="wholescriptsCatBrandUrlExistsPredicate"
+          class="com.wholescripts.core.common.predicate.WholescriptsCatBrandUrlExistsPredicate">
+    </bean>
+
+    <alias name="wholescriptsCategoryPageTypeCodePredicate" alias="cmsCategoryPageTypeCodePredicate" />
+    <bean id="wholescriptsCategoryPageTypeCodePredicate" class="de.hybris.platform.cmsfacades.common.predicate.CategoryPageTypeCodePredicate" />
+
+
+    <alias name="renderingCatBrandUrlPageChecker" alias="cmsRenderingCatBrandUrlPageChecker"/>
+    <bean id="renderingCatBrandUrlPageChecker"
+          class="com.wholescripts.core.page.validators.WholescriptsRenderingCatBrandUrlPageChecker">
+        <property name="pagePredicate" ref="cmsCategoryPageTypeCodePredicate"/>
+        <property name="cmsWholescriptsCatBrandUrlExistsPredicate" ref="cmsWholescriptsCatBrandUrlExistsPredicate"/>
+    </bean>
+
+
+    <alias name="renderingPageCheckers" alias="cmsRenderingPageCheckers"/>
+    <util:list id="renderingPageCheckers">
+        <ref bean="cmsRenderingCatalogPageChecker"/>
+        <ref bean="cmsRenderingCatBrandUrlPageChecker"/>
+        <ref bean="cmsRenderingCategoryPageChecker"/>
+        <ref bean="cmsRenderingContentPageChecker"/>
+        <ref bean="cmsRenderingProductPageChecker"/>
+    </util:list>
+
+    <alias name="wholescriptsPageRenderingService" alias="cmsPageRenderingService"/>
+    <bean id="wholescriptsPageRenderingService"
+          class="com.wholescripts.core.service.impl.WholescriptsPageRenderingServiceImpl">
+        <property name="pageModelToDataRenderingConverter" ref="cmsPageModelToDataRenderingConverter"/>
+        <property name="facadeValidationService" ref="facadeValidationService"/>
+        <property name="renderingPageValidator" ref="cmsRenderingPageValidator"/>
+        <property name="findAllPagesRenderingPageValidator" ref="cmsFindAllPagesRenderingPageValidator"/>
+        <property name="findPageByIdRenderingPageValidator" ref="cmsFindPageByIdRenderingPageValidator"/>
+        <property name="restrictionAwareService" ref="cmsRestrictionAwareService"/>
+        <property name="cmsDataFactory" ref="cmsDataFactory"/>
+        <property name="renderingPageModelSuppliers" ref="cmsRenderingPageModelSuppliers"/>
+        <property name="cmsPageService" ref="cmsPageService"/>
+        <property name="renderingCacheService" ref="cmsRenderingCacheService"/>
+    </bean>
+
+    <bean id="wholescriptsExternalAPIProductPopulator" class="com.wholescripts.core.populators.WholescriptsExternalAPIProductPopulator"/>
+    <bean id="wholescriptsExternalAPIProductConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.wholescripts.data.WholescriptsExternalAPIProductData"/>
+        <property name="populators">
+            <list>
+                <ref bean="wholescriptsExternalAPIProductPopulator"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="WholescriptsExternalAPIPLProductPopulator" class="com.wholescripts.core.populators.WholescriptsExternalAPIPLProductPopulator"/>
+    <bean id="wholescriptsExternalAPIPLProductConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.wholescripts.data.WholescriptsExternalAPIProductData"/>
+        <property name="populators">
+            <list>
+                <ref bean="WholescriptsExternalAPIPLProductPopulator"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="wholescriptsProductsFamilyPopulator" class="com.wholescripts.core.populators.WholescriptsProductsFamilyPopulator"/>
+    <bean id="wholescriptsProductsFamilyConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.wholescripts.data.WholescriptsProductsFamilyData"/>
+        <property name="populators">
+            <list>
+                <ref bean="wholescriptsProductsFamilyPopulator"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="wholescriptsSupplementIngredientsPopulator" class="com.wholescripts.core.populators.WholescriptsSupplementIngredientsPopulator"/>
+    <bean id="wholescriptsSupplementIngredientsConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.wholescripts.data.IngredientData"/>
+        <property name="populators">
+            <list>
+                <ref bean="wholescriptsSupplementIngredientsPopulator"/>
+            </list>
+        </property>
+    </bean>
+
+    <alias name="wholescriptsDefaultCustomerAccountService" alias="customerAccountService"/>
+    <bean id="wholescriptsDefaultCustomerAccountService"
+          class="com.wholescripts.core.service.impl.WholescriptsDefaultCustomerAccountService"
+          parent="defaultCustomerAccountService"/>
+
+    <bean id="wholescriptsDeliveryAddressValidator"
+          class="com.wholescripts.core.page.validators.WholescriptsDeliveryAddressValidator">
+    </bean>
+
+    <alias name="wsDefaultCreateOrderFromCartStrategy" alias="defaultB2BCreateOrderFromCartStrategy"/>
+    <bean id="wsDefaultCreateOrderFromCartStrategy"
+          class="com.wholescripts.core.strategies.WholescriptsDefaultB2BCreateOrderFromCartStrategy">
+        <property name="cartValidator" ref="cartValidator"/>
+        <property name="cloneAbstractOrderStrategy" ref="cloneAbstractOrderStrategy"/>
+    </bean>
+
+    <bean id="wholescriptsFindPriceStrategy"
+          class="com.wholescripts.core.strategies.impl.WholescriptsSLFindPriceStrategy">
+        <property name="findPriceHooks" ref="findPriceHooks"/>
+    </bean>
+
+    <bean id="wholeScriptsDefaultPDTCriteriaFactory" class="com.wholescripts.core.price.impl.WholescriptsPDTCriteriaFactory">
+    </bean>
+
+    <bean id="wsExternalRecommendationPopulator" class="com.wholescripts.core.populators.WsExternalRecommendationPopulator"/>
+    <bean id="wsExternalRecommendationConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.wholescripts.data.WsExternalRecommendationData"/>
+        <property name="populators">
+            <list>
+                <ref bean="wsExternalRecommendationPopulator"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="wsExternalRecommendationEntryPopulator" class="com.wholescripts.core.populators.WsExternalRecommendationEntryPopulator"/>
+    <bean id="wsExternalRecommendationEntryConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.wholescripts.data.WsExternalRecommendationEntryData"/>
+        <property name="populators">
+            <list>
+                <ref bean="wsExternalRecommendationEntryPopulator"/>
+            </list>
+        </property>
+    </bean>
+<bean id="wsAutoShipFrequnceyPopulator" class="com.wholescripts.core.populators.WsAutoShipFrequnceyPopulator"/>
+    <bean id="wsAutoShipFrequnceyConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.wholescripts.data.SupportedAutoShipData"/>
+        <property name="populators">
+            <list>
+                <ref bean="wsAutoShipFrequnceyPopulator"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="wholeScriptsB2BPlaceOrderCartValidator" class="com.wholescripts.core.page.validators.WholeScriptsB2BPlaceOrderCartValidator" />
+
+    <alias alias="b2bCheckoutFacade" name="wholescriptsDefaultB2BCheckoutFacade"/>
+    <bean id="wholescriptsDefaultB2BCheckoutFacade" class="com.wholescripts.core.facade.impl.WholescriptsDefaultB2BCheckoutFacade" parent="defaultB2BCheckoutFacade"/>
+    <bean id="wholescriptsTokenizationService" class="com.wholescripts.core.service.impl.WholescriptsTokenizationServiceImpl"/>
+    <bean id="wholescriptsPrivateLabelCaseQtyValueResolver" class="com.wholescripts.core.search.provider.impl.WholescriptsPrivateLabelCaseQtyValueResolver"  parent="abstractValueResolver"/>
+    <bean id="wholescriptsPrivateLabelInventoryValueResolver" class="com.wholescripts.core.search.provider.impl.WholescriptsPrivateLabelInventoryValueResolver"  parent="abstractValueResolver"/>
+    <bean id="wholescriptsPrivateLabelPriceValueResolver" class="com.wholescripts.core.search.provider.impl.WholescriptsPrivateLabelPriceValueResolver"  parent="abstractValueResolver"/>
+    <bean id="wholescriptsPrivateLabelNameValueResolver" class="com.wholescripts.core.search.provider.impl.WholescriptsPrivateLabelNameValueResolver"  parent="abstractValueResolver"/>
+    <bean id="wholescriptsPrivateLabelGenaricNameValueResolver" class="com.wholescripts.core.search.provider.impl.WholescriptsPrivateLabelGenaricNameValueResolver"  parent="abstractValueResolver"/>
+    <bean id="wsPLProductBestSellerValueResolver" class="com.wholescripts.core.search.provider.impl.WholeScriptsPrivateLabelProductBestSellerValueResolver"  parent="abstractValueResolver"/>
+
+	<bean id="wholescriptsImageValueProvider" abstract="true"
+		class="com.wholescripts.core.search.provider.impl.WholescriptsImageValueProvider">
+		<property name="mediaService" ref="mediaService" />
+		<property name="mediaContainerService" ref="mediaContainerService" />
+		<property name="fieldNameProvider" ref="solrFieldNameProvider" />
+	</bean>
+	
+    <bean id="wsImage515ValueProvider" parent="wholescriptsImageValueProvider" >
+		<property name="mediaFormat" value="515x515"/>
+	</bean>
+	<bean id="wsImage300ValueProvider" parent="wholescriptsImageValueProvider" >
+		<property name="mediaFormat" value="300x300"/>
+	</bean>
+	<bean id="wsImage96ValueProvider" parent="wholescriptsImageValueProvider" >
+		<property name="mediaFormat" value="96x96"/>
+	</bean>
+	<bean id="wsImage65ValueProvider" parent="wholescriptsImageValueProvider" >
+		<property name="mediaFormat" value="65x65"/>
+	</bean>
+	<bean id="wsImage30ValueProvider" parent="wholescriptsImageValueProvider" >
+		<property name="mediaFormat" value="30x30"/>
+	</bean>
+	
+	<bean id="wsPLabstractCategoryCodeValueProvider" abstract="true"
+	      class="com.wholescripts.core.search.provider.impl.WholescriptsPrivateLabelCategoryCodeValueProvider"
+	      parent="abstractPropertyFieldValueProvider">
+		<property name="fieldNameProvider" ref="solrFieldNameProvider"/>
+		<property name="commonI18NService" ref="commonI18NService"/>
+	</bean>
+    <bean id="wsPLCategoryCodeValueProvider" parent="wsPLabstractCategoryCodeValueProvider">
+		<property name="categorySource" ref="wholescriptsCategorySource"/>
+	</bean>
+
+	<bean id="wsPrivateLabelDeliveryFormValueResolver"
+          class="com.wholescripts.core.search.provider.impl.WholescriptsPrivateLabelDeliveryFormValueResolver"
+          parent="abstractValueResolver">
+        <property name="qualifierProvider"
+                  ref="languageQualifierProvider"/>
+        <property name="valueFilters">
+            <list>
+                <ref bean="formatValueFilter"/>
+                <ref bean="splitValueFilter"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="wsPrivateLabelStringValuesResolver"
+          class="com.wholescripts.core.search.provider.impl.WholescriptsPrivateLabelStringValuesResolver"
+          parent="abstractValueResolver">
+        <property name="qualifierProvider"
+                  ref="languageQualifierProvider"/>
+        <property name="valueFilters">
+            <list>
+                <ref bean="formatValueFilter"/>
+                <ref bean="splitValueFilter"/>
+            </list>
+        </property>
+    </bean>
+     <bean id="wsCategoryNameValueProvider" abstract="true"
+		  class="com.wholescripts.core.search.provider.impl.WholescriptsPLCategoryNameValueProvider"
+		  parent="abstractPropertyFieldValueProvider" >
+		<property name="fieldNameProvider" ref="solrFieldNameProvider"/>
+		<property name="commonI18NService" ref="commonI18NService"/>
+	</bean>
+	<bean id="wsPLCategoryNameValueProvider" parent="wsCategoryNameValueProvider">
+		<property name="categorySource" ref="wholescriptsCategorySource"/>
+	</bean>
+	 <alias name="wsPrivateLabelSearchStrategy" alias="privateLabelSearchStrategy"/>
+    <bean id="wsPrivateLabelSearchStrategy"
+          class="com.wholescripts.core.strategies.impl.WholescriptsPrivateLabelSearchStrategyImpl">
+        <property name="searchQueryPageableConverter" ref="wsPrivatelabelSearchQueryPageableConverter"/>
+        <property name="searchRequestConverter" ref="commerceSolrSearchRequestConverter"/>
+        <property name="searchResponseConverter" ref="commerceSolrSearchResponseConverter"/>
+        <property name="facetSearchConfigService" ref="facetSearchConfigService"/>
+        <property name="commonI18NService" ref="commonI18NService"/>
+        <property name="solrAutoSuggestService" ref="solrAutoSuggestService"/>
+        <property name="solrIndexedTypeCodeResolver" ref="solrIndexedTypeCodeResolver"/>
+        <property name="solrFacetSearchConfigSelectionStrategy" ref="wsPrivateLabelSearchConfigSelectionStrategy"/>
+        <property name="baseStoreService" ref="baseStoreService"/>
+        <property name="baseSiteService" ref="baseSiteService"/>
+        <property name="sessionService" ref="sessionService"/>
+    </bean>
+
+    <alias name="wsPrivatelabelSearchQueryPageableConverter" alias="wsPrivatelabelSearchQueryPageableConverter" />
+	<bean id="wsPrivatelabelSearchQueryPageableConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="de.hybris.platform.commerceservices.search.solrfacetsearch.data.SolrSearchRequest" />
+		<property name="populators">
+			<list>
+				<ref bean="wsPrivateLabelSearchSolrQueryPopulator" />
+				<ref bean="commerceSearchPagePopulator" />
+				<ref bean="commerceSearchSortPopulator" />
+				<ref bean="commerceSearchTextPopulator" />
+				<ref bean="commerceSearchFiltersPopulator" />
+			</list>
+		</property>
+	</bean>
+	<alias name="wsPrivateLabelSearchSolrQueryPopulator" alias="wsPrivateLabelSearchSolrQueryPopulator" />
+	<bean id="wsPrivateLabelSearchSolrQueryPopulator" class="de.hybris.platform.commerceservices.search.solrfacetsearch.populators.SearchSolrQueryPopulator">
+		<property name="catalogVersionService" ref="catalogVersionService" />
+		<property name="baseSiteService" ref="baseSiteService" />
+		<property name="commonI18NService" ref="commonI18NService" />
+		<property name="baseStoreService" ref="baseStoreService" />
+		<property name="facetSearchService" ref="facetSearchService" />
+		<property name="facetSearchConfigService" ref="facetSearchConfigService" />
+		<property name="solrFacetSearchConfigSelectionStrategy" ref="wsPrivateLabelSearchConfigSelectionStrategy" />
+		<property name="searchQueryTemplateNameResolver" ref="searchQueryTemplateNameResolver"/>
+	</bean>
+	 <alias name="wsPrivateLabelSearchConfigSelectionStrategy" alias="wsPrivateLabelSearchConfigSelectionStrategy" />
+	<bean id="wsPrivateLabelSearchConfigSelectionStrategy"
+		class="com.wholescripts.core.strategies.impl.WholescriptsPLSearchConfigSelectionStrategyImpl">
+		<property name="solrFacetSearchConfigDao" ref="solrFacetSearchConfigDao" />
+	</bean>
+	<alias name="wsPLProductCategorySearchPageConverter" alias="wsPLProductCategorySearchPageConverter"/>
+    <bean id="wsPLProductCategorySearchPageConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass"
+                  value="de.hybris.platform.commerceservices.search.facetdata.ProductCategorySearchPageData"/>
+        <property name="populators">
+            <list>
+                <ref bean="wsPLProductCategorySearchPagePopulator"/>
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="wsPLProductCategorySearchPagePopulator"
+          class="com.wholescripts.core.populators.WholescriptsProductCategorySearchPagePopulator" parent="defaultProductCategorySearchPagePopulator">
+        <property name="searchResultProductConverter" ref="privateLabelSearchResultProductConverter"/>
+        <property name="code" value="productCode"/>
+    </bean>
+
+    <alias name="wsPrivateLabelSearchResultProductConverter" alias="privateLabelSearchResultProductConverter"/>
+    <bean id="wsPrivateLabelSearchResultProductConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="de.hybris.platform.commercefacades.product.data.ProductData"/>
+        <property name="populators">
+            <list>
+                <ref bean="privateLabelSearchResultProductPopulator"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="privateLabelSearchResultProductPopulator"
+          class="com.wholescripts.core.populators.WholescriptsPrivateLabelSearchResultProductPopulator">
+        <property name="commonI18NService" ref="commonI18NService"/>
+        <property name="imageFormatMapping" ref="imageFormatMapping"/>
+        <property name="priceDataFactory" ref="priceDataFactory"/>
+    </bean>
+
+    <bean id="wsPrivateLabelFacetSearchListener"
+		class=" com.wholescripts.core.search.listeners.WholescriptsPrivateLabelFacetSearchListener">
+	</bean>
+    <bean id="wsPrivateLabelFacetSearchListenerSearchListenerDefinition" parent="solrListenerDefinition">
+		<property name="listener" ref="wsPrivateLabelFacetSearchListener" />
+	</bean>
+    <bean id="wsSopPaymentDetailsValidator" class="com.wholescripts.core.page.validators.WholeScriptsSopPaymentDetailsValidator" />
+
+
+    <bean id="wsCreditCardPaymentInfoCreateStrategy"
+          class="com.wholescripts.core.strategies.impl.WholescriptsDefaultCreditCardPaymentInfoCreateStrategy"/>
+    <bean parent="modifyPopulatorList">
+        <property name="list" ref="addressConverter"/>
+        <property name="add" ref="wholescriptsAddressPopulator"/>
+    </bean>
+    <bean id="wholescriptsAddressPopulator" class="com.wholescripts.core.populators.WholescriptsAddressPopulator"/>
+
+    <alias name="wsB2BPaymentTypePopulator" alias="b2bPaymentTypePopulator" />
+    <bean id="wsB2BPaymentTypePopulator" class="com.wholescripts.core.populators.WholescriptsB2BPaymentTypePopulator" parent="defaultB2BPaymentTypePopulator" >
+    </bean>
+
+	<alias alias="productService" name="wholescriptsProductsService" />
+	<bean id="wholescriptsProductsService"
+		class="com.wholescripts.core.service.impl.WholescriptsProductServiceImpl"
+		parent="defaultProductService" />
+	<bean id="wholescriptsMaterialExclusionDao"
+		class="com.wholescripts.core.dao.impl.WholescriptsMaterialExclusionDaoImpl" />
+	<bean id="wsMaterialExclusionStrategy"
+		class="com.wholescripts.core.strategies.impl.WholescriptsMaterialExclusionStrategyImpl" />
+
+	<!-- <alias name="wsProductCategorySearchPagePopulator"
+		alias="productCategorySearchPagePopulator" />
+	<bean id="wsProductCategorySearchPagePopulator"
+		class="com.wholescripts.core.populators.WholescriptsProductCategorySearchPagePopulator"
+		parent="defaultProductCategorySearchPagePopulator">
+		<property name="code" value="code" />
+	</bean> -->
+	<bean id="wholeScriptsCartValidator"
+		class="com.wholescripts.core.page.validators.WholeScriptsCartValidator" />
+	<bean id="wholescriptsCartValidationFacade"
+		class="com.wholescripts.core.facade.impl.WholescriptsCartValidationFacadeImpl" />
+	<bean id="wholescriptsCartValidationService"
+		class="com.wholescripts.core.service.impl.WholescriptsCartValidationServiceImpl" />
+	<bean id="wholescriptsCartValidationDao"
+		class="com.wholescripts.core.dao.impl.WholescriptsCartValidationDaoImpl" />
+	<bean id="wsB2BCreditLimitModelValidateInterceptor"
+		class="com.wholescripts.core.interceptor.WholescriptsB2BCreditLimitModelValidateInterceptor"
+		parent="B2BCreditLimitModelValidateInterceptor" />
+
+	<alias name="wsB2BCreditLimitModelValidateInterceptorMapping"
+		alias="B2BCreditLimitModelValidateInterceptorMapping" />
+	<bean id="wsB2BCreditLimitModelValidateInterceptorMapping"
+		class="de.hybris.platform.servicelayer.interceptor.impl.InterceptorMapping">
+		<property name="interceptor"
+			ref="wsB2BCreditLimitModelValidateInterceptor" />
+		<property name="typeCode" value="B2BCreditLimit" />
+	</bean>
+	<bean id="wsRegionProductAgeRestrictionJob"
+		class="com.wholescripts.core.cronjobs.WholescriptsRegionProductAgeRestrictionJob"
+		parent="abstractJobPerformable" />
+	<bean id="wsRegionProductSwapRestrictionJob"
+		class="com.wholescripts.core.cronjobs.WholescriptsRegionProductSwapRestrictionJob"
+		parent="abstractJobPerformable" />
+
+	<bean parent="modifyPopulatorList">
+		<property name="list" ref="commerceCartParameterConverter" />
+		<property name="add" ref="WsCommerceCartParameterPopulator" />
+	</bean>
+	
+	<bean id="WsCommerceCartParameterPopulator"
+		class="com.wholescripts.core.populators.WholeScriptsCommerceCartParameterBasicPopulator">
+	</bean>
+
+    <alias name="wholescriptsProudctsService" alias="wholescriptsProudctsService"/>
+    <bean id="wholescriptsProudctsService"
+          class="com.wholescripts.core.service.impl.WholescriptsProudctsServiceImpl"/>
+
+    <alias name="wsCreditCardPaymentInfoPopulator" alias="creditCardPaymentInfoPopulator"/>
+    <bean id="wsCreditCardPaymentInfoPopulator"
+          class="com.wholescripts.core.populators.WholescriptsCreditCardPaymentInfoPopulator" parent="defaultCreditCardPaymentInfoPopulator">
+    </bean>
+
+    <bean id="wsOrderEntryPopulator" class="com.wholescripts.core.populators.WholescriptsOrderEntryPopulator"/>
+    <bean parent="modifyPopulatorList">
+        <property name="list" ref="orderEntryConverter" />
+        <property name="add" ref="wsOrderEntryPopulator" />
+    </bean>
+
+    <bean id="wholescriptsOrderPopulator" class="com.wholescripts.core.populators.WholescriptsOrdersPopulator"/>
+    <bean parent="modifyPopulatorList">
+        <property name="list" ref="cartConverter" />
+        <property name="add" ref="wholescriptsOrderPopulator" />
+    </bean>
+     <bean parent="modifyPopulatorList">
+        <property name="list" ref="orderConverter" />
+        <property name="add" ref="wholescriptsOrderPopulator" />
+    </bean>
+    
+
+    <bean id="wsExternalOrderRequestValidator" class="com.wholescripts.core.page.validators.WholescriptsExternalOrderRequestValidator" />
+   
+
+    <bean id="generateShareRecommendationEmail" parent="abstractGenerateEmailAction">
+        <property name="frontendTemplateName" value="WsShareRecommendationEmailTemplate"/>
+    </bean>
+    <bean id="wsShareRecommendationEventListener" class="com.wholescripts.core.event.listener.WholescriptsShareRecommendationEventListener"
+          parent="abstractEventListener">
+        <property name="modelService" ref="modelService"/>
+        <property name="businessProcessService" ref="businessProcessService"/>
+    </bean>
+    <bean id="wsShareRecommendationEmailContext" class="com.wholescripts.core.process.email.context.WsShareRecommendationEmailContext" parent="abstractEmailContext" scope="prototype" />
+
+    <bean id="wsSendRecommendationTextEventListener" class="com.wholescripts.core.event.listener.WholescriptsSendRecommendationByTextListener"
+          parent="abstractEventListener">
+        <property name="modelService" ref="modelService"/>
+        <property name="businessProcessService" ref="businessProcessService"/>
+    </bean>
+    <bean id="sendTextMessageAction" class="com.wholescripts.core.actions.SendTextMessageAction" parent="abstractAction"/>
+    
+    <alias name="wsB2BOrderService" alias="b2bOrderService" />
+	<bean id="wsB2BOrderService" class="com.wholescripts.core.service.impl.WholescriptsB2BOrderServiceImpl" parent="defaultB2BOrderService" />
+
+    <bean id="wholescriptsExternalAPIBrandCustomerClassRestrictionPopulator" class="com.wholescripts.core.populators.WholescriptsExternalAPIBrandCustomerClassRestrictionPopulator"/>
+    
+    <bean id="wholescriptsBrandCustomerRestrictionClassConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.wholescripts.data.WholescriptsExternalExclusionCustclasBrandData"/>
+        <property name="populators">
+            <list>
+                <ref bean="wholescriptsExternalAPIBrandCustomerClassRestrictionPopulator"/>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="wholescriptsExternalAPICustomerClassProductRestrictionPopulator" class="com.wholescripts.core.populators.WholescriptsExternalAPICustomerClassProductRestrictionPopulator"/>
+    
+    <bean id="wholescriptsCustomerClassProductRestrictionConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.wholescripts.data.WholescriptsExternalExclusionCustclasMaterialData"/>
+        <property name="populators">
+            <list>
+                <ref bean="wholescriptsExternalAPICustomerClassProductRestrictionPopulator"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="wholescriptsExternalAPICustomerProductGroupRestrictionPopulator" class="com.wholescripts.core.populators.WholescriptsExternalAPICustomerProductGroupRestrictionPopulator"/>
+    
+    <bean id="wholescriptsCustomerProductGroupRestrictionConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.wholescripts.data.WholescriptsExternalExclusionCustMatlgrpData"/>
+        <property name="populators">
+            <list>
+                <ref bean="wholescriptsExternalAPICustomerProductGroupRestrictionPopulator"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="wholescriptsExternalAPICustomerProductRestrictionPopulator" class="com.wholescripts.core.populators.WholescriptsExternalAPICustomerProductRestrictionPopulator"/>
+    
+    <bean id="wholescriptsCustomerProductRestrictionConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.wholescripts.data.WholescriptsExternalExclusionCustMatlData"/>
+        <property name="populators">
+            <list>
+                <ref bean="wholescriptsExternalAPICustomerProductRestrictionPopulator"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="cwsImageFormatMapping" parent="defaultImageFormatMapping">
+		<property name="mapping">
+			<map>
+				 <entry key="superZoom" value="1200x1200"/>
+				<entry key="zoom" value="515x515"/>
+				<entry key="store" value="365x246"/>
+				<entry key="product" value="300x300"/>
+				<entry key="thumbnail" value="96x96"/>
+				<entry key="cartIcon" value="65x65"/>
+				<entry key="styleSwatch" value="30x30"/>
+			</map>
+		</property>
+	</bean>
+	
+	 <alias name="wsImageFormatMapping" alias="imageFormatMapping"/>
+    <bean id="wsImageFormatMapping" parent="defaultImageFormatMapping">
+        <property name="mapping">
+            <map>
+                <entry key="superZoom" value="1200x1200"/>
+				<entry key="zoom" value="515x515"/>
+				<entry key="store" value="365x246"/>
+				<entry key="product" value="300x300"/>
+				<entry key="thumbnail" value="96x96"/>
+				<entry key="cartIcon" value="65x65"/>
+				<entry key="styleSwatch" value="30x30"/>
+            </map>
+        </property>
+    </bean>
+    
+    <bean id="wholescriptsExternalAPICustomerPopulator" class="com.wholescripts.core.populators.WholescriptsExternalAPICustomerPopulator"/>
+    <bean id="wholescriptsExternalAPICustomerConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.wholescripts.data.WholescriptsExternalAPICustomerData"/>
+        <property name="populators">
+            <list>
+                <ref bean="wholescriptsExternalAPICustomerPopulator"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="wholescriptsExternalAPIShippingAddressB2BUnitPopulator" class="com.wholescripts.core.populators.WholescriptsExternalAPIShippingAddressB2BUnitPopulator"/>
+    <bean id="wholescriptsExternalAPIShippingAddressB2BUnitConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.wholescripts.data.WholescriptsExternalAPIAddressData"/>
+        <property name="populators">
+            <list>
+                <ref bean="wholescriptsExternalAPIShippingAddressB2BUnitPopulator"/>
+            </list>
+        </property>
+    </bean>
+
+	<bean id="productImage515ValueProvider" parent="abstractImageValueProvider" >
+		<property name="mediaFormat" value="515x515"/>
+	</bean>
+	<bean id="productImage300ValueProvider" parent="abstractImageValueProvider" >
+		<property name="mediaFormat" value="300x300"/>
+	</bean>
+	<bean id="productImage96ValueProvider" parent="abstractImageValueProvider" >
+		<property name="mediaFormat" value="96x96"/>
+	</bean>
+	<bean id="productImage65ValueProvider" parent="abstractImageValueProvider" >
+		<property name="mediaFormat" value="65x65"/>
+	</bean>
+	<bean id="productImage30ValueProvider" parent="abstractImageValueProvider" >
+		<property name="mediaFormat" value="30x30"/>
+	</bean>
+    <bean id="wholescriptsExternalAPIPatientsPopulator" class="com.wholescripts.core.populators.WholescriptsExternalAPIPatientsPopulator"/>
+    <bean id="wholescriptsExternalAPIPatientsConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.wholescripts.data.WholescriptsExternalAPIPatientData"/>
+        <property name="populators">
+            <list>
+                <ref bean="wholescriptsExternalAPIPatientsPopulator"/>
+            </list>
+        </property>
+    </bean>
+	
+	<bean id="wholescriptsMedPaxUrlValueProvider" class="com.wholescripts.core.search.provider.impl.WholescriptsMedPaxUrlValueProvider"
+		parent="abstractPropertyFieldValueProvider">
+		<property name="fieldNameProvider" ref="solrFieldNameProvider" />
+	</bean>
+
+	 <bean id="accertifyFraudCheckEmail" parent="abstractGenerateEmailAction">
+        <property name="frontendTemplateName" value="AccertifyFraudCheckEmailTemplate"/>
+    </bean>
+     <bean id="accertifyFraudCheckEmailContext" class="com.wholescripts.core.process.email.context.AccertifyFraudCheckEmailContext" parent="abstractEmailContext" scope="prototype" />
+    <bean id="wsAccertifyFraudCheckEventListener" class="com.wholescripts.core.event.listener.WholescriptsAccertifyFraudCheckEventListener"
+          parent="abstractEventListener">
+        <property name="modelService" ref="modelService"/>
+        <property name="businessProcessService" ref="businessProcessService"/>
+    </bean>
+    <bean id="updateAccertifyFlagInCDCAction" class="com.wholescripts.core.actions.UpdateAccertifyFlagInCDCAction" parent="abstractAction"/>
+    
+    <bean id="wholescriptsSendEmail" class="com.wholescripts.core.actions.WholescriptsSendEmailAction" parent="sendEmail"/>
+    
+    <bean id="wholescriptsEmailDao" class="com.wholescripts.core.dao.impl.WholescriptsEmailDaoImpl"/>
+    
+    <bean id="wholescriptsEmailService" class="com.wholescripts.core.service.impl.WholescriptsEmailServiceImpl"/>
+    <alias alias="b2bCommercePlaceOrderStrategy" name="wsCommercePlaceOrderStrategy"/>
+    <bean id="wsCommercePlaceOrderStrategy"
+          class="com.wholescripts.core.strategies.impl.WholescriptsCommercePlaceOrderStrategy" parent="defaultB2BCommercePlaceOrderStrategy">
+          <property name="commercePlaceOrderMethodHooks" ref="wsCommercePlaceOrderMethodHooks"/>
+     </bean>
+    <util:list id="wsCommercePlaceOrderMethodHooks" value-type="de.hybris.platform.commerceservices.order.hook.CommercePlaceOrderMethodHook"/>
+               
+   <bean id="wsAddAsmPlaceOrderMethodHooksMergeDirective" depends-on="wsCommercePlaceOrderMethodHooks" parent="listMergeDirective">
+		<property name="add" ref="assistedServicePlaceOrderMethodHook"/>
+	</bean>
+               
+    <bean id="wholescriptsStockPrePersistHook" class="com.wholescripts.core.hook.WholescriptsStockPrePersistHook"/>
+
+    <bean id="wholescriptsInventoryValueResolver" class="com.wholescripts.core.search.provider.impl.WholescriptsInventoryValueResolver"  parent="abstractValueResolver"/>
+
+    <alias name="wsStockPopulator" alias="stockPopulator"/>
+    <bean id="wsStockPopulator" class="com.wholescripts.core.populators.WholescriptsStockPopulator"  parent="defaultStockPopulator"/>
+    
+   <!--  <alias name="wsSearchResponsePaginationPopulator" alias="commerceSearchResponsePaginationPopulator" />
+	<bean id="wsSearchResponsePaginationPopulator" class="com.wholescripts.core.populators.WsSearchResponsePaginationPopulator" parent="defaultCommerceSearchResponsePaginationPopulator"/>
+ -->
+	<alias name="wholescriptsPromoteFavoritesPopulator" alias="wholescriptsPromoteFavoritesPopulator" />
+	<bean id="wholescriptsPromoteFavoritesPopulator" class="com.wholescripts.core.populators.WholescriptsPromoteFavoritesPopulator">
+		<property name="favouritesPageQueryBuilders">
+			<list>
+				<bean class="com.wholescripts.core.solrfacetsearch.querybuilder.impl.FavouritesQueryBuilder">
+					<property name="propertyName" value="code" />
+					<property name="boost" value="100" />
+				</bean>
+			</list>
+		</property>
+
+	</bean>
+	
+    <alias name="wholescriptsBuyAgainService" alias="wholescriptsBuyAgainService" />
+    <bean id="wholescriptsBuyAgainService" class="com.wholescripts.core.service.impl.WholescriptsBuyAgainServiceImpl"/>
+    
+    <bean id="wholescriptsProductNameValueProvider" class="com.wholescripts.core.search.provider.impl.WholescriptsProductNameValueProvider"
+		parent="abstractPropertyFieldValueProvider">
+		<property name="fieldNameProvider" ref="solrFieldNameProvider" />
+	</bean>
+	
+	<bean id="wsShopifyProductPopulator" class="com.wholescripts.core.populators.WholescriptsShopifyProductPopulator">
+		<property name="urlResolver" ref="productModelUrlResolver"/>
+	</bean>
+    
+    <bean id="wsShopifyProductConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.wholescripts.data.ShopifyProductsData"/>
+        <property name="populators">
+            <list>
+                <ref bean="wsShopifyProductPopulator"/>
+            </list>
+        </property>
+    </bean>
+    
+    <alias name="wholescriptsShopifyFacatesFacade" alias="wholescriptsShopifyFacatesFacade" />
+    <bean id="wholescriptsShopifyFacatesFacade" class="com.wholescripts.core.facade.impl.WholescriptsShopifyFacatesFacadeImpl"/>
+
+    <bean id="wholescriptsCommerceCartService" class="com.wholescripts.core.service.impl.WholescriptsCommerceCartServiceImpl"/>
+    <alias name="wsCommercePromotionRestrictionFacade" alias="commercePromotionRestrictionFacade"/>
+    <bean id="wsCommercePromotionRestrictionFacade"
+          class="com.wholescripts.core.facade.impl.WholescriptsCommercePromotionRestrictionFacadeImpl" parent="defaultCommercePromotionRestrictionFacade"/>
+
+    <alias alias="cartValidationStrategy" name="wsCartValidationStrategy"/>
+    <bean id="wsCartValidationStrategy" class="com.wholescripts.core.strategies.impl.WholescriptsCartValidationStrategy" parent="defaultB2BCartValidationStrategy"/>
+	<alias name="wsPromotionEngineService" alias="promotionsService"/>
+	<bean id="wsPromotionEngineService" class="com.wholescripts.core.service.impl.WholescriptsPromotionEngineServiceImpl" parent="defaultPromotionEngineService"/>
+
+    <alias alias="commercePromotionService" name="wholescriptsCommercePromotionService"/>
+    <bean id="wholescriptsCommercePromotionService"
+          class="com.wholescripts.core.service.impl.WholescriptsCommercePromotionServiceImpl" parent="defaultCommercePromotionService"/>
+
+    <bean id="wsContactUsEmail" parent="abstractGenerateEmailAction">
+        <property name="frontendTemplateName" value="ContactUsEmailTemplate"/>
+    </bean>
+    <bean id="wsThankYouEmail" parent="abstractGenerateEmailAction">
+        <property name="frontendTemplateName" value="ThankYouEmailTemplate"/>
+    </bean>
+
+    <bean id="contactUsEmailContext" class="com.wholescripts.core.process.email.context.ContactUsEmailContext"
+          parent="abstractEmailContext" scope="prototype" />
+    <bean id="wsContactUsEventListener" class="com.wholescripts.core.event.listener.WholescriptsContactUsEventListener"
+          parent="abstractEventListener">
+        <property name="modelService" ref="modelService"/>
+        <property name="businessProcessService" ref="businessProcessService"/>
+    </bean>
+    <bean id="wsThankYouEventListener" class="com.wholescripts.core.event.listener.WholescriptsThankYouEventListener"
+          parent="abstractEventListener"/>
+    <bean id="wsThankYouEmailContext" class="com.wholescripts.core.process.email.context.ThankYouEmailContext"
+          parent="abstractEmailContext" scope="prototype" />
+    <bean parent="modifyPopulatorList">
+        <property name="list" ref="cmsPageModelToDataRenderingConverter"/>
+        <property name="add" ref="wscmsPageModelToDataRenderingPopulator"/>
+    </bean>
+    <bean id="wscmsPageModelToDataRenderingPopulator" class="com.wholescripts.core.populators.WholeScriptsPageModelToDataRenderingPopulator" parent="cmsPageModelToDataRenderingPopulator">
+
+    </bean>
+    
+    
+    <alias name="defaultExternalAddressReversePopulator" alias="externalAddressReversePopulator"/>
+    <bean id="defaultExternalAddressReversePopulator" class="com.wholescripts.core.populators.ExternalAddressReversePopulator">
+        <property name="flexibleSearchService" ref="flexibleSearchService"/>
+        <property name="commonI18NService" ref="commonI18NService"/>
+    </bean>
+    
+    <alias name="wsCategoryUrlFacetDisplayNameprovider" alias="wsCategoryUrlFacetDisplayNameprovider" />
+	<bean id="wsCategoryUrlFacetDisplayNameprovider" class="com.wholescripts.core.search.provider.impl.WholescriptsCategoryUrlFacetDisplayNameprovider">
+	</bean>
+
+	 <bean id="wsPromotionPopulator" class="com.wholescripts.core.populators.WholescriptsPromotionsPopulator" />
+     <bean parent="modifyPopulatorList">
+        <property name="list" ref="promotionsConverter" />
+        <property name="add" ref="wsPromotionPopulator" />
+     </bean>
+	
+	 <bean id="wsBrandCodeContentValueResolver"
+          class="com.wholescripts.core.search.provider.impl.WholescriptsBrandCodeContentValueResolver"
+          parent="abstractValueResolver">
+    </bean>
+    
+    <bean id="wsBrandNameContentValueResolver"
+          class="com.wholescripts.core.search.provider.impl.WholescriptsBrandNameContentValueResolver"
+          parent="abstractValueResolver">
+
+    </bean>
+
+    <bean id="klaviyoService" class="com.wholescripts.core.service.impl.KlaviyoServiceImpl"/>
+
+    <bean id="klaviyoCatalogFeedPopulator" class="com.wholescripts.core.populators.KlaviyoCatalogFeedPopulator"/>
+    <bean id="klaviyoCatalogFeedConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.wholescripts.data.KlaviyoCatalogFeedData"/>
+        <property name="populators">
+            <list>
+                <ref bean="klaviyoCatalogFeedPopulator"/>
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="wholescriptsDelegoFacade" class="com.wholescripts.core.facade.impl.WholescriptsDelegoFacadeImpl"/>
+    
+    <alias name="wsBrandUrlFacetDisplayNameprovider" alias="wsBrandUrlFacetDisplayNameprovider" />
+	<bean id="wsBrandUrlFacetDisplayNameprovider" class="com.wholescripts.core.search.provider.impl.WholescriptsBrandUrlFacetDisplayNameprovider">
+	</bean>
+
+    <alias name="wholescriptsProductBasicPopulator" alias="productBasicPopulator"/>
+    <bean id="wholescriptsProductBasicPopulator"
+          class="com.wholescripts.core.populators.WholescriptsProductBasicPopulator" parent="defaultProductBasicPopulator">
+    </bean>
+
+    <alias name="wholescriptsProductUrlPopulator" alias="productUrlPopulator"/>
+    <bean id="wholescriptsProductUrlPopulator"
+          class="com.wholescripts.core.populators.WholescriptsProductUrlPopulator" parent="defaultProductUrlPopulator">
+    </bean>
+    
+    <bean id="wsCustomerProductRestrictionProvider" class="com.wholescripts.core.search.provider.impl.WholescriptsCustomerProductRestrictionProvider"
+          parent="abstractPropertyFieldValueProvider">
+        <property name="fieldNameProvider" ref="solrFieldNameProvider"/>
+    </bean>
+    
+    <bean id="wsCustomerProductGroupRestrictionProvider" class="com.wholescripts.core.search.provider.impl.WholescriptsCustomerProductGroupRestrictionProvider"
+          parent="abstractPropertyFieldValueProvider">
+        <property name="fieldNameProvider" ref="solrFieldNameProvider"/>
+    </bean>
+    
+    <bean id="wsCustomerClassProductRestrictionProvider" class="com.wholescripts.core.search.provider.impl.WholescriptsCustomerClassProductRestrictionProvider"
+          parent="abstractPropertyFieldValueProvider">
+        <property name="fieldNameProvider" ref="solrFieldNameProvider"/>
+    </bean>
+    
+     <bean id="wsBrandCustomerClassRestrictionProvider" class="com.wholescripts.core.search.provider.impl.WholescriptsBrandCustomerClassRestrictionProvider"
+          parent="abstractPropertyFieldValueProvider">
+        <property name="fieldNameProvider" ref="solrFieldNameProvider"/>
+    </bean>
+    
+    
+    <alias name="wholescriptsFacetSearchStrategyFactory" alias="facetSearchStrategyFactory" />
+	<bean id="wholescriptsFacetSearchStrategyFactory" class="com.wholescripts.core.strategies.impl.WholescriptsFacetSearchStrategyFactory" parent="defaultFacetSearchStrategyFactory">
+		<property name="wholescriptsFacetSearchStrategy" ref="wholescriptsFacetSearchStrategy" />
+        <property name="wholescriptsWebinarFacetSearchStrategy" ref="wholescriptsWebinarFacetSearchStrategy" />
+	</bean>
+	
+	<bean id="wholescriptsFacetSearchStrategy" class="com.wholescripts.core.strategies.impl.WholescriptsFacetSearchStrategy" parent="defaultFacetSearchStrategy" />
+
+    <bean id="wholescriptsWebinarFacetSearchStrategy" class="com.wholescripts.core.strategies.impl.WholescriptsWebinarFacetSearchStrategy" parent="defaultFacetSearchStrategy" />
+
+    <alias alias="qualifyingPromotionCategoriesConditionTranslator" name="wsQualifyingPromoCategoriesConditionTranslator" />
+	<bean id="wsQualifyingPromoCategoriesConditionTranslator" class="com.wholescripts.core.promotion.rule.translator.RuleQualifyingPromotionCategoriesConditionTranslator" parent="abstractRuleConditionTranslator" />
+      <alias alias="qualifyingPromotionBrandsConditionTranslator" name="wsQualifyingPromotionBrandsConditionTranslator" />
+	<bean id="wsQualifyingPromotionBrandsConditionTranslator" class="com.wholescripts.core.promotion.rule.translator.RuleQualifyingPromotionBrandsConditionTranslator" parent="abstractRuleConditionTranslator" />
+    
+    
+    <bean id="wholescriptsPromotionCategoryDao" class="com.wholescripts.core.dao.impl.WholescriptsPromotionCategoryDaoImpl"/>
+    
+    <bean id="promoCategoryRuleParameterValueMapper" class="com.wholescripts.core.promotion.rule.mappers.PromotionCategoryRuleParameterValueMapper"/>
+		<bean id="wsCategoryRuleParameterValueTypeDefinition" class="de.hybris.platform.ruleengineservices.rule.strategies.impl.RuleParameterValueTypeDefinition">
+		<property name="mapper" ref="promoCategoryRuleParameterValueMapper" />
+		<property name="type" value="ItemType(PromotionCategory)" />
+	</bean>
+	<bean id="promoBrandRuleParameterValueMapper" class="com.wholescripts.core.promotion.rule.mappers.PromotionBrandRuleParameterValueMapper"/>
+    <bean id="brandRuleParameterValueTypeDefinition" class="de.hybris.platform.ruleengineservices.rule.strategies.impl.RuleParameterValueTypeDefinition">
+		<property name="mapper" ref="promoBrandRuleParameterValueMapper" />
+		<property name="type" value="ItemType(WholescriptsBrand)" />
+	</bean>
+	
+	  <alias name="wsOrderEntryRaoPopulator" alias="orderEntryRaoPopulator"/>
+    <bean id="wsOrderEntryRaoPopulator"
+          class="com.wholescripts.core.populators.WholescriptsOrderEntryRaoPopulator" parent="defaultOrderEntryRaoPopulator"/>
+  
+    <bean id="wsRegionPopulator"
+          class="com.wholescripts.core.populators.WholescriptsRegionPopulator"/>
+
+	<bean parent="modifyPopulatorList">
+		<property name="list" ref="regionConverter" />
+		<property name="add" ref="wsRegionPopulator" />
+	</bean>
+<alias alias="promotionSourceRuleDao" name="wsPromotionSourceRuleDao"/>
+	<bean id="wsPromotionSourceRuleDao" class="com.wholescripts.core.dao.impl.WholescriptsPromotionSourceRuleDao" parent="defaultPromotionSourceRuleDao" />
+
+	<alias alias="promoCatConditionResolutionStrategy" name="wsPromoCatConditionResolutionStrategy" />
+	<bean id="wsPromoCatConditionResolutionStrategy" class="com.wholescripts.core.strategies.impl.PromoCatConditionResolutionStrategyImpl">
+		<property name="modelService" ref="modelService" />
+		<property name="promotionSourceRuleDao" ref="promotionSourceRuleDao" />
+		<property name="droolsKIEBaseFinderStrategy" ref="droolsKIEBaseFinderStrategy" />
+		<property name="rulesModuleDao" ref="rulesModuleDao" />
+	</bean>
+
+		<alias alias="promoBrandConditionResolutionStrategy" name="wsPromoBrandConditionResolutionStrategy" />
+	<bean id="wsPromoBrandConditionResolutionStrategy" class="com.wholescripts.core.strategies.impl.PromoBrandConditionResolutionStrategyImpl">
+		<property name="modelService" ref="modelService" />
+		<property name="promotionSourceRuleDao" ref="promotionSourceRuleDao" />
+		<property name="droolsKIEBaseFinderStrategy" ref="droolsKIEBaseFinderStrategy" />
+		<property name="rulesModuleDao" ref="rulesModuleDao" />
+	</bean>
+	
+     <bean parent="mapMergeDirective" depends-on="conditionResolutionStrategies">
+        <property name="key" value="y_qualifying_promotion_categories"/>
+        <property name="value" ref="promoCatConditionResolutionStrategy"/>
+    </bean>
+    
+      <bean parent="mapMergeDirective" depends-on="conditionResolutionStrategies">
+        <property name="key" value="y_qualifying_promotion_brands"/>
+        <property name="value" ref="promoBrandConditionResolutionStrategy"/>
+    </bean>
+
+
+    <alias name="wholescriptsI18NFacade" alias="i18NFacade"/>
+    <bean id="wholescriptsI18NFacade" class="com.wholescripts.core.facade.impl.WholescriptsI18NFacadeImpl">
+        <property name="commonI18NService" ref="commonI18NService"/>
+        <property name="regionConverter" ref="regionConverter"/>
+        <property name="countryConverter" ref="countryConverter"/>
+    </bean>
+    
+    <bean id="wsAccertifyCreateAddressPopulator" class="com.wholescripts.core.populators.WholescriptsAccertifyCreateAddressPopulator"/>
+	
+	<bean id="wsAccertifyOldAddressPopulator" class="com.wholescripts.core.populators.WholescriptsAccertifyOldAddressPopulator"/>
+	
+	<bean id="wsAccertifyUpdateAddressPopulator" class="com.wholescripts.core.populators.WholescriptsAccertifyUpdateAddressPopulator"/>
+    
+    <bean id="wsPromotionCategoriesValueResolver" class="com.wholescripts.core.search.provider.impl.WholescriptsPromotionCategoriesValueResolver"  parent="abstractValueResolver"/>
+
+	<bean id="wsProductDefaultPriceValueProvider" class="com.wholescripts.core.search.provider.impl.WholescriptsProductDefaultPriceValueProvider"
+          parent="abstractPropertyFieldValueProvider">
+        <property name="fieldNameProvider" ref="solrFieldNameProvider"/>
+    </bean>
+
+    <alias name="wsCommerceSearchResponseSortsPopulator" alias="commerceSearchResponseSortsPopulator" />
+	<bean id="wsCommerceSearchResponseSortsPopulator" class="com.wholescripts.core.populators.WholescriptsSearchResponseSortsPopulator" parent="defaultCommerceSearchResponseSortsPopulator"/>
+
+    <bean id="wsProductPriceValueProvider" class="com.wholescripts.core.search.provider.impl.WholescriptsProductPriceValueProvider"
+          parent="abstractPropertyFieldValueProvider">
+        <property name="fieldNameProvider" ref="solrFieldNameProvider"/>
+    </bean>
+    
+    <bean id="webinarPopularRankResolver" class="com.wholescripts.core.search.provider.impl.WebinarPopularRankResolver" parent="abstractValueResolver"/>
+
+    <bean id="webinarWebinarStatusProvider"
+          class="com.wholescripts.core.search.provider.impl.WebinarWebinarStatusProvider"
+          parent="abstractPropertyFieldValueProvider">
+        <property name="fieldNameProvider" ref="solrFieldNameProvider"/>
+    </bean>
+
+    <bean id="webinarPublishedPrepareInterceptor" class="com.wholescripts.core.interceptor.WholescriptsWebinarPublishedStatusPrepareInterceptor">
+    </bean>
+
+    <bean id="B2BCommentInterceptorMapping" class="de.hybris.platform.servicelayer.interceptor.impl.InterceptorMapping">
+        <property name="interceptor" ref="webinarPublishedPrepareInterceptor"/>
+        <property name="typeCode" value="Webinar"/>
+    </bean>
+  <bean parent="modifyPopulatorList">
+      <property name="list" ref="accExtendedCartConverter" />
+      <property name="add" ref="wholescriptsOrderPopulator" />
+    </bean>
+
+    <bean id="klaviyoOrderedProductCronjob" class="com.wholescripts.core.cronjobs.KlaviyoOrderedProductCronjob"
+          parent="abstractJobPerformable"/>
+<bean id="wholescriptsB2BUnitPrePersistHook" class="com.wholescripts.core.hook.WholescriptsB2BUnitPrePersistHook"/>
+
+    <alias name="wsSolrSearchQueryDecoderPopulator" alias="solrSearchQueryDecoderPopulator"/>
+    <bean id="wsSolrSearchQueryDecoderPopulator" class="com.wholescripts.core.populators.WholescriptsSolrSearchQueryDecoderPopulator" parent="defaultSolrSearchQueryDecoderPopulator"/>
+
+
+    <alias name="wholescriptsFacetSearchQuerySortsPopulator" alias="facetSearchQuerySortsPopulator" />
+    <bean id="wholescriptsFacetSearchQuerySortsPopulator" class="com.wholescripts.core.populators.WholescriptsFacetSearchQuerySortsPopulator">
+        <property name="fieldNameTranslator" ref="fieldNameTranslator" />
+    </bean>
+    <alias name="wholescriptsProductCategoriesPopulator" alias="productCategoriesPopulator"/>
+    <bean id="wholescriptsProductCategoriesPopulator"
+          class="com.wholescripts.core.populators.WholescriptsProductCategoriesPopulator" parent="defaultProductCategoriesPopulator">
+    </bean>
+</beans>
+
+

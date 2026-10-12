@@ -1,0 +1,133 @@
+* {
+    color: rgb(62, 59, 73);
+}
+
+.right-section {
+    padding-right: 20px;
+    padding-left: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+}
+
+.protocols-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+}
+
+//  protocol with button start
+.border-style {
+    border: solid 1px #E3E3E5 !important;
+    border-left: solid 5px #584091 !important;
+    border-radius: 5px;
+    margin: 20px 0;
+    padding: 15px 25px;
+}
+
+.protocolDescription {
+    margin: 23px 0 16px 0;
+}
+
+.btn-style {
+    height: 42px !important;
+    min-height: 42px !important;
+    padding-top: 6px;
+    font-size: 16px;
+}
+
+.lastUpdated {
+    border-radius: 2px;
+    background: #EEF0F1;
+    padding: 2px 5px;
+    font-weight: 900;
+    font-size: 12px;
+}
+
+.btn-media {
+    justify-content: right;
+    column-gap: 10px;
+
+    @media(max-width:990px) {
+        justify-content: center;
+    }
+}
+
+// protocol with button end
+
+.img-sm {
+    width: 50px;
+    height: 85px;
+}
+
+.btn-responsive {
+    @media(max-width:578px) {
+        flex-grow: 1 !important;
+    }
+}
+
+.patient-account-name {
+    font-weight: 900;
+    font-size: 18px;
+    margin-bottom: 15px;
+}
+
+.badge {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 10px;
+    color: #fff;
+}
+
+.fs-18 {
+    font-size: 18px !important;
+}
+
+.border-unset {
+    border-bottom: unset !important;
+}
+
+.modal-content {
+    position: relative;
+}
+
+.modal-header {
+    background-color: #584091;
+}
+
+.modal-header:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background: url(https://qa.wholescripts.com/images/design/header-pattern-background.svg) left center no-repeat;
+    background-size: 50%;
+    opacity: .25;
+    z-index: 1;
+    height: 100px;
+}
+
+.fs-26 {
+    font-size: 26px !important;
+}
+
+.h-fit {
+    height: fit-content !important;
+}
+
+.close-icon {
+    cursor: pointer;
+    z-index: 1;
+    width: 20px;
+    font-size: 20px;
+    &:focus-visible {
+        outline: 3px solid var(--cx-color-darkest) !important;
+        outline-offset: 2px !important;
+        box-shadow: unset;
+    }
+}

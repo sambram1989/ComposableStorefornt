@@ -1,0 +1,95 @@
+
+:host {
+  ::ng-deep {
+    cx-generic-link {
+      a {
+        margin: 0;
+        padding: 0 16px;
+        position: relative;
+        display: flex !important;
+        align-items: center;
+        height: 48px;
+        width: 100% !important;
+        min-width: 170px;
+        background: #FFF;
+        border-radius: 0;
+        gap: 0 8px;
+        color: #3E3B49;
+        font-size: 14px;
+        font-weight: 400;
+        transition: all 0.3s ease-in-out;
+        outline: none !important;
+        text-decoration: none !important;
+        border-bottom: 1px solid #E3E3E5;
+
+        &:hover {
+          color: var(--cx-color-inverse) !important;
+          background: #575561;
+        }
+      }
+    }
+    cx-generic-link .menu-li-link cx-media img {
+      filter: sepia(1) saturate(5) brightness(0) hue-rotate(135deg);
+      opacity: 0.7 !important;
+      width: 18px;
+    }
+    .childs {
+      li:last-child {
+        cx-generic-link {
+          a {
+            border-bottom: none;
+          }
+        }
+      }
+    }
+
+  }
+}
+button {
+  @media (max-width: 767px) {
+    width: 50px;
+  }
+}
+.wrapper {
+  border-radius: 8px;
+  box-shadow: 0px 12px 14px -4px var(--ws-gray-light-900);
+  min-width: 210px;
+  right: 0;
+  left: unset !important;
+
+  &.hidden {
+    display: none !important;
+  }
+
+  @media (max-width: 767px) {
+    position: absolute;
+    top: 82%;
+    right: 80%;
+  }
+  @media (min-width: 320px) and (max-width: 767px) {
+    right: 62%;
+    max-width: 160px;
+  }
+  @media (min-width: 768px) and (max-width: 992px) {
+    position: absolute;
+    top: 100%;
+  }
+  cx-generic-link {
+    border-bottom: none;
+  }
+  .childs {
+    min-width: 200px;
+  }
+  .account {
+    color: white;
+    background: #575561;
+    width: fit-content;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    min-width: 240px;
+    width: 100%;
+    font-size: 14px;
+  }
+}

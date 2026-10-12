@@ -1,0 +1,39 @@
+<div class="border-style">
+    <div class="protocolItem">
+        <div class="d-flex justify-content-between">
+            <div>
+                <h5 class="bolder mb-0">{{protocolList?.name}}</h5><span class="lastUpdated"> Last updated
+                    {{protocolList?.modifiedTime |date:'MMMM d,yyyy'}}</span>
+            </div>
+            <div>{{protocolList?.totalUnitCount}} Item(s)</div>
+        </div>
+        <p class="protocolDescription">{{protocolList?.description}}</p>
+        <div class="row align-items-center">
+            <div class="col-lg-4 protocolPrice"> MSRP: <span class="bolder">{{protocolList?.msrpSubTotalPrice?.formattedValue}}</span>
+            </div>
+            <div class="{{isMobile ? 'd-block ': 'd-flex '}} col-lg-8 btn-media">
+                <button class="{{isMobile ? 'w-100 my-3 ': ''}} btn btn-rounded btn-outline-primary" (click)="openPopUp(protocolList?.id)">
+                    More
+                    Info</button>
+                <button class="{{isMobile ? 'w-100 ': ''}} d-block text-align-center btn btn-rounded btn-primary btn-style" (click)="addToCart(protocolList)"> Add to Cart &nbsp;<i
+                        class="fa fa-shopping-cart"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #moreInfoPopUp>
+    <ws-patient-protocol (emitAddToCartEvent)="showToasterMsg($event)" ></ws-patient-protocol>
+</ng-template>
+
+<div class="toast-wrapper" *ngIf="toastMessage">
+    <div class="toast">
+        <div class="d-flex toast-header">
+            <div class="d-flex toast-header-message-wrapper">
+                <p>{{toastMessage}}</p>
+                <i class="fa fa-close" (click)="toastMessage = ''"></i>
+            </div>
+        </div>
+    </div>
+</div>

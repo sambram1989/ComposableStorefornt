@@ -1,0 +1,600 @@
+
+var gv_Reload = true;
+var gv_Mask = false;
+var gv_eChecks = false;
+var gv_XIFrameURL = "";
+var gv_strToken = "";
+var gv_strLast4 = "";
+var gv_strMask = "************";
+var gv_ctlCCNum = null;
+var gv_ctlSubmit = null;
+var gv_xiFrame = null; 
+var gv_xiFrameDoc = null; 
+var gv_xiFrameWin = null;
+var gv_divFrame = "";
+var gv_divFade = "";
+var gv_xmlDoc = null;
+var gv_xmlRS = null;
+var gv_jsonRS = null;
+var gv_jsonObj = null;
+var gv_tokenizingMsg = "*-- PLEASE WAIT --*";
+
+
+function blinker(ctlObject)
+{
+	if(gv_strToken.length == 0)
+	{
+		gv_ctlCCNum.style.textAlign="center";
+		gv_ctlCCNum.style.backgroundColor="#ddd";
+		setTimeout("gv_ctlCCNum.style.backgroundColor=''", 500);
+		setTimeout("blinker()", 1000);
+	}
+	else
+	{
+		gv_ctlCCNum.style.textAlign="";
+	}
+}
+
+function ShowIFrame()
+{
+    document.getElementById(gv_divFrame).style.display = 'block';
+    document.getElementById(gv_divFade).style.display = 'none';
+}
+
+function DisplayIFrame()
+{
+    document.getElementById(gv_divFrame).style.display = 'block';
+    document.getElementById(gv_divFade).style.display = 'block';
+}
+
+function HideIFrame()
+{
+    document.getElementById(gv_divFrame).style.display = 'none';
+    document.getElementById(gv_divFade).style.display = 'none';
+}
+
+function DisplayException(strWhere, err)
+{
+    DisplayMessage(strWhere, "ERROR", err.message);
+}
+
+function DisplayMessage(strWhere, strType, strMsg)
+{
+	var objMessaging = null;
+
+	if(gv_ctlSubmit != null)
+		gv_ctlSubmit.disabled = false;
+	
+	if(typeof handleDisplayMessage === "function")
+	{
+		handleDisplayMessage(strWhere, strType, strMsg);
+	}
+	else if((objMessaging = document.getElementById("xiStatus")) != null)
+	{
+		objMessaging.innerText = strMsg;
+	}
+	else
+	{
+	    var strDesc = "    Function:  " + strWhere + "\n";
+	    strDesc += "Message Type:  " + strType + "\n";
+	    strDesc += " Description:  " + strMsg + "\n\n";
+	    strDesc += "Click OK to continue.\n\n";
+	    alert(strDesc);
+	}
+}
+
+function pad(num, size)
+{
+    var s = num+"";
+    while (s.length < size) s = "0" + s;
+    return s;
+}
+
+function XiInterceptResponse(strXml, id)
+{
+	gv_xmlRS = strXml;
+	if (window.DOMParser)
+	{
+		parser = new DOMParser();
+		gv_xmlDoc = parser.parseFromString(gv_xmlRS, "text/xml");
+		if(!(gv_xmlDoc.evaluate))
+		{
+			gv_xmlDoc = new ActiveXObject("Microsoft.XMLDOM");
+			gv_xmlDoc.async = false;
+			gv_xmlDoc.loadXML(strXml);
+		} 
+	}
+	else // Internet Explorer
+	{
+		gv_xmlDoc = new ActiveXObject("Microsoft.XMLDOM");
+		gv_xmlDoc.async = false;
+		gv_xmlDoc.loadXML(gv_xmlRS);
+	}
+	gv_jsonRS = xml2json(gv_xmlDoc, "  ");
+	gv_jsonObj = JSON.parse(gv_jsonRS);
+
+	if(typeof handleXiInterceptResponse === "function")
+	{
+		handleXiInterceptResponse(id);
+	}
+}
+
+function getFieldValue(strXPath)
+{
+	var nodes = null;
+	var strResult = "";
+    var txt = "";
+
+    if(gv_xmlDoc.evaluate)
+    {
+    	nodes = gv_xmlDoc.evaluate(strXPath, gv_xmlDoc, null, XPathResult.ANY_TYPE, null);
+        var result = nodes.iterateNext();
+        while (result)
+        {
+        	if(result.childNodes.length > 0)
+        		txt += result.childNodes[0].nodeValue + "<br>";
+            result = nodes.iterateNext();
+        }
+    }
+    else // Internet Explorer
+    {
+    	gv_xmlDoc.setProperty("SelectionLanguage", "XPath");
+        nodes = gv_xmlDoc.selectNodes(strXPath);
+        for (i = 0; i < nodes.length; i++)
+        {
+        	if(nodes[i].childNodes.length > 0)
+        		txt += nodes[i].childNodes[0].nodeValue + "<br>";
+        }
+    }
+    
+    if(txt != "")
+    {
+        strResult = txt.split("<br>");
+        if(strResult.length == 2)
+        	strResult = strResult[0];
+    }
+
+    return strResult;
+}
+
+function InitForTokenization(bMask, ccNumber, ctlSubmit, xiFrame, divFrame, divFade)
+{
+    var strWhere = "InitForTokenization()";
+    
+    try
+    {
+        gv_Mask = bMask;									// Enable Token Masking?
+        gv_xiFrame = xiFrame;								// Save the IFRAME HTML ID
+        gv_divFrame = divFrame;								// Save the IFRAME DIV HTML ID
+        gv_divFade = divFade;								// Save the WINDOW DIV HTML ID
+        HideIFrame();										// Hide the IFRAME
+        GetIFrame();										// Get the IFRAME's Document and Window references
+        gv_ctlCCNum = document.getElementById(ccNumber);	// Save the HTML ID for CreditCard/BankAccount number
+        gv_ctlSubmit = document.getElementById(ctlSubmit);	// Save the HTML ID for SUBMIT button
+        reloadIFrame(false);								// Save the IFRAME URL for future use
+        
+    	window.addEventListener("message", SetWindowListener);
+    	gv_xiFrameWin.addEventListener("message", SetIFrameListener);
+        gv_ctlCCNum.onblur = function () {
+        	SendIFrameMessage();
+        };
+    }
+    catch (err)
+    {
+        DisplayException(strWhere, err);
+    }
+    finally
+    {
+    }
+
+    return true;
+}
+
+function SetWindowListener(event)
+{
+    var strWhere = "SetWindowListener()";
+	var strData = event.data.toString();
+	var strType = null;
+	var strMsg = "";
+
+
+	if (strData.indexOf("TOKEN: ") != -1)
+	{
+		gv_ctlCCNum.value = strData.substring(7);
+		return;
+	}
+	else if (strData.indexOf("ERROR:") != -1)
+	{
+		strType = "ERROR";
+		strMsg = strData.substring(7);
+	}
+	else if (strData.indexOf("INFO:") != -1)
+	{
+		strType = "INFO";
+		strMsg = strData.substring(6);
+	}
+	
+    if(strType != null)
+		DisplayMessage(strWhere, strType, strMsg);
+}
+
+function SendWindowMessage(strMsg)
+{
+    gv_xiFrameWin.parent.postMessage(strMsg, "*");
+}
+
+function SendIFrameMessage()
+{
+    var strWhere = "SendIFrameMessage()";
+	var strMsg = gv_ctlCCNum.value;
+
+	
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // Make sure the credit card field is in a good state to tokenize
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    if (strMsg.length == 0)
+    {
+        return false;
+    }
+    else if (IsToken(strMsg))
+    {
+		return false;
+    }
+    else if (gv_eChecks == false && !luhnCheck(strMsg))
+    {
+    	gv_ctlCCNum.value = "";
+		SendWindowMessage("ERROR: Invalid Credit card number", "*");
+		return false;
+    }
+	
+	gv_ctlCCNum.value= gv_tokenizingMsg;
+	blinker();
+	if(gv_ctlSubmit != null)
+		gv_ctlSubmit.disabled = true;
+    gv_xiFrameWin.postMessage("CARDNO:" + strMsg, "*");
+}
+
+function SetIFrameListener(event)
+{
+	var strWhere = "SetIFrameListener()";
+	var objInput = event.data.toString();
+
+
+	if(objInput.indexOf("CARDNO:") != -1)
+	{
+		try
+		{
+			///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+			// Tokenization has not taken place, copy the data entered on the required field
+			///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+			gv_xiFrameDoc.getElementById("CardNo").value = objInput.substring(7).trim();
+
+			///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+			// Trigger Tokenization 
+			///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+			gv_xiFrameDoc.getElementById("xiTokenize").click();
+		 }
+		 catch (err)
+		 {
+			DisplayException(strWhere, err);
+		 }
+		 finally
+		 {
+		 }
+
+		 return true;
+	}
+}
+
+function GetIFrame()
+{
+    var xiFrame = document.getElementById(gv_xiFrame);
+
+    gv_xiFrameWin = xiFrame.contentWindow;
+    gv_xiFrameDoc = (xiFrame.contentWindow || xiFrame.contentDocument);
+    if (gv_xiFrameDoc.document)
+    	gv_xiFrameDoc = gv_xiFrameDoc.document;
+
+    return gv_xiFrameDoc;
+}
+
+function IsToken(strCardNo)
+{
+    var bResult = false;
+
+    if (strCardNo != null && strCardNo.length > 0)
+    {
+        strCardNo = strCardNo.toUpperCase();
+        if (strCardNo.length == 15 && strCardNo.indexOf(gv_strMask) == 0)
+        {
+            gv_strLast4 = strCardNo.substr(strCardNo.length - 4);
+            bResult = true;
+        }
+        else if (strCardNo.length == 16 && strCardNo.indexOf(gv_strMask) == 0)
+        {
+            gv_strLast4 = strCardNo.substr(strCardNo.length - 4);
+            bResult = true;
+        }
+        else if (strCardNo.length == 25 && strCardNo.indexOf("-E") == 0)
+        {
+            gv_strLast4 = strCardNo.substr(6, 4);
+            bResult = true;
+        }
+        else if (strCardNo.length == 14 && strCardNo.indexOf("7") == 0)
+        {
+            gv_strLast4 = strCardNo.substr(strCardNo.length - 4);
+            bResult = true;
+        }
+        else if (strCardNo.length == 16 && strCardNo.indexOf("8") == 0)
+        {
+            gv_strLast4 = strCardNo.substr(strCardNo.length - 4);
+            bResult = true;
+        }
+        else if (strCardNo.length == 16 && strCardNo.indexOf("11") == 0)
+        {
+            gv_strLast4 = strCardNo.substr(strCardNo.length - 4);
+            bResult = true;
+        }
+        else if (strCardNo.length == 17 && strCardNo.indexOf("T") == 0)
+        {
+            gv_strLast4 = strCardNo.substr(strCardNo.length - 4);
+            bResult = true;
+        }
+        else if (strCardNo.length == 19 && strCardNo.indexOf("8") == 0)
+        {
+            gv_strLast4 = strCardNo.substr(strCardNo.length - 4);
+            bResult = true;
+        }
+        else if (strCardNo.length == 19 && strCardNo.indexOf("11") == 0)
+        {
+            gv_strLast4 = strCardNo.substr(strCardNo.length - 4);
+            bResult = true;
+        }
+        else if (strCardNo.length == 19 && strCardNo.indexOf("T") == 0)
+        {
+            gv_strLast4 = strCardNo.substr(strCardNo.length - 4);
+            bResult = true;
+        }
+        else if (strCardNo.length == 20 && strCardNo.indexOf("8") == 0)
+        {
+            gv_strLast4 = strCardNo.substr(strCardNo.length - 4);
+            bResult = true;
+        }
+        else if (strCardNo.length == 20 && strCardNo.indexOf("T") == 0)
+        {
+            gv_strLast4 = strCardNo.substr(strCardNo.length - 4);
+            bResult = true;
+        }
+        else if (strCardNo.length == 24 && strCardNo.indexOf("804424") == 0)
+        {
+            gv_strLast4 = strCardNo.substr(strCardNo.length - 4);
+            bResult = true;
+        }
+        else if (strCardNo.length == 25 && strCardNo.indexOf("T") == 0)
+        {
+            gv_strLast4 = strCardNo.substr(strCardNo.length - 4);
+            bResult = true;
+        }
+    }
+
+    return bResult;
+}
+
+function reloadIFrame(bAction)
+{
+    var strWhere = "reloadIFrame()";
+	GetIFrame();
+    try
+    {
+        if (gv_Reload)
+        {
+            if (gv_xiFrameDoc != null)
+            {
+                if (bAction == true)
+                {
+                	var objLoc = (gv_xiFrameDoc.location != null ? gv_xiFrameDoc.location : gv_xiFrameWin.location);
+                	objLoc.href = gv_XIFrameURL;
+                }                   
+                else
+            	{
+                	gv_XIFrameURL = gv_xiFrameDoc.location.href;
+            	}
+            }
+        }
+    }
+    catch (err)
+    {
+        DisplayException(strWhere, err);
+    }
+
+    return false;
+}
+
+function submitHostedIFrame()
+{
+    var strWhere = "submitHostedIFrame()";
+    var hosted = null;
+
+    try
+    {
+        hosted = (!document.getElementsByClassName ? getElementsByClassName(document.body, "xiFrameFormat") : document.getElementsByClassName("xiFrameFormat"));
+    	if(hosted != null && hosted.length > 0)
+    	{
+    		for (var iNo = 0; iNo < hosted.length; iNo++)
+    		{
+                hosted[iNo].contentWindow.postMessage("SUBMIT", "*");
+			}
+    	}
+    	else if((hosted = document.getElementById("xiFrameHosted")) != null)
+        {
+            hosted.contentWindow.postMessage("SUBMIT", "*");
+    	}
+    	else
+    	{
+    		DisplayMessage(strWhere, "ERROR", "Hosted IFRAME not defined!!")
+    	}
+    }
+    catch (err)
+    {
+        DisplayException(strWhere, err);
+    }
+}
+
+function getElementsByClassName(node, classname)
+{
+    var a = [];
+    var re = new RegExp('(^| )'+classname+'( |$)');
+    var els = node.getElementsByTagName("*");
+    
+    for(var i=0,j=els.length; i<j; i++)
+    {
+    	if(re.test(els[i].className))
+    	{
+    		a.push(els[i]);
+    	}
+    }
+
+    return a;
+}
+
+function swapToken()
+{
+    var strWhere = "swapToken()";
+
+    try
+    {
+    	if (IsToken(gv_strToken))
+    	{
+    		gv_ctlCCNum.value = gv_strToken;
+    		return gv_strToken;
+    	}
+    }
+    catch (err)
+    {
+        DisplayException(strWhere, err);
+    }
+    
+}
+
+function showToken(strToken)
+{
+    var strWhere = "showToken()";
+   
+
+    try
+    {
+    	if(strToken != null)
+    	{
+    		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    		// Send the token back to the parent page
+    		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    		gv_strToken = strToken;
+    		strToken = (gv_Mask ? maskToken(strToken) : strToken);
+    		if(gv_ctlSubmit != null)
+    			gv_ctlSubmit.disabled = false;
+    		window.parent.postMessage("TOKEN: " + strToken, "*");
+    	}
+    }
+    catch (err)
+    {
+        DisplayException(strWhere, err);
+    }
+    finally
+    {
+        reloadIFrame(true);
+    }
+
+    return false;
+}
+
+function maskToken(strCardNo)
+{
+    var strWhere = "maskToken()";
+    var strMasked = "";
+
+
+    try
+    {
+        if (IsToken(strCardNo))
+        {
+            strMasked = gv_strMask + gv_strLast4;
+        }
+        else
+        {
+            strMasked = strCardNo;
+        }
+    }
+    catch (err)
+    {
+        DisplayException(strWhere, err);
+    }
+
+    return strMasked;
+}
+
+function luhnCheck(strCard)
+{
+	var nCheck = 0;
+	var nDigit = 0;
+	var bEven = false; 
+	strCard = strCard.replace(/\D/g, ""); 
+ 
+	if(strCard.length < 12 || strCard.length > 19)
+		return false;
+	
+	for (var n = strCard.length - 1; n >= 0; n--)
+	{ 
+		var cDigit = strCard.charAt(n); 
+		var nDigit = parseInt(cDigit, 10); 
+ 
+ 		if (bEven)
+ 		{
+			if ((nDigit *= 2) > 9) 
+				nDigit -= 9; 
+ 		} 
+ 
+ 		nCheck += nDigit; 
+ 		bEven = !bEven; 
+	}
+	  
+	return((nCheck % 10) == 0);
+}
+
+function get3DSData()
+{
+	var data3DS = null;
+	
+	if(document.getElementById("DS_JSON"))
+	{
+		data3DS = document.getElementById("DS_JSON").value;
+		if(data3DS.length < 3)
+		{
+			data3DS = null;
+		}
+	}
+
+	if(data3DS == null)
+	{
+		data3DS = '{';
+		data3DS += '"MobilePhone":"713-895-2000",';
+         
+		data3DS += '"BillingFirstName":"John",'; 
+		data3DS += '"BillingLastName":"Doe",';
+		data3DS += '"BillingAddress1":"19500 Credit Card Ln",';
+		data3DS += '"BillingCity":"Houston",';
+		data3DS += '"BillingState":"TX",';
+		data3DS += '"BillingPostalCode":"77001",';
+		data3DS += '"BillingCountryCode":"USA",';
+		data3DS += '"BillingPhone":"713-895-2000",';  
+
+		data3DS += '"ShippingAddress1":"19500 Credit Card Ln",';
+		data3DS += '"ShippingCity":"Houston",';
+		data3DS += '"ShippingState":"TX",';
+		data3DS += '"ShippingPostalCode":"77001",';
+		data3DS += '"ShippingCountryCode":"USA"';
+		data3DS += '}';
+	}
+
+	return data3DS;
+}
+

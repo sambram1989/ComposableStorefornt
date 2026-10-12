@@ -1,0 +1,71 @@
+:host{
+    // display: flex;
+    gap: 20px;
+}
+::ng-deep{
+    #account-settings-container{
+        max-width: unset;
+    }
+}
+div p{
+    color: var(--ws-gray-dark-700);
+}
+div h5{
+    color: var(--ws-gray-dark-700);
+}
+div span{
+    color: var(--ws-gray-dark-900);
+    font-weight: 600;
+}
+.close{
+    color: var(--ws-error-650)!important;
+    font-size: 16px;
+    opacity: 1;
+    &:focus-visible {
+        outline: 3px solid var(--cx-color-darkest) !important;
+        outline-offset: 2px !important;
+        box-shadow: unset;
+    }
+}
+
+.payment-box-container {
+    width: 100%;
+    gap: 30px;
+    margin: 0;
+    padding-top: 32px;
+
+    @media (max-width: 768px) {
+        width: 100%;
+        gap: 0%;
+        padding-left: 0;
+    }
+}
+
+.payment-box{
+    border: 1px solid var(--ws-gray-dark-200);
+    padding: 15px !important;
+    
+    .card-details {
+        font-size: 14px !important;
+    }
+
+    .cardName {
+        h5 , p {
+            font-size: 14px !important;
+        }
+    }
+
+    .billingAddress {
+        h5 , p {
+            font-size: 14px !important;
+        }
+    }
+
+    @media (min-width: 1220px) {
+        width: calc(33.33% - 20px);
+    }
+    
+    @media (max-width: 768px) {
+        display: block;
+    }
+}

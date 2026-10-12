@@ -1,0 +1,45 @@
+<section class="product  dots-bg" role="region" aria-label="Webinar Product Slider">
+  <div class="container-fluid">
+    @if(isTitleIcon()){
+    <div class="d-flex justify-content-center">
+      <ws-webinar-title-icon [titleSrc]="'/assets/qa/purple-hex2.svg'" [webinarTitle]="webinarTitle()"
+        [titleFontColor]="titleIconColor()">
+      </ws-webinar-title-icon>
+    </div>
+    }
+    <div class="slider-wrap" aria-label="Webinar slider">
+      <!-- Slider container with dynamic slide display -->
+      <div class="slider-main" [ngStyle]="getSlideStyle()">
+        <div *ngFor="let slide of visibleSlides()"
+          [ngStyle]="{ 'max-width': (slides.length == visibleSlides().length) ? maxWidth() : 'unset' }" class="item"   [attr.aria-label]="'Slide ' + (i + 1) + ' of ' + slides.length">
+          @if(isWebinarCard()){
+          <ws-webinar-carts [product]="slide"></ws-webinar-carts>
+          }@else {
+          <ws-webinar-user [presenterDetails]="slide"></ws-webinar-user>
+          }
+        </div>
+      </div>
+    </div>
+    @if(slides.length !== visibleSlides().length){
+    <div class="splide__arrows splide__arrows--ltr">
+      <button class="splide__arrow splide__arrow--prev mtp__prev" 
+      aria-label="Previous slide"
+        aria-controls="webinarPresenterComponentSlider-track" (click)=" prevSlide()">
+        <i class="fas fa-chevron-left" aria-hidden="true"></i>
+      </button>
+      <button class="splide__arrow splide__arrow--next mtp__next" aria-label="Next slide"
+        aria-controls="webinarPresenterComponentSlider-track" (click)=" nextSlide()">
+        <i class="fas fa-chevron-right" aria-hidden="true"></i>
+      </button>
+    </div>
+    }
+    <!-- Indicators, dynamically created based on the number of slide sets -->
+    @if(slides.length !== visibleSlides().length){
+    <div id="indicators" role="navigation" aria-label="Slide indicators">
+      <div *ngFor="let _, let i = index of indicators" class="indicator"
+        [ngClass]="{active: currentSlide() / slidesPerPage() === i}" (click)="jumpToIndicator(i)"  [attr.aria-label]="'Go to slide ' + (i + 1)">
+      </div>
+    </div>
+    }
+  </div>
+</section>

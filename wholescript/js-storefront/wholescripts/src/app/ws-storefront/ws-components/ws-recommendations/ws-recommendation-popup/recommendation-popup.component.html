@@ -1,0 +1,59 @@
+<div *ngIf = "showAlert">
+  <alert type="info" dismissOnTimeout="2000" (onClosed)="onClosed()">Products added to cart</alert>
+</div>
+<div class="recommendation-modal">
+  <div class="recommendation-header">
+    <h2 class="bg-clr">YOU HAVE A NEW RECOMMENDATION!</h2>
+    <p class="bg-clr">Your practitioner just sent you a personalized recommendation.</p>
+    <button (click)="close()" class="close-btn bg-clr">&times;</button>
+  </div>
+
+  <div class="recommendation-body">
+    <div class="recommendation-summary">
+      <p class="heading-bold">{{ entries?.length + (medPaxProducts() ? 1 : 0)}} Items Recommended</p>
+      <p class="total heading-bold">Total: {{ subTotal?.formattedValue}}</p>
+      <button class="add-all-btn btn btn-primary btn-rounded" (click) = "addToCart()">
+        Add All to Cart
+        <i class="fa fa-shopping-cart fs-12 text-success pl-1"></i>
+      </button>
+    </div>
+    <div class = "products-container">
+      <div *ngIf = "isOutOfStock" class="alert alert-danger mt-3">
+        One or more items in this Recommendation may not currently be available. Out-of-stock items can be purchased, but will ship at a later date.
+      </div>
+      <ws-medpax-card *ngIf="medPaxProducts() !== null" [medPaxData]="medPaxProducts()" [isPatientUser]="true"></ws-medpax-card>
+      <div *ngIf="medPaxProducts() !== null" class="medpax-notes">
+        <span class="bolder">Please note:</span>
+        It is recommended that MedPax be used within 60 days of the dispensing/fulfillment date as shown on
+        package.
+      </div>
+      <ws-protocol-medpax-right-table *ngIf="medPaxProducts() !== null" [products]="medPaxProducts()"  [hideActions]="true" ></ws-protocol-medpax-right-table>
+    <div class="item" *ngFor = "let item of entries">
+      <cx-media
+      [container]="item?.product?.images"
+      class="item-image"
+    ></cx-media>
+      <div class="item-details">
+        <h4 class="heading-bold">{{ item.product?.name}} 
+          <ws-product-status *ngIf="item?.product" [product]="item?.product"></ws-product-status>
+        </h4>
+        <p class="heading-bold">Price: <strong>{{ item.msrpTotalPrice.formattedValue}}</strong></p>
+        <p>Duration: {{weekMapItems.get(item?.itemDuration) | capitalCase}}</p>
+        <p>Qty: {{ item.quantity }}</p>
+        <p>Dosing: {{ item?.dosing|slice:0:4|dosingPipe}}</p>
+        <p *ngIf="item?.notes">Notes: {{ item?.notes}}</p>
+      </div>
+    </div>
+    <div class="bolder">
+      Message from your practioner: <span> {{notes}}</span>
+    </div>
+    <p class="total-footer">Total: {{ subTotal?.formattedValue }}</p>
+    <div class="recommendation-footer">
+      <button (click)="navigateToRecommendationsPage()" class="view-all-btn btn-rounded btn">View All Recommendations</button>
+      <button (click)="addToCart()" class="add-all-btn btn btn-primary btn-rounded">
+        Add to Cart <i class="fa fa-shopping-cart fs-12 text-success pl-1"></i>
+      </button>
+    </div>
+    </div>
+  </div>
+</div>

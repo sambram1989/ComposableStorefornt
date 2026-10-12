@@ -1,0 +1,19 @@
+<button
+  *cxFeature="'a11yLinkBtnsToTertiaryBtns'"
+  #expandButton
+  class="btn btn-tertiary"
+  (click)="triggerZoom()"
+>
+<img src="../../../../../assets/images/Pdp/ws-search-magnifier-icon.png" alt="Expand_image">
+</button>
+
+<button
+  *cxFeature="'!a11yLinkBtnsToTertiaryBtns'"
+  #expandButton
+  class="btn btn-link cx-action-link"
+  (click)="triggerZoom()"
+>
+  <span>
+    <img src="../../../../../assets/images/Pdp/ws-search-magnifier-icon.png" alt="Expand_image">
+   </span>
+</button>

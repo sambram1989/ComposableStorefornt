@@ -1,0 +1,29 @@
+:host{
+    background-color: var(--ws-base-white) !important;
+}
+.search-results{
+    max-height:400px;
+    overflow-y: scroll;
+    .content-address{
+        &:hover{
+            background-color: var(--ws-gray-light-100);
+        }
+    }
+}
+
+.mb-d-n {
+    @media (max-width: 768px) {
+        display: none;
+    }
+}
+.lg-d-n {
+    @media (min-width: 1024px) {
+        display: none;
+    }
+}
+
+.d-mob-tab {
+    @media (min-width: 990px) {
+        display: none;
+    }
+}

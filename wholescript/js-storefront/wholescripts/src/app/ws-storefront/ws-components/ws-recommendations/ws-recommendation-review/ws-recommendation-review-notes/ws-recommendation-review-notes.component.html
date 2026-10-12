@@ -1,0 +1,9 @@
+<div class="rec-sidebar-sec">
+    <div class="rec-sidebar-header">Notes</div>
+    <div class="sidebar-box-body">
+        <textarea tabindex="0" role="button" aria-label="notes" [maxLength]="2000" class="form-control" placeholder="Types Your Notes Here" [(ngModel)]="notes" (ngModelChange)="updateNotes()"></textarea>
+        <div class="notes">
+            2000 character limit
+        </div>
+    </div>
+</div>

@@ -1,0 +1,42 @@
+<ng-container *ngIf="mainImage$ | async as main">
+    <cx-media [container]="main" (click)="triggerZoom(true)"></cx-media>
+    <ws-zoom-trigger
+      [expandImage]="expandImage.value"
+      [galleryIndex]="selectedIndex"
+      (dialogClose)="triggerZoom(false)"
+    ></ws-zoom-trigger>
+  </ng-container>
+  
+  <ng-container *ngIf="thumbs$ | async as thumbs">
+    <ng-container *ngIf="product$ | async as product">
+      <cx-carousel
+        role="region"
+        [attr.aria-label]="
+          'carousel.carouselForProduct' | cxTranslate: { product: product.name }
+        "
+        tabindex="-1"
+        *ngIf="thumbs.length"
+        class="thumbs"
+        [items]="thumbs"
+        itemWidth="120px"
+        [hideIndicators]="false"
+        [template]="thumb"
+      ></cx-carousel>
+    </ng-container>
+  </ng-container>
+  
+  <ng-template #thumb let-item="item">
+   
+    <cx-media
+      [container]="item.container"
+      tabindex="0"
+      (focus)="openImage(item.container)"
+      [class.is-active]="isActive(item.container) | async"
+      format="product"
+    >
+    </cx-media>
+  </ng-template>
+  <div *ngIf="product$ | async as product" [ngClass]="$any(product)?.isFeatured? 'featured' : $any(product)?.isNew? 'new' : $any(product)?.isBestseller ? 'bestseller' : 'd-none'"  class="badge featured">{{ getBadge(product) + '  ' }}
+    <span [ngClass]="$any(product)?.isFeatured? 'featured' : $any(product)?.isNew? 'new' : $any(product)?.isBestseller ? 'bestseller' : 'd-none'"  class="badge-text featured">{{ getBadge(product) }}
+        </span>
+    </div>

@@ -1,0 +1,269 @@
+::ng-deep ws-ws-recommendation-review {
+    padding: 0;
+    flex: none !important;
+    max-width: 1400px;
+    width: 100%;
+  }
+  
+  ::ng-deep cx-page-layout.PractiotionerRecommendationReviewTemplate {
+    .section2 {
+      cx-searchbox, ws-header-search {
+        display: none;
+      }
+    }
+  }
+
+  ::ng-deep {
+    ws-review-protocol-header {
+      div:first-child {
+        padding-bottom: 10px;
+      }
+      h2 {
+        font-weight: 900;
+      }
+    }
+  }
+  
+  .review-container {
+    padding: 32px;
+  }
+  
+  .rec-table-sec {
+    position: relative;
+    border: 1px solid rgba(0, 0, 0, .125);
+    border-radius: 0.2rem;
+    overflow: hidden;
+  
+    .rec-table-header {
+      padding: 12px;
+      background: var(--cx-color-background-alt);
+  
+      .rec-table-title {
+        position: relative;
+        font-size: 16px;
+        font-weight: 600;
+        color: var(--cx-color-darkest);
+        line-height: 18px;
+      }
+  
+      .rec-edit-btn {
+        margin: 0;
+        padding: 0;
+        font-size: 16px;
+        font-weight: 800;
+        color: var(--cx-color-primary);
+        background: none;
+        border: none !important;
+        box-shadow: none !important;
+        outline: none !important;
+        &:focus-visible {
+          outline: 3px solid var(--cx-color-darkest) !important;
+          outline-offset: 2px !important;
+          box-shadow: unset !important;
+        }
+      }
+    }
+  
+    .rec-table-body {
+      margin: 0;
+      padding: 0 1.125rem;
+      position: relative;
+      overflow: auto;
+  
+      .table {
+        margin: 0;
+  
+        tbody tr:last-child {
+          border-bottom: none !important;
+        }
+  
+        td {
+          padding: 32px 0 16px 0;
+          border: none !important;
+  
+          .rec-t-product-title {
+            gap: 0 15px;
+            margin: 0 0 16px 0;
+  
+            .rec-t-product-img {
+              width: 56px;
+              height: 56px;
+                cx-media {
+                  height: 56px;
+                  img {
+                    object-fit: contain;
+                    width: 100%;
+                    height: 56px;
+                    aspect-ratio: 1;
+                    display: block;
+                    margin-left: auto;
+                    margin-right: auto;
+                  }
+                }
+            }
+  
+            .rec-t-product-text {
+              position: relative;
+              font-weight: 900;
+              .total{
+                font-size: 16px;
+                font-weight: 900;
+                color: var(--cx-color-darkest);
+                line-height: 18px;
+              }
+              
+              span {
+                margin: 4px 0 0 0;
+                display: block;
+                font-weight: 400 !important;
+
+              }
+            }
+          }
+  
+          .rec-t-product-sub-title {
+            position: relative;
+            font-size: 16px;
+            color: var(--cx-color-darkest);
+            line-height: 18px;
+  
+            span:first-child {
+              font-weight: 600;
+            }
+          }
+  
+          .rec-t-product-sub-title.dosing-mobile-v {
+            display: none;
+            margin: 18px 0 0 0;
+          }
+        }
+        td:last-child {
+          text-align: end;
+        }
+        @media(min-width: 1024px) {
+          td:first-child {
+            width: 43%;
+          }
+          td:nth-child(2) {
+            width: 22%;
+          }
+        }
+      }
+    }
+  }
+  
+  .popup-sec {
+    padding: 16px;
+    position: relative;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+  
+    .popup-header {
+      position: relative;
+      padding: 35px 35px 25px 35px;
+      border-bottom: 1px solid var(--cx-color-border-bottom-color);
+      justify-content: center;
+  
+      h3 {
+        margin: 0 !important;
+        font-size: 30px !important;
+        line-height: 33px !important;
+        color: var(--cx-color-secondary) !important;
+      }
+  
+      button {
+        position: absolute;
+        top: 16px;
+        right: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 24px;
+        height: 24px;
+        font-weight: 700;
+        background: transparent;
+        opacity: .5;
+  
+        span {
+          font-weight: 600;
+          font-size: 22px;
+        }
+      }
+    }
+  
+    .checkbox {
+      position: relative;
+      padding: 25px 0px 0 0px;
+      width: 100%;
+      gap: 0 10px;
+  
+      input {
+        position: relative;
+        left: 0 !important;
+        margin: 0;
+        min-width: 18px;
+        min-height: 18px;
+        max-width: 18px;
+        accent-color: var(--ws-brand-500);
+        outline: none !important;
+        border: none !important;
+        box-shadow: none !important;
+      }
+  
+      label {
+        font-size: 16px !important;
+        font-weight: 900;
+        line-height: 1.5rem;
+        color: #3E3B49
+      }
+    }
+  
+    button.next-btn {
+      color: var(--cx-color-inverse) !important;
+      font-weight: 900;
+      border: 3px solid var(--ws-brand-500) !important;
+      padding: 4px 1.5rem !important;
+    }
+  }
+  
+  
+  @media only screen and (max-width: 576px) {
+    .rec-table-body table tr {
+      display: flex;
+      flex-direction: column;
+      padding: 1.5rem 0 !important;
+  
+      td {
+        padding: 6px 0 !important;
+  
+        .rec-t-product-title {
+          align-items: center;
+          justify-content: start !important;
+          margin: 0 !important;
+  
+          .rec-t-product-img {
+            width: 40px !important;
+            height: 40px !important;
+          }
+  
+          .rec-t-product-text {
+            span {
+              margin: 0 !important;
+              display: inline !important;
+            }
+          }
+        }
+  
+        .rec-t-product-sub-title.dosing-mobile-v {
+          display: block !important;
+        }
+        .rec-t-product-sub-title.dosing-desktop-v {
+          display: none !important;
+      }
+  
+  
+      }
+    }
+  }

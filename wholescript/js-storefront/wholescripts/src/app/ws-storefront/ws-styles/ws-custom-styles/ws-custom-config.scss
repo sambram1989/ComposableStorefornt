@@ -1,0 +1,38 @@
+@import "bootstrap/scss/bootstrap";
+@import "./ws-custom-colors.scss";
+@import "./ws-fonts.scss";
+@import "./ws-overlay.scss";
+@import "./ws-search.scss";
+@import "./ws-button.scss";
+@import "./ws-homepage.scss";
+@import "./ws-bootstrap.scss";
+
+@import "./ws-acc-nav.scss";
+@import "../page-styles/ws-patient-direct-landing.scss";
+@import "../page-styles/ws-guest-practitioner-page.scss";
+@import "../page-styles/ws-privacy-policy-page.scss";
+@import "../page-styles/ws-personal-information-page.scss";
+@import "../page-styles/ws-california-privacy-policy-page.scss";
+@import "../page-styles/ws-terms-and-conditions-page.scss";
+@import "../page-styles/ws-faq-page.scss";
+@import "../page-styles/ws-integrations-page.scss";
+@import "../page-styles/ws-magazine.scss";
+@import "../page-styles/ws-integration-details-page.scss";
+@import "../page-styles/ws-product-updates-page.scss";
+@import "../page-styles/ws-advertising-page.scss";
+@import "../page-styles/ws-api-resources.scss";
+@import "../page-styles/medpax-pharmacy-page.scss";
+@import "../page-styles/ws-contact-us-page.scss";
+@import "./ws-custom-page.scss";
+@import '../ws-spartacus/ws-facet.scss';
+@import "../../../../../node_modules/ngx-bootstrap/datepicker/bs-datepicker.scss";
+
+@import "./custom-utilities/ws-custom-utilities.scss";
+@import "./custom-utilities/ws-cart.scss";
+@import "./custom-utilities/ws-medpax.scss";
+
+@import "../page-styles/ws-pdp-images.scss";
+@import "../page-styles/product-detail.scss";
+
+@import "../ws-asm/asm-customer-selection.scss";
+@import "../page-styles/ws-about-us.scss";

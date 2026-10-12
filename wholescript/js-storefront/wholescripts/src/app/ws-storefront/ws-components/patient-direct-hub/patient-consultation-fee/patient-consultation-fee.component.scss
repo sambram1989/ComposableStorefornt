@@ -1,0 +1,60 @@
+@mixin heading-style($size, $weight) {
+    font-size: $size;
+    font-weight: $weight;
+}
+
+@mixin link-style($color, $weight) {
+    color: $color;
+    font-weight: $weight;
+    text-decoration: underline;
+
+    &:hover,
+    &:focus,
+    &:active {
+        color: $color;
+        font-weight: $weight;
+        text-decoration: underline;
+    }
+}
+
+::ng-deep {
+
+    .consultationFeeHeading,
+    .consultationFeeBodyContent {
+        cx-paragraph {
+            div {
+                @media (min-width:760px) {
+                    max-width: 70%; 
+                }
+                h2 {
+                    @include heading-style(32px, 700);
+                }
+
+                p {
+                    font-weight: 400;
+                    @media (max-width:760px) {
+                        margin-bottom: 0px !important;
+                    }
+                    a {
+                        @include link-style(black, 600);
+                        &:focus-visible {
+                            outline: 3px solid var(--cx-color-darkest) !important;
+                            outline-offset: 2px !important;
+                            box-shadow: unset;
+                          }
+                    }
+                }
+            }
+        }
+    }
+   
+}
+::ng-deep {
+    .consultationFeeFormButton {
+        button:focus-visible {
+            outline: 3px solid var(--cx-color-darkest) !important;
+            outline-offset: 2px !important;
+            box-shadow: unset;
+          }
+    }
+}

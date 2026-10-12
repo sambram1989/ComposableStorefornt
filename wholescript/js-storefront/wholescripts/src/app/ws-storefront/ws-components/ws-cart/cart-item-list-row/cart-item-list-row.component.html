@@ -1,0 +1,108 @@
+<!-- Item Start Outlet -->
+<ng-template [cxOutlet]="CartOutlets.LIST_ITEM">
+    <td role="cell" class="">
+        <ng-template [cxOutlet]="CartOutlets.ITEM_CONFIGURATOR_ISSUES"></ng-template>
+        <section class="error-section d-flex" *ngIf="isMedPax() && item?.shippingDelayFlag">
+            <p>Please expect up to 2 weeks shipping delay when ordering this out of stock item.</p>
+        </section>
+        <div class="cx-table-item-container w-100">
+            <!-- Item Image -->
+            <a  class="itemImage" [routerLink]="{ cxRoute: 'product', params: item.product } | cxUrl" tabindex="0" (keydown)="navigateOnEnter($event, item.product)">
+                <ng-container *ngIf="item.product?.images?.['PRIMARY']; else noImage">
+                  <cx-media [container]="item.product?.images?.['PRIMARY']" format="cartIcon"></cx-media>
+                </ng-container>
+                <ng-template #noImage>
+                    <img 
+                    [src]="item.product?.no_images?.url ?? '/assets/images/recomendation/default-image.png'"
+                      class="item-image"
+                      alt="Fallback product image"
+                    />
+                </ng-template>
+            </a>
+            <div class="cx-info mt-2">
+                <div class="d-flex mb-2" *ngIf="!item?.shippingDelayFlag && item.product?.stock?.stockLevelStatus === 'outOfStock'">
+                    <ws-product-status *ngIf="item?.product" [product]="item?.product"></ws-product-status>
+                </div>
+                <div class="d-flex mb-2" *ngIf="item?.shippingDelayFlag">
+                    <ws-product-status *ngIf="item?.product" [product]="{isMedpax: false, stock: {stockLevelStatus: 'outOfStock'}}"></ws-product-status>
+                </div>
+                @if($any(item)?.product?.otherAvailableProducts| hasMedpax ){
+                <div class = "medpax mb-1">
+                    <img src="/assets/qa/medpax-icon-dark.svg" width="13" alt="MedPax Logo"><span> Available in Medpax
+                    </span>
+                </div>
+                }
+                <div *ngIf="!isMedPax() && item.product?.name" class="cx-name m-0 mb-2">
+                    <a class="cx-link" [routerLink]="{ cxRoute: 'product', params: item.product } | cxUrl" tabindex="0" (keydown)="navigateOnEnter($event, item.product)">
+                        {{
+                        item.product?.name }}</a>
+                </div>
+                <div *ngIf="isMedPax()" class="cx-name m-0 mb-4" [ngClass]="{'ml-4': isMobile}">
+                
+                   <b>MedPax:</b> {{item.medpaxName }}
+                </div>
+         
+                <div class="form-group w-100 select-style autoShipFrequency" *ngIf="!isMobile && autoShipFrequencyData?.length > 0">
+                    <ws-formcontrol-input 
+                        [wsControlName]="frequency" 
+                        [isSelectBox]="true"
+                        [selectBoxData]="changeFrequency()"
+                        [wsLabel]="'AUTOSHIP FREQUENCY'" 
+                        [isShowStart]="false"
+                    >
+                    </ws-formcontrol-input>
+                </div>
+            </div>
+            <div style="align-self: center;
+            justify-self: center;" class="delete-item">
+                <span (click)="removeProduct(item)" class="del-icon-style d-block d-lg-none ">
+                    <img src="/assets/icons/common_icons/delete-primary.svg" alt="delete-icon">
+                </span>
+            </div>
+        </div>
+    </td>
+    <!-- Item Quantity -->
+     <td role="cell" *ngIf="isMobile">
+        <div class="form-group w-100 select-style autoShipFrequency" *ngIf="autoShipFrequencyData?.length > 0">
+            <select class="form-control" id="frequency"
+                [(ngModel)]="autoShipFrequency" (change)="changeAutoShipFrequency($event)">
+                <option [value]="frequency?.code" *ngFor="let frequency of autoShipFrequencyData">
+                    {{frequency?.name}}
+                </option>
+            </select>
+            <label class="label" for="frequency">
+                AUTOSHIP FREQUENCY
+            </label>
+        </div>
+     </td>
+    <td role="cell" class="cx-quantity justify-content-between ml-4">
+        <div class="cx-value" [class.readonly-value]="readonly">
+            <cx-item-counter [control]="quantityControl" style="height: 48px;"
+                [readonly]="!item.updateable || readonly || options.isSaveForLater"
+                [max]="item.product?.stock?.stockLevel" [allowZero]="true" 
+                (keydown)="handleEnterKey($event)">
+            </cx-item-counter>
+            @if($any(item)?.product?.isPrivateLabel){
+                <p class="mb-0">{{$any(item)?.quantityByCase}} units total</p>
+            }
+        </div>
+        <div class="cx-total d-lg-none d-block mr-sm-5"> {{  item?.basePrice?.value| currency }}</div>
+    </td>
+    <td role="cell" *ngIf="item?.basePrice" class="d-none d-lg-table-cell">
+        <div class="cx-total">
+            <p class="mb-0">{{ item?.basePrice?.value| currency }}</p>
+            @if($any(item)?.product?.isPrivateLabel){
+                <p class="mb-0">{{(item?.basePrice?.value/item?.quantity) |currency}} / case</p>
+            }@else{
+                <p class="mb-0">Each: {{(item?.basePrice?.value/(this.isMedPax() ? $any(item).abstractOrderQty : item?.quantity)) |currency}}</p>                
+            }
+        </div>
+    </td>
+    <td role="cell" class="cx-actions">
+        <span class="del-icon-style d-none d-lg-table-cell btn btn-tertiary cx-remove-btn text-right p-0" (click)="removeProduct(item)" (keydown.enter)="removeProduct(item)"
+            [cxAtMessage]="'cartItems.itemRemoved' | cxTranslate"
+            attr.aria-label="{{ 'addToCart.removeFromCart' | cxTranslate }}" tabindex="0">
+            <i class="fa fa-trash"></i>
+        </span>
+    </td>
+</ng-template>

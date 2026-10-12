@@ -1,0 +1,58 @@
+# -----------------------------------------------------------------------
+# Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+# -----------------------------------------------------------------------
+#
+# Import Delivery Modes / Zones
+#
+#% impex.setLocale(Locale.EN)
+
+# Currencies
+$usCurrency = USD
+
+# Delivery Zones
+INSERT_UPDATE Zone; code[unique = true]; countries(isocode)
+                  ; usa                ; US
+
+# Zone Delivery Modes
+INSERT_UPDATE ZoneDeliveryMode; code[unique = true]; net  ; active[default = true]; sapCarrier; sapCarrierShippingOption; apiCode  ;provider ; sapShippingCond
+                              ; 01                 ; true ;                       ; USPSPRI   ;                         ;          ;Standard ; 01
+                              ; 03                 ; true ;                       ;           ;                         ; PRIORITY ;USPS     ; 07
+                              ; 06                 ; true ;                       ; UPSGROUND ; UPSGRNDSR               ; 03       ;UPS      ; 06
+                              ; 2D                 ; true ;                       ; UPS2D     ; UPS2DSR                 ; 02       ;UPS      ; 2D
+                              ; 3D                 ; true ;                       ; UPS3D     ; UPS3DSR                 ; 12       ;UPS      ; 3D
+# USA                          
+INSERT_UPDATE ZoneDeliveryModeValue; deliveryMode(code)[unique = true]; sapCustomerGroupCode [unique = true]; zone(code)[default = 'usa']; currency(isocode); value ; minimum[unique = true]; maximum
+                                   ; 01                               ; 02                                  ;                            ; $usCurrency      ; 11.95                ; 0      ; 100
+                                   ; 01                               ; 02                                  ;                            ; $usCurrency      ; 0                    ; 101    ; 1000000
+                                   ; 01                               ; 01                                  ;                            ; $usCurrency      ; 11.95                 ; 0      ; 299.99
+                                   ; 01                               ; 01                                  ;                            ; $usCurrency      ; 0                    ; 300    ; 1000000
+                                   ; 01                               ; 05                                  ;                            ; $usCurrency      ; 14.95                 ; 0      ; 99.99
+                                   ; 01                               ; 05                                  ;                            ; $usCurrency      ; 11.95                 ; 100    ; 299.99
+                                   ; 01                               ; 05                                  ;                            ; $usCurrency      ; 0                     ; 300    ; 1000000                               
+                                   ; 03                               ; 01                                  ;                            ; $usCurrency      ; 9.65                 ; 0      ; 1000000
+                                   ; 03                               ; 02                                  ;                            ; $usCurrency      ; 9.65                 ; 0      ; 1000000
+                                   ; 06                               ; 01                                  ;                            ; $usCurrency      ; 197.70               ; 0      ; 1000000
+                                   ; 06                               ; 02                                  ;                            ; $usCurrency      ; 197.70               ; 0      ; 1000000
+                                   ; 2D                               ; 01                                  ;                            ; $usCurrency      ; 563.10               ; 0      ; 1000000
+                                   ; 3D                               ; 01                                  ;                            ; $usCurrency      ; 563.10               ; 0.01      ; 1000000
+                                   ; 3D                               ; 02                                  ;                            ; $usCurrency      ; 563.10               ; 0      ; 1000000
+                                 
+                                   ; 03                               ; 05                                  ;                            ; $usCurrency      ; 0                  ;0      ; 1000000
+                                   ; 06                               ; 05                                  ;                            ; $usCurrency      ; 0                  ; 0     ; 1000000
+                                   ; 2D                               ; 05                                  ;                            ; $usCurrency      ; 0                 ; 0      ; 1000000
+                                   ; 3D                               ; 05                                  ;                            ; $usCurrency      ; 0                  ; 0    ; 1000000
+
+
+
+
+# Pickup Delivery Mode                                                                                    
+INSERT_UPDATE PickUpDeliveryMode; code[unique = true]; active[default = true]; supportedMode(code)
+                                ; 02                 ;                       ; BUY_AND_COLLECT
+
+INSERT_UPDATE BaseStore2DeliveryModeRel; source(uid)[unique = true]; target(code)[unique = true]
+                                       ; wholescripts              ; 01
+                                       ; wholescripts              ; 03
+                                       ; wholescripts              ; 06
+                                       ; wholescripts              ; 2D
+                                       ; wholescripts              ; 3D
+                                       ; wholescripts              ; 02

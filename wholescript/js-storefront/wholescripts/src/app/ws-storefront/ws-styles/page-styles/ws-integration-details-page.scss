@@ -1,0 +1,461 @@
+.wsIntegrationPageTemplate {
+    .GeneticspageHeading {
+        padding-top: 125px;
+    }
+    //background
+    .GeneticsHeadingTop,
+    .ShopifypageHeading,
+    .BetterHealthHeadingTop,
+    .OptimalDXHeadingTop,
+    .CellSciencepageHeading,
+    .WellProzpageHeading,
+    .GetHealthyHeadingTop,
+    .PracticeBetterpageHeadingTop,
+    .CharmHealthHeadingTop,
+    .CerboHeadingTop {
+        background-color: #f6f6f6;
+        background-image: url(/assets/icons/common_icons/ws.svg), url(/assets/icons/common_icons/dots.svg);
+        background-size: 20%, auto 160%;
+        background-repeat: no-repeat, no-repeat;
+        background-position: 96% center, left center;
+        box-shadow: inset 0px -20px 15px -14px #dddaef;
+        min-height: 256px;
+        position: relative;
+
+        ws-integration-card-badge {
+            position: absolute;
+            top: 49px;
+            width: 500px;
+            @media (max-width: 567px) {
+                top: 24px;
+                margin-left: -18px;
+                width: 272px;
+            }
+            .integration-badge {
+                position: static !important;
+            }
+        }
+
+        @media(max-width: 576px) {
+            min-height: 164px;
+        }
+
+        @media(max-width: 992px) {
+            margin-bottom: 80px;
+        }
+        
+        cx-media {
+            img {
+                height: 230px;
+                object-fit: contain;
+                width: 500px;
+                margin: auto;
+                display: block;
+        
+                @media(max-width: 576px) {
+                    width: 272px;
+                    height: 100%;
+                }
+            }
+
+            @media(max-width: 576px) {
+                height: 100%;
+            }
+        }
+    }
+
+    .GeneticspageHeading , .GeneticspageBody,
+    .BetterHealthPageHeading, .BetterHealthBodyContent, .BetterHealthBodyContentSection2, .BetterHealthBodyContentSection3, .BetterHealthBodyContentSection4,
+    .OptimalDXPageHeading, .OptimalDXBodyContent,
+    .CellScienceBodyContentSection1, .CellScienceBodyContentSection2, .CellScienceBodyContentSection3, .CellScienceBodyContentSection4,
+    .WellProzpageBody, .WellProzBodyContentSection2, .WellProzBodyContentSection3, .WellProzBodyContentSection4, .WellProzBodyContentSection5,
+    .GetHealthypageHeading, .GetHealthypageBody, .GetHealthyBodyContentSection2, .GetHealthyBodyContentSection3, .GetHealthyBodyContentSection4, .GetHealthyBodyContentSection5,
+    .PracticeBetterpageHeading, .PracticeBetterpageBody, .PracticeBetterBodyContentSection2, .PracticeBetterBodyContentSection3,
+    .CharmHealthPageHeading, .CharmHealthBodyContent, .CharmHealthBodyContentSection2, .CharmHealthBodyContentSection3,
+    .CerbopageHeading, .CerbopageBody, .CerboBodyContentSection2, .CerboBodyContentSection3 {
+        width: 55%;
+        margin: auto;
+
+        @media(max-width: 576px) {
+            width: 95%;
+            display: inline-block;
+            margin: auto;
+            display: block;
+        }
+
+        @media(min-width: 992px) {
+            max-width: min(85vw, 1230px);
+            width: 80%;
+        }
+
+        @media(min-width: 1025px) {
+            width: 55%;
+        }
+
+        h2 {
+            font-size: 36px !important;
+
+            @media(min-width: 576px) {
+                font-size: 25px;
+                line-height: 32px;
+            }
+        }
+        p {
+            font-size: 24px;
+            line-height: 36px;
+
+            @media(min-width: 576px) {
+                font-size: 20px;
+                line-height: 32px;
+            }
+        }
+        a {
+            color: var(--cx-color-primary) !important;
+            font-weight: 500 !important;
+            font-size: 18px !important;
+        }
+    }
+
+    .PracticeBetterpageHeading,
+    .CharmHealthHeading,
+    .CerbopageHeading,
+    .GetHealthypageHeading,
+    .WellProzpageHeading,
+    .WRKOUTpageHeading,
+    .GeneticspageHeading,
+    .CellSciencepageHeading,
+    .ShopifypageHeading {        
+        cx-paragraph {
+            position: relative;
+            height: auto;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            // box-shadow: inset 0px -20px 15px -14px #DDDAEF;
+
+            @media(min-width: 576px) {
+                height: 185px;
+                background-size: 144px, auto 160%;
+            }
+
+            @media(min-width: 992px) {
+                height: 256px;
+                background-size: 300px, auto 160%;
+                background-position: 90% center, left center;
+            }
+
+            div {
+                flex: 1 1 auto;
+                margin: 0 12px;
+
+                @media(min-width: 576px) {
+                    max-width: min(90vw, 688px);
+                    margin: auto;
+                }
+
+                @media(min-width: 992px) {
+                    max-width: min(85vw, 1230px);
+                }
+
+                h2 {
+                    font-weight: 900;
+                    font-size: 25px !important;
+
+                    @media(min-width: 576px) {
+                        font-size: 25px !important;
+                    }
+
+                    @media(min-width: 992px) {
+                        font-size: 36px !important;
+                    }
+                }
+            }
+        }
+    }
+
+    // .PracticeBetterpageHeading,
+    .CharmHealthPageHeading ,
+    .CerbopageHeading,
+    .GetHealthypageHeading,
+    .BetterHealthPageHeading,
+    .OptimalDXPageHeading,
+    .WellProzpageBody,
+    .WRKOUTpageBody,
+    .GeneticspageBody,
+    .CellScienceBodyContentSection1,
+    .CellSciencepageBody {
+        overflow: visible;
+        padding-block-end: 100px;
+        padding-top: 51px;
+        font-size: 16px;
+        @media(min-width: 576px) {
+            max-width: min(90vw, 688px);
+            margin: auto;
+        }
+
+        @media(min-width: 992px) {
+            max-width: min(85vw, 1230px);
+        }
+
+        
+
+        @media(min-width: 576px) {
+            padding-top: 80px;
+            font-size: 18px;
+        }
+
+        @media(min-width: 992px) {
+            padding-top: 125px;
+            padding-bottom: 20px;
+        }
+    }
+
+    .ShopifypageBody {
+        width: 55%;
+        margin: 125px auto 40px;
+        padding-bottom: 40px;
+        border-bottom: 1px solid #dfdfdf;
+        
+        @media(max-width: 576px) {
+            width: 95%;
+        }
+
+        @media(min-width: 576px) {
+            max-width: min(90vw, 688px);
+        }
+
+        @media(min-width: 992px) {
+            max-width: min(85vw, 1230px);
+            width: 80%;
+        }
+
+        @media(min-width: 1025px) {
+            width: 55%;
+        }
+        cx-paragraph {
+            div {
+                h2 {
+                    font-size: 25px;
+                    margin-bottom: 20px;
+                    font-weight: 900;
+
+                    @media(min-width: 576px) {
+                        font-size: 36px;
+                    }
+
+                    @media(min-width: 992px) {
+                        font-size: 36px !important;
+                        margin-bottom: 20px;
+                    }
+                }
+
+                p {
+                    font-size: 20px;
+                    line-height: 32px;
+                    font-weight: 500;
+                    margin: 0;
+
+                    @media(min-width: 992px) {
+                        font-size: 24px;
+                        line-height: 36px;
+                    }
+                }
+            }
+        }
+    }
+
+    .ShopifyBodyContentSlot2 {
+        width: 55%;
+        margin: 0px auto 40px;
+        padding-bottom: 40px;
+        border-bottom: 1px solid #dfdfdf;
+
+        @media(max-width: 576px) {
+            width: 95%;
+        }
+
+        @media(min-width: 576px) {
+            max-width: min(90vw, 688px);
+        }
+
+        @media(min-width: 992px) {
+            max-width: min(85vw, 1230px);
+            width: 80%;
+        }
+
+        @media(min-width: 1025px) {
+            width: 55%;
+        }
+
+        cx-paragraph {
+            div {
+                h1 {
+                    font-weight: 900;
+                    margin: unset !important;
+                    line-height: 48px;
+                    font-size: 27px;
+                }
+
+                p {
+                    font-size: 16px;
+                    font-weight: 500;
+                    line-height: 24px;
+
+                    @media(min-width: 576px) {
+                        font-size: 18px;
+                        line-height: 27px;
+                    }
+
+                    @media(min-width: 992px) {
+                        font-size: 18px;
+                        line-height: 27px;
+                    }
+                }
+
+                ol {
+                    list-style: none;
+                    counter-reset: item;
+
+                    li {
+                        strong {
+                            font-size: 24px;
+                            line-height: 42px;
+                            font-weight: 700;
+                            margin-top: 0px;
+                            margin-bottom: 0;
+                            counter-increment: item;
+
+                            &::before {
+                                margin-right: 10px;
+                                content: counter(item);
+                                text-align: center;
+                                display: inline-block;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .ShopifyBodyContentSlot3 {
+        width: 100%;
+        margin: 0px auto 40px;
+        padding-bottom: 40px;
+        border-bottom: 1px solid #dfdfdf;
+        @media(min-width: 576px) {
+            max-width: min(90vw, 688px);
+        }
+
+        @media(min-width: 992px) {
+            max-width: min(85vw, 1230px);
+        }
+
+        cx-paragraph {
+            div {
+                h1 {
+                    font-weight: 900;
+                    margin: unset !important;
+                    line-height: 48px;
+                    font-size: 27px;
+                }
+
+                ol {
+                    list-style: none;
+                    counter-reset: item;
+
+                    li {
+                        font-size: 16px;
+                        font-weight: 500;
+                        line-height: 24px;
+                        counter-increment: item;
+
+                        &:before {
+                            margin-right: 10px;
+                            content: counter(item);
+                            text-align: center;
+                            display: inline-block;
+                        }
+
+                        @media(min-width: 576px) {
+                            font-size: 18px;
+                            line-height: 27px;
+                        }
+
+                        @media(min-width: 992px) {
+                            font-size: 18px;
+                            line-height: 27px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .ShopifyBodyContentSlot4, .ShopifyBodyContentSlot5 {
+        width: 55%;
+        margin: 0px auto 40px;
+        padding-bottom: 40px;
+        border-bottom: 1px solid #dfdfdf;
+
+        @media(max-width: 576px) {
+            width: 95%;
+        }
+
+        @media(min-width: 576px) {
+            max-width: min(90vw, 688px);
+        }
+
+        @media(min-width: 992px) {
+            max-width: min(85vw, 1230px);
+            width: 80%;
+        }
+
+        @media(min-width: 1025px) {
+            width: 55%;
+        }
+
+        cx-paragraph {
+            div {
+                h1 {
+                    font-weight: 900;
+                    margin: unset !important;
+                    line-height: 48px;
+                    font-size: 27px;
+                }
+
+                ul {
+                    list-style-type: disc;
+
+                    li {
+                        font-size: 16px;
+                        font-weight: 500;
+                        line-height: 24px;
+                        list-style-type: disc;
+                        @media(min-width: 576px) {
+                            font-size: 18px;
+                            line-height: 27px;
+                        }
+
+                        @media(min-width: 992px) {
+                            font-size: 18px;
+                            line-height: 27px;
+                        }
+
+                        a {
+                            color: #584091;
+                        }
+
+                        strong {
+                            font-weight: 700;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .ShopifyBodyContentSlot5 {
+        border-bottom: none;
+    }
+}

@@ -1,0 +1,39 @@
+.checkout-delivery-address-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    .checkout-delivery-address-showing-count {
+        color: var(--cx-color-secondary);
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 20px;
+        span {
+            font-weight: 600;
+        }
+    }
+    .delivery-address-pagination-wrapper {
+        .pagination {
+            .page-item {
+                cursor: pointer;
+                .page-link {
+                    color: var(--ws-gray-light-600);
+                    border: none;
+                    background: none !important;
+                    &.active {
+                        color: var(--ws-gray-light-600);
+                        text-align: center;
+                        font-size: 14px;
+                        font-weight: 600;
+                        line-height: 20px;
+                        border-bottom: 6px solid var(--cx-color-primary);
+                    }
+                }
+                .previous-link, .next-link {
+                    border-radius: 9999px;
+                    border: 1px solid var(--ws-gray-light-300);
+                    background: var(--ws-base-white);
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,63 @@
+<div class="row justify-between my-3">
+    <div class="col-3 text-center mx-w100">
+        @if(!isPatientUser()) {
+            <img class="img-sm medpax-box w-75" alt="MedPax carton" [src]=" removalCard() ? '/assets/qa/medpax-icon-dark.svg' : isPlUser()  ? (medPaxData()?.carton?.image?.url ? currentBaseSite+medPaxData()?.carton?.image?.url: '/assets/images/private-label/pl-generic-icon.png') :'/assets/images/home/medpax-carton.png' ">
+        } @else {
+            @if (medPaxData()?.carton?.image?.url) {
+                <img class="img-sm medpax-box w-75" alt="MedPax carton" [src]="currentBaseSite+medPaxData()?.carton?.image?.url">
+            } @else {
+                <img class="img-sm medpax-box w-75" alt="MedPax carton" [src]="'/assets/images/private-label/pl-generic-icon.png'">
+            }
+        }
+
+    </div>
+    <div class="col-9 text-left">
+        <div>
+            <span class="bolder" aria-label="MedPax name">
+                <!-- Custom Medpax:  -->
+                @if(removalCard()) {
+                {{'Medpax : '}}
+                }
+                @if(isPlUser()) {
+                MedPax: {{medPaxData()?.carton?.cartonName}}
+                }
+                @else{
+                Custom MedPax: {{medPaxData()?.name}}
+                }
+            </span>
+        </div>
+        @if(!isWsProtocol) {
+            @if(!location.path().includes('Recommendation')){
+                <p class="bolder mb-0" aria-label="Manufacturer's Suggested Retail Price (MSRP)">
+                    ${{medPaxData()?.totalPrice | number:'1.2-3'}}
+                </p>
+            }
+            <p [ngClass]="{'bolder': location.path().includes('Recommendation')}"  aria-label="Manufacturer's Suggested Retail Price (MSRP)">
+                MSRP: ${{medPaxData()?.msrpTotalPrice | number:'1.2-3'}}
+            </p>
+        }
+        <div class="font-weight-normal " aria-label="Duration of the MedPax">
+            Duration: 4 weeks
+        </div>
+        @if(isWsProtocol) {
+            <div class="pt-2">
+                <p class="bolder mb-0" aria-label="Manufacturer's Suggested Retail Price (MSRP)">
+                   ${{medPaxData()?.totalPrice | number:'1.2-3'}}
+                </p>
+                <p class="mb-0" aria-label="Manufacturer's Suggested Retail Price (MSRP)">
+                    MSRP: ${{medPaxData()?.msrpTotalPrice | number:'1.2-3'}}
+                </p>
+            </div>
+        }
+        @if(!isWsProtocol) {
+        <div class="font-weight-normal " aria-label="Duration of the MedPax">
+            Qty: 1
+        </div>
+        }   
+        <div *ngIf="medPaxData()?.notes" class="medpax-notes font-weight-normal " aria-label="Duration of the MedPax">
+            Notes: {{medPaxData()?.notes}}
+        </div>
+        <p class="bolder mb-0" aria-label="Manufacturer's Suggested Actual Price">
+        </p>        
+    </div>
+</div>

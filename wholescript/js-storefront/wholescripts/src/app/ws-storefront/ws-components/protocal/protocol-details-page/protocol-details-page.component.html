@@ -1,0 +1,5 @@
+<ng-container *ngIf="selectedProduct$ | async as selectedProduct">
+    <ws-success-protocol-landing [protocolId]="protocolId" [selectedProduct]="selectedProduct"
+    [isComeFromWs]="protocolService.isComeFromWs()">
+            </ws-success-protocol-landing>
+</ng-container>

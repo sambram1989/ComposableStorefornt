@@ -1,0 +1,949 @@
+<div *ngFor="let alert of alerts">
+  <alert [type]="alert.type" [dismissOnTimeout]="alert.timeout" (onClosed)="onClosed(alert)">{{ alert.msg }}</alert>
+</div>
+<alert [type]="alert.type" *ngIf="alert?.msg" [dismissOnTimeout]="alert.timeout" (onClosed)="onalertClosed()">
+  {{ alert.msg }}
+</alert>
+<div class="dashboard-details-container">
+  <div class="left-side-container">
+    <div class="acc-head">
+      Welcome back, {{ userData?.firstName }}
+    </div>
+    <div class="top-section d-flex">
+      <div class="btns">
+        <a class="order-now-btn" [routerLink]="'/catalog'"> Order now</a>
+        <div *ngIf="salesPersonDetails?.name || salesPersonDetails?.email">
+          Functional medicine consultant:
+        </div>
+      </div>
+      <div *ngIf="salesPersonDetails?.name || salesPersonDetails?.email" class="vertical-line"></div>
+      <div *ngIf="salesPersonDetails?.name || salesPersonDetails?.email" class="sales-person-card">
+        <div><img class="sales-person-profile" src="/assets/icons/common_icons/avatar.svg" alt="user-icon"></div>
+        <div><div class="name">{{ salesPersonDetails?.name }}</div>
+        <div class="email" tabindex="0">
+          {{ salesPersonDetails?.email }}
+          <i
+            class="fas fa-copy text-capitalize"
+            (click)="copyToClipboard(salesPersonDetails?.email)"
+            tabindex="0"
+            (keydown)="onKeyDown($event,'copyToClipboard',salesPersonDetails?.email)"
+          ></i>
+        </div>
+      </div>
+      </div>
+    </div>
+    <ng-container *ngIf="userData?.sapOnCreditHold?.code === 'x'">
+      <div
+        class="account-due-notice-container"
+      >
+        <cx-page-slot position="AccountNotice"> </cx-page-slot>
+      </div>
+    </ng-container>
+    <div class="buy-again-container-wrapper">
+      <ng-container
+        *ngIf="
+          buyAgainProducts?.length > 0 && !isBuyAgainLoading;
+          else noBuyAgainProducts
+        "
+      >
+        <div class="heading-container">
+          <div class="heading">{{ isBuyAgainAvailable ? 'Buy again' : 'Best Seller' }}</div>
+          <a (click)="navigateToOrderHistory()" tabindex="0" (keydown)="onKeyDown($event,'OrderHistory', '')"> View all </a>
+        </div>
+        <div class="buy-again-container">
+          <ngx-slick-carousel 
+          class="carousel" 
+          #slickModal="slick-carousel"
+          [config]="slickConfig"
+          >
+          <div
+            ngxSlickItem
+            *ngFor="let product of buyAgainProducts; index as i"
+            class="slide"
+          >
+            <div class="slide-content">
+              <div class="top-container">
+                <cx-media
+                  [container]="
+                    product?.images && product?.images[1]
+                      ? product?.images[1]
+                      : ''
+                  "
+                  format="product"
+                  [alt]="product?.name || ''"
+                  (click)="gotToPDP(product.url)"
+                  tabindex="0" (keydown)="onKeyDown($event, 'productImage', product)"
+                ></cx-media>
+                <div class="code-tooltip">
+                  <div class="copy-code" (click)="updateFavorites(product, isFavorite(product))">
+                    <span class="code-tooltiptext">{{ isFavorite(product) ? 'Added as favorites' : 'Add favorite'}}</span>
+                    <button aria-label="Favourite button" title="Favourite button" class="heart-btn">
+                      <i class="fa-solid fa-heart" [ngClass]="isFavorite(product) && 'fa-active'"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="product-info">
+                <a
+                  [routerLink]="product.url"
+                  class="product-title fw-600"
+                  [innerHTML]="product.name"
+                >
+                </a>
+                <div class="price-actions">
+                  <p class="price">{{ product?.yourPrice?.formattedValue }}</p>
+                  <div class="cart-controls">
+                    <a (click)="removeQuantity(product)" (keydown)="onKeyDown($event,'removeQuantity',product)" class="qty-btn minus" tabindex="0">
+                      <svg
+                        style="padding-bottom: 2px"
+                        width="10"
+                        height="18"
+                        viewBox="0 0 10 18"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M8.9375 9.25C8.9375 9.60156 8.64453 9.875 8.3125 9.875H1.4375C1.08594 9.875 0.8125 9.60156 0.8125 9.25C0.8125 8.91797 1.08594 8.625 1.4375 8.625H8.3125C8.64453 8.625 8.9375 8.91797 8.9375 9.25Z"
+                          fill="#3E3B49"
+                        />
+                      </svg>
+                    </a>
+                    <input
+                      [id]="'id'+i"
+                      type="number"
+                      [value]="product.quantity || 1"
+                      maxlength="4"
+                      (change)="setQuantity(product, $event)"
+                      (keypress)="restrictNumeric($event)" 
+                      (input)="validateQuantity($event)"
+                      aria-label="Quantity"
+                    />
+                    <a (click)="addQuantity(product)" (keydown)="onKeyDown($event,'addQuantity',product)" class="qty-btn" tabindex="0"
+                      ><i class="fa-regular fa-plus" style="margin-top: 3px"></i
+                    ></a>
+                  </div>
+                </div>
+                <div class="action-buttons">
+                  <button
+                    (click)="addProductToCart(product)"
+                    class="btn-primary btn-rounded add-to-cart-btn h-w"
+                    tabindex="0"
+                    [disabled]="(cartIsLoading$ | async)"
+                  >
+                    Add to cart
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          </ngx-slick-carousel>
+        </div>
+      </ng-container>
+
+      <ng-template #noBuyAgainProducts>
+        <div *ngIf="isBuyAgainLoading">
+          <cx-spinner></cx-spinner>
+        </div>
+      </ng-template>
+    </div>
+
+    <!-- <div class="patient-direct-ordering" *ngIf="!isPatientDirectCustomer() && !isEmployeeCustomer()">
+      <cx-page-slot position="PatientOrder"></cx-page-slot>
+    </div> -->
+    <ng-container *ngIf="dashboardLearnMore$ | async as data">
+    <div class="patientOrder-image-container" *ngIf="!isPatientDirectCustomer() && !isEmployeeCustomer()">
+      <img [src]="getImageUrl(data.media)" class="patientOrder-img" alt="PatientOrder image" />
+      <div class="patientOrder-text-overlay">
+        <p class="learn-more-headline">{{data.headline}}</p>
+        <p class="learn-more-content">{{data.content}}</p>
+        <a class="custom-btn lrn-m" (click)="navigateToPatientdirect()" tabindex="0">Learn more</a>
+      </div>
+    </div>
+  </ng-container>
+
+    <div class="dashborard-details-card-contianer">
+      <ng-container *ngIf="!loader; else isLoading">
+        <div *ngIf="isPatientDirectCustomer()" class="latest-recommendation">
+          <div class="outer-border">
+            <ng-container
+              *ngIf="recommendations?.length > 0; else noRecommendations"
+            >
+              <div class="heading-container">
+                <div class="heading">Latest recommendations</div>
+                <a (click)="navigateToRecomendationPage()" (keydown)="onKeyDown($event,'RecomendationPage', '')" tabindex="0"> View all </a>
+              </div>
+              <table class="table">
+                <thead>
+                  <th>Patient name</th>
+                  <th class="t-align-e">Date</th>
+                  <th class="t-align-e">Status</th>
+                  <th title="Action" aria-label="Action">&nbsp;</th>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of recommendations">
+                    <td>
+                      {{ item?.patientName }}
+                    </td>
+                    <td class="t-align-e">
+                      {{ item?.date | date : "MM/dd/yy" }}
+                    </td>
+                    <td class="t-align-e">
+                      <div *ngIf="item?.status">
+                        <span
+                          class="order-status"
+                          [ngClass]="{
+                                      'patient-deleted': item?.status === 'Patient-deleted',
+                                      'patient-viewed': item?.status === 'Patient-viewed',
+                                      'patient-ordered': item?.status === 'Patient-ordered',
+                                      'sent': item?.status === 'Sent',
+                                      'draft': item?.status === 'Draft'
+                                      }"
+                        >
+                          {{ item?.status }}
+                        </span>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="btn-group" dropdown>
+                        <button
+                          id="button-autoclose1"
+                          dropdownToggle
+                          type="button"
+                          aria-controls="dropdown-autoclose1"
+                          title="open dropdown"
+                          aria-label="open dropdown"
+                        >
+                          <i class="fas fa-ellipsis-v"></i>
+                        </button>
+                        <ul
+                          id="dropdown-autoclose1"
+                          *dropdownMenu
+                          class="dropdown-menu"
+                          role="menu"
+                          aria-labelledby="button-autoclose1"
+                        >
+                          <li role="menuitem">
+                            <a
+                              class="dropdown-item"
+                              (click)="navigateToPatientProfile(item)" (keydown)="onKeyDown($event,'patientProfile',item)" tabindex="0"
+                              >View patient profile</a
+                            >
+                          </li>
+                          <li role="menuitem">
+                            <a
+                              class="dropdown-item"
+                              (click)="navigateToRecommendationDetailPage(item)" (keydown)="onKeyDown($event,'recommendationDetailPage',item)" tabindex="0"
+                              >View recommendation</a
+                            >
+                          </li>
+                        </ul>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </ng-container>
+            <ng-template #noRecommendations>
+              <div class="empty-state-container">
+                <div class="heading">Latest recommendations</div>
+                <div class="empty-state">
+                  <div class="content">
+                    <img
+                      src="../../../../../assets/icons/common_icons/recommendation.png" alt="recommendation"
+                    />
+                    <div class="empty-state-heading">
+                      No recommendations yet!
+                    </div>
+                    <div class="empty-state-para">
+                      Start guiding your patients by sending your first one
+                      today
+                    </div>
+                  </div>
+                  <div class="action-btn">
+                    <button (click)="navigateToRecomendationPage()">
+                      Start recommending
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </ng-template>
+          </div>
+        </div>
+        <div *ngIf="isPatientDirectCustomer()" class="my-patients">
+          <div class="outer-border">
+            <div class="heading-container">
+              <div class="heading">My patients</div>
+              <a [routerLink]="'/SearchPatientAdvanced'" (keydown)="onKeyDown($event,'searchPatientAdvanced', '')" tabindex="0"> View all </a>
+            </div>
+            <tabset #tabset class="tab-container" aria-label="Product Tabs">
+              <tab heading="Newest patients" tabindex="0" class="all">
+                <table class="table">
+                  <thead>
+                    <th>Patient name</th>
+                    <th class="t-align-e">Date added</th>
+                    <th title="Action" aria-label="Action">&nbsp;</th>
+                  </thead>
+                  <tbody>
+                    <ng-container
+                      *ngIf="newPatients.length > 0; else noNewestPatients"
+                    >
+                      <tr *ngFor="let item of newPatients">
+                        <td>
+                          {{ item?.name1 }}
+                        </td>
+                        <td class="t-align-e">
+                          {{ item?.erdat | date : "MM/dd/yy" }}
+                        </td>
+                        <td>
+                          <div class="btn-group" dropdown>
+                            <button
+                              id="button-autoclose1"
+                              dropdownToggle
+                              type="button"
+                              aria-controls="dropdown-autoclose1"
+                              title="open dropdown"
+                              aria-label="open dropdown"
+                            >
+                              <i class="fas fa-ellipsis-v" ></i>
+                            </button>
+                            <ul
+                              id="dropdown-autoclose1"
+                              *dropdownMenu
+                              class="dropdown-menu"
+                              role="menu"
+                              aria-labelledby="button-autoclose1"
+                            >
+                              <li role="menuitem">
+                                <a
+                                  class="dropdown-item"
+                                  (click)="navigateToPatientProfile(item)" (keydown)="onKeyDown($event,'patientProfile',item)" tabindex="0"
+                                  >View patient profile</a
+                                >
+                              </li>
+                              <li role="menuitem">
+                                <a
+                                  class="dropdown-item"
+                                  (click)="navigateToSendRecommendation(item)" (keydown)="onKeyDown($event,'sendRecommendation',item)" tabindex="0"
+                                  >Send recommendation</a
+                                >
+                              </li>
+                            </ul>
+                          </div>
+                        </td>
+                      </tr>
+                    </ng-container>
+
+                    <ng-template #noNewestPatients>
+                      <tr>
+                        <td colspan="3">
+                          <div class="empty-state-container">
+                            <div class="empty-state">
+                              <div class="content">
+                                <img
+                                  src="../../../../../assets/icons/common_icons/my-patient.png" alt="my-patient"
+                                />
+                                <div class="empty-state-heading">
+                                  No new patients yet!
+                                </div>
+                                <div class="empty-state-para">
+                                  Share your referral code to invite patients to
+                                  your dispensary.
+                                </div>
+                              </div>
+                              <div class="action-btn">
+                                <button (click)="navigateToReferralCodePage()">
+                                  Share your referral code
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+                    </ng-template>
+                  </tbody>
+                </table>
+              </tab>
+              <tab>
+                <ng-template tabHeading>
+                  <div class="tab-tooltip">
+                    <div>Top patients</div>
+                    <span class="code-tooltip">
+                      <i class="fas fa-question"  (mouseover)="showTooltip($event, 'Last 90 days')" 
+                      (mouseleave)="hideTooltip()"></i>
+                    </span>
+                  </div>
+                </ng-template>
+
+                <table class="table">
+                  <thead>
+                    <th>Patient name</th>
+                    <th class="t-align-e">Orders Placed</th>
+                    <th title="Action" aria-label="Action">&nbsp;</th>
+                  </thead>
+                  <tbody>
+                    <ng-container
+                      *ngIf="topPatients.length > 0; else noTopPatients"
+                    >
+                      <tr *ngFor="let item of topPatients">
+                        <td>
+                          {{ item?.patientName }}
+                        </td>
+                        <td class="t-align-e">
+                          {{ item?.vbelnCount }}
+                        </td>
+                        <td>
+                          <div class="btn-group" dropdown>
+                            <button
+                              id="button-autoclose1"
+                              dropdownToggle
+                              type="button"
+                              aria-controls="dropdown-autoclose1"
+                              title="open dropdown"
+                              aria-label="open dropdown"
+                            >
+                              <i class="fas fa-ellipsis-v"></i>
+                            </button>
+                            <ul
+                              id="dropdown-autoclose1"
+                              *dropdownMenu
+                              class="dropdown-menu"
+                              role="menu"
+                              aria-labelledby="button-autoclose1"
+                            >
+                              <li role="menuitem">
+                                <a
+                                  class="dropdown-item"
+                                  (click)="navigateToPatientProfile(item)" (keydown)="onKeyDown($event,'patientProfile',item)" tabindex="0"
+                                  >View patient profile</a
+                                >
+                              </li>
+                              <li role="menuitem">
+                                <a
+                                  class="dropdown-item"
+                                  (click)="navigateToSendRecommendation(item)" (keydown)="onKeyDown($event,'sendRecommendation',item)" tabindex="0"
+                                  >Send recommendation</a
+                                >
+                              </li>
+                            </ul>
+                          </div>
+                        </td>
+                      </tr>
+                    </ng-container>
+
+                    <ng-template #noTopPatients>
+                      <tr>
+                        <td colspan="3">
+                          <div class="empty-state-container">
+                            <div class="empty-state">
+                              <div class="content">
+                                <img
+                                  src="../../../../../assets/icons/common_icons/my-patient.png" alt="my-patient"
+                                />
+                                <div class="empty-state-para">
+                                  Once patients place orders, you’ll see the top
+                                  performers here.
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+                    </ng-template>
+                  </tbody>
+                </table>
+              </tab>
+            </tabset>
+          </div>
+        </div>
+        <div *ngIf="isPatientDirectCustomer()" class="my-patient-orders">
+          <div class="outer-border">
+            <div class="heading-container">
+              <div class="heading">My patients’ orders</div>
+            </div>
+            <tabset #tabset class="tab-container" aria-label="Product Tabs">
+              <tab>
+                <ng-template tabHeading>
+                  <div class="tab-tooltip">
+                    <div>Most ordered</div>
+                    <span class="code-tooltip">
+                      <i class="fas fa-question" (mouseover)="showTooltip($event, 'Last 30 days')" 
+                      (mouseleave)="hideTooltip()"></i>
+                    </span>
+                  </div>
+                </ng-template>
+                <table class="table">
+                  <thead>
+                    <th>Product name</th>
+                    <th class="t-align-e-e">Qty</th>
+                  </thead>
+                  <tbody>
+                    <ng-container
+                      *ngIf="
+                        patientMostOrdered.length > 0;
+                        else noPatientMostOrdered
+                      "
+                    >
+                      <tr *ngFor="let item of patientMostOrdered">
+                        <td>
+                          <a [routerLink]="item?.productURL">
+                            {{ item?.arktx }}
+                          </a>
+                        </td>
+                        <td class="t-align-e-e">
+                          {{ item?.kwmeng | number : "1.0-0" }}
+                        </td>
+                      </tr>
+                    </ng-container>
+                    <ng-template #noPatientMostOrdered>
+                      <tr>
+                        <td colspan="3">
+                          <div class="empty-state-container">
+                            <div class="empty-state">
+                              <div class="content">
+                                <img
+                                  src="../../../../../assets/icons/common_icons/recommendation.png" alt="recommendation"
+                                />
+                                <div class="empty-state-heading">
+                                  No top products yet!
+                                </div>
+                                <div class="empty-state-para">
+                                  Start recommending to see which formulas your
+                                  patients love most.
+                                </div>
+                              </div>
+                              <div class="action-btn">
+                                <button (click)="navigateToRecomendationPage()">
+                                  Start recommending
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+                    </ng-template>
+                  </tbody>
+                </table>
+              </tab>
+              <tab heading="Latest orders" class="all buy-again">
+                <table class="table">
+                  <thead>
+                    <th>Patient name</th>
+                    <th class="t-align-e">Date</th>
+                    <th class="t-align-e">Amount</th>
+                    <th title="Action" aria-label="Action">&nbsp;</th>
+                  </thead>
+                  <tbody>
+                    <ng-container
+                      *ngIf="
+                        patientLatestOrders.length > 0;
+                        else noPatientLatestOrders
+                      "
+                    >
+                      <tr *ngFor="let item of patientLatestOrders">
+                        <td>
+                          {{ item?.patientName }}
+                        </td>
+                        <td class="t-align-e">
+                          {{ item?.erdat | date : "MM/dd/yy" }}
+                        </td>
+                        <td class="t-align-e">
+                          {{ item?.netwr | currency }}
+                        </td>
+                        <td class="t-align-e">
+                          <div class="btn-group" dropdown>
+                            <button
+                              id="button-autoclose1"
+                              dropdownToggle
+                              type="button"
+                              aria-controls="dropdown-autoclose1"
+                              title="open dropdown"
+                              aria-label="open dropdown"
+                            >
+                              <i class="fas fa-ellipsis-v"></i>
+                            </button>
+                            <ul
+                              id="dropdown-autoclose1"
+                              *dropdownMenu
+                              class="dropdown-menu"
+                              role="menu"
+                              aria-labelledby="button-autoclose1"
+                            >
+                              <li role="menuitem">
+                                <a
+                                  class="dropdown-item"
+                                  (click)="navigateToOrderDetails(item)" tabindex="0" (keydown)="onKeyDown($event,'orderDetails', item)" 
+                                  >Order details</a
+                                >
+                              </li>
+                              <li role="menuitem">
+                                <a
+                                  class="dropdown-item"
+                                  (click)="navigateToOrderHistory()" tabindex="0" (keydown)="onKeyDown($event,'OrderHistory', '')"
+                                  >View patient orders</a
+                                >
+                              </li>
+                              <li role="menuitem">
+                                <a
+                                  class="dropdown-item"
+                                  (click)="navigateToPatientProfile(item)" (keydown)="onKeyDown($event,'patientProfile',item)" tabindex="0"
+                                  >View patient profile</a
+                                >
+                              </li>
+                              <li role="menuitem">
+                                <a
+                                  class="dropdown-item"
+                                  (click)="navigateToSendRecommendation(item)" (keydown)="onKeyDown($event,'sendRecommendation',item)" tabindex="0"
+                                  >Send recommendation</a
+                                >
+                              </li>
+                            </ul>
+                          </div>
+                        </td>
+                      </tr>
+                    </ng-container>
+
+                    <ng-template #noPatientLatestOrders>
+                      <tr>
+                        <td colspan="3">
+                          <div class="empty-state-container">
+                            <div class="empty-state">
+                              <div class="content">
+                                <img
+                                  src="../../../../../assets/icons/common_icons/recommendation.png" alt="recommendation"
+                                />
+                                <div class="empty-state-para">
+                                  Once patients place orders, you’ll see them
+                                  here.
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+                    </ng-template>
+                  </tbody>
+                </table>
+              </tab>
+            </tabset>
+          </div>
+        </div>
+        <div class="my-orders">
+          <div class="outer-border">
+            <div class="heading-container">
+              <div class="heading">My orders</div>
+              <a [routerLink]="'/order/history/all-orders'"  (keydown)="onKeyDown($event,'OrderHistoryAllOrder', '')" tabindex="0"> View all </a>
+            </div>
+            <tabset #tabset class="tab-container" aria-label="Product Tabs">
+              <tab>
+                <ng-template tabHeading>
+                  <div class="tab-tooltip">
+                    <div>Most ordered</div>
+                    <span class="code-tooltip">
+                      <i class="fas fa-question" (mouseover)="showTooltip($event, 'Last 30 days')" 
+                      (mouseleave)="hideTooltip()"></i>
+                    </span>
+                  </div>
+                </ng-template>
+
+                <table class="table">
+                  <thead>
+                    <th>Product name</th>
+                    <th>Price</th>
+                    <th title="Action" aria-label="Action">&nbsp;</th>
+                  </thead>
+                  <tbody>
+                    <ng-container
+                      *ngIf="
+                        practitionerMostOrdered.length > 0;
+                        else noPractitionerMostOrdered
+                      "
+                    >
+                      <tr *ngFor="let item of practitionerMostOrdered">
+                        <td>
+                          <a [routerLink]="item?.productURL">
+                            {{ item?.arktx }}
+                          </a>
+                        </td>
+                        <td>
+                          {{ item?.price | currency }}
+                        </td>
+                        <td>
+                          <button
+                            (click)="addProductToCart(item)"
+                            class="add-to-cart"
+                            tabindex="0"
+                            [disabled]="(cartIsLoading$ | async)"
+                          >
+                            Add to cart
+                          </button>
+                        </td>
+                      </tr>
+                    </ng-container>
+
+                    <ng-template #noPractitionerMostOrdered>
+                      <tr>
+                        <td colspan="3">
+                          <div class="empty-state-container">
+                            <div class="empty-state">
+                              <div class="content">
+                                <img
+                                  src="../../../../../assets/icons/common_icons/my-orders.png" alt="my-orders"
+                                />
+                                <div class="empty-state-heading">
+                                  Your orders will appear here
+                                </div>
+                                <div class="empty-state-para">
+                                  Order what you need for your practice.
+                                </div>
+                              </div>
+                              <div class="action-btn">
+                                <button [routerLink]="'/catalog'">
+                                  Explore the Catalog
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+                    </ng-template>
+                  </tbody>
+                </table>
+              </tab>
+              <tab heading="Latest orders" class="all buy-again">
+                <table class="table">
+                  <thead>
+                    <th>Ship to</th>
+                    <th>Order #</th>
+                    <th>Date</th>
+                    <th class="t-align-e">Status</th>
+                  </thead>
+                  <tbody>
+                    <ng-container
+                      *ngIf="
+                        practitionerLatestOrders.length > 0;
+                        else nopPactitionerLatestOrders
+                      "
+                    >
+                      <tr *ngFor="let item of practitionerLatestOrders">
+                        <td>
+                          {{ item?.patientName }}
+                        </td>
+                        <td>
+                          <a tabindex="0"
+                            (click)="navigateToOrderDetails(item)" (keydown)="onKeyDown($event,'orderDetails',item)" 
+                            class="order-num"
+                          >
+                            {{ item?.vbeln }}
+                          </a>
+                        </td>
+                        <td>
+                          {{ item?.erdat | date : "MM/dd/yy" }}
+                        </td>
+                        <td class="t-align-e">
+                          <div class="order-status"
+                          [ngClass]="{
+                              'cancelled-status': item.status === 'Cancelled',
+                              'processing': item.status === 'Processing',
+                              'shipped-status': item.status === 'Shipped',
+                              'partialy-shipped': item.status === 'Partially Shipped',
+                              'partialy-cancelled': item.status === 'Partially Cancelled',
+                              'under-review': item.status === 'Under Review',
+                            }"
+                          >
+                            {{ item?.status }}
+                          </div>
+                        </td>
+                      </tr>
+                    </ng-container>
+
+                    <ng-template #nopPactitionerLatestOrders>
+                      <tr>
+                        <td colspan="4">
+                          <div class="empty-state-container">
+                            <div class="empty-state">
+                              <div class="content">
+                                <img
+                                  src="../../../../../assets/icons/common_icons/my-orders.png" alt="my-orders"
+                                />
+                                <div class="empty-state-para">
+                                  Once you place orders, you’ll see them here.
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+                    </ng-template>
+                  </tbody>
+                </table>
+              </tab>
+            </tabset>
+          </div>
+        </div>
+      </ng-container>
+      <ng-template #isLoading>
+        <div class="d-flex align-center justify-content-center">
+          <cx-spinner></cx-spinner>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+  <div class="right-side-container">
+    <div class="share-rewards-container-wrapper">
+      <div *ngIf="loading()" class="d-flex justify-content-center align-center">
+        <cx-spinner></cx-spinner>
+      </div>
+
+      <div class="share-rewards-container" *ngIf="!loading()">
+        <div class="heading-section">
+          <div
+          *ngIf="userHasDiscount"
+            class="heading"
+          >
+            Account discount
+          </div>
+          <div
+            *ngIf="!userHasDiscount && loadRewardLevel(sharedRewards()?.shareReward?.curSrewards)"
+            class="heading"
+          >
+            Shared rewards
+          </div>
+          <a [routerLink]="'/practitioner/my-account'" class="link"
+            >View my account</a
+          >
+        </div>
+
+        <div class="body" *ngIf="!userHasDiscount">
+          <div class="rewards-level">
+            <div>Share rewards level:</div>
+            <div class="level-name">
+              <svg
+                *ngIf="
+                  loadRewardLevel(sharedRewards()?.shareReward?.curSrewards)
+                    .name === 'Standard'
+                "
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 20 20"
+                fill="none"
+              >
+                <circle cx="10" cy="10" r="10" fill="#584091" />
+              </svg>
+              <svg
+                *ngIf="
+                  loadRewardLevel(sharedRewards()?.shareReward?.curSrewards)
+                    .name === 'Silver'
+                "
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 20 20"
+                fill="none"
+              >
+                <circle cx="10" cy="10" r="10" fill="#C0C0C0" />
+              </svg>
+              <svg
+                *ngIf="
+                  loadRewardLevel(sharedRewards()?.shareReward?.curSrewards)
+                    .name === 'Gold'
+                "
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 20 20"
+                fill="none"
+              >
+                <circle cx="10" cy="10" r="10" fill="#FFD700" />
+              </svg>
+              <svg
+                *ngIf="
+                  loadRewardLevel(sharedRewards()?.shareReward?.curSrewards)
+                    .name === 'Platinum'
+                "
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 20 20"
+                fill="none"
+              >
+                <circle cx="10" cy="10" r="10" fill="#E5E4E2" />
+              </svg>
+              <span class="pl-1">
+                {{
+                  loadRewardLevel(sharedRewards()?.shareReward?.curSrewards)
+                    .name
+                }}
+              </span>
+            </div>
+          </div>
+          <div class="reward-description">
+            <span
+              *ngIf="
+                loadRewardLevel(sharedRewards()?.shareReward?.curSrewards).value
+              "
+              class="reward-value"
+            >
+              {{
+                loadRewardLevel(sharedRewards()?.shareReward?.curSrewards).value
+              }}
+              per quarter
+            </span>
+            <div class="discount-section">
+              <span class="discount">
+                {{
+                  loadRewardLevel(sharedRewards()?.shareReward?.curSrewards)
+                    .discount
+                }}% Off
+              </span>
+              Wholesale Price on ALL XYMOGEN Products†
+            </div>
+          </div>
+        </div>
+
+        <div class="body" *ngIf="userHasDiscount">
+          <div class="reward-description">
+            <div class="discount-section">
+              <span class="discount">
+                {{
+                 userHasDiscount
+                }}% Off
+              </span>
+              Wholesale Price on ALL XYMOGEN Products†
+            </div>
+            </div>
+        </div>
+
+        <div class="formulas">
+          †Formula exclusions and other restrictions may apply.
+        </div>
+      </div>
+    </div>
+
+    <div class="promo-code-container">
+      <ws-ws-special-offers [itemsPerPage]="1"></ws-ws-special-offers>
+    </div>
+  </div>
+</div>
+<!-- <div class="wellness-slot">
+  <cx-page-slot position="WellnessBox"> </cx-page-slot>
+</div> -->
+
+<div class="image-container mob-tab" [ngClass]="isMobile ? 'd-block' : 'd-none'"
+  *ngIf="wellnessBoxForMobTab$ | async as data">
+  <img [src]="getImageUrl(data.media)" alt="Wellness device image" />
+  <div class="text-overlay">
+    <p class="wellness-headline">{{data.headline}}</p>
+    <p class="wellness-content">{{data.content}}</p>
+    <a class="custom-btn" href="/medpax" tabindex="0">Create a medpax</a>
+  </div>
+</div>
+<div class="image-container" [ngClass]="isMobile ? 'd-none' : 'd-block'" *ngIf="wellnessBox$ | async as data">
+  <img [src]="getImageUrl(data.media)" alt="Wellness image" />
+  <div class="text-overlay">
+    <p class="wellness-headline">{{data.headline}}</p>
+    <p class="wellness-content">{{data.content}}</p>
+    <a class="custom-btn" href="/medpax" tabindex="0">Create a medpax</a>
+  </div>
+</div>
+<div id="tooltip-container" class="tooltip"  [ngStyle]="tooltipStyle">{{ tooltipText }}</div>

@@ -1,0 +1,821 @@
+<div class="ws-order-details-container" *ngIf="!loading">
+  <div class="cx-spinner pdf-spinner" *ngIf="pdfLoading">
+    <cx-spinner></cx-spinner>
+  </div>
+  <div class="main-heading">
+    <cx-page-slot position="wsOrderDetailsHeadingPara"></cx-page-slot>
+  </div>
+
+  <div class="back-button">
+    <i class="fa-solid fa-chevron-left"></i>
+    <a [routerLink]="'/order/history/all-orders'" class="back" tabindex="0" role="button" aria-label="Go back to all orders" (keydown.enter)="navigateToOrders()">Back</a>
+  </div>
+
+  <div class="ws-order-details-body">
+    <section class="order-details-left-section">
+      <div class="left-container" *ngIf="orderHeader">
+        <div class="order-status-container d-flex justify-content-between" attr.aria-label="Order number {{ $any(orderHeader)?.salesOrder }} with status {{ $any(orderHeader)?.orderStatus }}">
+          <div>
+            <div class="order-num">Order #{{ $any(orderHeader)?.salesOrder }}</div>
+            <div class="api-orders" *ngIf="$any(orderHeader)?.orderOrigin">
+              <span class="badge" *ngIf="getApiStoreBadge($any(orderHeader)?.orderOrigin)"> {{ getApiStoreBadge($any(orderHeader)?.orderOrigin) }}</span>
+              <div class="api-order-num"  *ngIf="getApiStoreBadge($any(orderHeader)?.orderOrigin)"> #{{ $any(orderHeader)?.apiRefNo }} </div> 
+            </div>
+          </div>
+          <div>
+            <span class="order-status">
+              {{ $any(orderHeader)?.orderStatus }}
+            </span>
+          </div>
+        </div>
+       
+        <div class="order-date row py-3" *ngIf="$any(orderHeader)?.custRefer && $any(orderHeader)?.custRefer !== 'null' && $any(orderHeader)?.custRefer !== 'undefined'" attr.aria-label="Purchase order number {{ $any(orderHeader).custRefer }}">
+          <div class="order-date label col-6">PO#:</div>
+          <div class="value col-6">
+            {{ $any(orderHeader).custRefer }}
+          </div>
+        </div>
+        <div class="order-date row py-3" attr.aria-label="Order date {{ $any(orderHeader).docDate | date: 'MM/dd/yy' }}"> 
+          <div class="order-date label col-6">Order date:</div>
+          <div class="value col-6">
+            {{ $any(orderHeader).docDate | date: 'MM/dd/yy' }}
+          </div>
+        </div>
+       
+        <div class="shipping-address row py-3" *ngIf="shippingAddres" 
+        attr.aria-label="Shipping address: {{ $any(shippingAddres)?.name }}, 
+        {{ $any(shippingAddres)?.street }}, 
+        {{ $any(shippingAddres)?.city }} {{ $any(shippingAddres)?.region }},
+        {{ $any(shippingAddres)?.postalCode }}">
+          <div class="shipping-address label col-6">Shipping address:</div>
+          <div class="col-6 value">
+            <span> {{ $any(shippingAddres)?.name }} </span> <br />
+            <span> {{ $any(shippingAddres)?.street }} </span> <br />
+            <span>
+              {{ $any(shippingAddres)?.city }},
+              {{ $any(shippingAddres)?.region }}
+            </span>
+            <br />
+            <span> {{ $any(shippingAddres)?.postalCode }} </span>
+          </div>
+        </div>
+        <div class="payment-method row py-3" attr.aria-label="Payment method is {{ $any(orderHeader)?.payTerms }}">
+          <div class="col-6 label">Payment method:</div>
+          <div class="col-6">
+              @if ($any(orderHeader)?.payTerms === 'ZTEL') {
+                <div class="value">
+                  <i class="fa fa-phone"></i> Call in my payment to (800) 647-6100
+                </div>
+              } 
+              @if ($any(orderHeader)?.payTerms === 'NT30') {
+                <div class="value">
+                  <i class="fa fa-phone"></i> within 30 days Due net
+                </div>
+              } 
+              @if ($any(orderHeader)?.payTerms === 'NT60') {
+                <div class="value">
+                  <i class="fa fa-phone"></i> within 60 days Due net
+                </div>
+              } 
+              @if ($any(orderHeader)?.payTerms === 'ZWIR') {
+                <div class="value">
+                  Wire transfer, ACH trasfer, or by mail
+                </div>
+              }
+              @if ($any(orderHeader)?.payTerms === 'ZACH') {
+                <div class="value">
+                  Pay With ACH
+                </div>
+              }
+              @if ( $any(orderHeader)?.payTerms === 'XCRD') { @for (cc of
+                ccDetails; track cc) {
+                <div class="value" attr.aria-label="Credit card payment with {{ cc?.ccType }} ending in {{ extractLastFourDigits(cc?.ccNumber) }}">
+                  <img
+                    *ngIf="getCardImage(cc?.ccType) as cardImage"
+                    [src]="cardImage"
+                    [alt]="cc?.ccType"
+                    width="50"
+                  />
+                  {{ cc?.ccType }}
+                  ending in
+                  {{ extractLastFourDigits(cc?.ccNumber) }}
+                  <br />
+                  <span class="pt-1">
+                    Exp. Date:
+                    {{ cc?.ccValidT | date : "MM/yy" }}
+                  </span>
+                  </div>
+                } }
+          </div>
+        </div>
+        <div class="order-totals row py-3">
+          <div class="col-6"></div>
+          <div class="col-6">
+            <div class="order-sub-total d-flex align-items-center" attr.aria-label="Subtotal is {{ $any(orderHeader).subtotal | currency : (currency$ | async) }}">
+              <div class="label pr-1">Subtotal:</div>
+              <div class="value">
+                {{
+                  $any(orderHeader).subtotal | currency : (currency$ | async)
+                }}
+              </div>
+            </div>
+
+            <div class="order-shipping-price d-flex align-items-center"
+            attr.aria-label="Shipping cost is {{ $any(orderHeader).freight | currency : (currency$ | async) }}">
+              <div class="label pr-1">Shipping:</div>
+              <div class="value">
+                {{ $any(orderHeader).freight | currency : (currency$ | async) }}
+              </div>
+            </div>
+
+            <div class="order-taxes d-flex align-items-center"
+            attr.aria-label="Taxes amount to {{ $any(orderHeader).taxes | currency : (currency$ | async) }}">
+              <div class="label pr-1">Taxes:</div>
+              <div class="value">
+                {{ $any(orderHeader).taxes | currency : (currency$ | async) }}
+              </div>
+            </div>
+
+            <div class="order-discount d-flex align-items-center"
+            attr.aria-label="Discount applied is {{ $any(orderHeader).discAmt | currency : (currency$ | async) }}">
+              <div class="label pr-1">Discount:</div>
+              <div class="value">
+                {{ $any(orderHeader).discAmt | currency : (currency$ | async) }}
+              </div>
+            </div>
+
+            <div class="pt-3 order-total d-flex align-items-center"
+            attr.aria-label="Total order cost is {{ $any(orderHeader).total | currency : (currency$ | async) }}">
+              <div class="label pr-1">Total:</div>
+              <div class="value">
+                {{ $any(orderHeader).total | currency : (currency$ | async) }}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="action-buttons row" *ngIf="currentUser$ | async as currentUser">
+          @if (($any(orderHeader).canceled !== 'C') && !hideCancelButton ) {
+          @if (!(shippedBlocks$ | async)?.length) {
+          @if ($any(orderHeader).soldTo == $any(currentUser)?.orgUnit?.uid) {
+          <div class="cancel-entire-order-btn col-6" *ngIf="canCancelEntireOrder | async">
+            <a (click)="opencancelEntireOrderPopUp()" tabindex="0" aria-label="Cancel entire order" (keydown)="handleKeydown($event, null, 'cancel-entire-order')">Cancel entire order</a>
+          </div>
+          }
+          }
+          }
+          <div class=" col-6">
+            <div class="add-to-cart-btn">
+              <a (click)="addOrderToCart()" tabindex="0" aria-label="Add this order to cart" (keydown)="handleKeydown($event, null, 'add-to-cart')"> Add order to cart </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="order-history-right-section">
+      <div 
+          *ngFor="let shipment of shippedBlocks$ | async; let i = index" 
+          class="shipped-orders card-container"
+          [style.margin-top]="i > 0 ? '32px' : '0'"
+      >
+        <div class="card-header d-flex justify-content-between">
+          <div class="shipped-date">
+            <i class="fa-solid fa-truck"></i> Shipped
+            <span>{{ shipment?.shipDate | date: 'MM/dd/yy' }}</span>
+          </div>
+          <div class="order-invoice">
+            <button (click)="downloadPdf(shipment?.bilNumber)">
+              <i class="fa-solid fa-file-pdf"></i> View Invoice
+            </button>
+            <button *ngIf="shipment?.hasCreditMemo" (click)="downloadPdf(shipment?.creditMemoBilNumber)">
+              <i class="fa-solid fa-file-pdf"></i> View Credit Memo
+            </button>
+          </div>
+        </div>
+      
+        <div class="card-body pb-4">
+          <div *ngIf="shipment?.trackingNo" class="tracking-details-container">
+            <div class="label">Tracking Number:</div>
+            <div class="tracking-number">
+              <ng-container *ngFor="let trackingNo of shipment.trackingNo.split(','); let i = index; let last = last">
+            <a
+              class="tracking-id"
+                  [href]="'https://www.ups.com/track?track=yes&trackNums=' + trackingNo.trim()"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+                  #{{ trackingNo.trim() }}
+                  <span *ngIf="!last">, </span>
+            </a>
+              </ng-container>
+            </div>
+          </div>
+      
+          <div id="medPax" *ngFor="let medpaxItem of shipment.shippedMedPax">
+            <div class="prodct-details-container border-bottom-0 pb-0">
+              <div class="prod-img">
+                <img [src]="getMedPaxCartonImageUrl(medpaxItem?.medpPaxDetails)" *ngIf="getMedPaxCartonImageUrl(medpaxItem?.medpPaxDetails)" [alt]="medpaxItem?.medpPaxDetails?.name || 'Product image'" tabindex="0" attr.aria-label="Product image of {{ medpaxItem?.medpPaxDetails?.name }}" />
+              </div>
+              <div class="prod-desc-container">
+                <div>
+                  <span class="prod-name"> MedPax: </span>
+                  <span class="short-desc">
+                    {{ medpaxItem?.medpPaxDetails?.description }}
+                  </span>
+                </div>
+                <div *ngIf="medpaxItem?.medpPaxDetails?.isOutOfStock" class="badge-stock unavailable">
+                  <div class="dot unavailable-dot"></div>
+                    Unavailable
+                </div>
+              </div>
+              <div class="prod-qty">
+                <div>
+                  Qty:
+                  <Span>
+                    {{
+                      medpaxItem?.medpPaxDetails?.quantity | number : "1.0-0"
+                    }}</Span
+                  >
+                </div>
+              </div>
+              <div class="prod-price">
+                <div class="total-price">
+                  {{
+                    medpaxItem?.overallTotalSum | currency : (currency$ | async)
+                  }}
+                </div>
+                <div class="each-price">
+                  Each:
+                  <span>
+                    {{
+                      medpaxItem?.overallTotalSum
+                        | currency : (currency$ | async)
+                    }}
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="medpax-message">
+              <span class="bolder">Please note:</span> It is recommended that MedPax be used within 60 days of the dispensing/fulfillment date as shown on package.
+            </div>
+            <div>
+              <div class="card p-3">
+                <table
+                  class="table table-responsive-inline-block w-100 d-inline-table dosingDetails mt-0"
+                >
+                  <thead>
+                    <tr class="bt-unset">
+                      <th class="text-left pt-0 bolder">Formulas</th>
+                      <th class="pt-0 text-right bolder">Dosing &amp; Time</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @for(key of objectKeys(medpaxItem.packetDetails);track key){
+                    @for( entry of medpaxItem.packetDetails[key].entries;track
+                    entry){
+                    <tr class="border-bottom-unset bt-unset">
+                      <td class="border-0 bolder">
+                        {{ entry?.description }}
+                      </td>
+                      <td class="border-0 text-right">
+                        {{ entry?.quantity / 30 | number : "1.0-0" }} in
+                        {{ key }}
+                      </td>
+                    </tr>
+                    } }
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <div *ngFor="let item of shipment.shippedItems">
+            <div
+              class="discount-applied-wrapper"
+              *ngIf="promoCodeEntries?.includes(item?.salesItem)"
+            >
+              <div class="discount-applied">
+                <img
+                  src="/assets/icons/common_icons/discount_amount_icon.svg"
+                  width="10px"
+                  height="10px"
+                  alt=""
+                />
+                <span>Discount applied</span>
+              </div>
+            </div>
+            <div class="prodct-details-container">
+              <div class="prod-img">
+                <img
+                  [src]="getProductImageUrl(item)"
+                  [alt]="item?.name || 'Product image'"
+                />
+              </div>
+              <div class="prod-desc-container">
+                <div>
+                  <a [routerLink]="item?.productUrl" class="prod-name">
+                    {{ item?.description }}
+                  </a>
+                  <div class="short-desc">{{ item?.shortDescription }}</div>
+                </div>
+                <div *ngIf="item?.isOutOfStock" class="badge-stock out-of-stock">
+                  <div class="dot out-of-stock-dot"></div>
+                    Out of stock
+                </div>
+              </div>
+              <div class="prod-qty">
+                <div>Qty: <span> {{ item.quantity | number : "1.0-0" }}</span></div>
+              </div>
+              <div class="prod-price">
+                <div class="total-price">
+                  {{ item?.total | currency : (currency$ | async) }}
+                </div>
+                <div class="each-price">
+                  Each:
+                  <span> {{ item.unitPrice | currency : (currency$ | async) }} </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div
+        class="not-yet-shipped card-container"
+        *ngIf="
+          (notShippedMedPax$ | async)?.length > 0 ||
+          (notShippedItems$ | async)?.length > 0
+        "
+        [style.margin-top]="(shippedBlocks$ | async)?.length > 0 ? null : '0'"
+      >
+        <div class="card-header d-flex justify-content-between">
+          <div class="shipped-date"><i class="fa-solid fa-truck"></i> Not yet shipped</div>
+        </div>
+
+        <div class="card-body pb-4">
+          <div id="medPax" *ngFor="let medpaxItem of notShippedMedPax$ | async">
+            <div class="prodct-details-container border-bottom-0 pb-0">
+              <div class="prod-img">
+                <img [src]="getMedPaxCartonImageUrl(medpaxItem?.medpPaxDetails)" *ngIf="getMedPaxCartonImageUrl(medpaxItem?.medpPaxDetails)" [alt]="medpaxItem?.medpPaxDetails?.name || 'Product image'" tabindex="0" attr.aria-label="Product image of {{ medpaxItem?.medpPaxDetails?.name }}" />
+              </div>
+              <div class="prod-desc-container">
+                <div>
+                  <span class="prod-name"> MedPax: </span>
+                  <span class="short-desc">
+                    {{ medpaxItem?.medpPaxDetails?.description }}
+                  </span>
+                </div>
+                <div *ngIf="medpaxItem?.medpPaxDetails?.isOutOfStock" class="badge-stock unavailable">
+                  <div class="dot unavailable-dot"></div>
+                    Unavailable
+                </div>
+              </div>
+              <div class="prod-qty">
+                <div>
+                  Qty:
+                  <Span>
+                    {{
+                      medpaxItem?.medpPaxDetails?.quantity | number : "1.0-0"
+                    }}</Span
+                  >
+                </div>
+              </div>
+              <div class="prod-price">
+                <div class="total-price">
+                  {{
+                     medpaxItem?.overallTotalSum | currency : (currency$ | async)
+                  }}
+                </div>
+                <div class="each-price">
+                  Each:
+                  <span>
+                    {{
+                      (medpaxItem?.overallTotalSum/ medpaxItem?.medpPaxDetails?.quantity )
+                        | currency : (currency$ | async)
+                    }}
+                  </span>
+                </div>
+                <div class="cancel-item pt-1" *ngIf="!hideCancelButton">
+                    <div *ngIf="currentUser$ | async as currentUser">
+                      <a class="cancel" *ngIf="$any(orderHeader).soldTo == $any(currentUser)?.orgUnit?.uid" (click)="openCancelItemPopup(medpaxItem,true)" tabindex="0" role="button" attr.aria-label="Cancel item {{medpaxItem?.medpPaxDetails?.name}}" (keydown)="handleKeydown($event, medpaxItem, 'cancel-medpax')">Cancel item</a>
+                    </div>
+                </div>
+              </div>
+            </div>
+            <div class="medpax-message">
+              <span class="bolder">Please note:</span>It is recommended that MedPax be used within 60 days of the dispensing/fulfillment date as shown on package.
+            </div>
+            <div>
+              <div class="card p-3">
+                <table
+                  class="table table-responsive-inline-block w-100 d-inline-table dosingDetails mt-0"
+                >
+                  <thead>
+                    <tr class="bt-unset">
+                      <th class="text-left pt-0 bolder">Formulas</th>
+                      <th class="pt-0 text-right bolder">Dosing &amp; Time</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @for(key of objectKeys(medpaxItem.packetDetails);track key){
+                    @for( entry of medpaxItem.packetDetails[key].entries;track
+                    entry){
+                    <tr class="border-bottom-unset bt-unset">
+                      <td class="border-0 bolder">
+                        {{ entry?.description }}
+                      </td>
+                      <td class="border-0 text-right">
+                        {{ entry?.quantity / (30* medpaxItem?.medpPaxDetails?.quantity) | number : "1.0-0" }} in
+                        {{ key }}
+                      </td>
+                    </tr>
+                    } }
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <div *ngFor="let item of notShippedItems$ | async">
+            <div
+              class="discount-applied-wrapper"
+              *ngIf="promoCodeEntries?.includes(item?.salesItem)"
+            >
+              <div class="discount-applied">
+                <img
+                  src="/assets/icons/common_icons/discount_amount_icon.svg"
+                  width="10px"
+                  height="10px"
+                  alt=""
+                />
+                <span>Discount applied</span>
+              </div>
+            </div>
+            <div class="prodct-details-container">
+            
+              <div class="prod-img">
+                <ng-container *ngIf="!item?.image && !item.isPrivateLabel; else imageTemplate">
+                  <cx-media
+                  [container]="
+                        item?.images && item?.images[1] ? item?.images[1] : ''
+                      "
+                  format="product"
+                  [alt]="item?.name || 'Product image'"
+                  attr.aria-label="Product image of {{item?.name}}"
+                  ></cx-media>
+                </ng-container>
+                <ng-template #imageTemplate>
+                  <img
+                  [src]="getProductImageUrl(item)"
+                  [alt]="item?.name || 'Product image'"
+                  attr.aria-label="Product image of {{item?.name}}"
+                  />
+                </ng-template>
+                
+              </div>
+              <div class="prod-desc-container">
+                <div>
+                  <a [routerLink]="item?.productUrl" class="prod-name">
+                    {{ item?.description }}
+                  </a>
+                  <div [routerLink]="item?.url" class="short-desc">
+                    {{ item?.shortDescription }}
+                  </div>
+                </div>
+                <div *ngIf="item?.isOutOfStock" class="badge-stock out-of-stock">
+                  <div class="dot out-of-stock-dot"></div>
+                    Out of stock
+                </div>
+              </div>
+              <div class="prod-qty">
+                <div>Qty: <span> {{ item.quantity | number : "1.0-0" }} </span></div>
+              </div>
+              <div class="prod-price">
+                <div class="total-price">
+                  {{ item.total | currency : (currency$ | async) }}
+                </div>
+                <div class="each-price">
+                  Each:
+                  <span> {{ item.unitPrice | currency : (currency$ | async) }} </span>
+                </div>
+                <div
+                  class="cancel-item pt-1"
+                  *ngIf="item.canCancel && !hideCancelButton && !hasDiscounts"
+                >
+                  <div *ngIf="currentUser$ | async as currentUser">
+                    <a
+                      class="cancel"
+                      *ngIf="$any(orderHeader).soldTo == $any(currentUser)?.orgUnit?.uid"
+                      (click)="openCancelItemPopup(item)"
+                      tabindex="0"
+                      role="button"
+                      attr.aria-label="Cancel item {{ item?.name }}"
+                      (keydown)="handleKeydown($event, item, 'cancel-item')"
+                      >Cancel item</a
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="cancelled-orders card-container"
+        *ngIf="
+          (canceledItems$ | async)?.length || (cancelledMedPax$ | async)?.length
+        "
+        [style.margin-top]="
+          (shippedBlocks$ | async)?.length > 0 ||
+          (notShippedMedPax$ | async)?.length > 0 ||
+          (notShippedItems$ | async)?.length > 0
+            ? null
+            : '0'
+        "
+      >
+        <div class="card-header d-flex justify-content-between">
+          <div class="shipped-date">Cancelled</div>
+        </div>
+
+        <div class="card-body pb-4">
+          <div id="medPax" *ngFor="let medpaxItem of cancelledMedPax$ | async">
+            <div class="prodct-details-container border-bottom-0 pb-0">
+              <div class="prod-img">
+                <img [src]="getMedPaxCartonImageUrl(medpaxItem?.medpPaxDetails)" *ngIf="getMedPaxCartonImageUrl(medpaxItem?.medpPaxDetails)" [alt]="medpaxItem?.medpPaxDetails?.name || 'Product image'" tabindex="0" attr.aria-label="Product image of {{ medpaxItem?.medpPaxDetails?.name }}" />
+              </div>
+              <div class="prod-desc-container">
+                <div>
+                  <span class="prod-name"> MedPax: </span>
+                  <span class="short-desc">
+                    {{ medpaxItem?.medpPaxDetails?.description }}
+                  </span>
+                </div>
+                <div *ngIf="medpaxItem?.medpPaxDetails?.isOutOfStock" class="badge-stock unavailable">
+                  <div class="dot unavailable-dot"></div>
+                    Unavailable
+                </div>
+              </div>
+              <div class="prod-qty">
+                <div>
+                  Qty:
+                  <span>
+                    {{
+                      medpaxItem?.medpPaxDetails?.quantity | number : "1.0-0"
+                    }}</span
+                  >
+                </div>
+              </div>
+              <div class="prod-price">
+                <div class="total-price">
+                  {{
+                    medpaxItem?.overallTotalSum | currency : (currency$ | async)
+                  }}
+                </div>
+                <div class="each-price">
+                  Each:
+                  <span>
+                    {{
+                      medpaxItem?.overallTotalSum
+                        | currency : (currency$ | async)
+                    }}
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="medpax-message">
+              <span class="bolder">Please note:</span>It is recommended that MedPax be used within 60 days of the dispensing/fulfillment date as shown on package.
+            </div>
+            <div>
+              <div class="card p-3">
+                <table
+                  class="table table-responsive-inline-block w-100 d-inline-table dosingDetails mt-0"
+                >
+                  <thead>
+                    <tr class="bt-unset">
+                      <th class="text-left pt-0 bolder">Formulas</th>
+                      <th class="pt-0 text-right bolder">Dosing &amp; Time</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @for(key of objectKeys(medpaxItem.packetDetails);track key){
+                    @for( entry of medpaxItem.packetDetails[key].entries;track
+                    entry){
+                    <tr class="border-bottom-unset bt-unset">
+                      <td class="border-0">
+                        {{ entry?.description }}
+                      </td>
+                      <td class="border-0 text-right">
+                        {{ entry?.quantity / 30 | number : "1.0-0" }} in
+                        {{ key }}
+                      </td>
+                    </tr>
+                    } }
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <div *ngFor="let item of canceledItems$ | async">
+            <div
+              class="discount-applied-wrapper"
+              *ngIf="promoCodeEntries?.includes(item?.salesItem)"
+            >
+              <div class="discount-applied">
+                <img
+                  src="/assets/icons/common_icons/discount_amount_icon.svg"
+                  width="10px"
+                  height="10px"
+                  alt=""
+                />
+                <span>Discount applied</span>
+              </div>
+            </div>
+            <div class="prodct-details-container">
+              <div class="prod-img">
+                <img
+                  [src]="getProductImageUrl(item)"
+                  *ngIf="getProductImageUrl(item)"
+                
+                  [alt]="item?.name || 'Product image'"
+                  attr.aria-label="Product image of {{item?.name}}"
+                />
+              </div>
+              <div class="prod-desc-container">
+                <div>
+                  <a [routerLink]="item?.productUrl" class="prod-name">
+                    {{ item?.description }}
+                  </a>
+                  <div class="short-desc">{{ item?.shortDescription }}</div>
+                </div>
+                <div *ngIf="item?.stock?.stockLevelStatus === 'outOfStock'" class="badge-stock out-of-stock">
+                  <div class="dot out-of-stock-dot"></div>
+                    Out of stock
+                </div>
+              </div>
+              <div class="prod-qty">
+                <div>Qty: <span> {{ item?.quantity | number : "1.0-0" }}</span></div>
+              </div>
+              <div class="prod-price">
+                <div class="total-price">
+                  {{ item.total | currency : (currency$ | async) }}
+                </div>
+                <div class="each-price">
+                  Each:
+                  <span> {{ item?.unitPrice | currency : (currency$ | async) }} </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+
+<div *ngIf="loading" class="d-flex justify-content-center align-center">
+  <cx-spinner></cx-spinner>
+</div>
+
+<ng-template #cancelEntireOrder>
+  <ng-container *ngTemplateOutlet="modalHeader;context:{$implicit:'Cancel Entire Order'}"></ng-container>
+  <div class="p-3">
+    <div class="modal-body-text">
+      You are about to cancel {{actualApiResponse()?.orderItem?.items.length}} item(s) from this order. This action cannot be Undone.
+    </div>
+    <div class="cancel-autoship-text mt-4 mb-3 fw-600">
+      Are you sure you want to cancel this Entire Order?
+    </div>
+  </div>
+
+  <div class="modal-footer">
+    <ng-container *ngTemplateOutlet="closeButton"></ng-container>
+    <button type="submit" class="btn btn-danger btn-rounded cancel-autoship"
+     (click)="cancelEntireOrderApiCallPayLoadCreator()" (keydown)="handleSpecialKeydown($event, 'cancel-all-entire-order')" tabindex="0" role="button" attr-aria-label="Cancel Entire Order">
+      Cancel entire order
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #cancelItem>
+  <ng-container *ngTemplateOutlet="modalHeader;context:{$implicit:'Cancel Item'}"></ng-container>
+
+  <div class="p-3">
+    <div class="modal-body-text">
+     This item below will be cancelled from this order. This action cannot be Undone.
+    </div>
+    <div class="order-cancel-card col-12 row mx-0 py-4">
+      <div class="img-name-container d-flex px-0 col-lg-6 col-md-12">
+        @if(selectedItemIsMedpax()){
+          <div class="prod-img-modal">
+          <img [src]="getProductImageUrl(selectedMedPaxOrderItem()?.medpPaxDetails)" *ngIf="getProductImageUrl(selectedMedPaxOrderItem()?.medpPaxDetails)" [alt]="selectedMedPaxOrderItem()?.medpPaxDetails?.name || 'Product image'" tabindex="0" attr.aria-label="Product image of {{ selectedMedPaxOrderItem()?.medpPaxDetails?.name }}" />
+        </div>
+        } @else {
+          <div class="prod-img-modal">
+            <ng-container *ngIf="!selectedOrderItem()?.image && !selectedOrderItem()?.isPrivateLabel; else imageTemplate">
+              <cx-media
+              [container]="
+                    selectedOrderItem()?.images && selectedOrderItem()?.images[1] ? selectedOrderItem()?.images[1] : ''
+                  "
+              format="product"
+              [alt]="selectedOrderItem()?.name || 'Product image'"
+              attr.aria-label="Product image of {{selectedOrderItem()?.name}}"
+              ></cx-media>
+            </ng-container>
+            <ng-template #imageTemplate>
+              <img
+              [src]="getProductImageUrl(selectedOrderItem())"
+              [alt]="selectedOrderItem()?.itproductem?.name || 'Product image'"
+              attr.aria-label="Product image of {{selectedOrderItem()?.name}}"
+              />
+            </ng-template>
+            
+          </div>
+        }
+        <div class="bolder col-lg-7 col-md-6">@if(selectedItemIsMedpax()){<span class="bolder">Medpax:</span>} {{selectedOrderItem()?.description}}</div>
+      </div> 
+      <div class="qty-price-container row mx-0 col-lg-6 col-md-12">
+        <div class="qty col-6"><span class="bolder">Qty:</span>&nbsp;{{selectedOrderItem()?.quantity|number}} </div>
+        <div class="price col-6">
+          
+          <p class="mb-0 bolder text-right" > @if(selectedItemIsMedpax()){ {{(selectedMedPaxOrderItem()?.overallTotalSum) | currency}} }@else{{{(selectedOrderItem()?.total) | currency}}}  </p>
+          <p class="mb-0 text-right">Each:&nbsp;@if(selectedItemIsMedpax()){ {{(selectedMedPaxOrderItem()?.overallTotalSum) | currency}} }@else{ {{ (selectedOrderItem()?.unitPrice) | currency}} }</p>
+        </div>
+      </div>
+    </div>
+    @if(selectedItemIsMedpax()){
+      <div>
+        <div class="card p-3">
+          <table
+            class="table table-responsive-inline-block w-100 d-inline-table dosingDetails mt-0" aria-label="Dosing details"
+          >
+            <thead>
+              <tr class="bt-unset">
+                <th class="text-left pt-0 bolder">Formulas</th>
+                <th class="pt-0 text-right bolder">Dosing &amp; Time</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for(key of objectKeys(selectedMedPaxOrderItem().packetDetails);track key){
+              @for( entry of selectedMedPaxOrderItem().packetDetails[key].entries;track
+              entry){
+              <tr class="border-bottom-unset bt-unset">
+                <td class="border-0 bolder">
+                  {{ entry?.description }}
+                </td>
+                <td class="border-0 text-right">
+                  {{ entry?.quantity / 30 | number : "1.0-0" }} in
+                  {{ key }}
+                </td>
+              </tr>
+              } }
+            </tbody>
+          </table>
+        </div>
+      </div>
+    }
+    <div class="cancel-autoship-text">
+      Are you sure you want to cancel this item?
+    </div>
+  </div>
+  <div class="modal-footer">
+    <ng-container *ngTemplateOutlet="closeButton"></ng-container>
+    <button type="submit" class="btn btn-danger btn-rounded cancel-autoship" 
+    (click)="cancelSingleItem(selectedOrderItem()?.refItm)"
+    (keydown)="handleSpecialKeydown($event, 'cancel-single-item', selectedOrderItem()?.refItm)"
+    >
+      Cancel item
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #modalHeader let-title>
+  <div class="cancel-order-header d-flex justify-content-between align-items-center w-100">
+    <div class="cancel-order-title-container d-flex">
+      <img width="40" height="40" src="/assets/icons/common_icons/featured-warning-icon.svg" alt="Warning icon"/>
+      <h3>{{title}}</h3>
+    </div>
+    <button type="button" class="close" aria-hidden="true" tabindex="0" (click)="closePopup()" (keydown)="handleSpecialKeydown($event, 'close-popup')" aria-label="Close popup" #firstFocusElement>
+              <i class="fa fa-close fs-14"></i>
+              </button>
+  </div>
+  <hr>
+</ng-template>
+
+<ng-template #closeButton>
+  <button type="submit" (click)="closePopup()"  (keydown)="handleSpecialKeydown($event, 'close-popup')" class="btn btn-secondary btn-rounded btn-cons" tabindex="0" role="button" aria-label="Close popup">
+    Close
+  </button>
+</ng-template>
+<div class="toast-wrapper" *ngIf="toastMessage" role="alert" aria-live="polite">
+  <div class="toast">
+      <div class="d-flex toast-header">
+          <img width="32" height="32" src="/assets/icons/common_icons/featured-success-icon.svg" alt="Success"/>
+          <div class="d-flex toast-header-message-wrapper">
+              <p>{{toastMessage}}</p>
+              <i class="fa fa-close" role="button" aria-label="Close notification" (click)="toastMessage = ''"></i>
+          </div>
+      </div>
+  </div>
+</div>

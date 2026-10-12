@@ -1,0 +1,866 @@
+# -----------------------------------------------------------------------
+# Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+# -----------------------------------------------------------------------
+# Import essential data for the Accelerator
+#
+# Includes:
+# * Languages
+# * Currencies
+# * Titles
+# * Vendors
+# * Warehouses
+# * Supported Credit/Debit cards
+# * User Groups
+# * DistanceUnits for Storelocator
+# * MediaFolders
+# * MediaFormats
+# * Tax & Tax Groups
+# * Jobs
+
+# Languages
+
+
+INSERT_UPDATE OAuthClientDetails ; clientId[unique=true] ; resourceIds ; scope ; authorizedGrantTypes                                         ; authorities                     ; clientSecret ; registeredRedirectUri                                              
+                                 ; client-side           ; hybris      ; basic ; implicit,client_credentials                                  ; ROLE_CLIENT                     ; secret       ; http://localhost:9001/authorizationserver/oauth2_implicit_callback ;  
+                                 ; mobile_android        ; hybris      ; basic ; authorization_code,refresh_token,password,client_credentials,custom ; ROLE_CLIENT,ROLE_TRUSTED_CLIENT ; secret       ; http://localhost:9001/authorizationserver/oauth2_callback          ;
+
+INSERT_UPDATE OAuthClientDetails ; clientId[unique=true] ; resourceIds ; scope    ; authorizedGrantTypes                                         ; authorities         ; clientSecret ; registeredRedirectUri
+                                 ; trusted_client        ; hybris      ; extended ; authorization_code,refresh_token,password,client_credentials ; ROLE_TRUSTED_CLIENT ; secret       ;                      ;  
+INSERT_UPDATE Language ; isocode[unique=true] ; fallbackLanguages(isocode) ; active[default=true]
+                       ; en                   ;                            ;                     ;  
+                       ; de                   ; en                         ;                     ;  
+                       ; ja                   ; en                         ;                     ;  
+                       ; zh                   ; en                         ;                     ;  
+
+# Currencies           
+INSERT_UPDATE Currency ; isocode[unique=true] ; conversion ; digits ; symbol
+                       ; GBP                  ; 1          ; 2      ; £     
+                       ; EUR                  ; 1          ; 2      ; €     
+                       ; USD                  ; 1,4        ; 2      ; $     
+                       ; JPY                  ; 120        ; 0      ; ¥     
+
+# SiteMap Language Currencies
+INSERT_UPDATE SiteMapLanguageCurrency ; &siteMapLanguageCurrency ; language(isoCode)[unique=true] ; currency(isocode)[unique=true] ;  
+                                      ; enUsd                    ; en                             ; USD                            
+                                      ; enJpy                    ; en                             ; JPY                            
+                                      ; enGbp                    ; en                             ; GBP                            
+                                      ; enEur                    ; en                             ; EUR                            
+                                      ; jaUsd                    ; ja                             ; USD                            
+                                      ; jaJpy                    ; ja                             ; JPY                            
+                                      ; jaGbp                    ; ja                             ; GBP                            
+                                      ; jaEur                    ; ja                             ; EUR                            
+                                      ; deUsd                    ; de                             ; USD                            
+                                      ; deJpy                    ; de                             ; JPY                            
+                                      ; deGbp                    ; de                             ; GBP                            
+                                      ; deEur                    ; de                             ; EUR                            
+                                      ; zhUsd                    ; zh                             ; USD                            
+                                      ; zhJpy                    ; zh                             ; JPY                            
+                                      ; zhGbp                    ; zh                             ; GBP                            
+                                      ; zhEur                    ; zh                             ; EUR                            
+
+# Vendor                              
+INSERT_UPDATE Vendor ; code[unique=true] ; name          
+                     ; default           ; Default Vendor
+
+# Warehouse          
+INSERT_UPDATE Warehouse ; code[unique=true] ; name              ; vendor(code)[default=default] ; default[default=true]
+                        ; default           ; Default Warehouse ;                               
+                        ; warehouse_s       ; Warehouse South   ;                               
+                        ; warehouse_e       ; Warehouse East    ;                               
+                        ; warehouse_w       ; Warehouse West    ;                               
+                        ; warehouse_n       ; Warehouse North   ;                               
+
+# Disable preview for email pages
+UPDATE CMSPageType ; code[unique=true] ; previewDisabled
+                   ; EmailPage         ; true           
+
+# Titles           
+INSERT_UPDATE Title ; code[unique=true]
+                    ; mr               
+                    ; mrs              
+                    ; miss             
+                    ; ms               
+                    ; dr               
+                    ; rev              
+
+# Media Folders     
+INSERT_UPDATE MediaFolder ; qualifier[unique=true] ; path[unique=true]
+                          ; images                 ; images           
+                          ; email-body             ; email-body       
+                          ; email-attachments      ; email-attachments
+
+# Media formats           
+INSERT_UPDATE MediaFormat ; qualifier[unique=true]
+                          ; 1200Wx1200H           
+                          ; 515Wx515H             
+                          ; 365Wx246H             
+                          ; 300Wx300H             
+                          ; 96Wx96H               
+                          ; 65Wx65H               
+                          ; 30Wx30H               
+
+# Tax & Tax Groups        
+INSERT_UPDATE UserTaxGroup ; code[unique=true]
+                           ; de-taxes         
+                           ; jp-taxes         
+                           ; uk-taxes         
+                           ; us-taxes         
+                           ; ca-taxes         
+
+INSERT_UPDATE ProductTaxGroup ; code[unique=true]
+                              ; jp-vat-full      
+                              ; eu-vat-full      
+                              ; eu-vat-half      
+                              ; us-sales-tax-full
+                              ; ca-sales-tax-full
+
+INSERT_UPDATE Tax ; code[unique=true] ; value ; currency(isocode)
+                  ; de-vat-full       ; 19    
+                  ; de-vat-half       ; 7     
+                  ; jp-vat-full       ; 5     
+                  ; uk-vat-full       ; 20    
+                  ; uk-vat-half       ; 5     
+                  ; us-sales-tax-full ; 0     
+                  ; ca-sales-tax-full ; 0     
+
+INSERT_UPDATE ServicelayerJob ; code[unique=true] ; springId[unique=true]     
+                              ; siteMapMediaJob   ; siteMapMediaJob      
+$siteUid=wholescripts
+INSERT_UPDATE OldCartRemovalCronJob;code[unique=true]    ;job(code)        ;cartRemovalAge;anonymousCartRemovalAge;sessionLanguage(isoCode)[default=en];sites(uid)[mode=append]
+                                   ;oldCartRemovalCronJob;oldCartRemovalJob;1296000        ;1296000                 ;                                    ;$siteUid
+
+INSERT Warehouse ; code[unique=true] ; name              ; vendor(code)[default=default, forceWrite=true] ; default[default=true, forceWrite=true]
+"#% beforeEach:  
+import de.hybris.platform.core.Registry;                   
+import de.hybris.platform.ordersplitting.model.WarehouseModel;                   
+String warehouseCode = line.get(Integer.valueOf(1));                   
+WarehouseModel warehouse;                   
+try              
+{                
+warehouse = Registry.getApplicationContext().getBean(""warehouseService"").getWarehouseForCode(warehouseCode);                   
+}                
+catch (Exception e)
+{                
+warehouse = null ;                   
+}                
+if (warehouse != null)
+{                
+line.clear()     ;                   
+}"               
+                 ; default           ; Default Warehouse ;                                                
+                 ; pw_warehouse_s    ;                   ; default                                        
+                 ; pw_warehouse_e    ;                   ; default                                        
+                 ; pw_warehouse_w    ;                   ; default                                        
+                 ; pw_warehouse_n    ;                   ; default                                        
+
+
+
+
+#promotion-preview-module
+INSERT_UPDATE DroolsKIEModule ; name[unique=true]         ; mvnGroupId   ; mvnArtifactId      ; mvnVersion ; ruleType(code) ; active ; version ;  
+"#%beforeEach:                
+import de.hybris.platform.core.Registry;                           
+import org.slf4j.Logger       ;                           
+import org.slf4j.LoggerFactory;                           
+import org.apache.commons.lang3.StringUtils;                           
+import de.hybris.platform.util.Config;                           
+                              
+Logger LOG = LoggerFactory.getLogger(""ImpExImportReader"");                           
+extensionNames = Registry.getCurrentTenant().getTenantSpecificExtensionNames();                           
+extensionName = ""promotionengineservices"";                           
+if(!extensionNames.contains(extensionName))
+{                             
+templateId = line.get(1)      ;                           
+LOG.info(""DroolsKIEModule [{}] was skipped because the extension [{}] is not included in the setup"", templateId, extensionName);                           
+line.clear()                  ;                           
+}                             
+"                             
+                              ; promotions-preview-module ; hybris-rules ; promotions-preview ; 1.0.0      ; PROMOTION      ; true   ; -1      ;  
+
+INSERT_UPDATE DroolsKIEModule ; name[unique=true]         ; allowedTargets(name)
+"#%beforeEach:                
+import de.hybris.platform.core.Registry;                           
+import org.slf4j.Logger       ;                           
+import org.slf4j.LoggerFactory;                           
+import org.apache.commons.lang3.StringUtils;                           
+import de.hybris.platform.util.Config;                           
+                              
+Logger LOG = LoggerFactory.getLogger(""ImpExImportReader"");                           
+extensionNames = Registry.getCurrentTenant().getTenantSpecificExtensionNames();                           
+extensionName = ""promotionengineservices"";                           
+if(!extensionNames.contains(extensionName))
+{                             
+templateId = line.get(1)      ;                           
+LOG.info(""DroolsKIEModule [{}] was skipped because the extension [{}] is not included in the setup"", templateId, extensionName);                           
+line.clear()                  ;                           
+}                             
+"                             
+                              ; promotions-preview-module ; promotions-module   
+
+INSERT_UPDATE DroolsKIEBase ; name[unique=true]       ; kieModule(name)[unique=true] ; equalityBehavior(code) ; eventProcessingMode(code)
+"#%beforeEach:              
+import de.hybris.platform.core.Registry;                         
+import org.slf4j.Logger     ;                         
+import org.slf4j.LoggerFactory;                         
+import org.apache.commons.lang3.StringUtils;                         
+import de.hybris.platform.util.Config;                         
+                            
+Logger LOG = LoggerFactory.getLogger(""ImpExImportReader"");                         
+extensionNames = Registry.getCurrentTenant().getTenantSpecificExtensionNames();                         
+extensionName = ""promotionengineservices"";                         
+if(!extensionNames.contains(extensionName))
+{                           
+templateId = line.get(1)    ;                         
+LOG.info(""DroolsKIEBase [{}] was skipped because the extension [{}] is not included in the setup"", templateId, extensionName);                         
+line.clear()                ;                         
+}                           
+"                           
+                            ; promotions-preview-base ; promotions-preview-module    ; EQUALITY               ; STREAM                   
+
+INSERT_UPDATE DroolsKIESession ; name[unique=true]          ; kieBase(name)[unique=true] ; sessionType(code)
+"#%beforeEach:                 
+import de.hybris.platform.core.Registry;                            
+import org.slf4j.Logger        ;                            
+import org.slf4j.LoggerFactory ;                            
+import org.apache.commons.lang3.StringUtils;                            
+import de.hybris.platform.util.Config;                            
+                               
+Logger LOG = LoggerFactory.getLogger(""ImpExImportReader"");                            
+extensionNames = Registry.getCurrentTenant().getTenantSpecificExtensionNames();                            
+extensionName = ""promotionengineservices"";                            
+if(!extensionNames.contains(extensionName))
+{                              
+templateId = line.get(1)       ;                            
+LOG.info(""DroolsKIESession [{}] was skipped because the extension [{}] is not included in the setup"", templateId, extensionName);                            
+line.clear()                   ;                            
+}                              
+"                              
+                               ; promotions-preview-session ; promotions-preview-base    ; STATEFUL         
+
+INSERT_UPDATE DroolsRuleEngineContext ; name[unique=true]          ; kieSession(name)           ; ruleFiringLimit
+"#%beforeEach:                        
+import de.hybris.platform.core.Registry;                            
+import org.slf4j.Logger               ;                            
+import org.slf4j.LoggerFactory        ;                            
+import org.apache.commons.lang3.StringUtils;                            
+import de.hybris.platform.util.Config ;                            
+                                      
+Logger LOG = LoggerFactory.getLogger(""ImpExImportReader"");                            
+extensionNames = Registry.getCurrentTenant().getTenantSpecificExtensionNames();                            
+extensionName = ""promotionengineservices"";                            
+if(!extensionNames.contains(extensionName))
+{                                     
+templateId = line.get(1)              ;                            
+LOG.info(""DroolsRuleEngineContext [{}] was skipped because the extension [{}] is not included in the setup"", templateId, extensionName);                            
+line.clear()                          ;                            
+}                                     
+"                                     
+                                      ; promotions-preview-context ; promotions-preview-session ; 200            ;  
+
+UPDATE DroolsKIEBase ; name[unique=true]       ; defaultKIESession(name)   
+"#%beforeEach:       
+import de.hybris.platform.core.Registry;                         
+import org.slf4j.Logger;                         
+import org.slf4j.LoggerFactory;                         
+import org.apache.commons.lang3.StringUtils;                         
+import de.hybris.platform.util.Config;                         
+                     
+Logger LOG = LoggerFactory.getLogger(""ImpExImportReader"");                         
+extensionNames = Registry.getCurrentTenant().getTenantSpecificExtensionNames();                         
+extensionName = ""promotionengineservices"";                         
+if(!extensionNames.contains(extensionName))
+{                    
+templateId = line.get(1);                         
+LOG.info(""DroolsKIEBase [{}] was skipped because the extension [{}] is not included in the setup"", templateId, extensionName);                         
+line.clear()         ;                         
+}                    
+"                    
+                     ; promotions-preview-base ; promotions-preview-session
+
+UPDATE DroolsKIEModule ; name[unique=true]         ; defaultKIEBase(name)   
+"#%beforeEach:         
+import de.hybris.platform.core.Registry;                           
+import org.slf4j.Logger;                           
+import org.slf4j.LoggerFactory;                           
+import org.apache.commons.lang3.StringUtils;                           
+import de.hybris.platform.util.Config;                           
+                       
+Logger LOG = LoggerFactory.getLogger(""ImpExImportReader"");                           
+extensionNames = Registry.getCurrentTenant().getTenantSpecificExtensionNames();                           
+extensionName = ""promotionengineservices"";                           
+if(!extensionNames.contains(extensionName))
+{                      
+templateId = line.get(1);                           
+LOG.info(""DroolsKIEModule [{}] was skipped because the extension [{}] is not included in the setup"", templateId, extensionName);                           
+line.clear()           ;                           
+}                      
+"                      
+"#% afterEach: de.hybris.platform.core.Registry.getApplicationContext().getBean(""ruleEngineSystemSetup"").initializeModule(impex.getLastImportedItem());"
+                       ; promotions-preview-module ; promotions-preview-base
+
+INSERT_UPDATE RuleEngineJob ; code[unique=true]                                                             ; springId                               ;  
+"#%beforeEach:              
+import de.hybris.platform.core.Registry;                                                                               
+import org.slf4j.Logger     ;                                                                               
+import org.slf4j.LoggerFactory;                                                                               
+import org.apache.commons.lang3.StringUtils;                                                                               
+import de.hybris.platform.util.Config;                                                                               
+                            
+Logger LOG = LoggerFactory.getLogger(""ImpExImportReader"");                                                                               
+extensionNames = Registry.getCurrentTenant().getTenantSpecificExtensionNames();                                                                               
+extensionName = ""promotionengineservices"";                                                                               
+if(!extensionNames.contains(extensionName))
+{                           
+templateId = line.get(1)    ;                                                                               
+LOG.info(""RuleEngineJob [{}] was skipped because the extension [{}] is not included in the setup"", templateId, extensionName);                                                                               
+line.clear()                ;                                                                               
+}                           
+"                           
+                            ; rules -> Compilation and Publishing for [promotions-preview-module]           ; ruleEngineCompilePublishJobPerformable ;  
+                            ; rules -> Undeploy for [promotions-preview-module]                             ; ruleEngineUndeployJobPerformable       ;  
+                            ; rules -> Modules Sync from [promotions-preview-module] to [promotions-module] ; ruleEngineModuleSyncJobPerformable     ;  
+                            ; rules -> Module Init for [promotions-preview-module]                          ; ruleEngineModuleInitJobPerformable     ;  
+
+
+############## CCW-189 - Item Times Images data##############
+#$contentCatalog = powertools-spaContentCatalog
+#$contentCV = catalogVersion(CatalogVersion.catalog(Catalog.id[default = $contentCatalog]), CatalogVersion.version[default = Staged])[default = $contentCatalog:Staged]
+#$lang = en
+#$siteResource = jar:com.wholescripts.constants.WholescriptsstoreConstants&/Wholescriptsstore/import/coredata/images
+
+
+
+
+
+$contentCatalog = wholescriptsContentCatalog
+$contentCV = catalogVersion(CatalogVersion.catalog(Catalog.id[default = $contentCatalog]), CatalogVersion.version[default = Staged])[default = $contentCatalog:Staged]
+$lang = en
+$picture = media(code, $contentCV)
+$siteadvertismentPageResource = jar:com.wholescripts.constants.WholescriptsstoreConstants&/Wholescriptsstore/import/coredata/images/advertismentPage
+$siteResource = jar:com.wholescripts.constants.WholescriptsstoreConstants&/Wholescriptsstore/import/coredata/images/
+
+INSERT_UPDATE Media; $contentCV[unique = true]; code[unique = true]   ; mime[default = 'image/svg']; realfilename              ; @media[translator = de.hybris.platform.impex.jalo.media.MediaDataTranslator]
+                   ;                          ; medpax-am             ;                            ; medpax-am.svg             ; $siteResource/ItemTime/medpax-am.svg
+                   ;                          ; medpax-pm             ;                            ; medpax-pm.svg             ; $siteResource/ItemTime/medpax-pm.svg
+                   ;                          ; medpax-daily          ;                            ; medpax-daily.svg          ; $siteResource/ItemTime/medpax-daily.svg
+                   ;                          ; medpax-bedtime        ;                            ; medpax-bedtime.svg        ; $siteResource/ItemTime/medpax-bedtime.svg
+                   ;                          ; medpax-am-food        ;                            ; medpax-am-food.svg        ; $siteResource/ItemTime/medpax-am.svg
+                   ;                          ; medpax-pm-food        ;                            ; medpax-pm-food.svg        ; $siteResource/ItemTime/medpax-pm.svg
+                   ;                          ; medpax-bedtime-food   ;                            ; medpax-bedtime-food.svg   ; $siteResource/ItemTime/medpax-bedtime-food.svg
+                   ;                          ; medpax-am-nofood      ;                            ; medpax-am-nofood.svg      ; $siteResource/ItemTime/medpax-am-nofood.svg
+                   ;                          ; medpax-pm-nofood      ;                            ; medpax-pm-nofood.svg      ; $siteResource/ItemTime/medpax-pm-nofood.svg
+                   ;                          ; medpax-bedtime-nofood ;                            ; medpax-bedtime-nofood.svg ; $siteResource/ItemTime/medpax-bedtime-nofood.svg
+
+
+INSERT_UPDATE ItemTime; code[unique = true]  ; timeOfTheDay(code)   ; iconImage(code, $contentCV); displayOrder; isActive; isDisplayable; sapValue
+                      ; AM                   ; AM                   ; medpax-am                  ; 1           ; 1       ; 1            ; AM
+                      ; PM                   ; PM                   ; medpax-pm                  ; 2           ; 1       ; 1            ; PM
+                      ; Daily                ; DAILY                ; medpax-daily               ; 3           ; 1       ; 1            ; DAILY
+                      ; Bedtime              ; BEDTIME              ; medpax-bedtime             ; 4           ; 1       ; 1            ; BEDTIME
+                      ; AM_WITH_FOOD         ; AM_WITH_FOOD         ; medpax-am-food             ; NULL        ; 1       ; 0            ; AM W/ FOOD
+                      ; PM_WITH_FOOD         ; PM_WITH_FOOD         ; medpax-pm-food             ; NULL        ; 1       ; 0            ; PM W/ FOOD
+                      ; BEDTIME_WITH_FOOD    ; BEDTIME_WITH_FOOD    ; medpax-bedtime-food        ; NULL        ; 1       ; 0            ; BEDTIME W/ FOOD
+                      ; AM_WITHOUT_FOOD      ; AM_WITHOUT_FOOD      ; medpax-am-nofood           ; NULL        ; 1       ; 0            ; AM W/O FOOD
+                      ; PM_WITHOUT_FOOD      ; PM_WITHOUT_FOOD      ; medpax-pm-nofood           ; NULL        ; 1       ; 0            ; PM W/O FOOD
+                      ; BEDTIME_WITHOUT_FOOD ; BEDTIME_WITHOUT_FOOD ; medpax-bedtime-nofood      ; NULL        ; 1       ; 0            ; BEDTIME W/O FOOD
+
+############## CCW-189 - Item Times Images data##############
+INSERT_UPDATE Media ; $contentCV[unique = true] ; code[unique = true]   ; mime[default = 'image/svg'] ; realfilename              ; @media[translator = de.hybris.platform.impex.jalo.media.MediaDataTranslator]
+                    ;                           ; medpax-am             ;                             ; medpax-am.svg             ; $siteResource/ItemTime/medpax-am.svg                                        
+                    ;                           ; medpax-pm             ;                             ; medpax-pm.svg             ; $siteResource/ItemTime/medpax-pm.svg                                        
+                    ;                           ; medpax-daily          ;                             ; medpax-daily.svg          ; $siteResource/ItemTime/medpax-daily.svg                                     
+                    ;                           ; medpax-bedtime        ;                             ; medpax-bedtime.svg        ; $siteResource/ItemTime/medpax-bedtime.svg                                   
+                    ;                           ; medpax-am-food        ;                             ; medpax-am-food.svg        ; $siteResource/ItemTime/medpax-am.svg                                        
+                    ;                           ; medpax-pm-food        ;                             ; medpax-pm-food.svg        ; $siteResource/ItemTime/medpax-pm.svg                                        
+                    ;                           ; medpax-bedtime-food   ;                             ; medpax-bedtime-food.svg   ; $siteResource/ItemTime/medpax-bedtime-food.svg                              
+                    ;                           ; medpax-am-nofood      ;                             ; medpax-am-nofood.svg      ; $siteResource/ItemTime/medpax-am-nofood.svg                                 
+                    ;                           ; medpax-pm-nofood      ;                             ; medpax-pm-nofood.svg      ; $siteResource/ItemTime/medpax-pm-nofood.svg                                 
+                    ;                           ; medpax-bedtime-nofood ;                             ; medpax-bedtime-nofood.svg ; $siteResource/ItemTime/medpax-bedtime-nofood.svg
+                    ;                           ; medpax-daily-food   ;                               ; medpax-daily-food.svg   ; $siteResource/ItemTime/medpax-daily-food.svg                                  
+                    ;                           ; medpax-daily-nofood     ;                           ; medpax-daily-nofood.svg   ; $siteResource/ItemTime/medpax-daily-nofood.svg
+
+
+INSERT_UPDATE ItemTime; code[unique = true]  ; parentItemTimeCode; name 				; timeOfTheDay(code)   ; iconImage(code, $contentCV); displayOrder; isActive; isDisplayable; sapValue
+                      ; AM                   ; AM                ; AM				; AM  	               ; medpax-am                  ; 1           ; 1       ; 1            ; AM
+                      ; PM                   ; PM                ; PM   			; PM                   ; medpax-pm                  ; 2           ; 1       ; 1            ; PM
+                      ; Daily                ; Daily             ; Daily				; DAILY                ; medpax-daily               ; 3           ; 1       ; 1            ; DAILY
+                      ; Bedtime              ; Bedtime           ; Bedtime				; BEDTIME              ; medpax-bedtime             ; 4           ; 1       ; 1            ; BEDTIME
+                      ; AM_WITH_FOOD         ; AM                ; AM with food			; AM_WITH_FOOD         ; medpax-am-food             ; NULL        ; 1       ; 0            ; AM W/ FOOD
+                      ; PM_WITH_FOOD         ; PM                ; PM with food 		; PM_WITH_FOOD         ; medpax-pm-food             ; NULL        ; 1       ; 0            ; PM W/ FOOD
+                      ; BEDTIME_WITH_FOOD    ; BEDTIME           ; Bedtime with food	; BEDTIME_WITH_FOOD    ; medpax-bedtime-food        ; NULL        ; 1       ; 0            ; BEDTIME W/ FOOD
+                      ; AM_WITHOUT_FOOD      ; AM                ; AM without food		; AM_WITHOUT_FOOD      ; medpax-am-nofood           ; NULL        ; 1       ; 0            ; AM W/O FOOD
+                      ; PM_WITHOUT_FOOD      ; PM                ; PM without food		; PM_WITHOUT_FOOD      ; medpax-pm-nofood           ; NULL        ; 1       ; 0            ; PM W/O FOOD
+                      ; BEDTIME_WITHOUT_FOOD ; BEDTIME           ; Bedtime without food	; BEDTIME_WITHOUT_FOOD ; medpax-bedtime-nofood      ; NULL        ; 1       ; 0            ; BEDTIME W/O FOOD
+                      ; DAILY_WITH_FOOD      ; Daily             ; Daily with food		; DAILY_WITH_FOOD      ; medpax-daily-food          ; NULL        ; 1       ; 0            ; DAILY W/ FOOD
+					  ; DAILY_WITHOUT_FOOD   ; Daily             ; Daily without food	; DAILY_WITHOUT_FOOD   ; medpax-daily-nofood        ; NULL        ; 1       ; 0            ; DAILY W/O FOOD
+# Header for the TimeOfTheDay
+INSERT_UPDATE TimeOfTheDay ; code[unique = true]  ; name[lang = en]
+                           ; AM                   ; AM
+                           ; PM                   ; PM
+                           ; DAILY                ; Daily
+                           ; BEDTIME              ; Bedtime
+                           ; AM_WITH_FOOD         ; AM with food
+                           ; PM_WITH_FOOD         ; PM with food
+                           ; BEDTIME_WITH_FOOD    ; Bedtime with food
+                           ; AM_WITHOUT_FOOD      ; AM without food
+                           ; PM_WITHOUT_FOOD      ; PM without food
+                           ; BEDTIME_WITHOUT_FOOD ; Bedtime without food
+						   ; DAILY_WITH_FOOD      ; Daily with food
+						   ; DAILY_WITHOUT_FOOD   ; Daily without food
+
+############## CCW-312 - Content-Api-Resources##############
+$contentCatalog = wholescriptsContentCatalog
+$contentCV = catalogVersion(CatalogVersion.catalog(Catalog.id[default = $contentCatalog]), CatalogVersion.version[default = Staged])[default = $contentCatalog:Staged]
+$lang = en                 
+$picture = media(code, $contentCV)
+$siteadvertismentPageResource = jar:com.wholescripts.constants.WholescriptsstoreConstants&/Wholescriptsstore/import/coredata/images/advertismentPage
+
+
+INSERT_UPDATE WholescriptsTopic ; code[unique=true] ; page ; childTopic                ; headline(key(uid),value)[map-delimiter=|] ; mainContent                                                                                           ; authorization(key(uid),value)[map-delimiter=|]                                                  ; requestValues(key(uid),value)[map-delimiter=|]                                                                                                                                                                                                                                                  ; authorizationURL(key(uid),value)[map-delimiter=|] ; response(key(uid),value)[map-delimiter=|]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  ; requestURL(key(uid),value)[map-delimiter=|]                                           ; responseValues(key(uid),value)[map-delimiter=|]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
+                                ; productList       ; api  ; EMRRecommendationServices ; ProductList->Product List                 ; <h2>Description</h2><p>Get a complete list of available products used in sending recommendations.</p> ; name->Authorization|text->Basic authorization header, username and password provided by XYMOGEN ; name->Request Values|search->Pass a string to filter products returned by name, description, brand, category, or SKU (optional)|instockonly->Pass "true" or "false" , If true, products with 0 or less quantity will not be returned|brandname->Pass a string to filter products by brand name. ;                                                   ; name->Response Example|text->[{ "productName": "NeurophX DPN® 60 Capsules", "sku": "000000000300001012", "medPaxSku": "000000000200000200", "medPaxDetails": { "quantity": 8394, "wholesalePrice": 0.8000, "retailPrice": 1.3400, "name": "NeurophX DPN® Capsules", "genericName": "B FOLATE WITH ALA" }, "categories": "All", "quantity": 1064, "releaseDate": "2021-04-01T06:08:00.32", "wholesalePrice": 45.0300, "retailPrice": 75.2000, "upc": "871149004941", "count": "60", "flavor": "", "descriptionShort": "", "descriptionFull": "NeurophX DPN® is an orally administered medical food* for use only under the supervision of a physician for patients with metabolic nutritional impairments associated with peripheral neuropathy and microvascular complications.", "brand": "XYMOGEN®", "weight": 2.4000, "productImage": "https://www.wholescripts.com/images/thumbs/0006863_neurophx-dpn-60-capsules.png", "supplementFactsHTML": "", "defaultDosing": [ { "time": "AM", "qty": 1 }, { "time": "PM", "qty": 1 } ], "drs": "https://www.wholescripts.com/ProductAttachments/DownloadFile/CB53FA66-6A65-4162-A7CC-46556A2C593E", "countUnit": "Capsules", "weightUnit": "OZ", "warnings": [ "Prop65BirthDefectCancer" ] } ] ; name->Request URL|text->GET https://testservices.wholescripts.com/api/EMR/ProductList ; name->Response Values|ProductName->Product name|Sku->Product sku|MedPaxSku->Associated MedPax product sku|MedPaxDetails-><p>Details about the associated MedPax product (null if no related MedPax product):<p><ul><li>Quantity – available inventory</li><li>WholesalePrice</li><li>RetailPrice</li><li>Name</li><li>GenericName – name to be used for Private Label MedPax boxes</li></ul>|Categories->Comma delimited string of product categories|Quantity->Current available quantity|ReleaseDate->The last date and time (UTC) that the product was updated|WholesalePrice->Wholesale price (decimal)|RetailPrice->Retail price (decimal)|OnlineMAP->Minimum Advertised Price (MAP). Only applies to XYMOGEN brand products.|UPC->Product's UPC code|Count->Product count per unit|Flavor->Product flavor (if available)|DescriptionShort->Short product description|DescriptionFull->Full product description, including HTML markup|Brand->Product brand|Weight->Product weight|ProductImage->URL to product image|SupplementFactsHTML->HTML for product supplement facts|DefaultDosing->Array of objects that represent the recommended daily dosing for the product (Time and Qty)|DRS->URL to product DRS document|CountUnit->Unit of measure for the Count value|Warnings-><p>Array of string warnings for the product:</p><ul><li> Prop65Excluded – cannot be sold in CA</li><li> Prop65BirthDefect – birth defect warning for CA</li><li> Prop65Cancer – cancer warning for CA</li><li> Prop65BirthDefectCancer – birth defect and cancer warning for CA</li></ul>
+
+
+INSERT_UPDATE WholescriptsTopic; code[unique = true] ; page; childTopic                ; headline(key(uid), value)[map-delimiter = |]   ; mainContent                                                                                                                                                                                                                      ; authorization(key(uid), value)[map-delimiter = |]                                                  ; requestValues(key(uid), value)[map-delimiter = |]; authorizationURL(key(uid), value)[map-delimiter = |]; response(key(uid), value)[map-delimiter = |]; requestURL(key(uid), value)[map-delimiter = |]; curlURL; responseValues(key(uid), value)[map-delimiter = |]; requestBody(key(uid), value)[map-delimiter = &]
+                               ; recommendation_post ; api ; EMRRecommendationServices ; Recommendations (POST)->Recommendations (POST) ; <h2>Description</h2><p>Create a new recommendation.</p>                                                                                                                                                                          ; name->Authorization|text->Bearer token authorization header, value received from the Token service ; name->Request Values|PractitionerEmail->Practitioner's account email that is sending the recommendation (string(1000))|EmailTo->Patient email the recommendation will be sent to (string(1000))|PatientFirstName->Patient's first name (string(500))|PatientLastName->Patient's last name (string(500))|Notes->Any notes that should be attached to the recommendation (string(500))|ref_code->Referral code if sending the recommendation to a new patient (string(48))|ref_name->Referral name, again if sending to a new patient (string(48))|Items-><p>Array of items included in the recommendation: <ul><li> Sku – Product sku, or MedPax box sku if the line is a MedPax box</li><li> Quantity – Product quantity</li><li> Dosing – Pipe delimited string for product dosing ([Quantity]-[Time]). Available times include AM, PM, Bedtime, and Daily. If omitted, the product's default dosage will be used</li><li> Notes – Product specific notes (string(1000))</li><li> MedPaxName – If sending a MedPax box, this represents the MedPax box's name that will print on each packet (if not passed, the patient's name will be used) (string(500))</li><li> MedPaxPills – Array of products to include in the MedPax box: <ul><li> Sku – Pill's sku</li><li> Quantity – Pill quantity</li><li> ItemTime – AM, PM, Bedtime, Daily, AM with food, PM with food, Daily with food, Bedtime with food, AM without food, PM without food, Daily without food, or Bedtime without food</li></ul><li> ItemDuration – Ongoing, As Needed, 1 Week, 2 Weeks, 3 Weeks, or 4 Weeks</li></ul></p>|SendEmail->Send false to prevent WholeScripts from sending out a notification email to the receiving patient account (Boolean, defaults to true). ; ; name->Response Example|text->{"recommendationId":12345,"patientLink":"https:\/\/www.wholescripts.com\/Recommendation\/MyRecommendations\/12345","success":true,"msg":""} ; name->Request URL|text->POST https://testservices.wholescripts.com/api/EMR/Recommendations ; ; ; name->Request Payload Example&text-> {"PractitionerEmail":"webtest@xymogen.com","EmailTo":"Miguel.Test@mctest.com","PatientFirstName":"McTest","PatientLastName":"TestLast","Notes":"test notes","ref_code":"test","ref_name":"test","Items":[{"Sku":"000000000300005343","Quantity":1,"Dosing":"1-AM,2-PM","Notes":"","MedPax":{"Name":"","Pills":[]},"ItemDuration":"Ongoing"},{"Sku":"000000000200000633","Quantity":1,"Dosing":"","Notes":"","MedPax":{"Name":"Test MPX Order","Pills":[{"Sku":"000000000200000148","Quantity":2,"ItemTime":"AM"},{"Sku":"000000000200000230","Quantity":2,"ItemTime":"PM"},{"Sku":"000000000100000879","Quantity":1,"ItemTime":"Bedtime without food"}]},"ItemDuration":"As Needed"}],"SendEmail":false}
+                               ; recommendations_get ; api ; EMRRecommendationServices ; Recommendations (GET)->Recommendations (GET)   ; <h2>Description</h2><p>Get a list of recommendations by patient email. Response values mirror what is submitted in the POST Recommendations service when creating a recommendation, with unique identifiers and names added.</p> ; name->Authorization|text->Bearer token authorization header, value received from the Token service ; name->Request Values|email->Patient's account email ; ; name->Response Example|text-> {"recommendations":[{"id":12345,"practitionerEmail":"webtest@xymogen.com","emailTo":"test@test.com","patientFirstName":"Joe","patientLastName":"Tester","dateSentUtc":"2020-04-17T16:56:35.817","notes":"test notes","status":"Sent","ref_code":"","ref_name":"","items":[{"sku":"000000000300005343","name":"XymoZyme 60 C","quantity":1,"dosing":"1-AM,1-PM","notes":"","medPaxName":"","medPaxPills":[],"itemDuration":"Ongoing"},{"sku":"000000000200000633","name":"","quantity":1,"dosing":null,"notes":"","medPaxName":"MedPax Order","itemDuration":"4 Weeks","medPaxPills":[{"sku":"000000000100000873","name":"RegeneMax® Plus Capsules","quantity":1,"itemTime":"AM"},{"sku":"000000000200000158","name":"OncoPLEX™ Capsules","quantity":1,"itemTime":"AM"}]}]}],"success":true,"msg":""} ; name->Request URL|text->GET https://testservices.wholescripts.com/api/EMR/Recommendations/{email} ; ; name->Response Values|Status-><p>Possible values: <ul><li> Sent*</li><li> Draft</li><li> Patient Deleted</li><li> Patient Viewed*</li><li> Practitioner Canceled</li><li> Patient Ordered*</li><li> Disabled</li><li> *patient viewable</li></ul></p> ;
+                               ; recommendation_get  ; api ; EMRRecommendationServices ; Recommendation (GET)->Recommendation (GET)     ; <h2>Description</h2><p>Get a single recommendation by Id.</p>                                                                                                                                                                    ; name->Authorization|text->Bearer token authorization header, value received from the Token service ; name->Request Values|id->Recommendation Id returned from the Recommendations (POST) service. ; ; ; name->Request Format|text->GET https://testservices.wholescripts.com/api/EMR/Recommendation/{id} ; ; name->Response Values and Format|text->Same response as Recommendations (GET), but will only return one recommendation that matches the passed Id. ;
+
+
+INSERT_UPDATE WholescriptsTopic; code[unique = true]       ; page; childTopic                ; headline(key(uid), value)[map-delimiter = |]         ; mainContent                                                                                                                                                                                                                                                                                                                                                                   ; authorization(key(uid), value)[map-delimiter = |]                                                  ; requestValues(key(uid), value)[map-delimiter = |]; authorizationURL(key(uid), value)[map-delimiter = |]; response(key(uid), value)[map-delimiter = |]; requestURL(key(uid), value)[map-delimiter = |]; curlURL; responseValues(key(uid), value)[map-delimiter = |]; requestBody(key(uid), value)[map-delimiter = |]
+                               ; authorization_code        ; api ; EMRRecommendationServices ; Authorization Code->Authorization Code               ; <h2>Description</h2><p>Redirect the user to an authorization URL that prompts them to login and grant access to your EMR software. This URL will return an authorization code that you can use to fetch a token for that user. The code is valid for five minutes after generation and can only be used to generate a token once.<p>                                          ; name->Authorization|text-> Basic authorization header, username and password provided by XYMOGEN   ; name->Request Values| client_id->XYMOGEN provided username for your EMR account|redirect_uri->	A URI on your end that the authorization code and practitioner email will be returned to|State->Optional parameter to help protect against CSRF requests ; name->Authorization URL|text->https://testservices.wholescripts.com/api/EMR/authorize?client_id={username}&redirect_uri={URI}&state=12345 ; name->Response Example| Success->{URI}?code=y8b35g12763b45e7a91caebe54bf02df&email=testemail@xymogen.com&state=12345|Failure->{URI}?error=access_denied ; ; ; ;
+                               ; token                     ; api ; EMRRecommendationServices ; Token->Token                                         ; <h2>Description</h2><p>Pass a practitioner's email and password for wholescripts.com to verify they are valid. If validated, a bearer token will be returned. This token is specific to the practitioner's account and is required for authentication in applicable services. This service is also used to refresh an expired token using the provided refresh_token value<p> ; name->Authorization|text->Basic authorization header, username and password provided by XYMOGEN    ; name->Request Values|grant_type->This value should be "password" if requesting a new token via the password method, "authorization_code" if using the authorization code method, or "refresh_token" if refreshing an existing token|username->	The practitioner account's email address, only needed for a "password" grant_type|password->The account's wholescripts.com password, only needed for a "password" grant_type|code->Authoriazation code received from the Authorization Code authentication method, only needed for an "authorization_code" grant_type|refresh_token->The refresh token required for the "refresh_token" grant_type ; ; name->Response Example|Success->{ "access_token":"{{access token}}","token_type":"bearer","expires_in":900,"refresh_token":"{{refresh token}}"}|Fail(HTTP 400 Bad Request) ->{"error":"invalid_request", "error_description":"Request was missing the 'username' parameter."} ; name->Request URL|text->GET https://testservices.wholescripts.com/api/EMR/Token?grant_type=password&username={username}&password={password}| or->curl https://testservices.wholescripts.com/api/EMR/Token -X POST -u "username:password" -d "grant_type=password" -d "username={username}" -d "password={password}" ; ; ;
+                               ; logout                    ; api ; EMRRecommendationServices ; Logout->Logout                                       ; <h2>Description</h2><p>Disable a practitioner's authorization token and refresh token received either from the Token endpoint or the Authorization Code method.<p>                                                                                                                                                                                                            ; name->Authorization|text->Basic authorization header, username and password provided by XYMOG      ; ; ; name->Response Example|Success->{"success": true,"msg": ""}|Fail (HTTP 401 Unathorized) : ->{"error": "invalid_grant","error_description": "The access token is invalid"} ; name->Request URL|text->GET https://testservices.wholescripts.com/api/EMR/Logout ; ; ;
+                               ; brandList                 ; api ; EMRRecommendationServices ; BrandList->Brand List                                ; <h2>Description</h2><p>Get a complete list of available product brand names.<p>                                                                                                                                                                                                                                                                                               ; name->Authorization|text->Basic authorization header, username and password provided by XYMOG      ; ; ; name->Response Example|text->[ "XYMOGEN®","WholeScripts"] ; name->Request URL|text->GET https://testservices.wholescripts.com/api/EMR/BrandList ; ; ;
+                               ; categoryList              ; api ; EMRRecommendationServices ; CategoryList->Category List                          ; <h2>Description</h2><p>Get a complete list of available product category names.<p>                                                                                                                                                                                                                                                                                            ; name->Authorization|text->Basic authorization header, username and password provided by XYMOG      ; ; ; name->Response Example|text->[ "Adrenal Support", "Antioxidant Activity", "Blood Sugar Support",                                                                                                                                                                                       "Body Composition",         "Bone Health Support",      "Cardiovascular Support",   "Cell-Life Regulation",     "Cytokine Balance Support", "Detoxification",            "Essential Fatty Acids",    "Female Health",             "Gastrointestinal Support", "Immune System Support",     "Joint & Muscle Support",   "Liver Support",             "Male Health",              "Multivitamins & Minerals",  "Neurologic & Cognitive",    "Probiotics",                "Relaxation & Sleep",        "Sports Nutrition",         "Thyroid Support"           ] ; name->Request URL|text->GET https://testservices.wholescripts.com/api/EMR/CategoryList ; ; ;
+                               ; productImage              ; api ; EMRRecommendationServices ; ProductImage->ProductImage                           ; <h2>Description</h2><p>Get a product's image as represented by a byte array.<p>                                                                                                                                                                                                                                                                                               ; name->Authorization|text->Basic authorization header, username and password provided by XYMOG      ; name->Request Values|Sku->Product sku ; ; name->Response Example|Success->{"mimeType":"image\/png","fileBytes":"{{byte array data}}"}|Fail->{"mimeType":null,"fileBytes":null} ; name->Request URL|text->GET https://testservices.wholescripts.com/api/EMR/ProductImage/{sku} ; ; ;
+                               ; productDRS                ; api ; EMRRecommendationServices ; ProductDRS->ProductDRS                               ; <h2>Description</h2><p>Get a product's DRS document as represented by a byte array.<p>                                                                                                                                                                                                                                                                                        ; name->Authorization|text->Basic authorization header, username and password provided by XYMOG      ; name->Request Values|Sku->Product sku ; ; name->Response Example|Success->{"mimeType":"application\/pdf","fileBytes":"{{byte array data}}"}|Fail->{"mimeType":null,"fileBytes":null} ; name->Request URL|text->GET https://testservices.wholescripts.com/api/EMR/ProductDRS/{sku} ; ; ;
+                               ; practitionerRefeeralCodes ; api ; EMRRecommendationServices ; PractitionerReferralCodes->PractitionerReferralCodes ; <h2>Description</h2><p>Get a list of available referral codes for a given practitioner, including discount percentage and access level for accounts created using each.<p>                                                                                                                                                                                                    ; name->Authorization|text->Bearer token authorization header, value received from the Token service ; ; ; name->Response Example|text->[{"ref_code":"TESTCODE","ref_name":"TESTNAME","discount":15,"access_level":"Full"}] ; name->Request URL|text->GET https://testservices.wholescripts.com/api/EMR/PractitionerReferralCodes ; ; name->Response Values|ref_code->Referral code|ref_name->Referral last name|discount->Discount percentage applied to accounts created with this referral code|access_level->Website access level applied to accounts created with this referral code ;
+                               ; practitionerPatients      ; api ; EMRRecommendationServices ; PractitionerPatients->PractitionerPatients           ; <h2>Description</h2><p>Get a list of patients for the authenticated practitioner.<p>                                                                                                                                                                                                                                                                                          ; name->Authorization|text->Bearer token authorization header, value received from the Token service ; name->Request Values|email->Pass as a URL parameter to search for a specific patient record by email (optional) ; ; name->Response Example|Patients found->{"patients":[{"email":"05030909@xymogen.com","firstName":"test05030909","lastName":"test"}],"count":1,"success":true,"msg":""}|No Patients found->{"patients":[],"count":0,"success":true,"msg":"No patients found"}|When passing a specific patient email:->{"patients":[],"count":0,"success":false,"msg":"Patient is registered under a different practitioner"} ; name->Request URL|text->GET https://testservices.wholescripts.com/api/EMR/PractitionerPatients ; ; name->Response Values|ref_code->Referral code|Patients-><p>List of patient objects including the following values:</p><li>Email</li><li>firstName</li><li>lastName</>|Count->Number of patient records returned (int)|Success->Boolean indicating success or failure of the result (bool)|Msg->Message returned describing the error if the Success value is false ;
+                               ; privateLabelProducts      ; api ; EMRRecommendationServices ; PrivateLabelProductList->Private Label Product List  ; <h2>Description</h2><p>Get a list of available private label products for a given practitioner, a list of all available MedPax pills, and a list of all available private label cartons.<p>                                                                                                                                                                                   ; name->Authorization|text->Bearer token authorization header, value received from the Token service ; ; ; name->Response Example|text->{"privateLabelProducts":[{"privateLabelName":"3PL Probiotics 30 C","sku":"000000000300095860","quantity":0,"wholesalePrice":21.57,"retailPrice":41.1,"upc":"","count":"30","flavor":"","weight":1.6,"countUnit":"Capsules","weightUnit":"OZ","isOnBackorder":false},{"privateLabelName":"3PL Mood formula 60 C","sku":"000000000300095859","quantity":0,"wholesalePrice":20.35,"retailPrice":39.53,"upc":"","count":"60","flavor":"","weight":2.4,"countUnit":"Capsules","weightUnit":"OZ","isOnBackorder":false}],"medPaxPills":[{"sku":"000000000100000873","genericName":"BIOTIN PLUS","privateLabelName":"Beauty"},{"sku":"000000000200000131","genericName":"FLORA SUPPORT","privateLabelName":""}],"privateLabelCartons":[{"sku":"000000000200087661","name":"Wellness Clinic","cartonImage":"https:\/\/www.wholescripts.com\/images\/default-image.png","quantity":0}]} ; name->Request URL|text->GET https://testservices.wholescripts.com/api/EMR/PrivateLabelProductList ; ; name->Response Values|privateLabelProducts-><p>A list of available private label products including the following values <ul><li> privateLabelName</li><li> sku</li><li> quantity</li><li> wholesalePrice</li><li> retailPrice</li><li> upc</li><li> count</li><li> flavor</li><li> weight</li><li> countUnit</li><li> weightUnit</li><li> isOnBackorder</li></ul></p>|medPaxPills-><p>A list of available MedPax pills including the following values <ul><li> sku</li><li> genericName</li><li> privateLabelName</li></ul></p>|privateLabelCartons-><p>A list of available private label cartons including the following values <ul><li> sku</li><li> name</li><li> cartonImage</li><li> quantity</li></ul></p> ;
+                               ; product                   ; api ; EMRRecommendationServices ; Product->Product                                     ; <h2>Description</h2><p>Get a single product's information with the same result format as the ProductList service.<p>                                                                                                                                                                                                                                                          ; name->Authorization|text->Basic authorization header, username and password provided by XYMOGEN    ; name->Request Values|Sku->Product sku ; ; name->Response Format|text->See <a href='#product-list tabindex="0">ProductList</a> ; name->Request URL|text->GET https://testservices.wholescripts.com/api/EMR/Product/{sku} ; ; ;
+
+
+
+INSERT_UPDATE WholescriptsTopic ; code[unique=true]          ; page ; childTopic              ; headline(key(uid),value)[map-delimiter=|]           ; mainContent                                                                                                                                                                                                                                                                                                                                          ; authorization(key(uid),value)[map-delimiter=|]                                                   ; requestValues(key(uid),value)[map-delimiter=|]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      ; requestURL(key(uid),value)[map-delimiter=|]                                                                ; responseValues(key(uid),value)[map-delimiter=|]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             ; response(key(uid),value)[map-delimiter=|]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          ; requestBody(key(uid),value)[map-delimiter=|]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+                                ; brand_list                 ; api  ; ExternalOrderSubmission ; BrandList->Brand List                               ; <h2>Description</h2><br><p>Get a complete list of available product brand names.</p>                                                                                                                                                                                                                                                                 ; name->Authorization|text-> Basic authorization header, username and password provided by XYMOGEN ;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     ; name->Request URL|text->GET https://testservices.wholescripts.com/api/Orders/BrandList                     ;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             ; name->Response Example| text->["XYMOGEN®","WholeScripts"]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          ;
+                                ; category_list              ; api  ; ExternalOrderSubmission ; categoryList->Category List                         ; <h2>Description</h2><br><p>Get a complete list of available product category names.</p>                                                                                                                                                                                                                                                              ; name->Authorization|text-> Basic authorization header, username and password provided by XYMOGEN ;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     ; name->Request URL|text->GET https://testservices.wholescripts.com/api/Orders/CategoryList                  ;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             ; name->Response Example| text->["Adrenal Support","All","Antioxidant Activity","Blood Sugar Support","Body Composition","Bone Health Support","Cardiovascular Support","Cell-Life Regulation","Cytokine Balance Support","Detoxification","Essential Fatty Acids","Female Health","GastrointestinalSupport","Immune System Support","Joint & Muscle Support","Liver Support","Male Health","Multivitamins & Minerals","Neurologic & Cognitive","Probiotics","Relaxation & Sleep","Sports Nutrition","Thyroid Support"] ;
+                                ; product_list               ; api  ; ExternalOrderSubmission ; Product List ->Product List                         ; <h2>Description</h2><br><p>Get a list of available products for purchase.</p>                                                                                                                                                                                                                                                                        ; name->Authorization|text-> Basic authorization header, username and password provided by XYMOGEN ; name->Request Values| search->Pass a string to filter products returned by name, description, brand, category, or SKU (optional)|instockonly->Pass "true" or "false", If true, products with 0 or less quantity will not be returned (optional, defaults to false)|brandname->Pass a string to filter products by brand name.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       ; name->Request URL|text->GET https://testservices.wholescripts.com/api/Orders/ProductList                   ; name->Response Values| ProductName->Product name|MedPaxSku->Associated MedPax product sku|MedPaxDetails-><h2>MedPax Product Details</h2><ul><li><strong>Associated MedPax Product:</strong> <span>null if no related MedPax product</span></li><li><strong>Quantity:</strong> Available inventory</li><li><strong>Wholesale Price:</strong> Price at wholesale</li><li><strong>Retail Price:</strong> Price for retail</li><li><strong>Name:</strong> Name of the product</li><li><strong>Generic Name:</strong> Name to be used for Private Label MedPax boxes</li></ul>|Categories->Comma delimited string of product categories|Quantity->Current available quantity|ReleaseDate->The last date and time (UTC) that the product was updated|WholesalePrice->Wholesale price (decimal)|ReleaseDate->The last date and time (UTC) that the product was updated|WholesalePrice->Wholesale price (decimal)|RetailPrice->Retail price (decimal)|OnlineMAP->Minimum Advertised Price (MAP). Only applies to XYMOGEN brand products.|UPC->Product's UPC code|Count->Product count per unit|Flavor->Product flavor (if available)|DescriptionShort->Short product description|DescriptionFull->Full product description, including HTML markup|Brand->Product brand|Weight->Product weight|ProductImage->URL to product image|SupplementFactsHTML->HTML for product supplement facts|DefaultDosing->Array of objects that represent the recommended daily dosing for the product (Time and Qty)|DRS->URL to product DRS document|CountUnit->Unit of measure for the Count value|WeightUnit->Unit of measure for the Weight value|Warnings-><p>Array of string warnings for the product:</p><ul><li>Prop65Excluded – cannot be sold in CA</li><li>Prop65BirthDefect – birth defect warning for CA</li><li>Prop65Cancer – cancer warning for CA</li><li>Prop65BirthDefectCancer – birth defect and cancer warning for CA</li></ul> ; name->Response Example|text->[{"productName":"NeurophX DPN® 60 Capsules","sku":"000000000300001012","medPaxSku":"000000000200000200","medPaxDetails":{"quantity":8394,"wholesalePrice":0.8,"retailPrice":1.34,"name":"NeurophX DPN® Capsules","genericName":"B FOLATE WITH ALA"},"categories":"All","quantity":1064,"releaseDate":"2021-04-01T06:08:00.32","wholesalePrice":45.03,"retailPrice":75.2,"upc":"871149004941","count":"60","flavor":"","descriptionShort":"","descriptionFull":"NeurophX DPN® is an orally administered medical food* for use only under the supervision of a physician for patients with metabolic nutritional impairments associated with peripheral neuropathy and microvascular complications.","brand":"XYMOGEN®","weight":2.4,"productImage":"https://www.wholescripts.com/images/thumbs/0006863_neurophx-dpn-60-capsules.png","supplementFactsHTML":"","defaultDosing":[{"time":"AM","qty":1},{"time":"PM","qty":1}],"drs":"https://www.wholescripts.com/ProductAttachments/DownloadFile/CB53FA66-6A65-4162-A7CC-46556A2C593E","countUnit":"Capsules","weightUnit":"OZ","warnings":["Prop65BirthDefectCancer"]}] ;
+                                ; private_label_product_list ; api  ; ExternalOrderSubmission ; PrivateLabelProductList->Private Label Product List ; <h2>Description</h2><br><p>Get a list of available private label products for a given practitioner, a list of all available MedPax pills, and a list of all available private label cartons.</p>                                                                                                                                                     ; name->Authorization|text-> Basic authorization header, username and password provided by XYMOGEN ;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     ; name->Request URL|text->GET https://testservices.wholescripts.com/api/Orders/PrivateLabelProductList       ; name->Response Values| privateLabelProducts-><p>A list of available private label products including the following values</p><ul><li>Private Label Name</li><li>SKU</li><li>Quantity</li><li>Wholesale Price</li><li>Retail Price</li><li>UPC</li><li>Count</li><li>Flavor</li><li>Weight</li><li>Count Unit</li><li>Weight Unit</li><li>IsOnBackorder</li></ul>|medPaxPills-><p>A list of available MedPax pills including the following values</p><ul><li>sku</li><li>genericName</li><li>privateLabelName</li></ul>|privateLabelCartons-><ul><li>sku</li><li>name</li><li>cartonImage</li><li>quantity</li>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              ; name->Response Example|text->{"privateLabelProducts":[{"privateLabelName":"3PL Probiotics 30 C","sku":"000000000300095860","quantity":0,"wholesalePrice":21.57,"retailPrice":41.1,"upc":"","count":"30","flavor":"","weight":1.6,"countUnit":"Capsules","weightUnit":"OZ","isOnBackorder":false},{"privateLabelName":"3PL Mood formula 60 C","sku":"000000000300095859","quantity":0,"wholesalePrice":20.35,"retailPrice":39.53,"upc":"","count":"60","flavor":"","weight":2.4,"countUnit":"Capsules","weightUnit":"OZ","isOnBackorder":false}],"medPaxPills":[{"sku":"000000000100000873","genericName":"BIOTIN PLUS","privateLabelName":"Beauty"},{"sku":"000000000200000131","genericName":"FLORA SUPPORT","privateLabelName":""}],"privateLabelCartons":[{"sku":"000000000200087661","name":"Wellness Clinic","cartonImage":"https://www.wholescripts.com/images/default-image.png","quantity":0}]};
+                                ; submit                     ; api  ; ExternalOrderSubmission ; Submit->Submit                                      ; <h2>Description</h2><br><p>Submit an order for fulfillment.</p><br><p>If submitting a MedPax box, be sure to add at least three distinct pills and not more than four distinct dosing times. AM, PM, Bedtime, and Daily dosing time variants must also be unique for each MedPax box (ex. You may not have a box with both AM and AM with food).</p> ; name->Authorization|text-> Basic authorization header, username and password provided by XYMOGEN ; name->Request Values|ShippingAddress-><p>Shipping address for the order:</p><ul><li>FName – First Name</li><li>LName – Last Name</li><li>Address1 – Address line 1</li><li>Address1 – Address line 2</li><li>City</li><li>State – Two letter state abbreviation</li><li>Zip – Postal code</li><li>Email – additional email address to receive shipping notifications (optional)</li></ul>|Items-><p>Array of items for the order:</p><ul><li>Sku – Product sku, or MedPax box sku if the item is a MedPax box</li><li>Quantity – Product quantity</li><li>Notes – Product specific notes</li><li>MedPaxName – If sending a MedPax box, this represents the MedPax box's name that will print on each packet</li><ul><li><strong>MedPaxPills</strong> – Array of products to include in the MedPax box<ul><li><strong>Sku</strong> – Pill's SKU</li><li><strong>Quantity</strong> – Pill quantity</li><li><strong>ItemTime</strong> – Divided into distinct groups<ul><li>AM, AM with food, AM without food</li><li>PM, PM with food|ShippingMethod-><p><strong>Shipping method for the order, from the following options:</strong></p><ul><li>UPS2D - UPS 2nd Day Air</li><li>UPS3D - UPS 3 Day Select</li><li>UPSGROUND - UPS Ground</li><li>USPSGRDADV - USPS Ground Advantage</li><li>USPSPRI - USPS Priority Mail</li><li>STANDARD (XYMOGEN will determine the best method)</li></ul><p><strong>NOTE:</strong> if we are unable to get a quote for the method passed, we will attempt to use the STANDARD option to get the best method, if changed, a message will be displayed in the result "msg" value.</p> ; name->Request URL|text->POST https://testservices.wholescripts.com/api/Orders/Submit                       ; name->Response Values|OrderNumber-><p>Order number for reference</p>|Success-><p>True for a successful submission, false if there was a problem</p>|Msg-><p>A message that will show errors or changes to the order</p>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     ; name->Response Example|text->{"orderNumber":"XAPI00000001","success":true,"msg":"Shipping method changed to UPSGROUND"}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            ; name->Request Example|text->{"ShippingAddress":{"FName":"Test","LName":"Test","Address1":"123 Main St","Address2":"","City":"Orlando","State":"FL","Zip":"32819","Email":"test@test.test"},"Notes":"test notes","Items":[{"Sku":"000000000300000096","Quantity":1},{"Sku":"000000000300001001","Quantity":1},{"Sku":"000000000200000633","Quantity":1,"MedPaxName":"Test","MedPaxPills":[{"Sku":"000000000200000225","Quantity":1,"ItemTime":"AM"},{"Sku":"000000000100000893","Quantity":1,"ItemTime":"AM"},{"Sku":"000000000200000217","Quantity":1,"ItemTime":"AM"},{"Sku":"000000000200000203","Quantity":1,"ItemTime":"AM"},{"Sku":"000000000200000138","Quantity":4,"ItemTime":"AM"},{"Sku":"000000000200000193","Quantity":2,"ItemTime":"AM"},{"Sku":"000000000100000893","Quantity":1,"ItemTime":"PM"}]}],"ShippingMethod":"USPS PRIORITY"}
+                                ; statusapi                  ; api  ; ExternalOrderSubmission ; Status->Status                                      ; <h2>Description</h2><br><p>Get the status of all orders sent to the Submit API.</p>                                                                                                                                                                                                                                                                  ; name->Authorization|text-> Basic authorization header, username and password provided by XYMOGEN ; name->Request Values|ordernum->Pass an order number to limit the results to just that order (optional)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              ; name->Request URL|text->GET https://testservices.wholescripts.com/api/Orders/Status?ordernum={ordernumber} ; name->Response Values|OrderNumber->Order number from the Submit service|OrderDate->When the order was submitted (datetime)|SalesOrder->Sales order number, generated once the order has reached our fulfillment process and will display on the shipped documentation|Status-><p><strong>A status to determine where the order is in the process:</strong></p><ul><li><strong>Pending</strong> – the order has been received but not yet forwarded to our fulfillment area</li><li><strong>Processing</strong> – the order has reached the fulfillment process</li><li><strong>Complete</strong> – the order has been successfully shipped and billed</li><li><strong>Cancelled / Partially Cancelled</strong> – the order has been either partially or fully cancelled</li><li><strong>Error</strong> – there was a problem receiving the order see the Message value for more details</li></ul>|Tracking->An array of tracking numbers, if available|Message->If a problem was encountered at any point, this value will contain more details|SubTotal->Order subtotal (decimal)|ShipMethod->Shipping method|ShipCharge->Shipping total (decimal)|Discount->Discount applied to the order (decimal)|Tax->Tax applied to the order (decimal)|ServiceFee->Service Fee applied to the order (decimal)|OrderTotal->Order total (decimal)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      ; name->Response Example|text->[{"orderNumber":"XAPI00000001","orderDate":"2020-09-10T08:51:16.507","salesOrder":"0005241942","status":"Processing","tracking":[],"message":"","subTotal":75.00,"shipMethod":"USPSGRDADV","shipCharge":9.95,"discount":0.00,"tax":0.00,"serviceFee":1.53,"orderTotal":86.48}]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        ;
+                                ; cancel                     ; api  ; ExternalOrderSubmission ; Cancel->Cancel                                      ; <h2>Description</h2><br><p>Cancel an order that has not yet been sent to fulfillment.</p>                                                                                                                                                                                                                                                            ; name->Authorization|text-> Basic authorization header, username and password provided by XYMOGEN ; name->Request Values|OrderNumber->Order number from the Submit service.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             ; name->Request URL|text->POST https://testservices.wholescripts.com/api/Orders/Cancel                       ; name->Response Values|Success->True if the order was cancelled successfully (bool)|Msg->String describing the result                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        ; name->Response Example|Success:->{"success":true,"msg":"Order cancelled"}|Fail:->{"success":false,"msg":"Unable to cancel order"}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  ; name->Request Example|text->{"OrderNumber": "XAPI00000001"}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+
+INSERT_UPDATE WholescriptsTopic; code[unique = true]          ; page        ; childTopic           ; headline(key(uid), value)[map-delimiter = |]; mainContent; authorization(key(uid), value)[map-delimiter = |]; requestValues(key(uid), value)[map-delimiter = |]; requestURL(key(uid), value)[map-delimiter = |]; responseValues(key(uid), value)[map-delimiter = |]; response(key(uid), value)[map-delimiter = |]; requestBody(key(uid), value)[map-delimiter = |]; specs(key(uid), value)[map-delimiter = |]; images(code, $contentCV)
+                               ; new_brand_asset_requirements ; advertising ; new-brand-onboarding ; Asset Requirements ->Asset Requirements     ; <h2>Brand Logo</h2><p>Preferably all logos should be submitted in vector format such as AI, EPS, SVG, or PDF. High-resolution image formats such as JPG or PNG might work as well.</p><br><h2>Product Images</h2><p>Please provide all your product images with transparent backgrounds in PNG image format. Images should be high-resolution and be no less than 500px in height. The product images must reflect the label of what was onboarded and what is in stock.</p><br><h2>Tagline or Headline</h2><p>A short phrase you use as part of your branding or promotional material. Should be 30 characters in length or less.</p><br><h2>Company Description</h2><p>A short paragraph telling the story of your brand or sharing your mission statement. Should be 400 characters in length or less.</p><br><h2>Collaterals</h2><p>If available, please send any marketing content such as a brand guideline book and brochure for each product in PDF format. This will be used for visual reference and use of your brand colors.</p><br> ; ; ; ; ; ; ; ;
+                               ; new_brand_process_&_specs    ; advertising ; new-brand-onboarding ; Process & Specs ->Process & Specs           ; <h2>Asset Review</h2><p>Once these assets are provided, our internal team will review the assets to make sure they meet the requirements and pass the regulatory approval process.</p><br><h2>Design Review</h2><p>The brand partner designs the banner by following the below specs. The banner needs to be submitted to our internal team for internal review.</p> ; ; ; ; ; ; ; Runtime-><p>2 weeks</p>|Placements-><ul><li>Practitioner's Dashboard Page</li><li>Patient's Landing Page</li></ul>|URL Destination-><ul><li>Brand page</li></ul>|File Sizes-><ul><li>Desktop Large: 3060x300px at 300Kb max</li><li>Desktop Small: 1800x300px at 200Kb max</li><li>Tablet: 1400x330px at 200Kb max</li> <li>Mobile: 700x300px at 70Kb max</li> </ul>|Requirements-><ul><li>Brand logo</li><li>Tagline/Headline</li><li>Product image(s)</li><li>The minimum font-size is 30px</li> <li>"New Brand" badge on the top-left corner</li><li>"Order Now" button on Large and Small Desktop banners. Button is optional on Tablet and Mobile banners.</li></ul>|PSD Template-><a href="/medias/new-brand-template.psd?context=bWFzdGVyfGltYWdlc3w1MTUzMjc0fGltYWdlL3ZuZC5hZG9iZS5waG90b3Nob3B8YUdaaEwyaGxZeTg0T1RBMk5ESXlPVEV4TURBMkwyNWxkeTFpY21GdVpDMTBaVzF3YkdGMFpTNXdjMlF8NjQ5YjQzYTQwNmQzM2NmNmFlZThmNmUzNTRiNmEyODRiZmY2NzE2ZGUyZGE5YWMzMGE1MThmNzFhOTAyMDNlYw&attachment=true" download>Download PSD File</a> ;
+                               ; new_brand_creative_example   ; advertising ; new-brand-onboarding ; Creative Example ->Creative Example         ; <p>The PSD Template was used to create 4 banner sizes that adapt from large desktop to mobile screen sizes. Clicking the ad will redirect customers to the brand page showcasing its catalog of products. These banners are for visual reference only. You can see the actual banner sizes once you login to your WholeScripts account.</p> ; ; ; ; ; ; ; ; new_brand_desktop-big.jpg,new_brand_desktop-small.jpg,new_brand_tablet.jpg,new_brand_mobile.jpg
+
+INSERT_UPDATE WholescriptsTopic ; code[unique=true]                ; page        ; childTopic    ; headline(key(uid),value)[map-delimiter=|] ; mainContent                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            ; authorization(key(uid),value)[map-delimiter=|] ; requestValues(key(uid),value)[map-delimiter=|] ; requestURL(key(uid),value)[map-delimiter=|] ; responseValues(key(uid),value)[map-delimiter=|] ; response(key(uid),value)[map-delimiter=|] ; requestBody(key(uid),value)[map-delimiter=|] ; specs(key(uid),value)[map-delimiter=|]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       ; images(code, $contentCV)                                                                                                                                                        
+                                ; promo_banners_asset_requirements ; advertising ; promo-banners ; Asset Requirements->Asset Requirements    ; <h2>Brand Logo</h2><p>Preferably all logos should be submitted in vector format such as AI, EPS, SVG, or PDF. High-resolution image formats such as JPG or PNG might work as well.</p><br><h2>Product Images</h2><p>Please provide all your product images with transparent backgrounds in PNG image format. Images should be high-resolution and be no less than 500px in height. The product images must reflect the label of what was onboarded and what is in stock.</p><br><h2>Tagline or Headline</h2><p>A short phrase you use as part of your branding or promotional material. Should be 30 characters in length or less.</p> ;                                                ;                                                ;                                             ;                                                 ;                                           ;                                              ;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              ;                                                                                                                                                                                 
+                                ; promo_banners_process_&_specs    ; advertising ; promo-banners ; Process & Specs ->Process & Specs         ; <h2>Asset Review</h2><p>Once these assets are provided, our internal team will review the assets to make sure they meet the requirements and pass the regulatory approval process.</p><br><h2>Design Review</h2><p>The brand partner designs the banner by following the below specs. The banner needs to be submitted to our internal team for internal review.</p>                                                                                                                                                                                                                                                                   ;                                                ;                                                ;                                             ;                                                 ;                                           ;                                              ; Runtime->4 weeks or determined by agreement|Placements-><ul><li>Shop Page</li><li>Catalog Page</li><li>Special Offers Page</li><li>Patient's Landing Page</li><li>Practitioner's Dashboard Page</li></ul>|URL Destination-><ul><li>Product Detail Page</li><li>Filtered Catalog Page</li></ul>|File Sizes-><ul><li>684x340px at 150Kb max</li></ul>|Requirements-><ul><li>Brand logo</li><li>Product image(s)</li><li>Tagline/Headline (if space allows)</li><li>The minimum font-size is 30px</li><li>No savings message on the image such as "15% off"</li><li>One-color (solid) background is preferred</li><li>If you are using a gradient or pattern background, it should fade to a solid background color before it reaches the left or top edges of the banner</li><li>When using a gradient or pattern background, an additional creative review will be needed</li><li>The gradient or patterns cannot overwhelm the text and/or product images</li></ul>|PSD Template-><a href="/" download>Download PSD File</a> ;                                                                                                                                                                                 
+                                ; promo_banners_creative_example   ; advertising ; promo-banners ; Creative Example ->Creative Example       ; <p>The PSD Template was used to create 1 banner size that adapts from large desktop to mobile screen sizes.</p><br><p> This modular banner gets repurposed on 5 different banner sizes.</p><br><p>These banners are for visual reference only. You can see the actual banner sizes once you login to your WholeScripts account.</p><br><p>Visual examples of how the modular banner is implemented on different banner sizes:</p>                                                                                                                                                                                                      ;                                                ;                                                ;                                             ;                                                 ;                                           ;                                              ;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              ; new_Promo_Banner-DL@0.5x.jpg,new_Promo_Banner_DS@0.5x.jpg,new_Promo_Banner-Mobile@0.5x.jpg,new_Promo_Banner-Tablet@0.5x.jpg,new_Promo_Banner-SO.jpg,new_Promo_BannerUpper-SO.jpg
+
+INSERT_UPDATE Media ; code[unique = true]              ; @media[translator = de.hybris.platform.impex.jalo.media.MediaDataTranslator] ; mime[default = 'image/jpeg'] ; $contentCV[unique = true] ; folder(qualifier)[default = images] ; altText                     
+                    ; new_brand_desktop-big.jpg        ; $siteadvertismentPageResource/new_brand_desktop-big.jpg                      ;                              ;                           ;                                     
+                    ; new_brand_desktop-small.jpg      ; $siteadvertismentPageResource/new_brand_desktop-small.jpg                    ;                              ;                           ;                                     
+                    ; new_brand_tablet.jpg             ; $siteadvertismentPageResource/new_brand_tablet.jpg                           ;                              ;                           ;                                     
+                    ; new_brand_mobile.jpg             ; $siteadvertismentPageResource/new_brand_mobile.jpg                           ;                              ;                           ;                                     
+##promobanner       
+                    ; new_Promo_Banner-DL@0.5x.jpg     ; $siteadvertismentPageResource/promoBanner/new_Promo_Banner-DL@0.5x.jpg       ;                              ;                           ;                                     ; Large Desktop               
+                    ; new_Promo_Banner_DS@0.5x.jpg     ; $siteadvertismentPageResource/promoBanner/new_Promo_Banner_DS@0.5x.jpg       ;                              ;                           ;                                     ; Small Desktop               
+                    ; new_Promo_Banner-Mobile@0.5x.jpg ; $siteadvertismentPageResource/promoBanner/new_Promo_Banner-Mobile@0.5x.jpg   ;                              ;                           ;                                     ; Mobile                      
+                    ; new_Promo_Banner-Tablet@0.5x.jpg ; $siteadvertismentPageResource/promoBanner/new_Promo_Banner-Tablet@0.5x.jpg   ;                              ;                           ;                                     ; Tablet                      
+                    ; new_Promo_Banner-SO.jpg          ; $siteadvertismentPageResource/promoBanner/new_Promo_Banner-SO.jpg            ;                              ;                           ;                                     ; new_Promo_Banner-SO.jpg     
+                    ; new_Promo_BannerUpper-SO.jpg     ; $siteadvertismentPageResource/promoBanner/new_Promo_BannerUpper-SO.jpg       ;                              ;                           ;                                     ; new_Promo_BannerUpper-SO.jpg
+
+INSERT_UPDATE Media; $contentCV[unique = true]; code[unique = true]              ; realfilename                     ; @media[translator = de.hybris.platform.impex.jalo.media.MediaDataTranslator]    ; mime[default = 'image/vnd.adobe.photoshop']; folder(qualifier)[default = 'images']; altText
+                   ;                          ; advertisement_new-brand-template ; advertisement_new-brand-template ;$siteadvertismentPageResource/advertisement_new-brand-template.psd ;                                            ;                                      ;
+
+############## END -CCW-312 - Content-Api-Resources##############
+############## CCW-348-Popular Categories Essential Data: Start##############
+#Popular products
+#INSERT_UPDATE WsPopularProducts; productCode[unique = true]; categoryCode   ; weight
+#                               ; 0005101                   ; antioxidant    ; 55
+#                               ; 0005374                   ; neurologic     ; 68
+#                               ; 0005148                   ; neurologic     ; 01
+#                               ; 0005139                   ; neurologic     ; 39
+#                               ; 0005335                   ; neurologic     ; 48
+#                               ; 0005068                   ; neurologic     ; 33
+#                               ; 0005333                   ; neurologic     ; 35
+#                               ; 0008483                   ; antioxidant    ; 75
+#                               ; 0004956                   ; antioxidant    ; 67
+#                               ; 0007267                   ; antioxidant    ; 83
+#                               ; 0004955                   ; antioxidant    ; 13
+#                               ; 0006875                   ; antioxidant    ; 08
+#                               ; 0009113                   ; antioxidant    ; 62
+#                               ; 0010662                   ; antioxidant    ; 56
+#                               ; 0010044                   ; cardiovascular ; 90
+#                               ; 0010008                   ; cytokine       ; 95
+#                               ; 0006670                   ; immune         ; 63
+#                               ; 0004874                   ; cytokine       ; 08
+#                               ; 0005015                   ; cytokine       ; 09
+#                               ; 0005012                   ; cytokine       ; 11
+#                               ; 0005002                   ; cardiovascular ; 17
+#                               ; 0004936                   ; cytokine       ; 91
+#                               ; 0007259                   ; female         ; 98
+#                               ; 0006873                   ; female         ; 00
+#                               ; 0004857                   ; cardiovascular ; 58
+#                               ; 0004872                   ; cardiovascular ; 66
+#                               ; 0008769                   ; cardiovascular ; 84
+#                               ; 0007425                   ; adrenal        ; 88
+#                               ; 0005052                   ; cardiovascular ; 66
+#                               ; 0010978                   ; immune         ; 17
+#                               ; 0008599                   ; immune         ; 84
+#                               ; 0006877                   ; cytokine       ; 53
+#                               ; 0006945                   ; cytokine       ; 54
+#                               ; 0006865                   ; cytokine       ; 27
+#                               ; 0006976                   ; cytokine       ; 28
+#                               ; 0006869                   ; cytokine       ; 29
+#                               ; 0010130                   ; cytokine       ; 30
+#                               ; 0006927                   ; cytokine       ; 35
+#                               ; 0007406                   ; cytokine       ; 36
+#Popular categories
+#INSERT_UPDATE WsPopularCategories; categoryCode[unique = true]; weight
+#                                 ; antioxidant                ; 11
+#                                 ; neurologic                 ; 8
+#                                 ; cardiovascular             ; 6
+#                                 ; cytokine                   ; 18
+#                                 ; immune                     ; 12
+#                                 ; female                     ; 13
+#                                 ; adrenal                    ; 1
+
+#WholescriptsBrand data
+$productCatalog = Catalog_1710_10
+$productCatalogName = Catalog_1710_10
+#Popular products   
+#INSERT_UPDATE WsPopularProducts; productCode[unique = true]; categoryCode; weight
+#                               ; 0004955                   ; 2002        ; 55
+#                               ; 0004956                   ; 2002        ; 56
+#                               ; 0005068                   ; 2001        ; 68
+#                               ; 0005101                   ; 2001        ; 01
+#                               ; 0005139                   ; 2001        ; 39
+#                               ; 0005148                   ; 2001        ; 48
+#                               ; 0005333                   ; 2001        ; 33
+#                               ; 0005335                   ; 2001        ; 35
+#                               ; 0005374                   ; 2001        ; 74
+#                               ; 0006875                   ; 2002        ; 75
+#                               ; 0007267                   ; 2002        ; 67
+#                               ; 0008483                   ; 2002        ; 83
+#                               ; 0009113                   ; 2002        ; 13
+#                               ; 0010008                   ; 2002        ; 08
+#                               ; 0010044                   ; 2002        ; 44
+#                               ; 0010662                   ; 2002        ; 62
+#                               ; 1101690                   ; 1360        ; 90
+#                               ; 1128762                   ; 1358        ; 62
+#                               ; 1128763                   ; 1358        ; 63
+#                               ; 1221417                   ; 1360        ; 17
+#                               ; 1249198                   ; 1386        ; 98
+#                               ; 1249200                   ; 1386        ; 00
+#                               ; 1399958                   ; 1360        ; 58
+#                               ; 1399966                   ; 1360        ; 66
+#                               ; 1399984                   ; 1360        ; 84
+#                               ; 1399988                   ; 1631        ; 88
+#                               ; 1408366                   ; 1360        ; 66
+#                               ; 1664617                   ; 1358        ; 17
+#                               ; 1666884                   ; 1358        ; 84
+#Popular categories
+#INSERT_UPDATE WsPopularCategories; categoryCode[unique = true]; weight
+#                                 ; 2002                       ; 1
+#                                 ; 2001                       ; 1
+#                                 ; 1360                       ; 6
+#                                 ; 1358                       ; 4
+#                                 ; 1386                       ; 2
+#                                 ; 1631                       ; 1
+#Popular brands                   
+#INSERT_UPDATE WsPopularBrands ; brandCode[unique=true] ; weight
+#                              ; xymogen                ; 15
+#                              ; quicksilver            ; 2
+#                              ; acgrace                ; 2
+#                              ; biocidin               ; 16
+#                              ; nordic_naturals        ; 13
+#                              ; allergy_research_group ; 14
+#                              ; fringe                 ; 15
+#                              ; humann                 ; 17
+#                              ; brand_1518             ; 2
+#                              ; brand_980              ; 14
+#                              ; brand_601              ; 1
+#                              ; brand_2897             ; 1
+#                              ; brand_3003             ; 1
+#                              ; brand_2937             ; 12
+#
+#WholescriptsBrand data       
+#$productCatalog = Catalog_1710_10
+#$productCatalogName = Catalog_1710_10
+#$catalogVersion = catalogversion(catalog(id[default = $productCatalog]), version[default = 'ERP_IMPORT'])[unique = true, default = $productCatalog:ERP_IMPORT]
+#$brandLogo = brandLogo(code, $catalogVersion)
+#$brandImage = brandImage(code, $catalogVersion)
+#$siteResourceBrandImages = jar:com.wholescripts.constants.WholescriptsstoreConstants&/Wholescriptsstore/import/coredata/images/brands
+##brand media                  
+#
+#INSERT_UPDATE Media; code[unique = true]                         ; realfilename                                ; mime[default = 'image/jpeg']; @media[translator = de.hybris.platform.impex.jalo.media.MediaDataTranslator]; $catalogVersion[unique = true]
+#                   ; brand-logo-allergy-research-group.png       ; brand-logo-allergy-research-group.png       ; image/png                   ; $siteResourceBrandImages/brand-logo-allergy-research-group.png              ;
+#                   ; brand-logo-biocidin.png                     ; brand-logo-biocidin.png                     ; image/png                   ; $siteResourceBrandImages/brand-logo-biocidin.png                            ;
+#                   ; brand-logo-fringe.png                       ; brand-logo-fringe.png                       ; image/png                   ; $siteResourceBrandImages/brand-logo-fringe.png                              ;
+#                   ; brand-logo-humann.png                       ; brand-logo-humann.png                       ; image/png                   ; $siteResourceBrandImages/brand-logo-humann.png                              ;
+#                   ; brand-logo-nordic-naturals.png              ; brand-logo-nordic-naturals.png              ; image/png                   ; $siteResourceBrandImages/brand-logo-nordic-naturals.png                     ;
+#                   ; brand-logo-quicksilver.png                  ; brand-logo-quicksilver.png                  ; image/png                   ; $siteResourceBrandImages/brand-logo-quicksilver.png                         ;
+#                   ; xymogen-logo-background.svg                 ; xymogen-logo-background.svg                 ; image/svg                   ; $siteResourceBrandImages/xymogen-logo-background.svg                        ;
+#                   ; brand-productimage-allergyresearchgroup.png ; brand-productimage-allergyresearchgroup.png ; image/png                   ; $siteResourceBrandImages/brand-productimage-allergyresearchgroup.png        ;
+#                   ; brand-productimage-biocidin.png             ; brand-productimage-biocidin.png             ; image/png                   ; $siteResourceBrandImages/brand-productimage-biocidin.png                    ;
+#                   ; brand-productimage-fringe.png               ; brand-productimage-fringe.png               ; image/png                   ; $siteResourceBrandImages/brand-productimage-fringe.png                      ;
+#                   ; brand-productimage-humann.png               ; brand-productimage-humann.png               ; image/png                   ; $siteResourceBrandImages/brand-productimage-humann.png                      ;
+#                   ; brand-productimage-nordicnaturals.png       ; brand-productimage-nordicnaturals.png       ; image/png                   ; $siteResourceBrandImages/brand-productimage-nordicnaturals.png              ;
+#                   ; brand-productimage-quicksilver-v2.png       ; brand-productimage-quicksilver-v2.png       ; image/png                   ; $siteResourceBrandImages/brand-productimage-quicksilver-v2.png              ;
+#                   ; brand-productimage-xymogen.png              ; brand-productimage-xymogen.png              ; image/png                   ; $siteResourceBrandImages/brand-productimage-xymogen.png                     ;
+#brands
+$productCatalog = Catalog_1710_10
+$productCatalogName = Catalog_1710_10
+$catalogVersion = catalogversion(catalog(id[default = $productCatalog]), version[default = 'ERP_IMPORT'])[unique = true, default = $productCatalog:ERP_IMPORT]
+$brandLogo = brandLogo(code, $catalogVersion)
+$brandImage = brandImage(code, $catalogVersion)
+$siteResourceBrandImages = jar:com.wholescripts.constants.WholescriptsstoreConstants&/Wholescriptsstore/import/coredata/images/brands
+
+#INSERT_UPDATE WholescriptsBrand; code[unique = true]    ; name                   ; description                                              ; $brandLogo                            ; $brandImage                                 ; brandUrl                              ; brandPriority[default = 999]; isTopBrand[default = false]
+#                               ; xymogen                ; Xymogen                ; Exclusive Professional Formulas                          ; xymogen-logo-background.svg           ; brand-productimage-xymogen.png              ; /c/xymogen                            ;                             ; true
+#                               ; quicksilver            ; Quicksilver            ; Delivering on the Promise of Natural Health              ; brand-logo-quicksilver.png            ; brand-productimage-quicksilver-v2.png       ; /catalog/brand/quickSilver            ;                             ; true
+#                               ; acgrace                ; Acgrace                ; Acgrace                                                  ;                                       ;                                             ; /c/acgrace                            ;                             ;
+#                               ; biocidin               ; Biocidin               ; Balanced Intestinal Ecology                              ; brand-logo-biocidin.png               ; brand-productimage-biocidin.png             ; /catalog/brand/Biocidin               ;                             ; true
+#                               ; nordic_naturals        ; Nordic Naturals        ; Helping People Lead Healthy Lives                        ; brand-logo-nordic-naturals.png        ; brand-productimage-nordicnaturals.png       ; /catalog/brand/nordicNaturals         ;                             ; true
+#                               ; allergy_research_group ; Allergy Research Group ; Innovative Nutrition                                     ; brand-logo-allergy-research-group.png ; brand-productimage-allergyresearchgroup.png ; /catalog/brand/Allergy-Research-Group ;                             ; true
+#                               ; fringe                 ; Fringe                 ; Optimizing the health of current and future generations. ; brand-logo-fringe.png                 ; brand-productimage-fringe.png               ; /catalog/brand/Fringe                 ;                             ; true
+#                               ; humann                 ; Humann                 ; Our Mission is to Change Lives                           ; brand-logo-humann.png                 ; brand-productimage-humann.png               ; /catalog/brand/HumanN                 ;                             ; true
+#                               ; brand_1518             ; BStarTech.com          ; StarTech.com                                             ;                                       ;                                             ; /c/brand_1518                         ;                             ;
+#                               ; brand_980              ; Black & Decker         ; Black & Decker                                           ;                                       ;                                             ; /c/brand_980                          ;                             ;
+#                               ; brand_601              ; Paladin Tools          ; Paladin Tools                                            ;                                       ;                                             ; /c/brand_601                          ;                             ;
+#                               ; brand_2897             ; Victorinox             ; Victorinox                                               ;                                       ;                                             ; /c/brand_2897                         ;                             ;
+#                               ; brand_3003             ; Ultra                  ; Ultra                                                    ;                                       ;                                             ; /c/brand_3003                         ;                             ;
+#                               ; brand_2937             ; Milwaukee              ; Milwaukee                                                ;                                       ;                                             ; /c/brand_2937                         ;                             ;
+
+############## CCW-348-Popular Categories Essential Data: End##############
+
+##############START- CCW-287 Restrictions for Navigation Nodes##############################
+
+
+$contentCatalog = wholescriptsContentCatalog
+$contentCV = catalogVersion(CatalogVersion.catalog(Catalog.id[default = $contentCatalog]), CatalogVersion.version[default = Staged])[default = $contentCatalog:Staged]
+$lang = en
+$picture = media(code, $contentCV)
+$siteadvertismentPageResource = jar:com.wholescripts.constants.WholescriptsstoreConstants&/Wholescriptsstore/import/coredata/images/advertismentPage
+$siteResource = jar:com.wholescripts.constants.WholescriptsstoreConstants&/Wholescriptsstore/import/coredata/images
+INSERT_UPDATE UserGroup; UID[unique = true]       ; groups(uid)[mode = append]; description                 ; name                        ; locName
+                       ; practitionercustomergroup     ;                           ; Practitioner Customer Group ; Practitioner Customer Group ; Practitioner Customer Group
+                       ; patientcustomergroup          ;                           ; Pateint Customer Group      ; Patient Customer Group      ; Patient Customer Group
+                       ; anonymousUserGroup       ;                           ; Anonymous User Group        ; Anonymous User Group        ; Anonymous User Group
+					   ; wholescriptdoctorgroup    ;                           ; Wholescript doctor group    ; Wholescript doctor group    ; Wholescript doctor group
+					   ; privatelabelcustomergroup ;                           ; Private Label Customer Group;Private Label Customer Group ;Private Label Customer Group
+					   ; patientdirectcustomergroup;                           ; patient direct customer group; patient direct customer group; patient direct customer group
+					   ; distributorcustomergroup  ;                           ; distributor customer group   ;distributor customer group    ;distributor customer group
+					   ; studentcustomergroup      ;                           ; student custome rgroup        ; student custome rgroup         ; student custome rgroup 
+                       ; salesrepcustomergroup     ;                           ; salesrep customer group        ; salesrep customer group        ;salesrep customer group
+                       ; friendsfamilycustomergroup;                           ; friends family customer group        ;friends family customer group        ;friends family customer group
+                       ;employeecustomergroup      ;                           ; employeecustomergroup                ;employeecustomergroup              ;employeecustomergroup
+
+                       #anonymous
+INSERT_UPDATE Customer; uid[unique = true]; groups(uid)
+                      ; anonymous         ; anonymousUserGroup
+                      
+ INSERT_UPDATE Employee; UID[unique = true]; groups(uid)[mode = append]
+                      ; cdcadmin             ; backofficeadministratorrole
+					  
+##For global search created seperate restriction##
+INSERT_UPDATE CMSUserGroupRestriction ; $contentCV[unique = true] ; uid[unique = true]                           ; name                                           ; userGroups(uid)      ; includeSubgroups ; components(uid, $contentCV)
+                                      ;                           ; practitioner_searchPage_customer_restriction ; Practiotioner Customer Search Page Restriction ; practitionercustomergroup ; true             ; wsGlobalSearchPrivateLabelParagraph,wsGlobalSearchWebinarsParagraph
+##############END- CCW-287 Restrictions for Navigation Nodes##############################
+
+############### START CCW-827 Web Banners and code snippets : Sample Data ###########
+
+INSERT_UPDATE Media; $contentCV[unique = true]; code[unique = true]; mime[default = 'image/png']; realfilename        ; @media[translator = de.hybris.platform.impex.jalo.media.MediaDataTranslator]
+                   ;                          ; WS-320x50          ;                            ; WS-320x50.png       ; $siteResource/patientdirect/WS-320x50.png
+                   ;                          ; WS-250x250         ;                            ; WS-250x250.png      ; $siteResource/patientdirect/WS-250x250.png
+                   ;                          ; WS-300x250         ;                            ; WS-300x250.png      ; $siteResource/patientdirect/WS-300x250.png
+                   ;                          ; WS-336x280         ;                            ; WS-336x280.png      ; $siteResource/patientdirect/WS-336x280.png
+                   ;                          ; WS-tall-snippet    ;image/jpg                            ; WS-tall-snippet.jpg ; $siteResource/patientdirect/WS-tall-snippet.jpg
+
+
+
+
+INSERT_UPDATE WebBannersAndScriptsEntry; entryNumber[unique = true]; optionId  ; optionName[lang = en]                 ; script                                                                                                                                ; image(code, $contentCV); webPageViewName[lang = en]; webPageViewUrl
+                                       ; 1                         ; Option 1: ; <p>"Nutritional Supplements" link</p> ; <a href_referralLink target="_blank">Nutritional Supplements</a>                                                                      ;                        ; Webpage view:             ; /customer/practitioner-profile/
+                                       ; 2                         ; Option 2: ; <p>"WholeScripts eStore" link</p>     ; <a href_referralLink target="_blank">WholeScripts eStore</a>                                                                          ;                        ; Webpage view:             ; /customer/practitioner-profile/
+                                       ; 3                         ; Option 3: ; <p>Mobile Leaderboard: 320 x 50</p>   ; <a href_referralLink target="_blank"> <img src="https://wholescripts.com/images/uploaded/WS-320x50.png" alt="WholeScripts"></a>       ; WS-320x50              ; Webpage view:             ; /customer/practitioner-profile/
+                                       ; 4                         ; Option 4: ; <p>Square 250 x 250 </p>              ; <a href_referralLink target="_blank"> <img src="https://wholescripts.com/images/uploaded/WS-250x250.png" alt="WholeScripts"></a>      ; WS-250x250             ; Webpage view:             ; /customer/practitioner-profile/
+                                       ; 5                         ; Option 5: ; <p>Medium Rectangle 300 x 250</p      ; <a href_referralLink target="_blank"> <img src="https://wholescripts.com/images/uploaded/WS-300x250.png" alt="WholeScripts"></a>      ; WS-300x250             ; Webpage view:             ; /customer/practitioner-profile/
+                                       ; 6                         ; Option 6: ; <p>Large Rectangle 336 x 280</p>      ; <a href_referralLink target="_blank"> <img src="https://wholescripts.com/images/uploaded/WS-336x280.png" alt="WholeScripts"></a>      ; WS-336x280             ; Webpage view:             ; /customer/practitioner-profile/
+                                       ; 7                         ; Option 7: ; <p>Wide Skyscraper 160 x 600 </p>     ; <a href_referralLink target="_blank"> <img src="https://wholescripts.com/images/uploaded/WS-tall-snippet.jpg" alt="WholeScripts"></a> ; WS-tall-snippet        ; Webpage view:             ; /customer/practitioner-profile/
+
+# --- Insert webBannersAndScripts Records ---
+INSERT_UPDATE WebBannersAndScripts; uid[unique = true]       ; entries(entryNumber)
+                                  ; Dev_WebBannersAndScripts ; 1,2,3,4,5,6,7
+
+############### END CCW-827 Web Banners and code snippets : Sample Data ###########
+
+
+
+
+$productCatalog = Catalog_1710_10
+$productCatalogName = Catalog_1710_10
+$catalogVersion = catalogversion(catalog(id[default = $productCatalog]), version[default = 'ERP_IMPORT'])[unique = true, default = $productCatalog:Staged]
+INSERT_UPDATE Webinar; code[unique = true]                  ; category(code, $catalogVersion)
+                     ; a6910870-3024-4d06-a2af-8eb9dca87680 ; Z_PRODUCT_CATEGORIES_02,Z_PRODUCT_CATEGORIES_03,Z_PRODUCT_CATEGORIES_06,Z_PRODUCT_CATEGORIES_13
+                     ; b72994c2-5e0c-4f41-8082-3f2b7b3cc7ac ; Z_PRODUCT_CATEGORIES_03,Z_PRODUCT_CATEGORIES_04,Z_PRODUCT_CATEGORIES_05,Z_PRODUCT_CATEGORIES_06,Z_PRODUCT_CATEGORIES_07
+
+
+REMOVE ServicelayerJob;code[unique=true];active
+                             ;geocodeAddressesJob;false
+
+REMOVE GeocodeAddressesCronJob;code[unique=true];job(code);active
+                                     ;00000092-Geocode POS Addresses;geocodeAddressesJob;false
+
+###### CCW-1567 Product Categories Search Restriction ########
+INSERT_UPDATE SearchRestriction; code[unique = true]  ; principal(uid)[unique = true]; restrictedType(code)[unique = true]; query                                                 ; active[default = true]; generate[default = false]
+                               ; ExternalAPI_Category ; customergroup                ; Category                           ; "{item:catalogVersion} IN (?session.catalogversions)" ;                       ;
+
+UPDATE SearchRestriction;code[unique=true]     ;active
+                        ;employee_restriction  ; false
+
+INSERT_UPDATE MediaFolder ; qualifier[unique=true] ; path[unique=true]
+                          ; wholescriptsImages     ; wholescriptsImages
+
+
+
+INSERT_UPDATE ConversionMediaFormat ; qualifier[unique=true] ; conversion     ; conversionStrategy[default=imageMagickMediaConversionStrategy]
+                                    ; 515x515                ; -resize 515x515
+                                    ; 300x300                ; -resize 300x300
+                                    ; 96x96                  ; -resize 96x96
+                                    ; 65x65                  ; -resize 65x65
+                                    ; 30x30                  ; -resize 30x30
+									; 1200x1200				 ; -resize 1200x1200
+
+INSERT_UPDATE ConversionGroup ; code[unique=true]           ; name[lang=en]                  ; supportedFormats(qualifier)      ;
+                              ; ProductMediaConversionGroup ; Product Media Conversion Group ; 30x30,65x65,96x96,300x300,515x515
+                              
+$sourceProductCatalog = Default
+$targetProductCatalog = Catalog_1710_10
+
+
+$syncJob = sync $sourceProductCatalog:Staged->$targetProductCatalog:ERP_IMPORT
+$sourceProductCatalogCV = sourceVersion(catalog(id[default=$sourceProductCatalog]),version[default='Staged'])[unique=true,default='$sourceProductCatalog:Staged']
+$targetProductCatalogCV = targetVersion(catalog(id[default=$targetProductCatalog]),version[default='ERP_IMPORT'])[unique=true,default='$targetProductCatalog:ERP_IMPORT']
+
+INSERT_UPDATE CatalogVersionSyncJob; code[unique = true]; $sourceProductCatalogCV; $targetProductCatalogCV; syncPrincipals(uid)[mode = append]; syncPrincipalsOnly[default = false]; removeMissingItems; createNewItems; sendEmail[default = true]; emailNotificationTemplate(code)[default = 'DefaultCronJobFinishNotificationTemplate']; syncLanguages(isocode)	; rootTypes(code)
+                                   ; $syncJob           ;                        ;                        ; cmsmanagergroup                   ;                                    ; true              ; true          ;                          ;                                                                                      ; en						; MediaContainer,Category,Product,Media 
+
+
+INSERT_UPDATE OAuthClientDetails ; clientId[unique=true] ; resourceIds ; scope    ; authorizedGrantTypes                                         ; authorities          ; clientSecret   ; registeredRedirectUri
+                                 ; external_client       ; hybris      ; extended ; authorization_code,refresh_token,password,client_credentials ; ROLE_EXTERNAL_CLIENT ; external123    ;                      ;
+
+
+
+INSERT_UPDATE SupportedAutoShip;code[unique=true];name;priority
+;One-Time;One-Time;1
+;30;Every 30 Days;2
+;60;Every 60 Days;3
+;90;Every 90 Days;4
+
+INSERT_UPDATE B2BUnit; description   					; uid[unique = true]				; name          				; locName[lang = en]
+                     ; Default Wholescripts Unit        ; defaultWholescriptsUnit           ; Default Wholescripts Unit     ; Default Wholescripts Unit
+
+
+
+# it will be use for anonymous user only & to display price for anonymous user.
+INSERT_UPDATE B2BUnit; description         ; uid[unique = true]  ; name                        ; locName[lang = en]   ; groups(uid) ; userPriceGroup(code)
+                     ; Wholscripts B2bUnit ; wholescriptsdefault ; Wholscripts default B2bUnit ; Wholscripts B2bUnit  ;             ; 04
+
+INSERT_UPDATE Customer; UID[unique = true]; groups(uid)[mode = append]
+                      ; anonymous             ; wholescriptsdefault,customergroup
+
+										 
+INSERT_UPDATE PoS2WarehouseRel;source(name)[unique=true];target(code)[unique=true]
+                              ;wholescritsPOS ;          1710
+INSERT_UPDATE PointOfService;name[unique=true];type(code);address(&addrID);latitude;longitude;geocodeTimestamp[dateformat=dd-MM-yyyy];basestore(uid)
+                            ;wholescritsPOS  ;WAREHOUSE  ;addr1;36,08383;-95,86570;01-10-2011;wholescripts
+INSERT_UPDATE Address;&addrID;streetnumber[unique=true];streetname      ;town    ;region(country(isocode),isocode);country(isocode);postalcode[unique=true];phone1;owner(PointOfService.name)[unique=true]
+                     ;addr1  ;6800                     ;6800 Kingspointe Parkway ;Orlando ;US:US-FL                        ;US              ;32819                  ;1-800-331-3333 (Customer Service);wholescritsPOS
+
+
+#CMIR Private label Group assignment Cronjob.
+# Insert or update ServicelayerJob
+INSERT_UPDATE ServicelayerJob; code[unique=true]                               ; springId[unique=true]
+                             ; wholescriptsPrivateLabelCustomerRolesJob    ; wholescriptsPrivateLabelCustomerRolesJob
+
+# Insert or update CronJob
+INSERT_UPDATE CronJob; code[unique=true]                    ; job(code)                                      ; active[default=true] ; sessionLanguage(isoCode)[default=en]
+                     ; PrivateLabelCustomerRolesCronJob   ; wholescriptsPrivateLabelCustomerRolesJob       ; true                 ; en
+
+# Insert or update Trigger
+INSERT_UPDATE Trigger; cronJob(code)[unique=true]            ; second ; minute ; hour ; day  ; month ; year  ; relative[default=false] ; active[default=true] ; maxAcceptableDelay[default=0]
+                     ; PrivateLabelCustomerRolesCronJob     ; 0      ; 0      ; 0    ; -1 ; -1 ; -1 ; false                  ; true                 ; 0
+
+
+INSERT_UPDATE OAuthClientDetails;clientId[unique=true];resourceIds;scope[mode=append];authorizedGrantTypes;accessTokenValiditySeconds;authorities;clientSecret;
+;smartedit;hybris;basic,permissionswebservices,previewwebservices,personalizationwebservices;password,client_credentials;3600;;;  
+
+INSERT_UPDATE SolrPropertiesTypes; code[unique = true] ; name[lang = en]
+                                 ; text_ngram      ; text_ngram
+                                 ; name_ngram      ; name_ngram
+								 
+$sourceProductCatalog = Catalog_1710_10
+$targetProductCatalog = Catalog_1710_10
+
+$syncJob = sync $sourceProductCatalog:ERP_IMPORT->$targetProductCatalog:Online
+$sourceProductCatalogCV = sourceVersion(catalog(id[default=$sourceProductCatalog]),version[default='ERP_IMPORT'])[unique=true,default='$sourceProductCatalog:ERP_IMPORT']
+$targetProductCatalogCV = targetVersion(catalog(id[default=$targetProductCatalog]),version[default='Online'])[unique=true,default='$targetProductCatalog:Online']
+
+INSERT_UPDATE CatalogVersionSyncJob; code[unique = true]; $sourceProductCatalogCV; $targetProductCatalogCV; syncPrincipals(uid)[mode = append]; syncPrincipalsOnly[default = false]; removeMissingItems; createNewItems; sendEmail[default = true]; emailNotificationTemplate(code)[default = 'DefaultCronJobFinishNotificationTemplate']; syncLanguages(isocode)	; rootTypes(code)
+                                   ; $syncJob           ;                        ;                        ; cmsmanagergroup                   ;                                    ; true              ; true          ;                          ;                                                                                      ; en						; MediaContainer,Category,Product,Media
+
+
+$sourceProductCatalog = Catalog_1710_10
+$targetProductCatalog = Catalog_1710_10
+
+$syncJob = syncprice $sourceProductCatalog:ERP_IMPORT->$targetProductCatalog:Online
+$sourceProductCatalogCV = sourceVersion(catalog(id[default=$sourceProductCatalog]),version[default='ERP_IMPORT'])[unique=true,default='$sourceProductCatalog:ERP_IMPORT']
+$targetProductCatalogCV = targetVersion(catalog(id[default=$targetProductCatalog]),version[default='Online'])[unique=true,default='$targetProductCatalog:Online']
+
+INSERT_UPDATE CatalogVersionSyncJob; code[unique = true]; $sourceProductCatalogCV; $targetProductCatalogCV; syncPrincipals(uid)[mode = append]; syncPrincipalsOnly[default = false]; removeMissingItems; createNewItems; sendEmail[default = true]; emailNotificationTemplate(code)[default = 'DefaultCronJobFinishNotificationTemplate']; syncLanguages(isocode)	; rootTypes(code)
+                                   ; $syncJob           ;                        ;                        ; cmsmanagergroup                   ;                                    ; true              ; true          ;                          ;                                                                                      ; en						; Product,PriceRow
+
+
+								 
+INSERT_UPDATE CheckoutPaymentType;code[unique=true];name[lang=en]
+                               #  ;ZWIR             ; Wire transfer, ACH transfer, or by mail
+								# ;ZACH             ; Pay With ACH
+								 ;NT60             ; NT60
+								 ;ZTEL             ; Call in my payment to (800) 647-6100
+								 ;XCRD             ; Purchases made using a Credit Card
+								 ;NT30             ; Pay with account terms
+								 
+INSERT_UPDATE PoS2WarehouseRel;source(name)[unique=true];target(code)[unique=true]
+                              ;wholescritsPOS ;          1710
+INSERT_UPDATE PointOfService;name[unique=true];type(code);address(&addrID);latitude;longitude;geocodeTimestamp[dateformat=dd-MM-yyyy];basestore(uid)
+                            ;wholescritsPOS  ;WAREHOUSE  ;addr1;36,08383;-95,86570;01-10-2011;wholescripts
+INSERT_UPDATE Address;&addrID;streetnumber[unique=true];streetname      ;town    ;region(country(isocode),isocode);country(isocode);postalcode[unique=true];phone1;owner(PointOfService.name)[unique=true]
+                     ;addr1  ;6800                     ;6800 Kingspointe Parkway ;Orlando ;US:US-FL     
+					 ;US              ;32819                  ;1-800-331-3333 (Customer Service);wholescritsPOS
+								 
+								 
+$sourceProductCatalog = Catalog_1710_10
+$targetProductCatalog = Catalog_1710_10
+$syncJob = syncproduct $sourceProductCatalog:ERP_IMPORT->$targetProductCatalog:Online
+$sourceProductCatalogCV = sourceVersion(catalog(id[default=$sourceProductCatalog]),version[default='ERP_IMPORT'])[unique=true,default='$sourceProductCatalog:ERP_IMPORT']
+$targetProductCatalogCV = targetVersion(catalog(id[default=$targetProductCatalog]),version[default='Online'])[unique=true,default='$targetProductCatalog:Online']
+INSERT_UPDATE CatalogVersionSyncJob; code[unique = true]; $sourceProductCatalogCV; $targetProductCatalogCV; syncPrincipals(uid)[mode = append]; syncPrincipalsOnly[default = false]; removeMissingItems; createNewItems; sendEmail[default = true]; syncLanguages(isocode)	; rootTypes(code)
+                                   ; $syncJob           ;                        ;                        ; cmsmanagergroup                   ;                                    ; true              ; true          ;                          ; en						; MediaContainer,Category,Product,Media
+
+
+$sourceProductCatalog = Catalog_1710_10
+$targetProductCatalog = Catalog_1710_10
+$syncJob = syncproductfeature $sourceProductCatalog:ERP_IMPORT->$targetProductCatalog:Online
+$sourceProductCatalogCV = sourceVersion(catalog(id[default=$sourceProductCatalog]),version[default='ERP_IMPORT'])[unique=true,default='$sourceProductCatalog:ERP_IMPORT']
+$targetProductCatalogCV = targetVersion(catalog(id[default=$targetProductCatalog]),version[default='Online'])[unique=true,default='$targetProductCatalog:Online']
+INSERT_UPDATE CatalogVersionSyncJob; code[unique = true]; $sourceProductCatalogCV; $targetProductCatalogCV; syncPrincipals(uid)[mode = append]; syncPrincipalsOnly[default = false]; removeMissingItems; createNewItems; sendEmail[default = true]; syncLanguages(isocode)	; rootTypes(code)
+                                   ; $syncJob           ;                        ;                        ; cmsmanagergroup                   ;                                    ; true              ; true          ;                          ; en						; MediaContainer,Category,Product,Media
+
+
+UPDATE CreditCardType;code[unique=true];name[lang=$lang]
+;discover;"Discover"

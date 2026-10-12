@@ -1,0 +1,31 @@
+@if(!location.path().includes('accounts-settings/Payment')){
+    <div class="header">
+        <div class="d-flex col-12 py-3 cardTitle">
+            <h4 class="text-center col-11">ADD CREDIT CARD</h4>
+            <button type="button" id="add-credit-card-close" class="close" aria-hidden="true" tabindex="0" (click)="closePopup()" aria-label="Close popup" (keydown.enter)="closePopup()" (keydown.space)="closePopup()" #closeButton>
+            <i class="fa fa-close fs-14"></i>
+            </button>
+        </div>
+    </div>
+}
+<div class="container ws-bg-white pt-3">
+    <h6 class="text-start mb-2 fw-600 fs-18">Select Billing Address</h6>
+    @for (item of radioButtons;  let i = $index; track item.key) {
+        <div class="form-check form-check-inline fs-16">
+            <input #addressRadio class="form-check-input" type="radio" name="addressOption" [value]="item.key" [formControl]="radioButtonForm"  (keydown)="onRadioKeydown($event, i)" [attr.data-index]="i"  [attr.tabindex]="radioButtonForm.value === item.key ? '0' : '-1'" [attr.aria-checked]="radioButtonForm.value === item.key" role="radio" [id]="'addressOption' + i">
+            <label class="form-check-label" [attr.for]="'addressOption' + i">{{item.value}}</label>
+        </div>
+    }
+</div>
+@if(radioButtonForm.value == 'existing'){
+<ws-add-existing-address class="col-12 px-0 mx-0" [isAccountSettings]="location.path().includes('accounts-settings/Payment')" [newAddressAdded]="newAddressAdded"></ws-add-existing-address>
+}@else{
+<ws-add-new-address [isAccountSettings]="location.path().includes('accounts-settings/Payment')" ></ws-add-new-address>
+
+}
+
+<ng-template #validateAddress>
+    <ws-checkout-delivery-validate-address (hideValidateAddressModal)="closeTopModal()" (refreshDeliveryAddresses)="getAllAddresses($event)"
+    [newDeliveryAddress]="newAndValidateAddressDetails()?.newDeliveryAddress" [activeCartId]="activeCartService.getActiveCartId()|async"
+    [validatedAddressResponse]="newAndValidateAddressDetails()?.validatedAddressResponse"></ws-checkout-delivery-validate-address>
+</ng-template>

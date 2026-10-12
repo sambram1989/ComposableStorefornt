@@ -1,0 +1,84 @@
+<div class="product-card p-0" *ngFor="let product of shopifyProductsList()">
+    <div class="image-container">
+        <div [ngClass]="
+      product?.isFeatured
+        ? 'featured'
+        : product?.isNew
+        ? 'new'
+        : product?.bestSeller
+        ? 'bestseller'
+        : 'd-none'
+    " class="badge">
+            {{ getBadge(product) + " " }}
+            <span [ngClass]="
+        product?.isFeatured
+          ? 'featured'
+          : product?.isNew
+          ? 'new'
+          : product?.bestSeller
+          ? 'bestseller'
+          : 'd-none'
+      " class="badge-text">{{ getBadge(product) }}
+            </span>
+        </div>
+        <img *ngIf="product?.image" [src]="occ?.backend?.occ?.baseUrl + product?.image" format="product" [alt]="product?.name" role="img">
+        <img *ngIf="!product?.image" src="../../../../../assets/images/shopify/no-product.svg" format="product" [alt]="product?.name" role="img">
+        <div *ngIf="isLoggedIn" class="code-tooltip">
+            <div class="copy-code">
+                <span class="code-tooltiptext">{{
+                    product.favorite
+                    ? "Remove from Favorites"
+                    : "Add to Favorites"
+                    }}</span>
+                <button (click)="updateFavorites.emit(product)" class="heart-btn" [attr.aria-label]="product.favorite ? ('Remove ' + product?.name + ' from favorites') : ('Add ' + product?.name + ' to favorites')" tabindex="0">
+                    <i class="fa-solid fa-heart" [ngClass]="product.favorite && 'fa-active'"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="product-info">
+        <a class="brand-name" [routerLink]="product?.brandUrl" [attr.aria-label]="'Brand: ' + product?.brandName" tabindex="0">{{
+            product?.brandName
+            }}</a>
+        <a [routerLink]="product?.productUrl" class="product-title" [innerHTML]="product?.name" [attr.aria-label]="'Product: ' + product?.name" tabindex="0">
+        </a>
+        <p class="product-description" [innerHTML]="product?.shortDescription" [attr.aria-label]="'Description: ' + product?.shortDescription" tabindex="0"></p>
+        <div class="price-actions">
+            <p class="bolder">{{ product?.mapPrice?.formattedValue }}</p>
+            <p class="bold">
+                Wholesale
+                <span> {{ product?.wholesalePrice?.formattedValue }} </span>
+            </p>
+        </div>
+    </div>
+    <div class="action-buttons">
+        <button *ngIf="product?.importStatus === 'Not Imported'" class="import-product-btn"
+            (click)="importProducts.emit([product?.code])" [attr.aria-label]="'Import ' + product?.name" tabindex="0">
+            <span>
+                Import Product
+                <i class="fa fa-plus pl-1" aria-hidden="true"></i>
+            </span>
+        </button>
+        <button *ngIf="product?.importStatus === 'Imported Products'" class="resync-product-btn" 
+            (click)="importProducts.emit([product?.code])"  [attr.aria-label]="'Resync ' + product?.name" tabindex="0">
+            <span>
+                Resync Product
+                <i class="fas fa-redo pl-1" aria-hidden="true"></i>
+            </span>
+        </button>
+        <button *ngIf="product?.importStatus === 'Pending Import'" class="delete-product-btn"
+            (click)="deleteProducts.emit([product?.code])" [attr.aria-label]="'Remove ' + product?.name" tabindex="0">
+            <span>
+                Remove Product
+                <i class="fa fa-trash pl-1" aria-hidden="true"></i>
+            </span>
+        </button>
+        <button *ngIf="product?.importStatus === 'Failed to Import'" class="retry-product-btn"
+            (click)="importProducts.emit([product?.code])" [attr.aria-label]="'Retry import of ' + product?.name" tabindex="0">
+            <span>
+                Retry
+                <i class="fa fa-warning pl-1" aria-hidden="true"></i>
+            </span>
+        </button>
+    </div>
+</div>

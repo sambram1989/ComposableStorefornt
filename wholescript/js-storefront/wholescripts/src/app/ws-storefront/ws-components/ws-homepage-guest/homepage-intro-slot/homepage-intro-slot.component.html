@@ -1,0 +1,108 @@
+<section class="intro container-left pattern-bg-right box-shadow">
+    <input type="radio" name="user" id="practitioner" checked />
+    <input type="radio" name="user" id="patient" />
+    <div class="grid">
+        <div class="left">
+            <div class="tabview">
+                <label for="practitioner" id="prac">
+                    <i class="fas fa-user-md" aria-hidden="true" role="presentation"></i>
+                    <h5 class="bolder mb-0 bg-clr">I'm a Practitioner</h5>
+                </label>
+                <label for="patient" id="pat">
+                    <i class="fas fa-user" aria-hidden="true" role="presentation"></i>
+                    <h5 class="bolder mb-0 bg-clr">I'm a Patient</h5>
+                </label>
+                <div class="indicator">
+                </div>
+                <div class="indicator-bg">
+                </div>
+            </div>
+            <div class="mobile-imgs">
+                <div class="practitioner-img">
+                    <cx-media [container]="getImage(practitionerTab['PractitionerComponent1'])" [alt]="practitionerTab['PractitionerComponent1'].headline"></cx-media>
+                </div>
+                <div class="patient-img">
+                    <cx-media [container]="getImage(patientTab['PatientComponent1'])" [alt]="patientTab['PatientComponent1'].headline"></cx-media>
+                </div>
+            </div>
+            <div class="practitioner-info">
+                <h4 class="bolder mt-4">{{ practitionerTab['PractitionerComponent1'].headline }}</h4>
+                <h4 class="fw-500">{{ practitionerTab['PractitionerComponent1'].content }}</h4>
+                <hr />
+                <div class="features">
+                    <cx-media [container]="getImage(practitionerTab['PractitionerComponent2'])" [alt]="practitionerTab['PractitionerComponent2'].headline"></cx-media>
+                    <div>
+                        <h5 class="bolder">{{ practitionerTab['PractitionerComponent2'].headline }}</h5>
+                        <div>{{ practitionerTab['PractitionerComponent2'].content }}</div>
+                    </div>
+                    <cx-media [container]="getImage(practitionerTab['PractitionerComponent3'])" [alt]="practitionerTab['PractitionerComponent3'].headline"></cx-media>
+                    <div>
+                        <h5 class="bolder">{{ practitionerTab['PractitionerComponent3'].headline }}</h5>
+                        <div>{{ practitionerTab['PractitionerComponent3'].content }}</div>
+                    </div>
+                    <cx-media [container]="getImage(practitionerTab['PractitionerComponent4'])" [alt]="practitionerTab['PractitionerComponent4'].headline"></cx-media>
+                    <div>
+                        <h5 class="bolder">{{ practitionerTab['PractitionerComponent4'].headline }}</h5>
+                        <div>{{ practitionerTab['PractitionerComponent4'].content }}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="patient-info">
+                <h4 class="bolder mt-4">{{ patientTab['PatientComponent1'].headline }}</h4>
+                <h4 class="fw-500">{{ patientTab['PatientComponent1'].content }}</h4>
+                <hr />
+                <div class="features">
+                    <cx-media [container]="getImage(patientTab['PatientComponent2'])" [alt]="patientTab['PatientComponent2'].headline"></cx-media>
+                    <div>
+                        <h5 class="bolder">{{ patientTab['PatientComponent2'].headline }}</h5>
+                        <div>{{ patientTab['PatientComponent2'].content }}</div>
+                    </div>
+                    <cx-media [container]="getImage(patientTab['PatientComponent3'])" [alt]="patientTab['PatientComponent3'].headline"></cx-media>
+                    <div>
+                        <h5 class="bolder">{{ patientTab['PatientComponent3'].headline }}</h5>
+                        <div>{{ patientTab['PatientComponent3'].content }}</div>
+                    </div>
+                    <cx-media [container]="getImage(patientTab['PatientComponent4'])" [alt]="patientTab['PatientComponent4'].headline"></cx-media>
+                    <div>
+                        <h5 class="bolder">{{ patientTab['PatientComponent4'].headline }}</h5>
+                        <div>{{ patientTab['PatientComponent4'].content }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="right">
+            <div class="practitioner-img">
+                <cx-media [container]="getImage(practitionerTab['PractitionerComponent1'])" [alt]="practitionerTab['PractitionerComponent1'].headline"></cx-media>
+            </div>
+            <div class="patient-img">
+                <cx-media [container]="getImage(patientTab['PatientComponent1'])" [alt]="patientTab['PatientComponent1'].headline"></cx-media>
+            </div>
+        </div>
+    </div>
+    <div class="row bottom practitioner col-12">
+        <a class="bolder text-link" [routerLink]="practitionerTab['PractitionerLearnMoreLinkComponent']?.url">
+            {{ practitionerTab['PractitionerLearnMoreLinkComponent']?.linkName }}
+        </a>
+        <a class="btn btn-primary btn-rounded ml-sm-4" [routerLink]="practitionerTab['PractitionerRegisterLinkComponent']?.url">
+            {{ practitionerTab['PractitionerRegisterLinkComponent']?.linkName }}
+        </a>
+    </div>
+    <div class="bottom patient col-12">
+        <div class="row col-12 col-lg-7 p-0">
+            <a class="bolder text-link" [routerLink]="patientTab['PatientLearnMoreLinkComponent']?.url">
+                {{ patientTab['PatientLearnMoreLinkComponent']?.linkName }}
+            </a>
+            <a class="btn btn-primary btn-rounded ml-md-3" [routerLink]="patientTab['PatientRegisterLinkComponent']?.url">
+                {{ patientTab['PatientRegisterLinkComponent']?.linkName }}
+            </a>
+        </div>
+        <div class="row col-12 col-lg-5 p-0 text-lg-center">
+            <span class="bolder">
+                {{ patientTab['PatientComponent5'].headline }}
+            </span>
+            <a class="btn btn-outline-primary btn-rounded ml-md-3 btn-find-pract" [routerLink]="patientTab['PatientFindPractitionerLinkComponent']?.url">
+                {{ patientTab['PatientFindPractitionerLinkComponent']?.linkName }}
+            </a>
+        </div>
+    </div>
+</section>

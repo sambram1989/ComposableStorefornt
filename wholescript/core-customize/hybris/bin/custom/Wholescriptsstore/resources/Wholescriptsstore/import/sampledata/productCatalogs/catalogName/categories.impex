@@ -1,0 +1,191 @@
+#######################Brands##
+$productCatalog=Catalog_1710_10
+$catalogVersion = catalogversion(catalog(id[default = $productCatalog]), version[default = 'Staged'])[unique = true, default = $productCatalog:Staged]
+$catalogVersion=catalogversion(catalog(id[default=$productCatalog]),version[default='ERP_IMPORT'])[unique=true,default=$productCatalog:ERP_IMPORT]
+$supercategories=source(code, $catalogVersion)[unique=true]
+$categories=target(code, $catalogVersion)[unique=true]
+$logos=logo(code, $catalogVersion)
+$picture=picture(code, $catalogVersion)
+$siteResourceCategoryImages = jar:com.wholescripts.constants.WholescriptsstoreConstants&/Wholescriptsstore/import/sampledata/images/category
+$lang=en
+#$productCatalogName=catalog_1710_10_ProductCatalog
+$supercategories=source(code, $catalogVersion)[unique=true]
+$categories=target(code, $catalogVersion)[unique=true]
+$siteResource = jar:com.wholescripts.constants.WholescriptsstoreConstants&/Wholescriptsstore/import/coredata/images
+INSERT_UPDATE Category; code[unique = true]; allowedPrincipals(uid)[default = 'customergroup'];$catalogVersion
+                      ; 1
+;catalog;
+
+INSERT_UPDATE CategoryCategoryRelation; $categories              ; $supercategories
+									  ; catalog                  ; 1
+									  ; Z_PRODUCT_CATEGORIES_09  ; catalog
+									  ; Z_PRODUCT_CATEGORIES_18  ; catalog
+									  ; Z_PRODUCT_CATEGORIES_05  ; catalog
+									  ; Z_PRODUCT_CATEGORIES_10  ; catalog
+									  ; Z_PRODUCT_CATEGORIES_20  ; catalog
+									  ; Z_PRODUCT_CATEGORIES_13  ; catalog
+									  ; Z_PRODUCT_CATEGORIES_04  ; catalog
+									  ; Z_PRODUCT_CATEGORIES_01  ; catalog
+									  ; Z_PRODUCT_CATEGORIES_17  ; catalog
+									  ; Z_PRODUCT_CATEGORIES_19  ; catalog
+									  ; Z_PRODUCT_CATEGORIES_07  ; catalog
+									  ; Z_PRODUCT_CATEGORIES_24  ; catalog
+									  ; Z_PRODUCT_CATEGORIES_02  ; catalog
+									  ; Z_PRODUCT_CATEGORIES_16  ; catalog
+									  ; Z_PRODUCT_CATEGORIES_06  ; catalog
+									  ; Z_PRODUCT_CATEGORIES_15  ; catalog
+									  ; Z_PRODUCT_CATEGORIES_22  ; catalog
+									  ; Z_PRODUCT_CATEGORIES_03  ; catalog
+									  ; Z_PRODUCT_CATEGORIES_104 ; catalog
+									  ; Z_PRODUCT_CATEGORIES_12  ; catalog
+									  ; Z_PRODUCT_CATEGORIES_21  ; catalog
+									  ; Z_PRODUCT_CATEGORIES_08  ; catalog
+									  ; Z_PRODUCT_CATEGORIES_14  ; catalog
+									  ; Z_PRODUCT_CATEGORIES_11  ; catalog
+									  ; Z_PRODUCT_CATEGORIES_26  ; catalog
+									  ; Z_PRODUCT_CATEGORIES_27  ; catalog
+									  ; Z_PRODUCT_CATEGORIES_30  ; catalog
+									  ; Z_PRODUCT_CATEGORIES_31  ; catalog
+									  ; Z_PRODUCT_CATEGORIES_25  ; catalog
+									  ; Z_PRODUCT_CATEGORIES_28  ; catalog
+									  ; Z_PRODUCT_CATEGORIES_29  ; catalog
+									  ; Z_PRODUCT_CATEGORIES_32  ; catalog
+									  ; Z_PRODUCT_CATEGORIES_34  ; catalog
+
+INSERT_UPDATE Media; $catalogVersion[unique = true]; code[unique = true]   ; mime[default = 'image/svg']; realfilename              ; @media[translator = de.hybris.platform.impex.jalo.media.MediaDataTranslator]
+				   ;                          ; FullCatalog-icon      ;                            ; FullCatalog-icon.svg      ; $siteResource/Categories/FullCatalog-icon.svg
+				   ;                          ; antioxidant-icon      ;                            ; antioxidant-icon.svg      ; $siteResource/Categories/antioxidant-icon.svg
+				   ;                          ; bloodsugar-icon       ;                            ; bloodsugar-icon.svg       ; $siteResource/Categories/bloodsugar-icon.svg
+				   ;                          ; adrenal-icon          ;                            ; adrenal-icon.svg          ; $siteResource/Categories/adrenal-icon.svg
+				   ;                          ; bodycomposition-icon  ;                            ; bodycomposition-icon.svg  ; $siteResource/Categories/bodycomposition-icon.svg
+				   ;                          ; bonehealth-icon       ;                            ; bonehealth-icon.svg       ; $siteResource/Categories/bonehealth-icon.svg
+				   ;                          ; neurologic-icon       ;                            ; neurologic-icon.svg       ; $siteResource/Categories/neurologic-icon.svg
+				   ;                          ; cardiovascular-icon   ;                            ; cardiovascular-icon.svg   ; $siteResource/Categories/cardiovascular-icon.svg
+				   ;                          ; celllife-icon         ;                            ; celllife-icon.svg         ; $siteResource/Categories/celllife-icon.svg
+				   ;                          ; childrens-icon        ;                            ; childrens-icon.svg        ; $siteResource/Categories/childrens-icon.svg
+				   ;                          ; cytokine-icon         ;                            ; cytokine-icon.svg         ; $siteResource/Categories/cytokine-icon.svg
+				   ;                          ; detoxification-icon   ;                            ; detoxification-icon.svg   ; $siteResource/Categories/detoxification-icon.svg
+				   ;                          ; sports-icon           ;                            ; sports-icon.svg           ; $siteResource/Categories/sports-icon.svg
+				   ;                          ; essentialoils-icon    ;                            ; essentialoils-icon.svg    ; $siteResource/Categories/essentialoils-icon.svg
+				   ;                          ; gastrointestinal-icon ;                            ; gastrointestinal-icon.svg ; $siteResource/Categories/gastrointestinal-icon.svg
+				   ;                          ; immune-icon           ;                            ; immune-icon.svg           ; $siteResource/Categories/immune-icon.svg
+				   ;                          ; jointmuscle-icon      ;                            ; jointmuscle-icon.svg      ; $siteResource/Categories/jointmuscle-icon.svg
+				   ;                          ; liver-icon            ;                            ; liver-icon.svg            ; $siteResource/Categories/liver-icon.svg
+				   ;                          ; male-icon             ;                            ; male-icon.svg             ; $siteResource/Categories/male-icon.svg
+				   ;                          ; nsfsport-icon-h       ;                            ; nsfsport-icon-h.svg       ; $siteResource/Categories/nsfsport-icon-h.svg
+				   ;                          ; probiotics-icon       ;                            ; probiotics-icon.svg       ; $siteResource/Categories/probiotics-icon.svg
+				   ;                          ; relaxation-icon       ;                            ; relaxation-icon.svg       ; $siteResource/Categories/relaxation-icon.svg
+				   ;                          ; thyroid-icon          ;                            ; thyroid-icon.svg          ; $siteResource/Categories/thyroid-icon.svg
+				   ;                          ; multivitamin-icon     ;                            ; multivitamin-icon.svg     ; $siteResource/Categories/multivitamin-icon.svg
+				   ;                          ; female-icon           ;                            ; female-icon.svg           ; $siteResource/Categories/female-icon.svg
+
+
+
+INSERT_UPDATE Category; code[unique = true]      ; categoryUrl                                ; $catalogVersion[unique = true]; retailName               ; $picture
+					  ; Z_PRODUCT_CATEGORIES_05  ; /catalog/category/bone-health-support      ;                ; Bone                     ; bonehealth-icon
+					  ; Z_PRODUCT_CATEGORIES_16  ; /catalog/category/male-health              ;                ; Men's Health             ; male-icon
+					  ; Z_PRODUCT_CATEGORIES_11  ; /catalog/category/female-health            ;                ; Women's Health           ; female-icon
+					  ; Z_PRODUCT_CATEGORIES_15  ; /catalog/category/liver-support            ;                ; Liver Support            ; liver-icon
+					  ; Z_PRODUCT_CATEGORIES_22  ; /catalog/category/thyroid-support          ;                ; Thyroid                  ; thyroid-icon
+					  ; 1                        ; /1                                         ;                ;                          ;
+					  ; Z_PRODUCT_CATEGORIES_08  ; /catalog/category/cytokine-balance-support ;                ; Cytokine Balance Support ; cytokine-icon
+					  ; catalog                  ; /catalog                                   ;                ;                          ;
+					  ; Z_PRODUCT_CATEGORIES_12  ; /catalog/category/gastrointestinal-support ;                ; Gut Health               ; gastrointestinal-icon
+					  ; Z_PRODUCT_CATEGORIES_09  ; /catalog/category/detoxification           ;                ; Detox                    ; detoxification-icon
+					  ; Z_PRODUCT_CATEGORIES_07  ; /catalog/category/cell-life-regulation     ;                ; Cellular Wellness        ; celllife-icon
+					  ; Z_PRODUCT_CATEGORIES_01  ; /catalog/category/adrenal-support          ;                ; Adrenal                  ; adrenal-icon
+					  ; Z_PRODUCT_CATEGORIES_20  ; /catalog/category/relaxation-sleep         ;                ; Stress & Sleep           ; relaxation-icon
+					  ; Z_PRODUCT_CATEGORIES_06  ; /catalog/category/cardiovascular-support   ;                ; Cardiovascular           ; cardiovascular-icon
+					  ; Z_PRODUCT_CATEGORIES_02  ; /catalog/category/antioxidant-activity     ;                ; Antioxidant              ; antioxidant-icon
+					  ; Z_PRODUCT_CATEGORIES_24  ; /catalog/category/nsf-certified-for-sport  ;                ; NSF Certified for Sport  ; nsfsport-icon-h
+					  ; Z_PRODUCT_CATEGORIES_14  ; /catalog/category/joint-muscle-support     ;                ; Joints & Muscles         ; jointmuscle-icon
+					  ; Z_PRODUCT_CATEGORIES_04  ; /catalog/category/body-composition         ;                ; Body Composition         ; bodycomposition-icon
+					  ; Z_PRODUCT_CATEGORIES_21  ; /catalog/category/sports-nutrition         ;                ; Fitness                  ; sports-icon
+					  ; Z_PRODUCT_CATEGORIES_10  ; /catalog/category/essential-fatty-acids    ;                ; Essential Fatty Acids    ; essentialoils-icon
+					  ; Z_PRODUCT_CATEGORIES_19  ; /catalog/category/probiotics               ;                ; Probiotic                ; probiotics-icon
+					  ; Z_PRODUCT_CATEGORIES_13  ; /catalog/category/immune-system-support    ;                ; Immune                   ; immune-icon
+					  ; Z_PRODUCT_CATEGORIES_104 ; /catalog/category/childrens-health         ;                ; Childern's Health        ; childrens-icon
+					  ; Z_PRODUCT_CATEGORIES_18  ; /catalog/category/neurologic-cognitive     ;                ; Brain & Nervous System   ; neurologic-icon
+					  ; Z_PRODUCT_CATEGORIES_03  ; /catalog/category/blood-sugar-support      ;                ; Blood Sugar              ; bloodsugar-icon
+					  ; Z_PRODUCT_CATEGORIES_17  ; /catalog/category/multivitamins-minerals   ;                ; Multivitamins            ; multivitamin-icon
+					  ; Z_PRODUCT_CATEGORIES_26  ; /catalog/category/vitamins-minerals        ;                ; Vitamins & Minerals      ;
+					  ; Z_PRODUCT_CATEGORIES_27  ; /catalog/category/multivitamins            ;                ; Multivitamins            ;
+					  ; Z_PRODUCT_CATEGORIES_30  ; /catalog/category/hormone-support          ;                ; Hormone Support          ;
+					  ; Z_PRODUCT_CATEGORIES_31  ; /catalog/category/mood                     ;                ; Mood                     ;
+					  ; Z_PRODUCT_CATEGORIES_25  ; /catalog/category/proteins                 ;                ; Proteins                 ;
+					  ; Z_PRODUCT_CATEGORIES_28  ; /catalog/category/energy                   ;                ; Energy                   ;
+					  ; Z_PRODUCT_CATEGORIES_29  ; /catalog/category/relaxation-sleep         ;                ; Stress & Sleep           ;
+					  ; Z_PRODUCT_CATEGORIES_33  ; /catalog/category/vision                   ;                ; Vision                   ;
+					  ; Z_PRODUCT_CATEGORIES_32  ; /catalog/category/fish-oils                ;                ; Fish Oils                ;
+					  ; Z_PRODUCT_CATEGORIES_34  ; /catalog/category/herbal-products          ;                ; Herbal Products          ;
+
+#INSERT_UPDATE Category;$catalogVersion; code[unique = true]; allowedPrincipals(uid)[default = 'customergroup']
+#                      ;                ; 2001               ;
+#                      ;                ; 2002               ;
+#                      ;                ; brands             ;
+#                      ;                ; xymogen            ;
+#                      ;                ; acgrace            ;
+#                      ;                ; quicksilver        ;
+#
+#INSERT_UPDATE CategoryCategoryRelation; $categories ; $supercategories
+#                                      ; 2001        ; 1
+#                                      ; 2002        ; 1
+#                                      ; brands      ; 1
+#                                      ; xymogen     ; brands
+#                                      ; acgrace     ; brands
+#                                      ; quicksilver ; brands
+#
+##locallization
+# Language
+#$lang = en
+#
+#UPDATE Category;$catalogVersion; code[unique = true]; name[lang = $lang]; description[lang = $lang]
+#               ;                ; brands             ; Brands            ; Brands   ;
+#               ;                ; xymogen            ; Xymogen           ; Xymogen  ;
+#               ;                ; acgrace            ; AC Grace          ; AC Grace ;
+#               ;                ; quicksilver        ; Quicksilver       ; Quicksilver
+#
+#category media
+##Update Categories with medias
+#INSERT_UPDATE Category;code[unique=true];name[lang=$lang]			;description[lang=$lang];$picture				;$logos					;$catalogVersion
+#				;antioxidant	 ;Antioxidant	  			;Antioxidant			;antioxidant-icon.svg	;antioxidant-icon.svg
+#				;neurologic	 	 ;Brain & Nervous System	;Brain & Nervous System	;neurologic-icon.svg	;neurologic-icon.svg
+#				;cardiovascular	 ;Cardiovascular			;Cardiovascular			;cardiovascular-icon.svg;cardiovascular-icon.svg
+#				;cytokine	 	 ;Cytokine Balance Support	;Cytokine Balance Support;cytokine-icon.svg		;cytokine-icon.svg
+#				;immune	 	 	 ;Immune					;Immune					;immune-icon.svg		;immune-icon.svg
+#				;female	 	 	 ;Women's Health			;Women's Health			;female-icon.svg		;female-icon.svg
+#				;adrenal	 	 ;Adrenal					;Adrenal				;adrenal-icon.svg		;adrenal-icon.svg
+#				;bloodsugar	 	 ;Blood Sugar				;Blood Sugar			;bloodsugar-icon.svg	;bloodsugar-icon.svg
+#
+
+$brandLogo=brandLogo(code, $catalogVersion)
+$brandImage=brandImage(code, $catalogVersion)
+$siteResourceBrandImages = jar:com.wholescripts.constants.WholescriptsstoreConstants&/Wholescriptsstore/import/coredata/images/brands
+#brand media
+INSERT_UPDATE Media;code[unique=true]						;realfilename				;mime[default='image/jpeg'];@media[translator=de.hybris.platform.impex.jalo.media.MediaDataTranslator];$catalogVersion
+				;brand-logo-allergy-research-group.png		;brand-logo-allergy-research-group.png		;image/png;$siteResourceBrandImages/brand-logo-allergy-research-group.png;
+				;brand-logo-biocidin.png					;brand-logo-biocidin.png					;image/png;$siteResourceBrandImages/brand-logo-biocidin.png				;
+				;brand-logo-fringe.png						;brand-logo-fringe.png						;image/png;$siteResourceBrandImages/brand-logo-fringe.png				;
+				;brand-logo-humann.png						;brand-logo-humann.png						;image/png;$siteResourceBrandImages/brand-logo-humann.png				;
+				;brand-logo-nordic-naturals.png				;brand-logo-nordic-naturals.png				;image/png;$siteResourceBrandImages/brand-logo-nordic-naturals.png		;
+				;brand-logo-quicksilver.png					;brand-logo-quicksilver.png					;image/png;$siteResourceBrandImages/brand-logo-quicksilver.png			;
+				;xymogen-logo-background.svg				;xymogen-logo-background.svg				;image/svg;$siteResourceBrandImages/xymogen-logo-background.svg							;
+                                                                                                                                            
+				;brand-productimage-allergyresearchgroup.png;brand-productimage-allergyresearchgroup.png;image/png;$siteResourceBrandImages/brand-productimage-allergyresearchgroup.png;
+				;brand-productimage-biocidin.png            ;brand-productimage-biocidin.png            ;image/png;$siteResourceBrandImages/brand-productimage-biocidin.png            ;
+				;brand-productimage-fringe.png              ;brand-productimage-fringe.png              ;image/png;$siteResourceBrandImages/brand-productimage-fringe.png              ;
+				;brand-productimage-humann.png              ;brand-productimage-humann.png              ;image/png;$siteResourceBrandImages/brand-productimage-humann.png              ;
+				;brand-productimage-nordicnaturals.png      ;brand-productimage-nordicnaturals.png      ;image/png;$siteResourceBrandImages/brand-productimage-nordicnaturals.png      ;
+				;brand-productimage-quicksilver-v2.png      ;brand-productimage-quicksilver-v2.png      ;image/png;$siteResourceBrandImages/brand-productimage-quicksilver-v2.png      ;
+				;brand-productimage-xymogen.png             ;brand-productimage-xymogen.png             ;image/png;$siteResourceBrandImages/brand-productimage-xymogen.png             				   ;
+ 				;xymogen-logo-background-1                  ;xymogen-logo-background-1.svg              ;image/svg;$siteResourceBrandImages/xymogen-logo-background-1.svg							   ;
+#brands
+#INSERT_UPDATE WholescriptsBrand;code[unique=true]		;name					;description								;$brandLogo								;$brandImage								;brandUrl
+#								;xymogen				;Xymogen				;Exclusive Professional Formulas			;xymogen-logo-background.svg			;brand-productimage-xymogen.png 			;/catalog/brand/XYMOGEN®
+#								;quicksilver    		;Quicksilver			;Delivering on the Promise of Natural Health;brand-logo-quicksilver.png				;brand-productimage-quicksilver-v2.png      ;/catalog/brand/quickSilver
+#								;acgrace       			;Acgrace    			;Acgrace									;										;                                           ;/c/acgrace
+#								;biocidin				;Biocidin				;Balanced Intestinal Ecology				;brand-logo-biocidin.png				;brand-productimage-biocidin.png            ;/catalog/brand/Biocidin
+#								;nordic_naturals		;Nordic Naturals		;Helping People Lead Healthy Lives			;brand-logo-nordic-naturals.png			;brand-productimage-nordicnaturals.png	    ;/catalog/brand/nordicNaturals
+#								;allergy_research_group	;Allergy Research Group	;Innovative Nutrition						;brand-logo-allergy-research-group.png	;brand-productimage-allergyresearchgroup.png;/catalog/brand/Allergy-Research-Group
+#								;fringe					;Fringe					;Fringe										;brand-logo-fringe.png					;brand-productimage-fringe.png              ;/catalog/brand/Fringe
+			          

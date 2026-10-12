@@ -1,0 +1,17 @@
+  <section [ngClass]="isLoggedIn ? 'loggedin-menu' : ''" class="main-content row">
+    <div id = "menu" class="sticky-container col-xl-3" [ngClass]="setShadow && 'sticky-shadow'">
+      <ws-advertising-links></ws-advertising-links>
+      </div>
+    <section *ngIf = "intro$ | async as intro" class="api-content col float-right">
+        <div [innerHTML] = "intro.content" class="api-main-description">
+        </div>
+        <div *ngIf = "mail$ | async as mail" [innerHTML] = "mail.content" class="api-text" style="padding-top:20px;">
+        </div>
+        <div class = "mails" *ngIf = "ads$ | async as ads" [innerHTML] = "ads.content"></div>
+        <hr />
+        <div class="api-main-buttons-container">
+            <a *ngIf = "brands$ | async as brands" class="api-main-button" [routerLink]="brands.url">{{ pageHeadings.link1 }}</a>
+            <a *ngIf = "promo$ | async as promo" class="api-main-button" [routerLink]="promo.url">{{ pageHeadings.link2 }}</a>
+        </div>
+    </section>
+  </section>

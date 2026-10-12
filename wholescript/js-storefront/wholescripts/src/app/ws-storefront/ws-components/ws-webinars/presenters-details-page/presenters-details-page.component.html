@@ -1,0 +1,24 @@
+@if(presentorDetails$ | async; as presentor){
+<section class="dots-bg" style="  margin-top: 5%;"  aria-label="presentor-details">
+    <section class="profile-details"  aria-label="Presenter Profile Details">
+        <div class="presenters-Details">
+            <ws-webinar-presenter [presentorDetail]="presentor" [attr.aria-label]="'Details for ' + presentor?.name"></ws-webinar-presenter>
+        </div>
+    </section>
+    <section class="dots-bg bg-bottom">
+        <div class="presenter-icon text-center">
+            <ws-webinar-title-icon class="title-icon" [webinarTitle]="presentor?.name" [isWebinarPresenters] = "true"
+                [bgColor]="'rgba(88, 64, 145, 1)'" [titleSrc]="'/assets/qa/purple-hex2.svg'" [titleFontColor]="'#fff'"  [attr.aria-label]="'Title icon for {{presentor?.name}}'">
+            </ws-webinar-title-icon>
+        </div>
+        <div class="Presenters-card-details  ">
+            <ws-webinar-carousel-ui [isWebinarCard]="true" [isTitleIcon]="false"
+                [webinarData]="presentor?.relatedWebinars" [titleIconColor]="'#fffff'" [attr.aria-label]="'Carousel for related webinars of {{presentor?.name}}'"></ws-webinar-carousel-ui>
+        </div>
+        @if(presentorList$|async; as presentors){
+        <ws-webinar-carousel-ui [isWebinarCard]="false" [webinarTitle]="'Other Webinar Presenters'" [titleIconColor]="'#ffff'"  [attr.aria-label]="'Carousel for presenters list'"
+            [presenterData]="presentors?.presentersList" [incomingSlidesPerPage]="3"></ws-webinar-carousel-ui>
+        }
+    </section>
+</section>
+}

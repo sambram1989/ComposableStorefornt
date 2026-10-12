@@ -1,0 +1,262 @@
+<div *ngFor="let alert of alerts">
+    <alert [type]="alert.type" [dismissOnTimeout]="alert.timeout" (onClosed)="onClosed(alert)">{{ alert.msg }}</alert>
+  </div>
+  <div *ngIf="loader" class="d-flex align-items-center loader justify-content-center">
+    <cx-spinner aria-label="Loading..." role="alert" aria-live="assertive"></cx-spinner>
+  </div>
+<div class="container" [ngClass]="!isLoggedIn && 'guest'">
+        <!-- Products Section -->
+        <main class="products" #sectionTop>
+            <div class="results-actions col-12">
+                <p class="results-count"><strong>{{ pagination()?.totalResults }}</strong> results for <i>products</i></p>
+
+                <div class="action-controls">
+                    <div class="form-group" style="position:relative;">
+                        <select (change)="sortProducts($event)" class="form-control select-style" id="sort"
+                            #select>
+                                <option *ngFor="let sort of sortOptions" [selected] ="sort.selected" [value]="sort?.code">{{sort?.name}}
+                                </option>
+                        </select>
+                        <label class="label1 select-lable" for="sort">
+                            Sort By
+                        </label>
+                    </div>
+
+                    <div class="form-group" style="position:relative;">
+                        <select (change)="getProductsCount($event)" [(ngModel)]="showItems" class="form-control select-style select-show"
+                        id="showItems" #select>
+                        @for(opt of [12,24,48,98] ; track opt){
+                        <option [value]="opt">{{opt}}</option>
+                        }
+                    </select>
+                    <label class="label1 select-lable" for="showItems">
+                        Show
+                    </label>
+                    </div>
+
+                    <div class="view-icons ml-2">
+                        <div class="code-tooltip">
+                            <div class="copy-code"><span class="code-tooltiptext">List View</span>
+                                <button (click)="showGridView = false" id="list-view" aria-label="list" [ngClass]="!showGridView && 'active'">
+                                    <i class="fas fa-list"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="code-tooltip">
+                            <div class="copy-code"><span class="code-tooltiptext">Grid View</span>
+                                <button (click)="showGridView = true" id="grid-view" aria-label="grid" [ngClass]="showGridView && 'active'">
+                                    <i class="fa fa-th-large" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        
+                    </div>
+                </div>
+            </div>
+
+            <div *ngIf="!productsList1()?.length && !loader" class="addresses-no-results ws-empty-state">
+                <div class="ws-empty-state-inner">
+                    <img src="../../../../../assets/images/plp/magnifying.svg" alt="Expand_image">
+                    <h6 class="ws-empty-state-title bolder">No results found</h6>
+                    <div>Please, try searching with another term</div>
+                </div>
+            </div>
+
+            <!-- Grid View -->
+
+            
+            <div *ngIf="showGridView" class="product-list" id="productListId">
+                
+                <!-- Product Card 1 -->
+                <ng-container *ngTemplateOutlet="productTemplateGridView; context: { $implicit: productsList1() }"></ng-container>
+
+                <div  style="max-width: fit-content; width: 100%;" *ngIf="pathName === '/catalog' && promotions.length">
+                    <ws-promotions-carousel [promotions]="promotions"></ws-promotions-carousel>
+                </div>
+
+                <ng-container *ngTemplateOutlet="productTemplateGridView; context: { $implicit: productsList2() }"></ng-container>
+
+            </div>
+
+            <!-- List View -->
+
+            <div *ngIf="!showGridView" class="products-lt" id="productListId">
+                
+                <!-- Product Card 1 -->
+                <ng-container *ngTemplateOutlet="productTemplateListView; context: { $implicit: productsList1() }"></ng-container>
+
+                <div style="max-width: fit-content; width: 100%;" *ngIf="pathName === '/catalog'">
+                    <ws-promotions-carousel></ws-promotions-carousel>
+                </div>
+
+                <ng-container *ngTemplateOutlet="productTemplateListView; context: { $implicit: productsList2() }"></ng-container>
+            </div>
+
+            <div *ngIf="pagination() && pagination().totalResults" class="col-12 p-0 d-md-flex pt-3">
+                <div class="col-12 col-md-6 d-flex align-items-center action-controls p-0 footer-actn">
+                    <span> Showing<b> {{ getPaginationRange(pagination().currentPage, pagination().pageSize, pagination().totalResults ).start }} to {{ getPaginationRange(pagination().currentPage, pagination().pageSize, pagination().totalResults ).end }}</b> of {{ pagination()?.totalResults}} entries
+                    </span>
+                    <div class="form-group mb-0 ml-2" style="position:relative;">
+                        <select (change)="getProductsCount($event)" [(ngModel)]="showItems" class="form-control select-style select-show"
+                        id="showSort" #select>
+                        @for(opt of [12,24,48,98] ; track opt){
+                        <option [value]="opt">{{opt}}</option>
+                        }
+                    </select>
+                    <label class="label1 select-lable" for="showSort">
+                        Show
+                    </label>                    </div>
+                </div>
+
+            <div class="col-12 col-md-6 justify-content-end pagination p-0 jc-c" *ngIf="showPagination">
+                <ws-pagination
+                [resetReposition]="true"
+                [itemsPerPage]="pagination()?.pageSize"
+                (currentPageChange)="pageChanged($event)"
+                [totalItems]="pagination()?.totalResults"
+                [numberOfPagesNeedTOBeShown]="5"
+                aria-label="Pagination controls"
+              ></ws-pagination>
+              </div>
+            </div>
+        </main>
+    </div>
+
+    <ng-template #productTemplateGridView let-products>
+        <div *ngFor="let product of products; let i = index;" class="product-card p-0">
+            <div>
+               <!-- <p> {{product.isBestSeller|json}}</p> -->
+               <div [ngClass]="product.isFeatured? 'featured' : product.isNew? 'new' : product?.isBestSeller ? 'bestseller' : 'd-none'" class="badge">
+                <span [ngClass]="product.isFeatured ? 'featured' : product.isNew? 'new' : product?.isBestSeller ? 'bestseller' : 'd-none'" class="badge-text">{{ getBadge(product) }}
+                    </span>
+                </div>
+          <div style="background-color: #FCFCFD; position: relative;">
+          <cx-media
+          [container]="product?.images && product?.images[1] ? product?.images[1] : ''"
+          format="product"
+          [alt]="product?.name || ''"
+          tabIndex="0"
+          (click)="gotToPDP(product.url)"
+          (keypress)="gotToPDP(product.url)"
+        ></cx-media>
+        <!-- <img src="/assets/images/recomendation/sample-medbox.svg" alt="Omega MonoPure 1300 EC"> -->
+          <div *ngIf = "isLoggedIn" class="code-tooltip">
+            <div class="copy-code" (click)="updateFavorites(product, isFavorite(product))"><span class="code-tooltiptext">{{ isFavorite(product) ? 'Added as favorites' : 'Add favorite'}}</span>
+                <button class="heart-btn" [attr.aria-label]="isFavorite(product) ? 'Remove from Favorites' : 'Add to Favorites'"><i class="fa-solid fa-heart" [ngClass]="isFavorite(product) && 'fa-active'"></i></button>
+            </div>
+        </div>
+          </div>
+            <div class="product-info">
+                <ws-product-status *ngIf="product" [product]="product"></ws-product-status>
+                <a class = "brand-name"  [routerLink]="product?.brandUrl" >{{ product.brandName }}</a>
+                <!-- TODO- Product link integration -->
+                <a [routerLink]="product.url"  [queryParams]="{ origin: categoryCode }"  class="product-title fw-600" [innerHTML]="product.name">
+                </a>
+                <p class="product-description" [innerHTML]="product.shortDescription">
+                </p>
+                <div class="price-actions">
+                    <p class="price">{{ isLoggedIn ? (product.yourPrice?.formattedValue ? product.yourPrice?.formattedValue : '')  : (product.mapPrice?.formattedValue ? product.mapPrice?.formattedValue : '')}}</p>
+                <div class="cart-controls">
+                    <a (click)="removeQuantity(product)" (keypress)="removeQuantity(product)" class="qty-btn minus"  [attr.tabindex]="0"
+                    role="button"
+                    aria-label="Remove item">
+                        <svg style="padding-bottom: 2px;" width="10" height="18" viewBox="0 0 10 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M8.9375 9.25C8.9375 9.60156 8.64453 9.875 8.3125 9.875H1.4375C1.08594 9.875 0.8125 9.60156 0.8125 9.25C0.8125 8.91797 1.08594 8.625 1.4375 8.625H8.3125C8.64453 8.625 8.9375 8.91797 8.9375 9.25Z" fill="#3E3B49"/>
+                            </svg>
+
+                        </a>
+                    <label class="v-hide" [for]="'id--'+i">Qty</label>
+                    <input maxlength="4" aria-label="quantity" type="text" [id]="'id--'+i" [value]="product.quantity || 1" (input)="setQuantity(product, $event)" (keypress)="setQuantity(product, $event)" (focusout)="setQuantity(product, $event, 'focus')">
+                    <a (click)="addQuantity(product)" (keypress)="addQuantity(product)" class="qty-btn"  [attr.tabindex]="0"
+                    role="button"
+                    aria-label="Add item"><i class="fa-regular fa-plus" style="margin-top: 3px;"></i></a>
+                </div>
+                </div>
+            </div>
+            </div>
+            <div class="action-buttons">
+                @if(canShowMedPax){
+                    <button class="medpax-btn mr-2" *ngIf="product?.medPaxUrl?.trim()?.length" (click)="goToMedPax(product?.medPaxUrl)" title="Show MedPax">MedPax
+                        <svg width="16" height="16" viewBox="0 0 16 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M14.6782 3.60687C14.8697 3.70261 15.0612 3.98985 15.0612 4.22921V13.7079C15.0612 13.9473 14.9176 14.2345 14.6782 14.3303L6.77925 18.8781C6.58776 18.9739 6.25266 18.9739 6.06117 18.8781L1.32181 16.1973C1.08244 16.0537 0.938828 15.7664 0.938828 15.575V8.25048C0.938828 8.01112 1.08244 7.91538 1.32181 8.05899L6.06117 10.7877C6.25266 10.8835 6.44415 10.7877 6.44415 10.5962V9.44729C6.44415 9.20793 6.30053 8.9207 6.06117 8.82495L1.32181 6.09623C1.13032 6.00048 1.13032 5.80899 1.32181 5.66538L9.41223 1.02176C9.60372 0.926015 9.93883 0.926015 10.1303 1.02176L14.6782 3.60687Z" fill="#3E3B49"/>
+                            </svg>
+                    </button>
+                }
+                <button [disabled]="(cartIsLoading$ | async) || getAddToCartDisableFlag(product)" (click)="addProductToCart(product)" class="btn add-to-cart-btn">Add to cart</button>
+            </div>
+        </div>
+      </ng-template>
+
+
+      <ng-template #productTemplateListView let-products>
+        <div *ngFor="let product of products" class="product p-0">
+            <div [ngClass]="product.isFeatured? 'featured' : product.isNew? 'new' : product?.isBestSeller ? 'bestseller' : 'd-none'" class="badge">
+                <span [ngClass]="product.isFeatured ? 'featured' : product.isNew? 'new' : product?.isBestSeller ? 'bestseller' : 'd-none'" class="badge-text">{{ getBadge(product) }}
+                    </span>
+                </div>
+
+            <div class="product-info col-lg col-10 pt-0">
+                <ws-product-status *ngIf="product" [product]="product"></ws-product-status>
+                <a class="brand-name" [routerLink]="product?.brandUrl">{{ product?.brandName }}</a>
+                <!-- TODO- Product link integration -->
+                <a [routerLink]="product?.url"  [queryParams]="{ origin: categoryCode }" class="product-title" [innerHTML] = "product.name">
+                </a>
+            </div>
+
+            <div style="position: relative" class="pr-lg-4 pt-4">
+                <div *ngIf = "isLoggedIn" class="code-tooltip">
+                  <div class="copy-code"><span class="code-tooltiptext">{{ isFavorite(product) ? 'Remove from Favorites' : 'Add to Favorites'}}</span>
+                      <button (click)="updateFavorites(product, isFavorite(product))" class="heart-button" [attr.aria-label]="isFavorite(product) ? 'Remove from Favorites' : 'Add to Favorites'"><i class="fa-solid fa-heart" [ngClass]="isFavorite(product) && 'fa-active'"></i></button>
+                  </div>
+              </div>
+                </div>
+
+                <div class="price-actions">
+                    <p class="price">{{ isLoggedIn ? (product.yourPrice?.formattedValue ? product.yourPrice?.formattedValue : '')  : (product.mapPrice?.formattedValue ? product.mapPrice?.formattedValue : '')}}</p>
+                    <div class="cart-controls">
+                      <a (click)="removeQuantity(product)" (keypress)="removeQuantity(product)" class="qty-btn minus-btn" [attr.tabindex]="0"
+                      role="button"
+                      aria-label="Remove item">
+                        <svg
+                          style="padding-bottom: 2px"
+                          width="10"
+                          height="18"
+                          viewBox="0 0 10 18"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M8.9375 9.25C8.9375 9.60156 8.64453 9.875 8.3125 9.875H1.4375C1.08594 9.875 0.8125 9.60156 0.8125 9.25C0.8125 8.91797 1.08594 8.625 1.4375 8.625H8.3125C8.64453 8.625 8.9375 8.91797 8.9375 9.25Z"
+                            fill="#3E3B49"
+                          />
+                        </svg>
+                      </a>
+                      <input
+                        aria-label="quantity"
+                        type="number"
+                        [value]="product.quantity || 1"
+                        maxlength="4"
+                        (keypress)="setQuantity(product, $event)"
+                        (input)="setQuantity(product, $event)"
+                      />
+                      <a (click)="addQuantity(product)" class="qty-btn" (keypress)="addQuantity(product)" [attr.tabindex]="0"
+                      role="button"
+                      aria-label="Add item"
+                        ><i class="fa-regular fa-plus" style="margin-top: 3px"></i
+                      ></a>
+                    </div>
+                    </div>
+
+            <div class="action-buttons col-lg-3 col-11">
+                @if(canShowMedPax){
+                    <button class="medpax-btn mr-2 col-6" *ngIf="product?.medPaxUrl?.trim()?.length" (click)="goToMedPax(product?.medPaxUrl)" >MedPax
+                        <svg width="16" height="16" viewBox="0 0 16 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M14.6782 3.60687C14.8697 3.70261 15.0612 3.98985 15.0612 4.22921V13.7079C15.0612 13.9473 14.9176 14.2345 14.6782 14.3303L6.77925 18.8781C6.58776 18.9739 6.25266 18.9739 6.06117 18.8781L1.32181 16.1973C1.08244 16.0537 0.938828 15.7664 0.938828 15.575V8.25048C0.938828 8.01112 1.08244 7.91538 1.32181 8.05899L6.06117 10.7877C6.25266 10.8835 6.44415 10.7877 6.44415 10.5962V9.44729C6.44415 9.20793 6.30053 8.9207 6.06117 8.82495L1.32181 6.09623C1.13032 6.00048 1.13032 5.80899 1.32181 5.66538L9.41223 1.02176C9.60372 0.926015 9.93883 0.926015 10.1303 1.02176L14.6782 3.60687Z" fill="#3E3B49"/>
+                            </svg>
+                    </button>
+                }
+                <button (click)="addProductToCart(product)" class="add-to-cart-btn btn col" [disabled]="(cartIsLoading$ | async) || getAddToCartDisableFlag(product)">Add to cart</button>
+            </div>
+        </div>
+      </ng-template>

@@ -1,0 +1,75 @@
+@mixin cursor {
+    cursor: pointer;
+
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
+.supp-facts {
+    padding-left: 1rem !important;
+
+    @include cursor;
+}
+
+.remove-buttonn {
+
+    @include cursor;
+}
+
+.table-section {
+    padding: 1rem !important;
+
+    .rec-table__row {
+
+        .rec-table__name {
+            @include cursor;
+        }
+
+        .action-buttons {
+            span {
+                @include cursor;
+            }
+        }
+
+    }
+}
+
+.medpax-note, .add-medpax-note {
+    &:focus-visible {
+        outline: 3px solid var(--cx-color-darkest) !important;
+        outline-offset: 2px !important;
+        box-shadow: unset;
+      }
+}
+
+.medpax-notes {
+    padding: 1rem !important;
+
+    .disabler{
+        pointer-events: none;
+        color: #2c2c2c;
+        background: #f8f8f8;
+        border: 1px solid #BCBCC3;
+    }
+    .add-medpax-note {
+        @include cursor;
+    }
+
+    input {
+        background-color: var(--cx-color-inverse);
+        border: 1px solid var(--ws-gray-light-300);
+        color: #2c2c2c;
+        outline: 0;
+        height: auto;
+        line-height: 1.5;
+        font-size: 16px;
+        font-weight: normal;
+        vertical-align: middle;
+        min-height: 35px;
+    }
+}
+.productName {
+    font-size: 16px;
+    font-weight: 500;
+}

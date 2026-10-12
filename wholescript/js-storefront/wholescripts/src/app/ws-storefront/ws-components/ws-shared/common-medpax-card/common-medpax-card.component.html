@@ -1,0 +1,25 @@
+<div class="p-3 bor-1">
+    @for(item of medPaxProducts().medpaxEntry;track item;let index = $index){
+    <div class="your-medpax-body mt-2">
+       <div class="your-medpax-img">
+          <img src="../../../../../assets/images/home/capsules.svg" alt="capsules" class="w-30px">
+       </div>
+       <div class="your-medpax-right-content">
+          <div class="bolder">{{item?.product?.name}}</div>
+          <div class="fs-14">Dosing:{{item?.dosing | slice:0:4 | dosingPipe}}</div>
+          <div class="bolder">{{item?.basePrice?.formattedValue}}</div>
+       </div>
+    </div>
+    <div class="your-medpax-btn mt-3">
+       <button class="btn btn-primary btn-rounded d-block w-100 fw-900 btn-h">
+          Edit Dosing
+       </button>
+       <button class="btn btn-outline-danger btn-rounded d-block btn-h w-100 fw-900 mt-2">
+          Remove
+       </button>
+    </div>
+    @if(index < medPaxProducts().medpaxEntry.length - 1) { <hr>
+       }
+       }
+ </div>
+ <img src="" alt="">

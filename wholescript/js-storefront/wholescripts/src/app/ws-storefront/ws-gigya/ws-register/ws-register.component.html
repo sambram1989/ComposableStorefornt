@@ -1,0 +1,66 @@
+<div class="register-section" *ngIf="!loader">
+    <div class="back-wrapper" (click)="back()" (keydown.enter)="back()" tabindex="0">
+        <i class="fa fa-arrow-left" aria-hidden="true"></i>
+        <span>Back</span>
+    </div>
+    <section class="register-heading-section">
+        <div *ngIf="smallLogoBanner$ | async as smallLogoBanner" class="small-logo-banner">
+            <cx-media [container]="smallLogoBanner.media"></cx-media>
+        </div>
+        <div *ngIf="heading$ | async as heading" class="heading-content" [innerHTML] = "heading?.content"></div>
+    </section>
+    <section class="register-content-section">
+        <div class="radio-options-wrapper">
+            <div *ngIf="practitionerLink$ | async as practitionerLink" class="radio-option">
+                <input type="radio" class="user-radio" id="practionerLink" (change)="userOptionChange(practitionerLink?.url)" #select [value]="practitionerLink?.url"
+                    name="userOption">
+                <label for="practionerLink">
+                    {{practitionerLink?.linkName}}
+                </label>
+            </div>
+            <div *ngIf="patientLink$ | async as patientLink" class="radio-option">
+                <input type="radio" class="user-radio" id="patientLink" (change)="userOptionChange(patientLink?.url)" #patientLinkTemplate [value]="patientLink?.url"
+                    name="userOption">
+                <label for="patientLink">
+                    {{patientLink?.linkName}}
+                </label>
+            </div>
+        </div>
+        <div class="continue-button">
+            <button class="btn btn-rounded btn-secondary" (click)="continue()" [disabled]="!activeUserOptionLink">
+                Continue
+            </button>
+        </div>
+        <div class="have-an-account-wrapper">
+            <span>Already have an account?</span>
+            <a *ngIf="loginLink$ | async as loginLink" [routerLink]="loginLink.url">
+                {{loginLink?.linkName}}
+            </a>
+        </div>
+    </section>
+    <section class="register-footer-section">
+        <div class="copyright-disclaimer-wrapper">
+            <div *ngIf="copyright$ | async as copyright" class="copyright">
+                {{copyright?.content}}
+            </div>
+            <div *ngIf="disclaimer$ | async as disclaimer" class="disclaimer">
+                {{disclaimer?.content}}
+            </div>
+        </div>
+        <div class="terms-privacy-wrapper">
+            <div *ngIf="termsAndConditionsLink$ | async as termsAndConditionsLink" class="terms-and-conditions">
+                <a [routerLink]="termsAndConditionsLink.url">
+                    {{termsAndConditionsLink?.linkName}}
+                </a>
+            </div> | 
+            <div *ngIf="privacyPolicyLink$ | async as privacyPolicyLink" class="privacy-policy">
+                <a [routerLink]="privacyPolicyLink.url">
+                    {{privacyPolicyLink?.linkName}}
+                </a>
+            </div>
+        </div>
+    </section>
+</div>
+<div *ngIf="loader">
+    <cx-spinner class="w-100"></cx-spinner>
+</div>

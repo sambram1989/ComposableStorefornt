@@ -1,0 +1,367 @@
+<div id="ws-autoships-detail-products">
+    <div class="autoship-products-table" *ngFor="let detail of autoShipsHeaderItems">
+        <div class="autoship-products-table-header">
+            <div class="shipping-on-wrapper">
+                <i class="fas fa-shipping-fast"></i>
+                <span class="shipping-on-text">Ships on: {{detail?.shippingDate | date: 'longDate'}}</span>
+            </div>
+            <div class="different-ship-to-date" (click)="openChangeDateModal(detail)" (keydown.enter)="openChangeDateModal(detail)" tabindex="0">
+                Need to change to a different shipping date?
+            </div>
+        </div>
+        <div class="autoship-products-table-content">
+            <div class="products" *ngIf="detail?.products?.length > 0">
+                <div class="product" *ngFor="let product of detail?.products">
+                    <div class="product-detail-wrapper">
+                        <div class="product-image">
+                            <cx-media [container]="product?.image ? product?.image : null"
+                                [alt]="product?.image?.altText"></cx-media>
+                        </div>
+                        <div class="details">
+                            <div class="out-of-stock" *ngIf="product?.stock?.stockLevelStatus === 'outOfStock'">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8"
+                                    fill="none">
+                                    <circle cx="4.00002" cy="4" r="3" fill="#B93815" />
+                                </svg>
+                                <span>
+                                    Out of stock
+                                </span>
+                            </div>
+                            <div class="product-name">{{product?.matDesc}}</div>
+                            <div class="frequency">
+                                AutoShip frequency: Every {{product?.frequency ? Number(product?.frequency) : 0}} Days
+                            </div>
+                        </div>
+                        <div class="actions d-md-none">
+                            <span>
+                                <i class="fas fa-edit" (click)="openEditProductModal(product)" (keydown.enter)="openEditProductModal(product)" tabindex="0"></i>
+                            </span>
+                            <span>
+                                <i class="fa fa-trash" (click)="openRemoveProductModal(product)" (keydown.enter)="openRemoveProductModal(product)" tabindex="0"></i>
+                            </span>
+                        </div>
+                        <div class="quantity">
+                            <span class="qty-text">Qty:</span>
+                            <span class="quantity-value"> {{Number(product?.reqQty)}}</span>
+                        </div>
+                        <div class="price-wrapper">
+                            <div class="total-price">
+                                {{getTotalPrice(product) | currency : (currency$ | async)}}
+                            </div>
+                            <div class="each-price" *ngIf="product?.overallTotalSum">
+                                Each: {{Number(product?.overallTotalSum / Number(product?.reqQty)) |
+                                currency : (currency$ |
+                                async)}}
+                            </div>
+                            <div class="each-price" *ngIf="!product?.overallTotalSum">
+                                Each: {{Number(product?.price) |
+                                currency : (currency$ |
+                                async)}}
+                            </div>
+                        </div>
+                        <div class="actions d-none d-md-flex">
+                            <span>
+                                <i class="fas fa-edit" (click)="openEditProductModal(product)" (keydown.enter)="openEditProductModal(product)" tabindex="0"></i>
+                            </span>
+                            <span>
+                                <i class="fa fa-trash" (click)="openRemoveProductModal(product)" (keydown.enter)="openRemoveProductModal(product)" tabindex="0"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="product-detail-timings-wrapper">
+                        <div class="timings" *ngIf="product?.isMedPax">
+                            @for(key of objectKeys(product?.packetDetails);track key){
+                            @for( entry of product?.packetDetails[key]?.entries;track
+                            entry){
+                            <div class="timing">
+                                <div class="name">{{ entry?.matDesc }}</div>
+                                <div class="time">{{ entry?.reqQty / (30*product?.reqQty) | number : "1.0-0" }} in {{ key }}</div>
+                            </div>
+                            } }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="remove-product-modal-wrapper" *ngIf="showRemoveProductModal" #removeProductModal>
+    <div class="modal fade slide-right show" id="removeProductModal" tabindex="-1" role="dialog"
+        aria-labelledby="removeProductModal" style="display: block;">
+        <div class="modal-dialog">
+            <div class="modal-content-wrapper">
+                <div class="container-xs-height full-height">
+                    <div class="row-xs-height">
+                        <div class="modal-content col-xs-height">
+                            <div class="modal-header clearfix ">
+                                <img width="40" height="40"
+                                    src="/assets/icons/common_icons/featured-warning-icon.svg" alt="Remove Product Image" title="Remove Product Image" aria-label="Remove Product Image"/>
+                                <div class="d-flex remove-product-text-wrapper">
+                                    <div>
+                                        <h3>Remove product permanently</h3>
+                                        <p class="helper-text">This action cannot be undone</p>
+                                    </div>
+                                    <i class="fa fa-close" (click)="closeModal()" (keydown.enter)="closeModal()" tabindex="0"></i>
+                                </div>
+                            </div>
+                            <div class="modal-body">
+                                <div class="you-are-removing-text">
+                                    You are removing the product below from this AutoShip. Alternatively you can choose
+                                    to skip this product with this shipment instead.
+                                </div>
+                                <div class="product-details">
+                                    <div class="product-details-wrapper">
+                                        <div class="product-image-and-details">
+                                            <cx-media [container]="selectedProductModal?.image ? selectedProductModal?.image : null"
+                                                [alt]="selectedProductModal?.image?.altText"></cx-media>
+                                            <div class="details">
+                                                <div class="product-name">{{selectedProductModal?.matDesc}}
+                                                </div>
+                                                <div class="quantity">
+                                                    Qty: {{Number(selectedProductModal?.reqQty)}}
+                                                </div>
+                                                <div class="frequency">
+                                                    AutoShip frequency: Every {{selectedProductModal?.frequency ?
+                                                    Number(selectedProductModal?.frequency) : 0}} Days
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="price-wrapper">
+                                           <div class="total-price">
+                                                {{getTotalPrice(selectedProductModal) | currency : (currency$ | async)}}
+                                            </div>
+                                            <div class="each-price" *ngIf="selectedProductModal?.overallTotalSum">
+                                                Each: {{Number(selectedProductModal?.overallTotalSum / Number(selectedProductModal?.reqQty)) |
+                                                currency : (currency$ |
+                                                async)}}
+                                            </div>
+                                            <div class="each-price" *ngIf="!selectedProductModal?.overallTotalSum">
+                                                Each: {{Number(selectedProductModal?.price) |
+                                                currency : (currency$ |
+                                                async)}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="timings" *ngIf="selectedProductModal?.isMedPax">
+                                        @for(key of objectKeys(selectedProductModal?.packetDetails);track key){
+                                        @for( entry of selectedProductModal?.packetDetails[key]?.entries;track
+                                        entry){
+                                        <div class="timing">
+                                            <div class="name">{{ entry?.matDesc }}</div>
+                                            <div class="time">{{ entry?.reqQty / 30 | number : "1.0-0" }} in {{ key }}
+                                            </div>
+                                        </div>
+                                        } }
+                                    </div>
+                                </div>
+                                <div class="are-you-sure-text">
+                                    Are you sure that you would like to remove this product permanently? Or would you
+                                    like to skip it with this shipment?
+                                </div>
+                            </div>
+
+
+                            <div class="modal-footer">
+                                <button type="submit" (click)="skipInsteadClick()"
+                                    class="btn btn-secondary btn-rounded btn-cons">Skip Instead</button>
+                                <button type="submit" class="btn btn-primary btn-rounded remove-product"
+                                    (click)="removeClick()">Remove</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="edit-product-modal-wrapper" *ngIf="showEditProductModal" #editProductModal>
+    <div class="modal fade slide-right show" id="editProductModal" tabindex="-1" role="dialog"
+        aria-labelledby="editProductModal" style="display: block;">
+        <div class="modal-dialog">
+            <div class="modal-content-wrapper">
+                <div class="container-xs-height full-height">
+                    <div class="row-xs-height">
+                        <div class="modal-content col-xs-height">
+                            <div class="modal-header clearfix ">
+                                <img width="40" height="40"
+                                    src="/assets/icons/common_icons/featured-warning-icon.svg" alt="Edit Product Image" title="Edit Product Image" aria-label="Edit Product Image"/>
+                                <div class="d-flex edit-product-text-wrapper">
+                                    <div>
+                                        <h3>Edit AutoShip product</h3>
+                                    </div>
+                                    <i class="fa fa-close" (click)="closeModal()" (keydown.enter)="closeModal()" tabindex="0"></i>
+                                </div>
+                            </div>
+                            <div class="modal-body">
+                                <div class="skip-product-wrapper">
+                                    <div class="togle-switch-wrapper">
+                                        <ws-toggle-switch [(ngModel)]="sliderState" name="fieldName"
+                                            ngDefaultControl></ws-toggle-switch>
+                                    </div>
+                                    <div class="toggle-switch-content">
+                                        <div class="skip-product-text">
+                                            Skip product for next shipment
+                                        </div>
+                                        <div class="skipping-all-text">
+                                            Skipping will push this product’s delivery date to the next available
+                                            shipment date: <b>{{selectedProductModal?.schedDate | date:
+                                                'MM/dd/yyyy'}}</b>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="product-details">
+                                    <div class="product-details-wrapper">
+                                        <div class="product-image-and-details">
+                                            <cx-media [container]="selectedProductModal?.image ? selectedProductModal?.image : null"
+                                                [alt]="selectedProductModal?.image?.altText"></cx-media>
+                                            <div class="details">
+                                                <div class="product-name">{{selectedProductModal?.matDesc}}</div>
+                                            </div>
+                                        </div>
+
+                                        <div class="price-wrapper">
+                                            <div class="total-price">
+                                                {{getTotalPrice(selectedProductModal) | currency : (currency$ | async)}}
+                                            </div>
+                                            <div class="each-price" *ngIf="selectedProductModal?.overallTotalSum">
+                                                Each: {{Number(selectedProductModal?.overallTotalSum / Number(selectedProductModal?.reqQty)) |
+                                                currency : (currency$ |
+                                                async)}}
+                                            </div>
+                                            <div class="each-price" *ngIf="!selectedProductModal?.overallTotalSum">
+                                                Each: {{Number(selectedProductModal?.price) |
+                                                currency : (currency$ |
+                                                async)}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="frequency-and-quantity-wrapper">
+                                        <div class="quantity">
+                                            <div class="controls">
+                                                <a class="qty-btn minus" (click)="decreseQty()" (keydown.enter)="decreseQty()" (keydown.space)="decreseQty()" tabindex="0">
+                                                    <svg style="padding-bottom: 2px;" width="10" height="18"
+                                                        viewBox="0 0 10 18" fill="none"
+                                                        xmlns="http://www.w3.org/2000/svg">
+                                                        <path
+                                                            d="M8.9375 9.25C8.9375 9.60156 8.64453 9.875 8.3125 9.875H1.4375C1.08594 9.875 0.8125 9.60156 0.8125 9.25C0.8125 8.91797 1.08594 8.625 1.4375 8.625H8.3125C8.64453 8.625 8.9375 8.91797 8.9375 9.25Z"
+                                                            fill="#3E3B49" />
+                                                    </svg>
+
+                                                </a>
+                                                <label id="quantity" for="quantity" class="sr-only">Quantity</label>
+                                                <input id="quantity" type="number" [value]="Number(selectedProductModal?.reqQty)"
+                                                        (input)="onInputChange($event)"
+                                                        [min]="1" [max]="9999">
+                                                <a class="qty-btn" (click)="increaseQty()" (keydown.enter)="increaseQty()" (keydown.space)="increaseQty()" tabindex="0"><i class="fa-regular fa-plus"
+                                                        style="margin-top: 3px;"></i></a>
+                                            </div>
+                                        </div>
+                                        <div class="form-group" *ngIf="selectedProductModal?.autoShipFrequency?.length > 0">
+                                            <select class="form-control" id="frequency"
+                                                [(ngModel)]="autoShipEditModalFrequency">
+                                                <option [value]="frequency?.code" *ngFor="let frequency of selectedProductModal?.autoShipFrequency">
+                                                    {{frequency?.name}}
+                                                </option>
+                                            </select>
+                                            <label class="label" for="frequency">
+                                                AUTOSHIP FREQUENCY
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="timings" *ngIf="selectedProductModal?.isMedPax">
+                                        @for(key of objectKeys(selectedProductModal?.packetDetails);track key){
+                                        @for( entry of selectedProductModal?.packetDetails[key]?.entries;track
+                                        entry){
+                                        <div class="timing" [ngClass]="entry?.isRemoved && 'removed'">
+                                            <div class="name">{{ entry?.matDesc }}</div>
+                                            <div class="time">
+                                                <span class="medPaxTime">{{ entry?.reqQty / 30 | number : "1.0-0" }} in
+                                                    {{ key }}</span>
+                                                <i class="fa fa-trash" *ngIf="totalMedpaxCount > 3"
+                                                    (click)="deleteMedpaxEntry(key, entry)"></i>
+                                                <span class="undo" *ngIf="entry?.isRemoved"
+                                                    (click)="undoMedpaxEntry(key, entry)">Undo</span>
+                                            </div>
+                                        </div>
+                                        } }
+                                    </div>
+                                    <div class="alert alert-warning" *ngIf="selectedProductModal?.isMedPax && totalMedpaxCount < 3">
+                                        <img width="40" height="40"
+                                            src="/assets/icons/common_icons/featured-warning-icon.svg" />
+                                        <div class="minimum-text">
+                                            Minimum of 3 items required for MedPax
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="modal-footer">
+                                <button type="submit" (click)="closeModal()"
+                                    class="btn btn-secondary btn-rounded btn-cons">Cancel</button>
+                                <button type="submit" class="btn btn-primary btn-rounded"
+                                    (click)="saveChangesClick()">Save changes</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="change-date-modal-wrapper" *ngIf="showChangeDateModal" #changeDateModal>
+    <div class="modal fade slide-right show" id="changeDateModal" tabindex="-1" role="dialog"
+        aria-labelledby="changeDateModal" style="display: block;">
+        <div class="modal-dialog">
+            <div class="modal-content-wrapper">
+                <div class="container-xs-height full-height">
+                    <div class="row-xs-height">
+                        <div class="modal-content col-xs-height">
+                            <div class="modal-header clearfix ">
+                                <img width="40" height="40"
+                                    src="/assets/icons/common_icons/featured-warning-icon.svg" alt="Change Address Image" title="Change Address Image" aria-label="Change Address Image" />
+                                <div class="d-flex change-date-text-wrapper">
+                                    <div>
+                                        <h3>Change shipment date</h3>
+                                    </div>
+                                    <i class="fa fa-close" (click)="closeModal()" (keydown.enter)="closeModal()" tabindex="0"></i>
+                                </div>
+                            </div>
+                            <div class="modal-body">
+                                <div class="select-new-date-text">
+                                    Select the new date you would like your AutoShip to ship on. New date to be selected
+                                    must be at least <b>3</b> business days ahead of current date.
+                                </div>
+                                <div class="date-picker" #datePickerWrapper>
+                                    <input type="date" id="currentMonthDate" #myDate
+                                    [min]="todayDate"
+                                    [(ngModel)]="todayDate"
+                                    (change)="shipmentDateChange(todayDate)" aria-label="selectDate"/>
+                                    <!-- <bs-datepicker-inline [bsValue]="shipMentDate" [minDate]="todayDate"
+                                        (bsValueChange)="shipmentDateChange($event)"
+                                        [bsConfig]="{ dateInputFormat: 'MM/DD/YYYY', containerClass: 'theme-default', showWeekNumbers: false }"></bs-datepicker-inline> -->
+                                </div>
+                                <div class="new-date-text">
+                                    <b>New date:</b> {{shipMentDate | date: 'MM/dd/yyyy'}}
+                                </div>
+                            </div>
+
+
+                            <div class="modal-footer">
+                                <button type="submit" (click)="closeModal()"
+                                    class="btn btn-secondary btn-rounded btn-cons">Cancel</button>
+                                <button type="submit" class="btn btn-primary btn-rounded" (click)="save()">Save
+                                    changes</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,476 @@
+::ng-deep {
+    .autoships-details-wrapper {
+        .details-section {
+            display: flex;
+            padding: 24px;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 16px;
+            border-radius: 8px;
+            border: 1px solid var(--ws-gray-light-200);
+            background: var(--ws-gray-dark-50);
+            box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
+
+            .top-details-section {
+                .heading {
+                    color: var(--ws-gray-light-900);
+                    font-size: 23px;
+                    font-weight: 700;
+                    line-height: 25.3px;
+                    padding-bottom: 16px;
+                    margin-bottom: 16px;
+                    border-bottom: 1px solid var(--ws-gray-light-200);
+                }
+
+                .content-wrapper {
+                    .change-wrapper {
+                        padding-bottom: 12px;
+                        display: flex;
+                        justify-content: flex-end;
+
+                        .change-link {
+                            color: var(--cx-color-primary-dark);
+                            font-size: 14px;
+                            font-weight: 600;
+                            line-height: 20px;
+                            text-decoration-line: underline;
+                            text-decoration-style: solid;
+                            cursor: pointer;
+                        }
+                    }
+
+                    .ship-to-wrapper {
+                        padding-bottom: 16px;
+                        border-bottom: 1px solid var(--ws-gray-light-200);
+                        margin-bottom: 16px;
+                    
+
+                        .ship-to {
+                            color: var(--ws-gray-light-900);
+                            font-size: 14px;
+                            font-weight: 600;
+                            line-height: 20px;
+                        }
+
+                        .shipping-address {
+                            color: var(--ws-gray-light-600);
+                            font-size: 14px;
+                            font-weight: 300;
+                            line-height: 20px;
+                        }
+                    }
+
+                    .payment-method-wrapper {
+                        padding-bottom: 16px;
+                     
+                        .payment-method-text {
+                            color: var(--ws-gray-light-900);
+                            font-size: 14px;
+                            font-weight: 600;
+                            line-height: 20px;
+                        }
+
+                        .card-wrapper {
+                            .card-details {
+                                color: var(--ws-gray-light-600);
+                                font-size: 14px;
+                                font-weight: 300;
+                                line-height: 20px;
+                                .card-name {
+                                    display: flex;
+                                    gap: 4px;
+                                    align-items: center;
+                                    @media(max-width: 1440px) {
+                                        flex-direction: column;
+                                        align-items: flex-start;
+                                    }
+                                }
+                            }
+
+                            .expiry-date {
+                                color: var(--ws-gray-light-600);
+                                font-size: 14px;
+                                font-weight: 300;
+                                line-height: 20px;
+                            }
+                        }
+                    }
+
+                    .alert-wrapper {
+                        .alert-header {
+                            display: flex;
+                            max-width: 592px;
+                            padding: 16px;
+                            align-items: center;
+                            gap: 16px;
+                            align-self: stretch;
+                            border-radius: 8px;
+                            border: 1px solid var(--ws-cyan-700);
+                            background: var(--ws-cyan-25);
+
+                            @media (max-width: 768px) {
+                                max-width: 100%;
+                            }
+
+                            .alert-header-message-wrapper {
+                                flex-direction: column;
+
+                                p {
+                                    color: var(--ws-gray-light-600);
+                                    font-size: 14px;
+                                    font-weight: 300;
+                                    line-height: 20px;
+                                    margin-bottom: 4px;
+                                }
+
+                                .please-note {
+                                    color: var(--cx-color-secondary);
+                                    font-size: 14px;
+                                    font-weight: 600;
+                                }
+                            }
+                        }
+                    }
+
+                    .total-price-wrapper {
+                        margin-top: 16px;
+                        border-top: 1px solid var(--ws-gray-light-200);
+                        padding-top: 16px;
+                        padding-bottom: 16px;
+                        border-bottom: 1px solid var(--ws-gray-light-200);
+                        margin-bottom: 16px;
+                        .total-text {
+                            color: var(--ws-gray-light-900);
+                            font-size: 14px;
+                            font-weight: 600;
+                            line-height: 20px;
+                        }
+
+                        .price {
+                            color: var(--ws-gray-light-900);
+                            font-size: 14px;
+                            font-weight: 300;
+                            line-height: 20px;
+                        }
+                    }
+                }
+            }
+
+            .cancel-autoship-wrapper {
+                display: flex;
+                justify-content: flex-end;
+                width: 100%;
+
+                .cancel-autoship-text {
+                    color: var(--cx-color-danger);
+                    font-size: 14px;
+                    font-weight: 600;
+                    line-height: 20px;
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+
+    #cancelAutoshipModal,
+    #changeAddressModal {
+        display: block;
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 1050;
+        overflow-x: hidden;
+        overflow-y: auto;
+        width: 100%;
+        height: 100%;
+
+        .modal-dialog {
+            position: absolute;
+            right: 0;
+            margin: 0;
+            height: 100%;
+            transform: translate3d(0, 0, 0);
+            max-width: 500px;
+
+            .modal-content-wrapper {
+                height: 100%;
+
+                .modal-content {
+                    min-height: 100%;
+                    border-radius: 0px;
+                    box-shadow: none;
+                    border: none;
+
+                    .modal-header {
+                        display: flex;
+                        gap: 16px;
+                        padding: 24px;
+                        border-bottom: 1px solid var(--ws-gray-light-200);
+
+                        .cancel-autoship-text-wrapper {
+                            gap: 10px;
+                            justify-content: space-between;
+                            width: 100%;
+
+                            h3 {
+                                color: var(--ws-gray-light-900);
+                                font-size: 24px;
+                                font-style: normal;
+                                font-weight: 600;
+                                line-height: 32px;
+                            }
+
+                            .fa-close {
+                                cursor: pointer;
+                            }
+                        }
+                    }
+
+                    .modal-body {
+                        background-color: var(--ws-base-white);
+                        box-shadow: none;
+                        padding: 25px;
+                        padding-top: 0;
+                        white-space: normal;
+                        padding: 24px;
+                        border-bottom: 1px solid var(--ws-gray-light-200);
+
+                        .modal-body-text {
+                            color: var(--ws-gray-light-600);
+                            font-size: 14px;
+                            font-weight: 300;
+                            line-height: 20px;
+                            padding-bottom: 16px;
+                        }
+
+                        .cancel-autoship-text {
+                            color: var(--cx-color-secondary);
+                            font-size: 14px;
+                            font-weight: 400;
+                            line-height: 20px;
+                        }
+                    }
+
+                    .cdna-alert {
+                        padding: 0.75rem 1.25rem;
+                        font-weight: 500;
+                        border-radius: 5px !important;
+                        margin: 1rem;
+                    }
+                    .cdna-alert-danger {
+                        padding: 0.75rem 1.25rem;
+                        color: var(--ws-gray-light-700);
+                        background-color: var(--ws-error-50);
+                        border-radius: 5px !important;
+                        border: 1px solid var(--ws-error-300);
+                        a {
+                            color: var(--cx-color-danger);
+                            text-decoration: underline;
+                        }
+                    }
+
+                    .modal-footer {
+                        border-top: none;
+                        box-shadow: none;
+                        margin-top: 0;
+                        padding: 16px 24x;
+
+                        button {
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            min-height: 42px;
+                            font-size: 14px;
+
+                            &.cancel-autoship {
+                                border-color: var(--cx-color-danger) !important;
+                                color: var(--ws-base-white) !important;
+                                background: var(--cx-color-danger) !important;
+                                ;
+
+                                &:hover,
+                                &:focus {
+                                    color: var(--ws-base-white) !important;
+                                    background: var(--cx-color-danger) !important;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        .container-xs-height {
+            display: table;
+            padding-left: 0px;
+            padding-right: 0px;
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed;
+        }
+
+        .row-xs-height {
+            display: table-row;
+        }
+
+        .col-xs-height {
+            display: table-cell;
+            float: none;
+        }
+
+
+        .full-height {
+            height: 100% !important;
+        }
+    }
+
+    #changeAddressModal {
+        .modal-header {
+            .helper-text {
+                color: var(--ws-gray-light-600);
+                font-size: 14px;
+                font-weight: 300;
+                line-height: 20px;
+                margin-bottom: 0;
+            }
+        }
+
+        .modal-body {
+            .address-selected {
+                color: var(--ws-gray-light-600);
+                font-size: 14px;
+                font-weight: 300;
+                line-height: 20px;
+                margin-bottom: 16px;
+            }
+
+            .address-details {
+                margin-bottom: 16px;
+                border-radius: 6px;
+                border: 2px solid var(--ws-brand-500);
+                background: var(--ws-base-white);
+                display: flex;
+                padding: 16px;
+                align-items: flex-start;
+                align-self: stretch;
+                gap: 8px;
+
+                .all-address-details {
+                    color: var(--cx-color-secondary);
+                    font-size: 14px;
+                    font-weight: 400;
+                    line-height: 20px;
+                }
+            }
+
+            .search-wrapper {
+                margin-bottom: 16px;
+
+                .ws-input-container {
+                    display: flex;
+
+                    .ws-input-elements {
+                        display: flex;
+                        width: 100%;
+                        min-height: 42px;
+                        position: relative;
+                        border-radius: 4px;
+                        border: 1px solid var(--ws-gray-light-300);
+                        background: var(--ws-base-white);
+                        box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
+
+                        .ws-text-input {
+                            border-radius: 5px;
+                            border: none;
+                            outline: none;
+                            flex-grow: 1;
+                            font-size: 1rem;
+                            padding: 6px 10px;
+                            min-width: 0;
+
+                            &:focus {
+                                border: none;
+                                outline: none;
+                                box-shadow: none;
+                            }
+                        }
+
+                        .ws-input-button {
+                            border: none;
+                            outline: none;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            cursor: pointer;
+                            min-width: 35px;
+                            border-top-right-radius: 5px;
+                            border-bottom-right-radius: 5px;
+                            background: none;
+                            font-size: 14px;
+
+                            i {
+                                display: flex;
+                                color: var(--ws-gray-light-500);
+                                font-size: 0.875rem;
+                                font-weight: 900;
+                            }
+                        }
+                    }
+                }
+
+                .search-results-wrapper {
+                    margin-top: 8px;
+                    border-radius: 8px;
+                    border: 1px solid var(--ws-gray-light-200);
+                    background: var(--ws-base-white);
+                    box-shadow: 0px 12px 16px -4px rgba(16, 24, 40, 0.08), 0px 4px 6px -2px rgba(16, 24, 40, 0.03);
+
+                    .results {
+                        .result {
+                            padding: 10px 10px 10px var(--spacing-md, 8px);
+                            cursor: pointer;
+                            .name {
+                                color: var(--ws-gray-light-600);
+                                text-overflow: ellipsis;
+                                font-size: 16px;
+                                font-weight: 300;
+                                line-height: 24px;
+                            }
+
+                            .description {
+                                color: var(--ws-success-900);
+                                font-size: 16px;
+                                font-weight: 400;
+                                line-height: 24px;
+                                letter-spacing: 0px;
+                            }
+                        }
+                    }
+                }
+            }
+
+            .find-address-text {
+                color: var(--ws-gray-light-600);
+                font-size: 14px;
+                font-weight: 300;
+                line-height: 20px;
+                margin-bottom: 16px;
+            }
+
+            .select-address-added-text {
+                color: var(--ws-gray-light-600);
+                font-size: 14px;
+                font-weight: 300;
+                line-height: 20px;
+
+                span {
+                    font-weight: 600;
+                    text-decoration-line: underline;
+                }
+            }
+
+        }
+    }
+}

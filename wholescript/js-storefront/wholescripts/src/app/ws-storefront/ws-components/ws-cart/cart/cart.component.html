@@ -1,0 +1,67 @@
+@if(cartData$ | async;as heading){
+    <div class="cartUpperDiv d-flex col-12 flex-column">
+        <div [class.cart-note]="userDetails?.sapCentralDeliveryBlock?.code !== '60'" class="alerting alerting-info mt-4">
+            <span class="bolder">Note:</span> You can start ordering now, however, your order will be shipped once your account application is approved (usually in 3 to 5 business days).
+            If you have any questions, please do not hesitate to contact us at <a href="tel:+18006476100" class="bolder text-primary" tabindex="0">800-647-6100</a> or <a href="mailto:new.accounts@wholescripts.com" class="bolder text-primary" tabindex="0">new.accounts&#64;wholescripts.com</a>
+        </div>
+        <div [innerHTML]="$any(heading)?.content" class="cart-heading"></div>
+    </div>
+    }
+    
+        <div class="cartContainerdiv"  [class.margin-left-anonymousUser]="!isUserLoggedIn()" >
+            <div class="content-section col-12 d-lg-flex d-md-flex d-sm-block " [class.opacity-zero]="isLoading()" >
+                <ws-cart-details></ws-cart-details>
+            </div>
+            <!-- @if(isLoading()) { -->
+                <!-- <cx-spinner class="center-spinner" ></cx-spinner> -->
+            <!-- } -->
+        </div>
+        
+       
+    
+    <ng-template #remove>
+        <div class="p-2 text-center">
+            <ng-container *ngTemplateOutlet="topSection;context:{$implicit:true}"></ng-container>
+            <div class="d-flex justify-content-center align-items-center">
+                <cx-media
+                    [container]=" (currentProduct()?.product?.images && currentProduct()?.product?.images?.length) ? currentProduct()?.product?.images[1] : null"
+                    [alt]="currentProduct()?.product?.name"></cx-media>
+                <p class="bolder">{{currentProduct()?.product?.name}}</p>
+            </div>
+            <ng-container *ngTemplateOutlet="messageSection;context:{$implicit:true}" ></ng-container>
+           <ng-container *ngTemplateOutlet="bottomSection;context:{$implicit:true}" ></ng-container>
+        </div>
+    </ng-template>
+    
+    <ng-template #removeAll>
+        <div class="p-2 text-center">
+            <ng-container *ngTemplateOutlet="topSection;context:{$implicit:false}"></ng-container>
+            <ng-container *ngTemplateOutlet="messageSection;context:{$implicit:false}" ></ng-container>
+            <ng-container *ngTemplateOutlet="bottomSection;context:{$implicit:false}" ></ng-container>        
+        </div>
+    </ng-template>
+    
+    <ng-template #topSection let-isremove>
+        <div class="row col-12 mx-0 p-2">
+            <div class="col-10 text-center"> <h4 class="bolder">{{isremove ? 'REMOVE ITEM' : 'REMOVE ALL'}}</h4>  </div>
+            <!-- <div class="col-2 pr-0 text-end cursor-pointer "  (click)="closePopup()" ><span aria-hidden="true" class="cursor-pointer bolder" >×</span></div> -->
+            <button type="button" class="col-2 pr-0 text-end" aria-hidden="true" tabindex="0"
+            aria-label="Close" (click)="closePopup()" #firstElement>
+            <i class="fa fa-close fs-14"></i>
+            </button>
+        </div>
+        <hr>
+    </ng-template>
+    
+    <ng-template #messageSection let-isremove>
+        <p> Are you sure you want to remove {{isremove ? 'this product' :'all products'}}   from your shopping cart?</p>
+    </ng-template>
+    
+    <ng-template #bottomSection let-isremove>
+        <div class="d-flex justify-content-end">
+            <button class="btn btn-rounded btn-outline-primary mr-3" (click)="closePopup()" >Keep</button>
+            <button class="btn btn-rounded btn-primary" (click)="Delete(button.textContent)" #button>{{isremove ? 'Remove' :'Remove All'}} </button>
+        </div>
+    </ng-template>
+    
+    <ng-container *ngIf="isUserLoggedIn$|async" ></ng-container>

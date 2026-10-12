@@ -1,0 +1,10 @@
+<ng-container *ngIf="product$ | async as product">
+  <div class="formulated-to-exclude-container">
+    <div class="heading">Formulated to Exclude:</div>
+    <div class="images-container">
+      <div *ngFor="let image of dataService.restrictedImages()">
+        <img [src]="image.value" [alt]="image.key" class="image" />
+      </div>
+    </div>
+  </div>
+</ng-container>

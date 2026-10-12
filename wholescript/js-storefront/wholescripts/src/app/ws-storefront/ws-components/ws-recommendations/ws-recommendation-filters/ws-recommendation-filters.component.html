@@ -1,0 +1,21 @@
+<div class="pop-header mt-5 p-5">
+  <button type="button" class="close bolder d-block c-icon pb-4" (click)="close()">
+    <i class="fa fa-close float-right"></i>
+  </button>
+  <div class="d-flex justify-content-center flex-column align-items-center ">
+      <h4 class="modal-title header-title"><b>FILTERS</b></h4>
+  </div>
+</div>
+<div *ngFor = "let item of facets">
+<button (click)="item.visible = !item.visible"class="accordion">{{ item.name }}
+  <i [ngClass]="!item.visible ? 'fa-chevron-down' : 'fa-chevron-up'" class="fa float-right"></i>
+</button>
+<div *ngFor = "let value of item.values" class="panel" [ngClass]="!item.visible && 'panel-active'">
+  <p>{{value?.name}} ({{ value?.count}})</p>
+</div>
+</div>
+<div class="text-right btn-end p-5">
+  <a class="btn btn-outline-primary btn-rounded btn-h" (click)="close()" data-dismiss="modal">
+      Close
+  </a>
+</div>

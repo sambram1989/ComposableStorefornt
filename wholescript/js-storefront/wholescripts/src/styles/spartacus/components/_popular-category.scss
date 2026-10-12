@@ -1,0 +1,127 @@
+.PatientShopPageTemplate {
+  cx-page-slot.Section4 {
+    margin-top: 80px;
+    padding: 60px 0;
+
+    cx-paragraph:nth-child(1) {
+      text-align: center;
+      font-size: 1.25rem;
+      
+      h2 {
+        font-weight: 900;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        &::before {
+          content: url('../../../assets/images/home/hero-hexagon.svg');
+          opacity: 0.04;
+          position: absolute;
+          height: 6.25rem;
+          width: 6.25rem;
+        }
+      }
+    }
+
+    @media (min-width: 1280px) {
+      p {
+          font-size: 1.5rem;
+          line-height: 2.25rem;
+          text-align: center;
+          margin: 40px auto;
+      }
+    }
+
+    @media (min-width: 744px) {
+      p {
+          display: block;
+          text-align: center;
+          font-size: 1.25rem;
+          margin: 40px auto;
+      }
+    
+    }
+    @media (min-width:820px) and (max-device-width:830px){
+      margin: 40px 204px !important;
+    }
+    @media (min-width:834px) and (max-width:840px){
+      margin: 40px;
+    }
+    @media (min-width:1024px) and (max-width:1100px){
+      margin: 40px 125px !important;
+    }
+    @media (min-width:768px) and (max-width:800px){
+      p {
+        margin: 40px;
+      }
+    }
+    @media (min-width: 1280px) {
+      cx-paragraph:nth-child(1) {
+          max-width: 800px;
+      }
+    }
+
+
+    ws-popular-category-shop {
+      display: flex;
+      justify-content: center;
+
+      .popular-categories {
+        display: grid;
+        gap: 2rem;
+        grid-template-rows: 94px 94px;
+        grid-template-columns: repeat(3, 1fr);
+        max-width: 1170px;
+        @media (max-width: 767px) {
+          grid-template-columns: repeat(1, 1fr);
+        }
+        @media (max-width: 1024px) and (min-width: 768px) {
+          display: grid;
+          grid-template-rows: 110px 110px;
+          grid-template-columns: 1fr 1fr;
+        }
+        @media (max-device-width: 900px) and (min-width: 820px) {
+          grid-template-rows: 110px 110px !important;
+          grid-template-columns: 1fr 1fr !important;
+        }
+
+        a {
+          text-decoration: none;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          min-width: 366px;
+          background-color: transparent;
+          border: 2px solid #EDEDED;
+          justify-content: center;
+          font-size: 1.125rem;
+          color: #3E3B49 !important;
+          transition: font-size 0.4s;
+          @media screen {
+            height: 90px;
+            box-shadow: 12px 12px 12px var(--ws-gray-light-200);
+          }
+          @media (min-width:768px) and (max-device-width:800px){
+            min-width: 312px;
+          }
+          .category-image {
+            max-height: 80px;
+            height: 100%;
+            opacity: 0.3;
+            filter: grayscale(1) contrast(0.9);
+          }
+
+          .category-name {
+            position: absolute;
+          }
+
+          &:hover {
+            font-size: 1.5rem;
+            box-shadow: 0px 3px 16px #C6BBDB;
+            border: none;
+          }
+        }
+      }
+    }
+  }
+}

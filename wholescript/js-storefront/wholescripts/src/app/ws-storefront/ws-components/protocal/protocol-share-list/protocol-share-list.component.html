@@ -1,0 +1,337 @@
+@defer(when (PageLoaded)) {
+    <div class="protoco-share-list-container">
+        <ng-container [ngTemplateOutlet]="headerSection"></ng-container>
+        <ng-container [ngTemplateOutlet]="overall"></ng-container>
+    </div>
+} @loading{
+<cx-spinner aria-label="Loading spinner"></cx-spinner>
+} @error {
+<p class="text-center d-flex align-items-center justify-content-center" aria-live="assertive">
+    An loading error occurred
+</p>
+}
+<ng-template #headerSection>
+    <div class="pageHeader row">
+        <div class="col-sm-6">
+            <cx-page-slot position="shareProtocolPageTitle" aria-label="page-heading-slot">
+            </cx-page-slot>
+            <cx-page-slot position="recommendationMyPatientsPageHeadingSlot" aria-label="page-heading-slot">
+            </cx-page-slot>
+        </div>
+    </div>
+    <div class="row mb-2 mt-3">
+        <div class="col-8 col-lg-6 pr-0">
+            <ws-search-box (searchChange)="updateSearch($event)"
+                aria-label="Search box" [attr.aria-placeholder]="'Search for patients or other criteria'"
+                [isDisable]="sliderState()">
+            </ws-search-box>
+        </div>
+        <div class="col-4 col-lg-6 text-small pl-0" id="mobileFilter-Btn">
+            <div class="d-block d-lg-none">
+                <button class="btn btn-outline-primary filter-btn" (click)="openFilterModal()"
+                    aria-label="Open filter modal">
+                    <span class="pull-left mr-2">
+                        <i class="fa fa-filter" aria-hidden="true"></i>
+                    </span>
+                    <span>Filter</span>
+                </button>
+                <label class="badge badge-danger" style="position: relative; top: -15px; right: 15px"
+                    aria-label="Active filters count">
+                    {{ 0 + activeFilters().length }}
+                </label>
+                @if(activeFilters().length > 0){
+                <button class="btn-link text-danger text-small clear-btn bolder ml-2" (click)="clearFilters()"
+                    aria-label="Clear all filters">
+                    Clear Filter(s)
+                </button>
+                }
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #overall>
+
+    <div class="row mt-4">
+        <div class="col-lg-4 d-none d-lg-block pt-3" aria-labelledby="left-filter-heading">
+            <h2 id="left-filter-heading" class="sr-only">Filter Options</h2>
+            <ws-leftfilterfacet [filters]="filters$ | async" (activeFilters)="onFacetSelection($event)"
+                aria-label="Filter options" [isDisable]="sliderState()">
+            </ws-leftfilterfacet>
+        </div>
+
+        <div class="col-md-12 col-lg-8">
+            <ng-container [ngTemplateOutlet]="patientsTable" aria-label="Patients table"></ng-container>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #patientsTable>
+    <div class="row">
+        <div class="col-md-6 col-lg-5 text-left d-flex justify-content-between  ">
+            <div style="display:inline-block">
+                <span class="bolder" style="color:#584091">
+                    <i class="fas text-success fa-share"></i>
+                    Share with all my patients
+                </span>
+            </div>
+            <span class="mx-1"><ws-toggle-switch [(ngModel)]="sliderState"></ws-toggle-switch></span>
+            <span class="mx-2">|</span>
+            <a class="btn-link clear-all-btn bolder" (click)="clearAll()" (keypress)="clearAll()" aria-label="Clear all selections" tabindex="0">Clear</a>
+        </div>
+        <div class="col-md-6 col-lg-7 text-right">
+            <p>
+                @if(sliderState()){
+                <span class="amtOfPatients">Share withall</span>
+                }
+                @else if (!sliderState()) {
+                <span class="amtOfPatients">{{viewCount}} Patient(s) Selected</span>
+                }
+                @if(viewCount>0){
+                <a class="text-link fs-12 ml-2 viewPatients-btn fw-900" style="cursor: pointer;"
+                    (click)="openViewModel()" aria-label="View selected patients" (keypress)="openViewModel()" tabindex="0">View
+                </a>
+                }
+            </p>
+        </div>
+    </div>
+    <div class="row mb-3" ngClass="{{sliderState() ? 'disable':'isDisable'}}">
+        <table class="table demo-table-search table-responsive-inline-block" id="tableWithSearch" role="table"
+            aria-label="tableTitle">
+            <thead class="bg-gray" role="rowgroup">
+                <tr role="row" [wsFS]="'14px'">
+                    <th scope="col" style="width: 10%" aria-label="Checkbox th"></th>
+                    <th scope="col" style="width: 20%" aria-sort="none">Name</th>
+                    <th scope="col" style="width: 24%" aria-sort="none">Referral Code</th>
+                    <th scope="col" style="width: 15%" aria-sort="none">Last Active</th>
+                    <th scope="col" class="text-right" style="width: 19%" aria-sort="none">
+                        DISCOUNT
+                    </th>
+                </tr>
+            </thead>
+
+            <tbody role="rowgroup">
+                @for (item of protoService.selectedShareablePatient(); track item ;let i = $index ) {
+                <tr class="clickable-row active-row grouped-row"  [attr.tabindex]="sliderState() ? -1 : 0" aria-label="Patient row">
+                    <td class=" text-center">
+                        <div class="checkbox check-primary">
+                            <input class="pl-2 check-style" type="checkbox" [checked]="item.selected" [attr.tabindex]="sliderState() ? -1 : 0"
+                                #checkbox (focus)="scrollToViewWithOffset(checkbox)"
+                                (change)="updateCheckBoxValue(selectedCheckBox.checked,i)" #selectedCheckBox
+                                aria-label="Select patient">
+                            <label for="selectPatient_20728823_0" aria-label="Checkbox select patient"></label>
+                        </div>
+
+                    </td>
+                    <td class=" pl-3" class="patient-name">
+                        <h6>
+                            <button
+                                (click)="navigateToPatientProfile(item)"
+                                (keydown.enter)="navigateToPatientProfile(item)"
+                                class="text-link" 
+                                aria-label="View profile of"  
+                                [attr.tabindex]="sliderState() ? -1 : 0"
+                            >
+                                {{item?.name }}
+                            </button>
+                        </h6>
+                    </td>
+                    <td class="pl-3 ">{{ item?.referralCode }}</td>
+                    <td class="pl-3 ">{{ item?.modifiedTime | date : "MM/dd/yyyy" }}</td>
+                    <td class="text-right pr-3 ">
+                        15%
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    @if(sliderState()){
+    <ng-container [ngTemplateOutlet]="conditionPopUp"></ng-container>
+    }
+
+    <ws-pagination class="d-flex align-items-center justify-content-end" [resetReposition]="true" (currentPageChange)="pageChanged($event)"
+        [itemsPerPage]="5" [totalItems]="patientsData().length" [numberOfPagesNeedTOBeShown]="5"
+        aria-label="Pagination controls">
+    </ws-pagination>
+</ng-template>
+
+<ng-template #conditionPopUp>
+    <div class="tr-overlay-message">
+        <div id="overlay-wrapper" class=" row align-items-center ">
+            <div id="share-all-image" class="col-4">
+                <img src="https://qa.wholescripts.com/images/common/all-patients-share.svg" class="img-style" alt="All Patients share">
+            </div>
+            <div class="share-all-content text-left col-8">
+                <div class="share-all-title">Share with all. Grow your practice.</div>
+                <div class="share-all-text">
+                    Sharing your protocol with all your patients means <em>all current and future patients</em> will
+                    always
+                    see the latest version of this protocol, indefinitely. <br>
+                    <span class="icon-text">If you would like to share with selected patients instead, click the <i
+                            class="fas fa-toggle-on" aria-hidden="true"></i> icon.</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<ws-floating-footer>
+    <div class="navbar sticky-bottom">
+        <div class="bottom-nav__left">
+            <h4 class="bolder m-0">My Patients <br></h4>
+            <p>
+                @if(sliderState()){
+                <span class="amtOfPatients">Share withall</span>
+                }
+                @else if (!sliderState()) {
+                <span class="amtOfPatients">{{viewCount}} Patient(s) Selected</span>
+                }
+                @if(viewCount>0){
+                <a class="text-link fs-12 ml-2 viewPatients-btn fw-900" style="cursor: pointer;"
+                    (click)="openViewModel()" aria-label="View selected patients" (keypress)="openViewModel()" tabindex="0">View
+                </a>
+                }
+            </p>
+        </div>
+        <div class="bottom-nav__right d-flex align-items-center justify-content-end">
+            <button class="btn btn-primary btn-rounded btn-continue"
+                ngClass="{{viewCount>0||sliderState() ? 'undisable': 'disable'}}" (click)="openProtocolModel()"
+                aria-label="Continue to share protocol">Continue
+            </button>
+        </div>
+    </div>
+</ws-floating-footer>
+
+<ng-template #filterForPopup>
+    <div class="popup-header d-flex" role="banner">
+        <h3 class="title mx-auto bolder" id="filtersTitle">FILTERS</h3>
+        <button aria-label="Close modal" (click)="closeFilterModal()">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+    <div class="body" aria-labelledby="filtersTitle">
+        <ws-leftfilterfacet [fromPopup]="true" [filters]="filters$ | async" (activeFilters)="onFacetSelection($event)"
+            aria-label="Filter options"></ws-leftfilterfacet>
+    </div>
+</ng-template>
+
+<ng-template #viewPopUp>
+    <div class="px-4 py-4 pop-header">
+        <button type="button" class="ws-close close" (click)="closePopup()" aria-label="Close modal">
+            x
+        </button>
+        <div class="d-flex justify-content-center flex-column align-items-center ">
+            <div class="modal-title header-title">PATIENTS SELECTED</div>
+        </div>
+        <hr class="w-100">
+        <h5 class="mt-3 mb-5 bolder">
+            <span class="view-title">1</span> Patient(s) Selected
+        </h5>
+        <div class="row">
+            <div class="col-8">
+                <ws-search-box (searchChange)="updateSearch($event)"
+                    aria-label="Search box" [attr.aria-placeholder]="'Search for patients or other criteria'">
+                </ws-search-box>
+            </div>
+            <div class="col-4 text-right">
+                <button type="button" class="remove-all-btn btn btn-link text-danger fw-900 p-0" (click)="clearAll()"
+                    aria-label="Remove all selected patients">Remove All</button>
+            </div>
+        </div>
+        <div class="mb-3 mt-2">
+            <table class="table demo-table-search table-responsive-inline-block" id="tableWithSearch" role="table"
+                aria-label="tableTitle">
+                <thead class="bg-gray" role="rowgroup">
+                    <tr role="row" [wsFS]="'14px'">
+                        <th scope="col">Name</th>
+                        <th scope="col">Last Active</th>
+                        <th scope="col" style="text-align: end;">Actions</th>
+                    </tr>
+                </thead>
+                <tbody role="rowgroup">
+                    @for (item of this.protoService.selectedShareablePatient()|search:searchKeyPopup:'name' ; track item; let
+                    i=$index) {
+                    @if(item.selected){
+                    <tr class="clickable-row active-row grouped-row" aria-label="Patient row">
+                        <td class=" pl-3" style="cursor: pointer;">
+                            <h6>
+                                <a href="/practitioner/patientprofile?sapPatientId=0010353856&amp;storeId=1"
+                                    class="text-link" aria-label="View profile">{{item?.name }}</a>
+                            </h6>
+                        </td>
+                        <td class="pl-3 ">{{ item?.modifiedTime | date : "MM/dd/yyyy" }}</td>
+                        <td class="text-right pr-3 ">
+                            <button class="btn btn-outline-danger btn-rounded btn-h btn-r"
+                                (click)="updateCheckBoxValue(false,i)" aria-label="Remove from selection">
+                                Remove
+                            </button>
+                        </td>
+                    </tr>
+                    }
+                    }
+                    @empty {
+                    <div class="empty-state no-table">
+                        <div>
+                            <h6>No Patients Selected</h6>
+                            <p>Please select a patient to continue.</p>
+                        </div>
+                    </div>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <ws-pagination class="d-flex align-items-center justify-content-end" (currentPageChange)="pageChanged($event)"
+            [itemsPerPage]="5" [totalItems]="patientsData().length" [numberOfPagesNeedTOBeShown]="5"
+            aria-label="Pagination controls">
+        </ws-pagination>
+        <div class="text-right btn-end mt-5">
+            <button type="button" class="btn btn-outline-primary btn-rounded fw-900 btn-h" (click)="closePopup()"
+                style="cursor: pointer; padding-top: 5px;">Close</button>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #shareProtocolPopUp>
+        <form [formGroup]="checkBoxState">
+            <div class="px-4 py-4 pop-header" #shareProtocolPopUpData>
+                <button type="button" class="ws-close close" (click)="closePopup()" aria-label="Close modal">
+                    x
+                </button>
+                <div class="d-flex justify-content-center flex-column align-items-center ">
+                    <div class="modal-title share-title">SHARE PROTOCOL</div>
+                </div>
+                @if(protocolDetails$|async; as protocol){
+                <hr class="w-100 mb-1">
+                <div class="text-center mt-3 mb-4">
+                    <i class="fas fa-archive text-primary pl-1" style="font-size:30px;" aria-hidden="true"></i>&nbsp;
+                    <span class="h2 text-primary bolder">{{protocol?.name}}</span>
+                </div>
+            }
+                <hr class="w-100">
+                <div class="checkbox check-primary" style="position: relative;">
+                    <input class="form-check-input checkbox check-primary" formControlName="checkBox" type="checkbox"
+                        aria-label="I certify compliance with HIPAA regulations" tabindex="0">
+                    <label class="form-check-label bolder fs-16 my-15 mx-20 " for="privacyPolicy"
+                        style="line-height:1.5rem;">
+                        By checking this box, I certify the transmission of all information via this messaging platform,
+                        including all attachments and/or notes, will be done in compliance with all applicable regulations,
+                        including HIPAA, and does not reveal or make known the confidential and/or private health
+                        information of
+                        any one individual to other members of this—or any other—messaging thread.
+                    </label>
+                </div>
+                <div class=" d-flex  justify-content-end mt-4" style="column-gap:10px">
+                    <button type="button" class="btn btn-outline-primary btn-rounded fw-900 btn-h" (click)="closePopup()"
+                        style="cursor: pointer; padding-top: 5px;" aria-label="Cancel sharing protocol" tabindex="0">Cancel
+                    </button>
+                    <button [disabled]="!checkBoxState.controls.checkBox.valid"  type="button" class="btn btn-share btn-rounded fw-900 btn-h"
+                        (click)="callPostApi()" style="cursor: pointer; padding-top: 5px;" aria-label="Share protocol" tabindex="0">
+                        Share Protocol
+                    </button>
+                </div>
+            
+            </div>
+        </form>
+</ng-template>

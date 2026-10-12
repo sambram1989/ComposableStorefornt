@@ -1,0 +1,369 @@
+<div id="checkout-delivery-address">
+
+    <section class="section-content pt-0 pl-3 pt-2" >
+        <div>
+            <div class="card card-transparent">
+
+                <div class="card-header pt-0 pl-0 pr-0">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div>
+                                <div class="row wsPaymentMethodPageTopPara">
+                                    <cx-page-slot position="wsPaymentMethodPageTopPara"
+                                        aria-label="page-contact-us" tabindex="0">
+                                    </cx-page-slot>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 text-right"> &nbsp;</div>
+                    </div>
+                </div>
+
+                <div *ngIf="paymentTypes$ | async as paymentTypes" class="m-0">
+                    <section *ngIf="
+                    (typeSelected$ | async) &&
+                    !(isUpdating$ | async);
+                  else loading " class="section-content padding-y pt-0">
+                        <div class="container-fixed-lg">
+                            <div class="row">
+                                <main class="col-md-8 pl-0">
+                                    <div class="card card-transparent">
+                                        <div class="card card-default" style="background:none; border:none;">
+                                            
+                                            <div class="card-block no-padding">
+                                                <table class="table table-responsive-block" aria-label="Payment Methods">
+                                                    <!-- <caption class="visually-hidden">Available payment methods and actions</caption> -->
+                                                    @if(!isPatient()){
+                                                    <thead>
+                                                        <tr class="card-header bg-gray text-dark pt-3 pb-3">
+                                                            <th style="width:25%" class="text-dark bg-gray" scope="col">
+                                                                Method
+                                                            </th>
+                                                            <th style="width:55%"
+                                                                class="text-dark bg-gray px-md-auto px-lg-0" scope="col">
+                                                                Details
+                                                            </th>
+                                                            <th class="text-center bg-gray text-dark" scope="col">
+                                                                Actions
+                                                            </th>
+                                                        </tr>
+                                                    </thead>
+                                                }
+                                                    <tbody>
+                                                        @if(getPaymentdetails()?.payments?.length === 0 && !isPatient()){
+                                                        <tr class="clickable-row " *ngIf="getPaymentdetails()?.payments?.length == 0">
+                                                            <td  class="v-align-middle" colspan="2">
+                                                                <h5 id="no-card-message" class="mt-0"
+                                                                    style="font-weight: 900; font-size: 19px;" aria-live="polite">
+                                                                    You don't have a credit card on file.
+                                                                </h5>
+                                                                <p class="m-0">Please add a new card.</p>
+                                                            </td>
+
+                                                            <td class="v-align-middle text-right"
+                                                                style="padding: 0 !important;">
+                                                                <button (click)="createNewCard()" data-toggle="modal"
+                                                                    data-target="#addCreditCard"
+                                                                    class="btn btn-primary btn-rounded float-right"
+                                                                    id="addNewCard-btn-1">
+                                                                    <i class="fa fa-plus" style="margin-right: 3px;margin-top: -1px;"></i>
+                                                                    Add New Card
+                                                                </button>
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                        @if(paymentTypes && paymentTypes.length){
+                                                        <tr class="clickable-row" *ngFor="let type of paymentTypes">
+                                                            <td class="v-align-middle py-0 mt-3">
+                                                                <p class="mb-0 pmethod-bold">
+                                                                    <i *ngIf="type.code?.toLowerCase() == 'ztel'" class="fa fa-phone"></i>
+                                                                    <i *ngIf="type.code?.toLowerCase() == 'zwir'" class="fa fa-money-bill-wave"></i>
+                                                                    <i *ngIf="type.code?.toLowerCase() == 'zach'" class="fa fa-university"></i>
+                                                                    {{ type.displayName }}
+                                                                </p>
+                                                            </td>
+                                                            <td class="v-align-middle px-md-auto px-lg-0">
+                                                                <p>
+                                                                    {{ $any(type).description }}
+                                                                </p>
+                                                            </td>
+                                                            <td class="v-align-middle text-lg-right col-12">
+                                                                <div
+                                                                    class="offset-7 col-md-5 col-12 offset-md-0 col-md-12 d-inline-block py-0 pr-0">
+                                                                    <button (click)="selectOption(type.code,'')"
+                                                                        class="btn btn-outline-primary btn-rounded float-right"
+                                                                        tabindex="0"> 
+                                                                        Select <span class="visually-hidden"> {{ type.displayName }} payment method</span>
+                                                                    </button>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                         }
+                                                        @if(getPaymentdetails()?.payments){
+                                                        <tr class="clickable-row"
+                                                            *ngFor="let type of getPaymentdetails()?.payments">
+                                                            <td class="v-align-middle py-0 mt-3 ">
+                                                                <p class="mb-0 pmethod-bold text-uppercase">
+                                                                    <i class="fa fa-credit-card-alt"></i>
+                                                                    {{ type?.cardType?.name || type?.cardType?.code }}
+                                                                </p>
+                                                            </td>
+                                                            <td class="v-align-middle px-md-auto px-lg-0">
+                                                                <p class="mb-0">
+                                                                    {{ $any(type).cardNumber }} <span>| Exp. {{
+                                                                        $any(type).expiryMonth}}/{{
+                                                                        $any(type).expiryYear|slice:-2}}</span>
+                                                                    <span class="text-danger expired"
+                                                                        *ngIf="isCardExpired(type)"> Expired</span>
+                                                                </p>
+                                                                <p>{{$any(type)?.billingAddress?.formattedAddress}}</p>
+                                                            </td>
+                                                            <td class="v-align-middle text-lg-right col-12">
+                                                                <div
+                                                                    class="offset-7 col-md-5 col-12 offset-md-0 col-md-12 d-inline-block py-0 pr-0">
+                                                                    <button [disabled]="isCardExpired(type)"
+                                                                        (click)="selectOption('XCRD',$any(type)?.id)"
+                                                                        class="btn btn-outline-primary btn-rounded float-right"
+                                                                        tabindex="0">
+                                                                        Select <span class="visually-hidden">Card ending in {{ $any(type)?.cardNumber.slice(-4) }}</span>
+                                                                    </button>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        }
+                                                        @if(getPaymentdetails()?.cartPaymentInfo?.accountHolderName){
+                                                        <tr class="clickable-row">
+                                                            <td class="v-align-middle py-0 mt-3">
+                                                                <p class="mb-0 pmethod-bold">
+                                                                    <i class="fa fa-credit-card-alt"></i>
+                                                                    {{
+                                                                    getPaymentdetails()?.cartPaymentInfo?.cardType?.name
+                                                                    }}
+                                                                </p>
+                                                            </td>
+                                                            <td class="v-align-middle px-md-auto px-lg-0">
+                                                                <p class="mb-0">
+                                                                    {{ getPaymentdetails()?.cartPaymentInfo?.cardNumber
+                                                                    }} <span>| Exp. {{
+                                                                        getPaymentdetails()?.cartPaymentInfo?.expiryMonth}}
+                                                                        {{
+                                                                        getPaymentdetails()?.cartPaymentInfo?.expiryYear|slice:-2}}</span>
+                                                                </p>
+                                                                <p>{{getPaymentdetails()?.cartPaymentInfo?.billingAddress?.formattedAddress}}
+                                                                </p>
+                                                            </td>
+                                                            <td class="v-align-middle text-lg-right col-12">
+                                                                <div
+                                                                    class="offset-7 col-md-5 col-12 offset-md-0 col-md-12 d-inline-block py-0 pr-0">
+                                                                    <button
+                                                                        (click)="selectOption('XCRD',getPaymentdetails()?.cartPaymentInfo?.id)"
+                                                                        class="btn btn-outline-primary btn-rounded float-right"
+                                                                        tabindex="0">
+                                                                        Select <span class="visually-hidden">Default card ending in {{ getPaymentdetails()?.cartPaymentInfo?.cardNumber.slice(-4) }}</span>
+                                                                    </button>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        }
+                                                       
+                                                    </tbody>
+                                                </table>
+                                                @if(getPaymentdetails()?.payments?.length !== 0){
+                                                        <div class="text-right"
+                                                        style="padding-left: 0 !important;">
+                                                        <button (click)="createNewCard()" data-toggle="modal"
+                                                            data-target="#addCreditCard"
+                                                            class="btn btn-primary btn-rounded float-right"
+                                                            id="addNewCard-btn-1">
+                                                            <i class="fa fa-plus" style="margin-right: 3px;margin-top: -2px;"></i>
+                                                            Add New Card
+                                                        </button>
+                                                    </div>
+                                                }
+                                            </div>
+                                            @if(getPaymentdetails()?.payments?.length === 0 && isPatient() ) {
+                                            <div class="text-center" tabindex="0">
+                                                <div class="mb-5" aria-live="polite">
+                                                    <img src="/assets/qa/empty-cc-state.svg" width="30%" alt="No saved credit card">
+                                                </div>
+                                                <p class="bolder text-dark fs-18" id="no-card-text"> You don't have a credit card on file</p>
+                                                <p class="fs-18" >Please Add a new card</p>
+                                                <div class="d-flex justify-content-center mt-5">
+                                                    <button (click)="createNewCard()" data-toggle="modal"
+                                                    data-target="#addCreditCard"
+                                                    class="btn btn-primary btn-rounded "
+                                                    id="addNewCard-btn-1" aria-label="no-card-text" tabindex="0"
+                                                    (keydown.enter)="createNewCard()" 
+                                                    (keydown.space)="createNewCard()">
+                                                    <i class="fa fa-plus" style="margin-right: 3px;margin-top: -1px;"></i>
+                                                    Add New Card
+                                                </button>
+                                               
+                                                </div>
+                                            </div>
+                                            }
+                                        </div>
+                                    </div>
+                                </main>
+                                <aside *ngIf="cart$|async as cart" class="col-md-4 pl-0" style="margin-bottom:8rem;">
+                                    <div *ngIf="deliveryAddress$ | async as address" class="card" tabindex="0">
+                                        <div class="card-header bg-gray text-dark pt-3 pb-3">
+                                            <div class="card-title v-align-middle" id="shipping-address">
+                                                Shipping Address
+                                            </div>
+                                            <a class="text-primary bolder" [routerLink]="'/checkout/ShippingAddresses'" aria-label="Edit shipping address">Edit</a>
+                                        </div>
+                                        <div class="card-body p-4">
+                                            <span>{{allAddress?.addressDescription}}</span>
+                                            <br>
+                                            <span>{{address.data.firstName}} {{address.data.lastName}}</span>
+                                            <br>
+                                            <span>{{address.data.line1}}</span>
+                                            <br>
+                                            <span>{{address.data.region.name}}, {{address.data.region.isocodeShort}} {{address.data.postalCode}}</span>
+                                            
+                                        </div>
+                                    </div>
+
+                                    <div class="card" tabindex="0">
+                                        <div class="card-header bg-gray text-dark pt-3 pb-3 ">
+                                            <div class="card-title v-align-middle">
+                                                Shipping Method
+                                            </div>
+                                            <a class="text-primary bolder" [routerLink]="'/checkout/ShippingMethods'" aria-label="Edit shipping method">Edit</a>
+                                        </div>
+                                        <div class="card-body p-4">
+                                            <dl class="dlist-align">
+                                                <dd class="float-right">
+                                                    {{ cart?.deliveryCost?.formattedValue }}
+                                                </dd>
+                                                <dd>
+                                                    <span class="fa fa-truck"></span>
+                                                    {{cart?.deliveryMode?.name}}
+                                                </dd>
+                                            </dl>
+                                        </div>
+                                    </div>
+
+                                    <div class="card mt-1 ng-scope" tabindex="0">
+                                        <div class="card-header bg-gray text-dark pt-3 pb-3">
+                                            <div class="card-title v-align-middle" id="order-total">
+                                                Order Total
+                                            </div>
+                                        </div>
+
+                                        <div class="loadingSection ng-hide">
+                                        </div>
+
+                                        <div class="card-body p-4">
+                                            <div id="ShippingTaxWarningDIV" class="alert alert-warning" aria-live="polite" *ngIf="showTaxWarningMessage">
+                                                You are shipping to a state where shipping charges are taxable. Please
+                                                note that this order may have additional taxes added upon order
+                                                completion.
+                                            </div>
+
+                                            <div id="FreeShippingThresholdMessageDIV"
+                                                class="alert alert-info text-left" *ngIf="shippingMessage && isPatient() ? (PATIENT_SHIPPING_PRICE - cartTotalPrice) > 0 : (PRACTITIONER_SHIPPING_PRICE - cartTotalPrice) > 0" aria-live="polite">
+                                                <p class="m-0">
+                                                    {{shippingMessage?.replace('{{shippingPrice}}', isPatient() ? ('$' + (PATIENT_SHIPPING_PRICE -
+                                                    cartTotalPrice).toFixed(2)) : ('$' + (PRACTITIONER_SHIPPING_PRICE - cartTotalPrice).toFixed(2)))}}
+                                                </p>
+                                            </div>
+
+                                            <div *ngIf="cart?.success == false">
+                                                <ws-order-total-calculating-error></ws-order-total-calculating-error>
+                                            </div>
+
+                                            <div class="row pb-2" *ngIf="cart?.subTotal?.value || isFriendsFamily">
+                                                <div class="col-6 text-left bolder">
+                                                    Subtotal:
+                                                </div>
+                                                <div class="col-6 bold text-right">
+                                                    {{ cart?.subTotal?.formattedValue }}
+                                                </div>
+                                            </div>
+                                            <div class="row pb-2" *ngIf="cart?.deliveryCost?.value || isFriendsFamily">
+                                                <div class="col-6 text-left bolder">
+                                                    Shipping:
+                                                </div>
+                                                <div class="col-6 bold text-right">
+                                                    {{ cart?.deliveryCost?.formattedValue }}
+                                                </div>
+                                            </div>
+                                            <div class="row pb-2" *ngIf="cart?.totalTax?.value || isFriendsFamily">
+                                                <div class="col-6 text-left bolder">
+                                                    Tax:
+                                                </div>
+                                                <div class="col-6 bold text-right">
+                                                    {{ cart?.totalTax?.formattedValue }}
+                                                </div>
+                                            </div>
+                                            <div class="row pb-2" *ngIf="cart?.totalDiscounts?.value || isFriendsFamily">
+                                                <div class="col-6 text-left bolder">
+                                                    Discounts:
+                                                </div>
+                                                <div class="col-6 bold text-right text-danger">
+                                                    ({{ cart?.totalDiscounts?.formattedValue }})
+                                                </div>
+                                            </div>
+                                            <!-- TODO as of now no promoCode need to do in future -->
+                                            <!-- <hr>
+                                            <div class="row mb-0 ng-hide">
+                                                <div class="col-6 text-left bolder">Promo Code</div>
+                                                <div class="col-6 bold text-right pl-0">
+                                                    <div id="promoOn">
+                                                        <div class="bolder"></div>
+                                                    </div>
+                                                </div>
+                                            </div> -->
+                                            <hr class="ng-hide">
+                                            <div class="row mb-0" *ngIf="cart?.totalPrice?.value || isFriendsFamily">
+                                                <div class=" bolder col-6 text-left">
+                                                    TOTAL:
+                                                </div>
+                                                <div class="col-6 bolder text-right">
+                                                    {{ cart?.totalPrice?.formattedValue }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="row m-auto p-0" tabindex="0">
+                                        <div class="col-12 p-0">
+                                            <div class="col-12 row align-items-center mb-2"> 
+                                                <!-- <h2 id="secure-checkout" class="visually-hidden">Secure Checkout</h2> -->
+                                                <img
+                                                    src="../../../../../assets/icons/common_icons/shield-text.svg"
+                                                    alt="shield-text"
+                                                    style="width: 20px"
+                                                />
+                                                <cx-page-slot position="SSLCheckoutParagraph"
+                                                    aria-label="secure-checkout">
+                                                </cx-page-slot>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </aside>
+                            </div>
+                        </div>
+                    </section>
+
+                    <ng-template #loading>
+                        <div class="d-flex align-items-center justify-content-center">
+                            <cx-spinner></cx-spinner>
+                        </div>
+                    </ng-template>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+</div>
+<ng-template #addNewCreditCard>
+    <ws-add-new-creditcard></ws-add-new-creditcard>
+</ng-template>
+
+<ng-container *ngIf=" isCurrentUser$|async"></ng-container>

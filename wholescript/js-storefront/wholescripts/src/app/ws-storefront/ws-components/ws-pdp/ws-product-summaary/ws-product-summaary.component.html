@@ -1,0 +1,154 @@
+<ng-container *ngIf="product$ | async as product">
+  <div class="product-summary-container">
+    <ng-template [cxOutlet]="outlets.PRICE" [cxOutletContext]="{ product: product }">
+
+      <div class="price-guest">
+        <div *ngIf="!isLoggedIn" class="price">
+          {{ $any(product).mapPrice.formattedValue }}
+        </div>
+      </div>
+
+      <ng-container *ngIf="isLoggedIn">
+        <ng-container *ngIf="curUser$ | async as curUser">
+          <ng-container *ngIf="isPractioner">
+            <div *ngIf="allPromotionsWithDescription?.length > 0" >
+              <div *ngFor="let promotion of allPromotionsWithDescription" class="promo-code-wrapper">
+                <div class="badge">
+                  <span class="badge-text">
+                    <i class="fas fa-tag"></i>
+                    Special offer available
+                  </span>
+                </div>
+                <div class="promo-details">
+                  <div class="promo-title" tabindex="0">
+                    {{promotion?.title}}
+                  </div>
+                  <div class="promo-sub-text">
+                    Selected formulas only
+                  </div>
+                  <div class="promo-codes">
+                    <div class="d-flex">
+                      <div class="promo-code-text">
+                        Use code:
+                      </div>
+                      <div class="promo-code" tabindex="0">
+                        {{promotion?.code}}
+                        <span>
+                          <i class="fa-solid fa-copy" (click)="copyPromoCode(promotion?.code)" (keydown.enter)="copyPromoCode(promotion?.code)" tabindex="0"></i>
+                        </span>
+                      </div>
+                    </div>
+                    <div>
+                      <span class="see-details-text" (click)="seeDetails(promotion)" tabindex="0" (keydown.enter)="seeDetails(promotion)">
+                        See details
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="practioner-price-container">
+              <div>
+                <div class="price">
+                  Your Price: {{ $any(product).yourPrice?.formattedValue }}
+                </div>
+                <div class="practioner-price">
+                  <div class="wholesale-price ">
+                    Wholesale: {{ $any(product).wholeSalePrice?.formattedValue }} 
+                  </div>
+                  <div class="msrp">
+                    MSRP: {{ $any(product).mapPrice?.formattedValue }}
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="label" for="frequency">
+                    AUTOSHIP FREQUENCY
+                </label>
+                <select class=" form-control " id="frequency"
+                    [(ngModel)]="autoShipFrequency" (change)="changeAutoShipFrequency($event)" tabindex="0">
+                    <option [value]="frequency?.code" *ngFor="let frequency of $any(product)?.autoShipFrequency">
+                        {{frequency?.name}}
+                    </option>
+                </select>
+              </div>
+            </div>
+          </ng-container>
+        </ng-container>
+      </ng-container>
+
+
+      <ng-container *ngIf="isLoggedIn">
+        <ng-container *ngIf="curUser$ | async as curUser">
+          <ng-container *ngIf="!isPractioner">
+            <div *ngIf="allPromotionsWithDescription?.length > 0" >
+              <div *ngFor="let promotion of allPromotionsWithDescription" class="promo-code-wrapper">
+                <div class="badge">
+                  <span class="badge-text">
+                    <i class="fas fa-tag"></i>
+                    Special offer available
+                  </span>
+                </div>
+                <div class="promo-details">
+                  <div class="promo-title" tabindex="0">
+                    {{promotion?.title}}
+                  </div>
+                  <div class="promo-sub-text">
+                    Selected formulas only
+                  </div>
+                  <div class="promo-codes">
+                    <div class="d-flex">
+                      <div class="promo-code-text">
+                        Use code:
+                      </div>
+                      <div class="promo-code" tabindex="0">
+                        {{promotion?.code}}
+                        <span>
+                          <i class="fa-solid fa-copy" (click)="copyPromoCode(promotion?.code)" (keydown.enter)="copyPromoCode(promotion?.code)" tabindex="0"></i>
+                        </span>
+                      </div>
+                    </div>
+                    <div>
+                      <span class="see-details-text" (click)="seeDetails(promotion)" tabindex="0" (keydown.enter)="seeDetails(promotion)">
+                        See details
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="patient-price">
+              <div>
+                <div class="price">
+                  Your Price: {{ $any(product).yourPrice?.formattedValue }}
+                </div>
+                <div class="retail">
+                  Retail: {{ $any(product).retailPrice?.formattedValue }}
+                </div>
+              </div>
+              <div class="form-group" *ngIf="$any(product)?.autoShipFrequency?.length > 0">
+                <select class="form-control" id="frequency"
+                    [(ngModel)]="autoShipFrequency" (change)="changeAutoShipFrequency($event)">
+                    <option [value]="frequency?.code" *ngFor="let frequency of $any(product)?.autoShipFrequency">
+                        {{frequency?.name}}
+                    </option>
+                </select>
+                <label class="label" for="frequency">
+                    AUTOSHIP FREQUENCY
+                </label>
+              </div>
+            </div>
+          </ng-container>
+        </ng-container>
+      </ng-container>
+
+    </ng-template>
+  </div>
+</ng-container>
+
+ <div *ngIf="showPromoDetailsModal">
+  <ws-promo-details-modal [selectedPromotion]="selectedPromotion" (closeModal)="closeModal()"></ws-promo-details-modal>
+ </div>
+
+ <alert *ngIf="alert?.msg" [type]="alert.type" [dismissOnTimeout]="alert.timeout" (onClosed)="onClosed()">{{
+  alert.msg }}</alert>

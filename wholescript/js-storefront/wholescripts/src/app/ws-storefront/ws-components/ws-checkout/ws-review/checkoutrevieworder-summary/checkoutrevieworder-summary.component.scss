@@ -1,0 +1,121 @@
+:host{
+  margin-top: 80px;
+  @media (max-width:990px){
+    margin-top: 0px;
+    margin-left: 0px !important;
+  }
+}
+
+$padding: 10px;
+$margin: 20px 0;
+$border-radius: 15px;
+
+$info-border: rgba(0, 183, 255, 0.502);
+$info-bg: rgba(0, 183, 255, 0.09);
+
+$warning-border: rgba(255, 217, 0, 0.502);
+$warning-bg: rgba(255, 242, 0, 0.09);
+
+$error-border: rgba(255, 0, 0, 0.524);
+$error-bg: rgba(255, 0, 0, 0.066);
+
+:host {
+  margin-left: 30px;
+}
+
+@mixin section-style($border-color, $bg-color) {
+  padding: $padding;
+  margin: $margin;
+  border-radius: $border-radius;
+  border: 2px solid $border-color;
+  background-color: $bg-color;
+}
+
+.text-section-head {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--cx-color-darkest);
+}
+
+a {
+  text-decoration: none;
+  color: rgb(88, 64, 145);
+
+  &:hover,
+  &:active {
+    color: var(--cx-color-primary)
+  }
+}
+
+section {
+  @include section-style($info-border, $info-bg);
+}
+
+.warning-section {
+  @include section-style($warning-border, $warning-bg);
+}
+
+.error-section {
+  @include section-style($error-border, $error-bg);
+}
+
+.input-style {
+  background-color: #fff;
+  border: 1px solid #BCBCC3;
+  color: #2c2c2c;
+  outline: 0;
+  height: 42px ;
+  line-height: 1.5;
+  font-size: 16px;
+  font-weight: normal;
+  vertical-align: middle;
+  min-height: 35px;
+  transition: all 0.12s ease;
+  box-shadow: none;
+  border-radius: 2px;
+
+  &::placeholder {
+    color: #d3d3d3;
+    ;
+  }
+}
+.warning-section,.alert-info{
+  border-radius: 5px !important;
+}
+.alert-info {
+  background-color: #f5feff;
+  color: #3e3b49;
+  border: 1px solid #0e7090;
+}
+.secure-checkout{
+  font-weight: 900 !important;
+}
+
+::ng-deep {
+  .card-header {
+    background-color: var(--cx-color-background-alt) !important;
+  }
+  .card {
+    margin-bottom: 20px !important;
+  }
+  .btn-primary {
+    border-radius: 100px !important;
+  }
+  .btn-primary[disabled] {
+    background-color: var(--ws-brand-200) !important;
+    border-color: var(--ws-brand-200) !important;
+  }
+  .btn-primary:disabled:hover {
+    box-shadow: none;
+    background-color: var(--ws-brand-200) !important;
+    border-color: var(--ws-brand-200) !important;
+    cursor: not-allowed;
+  }
+  input.form-check-input {
+    &:hover {
+      background-color: var(--cx-color-background-light);
+      border-color: var(--ws-brand-500);
+      transition: background-color 0.2s;
+    }
+  }
+}

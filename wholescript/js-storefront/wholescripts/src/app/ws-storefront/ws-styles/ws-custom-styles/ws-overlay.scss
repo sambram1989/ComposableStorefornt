@@ -1,0 +1,103 @@
+@import "@angular/cdk/overlay-prebuilt.css";
+@import "bootstrap";
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  color: #777;
+  height: 100%;
+}
+
+body {
+  height: 100%;
+  margin: 0;
+  background: var(--ws-gray-dark-25);
+  background-color: var(--ws-gray-dark-25);
+  transition: background-color 0.25s ease-in;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #212529;
+  text-align: left;
+
+  cx-storefront {
+    overflow: hidden !important;
+  }
+}
+
+.cdk-overlay-pane::-webkit-scrollbar {
+  width: 5px;
+}
+
+.cdk-overlay-pane::-webkit-scrollbar-track {
+  background: white;
+}
+
+.cdk-overlay-pane::-webkit-scrollbar-thumb {
+  background: #e4dfdf;
+}
+
+.cdk-visually-hidden {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}
+
+.cdk-overlay-pane {
+  background-color: var(--ws-base-white);
+  display: block;
+  overflow: auto;
+  height: 100%;
+  @media (max-width: 767px) {
+    width: 100% !important;
+  }
+  @media (min-width: 991px) and (max-width: 1024px) { 
+    width: 55%;
+  }
+}
+ws-homepage-testimonials,app-patient-home-carousel{
+  .slick-dots li.slick-active button:before {
+    opacity: 1 !important;
+  }
+  
+  .slick-dots li button:before {
+    font-size: 1.2rem !important;
+    opacity: 0.5;
+    color: #bcbcc3 !important;
+  }
+  
+  .slick-list {
+    max-width: 1900px;
+    max-height: 600px;
+    padding: 0 12%;
+  
+    @media screen and (max-width: 1024px) {
+      // max-width: 800px;
+      margin: auto;
+    }
+  }
+  
+  .slick-dots {
+    bottom: 16px !important;
+  }
+}
+cx-page-layout.LoginPageTemplate cx-page-slot {
+  padding-top: 0 !important;
+}
+
+.display-center {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
+.cdk-overlay-container {
+  z-index: 9999;
+}

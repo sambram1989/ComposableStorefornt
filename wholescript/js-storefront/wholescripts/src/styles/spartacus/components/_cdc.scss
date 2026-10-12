@@ -1,0 +1,1683 @@
+main.storefront-main {
+  width: 100%;
+}
+
+// .storefront-main.has-fixed-header {
+//   margin-top: 70px;
+// }
+
+@media only screen and (max-width: 1024px) {
+  main.storefront-main {
+    // height: 100%;
+    .container-fluid {
+      height: 100%;
+      .addHeight {
+        height: 100%;
+      }
+    }
+  }
+}
+
+::ng-deep .gigya-screen.portrait {
+  padding-bottom: 0 !important;
+}
+
+::ng-deep #ws-login-screen input[type="submit"] {
+  &:focus,
+  &:active {
+    background: var(--cx-color-primary-dark) !important;
+    box-shadow: 2px 4px 4px var(--ws-gray-light-300);
+  }
+}
+
+.patientRegistrationPageTemplate {
+  ws-register {
+    display: none;
+  }
+}
+
+.practiotionerRegistrationPageTemplate {
+  display: flex;
+  flex-wrap: wrap;
+  height: 100%;
+  padding: 0 !important;
+  zoom: 100%;
+
+  .custom-chat-btn {
+    display: none !important;
+  }
+
+  button:focus-visible,
+  .btn:focus-visible,
+  a:focus-visible,
+  input:focus-visible,
+  #first-screen-submit-button:focus-visible,
+  #second-screen-submit-button:focus-visible,
+  #third-screen-submit-button:focus-visible,
+  #fourth-screen-submit-button:focus-visible,
+  #fifth-screen-submit-button:focus-visible,
+  ws-search-box:focus-visible {
+    outline: 3px solid var(--cx-color-darkest) !important;
+    outline-offset: 2px;
+    box-shadow: none;
+  }
+  @media (max-width: 767px) {
+    cx-gigya-raas {
+      overflow: hidden;
+    }
+  }
+
+  @media (min-width: 768px) and (max-device-width: 800px) {
+    .gigya-screen .gigya-composite-control.gigya-composite-control-submit {
+      margin-bottom: 10px !important;
+    }
+  }
+
+  @media (max-width: 767px) {
+    #practiotioner-register-screen {
+      .use-button {
+        width: 21rem;
+        text-align: center;
+      }
+    }
+    margin-top: 2rem;
+  }
+
+  @media (max-width: 1024px) {
+    height: auto;
+  }
+
+  cx-page-slot {
+    &.leftBodySlot {
+      cx-banner {
+        div {
+          height: 100%;
+          cx-media {
+            height: 100%;
+            img {
+              height: 100%;
+            }
+          }
+        }
+      }
+    }
+
+    &.patientleftBodySlot,
+    &.practitionerleftBodySlot {
+      flex: 0 0 50%;
+      order: 1;
+      height: 100vh;
+      overflow: hidden;
+      @media (max-width: 1024px) {
+        display: none;
+      }
+    }
+
+    &.practitionerleftBodySlot {
+      cx-banner {
+        .no-link {
+          height: 100vh;
+          cx-media {
+            height: 100%;
+            img {
+              height: 100%;
+            }
+          }
+        }
+      }
+    }
+
+    &.patientrightBodySlot,
+    &.practitionerrightBodySlot {
+      order: 2;
+      flex: 0 0 50%;
+      padding: 32px;
+      justify-content: space-between;
+      height: 100%;
+      flex-direction: column;
+      flex-wrap: nowrap;
+
+      @media (max-width: 1700px) {
+        padding: 32px 32px 90px 32px;
+        position: relative;
+      }
+
+      @media (max-width: 1024px) {
+        flex: 0 0 100%;
+        height: auto;
+        padding: 32px 32px 128px 32px;
+        position: inherit;
+      }
+
+      @media (max-width: 576px) {
+        flex: 0 0 100%;
+        padding: 32px 32px 130px 32px;
+      }
+
+      cx-paragraph:nth-child(2),
+      cx-banner:nth-child(3),
+      cx-link:nth-child(4),
+      cx-link:nth-child(5),
+      cx-link:nth-child(8),
+      cx-paragraph:nth-child(9),
+      cx-paragraph:nth-child(10) {
+        display: none;
+      }
+
+      cx-link:nth-of-type(1),
+      cx-link:nth-of-type(2),
+      cx-link:nth-of-type(3),
+      cx-link:nth-of-type(4) {
+        a {
+          color: var(--ws-gray-light-600);
+          font-size: 14px;
+          font-weight: 600;
+          line-height: 20px;
+          text-decoration-line: underline;
+          min-height: auto;
+        }
+      }
+
+      cx-link:nth-of-type(1) {
+        position: absolute;
+        right: 226px;
+        bottom: 92px;
+
+        @media screen and (max-width: 1700px) {
+          left: 32px;
+          bottom: 52px;
+          right: auto;
+        }
+
+        @media (max-width: 767px) {
+          bottom: 90px;
+        }
+      }
+      cx-link:nth-of-type(2) {
+        position: absolute;
+        right: 132px;
+        bottom: 92px;
+
+        @media screen and (max-width: 1700px) {
+          left: 204px;
+          right: auto;
+          bottom: 52px;
+        }
+
+        @media (max-width: 767px) {
+          bottom: 90px;
+        }
+      }
+
+      cx-link:nth-of-type(3) {
+        position: absolute;
+        right: 60px;
+        bottom: 64px;
+        display: block;
+
+        @media screen and (max-width: 1700px) {
+          left: 290px;
+          right: auto;
+          bottom: 52px;
+        }
+
+        @media (max-width: 767px) {
+          left: 32px;
+          right: auto;
+        }
+      }
+      cx-link:nth-of-type(4) {
+        position: absolute;
+        right: 194px;
+        bottom: 32px;
+
+        @media screen and (max-width: 1700px) {
+          left: 32px;
+          right: auto;
+          bottom: 18px;
+        }
+
+        @media (max-width: 767px) {
+          left: 32px;
+          right: auto;
+        }
+      }
+
+      ws-disclaimer {
+        margin-right: 236px;
+        order: 2;
+        height: fit-content;
+        margin-top: auto;
+        flex: none;
+        @media (max-width: 767px) {
+          margin: auto 0 0 0;
+        }
+
+        div {
+          color: var(--ws-gray-light-600);
+          font-size: 14px;
+          font-weight: 300;
+          line-height: 20px;
+        }
+      }
+
+      cx-paragraph:nth-of-type(2) {
+        margin-right: 236px;
+        order: 3;
+        flex: none;
+
+        @media (max-width: 1700px) {
+          margin-right: 216px;
+        }
+
+        @media (max-width: 767px) {
+          margin: 0;
+        }
+
+        div {
+          border: 1px solid var(--ws-gray-light-300);
+          display: flex;
+          max-width: 548px;
+          padding: 6px;
+          justify-content: center;
+          align-items: center;
+          gap: 8px;
+          align-self: stretch;
+          color: var(--ws-gray-light-600);
+          font-size: 12px;
+          font-weight: 300;
+          line-height: 18px;
+        }
+      }
+    }
+
+    &.BodyContent-gigya-practitioner-register {
+      order: 2;
+      max-width: 50%;
+      width: 100%;
+      flex: none;
+      position: absolute;
+      top: 40px;
+      right: 0;
+      height: 76vh;
+      overflow: auto;
+      z-index: 99;
+
+      .gigya-composite-control {
+        .gigya-image {
+          width: 100% !important;
+        }
+      }
+      .ws-img-note-svg {
+        .gigya-image {
+          width: 32px !important;
+        }
+      }
+
+      @media (max-width: 1700px) {
+        height: 70vh;
+      }
+
+      @media (max-width: 1440px) {
+        height: 56vh;
+      }
+
+      @media (max-width: 1024px) {
+        flex: 0 0 100%;
+        max-width: 100%;
+        padding: 32px 20px 0 20px;
+        top: 0;
+        height: auto;
+        position: relative;
+      }
+    }
+  }
+
+  .storefront-header {
+    display: none;
+  }
+
+  .storefront-footer {
+    display: none;
+  }
+}
+
+.rightBodySlot cx-banner,
+.patientrightBodySlot cx-banner,
+.practitionerrightBodySlot cx-banner {
+  order: 1;
+  height: fit-content;
+  display: flex;
+  flex: none;
+
+  cx-media {
+    height: 32px;
+  }
+
+  @media (max-width: 1024px) {
+    flex: none;
+  }
+}
+.practitionerrightBodySlot cx-banner {
+  width: fit-content;
+
+  @media (max-width: 1024px) {
+    top: 24px;
+    width: 30%;
+    position: absolute;
+  }
+}
+.patientrightBodySlot cx-banner {
+  width: fit-content;
+
+  @media (max-width: 1024px) {
+    top: 24px;
+    width: 30%;
+    position: absolute;
+  }
+}
+
+/*------LOGIN PAGE CSS------*/
+.cdcLoginPageTemplate {
+  display: flex;
+  flex-wrap: wrap;
+  height: 100%;
+  padding: 0 !important;
+  zoom: 100%;
+  overflow: hidden;
+
+  .freeShippingBannerWrapper {
+    display: contents !important;
+  }
+
+  button:focus-visible,
+  input:focus-visible,
+  .btn:focus-visible,
+  a:focus-visible,
+  p:focus-visible,
+  ws-search-box:focus-visible {
+    outline: 3px solid var(--cx-color-darkest) !important;
+    outline-offset: 2px;
+    box-shadow: none;
+  }
+
+  @media (max-width: 1024px) {
+    height: auto;
+    overflow: auto;
+  }
+
+  @media (max-width: 767px) {
+    height: auto;
+  }
+
+  cx-page-slot {
+    &.cdcLoginleftBodySlot {
+      flex: 0 0 50%;
+      order: 1;
+      height: 100vh;
+      overflow: hidden;
+
+      @media (max-width: 1024px) {
+        display: none;
+      }
+
+      cx-banner {
+        height: 100vh;
+        div {
+          height: 100%;
+          cx-media {
+            height: 100%;
+            img {
+              height: 100%;
+            }
+          }
+        }
+      }
+    }
+
+    &.cdcLoginrightBodySlot {
+      order: 2;
+      flex: 0 0 50%;
+      padding: 32px;
+      justify-content: space-between;
+      height: 100%;
+      flex-direction: column;
+      flex-wrap: nowrap;
+      position: relative;
+
+      @media (max-width: 1700px) {
+        padding: 32px 32px 90px 32px;
+      }
+
+      @media (max-width: 1024px) {
+        flex: 0 0 100%;
+        height: 1160px;
+      }
+      @media (max-width: 1024px) {
+        flex: 0 0 100%;
+        height: 900px;
+      }
+
+      @media (max-width: 576px) {
+        padding: 32px 32px 150px 32px;
+        height: 400px;
+      }
+
+      cx-paragraph:nth-child(2),
+      cx-link:nth-child(1),
+      cx-banner:nth-child(3),
+      cx-link:nth-child(4),
+      cx-link:nth-child(5),
+      cx-link:nth-child(8),
+      cx-paragraph:nth-child(9),
+      cx-paragraph:nth-child(10) {
+        display: none;
+      }
+
+      cx-link:nth-of-type(2),
+      cx-link:nth-of-type(3),
+      cx-link:nth-of-type(4),
+      cx-link:nth-of-type(5) {
+        a {
+          color: var(--ws-gray-light-600);
+          font-size: 14px;
+          font-weight: 600;
+          line-height: 20px;
+          text-decoration-skip-ink: none;
+          border-right: 2px solid;
+          padding: 0px 16px 0 0;
+
+          @media (max-width: 767px) {
+            padding: 0px 16px 0px 0px;
+            min-height: fit-content;
+          }
+        }
+
+        &:last-of-type {
+          a {
+            border-right: none !important;
+          }
+        }
+      }
+
+      cx-link:nth-of-type(2) {
+        position: absolute;
+        right: 232px;
+        bottom: 90px;
+        @media screen and (max-width: 1700px) {
+          left: 32px;
+          bottom: 52px;
+          right: auto;
+        }
+        @media (max-width: 576px) {
+          bottom: 95px;
+        }
+      }
+
+      cx-link:nth-of-type(3) {
+        position: absolute;
+        right: 140px;
+        bottom: 90px;
+        @media screen and (max-width: 1700px) {
+          left: 204px;
+          right: auto;
+          bottom: 52px;
+        }
+        @media (max-width: 576px) {
+          bottom: 95px;
+        }
+      }
+      cx-link:nth-of-type(4) {
+        position: absolute;
+        right: 66px;
+        bottom: 56px;
+        @media screen and (max-width: 1700px) {
+          left: 290px;
+          right: auto;
+          bottom: 52px;
+        }
+        @media screen and (max-width: 576px) {
+          left: 32px;
+          right: auto;
+          bottom: 56px;
+        }
+      }
+
+      cx-link:nth-of-type(5) {
+        position: absolute;
+        right: 200px;
+        bottom: 22px;
+        @media screen and (max-width: 1700px) {
+          left: 32px;
+          right: auto;
+          bottom: 18px;
+        }
+        @media screen and (max-width: 767px) {
+          bottom: 16px;
+        }
+      }
+
+      ws-disclaimer {
+        margin-right: 236px;
+        order: 2;
+        height: fit-content;
+        margin-top: auto;
+        flex: none;
+        @media screen and (max-width: 576px) {
+          margin: auto 0 0 0;
+        }
+        div {
+          color: var(--ws-gray-light-600);
+          font-size: 14px;
+          font-weight: 300;
+          line-height: 20px;
+        }
+      }
+
+      cx-paragraph:nth-of-type(2) {
+        margin-right: 236px;
+        order: 3;
+        flex: none;
+        @media screen and (max-width: 1700px) {
+          margin-right: 172px;
+        }
+        @media screen and (max-width: 576px) {
+          margin: 0;
+        }
+        div {
+          border: 1px solid var(--ws-gray-light-300);
+          display: flex;
+          max-width: 520px;
+          padding: 6px;
+          justify-content: center;
+          align-items: center;
+          gap: 8px;
+          align-self: stretch;
+          color: var(--ws-gray-light-600);
+          font-size: 12px;
+          font-weight: 300;
+          line-height: 18px;
+        }
+      }
+    }
+
+    &.BodyContent-gigya-login {
+      padding: 32px;
+      order: 2;
+      max-width: 50%;
+      width: 100%;
+      flex: none;
+      position: absolute;
+      top: 0;
+      right: 0;
+      flex-wrap: nowrap;
+      flex-direction: column;
+      height: 77vh;
+      overflow: auto;
+      justify-content: start;
+      background-image: linear-gradient(
+          to bottom,
+          rgba(255, 255, 255, 0.3) 0%,
+          rgba(255, 255, 255, 0.4) 59%,
+          #fafafa 70%
+        ),
+        url(/assets/images/home/cdc-login-dots.svg);
+      background-position: top 40% center;
+      background-size: 394px 771px;
+      background-repeat: no-repeat;
+      z-index: 99;
+
+      @media (max-width: 1440px) {
+        height: 65vh;
+      }
+
+      @media (max-width: 1024px) {
+        flex: 0 0 100%;
+        max-width: 100%;
+        height: auto;
+      }
+
+      @media (max-width: 767px) {
+        position: relative;
+        order: 1;
+        height: auto;
+      }
+
+      cx-gigya-raas {
+        order: 2;
+        margin: 40px 0 0 0;
+
+        @media (max-width: 1024px) and (min-width: 768px) {
+          #login-container {
+            #login-container_content {
+              .gigya-screen {
+                padding-bottom: 0px;
+              }
+              .gigya-login-form {
+                .gigya-layout-row {
+                  .ws-reg-footer {
+                    .ws-footer-label {
+                      margin: 0px;
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+
+      cx-link.loginBackBtn {
+        position: absolute;
+        flex: none;
+        top: 40px;
+        left: 32px;
+
+        a {
+          padding: 0 0 0 20px;
+          color: var(--ws-gray-light-600);
+          font-size: 14px;
+          font-weight: 600;
+          line-height: 20px;
+          text-decoration-line: none;
+          min-height: auto;
+          background: url(/assets/icons/back.svg) no-repeat center left;
+        }
+      }
+    }
+  }
+
+  .storefront-header {
+    display: none;
+  }
+
+  .storefront-footer {
+    display: none;
+  }
+}
+/*------LOGIN PAGE CSS------*/
+
+/*------REGISTER PAGE CSS------*/
+.registrationPageTemplate {
+  display: flex;
+  flex-wrap: wrap;
+  height: 100%;
+  padding: 0 !important;
+  zoom: 100%;
+
+  @media (max-width: 1024px) {
+    height: auto;
+  }
+
+  cx-page-slot {
+    &.leftBodySlot {
+      flex: 0 0 50%;
+      order: 1;
+      height: 100vh;
+      overflow: hidden;
+
+      cx-banner {
+        div {
+          height: 100%;
+          cx-media {
+            height: 100%;
+            img {
+              height: 100%;
+            }
+          }
+        }
+      }
+
+      @media (max-width: 1024px) {
+        display: none;
+      }
+    }
+
+    &.rightBodySlot {
+      order: 2;
+      flex: 0 0 50%;
+      padding: 32px;
+      justify-content: space-between;
+      height: 100%;
+      flex-direction: column;
+      flex-wrap: nowrap;
+      background-image: linear-gradient(
+          to bottom,
+          rgba(255, 255, 255, 0.3) 0%,
+          rgba(255, 255, 255, 0.4) 59%,
+          #fafafa 70%
+        ),
+        url(/assets/images/home/cdc-login-dots.svg);
+      background-position: top -190% center;
+      background-size: 394px 771px;
+      background-repeat: no-repeat;
+      position: relative;
+
+      @media (max-width: 1024px) {
+        flex: 0 0 100%;
+        padding: 32px 32px 90px 32px;
+        height: 860px;
+      }
+      @media (max-width: 576px) {
+        flex: 0 0 100%;
+        padding: 32px 32px 130px 32px;
+        height: 980px;
+      }
+
+      .register-footer-section {
+        display: none;
+      }
+
+      ws-register {
+        @media (max-width: 1440px) {
+          height: 62vh;
+          overflow: auto;
+          margin: 0 0 18px 0;
+          flex: none;
+        }
+        @media (max-width: 1024px) {
+          height: auto;
+
+          .register-section {
+            height: auto;
+          }
+        }
+        @media (max-width: 576px) {
+          height: auto;
+        }
+      }
+
+      cx-paragraph:nth-child(2),
+      cx-banner:nth-child(3),
+      cx-link:nth-child(4),
+      cx-link:nth-child(5),
+      cx-link:nth-child(6) {
+        display: none;
+      }
+
+      cx-link:nth-of-type(4),
+      cx-link:nth-of-type(5),
+      cx-link:nth-of-type(6),
+      cx-link:nth-of-type(7) {
+        a {
+          color: var(--ws-gray-light-600);
+          font-size: 13px;
+          font-weight: 600;
+          line-height: 20px;
+          text-decoration-line: underline;
+          min-height: auto;
+        }
+      }
+
+      cx-link:nth-of-type(4) {
+        position: absolute;
+        right: 266px;
+        bottom: 90px;
+
+        @media screen and (max-width: 1700px) {
+          left: 32px;
+          bottom: 44px;
+          right: auto;
+        }
+
+        @media screen and (max-width: 1024px) {
+          left: 32px;
+          bottom: 52px;
+          right: auto;
+        }
+        @media (max-width: 576px) {
+          bottom: 84px;
+        }
+      }
+
+      cx-link:nth-of-type(5) {
+        position: absolute;
+        right: 180px;
+        bottom: 90px;
+
+        @media screen and (max-width: 1700px) {
+          left: 180px;
+          bottom: 44px;
+          right: auto;
+        }
+
+        @media screen and (max-width: 1024px) {
+          left: 204px;
+          right: auto;
+          bottom: 52px;
+        }
+        @media (max-width: 576px) {
+          bottom: 84px;
+        }
+      }
+      cx-link:nth-of-type(6) {
+        position: absolute;
+        right: 112px;
+        bottom: 60px;
+
+        @media screen and (max-width: 1700px) {
+          left: 250px;
+          bottom: 44px;
+          right: auto;
+        }
+
+        @media screen and (max-width: 1024px) {
+          left: 290px;
+          right: auto;
+          bottom: 52px;
+        }
+        @media screen and (max-width: 576px) {
+          left: 32px;
+          right: auto;
+          bottom: 50px;
+        }
+      }
+
+      cx-link:nth-of-type(7) {
+        position: absolute;
+        right: 237px;
+        bottom: 25px;
+
+        @media screen and (max-width: 1700px) {
+          right: auto;
+          left: 32px;
+          bottom: 12px;
+        }
+        @media screen and (max-width: 1024px) {
+          left: 32px;
+          right: auto;
+          bottom: 18px;
+        }
+      }
+
+      cx-paragraph:nth-of-type(2) {
+        margin-right: 236px;
+        order: 2;
+        height: fit-content;
+        margin-top: auto;
+        flex: none;
+        @media screen and (max-width: 576px) {
+          margin: auto 0 0 0;
+        }
+        div {
+          color: var(--ws-gray-light-600);
+          font-size: 14px;
+          font-weight: 300;
+          line-height: 20px;
+        }
+      }
+
+      cx-paragraph:nth-of-type(3) {
+        margin-right: 200px;
+        order: 3;
+        flex: none;
+
+        @media screen and (max-width: 1700px) {
+          margin-bottom: 100px;
+        }
+
+        @media screen and (max-width: 1024px) {
+          margin-bottom: 10px;
+        }
+
+        @media screen and (max-width: 768px) {
+          margin-bottom: 0;
+        }
+
+        @media screen and (max-width: 576px) {
+          margin: 0;
+        }
+        div {
+          border: 1px solid var(--ws-gray-light-300);
+          display: flex;
+          max-width: 520px;
+          padding: 6px;
+          justify-content: center;
+          align-items: center;
+          gap: 8px;
+          align-self: stretch;
+          color: var(--ws-gray-light-600);
+          font-size: 12px;
+          font-weight: 300;
+          line-height: 18px;
+        }
+      }
+    }
+
+    &.BodyContent-gigya-login {
+      padding: 32px;
+      order: 2;
+      max-width: 50%;
+      width: 100%;
+      flex: none;
+      position: absolute;
+      top: 0;
+      height: 80%;
+      right: 0;
+      flex-wrap: nowrap;
+      flex-direction: column;
+
+      @media (max-width: 1024px) {
+        flex: 0 0 100%;
+        max-width: 100%;
+      }
+
+      cx-gigya-raas {
+        order: 2;
+        margin: 40px 0 0 0;
+      }
+
+      cx-link.loginBackBtn {
+        position: absolute;
+        flex: none;
+        top: 40px;
+        left: 32px;
+
+        a {
+          padding: 0 0 0 20px;
+          color: var(--ws-gray-light-600);
+          font-size: 14px;
+          font-weight: 600;
+          line-height: 20px;
+          text-decoration-line: none;
+          min-height: auto;
+          background: url(/assets/icons/back.svg) no-repeat center left;
+        }
+      }
+    }
+  }
+
+  .storefront-header {
+    display: none;
+  }
+
+  .storefront-footer {
+    display: none;
+  }
+}
+/*------REGISTER PAGE CSS------*/
+
+/*------PATINETS REGISTER PAGE CSS------*/
+.patientRegistrationPageTemplate {
+  display: flex;
+  flex-wrap: wrap;
+  height: 100%;
+  padding: 0 !important;
+  zoom: 100%;
+
+  .custom-chat-btn {
+    display: none !important;
+  }
+
+  #patient-register-screen .ws-back-link {
+    width: fit-content !important;
+  }
+
+  // Keyboard Navigation
+  button:focus-visible,
+  .btn:focus-visible,
+  a:focus-visible,
+  #first-screen-submit-button:focus-visible,
+  #second-screen-before-submit-button:focus-visible,
+  ws-search-box:focus-visible {
+    outline: 3px solid var(--cx-color-darkest) !important;
+    outline-offset: 2px;
+    box-shadow: none;
+  }
+
+  @media (max-width: 1024px) {
+    height: auto;
+  }
+
+  @media (max-width: 767px) {
+    #patient-register-screen {
+      .use-button {
+        width: 18rem;
+        text-align: center;
+      }
+    }
+  }
+
+  cx-page-slot {
+    &.patientleftBodySlot {
+      flex: 0 0 50%;
+      order: 1;
+      height: 100vh;
+      overflow: hidden;
+
+      @media (max-width: 1024px) {
+        display: none;
+      }
+    }
+
+    &.patientrightBodySlot {
+      order: 2;
+      flex: 0 0 50%;
+      padding: 32px;
+      justify-content: space-between;
+      flex-direction: column;
+      flex-wrap: nowrap;
+      height: 100vh;
+
+      @media (max-width: 1700px) {
+        padding: 32px 32px 90px 32px;
+        position: relative;
+      }
+
+      @media (max-width: 1024px) {
+        flex: 0 0 100%;
+        height: auto;
+        position: inherit;
+      }
+
+      @media (max-width: 768px) {
+        padding: 32px 32px 130px 32px;
+      }
+
+      @media (max-width: 576px) {
+        flex: 0 0 100%;
+        height: 100%;
+      }
+
+      .register-footer-section {
+        display: none;
+      }
+
+      cx-link:nth-of-type(1),
+      cx-link:nth-of-type(2),
+      cx-link:nth-of-type(3),
+      cx-link:nth-of-type(4) {
+        a {
+          color: var(--ws-gray-light-600);
+          font-size: 14px;
+          font-weight: 600;
+          line-height: 20px;
+          text-decoration-line: underline;
+          min-height: auto;
+        }
+      }
+
+      cx-link:nth-of-type(1) {
+        position: absolute;
+        right: 232px;
+        bottom: 90px;
+
+        @media screen and (max-width: 1700px) {
+          right: auto;
+          bottom: 52px;
+          left: 32px;
+        }
+
+        @media (max-width: 767px) {
+          bottom: 84px;
+          right: auto;
+        }
+      }
+
+      cx-link:nth-of-type(2) {
+        position: absolute;
+        right: 140px;
+        bottom: 90px;
+
+        @media screen and (max-width: 1700px) {
+          right: auto;
+          bottom: 52px;
+          left: 190px;
+        }
+
+        @media (max-width: 767px) {
+          bottom: 84px;
+        }
+      }
+      cx-link:nth-of-type(3) {
+        position: absolute;
+        right: 66px;
+        bottom: 56px;
+
+        @media screen and (max-width: 1700px) {
+          right: auto;
+          bottom: 52px;
+          left: 280px;
+        }
+
+        @media (max-width: 767px) {
+          left: 32px;
+          right: auto;
+          bottom: 54px;
+        }
+      }
+
+      cx-link:nth-of-type(4) {
+        position: absolute;
+        right: 200px;
+        bottom: 22px;
+
+        @media screen and (max-width: 1700px) {
+          right: auto;
+          bottom: 20px;
+          left: 32px;
+        }
+      }
+
+      ws-disclaimer {
+        margin-right: 236px;
+        order: 2;
+        height: fit-content;
+        margin-top: auto;
+        flex: none;
+        @media (max-width: 767px) {
+          margin: auto 0 0 0;
+        }
+
+        div {
+          color: var(--ws-gray-light-600);
+          font-size: 14px;
+          font-weight: 300;
+          line-height: 20px;
+        }
+      }
+
+      cx-paragraph:nth-of-type(2) {
+        margin-right: 236px;
+        order: 3;
+        flex: none;
+
+        @media (max-width: 1700px) {
+          margin-right: 172px;
+        }
+
+        @media (max-width: 767px) {
+          margin: 0;
+        }
+
+        div {
+          border: 1px solid var(--ws-gray-light-300);
+          display: flex;
+          max-width: 548px;
+          padding: 6px;
+          justify-content: center;
+          align-items: center;
+          gap: 8px;
+          align-self: stretch;
+          color: var(--ws-gray-light-600);
+          font-size: 12px;
+          font-weight: 300;
+          line-height: 18px;
+        }
+      }
+    }
+
+    &.BodyContent-gigya-patient-register {
+      padding: 32px;
+      order: 2;
+      max-width: 50%;
+      width: 100%;
+      flex: none;
+      position: absolute;
+      top: 0;
+      right: 0;
+      flex-wrap: nowrap;
+      flex-direction: column;
+      height: 77vh;
+      overflow: auto;
+      justify-content: start;
+      z-index: 99;
+
+      @media (max-width: 1440px) {
+        height: 62vh;
+      }
+
+      @media (max-width: 1024px) {
+        flex: 0 0 100%;
+        max-width: 100%;
+        height: auto;
+        position: relative;
+      }
+    }
+  }
+
+  .storefront-header {
+    display: none;
+  }
+
+  .storefront-footer {
+    display: none;
+  }
+}
+/*------PATINETS REGISTER PAGE CSS------*/
+
+/*------FORGOT PASSWORD PAGE CSS------*/
+
+.forgotPasswordPageTemplate {
+  display: flex;
+  flex-wrap: wrap;
+  height: 100vh;
+  padding: 0 !important;
+  zoom: 100%;
+  overflow: hidden;
+  background-image: url(/assets/images/home/forgot-password-left-hex.svg),
+    url(/assets/images/home/forgot-password-right-hex.svg);
+  background-position: top -8% left, bottom -10% right;
+  background-size: 280px;
+  background-repeat: no-repeat, no-repeat;
+  justify-content: center;
+
+  button:focus-visible,
+  input:focus-visible,
+  .btn:focus-visible,
+  a:focus-visible,
+  p:focus-visible,
+  ws-search-box:focus-visible {
+    outline: 3px solid var(--cx-color-darkest) !important;
+    outline-offset: 2px;
+    box-shadow: none;
+  }
+
+  @media (max-width: 1024px) {
+    height: 100%;
+  }
+
+  .BodyContent-gigya-forgot-password {
+    order: 2;
+    max-width: 360px;
+    align-self: center;
+  }
+
+  .topSlot {
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 32px;
+    min-height: 72px;
+    height: fit-content;
+    gap: 24px;
+    order: 1;
+
+    cx-banner {
+      flex: none;
+      margin-right: auto;
+    }
+
+    cx-link {
+      flex: none;
+
+      a {
+        position: relative;
+        padding: 0 0 0 22px;
+        color: var(--ws-gray-light-600);
+        text-decoration: none !important;
+
+        &:before {
+          position: absolute;
+          content: "";
+          top: 0;
+          left: 0;
+          bottom: 0;
+          margin: auto;
+          width: 16px;
+          height: 16px;
+          background: url(/assets/icons/tel.svg) no-repeat center center;
+          background-size: cover;
+        }
+
+        @media (max-width: 768px) {
+          font-size: 0;
+          width: 18px;
+          height: 18px;
+          min-width: fit-content;
+          min-height: fit-content;
+          display: flex;
+          padding: 0 0 0 18px;
+        }
+      }
+
+      &:nth-of-type(2) {
+        a {
+          &:before {
+            background: url(/assets/icons/mail.svg) no-repeat center center;
+          }
+        }
+      }
+    }
+  }
+
+  .BodyContent-gigya-patient-register {
+    order: 2;
+    padding: 0 32px;
+
+    cx-gigya-raas {
+      #forgot-container {
+        #forgot-container_content {
+          #gigya-forgot-password-screen {
+            max-width: 375px !important;
+          }
+        }
+      }
+    }
+  }
+
+  .footerSlot {
+    order: 3;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: space-between;
+    padding: 32px;
+    height: fit-content;
+    min-height: 140px;
+    margin: auto 0 0 0;
+    background: white;
+
+    @media (max-width: 1024px) {
+      flex-wrap: wrap;
+      justify-content: start;
+      min-height: fit-content;
+      gap: 16px;
+    }
+
+    cx-link {
+      flex: none;
+
+      &:first-of-type {
+        order: 2;
+      }
+      &:nth-of-type(2) {
+        order: 3;
+      }
+      &:nth-of-type(3) {
+        order: 4;
+      }
+      &:nth-of-type(4) {
+        order: 5;
+        @media (max-width: 1024px) {
+          width: 100%;
+        }
+      }
+
+      a {
+        color: var(--ws-gray-light-600);
+        font-size: 12px;
+        font-weight: 500;
+        line-height: 20px;
+        text-decoration: underline !important;
+        min-height: auto;
+        text-decoration-skip-ink: none;
+        border-right: 2px solid;
+        padding: 0px 16px;
+      }
+
+      &:last-of-type {
+        a {
+          border-right: none !important;
+        }
+      }
+    }
+
+    cx-paragraph {
+      flex: none;
+    }
+    cx-paragraph:first-of-type {
+      position: absolute;
+      bottom: 100px;
+      left: 20px;
+
+      @media (max-width: 1024px) {
+        bottom: 136px;
+      }
+
+      @media (max-width: 576px) {
+        bottom: 230px;
+      }
+
+      div {
+        color: var(--ws-gray-light-600);
+        font-size: 14px;
+        font-weight: 300;
+        line-height: 20px;
+        margin-inline-start: 14px;
+      }
+    }
+
+    cx-paragraph:nth-of-type(2) {
+      margin-right: auto;
+      order: 1;
+
+      @media (max-width: 1024px) {
+        margin-right: 0;
+        width: 100%;
+      }
+
+      div {
+        border: 1px solid var(--ws-gray-light-300);
+        margin-inline-end: 10px;
+        display: flex;
+        max-width: 461px;
+        padding: 6px;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+        align-self: stretch;
+        color: var(--ws-gray-light-600);
+        font-size: 12px;
+        font-weight: 300;
+        line-height: 18px;
+      }
+    }
+  }
+
+  .storefront-header {
+    display: none;
+  }
+
+  .storefront-footer {
+    display: none;
+  }
+}
+/*------FORGOT PASSWORD PAGE CSS------*/
+
+/*------REST PASSWORD PAGE CSS------*/
+.registrationPageTemplate {
+  display: flex;
+  flex-wrap: wrap;
+  height: 100vh;
+  padding: 0 !important;
+  zoom: 100%;
+  overflow: hidden;
+
+  justify-content: center;
+
+  @media (max-width: 1024px) {
+    height: auto;
+  }
+
+  @media (max-width: 576px) {
+    height: auto !important;
+  }
+
+  .BodyContent-gigya-Reset-password {
+    order: 2;
+  }
+
+  .resettopSlot {
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 32px;
+    min-height: 72px;
+    height: fit-content;
+    gap: 24px;
+    order: 1;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+
+    cx-banner {
+      flex: none;
+      margin-right: auto;
+    }
+
+    cx-link {
+      flex: none;
+
+      a {
+        position: relative;
+        padding: 0 0 0 22px;
+        color: var(--ws-gray-light-600);
+        text-decoration: none !important;
+
+        &:before {
+          position: absolute;
+          content: "";
+          top: 0;
+          left: 0;
+          bottom: 0;
+          margin: auto;
+          width: 16px;
+          height: 16px;
+          background: url(/assets/icons/tel.svg) no-repeat center center;
+          background-size: cover;
+        }
+
+        @media (max-width: 768px) {
+          font-size: 0;
+          width: 18px;
+          height: 18px;
+          min-width: fit-content;
+          min-height: fit-content;
+          display: flex;
+          padding: 0 0 0 18px;
+        }
+      }
+
+      &:nth-of-type(2) {
+        a {
+          &:before {
+            background: url(/assets/icons/mail.svg) no-repeat center center;
+          }
+        }
+      }
+    }
+  }
+
+  .resetfooterSlot {
+    order: 3;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 32px;
+    height: fit-content;
+    min-height: 140px;
+    margin: auto 0 0 0;
+    gap: 24px;
+
+    @media (max-width: 1024px) {
+      flex-wrap: wrap;
+      justify-content: start;
+      min-height: fit-content;
+      gap: 16px;
+    }
+
+    cx-link {
+      flex: none;
+
+      &:first-of-type {
+        order: 2;
+      }
+      &:nth-of-type(2) {
+        order: 3;
+      }
+      &:nth-of-type(3) {
+        order: 4;
+      }
+      &:nth-of-type(4) {
+        order: 5;
+        @media (max-width: 1024px) {
+          width: 100%;
+        }
+      }
+
+      a {
+        color: var(--ws-gray-light-600);
+        font-size: 12px !important;
+        font-weight: 600;
+        line-height: 20px;
+        text-decoration: underline !important;
+        min-height: auto;
+      }
+    }
+
+    cx-paragraph {
+      flex: none;
+    }
+    cx-paragraph:first-of-type {
+      position: absolute;
+      bottom: 75px;
+      left: 32px;
+
+      @media (max-width: 1024px) {
+        bottom: 136px;
+      }
+
+      @media (max-width: 576px) {
+        bottom: 176px;
+      }
+
+      div {
+        color: var(--ws-gray-light-600);
+        font-size: 14px;
+        font-weight: 300;
+        line-height: 20px;
+      }
+    }
+
+    cx-paragraph:nth-of-type(2) {
+      margin-right: auto;
+      order: 1;
+
+      @media (max-width: 1024px) {
+        margin-right: 0;
+        width: 100%;
+      }
+
+      div {
+        border: 1px solid var(--ws-gray-light-300);
+        display: flex;
+        max-width: 548px;
+        padding: 6px;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+        align-self: stretch;
+        color: var(--ws-gray-light-600);
+        font-size: 12px;
+        font-weight: 300;
+        line-height: 18px;
+      }
+    }
+  }
+
+  .storefront-header {
+    display: none;
+  }
+
+  .storefront-footer {
+    display: none;
+  }
+}
+/*------RESET PASSWORD PAGE CSS------*/
+
+.practiotionerRegistrationPageTemplate,
+.patientRegistrationPageTemplate,
+.cdcLoginPageTemplate,
+.registrationPageTemplate,
+.forgotPasswordPageTemplate {
+  .b-guest {
+    .Breadcrumb {
+      display: none;
+    }
+  }
+}
+
+cx-paragraph:nth-of-type(1) {
+  display: none;
+}

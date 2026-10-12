@@ -1,0 +1,17 @@
+<div id="ws-autoships-detail-page">
+    <section class="autoships-details-page-header-section" *ngIf="AutoshipsDetailsHeaderParaComp$ | async as AutoshipsDetailsHeaderParaComp">
+        <div class="details-page-header" [innerHTML]="AutoshipsDetailsHeaderParaComp?.content"></div>
+        <a (click)="goToOrderList()" (keydown.enter)="goToOrderList()" tabindex="0" >Order history</a>
+    </section>
+    <section class="autoships-details-section row justify-content-between" *ngIf="!loader">
+        <div class="col-lg-4 col-md-5 col-sm-12 p-0">
+            <ws-autoships-detail [autoShipsHeaderItems]="autoShipsHeaderItems" (cancelAutoShip)="cancelAutoShip()" (changeShipToAddress)="changeShipToAddress($event)" [allAddresses]="allAddresses" [autoShipsCC]="autoShipsCC"></ws-autoships-detail>
+        </div>
+        <div class="autoship-products col-lg-8 col-md-6 col-sm-12">
+            <ws-autoships-detail-products [autoShipsHeaderItems]="autoShipsHeaderItems" (changeShipmentDate)="changeShipmentDate($event)" (remove)="removeProduct($event)" (skipInstead)="skipInstead($event)" (saveChanges)="saveChanges($event)"></ws-autoships-detail-products>
+        </div>
+    </section>
+    <div *ngIf="loader" class="d-flex align-items-center justify-content-center">
+        <cx-spinner></cx-spinner>
+    </div>
+</div>

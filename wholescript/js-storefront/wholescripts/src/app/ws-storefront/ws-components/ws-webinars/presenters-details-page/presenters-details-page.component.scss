@@ -1,0 +1,35 @@
+
+.dots-bg::before {
+    content: "";
+    position: absolute;
+    top: 50px;
+    right: 0;
+    left: -10px;
+    bottom: 0;
+	background: url("/assets/images/home/dot-pattern-left.svg") top left -5% no-repeat, url("/assets/images/home/dot-pattern-right.svg") bottom right -5% no-repeat;
+    background-size:300px;
+    z-index: -1;
+    opacity: 0.2;
+}
+
+.dots-bg {
+    padding: 1.25rem;
+}
+
+.profile-details{
+    display: flex;
+    justify-content: center;
+}
+.presenters-Details{
+    max-width: min(85vw, 1200px) ;
+    @media (max-width: 1023px) {
+        max-width: 100% !important;
+    }
+}
+.title-icon{
+    color:var(--ws-base-white);
+}
+.bg-bottom{
+    padding-top:50px;
+    background-color:rgba(88, 64, 145, 1) !important ;
+}

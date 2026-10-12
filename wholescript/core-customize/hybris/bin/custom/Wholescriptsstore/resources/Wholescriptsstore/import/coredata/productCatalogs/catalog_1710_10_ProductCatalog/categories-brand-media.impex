@@ -1,0 +1,320 @@
+#######################Brands##
+$productCatalog=Default
+$catalogVersion = catalogversion(catalog(id[default = $productCatalog]), version[default = 'Staged'])[unique = true, default = $productCatalog:Staged]
+$supercategories=source(code, $catalogVersion)[unique=true]
+$categories=target(code, $catalogVersion)[unique=true]
+$logos=logo(code, $catalogVersion)
+$picture=picture(code, $catalogVersion)
+$siteResourceCategoryImages = jar:com.wholescripts.constants.WholescriptsstoreConstants&/Wholescriptsstore/import/sampledata/images/category
+$lang=en
+$supercategories=source(code, $catalogVersion)[unique=true]
+$categories=target(code, $catalogVersion)[unique=true]
+$siteResource = jar:com.wholescripts.constants.WholescriptsstoreConstants&/Wholescriptsstore/import/coredata/images
+
+
+INSERT_UPDATE Media; $catalogVersion[unique = true]; code[unique = true]   ; mime[default = 'image/svg']; realfilename         ; @media[translator = de.hybris.platform.impex.jalo.media.MediaDataTranslator]
+				   ;                          ; FullCatalog-icon      ;                            ; FullCatalog-icon.svg      ; $siteResource/Categories/FullCatalog-icon.svg
+				   ;                          ; antioxidant-icon      ;                            ; antioxidant-icon.svg      ; $siteResource/Categories/antioxidant-icon.svg
+				   ;                          ; bloodsugar-icon       ;                            ; bloodsugar-icon.svg       ; $siteResource/Categories/bloodsugar-icon.svg
+				   ;                          ; adrenal-icon          ;                            ; adrenal-icon.svg          ; $siteResource/Categories/adrenal-icon.svg
+				   ;                          ; bodycomposition-icon  ;                            ; bodycomposition-icon.svg  ; $siteResource/Categories/bodycomposition-icon.svg
+				   ;                          ; bonehealth-icon       ;                            ; bonehealth-icon.svg       ; $siteResource/Categories/bonehealth-icon.svg
+				   ;                          ; neurologic-icon       ;                            ; neurologic-icon.svg       ; $siteResource/Categories/neurologic-icon.svg
+				   ;                          ; cardiovascular-icon   ;                            ; cardiovascular-icon.svg   ; $siteResource/Categories/cardiovascular-icon.svg
+				   ;                          ; celllife-icon         ;                            ; celllife-icon.svg         ; $siteResource/Categories/celllife-icon.svg
+				   ;                          ; childrens-icon        ;                            ; childrens-icon.svg        ; $siteResource/Categories/childrens-icon.svg
+				   ;                          ; cytokine-icon         ;                            ; cytokine-icon.svg         ; $siteResource/Categories/cytokine-icon.svg
+				   ;                          ; detoxification-icon   ;                            ; detoxification-icon.svg   ; $siteResource/Categories/detoxification-icon.svg
+				   ;                          ; sports-icon           ;                            ; sports-icon.svg           ; $siteResource/Categories/sports-icon.svg
+				   ;                          ; essentialoils-icon    ;                            ; essentialoils-icon.svg    ; $siteResource/Categories/essentialoils-icon.svg
+				   ;                          ; gastrointestinal-icon ;                            ; gastrointestinal-icon.svg ; $siteResource/Categories/gastrointestinal-icon.svg
+				   ;                          ; immune-icon           ;                            ; immune-icon.svg           ; $siteResource/Categories/immune-icon.svg
+				   ;                          ; jointmuscle-icon      ;                            ; jointmuscle-icon.svg      ; $siteResource/Categories/jointmuscle-icon.svg
+				   ;                          ; liver-icon            ;                            ; liver-icon.svg            ; $siteResource/Categories/liver-icon.svg
+				   ;                          ; male-icon             ;                            ; male-icon.svg             ; $siteResource/Categories/male-icon.svg
+				   ;                          ; nsfsport-icon-h       ;                            ; nsfsport-icon-h.svg       ; $siteResource/Categories/nsfsport-icon-h.svg
+				   ;                          ; probiotics-icon       ;                            ; probiotics-icon.svg       ; $siteResource/Categories/probiotics-icon.svg
+				   ;                          ; relaxation-icon       ;                            ; relaxation-icon.svg       ; $siteResource/Categories/relaxation-icon.svg
+				   ;                          ; thyroid-icon          ;                            ; thyroid-icon.svg          ; $siteResource/Categories/thyroid-icon.svg
+				   ;                          ; multivitamin-icon     ;                            ; multivitamin-icon.svg     ; $siteResource/Categories/multivitamin-icon.svg
+				   ;                          ; female-icon           ;                            ; female-icon.svg           ; $siteResource/Categories/female-icon.svg
+
+
+$brandLogo=brandLogo(code, $catalogVersion)
+$brandImage=brandImage(code, $catalogVersion)
+$siteResourceBrandImages = jar:com.wholescripts.constants.WholescriptsstoreConstants&/Wholescriptsstore/import/coredata/images/brands
+#brand media
+INSERT_UPDATE CatalogUnawareMedia;code[unique=true];realfilename;mime[default = 'image/png'];@media[translator=de.hybris.platform.impex.jalo.media.MediaDataTranslator][forceWrite=true]
+				;brand-logo-allergy-research-group.png		;brand-logo-allergy-research-group.png		;image/png;$siteResourceBrandImages/brand-logo-allergy-research-group.png
+				;brand-logo-biocidin.png					;brand-logo-biocidin.png					;image/png;$siteResourceBrandImages/brand-logo-biocidin.png
+				;brand-logo-fringe.png						;brand-logo-fringe.png						;image/png;$siteResourceBrandImages/brand-logo-fringe.png
+				;brand-logo-humann.png						;brand-logo-humann.png						;image/png;$siteResourceBrandImages/brand-logo-humann.png
+				;brand-logo-nordic-naturals.png				;brand-logo-nordic-naturals.png				;image/png;$siteResourceBrandImages/brand-logo-nordic-naturals.png
+				;brand-logo-quicksilver.png					;brand-logo-quicksilver.png					;image/png;$siteResourceBrandImages/brand-logo-quicksilver.png
+				;xymogen-logo-background.svg				;xymogen-logo-background.svg				;image/svg;$siteResourceBrandImages/xymogen-logo-background.svg
+                                                                                                                                            
+				;brand-productimage-allergyresearchgroup.png;brand-productimage-allergyresearchgroup.png;image/png;$siteResourceBrandImages/brand-productimage-allergyresearchgroup.png
+				;brand-productimage-biocidin.png            ;brand-productimage-biocidin.png            ;image/png;$siteResourceBrandImages/brand-productimage-biocidin.png
+				;brand-productimage-fringe.png              ;brand-productimage-fringe.png              ;image/png;$siteResourceBrandImages/brand-productimage-fringe.png
+				;brand-productimage-humann.png              ;brand-productimage-humann.png              ;image/png;$siteResourceBrandImages/brand-productimage-humann.png
+				;brand-productimage-nordicnaturals.png      ;brand-productimage-nordicnaturals.png      ;image/png;$siteResourceBrandImages/brand-productimage-nordicnaturals.png
+				;brand-productimage-quicksilver-v2.png      ;brand-productimage-quicksilver-v2.png      ;image/png;$siteResourceBrandImages/brand-productimage-quicksilver-v2.png
+				;brand-productimage-xymogen.png             ;brand-productimage-xymogen.png             ;image/png;$siteResourceBrandImages/brand-productimage-xymogen.png
+
+#Brand- Logos
+INSERT_UPDATE CatalogUnawareMedia;code[unique=true];realfilename;mime[default = 'image/png'];@media[translator=de.hybris.platform.impex.jalo.media.MediaDataTranslator][forceWrite=true]
+				   ; biorestore-sponsor-image                         ; biorestore-sponsor-image.png                         ;                            ; $siteResourceBrandImages/biorestore-sponsor-image.png                         ;
+				   ; brand-logo-acgrace                               ; brand-logo-acgrace.png                               ;                            ; $siteResourceBrandImages/brand-logo-acgrace.png                                   ;
+				   ; brand-logo-allvia                                ; brand-logo-allvia.png                                ;                            ; $siteResourceBrandImages/brand-logo-allvia.png                                ;
+				   ; brand-logo-american-biosciences                  ; brand-logo-american-biosciences.png                  ;                            ; $siteResourceBrandImages/brand-logo-american-biosciences.png                  ;
+				   ; brand-logo-amg-naturally                         ; brand-logo-amg-naturally.png                         ;                            ; $siteResourceBrandImages/brand-logo-amg-naturally.png                         ;
+				   ; brand-logo-anna-cabeca                           ; brand-logo-anna-cabeca.png                           ;                            ; $siteResourceBrandImages/brand-logo-anna-cabeca.png                           ;
+				   ; brand-logo-aor                                   ; brand-logo-aor.png                                   ;                            ; $siteResourceBrandImages/brand-logo-aor.png                                   ;
+				   ; brand-logo-argentyn23                            ; brand-logo-argentyn23.png                            ;                            ; $siteResourceBrandImages/brand-logo-argentyn23.png                            ;
+				   ; brand-logo-atrantil                              ; brand-logo-atrantil.png                              ;                            ; $siteResourceBrandImages/brand-logo-atrantil.png                              ;
+				   ; brand-logo-avemar                                ; brand-logo-avemar.png                                ;                            ; $siteResourceBrandImages/brand-logo-avemar.png                                ;
+				   ; brand-logo-avior                                 ; brand-logo-avior.png                                 ;                            ; $siteResourceBrandImages/brand-logo-avior.png                                 ;
+				   ; brand-logo-ayush-herbs-new                       ; brand-logo-ayush-herbs-new.png                       ;                            ; $siteResourceBrandImages/brand-logo-ayush-herbs-new.png                       ;
+				   ; brand-logo-barleans                              ; brand-logo-barleans.png                              ;                            ; $siteResourceBrandImages/brand-logo-barleans.png                              ;
+				   ; brand-logo-beekeepers-naturals                   ; brand-logo-beekeepers-naturals.png                   ;                            ; $siteResourceBrandImages/brand-logo-beekeepers-naturals.png                   ;
+				   ; brand-logo-bergamet                              ; brand-logo-bergamet.png                              ;                            ; $siteResourceBrandImages/brand-logo-bergamet.png                              ;
+				   ; brand-logo-biogena                               ; brand-logo-biogena.jpg                               ; image/jpg                            ; $siteResourceBrandImages/brand-logo-biogena.jpg                               ;
+				   ; brand-logo-biomatrix                             ; brand-logo-biomatrix.png                             ;                            ; $siteResourceBrandImages/brand-logo-biomatrix.png                             ;
+				   ; brand-logo-biotech                               ; brand-logo-biotech.png                               ;                            ; $siteResourceBrandImages/brand-logo-biotech.png                               ;
+				   ; brand-logo-bodybio                               ; brand-logo-bodybio.png                               ;                            ; $siteResourceBrandImages/brand-logo-bodybio.png                               ;
+				   ; brand-logo-brainbean                             ; brand-logo-brainbean.png                             ;                            ; $siteResourceBrandImages/brand-logo-brainbean.png                             ;
+				   ; brand-logo-buddhateas                            ; brand-logo-buddhateas.png                            ;                            ; $siteResourceBrandImages/brand-logo-buddhateas.png                            ;
+				   ; brand-logo-capasso                               ; brand-logo-capasso.png                               ;                            ; $siteResourceBrandImages/brand-logo-capasso.png                               ;
+				   ; brand-logo-carlson-labs                          ; brand-logo-carlson-labs.png                          ;                            ; $siteResourceBrandImages/brand-logo-carlson-labs.png                          ;
+				   ; brand-logo-clinical-synergy                      ; brand-logo-clinical-synergy.png                      ;                            ; $siteResourceBrandImages/brand-logo-clinical-synergy.png                      ;
+				   ; brand-logo-cognitive-clarity                     ; brand-logo-cognitive-clarity.png                     ;                            ; $siteResourceBrandImages/brand-logo-cognitive-clarity.png                     ;
+				   ; brand-logo-curalife                              ; brand-logo-curalife.png                              ;                            ; $siteResourceBrandImages/brand-logo-curalife.png                              ;
+				   ; brand-logo-davinci                               ; brand-logo-davinci.png                               ;                            ; $siteResourceBrandImages/brand-logo-davinci.png                               ;
+				   ; brand-logo-diamond-formulations                  ; brand-logo-diamond-formulations.png                  ;                            ; $siteResourceBrandImages/brand-logo-diamond-formulations.png                  ;
+				   ; brand-logo-dradvantage                           ; brand-logo-dradvantage.png                           ;                            ; $siteResourceBrandImages/brand-logo-dradvantage.png                           ;
+				   ; brand-logo-drinklmnt                             ; brand-logo-drinklmnt.png                             ;                            ; $siteResourceBrandImages/brand-logo-drinklmnt.png                             ;
+				   ; brand-logo-drmercola                             ; brand-logo-drmercola.png                             ;                            ; $siteResourceBrandImages/brand-logo-drmercola.png                             ;
+				   ; brand-logo-drphillips-formulations               ; brand-logo-drphillips-formulations.png               ;                            ; $siteResourceBrandImages/brand-logo-drphillips-formulations.png               ;
+				   ; brand-logo-drsnutrition                          ; brand-logo-drsnutrition.png                          ;                            ; $siteResourceBrandImages/brand-logo-drsnutrition.png                          ;
+				   ; brand-logo-elementallabs                         ; brand-logo-elementallabs.png                         ;                            ; $siteResourceBrandImages/brand-logo-elementallabs.png                         ;
+				   ; brand-logo-encorelife                            ; brand-logo-encorelife.png                            ;                            ; $siteResourceBrandImages/brand-logo-encorelife.png                            ;
+				   ; brand-logo-enduranceproducts                     ; brand-logo-enduranceproducts.png                     ;                            ; $siteResourceBrandImages/brand-logo-enduranceproducts.png                     ;
+				   ; brand-logo-energenx                              ; brand-logo-energenx.png                              ;                            ; $siteResourceBrandImages/brand-logo-energenx.png                              ;
+				   ; brand-logo-enzyme-science                        ; brand-logo-enzyme-science.png                        ;                            ; $siteResourceBrandImages/brand-logo-enzyme-science.png                        ;
+				   ; brand-logo-even-health                           ; brand-logo-even-health.png                           ;                            ; $siteResourceBrandImages/brand-logo-even-health.png                           ;
+				   ; brand-logo-everidis                              ; brand-logo-everidis.png                              ;                            ; $siteResourceBrandImages/brand-logo-everidis.png                              ;
+				   ; brand-logo-gaia-herbs                            ; brand-logo-gaia-herbs.png                            ;                            ; $siteResourceBrandImages/brand-logo-gaia-herbs.png                            ;
+				   ; brand-logo-genexa                                ; brand-logo-genexa.png                                ;                            ; $siteResourceBrandImages/brand-logo-genexa.png                                ;
+				   ; brand-logo-goldenflowerchineseherbs              ; brand-logo-goldenflowerchineseherbs.png              ;                            ; $siteResourceBrandImages/brand-logo-goldenflowerchineseherbs.png              ;
+				   ; brand-logo-guna                                  ; brand-logo-guna.png                                  ;                            ; $siteResourceBrandImages/brand-logo-guna.png                                  ;
+				   ; brand-logo-haelan                                ; brand-logo-haelan.png                                ;                            ; $siteResourceBrandImages/brand-logo-haelan.png                                ;
+				   ; brand-logo-hayliepomroygroup                     ; brand-logo-hayliepomroygroup.png                     ;                            ; $siteResourceBrandImages/brand-logo-hayliepomroygroup.png                     ;
+				   ; brand-logo-herbalistandalchemist                 ; brand-logo-herbalistandalchemist.png                 ;                            ; $siteResourceBrandImages/brand-logo-herbalistandalchemist.png                 ;
+				   ; brand-logo-herbpharm                             ; brand-logo-herbpharm.png                             ;                            ; $siteResourceBrandImages/brand-logo-herbpharm.png                             ;
+				   ; brand-logo-hostdefensemushrooms                  ; brand-logo-hostdefensemushrooms.png                  ;                            ; $siteResourceBrandImages/brand-logo-hostdefensemushrooms.png                  ;
+				   ; brand-logo-hyalogic                              ; brand-logo-hyalogic.png                              ;                            ; $siteResourceBrandImages/brand-logo-hyalogic.png                              ;
+				   ; brand-logo-innateresponse                        ; brand-logo-innateresponse.png                        ;                            ; $siteResourceBrandImages/brand-logo-innateresponse.png                        ;
+				   ; brand-logo-ion                                   ; brand-logo-ion.png                                   ;                            ; $siteResourceBrandImages/brand-logo-ion.png                                   ;
+				   ; brand-logo-jarrowformulas                        ; brand-logo-jarrowformulas.png                        ;                            ; $siteResourceBrandImages/brand-logo-jarrowformulas.png                        ;
+				   ; brand-logo-jigsawhealth                          ; brand-logo-jigsawhealth.png                          ;                            ; $siteResourceBrandImages/brand-logo-jigsawhealth.png                          ;
+				   ; brand-logo-kulikuli                              ; brand-logo-kulikuli.png                              ;                            ; $siteResourceBrandImages/brand-logo-kulikuli.png                              ;
+				   ; brand-logo-lifeextension                         ; brand-logo-lifeextension.png                         ;                            ; $siteResourceBrandImages/brand-logo-lifeextension.png                         ;
+				   ; brand-logo-linpharma                             ; brand-logo-linpharma.png                             ;                            ; $siteResourceBrandImages/brand-logo-linpharma.png                             ;
+				   ; brand-logo-mastersupplements                     ; brand-logo-mastersupplements.png                     ;                            ; $siteResourceBrandImages/brand-logo-mastersupplements.png                     ;
+				   ; brand-logo-med7                                  ; brand-logo-med7.png                                  ;                            ; $siteResourceBrandImages/brand-logo-med7.png                                  ;
+				   ; brand-logo-megafood                              ; brand-logo-megafood.png                              ;                            ; $siteResourceBrandImages/brand-logo-megafood.png                              ;
+				   ; brand-logo-metabolicmaintenance                  ; brand-logo-metabolicmaintenance.png                  ;                            ; $siteResourceBrandImages/brand-logo-metabolicmaintenance.png                  ;
+				   ; brand-logo-methylpro                             ; brand-logo-methylpro.png                             ;                            ; $siteResourceBrandImages/brand-logo-methylpro.png                             ;
+				   ; brand-logo-microbiomelabs                        ; brand-logo-microbiomelabs.png                        ;                            ; $siteResourceBrandImages/brand-logo-microbiomelabs.png                        ;
+				   ; brand-logo-microvascularhealthsolutions          ; brand-logo-microvascularhealthsolutions.png          ;                            ; $siteResourceBrandImages/brand-logo-microvascularhealthsolutions.png          ;
+				   ; brand-logo-motherlove                            ; brand-logo-motherlove.png                            ;                            ; $siteResourceBrandImages/brand-logo-motherlove.png                            ;
+				   ; brand-logo-mrm                                   ; brand-logo-mrm.png                                   ;                            ; $siteResourceBrandImages/brand-logo-mrm.png                                   ;
+				   ; brand-logo-mushroomwisdom                        ; brand-logo-mushroomwisdom.png                        ;                            ; $siteResourceBrandImages/brand-logo-mushroomwisdom.png                        ;
+				   ; brand-logo-mycoclinic                            ; brand-logo-mycoclinic.png                            ;                            ; $siteResourceBrandImages/brand-logo-mycoclinic.png                            ;
+				   ; brand-logo-naturessources                        ; brand-logo-naturessources.png                        ;                            ; $siteResourceBrandImages/brand-logo-naturessources.png                        ;
+				   ; brand-logo-neurohacker                           ; brand-logo-neurohacker.png                           ;                            ; $siteResourceBrandImages/brand-logo-neurohacker.png                           ;
+				   ; brand-logo-nfh                                   ; brand-logo-nfh.png                                   ;                            ; $siteResourceBrandImages/brand-logo-nfh.png                                   ;
+				   ; brand-logo-nugo-nutrition                        ; brand-logo-nugo-nutrition.png                        ;                            ; $siteResourceBrandImages/brand-logo-nugo-nutrition.png                        ;
+				   ; brand-logo-nutrabiogenesis                       ; brand-logo-nutrabiogenesis.png                       ;                            ; $siteResourceBrandImages/brand-logo-nutrabiogenesis.png                       ;
+				   ; brand-logo-nutrasal                              ; brand-logo-nutrasal.png                              ;                            ; $siteResourceBrandImages/brand-logo-nutrasal.png                              ;
+				   ; brand-logo-nutricology                           ; brand-logo-nutricology.png                           ;                            ; $siteResourceBrandImages/brand-logo-nutricology.png                           ;
+				   ; brand-logo-nutritionaltherapeutics               ; brand-logo-nutritionaltherapeutics.png               ;                            ; $siteResourceBrandImages/brand-logo-nutritionaltherapeutics.png               ;
+				   ; brand-logo-optimox                               ; brand-logo-optimox.png                               ;                            ; $siteResourceBrandImages/brand-logo-optimox.png                               ;
+				   ; brand-logo-orgain                                ; brand-logo-orgain.png                                ;                            ; $siteResourceBrandImages/brand-logo-orgain.png                                ;
+				   ; brand-logo-organicindia                          ; brand-logo-organicindia.png                          ;                            ; $siteResourceBrandImages/brand-logo-organicindia.png                          ;
+				   ; brand-logo-organoleaf                            ; brand-logo-organoleaf.png                            ;                            ; $siteResourceBrandImages/brand-logo-organoleaf.png                            ;
+				   ; brand-logo-passporttoorganics                    ; brand-logo-passporttoorganics.png                    ;                            ; $siteResourceBrandImages/brand-logo-passporttoorganics.png                    ;
+				   ; brand-logo-pharmaceutix                          ; brand-logo-pharmaceutix.png                          ;                            ; $siteResourceBrandImages/brand-logo-pharmaceutix.png                          ;
+				   ; brand-logo-premierresearchlabs                   ; brand-logo-premierresearchlabs.png                   ;                            ; $siteResourceBrandImages/brand-logo-premierresearchlabs.png                   ;
+				   ; brand-logo-progressiveprofessional               ; brand-logo-progressiveprofessional.png               ;                            ; $siteResourceBrandImages/brand-logo-progressiveprofessional.png               ;
+				   ; brand-logo-prolonprofessional                    ; brand-logo-prolonprofessional.png                    ;                            ; $siteResourceBrandImages/brand-logo-prolonprofessional.png                    ;
+				   ; brand-logo-qol                                   ; brand-logo-qol.png                                   ;                            ; $siteResourceBrandImages/brand-logo-qol.png                                   ;
+				   ; brand-logo-qualia                                ; brand-logo-qualia.png                                ;                            ; $siteResourceBrandImages/brand-logo-qualia.png                                ;
+				   ; brand-logo-rangeessential                        ; brand-logo-rangeessential.png                        ;                            ; $siteResourceBrandImages/brand-logo-rangeessential.png                        ;
+				   ; brand-logo-restorativeformulations               ; brand-logo-restorativeformulations.png               ;                            ; $siteResourceBrandImages/brand-logo-restorativeformulations.png               ;
+				   ; brand-logo-rlclabs                               ; brand-logo-rlclabs.png                               ;                            ; $siteResourceBrandImages/brand-logo-rlclabs.png                               ;
+				   ; brand-logo-rxsugar                               ; brand-logo-rxsugar.png                               ;                            ; $siteResourceBrandImages/brand-logo-rxsugar.png                               ;
+				   ; brand-logo-rxvitamins                            ; brand-logo-rxvitamins.png                            ;                            ; $siteResourceBrandImages/brand-logo-rxvitamins.png                            ;
+				   ; brand-logo-sanesco                               ; brand-logo-sanesco.png                               ;                            ; $siteResourceBrandImages/brand-logo-sanesco.png                               ;
+				   ; brand-logo-school-of-applied-functional-medicine ; brand-logo-school-of-applied-functional-medicine.png ;                            ; $siteResourceBrandImages/brand-logo-school-of-applied-functional-medicine.png ;
+				   ; brand-logo-spermidinelife                        ; brand-logo-spermidinelife.png                        ;                            ; $siteResourceBrandImages/brand-logo-spermidinelife.png                        ;
+				   ; brand-logo-symphony                              ; brand-logo-symphony.png                              ;                            ; $siteResourceBrandImages/brand-logo-symphony.png                              ;
+				   ; brand-logo-ta                                    ; brand-logo-ta.png                                    ;                            ; $siteResourceBrandImages/brand-logo-ta.png                                    ;
+				   ; brand-logo-tesseractmedicalresearch              ; brand-logo-tesseractmedicalresearch.png              ;                            ; $siteResourceBrandImages/brand-logo-tesseractmedicalresearch.png              ;
+				   ; brand-logo-traceminerals                         ; brand-logo-traceminerals.png                         ;                            ; $siteResourceBrandImages/brand-logo-traceminerals.png                         ;
+				   ; brand-logo-transformationenzyme                  ; brand-logo-transformationenzyme.png                  ;                            ; $siteResourceBrandImages/brand-logo-transformationenzyme.png                  ;
+				   ; brand-logo-trugen3                               ; brand-logo-trugen3.png                               ;                            ; $siteResourceBrandImages/brand-logo-trugen3.png                               ;
+				   ; brand-logo-vitalproteins                         ; brand-logo-vitalproteins.png                         ;                            ; $siteResourceBrandImages/brand-logo-vitalproteins.png                         ;
+				   ; brand-logo-vitanica                              ; brand-logo-vitanica.png                              ;                            ; $siteResourceBrandImages/brand-logo-vitanica.png                              ;
+				   ; brand-logo-wellena                               ; brand-logo-wellena.png                               ;                            ; $siteResourceBrandImages/brand-logo-wellena.png                               ;
+				   ; brand-logo-wholescripts                          ; brand-logo-wholescripts.png                          ;                            ; $siteResourceBrandImages/brand-logo-wholescripts.png                          ;
+				   ; brand-logo-wisewomanherbals                      ; brand-logo-wisewomanherbals.png                      ;                            ; $siteResourceBrandImages/brand-logo-wisewomanherbals.png                      ;
+				   ; brand-logo-yeouth                                ; brand-logo-yeouth.png                                ;                            ; $siteResourceBrandImages/brand-logo-yeouth.png                                ;
+				   ; brand-logo-zahler                                ; brand-logo-zahler.png                                ;                            ; $siteResourceBrandImages/brand-logo-zahler.png                                ;
+				   ; brand-logo-zhang-health                          ; brand-logo-zhang-health.png                          ;                            ; $siteResourceBrandImages/brand-logo-zhang-health.png                          ;
+				   ; brand-logo-zycalbioceuticals                     ; brand-logo-zycalbioceuticals.png                     ;                            ; $siteResourceBrandImages/brand-logo-zycalbioceuticals.png                     ;
+				   ; holisticheartcenters                             ; holisticheartcenters.png                             ;                            ; $siteResourceBrandImages/holisticheartcenters.png                             ;
+				   ; labrongenomics_brand_logo_webinar_sponsor        ; labrongenomics_brand_logo_webinar_sponsor.png        ;                            ; $siteResourceBrandImages/labrongenomics_brand_logo_webinar_sponsor.png        ;
+				   ; logo_origins_incubator                           ; logo_origins_incubator.png                           ;                            ; $siteResourceBrandImages/logo_origins_incubator.png                           ;
+				   ; naturpro-logo-webinar-sponsor                    ; naturpro-logo-webinar-sponsor.png                    ;                            ; $siteResourceBrandImages/naturpro-logo-webinar-sponsor.png                    ;
+				   ; optimaldx-logo                                   ; optimaldx-logo.webp                                   ; image/webp                            ; $siteResourceBrandImages/optimaldx-logo.webp                                   ;
+				   ; optimaldx-logo-2                                 ; optimaldx-logo-2.webp                                 ;image/webp                            ; $siteResourceBrandImages/optimaldx-logo-2.webp                                 ;
+				   ; optimaldx-logo-2024-color                        ; optimaldx-logo-2024-color.webp                        ;image/webp                            ; $siteResourceBrandImages/optimaldx-logo-2024-color.webp                        ;
+				   ; progressivelabssponsor                           ; progressivelabssponsor.png                           ;                            ; $siteResourceBrandImages/progressivelabssponsor.png                           ;
+
+
+#Brand- Product Images
+				   ; brand-productimage-acgrace-v3                    ; brand-productimage-acgrace-v3.png                    ;                            ; $siteResourceBrandImages/brand-productimage-acgrace-v3.png                    ;
+				   ; brand-productimage-allergyresearchgroup          ; brand-productimage-allergyresearchgroup.png          ;                            ; $siteResourceBrandImages/brand-productimage-allergyresearchgroup.png          ;
+				   ; brand-productimage-allvia                        ; brand-productimage-allvia.png                        ;                            ; $siteResourceBrandImages/brand-productimage-allvia.png                        ;
+				   ; brand-productimage-americanbiosciences           ; brand-productimage-americanbiosciences.png           ;                            ; $siteResourceBrandImages/brand-productimage-americanbiosciences.png           ;
+				   ; brand-productimage-amgnaturally                  ; brand-productimage-amgnaturally.png                  ;                            ; $siteResourceBrandImages/brand-productimage-amgnaturally.png                  ;
+				   ; brand-productimage-amgnaturally-v2               ; brand-productimage-amgnaturally-v2.png               ;                            ; $siteResourceBrandImages/brand-productimage-amgnaturally-v2.png               ;
+				   ; brand-productimage-annacabeca                    ; brand-productimage-annacabeca.png                    ;                            ; $siteResourceBrandImages/brand-productimage-annacabeca.png                    ;
+				   ; brand-productimage-argentyn23-v2                 ; brand-productimage-argentyn23-v2.png                 ;                            ; $siteResourceBrandImages/brand-productimage-argentyn23-v2.png                 ;
+				   ; brand-productimage-atrantil                      ; brand-productimage-atrantil.png                      ;                            ; $siteResourceBrandImages/brand-productimage-atrantil.png                      ;
+				   ; brand-productimage-avemar                        ; brand-productimage-avemar.png                        ;                            ; $siteResourceBrandImages/brand-productimage-avemar.png                        ;
+				   ; brand-productimage-avior                         ; brand-productimage-avior.png                         ;                            ; $siteResourceBrandImages/brand-productimage-avior.png                         ;
+				   ; brand-productimage-ayushherbs                    ; brand-productimage-ayushherbs.png                    ;                            ; $siteResourceBrandImages/brand-productimage-ayushherbs.png                    ;
+				   ; brand-productimage-ayushherbs-new2               ; brand-productimage-ayushherbs-new2.png               ;                            ; $siteResourceBrandImages/brand-productimage-ayushherbs-new2.png               ;
+				   ; brand-productimage-barleans                      ; brand-productimage-barleans.png                      ;                            ; $siteResourceBrandImages/brand-productimage-barleans.png                      ;
+				   ; brand-productimage-beekeepersnaturals            ; brand-productimage-beekeepersnaturals.png            ;                            ; $siteResourceBrandImages/brand-productimage-beekeepersnaturals.png            ;
+				   ; brand-productimage-bergamet                      ; brand-productimage-bergamet.png                      ;                            ; $siteResourceBrandImages/brand-productimage-bergamet.png                      ;
+				   ; brand-productimage-biocidin                      ; brand-productimage-biocidin.png                      ;                            ; $siteResourceBrandImages/brand-productimage-biocidin.png                      ;
+				   ; brand-productimage-biogena                       ; brand-productimage-biogena.png                       ;                            ; $siteResourceBrandImages/brand-productimage-biogena.png                     ;
+				   ; brand-productimage-biotechpharmacal              ; brand-productimage-biotechpharmacal.png              ;                            ; $siteResourceBrandImages/brand-productimage-biotechpharmacal.png              ;
+				   ; brand-productimage-biotechpharmacal-v2           ; brand-productimage-biotechpharmacal-v2.png           ;                            ; $siteResourceBrandImages/brand-productimage-biotechpharmacal-v2.png           ;
+				   ; brand-productimage-bodybio                       ; brand-productimage-bodybio.png                       ;                            ; $siteResourceBrandImages/brand-productimage-bodybio.png                       ;
+				   ; brand-productimage-brainbean-v2                  ; brand-productimage-brainbean-v2.png                  ;                            ; $siteResourceBrandImages/brand-productimage-brainbean-v2.png                  ;
+				   ; brand-productimage-buddhateas                    ; brand-productimage-buddhateas.png                    ;                            ; $siteResourceBrandImages/brand-productimage-buddhateas.png                    ;
+				   ; brand-productimage-carlsonlabs                   ; brand-productimage-carlsonlabs.png                   ;                            ; $siteResourceBrandImages/brand-productimage-carlsonlabs.png                   ;
+				   ; brand-productimage-clinicalsynergy               ; brand-productimage-clinicalsynergy.png               ;                            ; $siteResourceBrandImages/brand-productimage-clinicalsynergy.png               ;
+				   ; brand-productimage-cognitiveclarity              ; brand-productimage-cognitiveclarity.png              ;                            ; $siteResourceBrandImages/brand-productimage-cognitiveclarity.png              ;
+				   ; brand-productimage-curalifeusa                   ; brand-productimage-curalifeusa.png                   ;                            ; $siteResourceBrandImages/brand-productimage-curalifeusa.png                   ;
+				   ; brand-productimage-davincilabs                   ; brand-productimage-davincilabs.png                   ;                            ; $siteResourceBrandImages/brand-productimage-davincilabs.png                   ;
+				   ; brand-productimage-diamondformulations           ; brand-productimage-diamondformulations.png           ;                            ; $siteResourceBrandImages/brand-productimage-diamondformulations.png           ;
+				   ; brand-productimage-dradvantage                   ; brand-productimage-dradvantage.png                   ;                            ; $siteResourceBrandImages/brand-productimage-dradvantage.png                   ;
+				   ; brand-productimage-drcapasso                     ; brand-productimage-drcapasso.png                     ;                            ; $siteResourceBrandImages/brand-productimage-drcapasso.png                     ;
+				   ; brand-productimage-drmercola                     ; brand-productimage-drmercola.png                     ;                            ; $siteResourceBrandImages/brand-productimage-drmercola.png                     ;
+				   ; brand-productimage-drphillips                    ; brand-productimage-drphillips.png                    ;                            ; $siteResourceBrandImages/brand-productimage-drphillips.png                    ;
+				   ; brand-productimage-drsnutrition                  ; brand-productimage-drsnutrition.png                  ;                            ; $siteResourceBrandImages/brand-productimage-drsnutrition.png                  ;
+				   ; brand-productimage-elementallabs                 ; brand-productimage-elementallabs.png                 ;                            ; $siteResourceBrandImages/brand-productimage-elementallabs.png                 ;
+				   ; brand-productimage-encorelife                    ; brand-productimage-encorelife.png                    ;                            ; $siteResourceBrandImages/brand-productimage-encorelife.png                    ;
+				   ; brand-productimage-enduranceproducts             ; brand-productimage-enduranceproducts.png             ;                            ; $siteResourceBrandImages/brand-productimage-enduranceproducts.png             ;
+				   ; brand-productimage-energenx                      ; brand-productimage-energenx.png                      ;                            ; $siteResourceBrandImages/brand-productimage-energenx.png                      ;
+				   ; brand-productimage-enzymescience                 ; brand-productimage-enzymescience.png                 ;                            ; $siteResourceBrandImages/brand-productimage-enzymescience.png                 ;
+				   ; brand-productimage-evenhealth                    ; brand-productimage-evenhealth.png                    ;                            ; $siteResourceBrandImages/brand-productimage-evenhealth.png                    ;
+				   ; brand-productimage-everidishealthsciences        ; brand-productimage-everidishealthsciences.png        ;                            ; $siteResourceBrandImages/brand-productimage-everidishealthsciences.png        ;
+				   ; brand-productimage-fringe                        ; brand-productimage-fringe.png                        ;                            ; $siteResourceBrandImages/brand-productimage-fringe.png                        ;
+				   ; brand-productimage-gaiaherbs-v2                  ; brand-productimage-gaiaherbs-v2.png                  ;                            ; $siteResourceBrandImages/brand-productimage-gaiaherbs-v2.png                  ;
+				   ; brand-productimage-genexa                        ; brand-productimage-genexa.png                        ;                            ; $siteResourceBrandImages/brand-productimage-genexa.png                        ;
+				   ; brand-productimage-goldenflowerchineseherbs      ; brand-productimage-goldenflowerchineseherbs.png      ;                            ; $siteResourceBrandImages/brand-productimage-goldenflowerchineseherbs.png      ;
+				   ; brand-productimage-guna                          ; brand-productimage-guna.png                          ;                            ; $siteResourceBrandImages/brand-productimage-guna.png                          ;
+				   ; brand-productimage-haelan                        ; brand-productimage-haelan.png                        ;                            ; $siteResourceBrandImages/brand-productimage-haelan.png                        ;
+				   ; brand-productimage-hayliepomroygroup             ; brand-productimage-hayliepomroygroup.png             ;                            ; $siteResourceBrandImages/brand-productimage-hayliepomroygroup.png             ;
+				   ; brand-productimage-herbalistandalchemist         ; brand-productimage-herbalistandalchemist.png         ;                            ; $siteResourceBrandImages/brand-productimage-herbalistandalchemist.png         ;
+				   ; brand-productimage-herbpharm                     ; brand-productimage-herbpharm.png                     ;                            ; $siteResourceBrandImages/brand-productimage-herbpharm.png                     ;
+				   ; brand-productimage-hostdefense                   ; brand-productimage-hostdefense.png                   ;                            ; $siteResourceBrandImages/brand-productimage-hostdefense.png                   ;
+				   ; brand-productimage-hyalogic                      ; brand-productimage-hyalogic.png                      ;                            ; $siteResourceBrandImages/brand-productimage-hyalogic.png                      ;
+				   ; brand-productimage-innateresponse                ; brand-productimage-innateresponse.png                ;                            ; $siteResourceBrandImages/brand-productimage-innateresponse.png                ;
+				   ; brand-productimage-ion                           ; brand-productimage-ion.png                           ;                            ; $siteResourceBrandImages/brand-productimage-ion.png                           ;
+				   ; brand-productimage-jarrowformulas                ; brand-productimage-jarrowformulas.png                ;                            ; $siteResourceBrandImages/brand-productimage-jarrowformulas.png                ;
+				   ; brand-productimage-jarrowformulas-v2             ; brand-productimage-jarrowformulas-v2.png             ;                            ; $siteResourceBrandImages/brand-productimage-jarrowformulas-v2.png             ;
+				   ; brand-productimage-microbiomelabs-v4             ; brand-productimage-microbiomelabs-v4.png             ;                            ; $siteResourceBrandImages/brand-productimage-microbiomelabs-v4.png             ;
+				   ; brand-productimage-microvascularhealth           ; brand-productimage-microvascularhealth.png           ;                            ; $siteResourceBrandImages/brand-productimage-microvascularhealth.png           ;
+				   ; brand-productimage-motherlove                    ; brand-productimage-motherlove.png                    ;                            ; $siteResourceBrandImages/brand-productimage-motherlove.png                    ;
+				   ; brand-productimage-mrm                           ; brand-productimage-mrm.png                           ;                            ; $siteResourceBrandImages/brand-productimage-mrm.png                           ;
+				   ; brand-productimage-mushroomwisdom                ; brand-productimage-mushroomwisdom.png                ;                            ; $siteResourceBrandImages/brand-productimage-mushroomwisdom.png                ;
+				   ; brand-productimage-mycoclinic                    ; brand-productimage-mycoclinic.png                    ;                            ; $siteResourceBrandImages/brand-productimage-mycoclinic.png                    ;
+				   ; brand-productimage-naturessources-v2             ; brand-productimage-naturessources-v2.png             ;                            ; $siteResourceBrandImages/brand-productimage-naturessources-v2.png             ;
+				   ; brand-productimage-neurohacker                   ; brand-productimage-neurohacker.png                   ;                            ; $siteResourceBrandImages/brand-productimage-neurohacker.png                   ;
+				   ; brand-productimage-neurohacker-v2                ; brand-productimage-neurohacker-v2.png                ;                            ; $siteResourceBrandImages/brand-productimage-neurohacker-v2.png                ;
+				   ; brand-productimage-nfh                           ; brand-productimage-nfh.png                           ;                            ; $siteResourceBrandImages/brand-productimage-nfh.png                           ;
+				   ; brand-productimage-nugonutrition-v2              ; brand-productimage-nugonutrition-v2.png              ;                            ; $siteResourceBrandImages/brand-productimage-nugonutrition-v2.png              ;
+				   ; brand-productimage-nutrabiogenesis               ; brand-productimage-nutrabiogenesis.png               ;                            ; $siteResourceBrandImages/brand-productimage-nutrabiogenesis.png               ;
+				   ; brand-productimage-nutrabiogenesis-v2            ; brand-productimage-nutrabiogenesis-v2.png            ;                            ; $siteResourceBrandImages/brand-productimage-nutrabiogenesis-v2.png            ;
+				   ; brand-productimage-nutrasal                      ; brand-productimage-nutrasal.png                      ;                            ; $siteResourceBrandImages/brand-productimage-nutrasal.png                      ;
+				   ; brand-productimage-nutricology                   ; brand-productimage-nutricology.png                   ;                            ; $siteResourceBrandImages/brand-productimage-nutricology.png                   ;
+				   ; brand-productimage-nutritionaltherapeutics       ; brand-productimage-nutritionaltherapeutics.png       ;                            ; $siteResourceBrandImages/brand-productimage-nutritionaltherapeutics.png       ;
+				   ; brand-productimage-optimox                       ; brand-productimage-optimox.png                       ;                            ; $siteResourceBrandImages/brand-productimage-optimox.png                       ;
+				   ; brand-productimage-orgain-v2                     ; brand-productimage-orgain-v2.png                     ;                            ; $siteResourceBrandImages/brand-productimage-orgain-v2.png                     ;
+				   ; brand-productimage-organicindia                  ; brand-productimage-organicindia.png                  ;                            ; $siteResourceBrandImages/brand-productimage-organicindia.png                  ;
+				   ; brand-productimage-organicindia-v2               ; brand-productimage-organicindia-v2.png               ;                            ; $siteResourceBrandImages/brand-productimage-organicindia-v2.png               ;
+				   ; brand-productimage-organoleaf                    ; brand-productimage-organoleaf.png                    ;                            ; $siteResourceBrandImages/brand-productimage-organoleaf.png                    ;
+				   ; brand-productimage-passporttoorganics            ; brand-productimage-passporttoorganics.png            ;                            ; $siteResourceBrandImages/brand-productimage-passporttoorganics.png            ;
+				   ; brand-productimage-passporttoorganics-new        ; brand-productimage-passporttoorganics-new.png        ;                            ; $siteResourceBrandImages/brand-productimage-passporttoorganics-new.png        ;
+				   ; brand-productimage-passporttoorganics-v2         ; brand-productimage-passporttoorganics-v2.png         ;                            ; $siteResourceBrandImages/brand-productimage-passporttoorganics-v2.png         ;
+				   ; brand-productimage-pharmaceutix                  ; brand-productimage-pharmaceutix.png                  ;                            ; $siteResourceBrandImages/brand-productimage-pharmaceutix.png                  ;
+				   ; brand-productimage-premierresearchlabs           ; brand-productimage-premierresearchlabs.png           ;                            ; $siteResourceBrandImages/brand-productimage-premierresearchlabs.png           ;
+				   ; brand-productimage-premierresearchlabs-v2        ; brand-productimage-premierresearchlabs-v2.png        ;                            ; $siteResourceBrandImages/brand-productimage-premierresearchlabs-v2.png        ;
+				   ; brand-productimage-premierresearchlabs-v3        ; brand-productimage-premierresearchlabs-v3.png        ;                            ; $siteResourceBrandImages/brand-productimage-premierresearchlabs-v3.png        ;
+				   ; brand-productimage-progressiveprofessional       ; brand-productimage-progressiveprofessional.png       ;                            ; $siteResourceBrandImages/brand-productimage-progressiveprofessional.png       ;
+				   ; brand-productimage-prolonprofessional            ; brand-productimage-prolonprofessional.png            ;                            ; $siteResourceBrandImages/brand-productimage-prolonprofessional.png            ;
+				   ; brand-productimage-qollabs                       ; brand-productimage-qollabs.png                       ;                            ; $siteResourceBrandImages/brand-productimage-qollabs.png                       ;
+				   ; brand-productimage-quicksilver                   ; brand-productimage-quicksilver.png                   ;                            ; $siteResourceBrandImages/brand-productimage-quicksilver.png                   ;
+				   ; brand-productimage-quicksilver-v2                ; brand-productimage-quicksilver-v2.png                ;                            ; $siteResourceBrandImages/brand-productimage-quicksilver-v2.png                ;
+				   ; brand-productimage-rangeessentials               ; brand-productimage-rangeessentials.png               ;                            ; $siteResourceBrandImages/brand-productimage-rangeessentials.png               ;
+				   ; brand-productimage-restorativeformulations       ; brand-productimage-restorativeformulations.png       ;                            ; $siteResourceBrandImages/brand-productimage-restorativeformulations.png       ;
+				   ; brand-productimage-rlclabs                       ; brand-productimage-rlclabs.png                       ;                            ; $siteResourceBrandImages/brand-productimage-rlclabs.png                       ;
+				   ; brand-productimage-rxsugar                       ; brand-productimage-rxsugar.png                       ;                            ; $siteResourceBrandImages/brand-productimage-rxsugar.png                       ;
+				   ; brand-productimage-rxvitamins-v2                 ; brand-productimage-rxvitamins-v2.png                 ;                            ; $siteResourceBrandImages/brand-productimage-rxvitamins-v2.png                 ;
+				   ; brand-productimage-sanesco                       ; brand-productimage-sanesco.png                       ;                            ; $siteResourceBrandImages/brand-productimage-sanesco.png                       ;
+				   ; brand-productimage-seekinghealth                 ; brand-productimage-seekinghealth.png                 ;                            ; $siteResourceBrandImages/brand-productimage-seekinghealth.png                 ;
+				   ; brand-productimage-spermidinelife                ; brand-productimage-spermidinelife.png                ;                            ; $siteResourceBrandImages/brand-productimage-spermidinelife.png                ;
+				   ; brand-productimage-symphonynaturalhealth         ; brand-productimage-symphonynaturalhealth.png         ;                            ; $siteResourceBrandImages/brand-productimage-symphonynaturalhealth.png         ;
+				   ; brand-productimage-tasciences                    ; brand-productimage-tasciences.png                    ;                            ; $siteResourceBrandImages/brand-productimage-tasciences.png                    ;
+				   ; brand-productimage-tesseractmedicalresearch      ; brand-productimage-tesseractmedicalresearch.png      ;                            ; $siteResourceBrandImages/brand-productimage-tesseractmedicalresearch.png      ;
+				   ; brand-productimage-traceminerals                 ; brand-productimage-traceminerals.png                 ;                            ; $siteResourceBrandImages/brand-productimage-traceminerals.png                 ;
+				   ; brand-productimage-transformationenzyme          ; brand-productimage-transformationenzyme.png          ;                            ; $siteResourceBrandImages/brand-productimage-transformationenzyme.png          ;
+				   ; brand-productimage-trugen3                       ; brand-productimage-trugen3.png                       ;                            ; $siteResourceBrandImages/brand-productimage-trugen3.png                       ;
+				   ; brand-productimage-vitalproteins                 ; brand-productimage-vitalproteins.png                 ;                            ; $siteResourceBrandImages/brand-productimage-vitalproteins.png                 ;
+				   ; brand-productimage-vitanica                      ; brand-productimage-vitanica.png                      ;                            ; $siteResourceBrandImages/brand-productimage-vitanica.png                      ;
+				   ; brand-productimage-vitanica-v2                   ; brand-productimage-vitanica-v2.png                   ;                            ; $siteResourceBrandImages/brand-productimage-vitanica-v2.png                   ;
+				   ; brand-productimage-wellena                       ; brand-productimage-wellena.png                       ;                            ; $siteResourceBrandImages/brand-productimage-wellena.png                       ;
+				   ; brand-productimage-wholescripts                  ; brand-productimage-wholescripts.png                  ;                            ; $siteResourceBrandImages/brand-productimage-wholescripts.png                  ;
+				   ; brand-productimage-wholescripts-csm              ; brand-productimage-wholescripts-csm.png              ;                            ; $siteResourceBrandImages/brand-productimage-wholescripts-csm.png              ;
+				   ; brand-productimage-wisewomanherbs                ; brand-productimage-wisewomanherbs.png                ;                            ; $siteResourceBrandImages/brand-productimage-wisewomanherbs.png                ;
+				   ; brand-productimage-xymogen                       ; brand-productimage-xymogen.png                       ;                            ; $siteResourceBrandImages/brand-productimage-xymogen.png                       ;
+				   ; brand-productimage-yeouth                        ; brand-productimage-yeouth.png                        ;                            ; $siteResourceBrandImages/brand-productimage-yeouth.png                        ;
+				   ; brand-productimage-zahler-v2                     ; brand-productimage-zahler-v2.png                     ;                            ; $siteResourceBrandImages/brand-productimage-zahler-v2.png                     ;
+				   ; brand-productimage-zhanghealth                   ; brand-productimage-zhanghealth.png                   ;                            ; $siteResourceBrandImages/brand-productimage-zhanghealth.png                   ;
+				   ; brand-productimage-zycalbioceuticals-v2          ; brand-productimage-zycalbioceuticals-v2.png          ;                            ; $siteResourceBrandImages/brand-productimage-zycalbioceuticals-v2.png          ;
+				   ; myco-products                                    ; myco-products.png                                    ;                            ; $siteResourceBrandImages/myco-products.png                                    ;
+				   ; brand-productimage-biomatrix					  ; brand-productimage-biomatrix.png 					 ; 							;$siteResourceBrandImages/brand-productimage-biomatrix.png;
+
+
+$siteResourceBrandAgreementPdf=jar:com.wholescripts.constants.WholescriptsstoreConstants&/Wholescriptsstore/import/coredata/images/brands/agreements
+
+INSERT_UPDATE Media; $catalogVersion[unique = true]; code[unique = true]	; mime[default = 'image/jpg']	; realfilename   			; @media[translator = de.hybris.platform.impex.jalo.media.MediaDataTranslator]
+				   ;                          ; quickSilverPDF   			; application/pdf               ; quickSilver.pdf 			; $siteResourceBrandAgreementPdf/quickSilver.pdf
+				   ;                          ; nutraBiogenesis  			; application/pdf               ; NutraBiogenesis.pdf 		; $siteResourceBrandAgreementPdf/NutraBiogenesis.pdf
+				   ;                          ;allergyResearchGroup       	;application/pdf                ;ARG-MAP.6.1.21.pdf         ;$siteResourceBrandAgreementPdf/ARG-MAP.6.1.21.pdf
+
+
+$productCatalog=Default
+$catalogVersion = catalogversion(catalog(id[default = $productCatalog]), version[default = 'Staged'])[unique = true, default = $productCatalog:Staged]
+$privateLabelImages = jar:com.wholescripts.constants.WholescriptsstoreConstants&/Wholescriptsstore/import/coredata/images/privateLabel
+
+
+INSERT_UPDATE Media; code[unique = true]     ; @media[translator = de.hybris.platform.impex.jalo.media.MediaDataTranslator]; mime[default = 'image/jpeg']; $catalogVersion[unique = true]; folder(qualifier)[default = wholescriptsImages]; format(code)[default=515x515]
+                   ; pl-default-image        ; $privateLabelImages/pl-default-image.png                                	   ;                             ;                          	 ;

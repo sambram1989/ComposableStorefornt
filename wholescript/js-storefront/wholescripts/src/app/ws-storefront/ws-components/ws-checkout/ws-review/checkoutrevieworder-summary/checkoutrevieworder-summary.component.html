@@ -1,0 +1,152 @@
+<ws-title-body-content *ngIf="showPO() && !isACHPaymentMethod">
+    <div cartHeader>
+        <div class="p-2">
+            <p class="text-section-head mb-0">Purchase Order</p>
+        </div>
+    </div>
+    <div cartBody class="">
+        <div class="card-body p-2">
+            <input class="form-control input-style" placeholder="ENTER PURCHASE ORDER#" [maxLength]="12" 
+                aria-label="Enter purchase order number" [(ngModel)]="purchaseOrderNumber"
+                (ngModelChange)="onPurchaseOrderNumberChange($event)"/>
+            <div class="fs-14 mt-3">
+                For your reference only. Not reviewed by customer service.
+            </div>
+        </div>
+    </div>
+</ws-title-body-content>
+@if(cart$ | async ; as cart){
+<ws-title-body-content *ngIf="!isACHPaymentMethod">
+    <div cartHeader>
+        <div class="d-flex p-2 justify-content-between">
+            <p class="text-section-head mb-0">Payment Method</p>
+            <a class="text-primary bolder" [routerLink]="{ cxRoute: 'checkoutPaymentDetails' } | cxUrl">Edit</a>
+        </div>
+    </div>
+    <div cartBody>
+        @if(cart?.paymentType?.code == 'ZACH') {
+            <dl class="dlist-align">
+                <span class="fa fa-university"></span>
+                ACH
+                <br>
+                ****{{achCCNumber}}
+                <br>
+                {{achCCName}}
+            </dl>
+        } @else if(cart?.paymentInfo?.cardNumber){
+        <dl class="dlist-align">
+            <span class="fa fa-credit-card"></span>
+            {{ cart?.paymentInfo?.cardType?.name }} ending in
+            {{ cardNumber || cart?.paymentInfo?.cardNumber}}
+            <hr />
+            {{ cart?.paymentInfo?.billingAddress?.formattedAddress }}
+        </dl>
+        } @else {
+        <dl class="dlist-align">
+            <span class="fa fa-phone"></span>
+           {{cart?.paymentType?.displayName}}
+        </dl>
+        }
+    </div>
+</ws-title-body-content>
+
+<ws-title-body-content *ngIf="!isACHPaymentMethod">
+    <div cartHeader>
+        <div class="d-flex p-2 justify-content-between">
+            <p class="text-section-head mb-0">Shipping Address</p>
+            <a class="text-primary bolder" [routerLink]="{ cxRoute: 'checkoutDeliveryAddress' } | cxUrl">Edit</a>
+        </div>
+    </div>
+    <div cartBody>
+        <p class="mb-1">
+            {{ cart?.deliveryAddress?.firstName }}
+            {{ cart?.deliveryAddress?.lastName }}
+        </p>
+        <p class="mb-0">{{ cart?.deliveryAddress?.formattedAddress }}</p>
+    </div>
+</ws-title-body-content>
+
+<ws-title-body-content *ngIf="!isACHPaymentMethod">
+    <div cartHeader>
+        <div class="d-flex p-2 justify-content-between">
+            <p class="text-section-head mb-0">Shipping method</p>
+            <a class="text-primary bolder" [routerLink]="{ cxRoute: 'checkoutDeliveryMode' } | cxUrl">Edit</a>
+        </div>
+    </div>
+    <div cartBody>
+        <dl class="dlist-align">
+            <dd class="float-right">
+                {{ cart?.deliveryCost?.formattedValue }}
+            </dd>
+            <dd>
+                <span class="fa fa-truck"></span>
+                {{ cart?.deliveryMode?.name }}
+            </dd>
+        </dl>
+    </div>
+</ws-title-body-content>
+
+<ws-title-body-content>
+    <div cartHeader>
+        <div class="p-2">
+            <p class="text-section-head mb-0">Order Total</p>
+        </div>
+    </div>
+    <div cartBody>
+        <section class="warning-section" *ngIf="showTaxWarningMessage">
+            You are shipping to a state where shipping charges are taxable. Please
+            note that this order may have additional taxes added upon order
+            completion.
+        </section>
+
+        <section class="alert-info" *ngIf="shippingMessage && isPatient() ? (PATIENT_SHIPPING_PRICE - cartTotalPrice) > 0 : (PRACTITIONER_SHIPPING_PRICE - cartTotalPrice) > 0">
+            <p class="m-0">
+                {{shippingMessage?.replace('{{shippingPrice}}', isPatient() ? ('$' + (PATIENT_SHIPPING_PRICE -
+                cartTotalPrice).toFixed(2)) : ('$' + (PRACTITIONER_SHIPPING_PRICE - cartTotalPrice).toFixed(2)))}}
+            </p>
+        </section>
+        <div class="row pb-2">
+            <div class="col-6 text-left bolder">Subtotal:</div>
+            <div class="col-6 bold text-right">
+                {{ cart?.subTotal?.formattedValue }}
+            </div>
+        </div>
+        <div class="row" *ngIf="cart?.deliveryCost?.value >= 0 || isFriendsFamily">
+            <div class="col-6 text-left bolder">Shipping:</div>
+            <div class="col-6 bold text-right">
+                {{ cart?.deliveryCost?.formattedValue }}
+            </div>
+        </div>
+        <div class="row" *ngIf="cart?.totalDiscounts?.value > 0 || isFriendsFamily">
+            <div class="col-6 text-left bolder">Discount:</div>
+            <div class="col-6 bold text-right text-danger">
+                ({{ cart?.totalDiscounts?.formattedValue }})
+            </div>
+        </div>
+        <div class="row" *ngIf="cart?.totalTax?.value > 0 || isFriendsFamily">
+            <div class="col-6 text-left bolder">Tax:</div>
+            <div class="col-6 bold text-right">
+                {{ cart?.totalTax?.formattedValue }}
+            </div>
+        </div>
+        <hr />
+        <div class="row mb-0">
+            <div class="bolder col-6 text-left">TOTAL:</div>
+            <div class="col-6 bolder text-right">
+                {{ cart?.success == false ? '$0.00' : cart?.totalPrice?.formattedValue }}
+            </div>
+        </div>
+    </div>
+</ws-title-body-content>
+}
+
+<div class="mt-3 ml-2">
+    <span class="d-flex mb-2">
+        <img src="../../../../../assets/icons/common_icons/shield-text.svg" alt="shield-text" style="width: 20px" />
+        <span class="ml-2 secure-checkout"> SECURE CHECKOUT </span> </span><span class="mt-3">
+        We use SSL security to ensure that your credit card information is 100%
+        protected
+    </span>
+</div>
+
+<ng-container *ngIf=" isCurrentUser$|async"></ng-container>

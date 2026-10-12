@@ -1,0 +1,181 @@
+<div class="ws-shopify-settings-container">
+  <div *ngIf="loading" class="d-flex align-items-center justify-content-center">
+    <cx-spinner></cx-spinner>
+  </div>
+  <div *ngIf="!loading">
+    <section class="shopify-header-section">
+      <div class="shopify-header">
+        <div
+          class="shopify-heading"
+          *ngIf="shopifyHeading$ | async as heading"
+          [innerHTML]="heading?.content"
+        ></div>
+        <div class="shopify-btns-container">
+          <div class="shopify-header-btns">
+            <button
+              *ngIf="shopifyDownloadGuidePdf$ | async as downloadPdf"
+              (click)="downloadPdfNavigation(downloadPdf)"
+              class="btn btn-outline-primary btn-rounded download-guide"
+              target="_blank"
+            >
+              Download Installation Guide (PDF)
+            </button>
+            <button
+              *ngIf="!showAgreement"
+              class="btn btn-primary btn-rounded"
+              (click)="startIntegration()"
+              tabindex="0"
+              role="button"
+              aria-label="Sign Api Agreement"
+            >
+              Sign Api Agreement
+            </button>
+            <button
+              *ngIf="showAgreement"
+              class="btn btn-primary btn-rounded"
+              (click)="importShopifyProducts()"
+              [disabled]="shopifyInstalled == false"
+              role="button"
+              tabindex="0"
+              aria-label="Import Products"
+            >
+              Import Products
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="shopify-content-section">
+      <div class="shopify-body-content">
+        <article class="feat-web__img">
+          <img
+            src="../../../../../assets/images/shopify/laptop-iso.png"
+            alt=""
+          />
+        </article>
+        <article>
+          <p><a class="title">App Status</a></p>
+          <div *ngIf="showAgreement" class="agreement-signed-block">
+            <p>
+              <span class="status-title pr-1">Agreement Status</span>
+              <span class="d-inline-flex v-align-middle text-success"
+                ><i class="fa fa-circle pr-1 text-success"></i>Active</span
+              >
+            </p>
+            <div>
+              <p>
+                <span
+                  >To manage your eStore settings and view API orders, visit the
+                  <a [routerLink]="['/integrations-hub/estore-settings']" class="estore-settings" tabindex="0" role="button" aria-label="estore Settings"
+                    >estore Settings</a
+                  >
+                  page.
+                </span>
+              </p>
+            </div>
+          </div>
+          <div *ngIf="!showAgreement" class="not-signed-block pb-3">
+            <p>
+              <span class="status-title pr-1">Agreement Status</span>
+              <span class="d-inline-flex v-align-middle hint-text"
+                ><i class="fa fa-circle pr-1"></i>Not Signed</span
+              >
+            </p>
+
+            <div>
+              <p>
+                Read and sign the API Agreement below in order to setup your
+                eStore.
+              </p>
+              <div class="not-signed-note">
+                <p>
+                  <b>Please Note</b>: WholeScripts will not be able to fulfill
+                  your Shopify orders until this agreement has been signed and
+                  approved.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="shopify-status-container">
+            <div *ngIf="!shopifyInstalled">
+              <p>
+                <span class="status-title pr-1">Shopify Installation:</span>
+                <span
+                  class="d-inline-flex v-align-middle hint-text"
+                  ><i class="fa fa-circle pr-1"></i>Not Installed</span
+                >
+              </p>
+              <div>
+                <p>
+                  Find our app on the
+                  <a
+                    href="https://apps.shopify.com/search?q=wholescripts"
+                    target="_blank"
+                    class="shopify-app"
+                    >Shopify app store</a
+                  >
+                  to install it on your shop!
+                </p>
+              </div>
+            </div>
+            <div *ngIf="shopifyInstalled">
+              <p>
+                <span class="status-title pr-1">Shopify Installation:</span>
+                <span
+                  class="d-inline-flex v-align-middle text-success"
+                  ><i class="fa fa-circle text-success pr-1"></i>Installed</span
+                >
+              </p>
+              <div>
+                <p>
+                  Shop:
+                  <a class="shopify"
+                    [href]="'https://' + shopifyStatusDetails?.shop"
+                    target="_blank" tabindex="0" role="button" aria-label="My Shopify"
+                    > {{shopifyStatusDetails?.shop}}</a
+                  >
+                </p>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+  </div>
+
+  <section class="shopify-bottom-content">
+    <div
+      class="streamline-content pt-4"
+      *ngIf="streamlineFulfillment$ | async as streamline"
+      [innerHTML]="streamline?.content"
+    ></div>
+    <div class="faq-container">
+      <div
+        class="faq-heading"
+        *ngIf="faqHeading$ | async as faqHeading"
+        [innerHTML]="faqHeading?.content"
+      ></div>
+      <div
+        class="faq-que bolder"
+        *ngIf="faqQue1$ | async as que"
+        [innerHTML]="que?.content"
+      ></div>
+      <div
+        class="faq-ans"
+        *ngIf="faqAns1$ | async as ans"
+        [innerHTML]="ans?.content"
+      ></div>
+      <div
+        class="faq-que bolder mt-4"
+        *ngIf="faqQue2$ | async as que"
+        [innerHTML]="que?.content"
+      ></div>
+      <div
+        class="faq-ans"
+        *ngIf="faqAns2$ | async as ans"
+        [innerHTML]="ans?.content"
+      ></div>
+    </div>
+  </section>
+</div>

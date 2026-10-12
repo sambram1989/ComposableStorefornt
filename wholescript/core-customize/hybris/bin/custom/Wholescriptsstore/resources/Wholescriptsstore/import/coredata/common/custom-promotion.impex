@@ -1,0 +1,30 @@
+$lang=en
+
+INSERT_UPDATE RuleConditionDefinitionCategory; id[unique = true]; name[lang = $lang]; priority;
+                                             ; cart             ; Cart              ; 1200
+
+INSERT_UPDATE RuleConditionDefinition; id[unique = true]                 ; name[lang = $lang]              ; priority; breadcrumb[lang = $lang]                                                                     ; allowsChildren; translatorId                              ; translatorParameters; categories(id)
+                                     ; y_qualifying_promotion_categories ; Qualifying Promotion categories ; 1000    ; Cart contains products from {categories_operator} categories {categories}                    ; false         ; qualifyingPromotionCategoriesConditionTranslator   ;                     ; cart
+
+INSERT_UPDATE RuleConditionDefinitionParameter; definition(id)[unique = true]; id[unique = true]        ; priority; name[lang = $lang]                ; description[lang = $lang]                                                                                    ; type                                                                                 ; value                       ; required[default = true]; validators
+                                              ; y_qualifying_promotion_categories      ; categories_operator      ; 1300    ; Category selection operator       ; Select ANY category or select ALL categories from list of qualifying categories                              ; Enum(de.hybris.platform.ruledefinitions.CollectionOperator)                          ; """CONTAINS_ANY"""          ;                         ;
+                                              ; y_qualifying_promotion_categories      ; promotionCategories               ; 1200    ; Promotion Categories                        ; List of qualifying categories                                                                                ; List(ItemType(PromotionCategory))                                                             ;                             ; false                   ;
+
+INSERT_UPDATE RuleConditionDefinitionRuleTypeMapping; definition(id)[unique = true]; ruleType(code)[unique = true]
+                                                    ; y_qualifying_promotion_categories                  ; SourceRule ;
+		
+
+####brand		
+													
+INSERT_UPDATE RuleConditionDefinitionCategory; id[unique = true]; name[lang = $lang]; priority;
+                                             ; cart             ; Cart              ; 1300
+
+INSERT_UPDATE RuleConditionDefinition; id[unique = true]                 ; name[lang = $lang]              ; priority; breadcrumb[lang = $lang]                                                                     ; allowsChildren; translatorId                              ; translatorParameters; categories(id)
+                                     ; y_qualifying_promotion_brands ; Qualifying Promotion Brands ; 1000    ; Cart contains products from {brand_operator} brands {brands}                    ; false         ; qualifyingPromotionBrandsConditionTranslator   ;                     ; cart
+
+INSERT_UPDATE RuleConditionDefinitionParameter; definition(id)[unique = true]; id[unique = true]       ; priority; name[lang = $lang]                ; description[lang = $lang]                                                                                    ; type                                                                                 ; value                       ; required[default = true]; validators
+                                              ; y_qualifying_promotion_brands      ; brands_operator    ; 1300    ; brand selection operator       ; Select ANY brand or select ALL brands from list of qualifying brands                              ; Enum(de.hybris.platform.ruledefinitions.CollectionOperator)                          ; """CONTAINS_ANY"""          ;                         ;
+                                              ; y_qualifying_promotion_brands      ; promotionBrands   ; 1200    ; Promotion Brands                        ; List of qualifying brands                                                                                ; List(ItemType(WholescriptsBrand))                                                             ;                             ; false                   ;
+
+INSERT_UPDATE RuleConditionDefinitionRuleTypeMapping; definition(id)[unique = true]; ruleType(code)[unique = true]
+                                                    ; y_qualifying_promotion_brands                  ; SourceRule ;

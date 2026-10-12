@@ -1,0 +1,97 @@
+
+.btn-h {
+    font-size: 16px;
+    min-height: unset !important;
+    height: 40px !important;
+}
+.iframeStyle{
+  height:550px;
+}
+.action-btns{
+  display: flex;
+  justify-content: start;
+  gap: 10px;
+  padding-left: 25px;
+}
+.checkbox-wrapper {
+    display: flex;
+    align-items: center;
+    position: relative;
+    cursor: pointer;
+  
+    input[type="checkbox"] {
+      position: absolute;
+      opacity: 0;
+      width: 20px;
+      height: 20px;
+      margin: 0;
+      cursor: pointer;
+      z-index: 1;
+      &:focus + label::before {
+        outline: 3px solid var(--cx-color-darkest);
+        outline-offset: 2px;
+      }
+    }
+  
+    label {
+      display: inline-flex;
+      align-items: center;
+      position: relative;
+      padding-left: 30px;
+  
+      &::before {
+        content: '';
+        // display: inline-block;
+        width: 20px;
+        height: 20px;
+        background-color: var(--ws-base-white);
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+      }
+  
+      &::after {
+        content: '✔';
+        display: none;
+        position: absolute;
+        left: 4px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--ws-base-white);
+        font-size: 16px;
+      }
+    }
+  
+    &.highlighted label::before {
+      background-color: var(--ws-gray-light-300);
+    }
+  
+    input[type="checkbox"]:checked+label::before {
+      background-color: var(--cx-color-primary);
+    }
+  
+    input[type="checkbox"]:checked+label::after {
+      display: inline-block;
+      content: '✔';
+    }
+  }
+
+
+$error-border: var(--ws-error-300);
+$error-bg: var(--ws-error-50);
+
+@mixin section-style($border-color, $bg-color) {
+  padding: 16px;
+  margin: 16px 0px 16px 0px;
+  border-radius: 10px;
+  border: 2px solid $border-color;
+  background-color: $bg-color;
+  gap: 16px;
+}
+
+.error-section {
+  @include section-style($error-border, $error-bg);
+}

@@ -1,0 +1,70 @@
+.patient-account-item {
+  font-size: 16px;
+  color: #3e3b49;
+  padding: 0 16px;
+
+  &:nth-child(10) {
+    .patient-account-link {
+      border-bottom: none;
+    }
+  }
+  &:hover {
+    background-color: var(--cx-color-background-focus);
+    color: #3e3b49;
+  }
+}
+.container {
+  max-width: 100%;
+}
+.patient-account-link {
+  padding: 10px 0;
+  display: block;
+  color: inherit;
+  font-weight: 500;
+  text-decoration: none !important;
+  border-bottom: solid 1px var(--ws-gray-dark-100);
+  i {
+    padding-right: 4px;
+  }
+}
+.card-header {
+  padding: 1rem;
+  margin-bottom: 0;
+  background-color: #eef0f1;
+  border-bottom: 1px solid rgba(44, 42, 51, 0.125);
+  font-weight: 700;
+  border-radius: calc(0.3125rem - 1px) calc(0.3125rem - 1px) 0 0;
+  color: #3e3b49;
+}
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  word-wrap: break-word;
+  background-color: #fff;
+  background-clip: border-box;
+  border: 1px solid rgba(44, 42, 51, 0.125);
+  border-radius: 0.3125rem;
+  padding-bottom: 16px;
+}
+.active {
+  background-color: var(--cx-color-primary);
+  color: white;
+  margin: 0 !important;
+  padding: 0 16px;
+  .patient-account-link {
+    font-weight: 900;
+    border-bottom: none;
+  }
+  &:hover {
+    background-color: var(--cx-color-primary);
+    color: white;
+  }
+}
+
+
+
+
+
+

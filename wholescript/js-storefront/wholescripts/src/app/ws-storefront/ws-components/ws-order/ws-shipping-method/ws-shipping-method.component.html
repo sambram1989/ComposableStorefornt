@@ -1,0 +1,273 @@
+<div id="checkout-delivery-address" class="container-fluid">
+
+    <div *ngIf="showAlert()" class="alert alert-warning alert-dismissible fade show custom-alert pr-3" role="alert" style="border:1px solid;">
+        Please allow 2-3 business days for processing. Expedited shipping requests are separate from WholeScripts
+        processing time.
+        <button type="button" tabindex="0" class="text-danger fs-20" data-bs-dismiss="alert" aria-label="Close" (click)="showAlert.set(false)" ></button>
+      </div>
+    <section class="section-content pt-0 pl-3 pt-2">
+        <div class="container-fluid p-0">
+            <div class="card card-transparent">
+
+                <div class="card-header pt-0 pl-0 pr-0">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="container-fluid p-0">
+                                <div class="row">
+                                    <cx-page-slot position="wsShippingMethodPageTopPara">
+                                    </cx-page-slot>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 text-right"> &nbsp;</div>
+                    </div>
+                </div>
+
+                <div class="container-fluid p-0 m-0">
+                    <section class="section-content padding-y pt-0">
+                        <div class="container-fixed-lg">
+                            <div class="row" *ngIf="
+                            !(isUpdating$ | async) &&
+                              (supportedDeliveryModes$ | async) as supportedDeliveryModes;
+                            else loading">
+                                <main class="col-md-8 pl-0">
+                                    <div class="card card-transparent">
+                                        <div class="card card-default" style="background:none; border:none;">
+                                            <div class="card-block no-padding">
+                                                <table class="table table-responsive-block">
+                                                    <thead>
+                                                        <tr class="card-header bg-gray text-dark pt-3 pb-3">
+                                                            <th style="width:50%" class="text-dark bg-gray">
+                                                                Method
+                                                            </th>
+                                                            <th class="text-dark bg-gray px-md-auto px-lg-0">
+                                                                Prices
+                                                            </th>
+                                                            <th class="text-center bg-gray text-dark">
+                                                                Actions
+                                                            </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr class="clickable-row"
+                                                            *ngFor="let mode of supportedDeliveryModes">
+                                                            <td class="v-align-middle py-0 mt-3">
+                                                                <p class="mb-0">
+                                                                    {{mode?.name}}
+                                                                </p>
+                                                                <small class="mb-3" *ngIf="mode?.description" >
+                                                                    <span *ngIf="!(mode?.name?.toLowerCase().includes('pick up') || mode?.name?.toLowerCase().includes('pickup'))" style="vertical-align: sub;">*</span>
+                                                                    {{mode?.description}}
+                                                                </small>
+                                                            </td>
+                                                            <td class="v-align-middle px-md-auto px-lg-0">
+                                                                <p>
+                                                                    {{mode?.deliveryCost?.value === 0 ? 'Free' : mode?.deliveryCost?.formattedValue}}
+                                                                </p>
+                                                            </td>
+                                                            <td class="v-align-middle text-lg-right col-12">
+                                                                <div
+                                                                    class="offset-7 col-md-5 col-12 offset-md-0 col-md-12 d-inline-block py-0 pr-0">
+                                                                    <button class="btn btn-outline-primary btn-rounded float-right"
+                                                                        tabindex="0" 
+                                                                        (click)="selectedShippingMethod = mode; goToPayments(mode.code, mode?.deliveryCost?.value)">
+                                                                        Select
+                                                                    </button>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </main>
+                                <aside *ngIf="cart$|async as cart" class="col-md-4 pl-0" style="margin-bottom:8rem;">
+                                    <div *ngIf="deliveryAddress$ | async as address" class="card">
+                                        <div class="card-header bg-gray text-dark pt-3 pb-3 d-flex justify-content-between align-items-center ">
+                                            <div class="card-title v-align-middle bolder">
+                                                Shipping Address
+                                            </div>
+                                            <div class="text-right" >
+                                                <a [routerLink]="'/checkout/ShippingAddresses'" 
+                                                class="text-primary bolder cursor-pointer">Edit</a>
+                                            </div>
+                                        </div>
+                                        <div class="card-body text-price p-4 fs-17">
+                                            <span>{{allAddress?.addressDescription}}</span>
+                                            <br>
+                                            <span>{{cart?.deliveryAddress?.firstName}} {{cart?.deliveryAddress?.lastName}}</span>
+                                            <br>
+                                            <span>{{cart?.deliveryAddress?.line1}}</span>
+                                            <br>
+                                            <span>{{cart?.deliveryAddress?.region?.name}}, {{cart?.deliveryAddress?.region?.isocodeShort}} {{cart?.deliveryAddress?.postalCode}}</span>    
+                                            <!-- <div>{{cart?.deliveryAddress?.firstName}} {{cart?.deliveryAddress?.lastName}}</div>
+                                            <div>{{cart?.deliveryAddress?.formattedAddress }}</div> -->
+                                        </div>
+                                    </div>
+
+                                    <div class="card mt-1 ng-scope">
+                                        <div class="card-header bg-gray text-dark pt-3 pb-3">
+                                            <div class="card-title v-align-middle bolder">
+                                                Order Total
+                                            </div>
+                                        </div>
+
+                                        <div class="loadingSection">
+                                        </div>
+
+                                        <div class="card-body p-4">
+                                            <div id="ShippingTaxWarningDIV" class="alert alert-warning" *ngIf="showTaxWarningMessage">
+                                                You are shipping to a state where shipping charges are taxable. Please
+                                                note that this order may have additional taxes added upon order
+                                                completion.
+                                            </div>
+
+                                            <div id="FreeShippingThresholdMessageDIV"
+                                                class="alert alert-info text-left" *ngIf="shippingMessage && isPatient() ? (PATIENT_SHIPPING_PRICE - cartTotalPrice) > 0 : (PRACTITIONER_SHIPPING_PRICE - cartTotalPrice) > 0">
+                                                <p class="m-0">
+                                                    {{shippingMessage?.replace('{{shippingPrice}}', isPatient() ? ('$' + (PATIENT_SHIPPING_PRICE -
+                                                    cartTotalPrice).toFixed(2)) : ('$' + (PRACTITIONER_SHIPPING_PRICE - cartTotalPrice).toFixed(2)))}}
+                                                </p>
+                                            </div>
+
+                                            <div *ngIf="cart?.success == false">
+                                                <ws-order-total-calculating-error></ws-order-total-calculating-error>
+                                            </div>
+
+                                            <div class="row pb-2" *ngIf="cart?.subTotal?.value || isFriendsFamily">
+                                                <div class="col-6 text-left bolder text-price" >
+                                                    Subtotal:
+                                                </div>
+                                                <div class="col-6 bolder text-right text-price">
+                                                    {{ cart?.subTotal?.formattedValue }}
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-6 text-left bolder text-price">
+                                                    Shipping:
+                                                </div>
+                                                <div class="col-6 bolder text-right text-price">
+                                                    Calculated during checkout
+                                                </div>
+                                            </div>
+                                            <div class="row" *ngIf="cart?.totalTax?.value || isFriendsFamily">
+                                                <div class="col-6 text-left bolder text-price">
+                                                    Tax:
+                                                </div>
+                                                <div class="col-6 bold text-right text-price">
+                                                    {{ cart?.totalTax?.formattedValue }}
+                                                </div>
+                                            </div>
+                                            <div class="row pb-2" *ngIf="cart?.totalDiscounts?.value || isFriendsFamily">
+                                                <div class="col-6 text-left bolder text-price">
+                                                    Discounts:
+                                                </div>
+                                                <div class="col-6 bold text-right text-danger text-price">
+                                                    ({{ cart?.totalDiscounts?.formattedValue }})
+                                                </div>
+                                            </div>
+                                            <!-- <hr> -->
+                                            <!-- TODO as of now no promoCode need to do in future -->
+                                            <!-- <div class="row mb-0 ">
+                                                <div class="col-6 text-left bolder">Promo Code</div>
+                                                <div class="col-6 bold text-right pl-0">
+                                                    <div id="promoOn">
+                                                        <div class="bolder"></div>
+                                                    </div>
+                                                </div>
+                                            </div> -->
+                                            <hr >
+                                            <div class="row mb-0" *ngIf="cart?.totalPrice?.value || isFriendsFamily">
+                                                <div class=" bolder col-6 text-left text-price">
+                                                    TOTAL:
+                                                </div>
+                                                <div class="col-6 bolder text-right text-price">
+                                                    ${{cart?.totalPrice?.value - (cart?.deliveryCost?.value || 0) | number : "1.2-2"}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="row m-auto p-0">
+                                        <div class="col-12 p-0">
+                                            <div class="col-12 row align-items-center mb-2 ssl-wrapper"> 
+                                                <img
+                                                    _ngcontent-ng-c2740710564=""
+                                                    src="../../../../../assets/icons/common_icons/shield-text.svg"
+                                                    alt="shield-text"
+                                                    style="width: 20px"
+                                                 />                                                
+                                                 <cx-page-slot position="SSLCheckoutParagraph">
+                                                </cx-page-slot>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </aside>
+                            </div>
+                        </div>
+                    </section>
+
+                    <ng-template #loading>
+                        <div class="d-flex align-items-center justify-content-center">
+                            <cx-spinner></cx-spinner>
+                        </div>
+                    </ng-template>
+
+                    <ng-template #shippingMethodModal>
+                        <div class="p-4">
+                            <div class="text-right">
+                                <button aria-label="Close modal bg-transp" (click)="closePopup()">
+                                    <span aria-hidden="true" class="fw-900">×</span>
+                                </button>
+                            </div>
+                            <div class="d-flex justify-content-center mb-3" role="banner">
+                                <h3 class="bolder mb-0" id="filtersTitle">PICKUP AGREEMENT</h3>
+                            </div>
+                            <hr>
+                            <div class="body text-center" aria-labelledby="filtersTitle">
+                                    <div class="d-flex justify-content-center mb-3" role="banner">
+                                        <h5 class="bolder mb-0" id="filtersTitle">{{ selectedShippingMethod?.name }}</h5>
+                                    </div>
+                                <p>{{ pickupAgreement.address?.street }} {{ pickupAgreement.address?.city }} <br> 
+                                    {{ pickupAgreement.address?.building }}</p>
+
+                                <p class="fs-16 my-2"><b>Pharmacy Hours:</b></p>
+                                <p>
+                                    {{ pickupAgreement.pharmacyHours?.weekdays }} <br>
+                                    {{ pickupAgreement.pharmacyHours?.weekend }}
+                                </p>
+
+                                    <p class="fs-18 my-4">{{ selectedShippingMethod?.description }}</p>
+
+                                <div role="alert" class="pickup-alert alert alert-warning alert-dismissible fade show custom-alert pr-3" style="border: 1px solid;">
+                                    {{ pickupAgreement.alertMessage }}
+                                </div>
+                            </div>
+                                    <div class="right-buttons d-flex flex-wrap justify-content-md-end justify-content-sm-center mt-30">
+                                        <div>
+                                            <button class="btn btn-outline-primary btn-rounded btn-h copy" (click)="closePopup()">
+                                                Cancel
+                                            </button>
+                                        </div>
+                                        <div>
+                                            <button class="btn btn-outline-primary btn-rounded btn-h copy fw-900 confirmation" 
+                                                    (click)="confirmShippingMethod()">
+                                                Confirm Selection
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                      </ng-template>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+</div>
+
+<ng-container *ngIf="isCurrentUser$|async"></ng-container>

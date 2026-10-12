@@ -1,0 +1,11 @@
+.integration-content {
+    padding: 30px;
+    font-size: 18px;
+    color: var(--ws-card-description);
+    word-break: break-word;
+    min-height: 245px;
+
+    @media (min-width: 575px) and (max-width: 1024px) {
+        min-height: 415px;
+    }
+}

@@ -1,0 +1,236 @@
+<ng-container *ngIf="state$ | async as state">
+  <button
+    class="heading"
+    #facetHeader
+    (click)="toggleGroup($event)"
+    (keydown)="onKeydown($event)"
+    [attr.aria-expanded]="isExpanded"
+    [attr.aria-label]="
+      'productFacetNavigation.filterBy.name' | cxTranslate: { name: facet.name }
+    "
+    [cxFocus]="{ key: facet.name }"
+    [tabindex]="0"
+  >
+    {{ facet?.name === 'webinarStatus' ? 'Filter by status' :  facet?.name }}
+    <cx-icon class="collapse-icon" [type]="collapseIcon"></cx-icon>
+    <cx-icon class="expand-icon" [type]="expandIcon"></cx-icon>
+  </button>
+
+  <div *ngIf="isMedpaxPage" >
+    <!-- TODO: (CXSPA-6892) - Remove feature flag next major release. -->
+    <ng-container *ngFor="let value of facet.values | slice: 0:state.topVisible">
+    <a
+      #facetValue
+      *ngIf="value.name && value.name !== 'Full Catalog'"
+  
+      (click)="setFilter(getLinkParams(value))"
+      (keypress)="setFilter(getLinkParams(value))"
+      class="value"
+      role="button"
+      [tabindex]="0"
+      [class.selected]="value.selected"
+      [cxFocus]="{ key: value.name }"
+      [attr.role]="facet.multiSelect ? 'checkbox' : null"
+      [attr.aria-checked]="facet.multiSelect ? value.selected : null"
+      attr.aria-label="{{
+        'productFacetNavigation.ariaLabelItemsAvailable'
+          | cxTranslate: { name: value.name, count: value.count }
+      }}"
+    >
+    <span aria-hidden="true">
+      {{ value?.name === 'isNotWatched' ? 'Not Watched' : (value?.name === 'isWatched' ? 'Watched' : value?.name) }}
+    </span>
+    </a>
+    </ng-container>
+    <div class="more">
+      <a
+        *ngFor="
+          let value of facet.values
+            | slice: state.topVisible ?? 0:state.maxVisible
+        "
+        #facetValue
+        (click)="setFilter(getLinkParams(value))"
+        [tabindex]="0"
+        class="value"
+        [class.selected]="value.selected"
+        [cxFocus]="{ key: value.name }"
+        (keydown)="onKeydown($event)"
+        (keydown.space)="openLink($any($event))"
+        [attr.role]="facet.multiSelect ? 'checkbox' : null"
+        [attr.aria-checked]="facet.multiSelect ? value.selected : null"
+        attr.aria-label="{{
+          'productFacetNavigation.ariaLabelItemsAvailable'
+            | cxTranslate: { name: value.name, count: value.count }
+        }}"
+      >
+        <span
+          >{{ value.name }}</span
+        >
+      </a>
+
+      <button
+        *ngIf="
+          state.maxVisible &&
+          state.topVisible &&
+          state.maxVisible > state.topVisible
+        "
+        (click)="decreaseVisibleValues()"
+        [cxAtMessage]="
+          'productFacetNavigation.decreaseOptionsVisibility' | cxTranslate
+        "
+        aria-expanded="true"
+        attr.aria-label="{{
+          'productFacetNavigation.ariaLabelShowLess' | cxTranslate
+        }}"
+        class="cx-action-link"
+        [cxFocus]="{ key: 'moreorless' }"
+      >
+        {{ 'productList.showLess' | cxTranslate }}
+      </button>
+
+      <button
+        *ngIf="
+          state.maxVisible &&
+          facet.values &&
+          state.maxVisible > 0 &&
+          state.maxVisible < facet.values.length
+        "
+        (click)="increaseVisibleValues()"
+        [cxAtMessage]="
+          'productFacetNavigation.increaseOptionsVisibility' | cxTranslate
+        "
+        aria-expanded="false"
+        attr.aria-label="{{
+          'productFacetNavigation.ariaLabelShowMore' | cxTranslate
+        }}"
+        class="cx-action-link"
+        [cxFocus]="{ key: 'moreorless' }"
+      >
+        {{ 'productList.showMore' | cxTranslate }}
+      </button>
+    </div>
+  </div>
+  <div *ngIf="!isMedpaxPage">
+    <!-- TODO: (CXSPA-6892) - Remove feature flag next major release. -->
+    <ng-container *ngFor="let value of facet.values | slice: 0:state.topVisible">
+      <div *ngIf="!isWebinarPage">  
+      <a
+      #facetValue
+      *ngIf="value.name && value.name !== 'Full Catalog'"
+      (click)="setFilterState(value)"
+      class="value"
+      [tabindex]="0"
+      [class.selected]="value.selected"
+      [cxFocus]="{ key: value.name }"
+      (keydown)="onKeydown($event)"
+      (click)="value.selected = !value.selected"
+      (keydown.space)="openLink($any($event))"
+      [attr.role]="facet.multiSelect ? 'checkbox' : null"
+      [attr.aria-checked]="facet.multiSelect ? value.selected : null"
+      attr.aria-label="{{
+        'productFacetNavigation.ariaLabelItemsAvailable'
+          | cxTranslate: { name: value.name, count: value.count }
+      }}"
+    >
+    <span aria-hidden="true">
+      {{ value?.name === 'isNotWatched' ? 'Not Watched' : (value?.name === 'isWatched' ? 'Watched' : value?.name) }}
+    </span>
+    </a>
+  </div>
+  <div *ngIf="isWebinarPage">
+    <a
+      #facetValue
+      *ngIf="value.name && value.name !== 'Full Catalog'"
+      routerLink="./"
+      [queryParams]="getLinkParams(value)"
+      class="value"
+      [tabindex]="0"
+      [class.selected]="value.selected"
+      [cxFocus]="{ key: value.name }"
+      (keydown)="onKeydown($event)"
+      (click)="value.selected = !value.selected"
+      (keydown.space)="openLink($any($event))"
+      [attr.role]="facet.multiSelect ? 'checkbox' : null"
+      [attr.aria-checked]="facet.multiSelect ? value.selected : null"
+      attr.aria-label="{{
+        'productFacetNavigation.ariaLabelItemsAvailable'
+          | cxTranslate: { name: value.name, count: value.count }
+      }}"
+    >
+    <span aria-hidden="true">
+      {{ value?.name === 'isNotWatched' ? 'Not Watched' : (value?.name === 'isWatched' ? 'Watched' : value?.name) }}
+    </span>
+    </a>
+  </div>
+    
+    </ng-container>
+    <div class="more">
+      <a
+        *ngFor="
+          let value of facet.values
+            | slice: state.topVisible ?? 0:state.maxVisible
+        "
+        #facetValue
+        routerLink="./"
+        [tabindex]="0"
+        [queryParams]="getLinkParams(value)"
+        class="value"
+        [class.selected]="value.selected"
+        [cxFocus]="{ key: value.name }"
+        (keydown)="onKeydown($event)"
+        (keydown.space)="openLink($any($event))"
+        [attr.role]="facet.multiSelect ? 'checkbox' : null"
+        [attr.aria-checked]="facet.multiSelect ? value.selected : null"
+        attr.aria-label="{{
+          'productFacetNavigation.ariaLabelItemsAvailable'
+            | cxTranslate: { name: value.name, count: value.count }
+        }}"
+      >
+        <span
+          >{{ value.name }}</span
+        >
+      </a>
+
+      <button
+        *ngIf="
+          state.maxVisible &&
+          state.topVisible &&
+          state.maxVisible > state.topVisible
+        "
+        (click)="decreaseVisibleValues()"
+        [cxAtMessage]="
+          'productFacetNavigation.decreaseOptionsVisibility' | cxTranslate
+        "
+        aria-expanded="true"
+        attr.aria-label="{{
+          'productFacetNavigation.ariaLabelShowLess' | cxTranslate
+        }}"
+        class="cx-action-link"
+        [cxFocus]="{ key: 'moreorless' }"
+      >
+        {{ 'productList.showLess' | cxTranslate }}
+      </button>
+
+      <button
+        *ngIf="
+          state.maxVisible &&
+          facet.values &&
+          state.maxVisible > 0 &&
+          state.maxVisible < facet.values.length
+        "
+        (click)="increaseVisibleValues()"
+        [cxAtMessage]="
+          'productFacetNavigation.increaseOptionsVisibility' | cxTranslate
+        "
+        aria-expanded="false"
+        attr.aria-label="{{
+          'productFacetNavigation.ariaLabelShowMore' | cxTranslate
+        }}"
+        class="cx-action-link"
+        [cxFocus]="{ key: 'moreorless' }"
+      >
+        {{ 'productList.showMore' | cxTranslate }}
+      </button>
+    </div>
+  </div>
+</ng-container>

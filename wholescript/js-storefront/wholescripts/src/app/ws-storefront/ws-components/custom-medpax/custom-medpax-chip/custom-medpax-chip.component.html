@@ -1,0 +1,12 @@
+<button
+  class="btn rounded mr-2 mb-1 mt-1 btn-h bolder"
+  [ngClass]="{ 'btn-selected' : isSelected } "
+  tabindex="0"
+  [attr.aria-label]="isSelected ? 'Hide ' + data : 'Show ' + data"
+  attr.aria-pressed="{{ isSelected }}"
+  (click)="toggle()"
+>
+  <i [ngClass]="isSelected ? 'fas fa-eye' : 'fas fa-eye-slash mr-1'"></i>
+  &nbsp;{{ data }}
+</button>
+

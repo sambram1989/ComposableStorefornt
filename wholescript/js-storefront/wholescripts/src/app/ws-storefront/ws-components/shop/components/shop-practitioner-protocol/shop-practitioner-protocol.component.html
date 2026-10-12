@@ -1,0 +1,13 @@
+<div *ngIf="(protocolCount$ | async) > 0" [ngClass]="{ 'has-data': (protocolCount$ | async) > 0 }">
+<div id="protocols-card" (click)="goToProtocol()" role="button" tabindex="0" aria-label="Your Practitioner Protocols"
+  (keydown.enter)="goToProtocol()" (keydown.space)="goToProtocol()">
+  <div class="rec-prot-title">
+    <i class="fas fa-clipboard" aria-hidden="true"></i> Your Practitioner Protocols
+  </div>
+  <div tabindex="0" class="recommendation-card__footer">
+    <span class="number-of-items">See custom-designed practitioner protocols.</span><span class="view-all" role="button"
+      tabindex="0" aria-label="View All Protocols" (keydown.enter)="goToProtocol()"
+      (keydown.space)="goToProtocol()">View All</span>
+  </div>
+</div>
+</div>

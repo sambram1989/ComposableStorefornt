@@ -1,0 +1,4 @@
+@if(cartData$ | async;as heading){
+    <div class="cartUpperDiv d-flex col-12 justify-content-between" [innerHTML]="$any(heading)?.content">
+    </div>
+    }

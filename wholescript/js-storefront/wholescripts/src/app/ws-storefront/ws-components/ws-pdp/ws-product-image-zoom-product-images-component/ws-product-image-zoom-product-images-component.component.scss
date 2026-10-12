@@ -1,0 +1,70 @@
+:host{
+    position: relative;
+}
+ .badge {
+    position: absolute;
+    top: 6px;
+    left: 18%;
+    color: transparent;
+    padding: 5px 18px 5px 8px;
+    font-size: 12px;
+    font-weight: bold;
+    clip-path: polygon(0 0, 100% 0, 100% 16%, 70% 100%, 0 100%);
+    height: 30px;
+    min-width: 100px; 
+    display: inline-block;
+    border-bottom-left-radius: 0px !important;
+    border-top-right-radius: 0px !important;
+    border-top-left-radius: 8px; 
+
+    &.bestseller {
+        background-color: var(--ws-badge-bestseller);
+    }
+
+    &.featured {
+        background-color: var(--ws-badge-featured);
+    }
+
+    &.new {
+        background-color: var(--ws-badge-new);
+    }
+
+    &.On-sale {
+        background-color: var(--ws-badge-bestseller);
+    }
+
+    &.Unavailable {
+        background-color: var(--ws-badge-bestseller);
+    }
+}
+
+.badge-text {
+    position: absolute;
+    left: 42%;
+    top: 18%;
+    transform: translateX(-50%);
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 18px;
+    background-color: transparent;
+
+    &.bestseller {
+        color: var(--ws-badge-bestseller-text);
+    }
+
+    &.featured {
+        color: var(--ws-badge-featured-text);
+    }
+
+    &.new {
+        color: var(--ws-badge-new-text);
+    }
+
+    &.On-sale {
+        color: var(--ws-badge-bestseller-text);
+    }
+
+    &.Unavailable {
+        color: var(--ws-badge-bestseller-text);
+    }
+}

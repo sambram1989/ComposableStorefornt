@@ -1,0 +1,187 @@
+<div class="px-4 py-4 pop-header">
+  <button type="button" class="ws-close close" (click)="closePopup()" aria-label="Close modal">
+    x
+  </button>
+  <div class="d-flex justify-content-center flex-column align-items-center ">
+    <h3 class="modal-title header-title bolder">RECOMMENDATION PROTOCOLS</h3>
+  </div>
+  <hr class="w-100">
+  <h5 class="mt-3 mb-5 bolder">
+    Select a protocol you’ve previously created, or choose one from our WholeScripts protocol library.
+  </h5>
+  <div class="row">
+    <div class="col-8">
+      <ws-search-box
+      (searchChange)="showSearchResults($event)" aria-label="Search box"
+        [attr.aria-placeholder]="'Search for patients or other criteria'">
+      </ws-search-box>
+    </div>
+
+  </div>
+  <div class="mb-3 mt-2">
+    @if(protocols()?.length){
+    <tabset #tabset class="tab-container">
+      <tab heading="My Protocols" class="all">
+        <ng-container *ngTemplateOutlet="table ; context:{$implicit:protocols()}"></ng-container>
+      </tab>
+      <tab heading="WholeScripts Protocols" class="all" (selectTab)="updateTab(true)" (deselect)="updateTab(false)">
+        <ng-container *ngTemplateOutlet="table ; context:{$implicit:protocols()}"></ng-container>
+      </tab>
+    </tabset>
+    } @else {
+      <div class="table-empty">
+         <div>
+            <h4 class="table-empty__h">No results found</h4>
+            <div>We couldn't find any matches for <span style="font-weight:900">{{searchKeyPopup}}</span></div>
+            <div>Please try searching with another term</div>
+         </div>
+      </div>
+    }
+  </div>
+
+  <ws-pagination class="d-flex align-items-center justify-content-end" [resetReposition]="true" (currentPageChange)="pageChanged($event-1)"
+    [itemsPerPage]="pagination()?.count" [totalItems]="pagination().totalCount" [numberOfPagesNeedTOBeShown]="5"
+    aria-label="Pagination controls">
+  </ws-pagination>
+  <div class="text-right btn-end mt-5">
+    <button type="button" class="btn btn-outline-primary btn-rounded fw-900 btn-h" (click)="closePopup()"
+      style="cursor: pointer; padding-top: 5px;">Close</button>
+  </div>
+</div>
+
+
+<ng-template #table let-tableData>
+  <table class="table mt-0" role="table" aria-label="Product List">
+    <thead>
+      <tr role="row">
+        <th role="columnheader" scope="col" class="w-30">Name</th>
+        <th role="columnheader" scope="col" class="w-20">Price</th>
+        <th class="w-20" aria-label="column"> </th>
+        <th class="text-right  w-20" role="columnheader" scope="col">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for(protocol of tableData; track protocol ;let i =$index){
+      @if(protocol?.protocolStatus !== 'DRAFT'){
+      <tr class="rec-table__row" role="row">
+        <td class="align-middle product-name rec-table__name w-30">
+          <h5 class="bolder">{{protocol?.name}}</h5>
+          <p class="italic">{{protocol.totalItems}} item(s)</p>
+        </td>
+        <td class="align-middle rec-table__price" class="w-20 align-middle">
+          <h5 class="bolder">{{protocol?.totalPrice?.formattedValue}}</h5>
+          <p class="italic">{{protocol?.msrpPrice?.formattedValue}}</p>
+        </td>
+        <td class="align-middle text-center text-lg-left rec-table__mp w-20">
+          @if(isViewMore()[i]){
+          <span class="d-flex align-items-center text-primary cursor-pointer bolder view-more" 
+          tabindex="0" role="button" [attr.tabindex]="0" aria-label="view less" (keypress)="updateIsViewMore(false, i ,protocol?.id)"
+          (click)="updateIsViewMore(false, i ,protocol?.id)">View Less 
+          <i class="fa fa-angle-up" aria-hidden="true"></i></span>
+          }@else{
+          <span class="d-flex align-items-center text-primary cursor-pointer bolder view-more" 
+          tabindex="0" role="button" [attr.tabindex]="0" aria-label="view more" (keypress)="updateIsViewMore(true, i ,protocol?.id)"
+          (click)="updateIsViewMore(true, i ,protocol?.id)">View More 
+          <i class="fa fa-angle-down" aria-hidden="true"></i></span>
+          }
+        </td>
+        <td class="rec-table_action-btns d-flex flex-column align-items-end" style="column-gap: 10px;">
+          @if(!swappedProtocolId()){
+            @if(isRecommendationHasEntries()){
+              <button class="btn btn-outline-primary btn-rounded ml-3 "
+              (click)="openSwapProtocolPopup(protocol?.id)">Select Protocol</button>
+            }@else {
+              <button class="btn btn-outline-primary btn-rounded ml-3 "
+              (click)="swapProtocolWithoutPopup(protocol?.id)">Select Protocol</button>
+            }
+          } @else {
+            <button class="btn btn-outline-primary btn-rounded ml-3 "
+            [class.cursor-not-allowed]="swappedProtocolId() == protocol?.id"
+           [disabled]="swappedProtocolId() == protocol?.id" 
+           (click)="openSwapProtocolPopup(protocol?.id)">
+            @if(swappedProtocolId() == protocol?.id){
+              Protocol Added
+            }@else {
+                <i class="fa fa-exchange-alt text-primary"></i>Swap Protocol
+            }
+          </button>
+          }
+        </td>
+      </tr>
+      @if(isViewMore()[i]){
+        <tr *ngIf="protocolDetailsMap()[protocol?.id] as protocol">
+        <td colspan="12">
+          <table class="table" role="table" aria-label="Protocol entries table">
+            <tbody>
+              <tr *ngFor="let entries of protocol?.protocolEntries" role="row">
+                <td role="cell">
+                  <div class="rec-t-product-title d-flex position-relative col-12 ">
+                    <div class="rec-t-product-img d-flex align-items-center justify-content-center col-4">
+                      <cx-media [container]="entries?.product?.images || null" format="product"
+                        [alt]="entries?.product?.name ?? ''" aria-hidden="true"></cx-media>
+                    </div>
+                    <div class="rec-t-product-text col-8" role="heading" aria-level="2">
+                      <p class="bolder mb-0">{{ entries.product.name }}</p>
+                      <p class="mb-0"><span class="bolder">Dosing:</span>
+                        <ng-container *ngIf="entries?.dosing?.length > 1">
+                          <span>
+                            {{entries?.dosing|slice:0:4|dosingPipe}}
+                          </span>
+                        </ng-container>
+                      </p>
+                    </div>
+                  </div>
+                </td>
+                <td role="cell">
+                  <div class="rec-t-product-title m-0 d-flex position-relative">
+                    <div class="rec-t-product-text">
+                   <span class="bolder">Duration:</span> <span>{{ weekMapItems.get(entries?.itemDuration) | capitalCase }},&nbsp;{{entries?.dosing|dosingQty}} unit(s)</span>
+                    </div>
+                  </div>
+                </td>
+                <td role="cell">
+                  <div class="rec-t-product-title m-0 d-flex position-relative justify-content-end">
+                    <div class="rec-t-product-text">
+                      <span class="total bolder ">
+                        {{entries?.totalPrice?.formattedValue}}
+                      </span>
+                      <div class="font-italic">
+                        MSRP : {{entries?.msrpTotalPrice?.formattedValue}}
+                      </div>
+                    </div>
+                  </div>
+                  <!-- <div class="rec-t-product-sub-title dosing-mobile-v">
+                    <span>Dosing:</span>
+                    <ng-container *ngIf="entries?.dosing?.length > 1">
+                      <span *ngFor="let dosing of entries?.dosing; let i = index">
+                        {{ dosing?.quantity }} in
+                        {{ dosing?.itemTimes?.timeOfTheDay }}
+                        <span *ngIf="i !== entries?.dosing?.length - 1"> | </span>
+                      </span>
+                    </ng-container>
+                  </div> -->
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <ws-medpax-protocol-review-card [isProtocol]="true"
+            [protocolId]="protocol?.id" [data]="medPaxDetailsMap()[protocol?.id]"></ws-medpax-protocol-review-card>
+          <div class="float-left" >
+            <span class="text-primary cursor-pointer bolder view-more" tabindex="0" role="button"
+             (click)="updateIsViewMore(false, i ,protocol?.id)" (keypress)="updateIsViewMore(false, i ,protocol?.id)">View Less 
+              <i class="fa fa-angle-up" aria-hidden="true"></i></span>
+            <button class="btn btn-outline-primary btn-rounded ml-3 " (click)="navigateToProtocolDetails(protocol?.id)">View More Details</button>
+            <button class="btn btn-outline-primary btn-rounded ml-3 " (click)="openSwapProtocolPopup(protocol?.id)">
+              <i class="fa fa-exchange-alt text-primary"></i>Swap Protocol
+            </button>
+          </div>
+        </td>
+      </tr>
+
+      }
+      }
+      }
+
+    </tbody>
+  </table>
+</ng-template>

@@ -1,0 +1,76 @@
+<ng-container *ngIf="facetList$ | async as facetList">
+  <div
+    id="cx-active-facets-groupName"
+    *ngIf="facetList.activeFacets && facetList.activeFacets.length > 0 && !isListPage"
+  >
+    {{ 'productList.appliedFilter' | cxTranslate }}
+    
+    <button tabindex="0" class="text-danger bolder float-right" (click)="resetFilters()">Clear Filter(s)</button>
+  </div>
+  <ng-container *ngIf="isMedpaxPage">
+  <a
+    *ngFor="let facet of facetList?.activeFacets"
+    (click)="getLinkParams(facet)"
+    (keypress)="getLinkParams(facet)"
+    [cxFocus]="{ key: getFocusKey(facetList, facet)}"
+    role="button"
+    [tabindex]="0"
+    (keydown.enter)="removeFilterWithSpacebar($event)"
+    [attr.aria-label]="
+      'productList.activeFilter' | cxTranslate: { filter: facet.facetValueName }
+    "
+  >
+    <span aria-hidden="true">
+      {{
+        facet?.facetValueName === 'isNotWatched' ? 'Not Watched' :
+        facet?.facetValueName === 'isWatched' ? 'Watched' :
+        facet?.facetValueName?.replace('%20', ' ')
+      }}
+    </span>
+    <cx-icon aria-hidden="true" [type]="closeIcon"></cx-icon>
+  </a>
+</ng-container>
+<ng-container *ngIf="!isMedpaxPage && !isWebinarPage">
+  <a
+    *ngFor="let facet of facetList?.activeFacets"
+    (click)="removeFilter(facet)"
+    [cxFocus]="{ key: getFocusKey(facetList, facet)}"
+    role="button"
+    (keydown.space)="removeFilterWithSpacebar($event)"
+    [attr.aria-label]="
+      'productList.activeFilter' | cxTranslate: { filter: facet.facetValueName }
+    "
+  >
+    <span aria-hidden="true">
+      {{
+        facet?.facetValueName === 'isNotWatched' ? 'Not Watched' :
+        facet?.facetValueName === 'isWatched' ? 'Watched' :
+        facet?.facetValueName?.replace('%20', ' ')
+      }}
+    </span>
+    <cx-icon aria-hidden="true" [type]="closeIcon"></cx-icon>
+  </a>
+</ng-container>
+<ng-container *ngIf="isWebinarPage">
+  <a
+    *ngFor="let facet of facetList?.activeFacets"
+    routerLink="./"
+    [queryParams]="getLinkParams(facet)"
+    [cxFocus]="{ key: getFocusKey(facetList, facet)}"
+    role="button"
+    (keydown.space)="removeFilterWithSpacebar($event)"
+    [attr.aria-label]="
+      'productList.activeFilter' | cxTranslate: { filter: facet.facetValueName }
+    "
+  >
+    <span aria-hidden="true">
+      {{
+        facet?.facetValueName === 'isNotWatched' ? 'Not Watched' :
+        facet?.facetValueName === 'isWatched' ? 'Watched' :
+        facet?.facetValueName?.replace('%20', ' ')
+      }}
+    </span>
+    <cx-icon aria-hidden="true" [type]="closeIcon"></cx-icon>
+  </a>
+</ng-container>
+</ng-container>

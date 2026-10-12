@@ -1,0 +1,60 @@
+<div class="sticky-footer col-12 p-3">
+  <div class="bottom-nav__left pt-2">
+    <h4 class="bolder m-0">New Recommendation</h4>
+  </div>
+
+  <div class="bottom-nav__right d-flex align-items-center justify-content-end" [ngClass]="{'bottom-nav__middle': (!this.location.path().includes('/Recommendation/BasicRecommendation/'))}">
+    <div [ngClass]="{ 'mobile-view': isMobile }" *ngIf="(recommendation?.recommendationEntries?.length > 0) && (this.location.path().includes('/Recommendation/BasicRecommendation/'))" (click)="openProductPopUp()">
+      <button id="showCartBtn" class="bottom-nav__mobile" *ngIf="isMobile">
+        <span class="bottom-nav__mobile-label text-dark"> Your recommendation: </span>
+        <div class="d-flex align-items-end">
+          <div class="icon-container">
+            <div
+              class="items-icon fa-solid fa-jar">
+          </div>
+            <span class="icon-badge badge badge-danger">{{recommendation?.recommendationEntries?.length}}</span>
+          </div>
+          <span class="pl-4 text-dark">Products</span>
+        </div>
+        <div>
+        </div>
+      </button>
+    </div>
+    <div class="totals-area">
+      <div class="totals-area__total ng-binding pr-3">
+        <b>
+          MSRP: {{ recommendation?.msrpSubTotalPrice?.formattedValue || msrpSubTotalPrice?.formattedValue ||'0.00'}}</b>
+      </div>
+    </div>
+    <a
+      *ngIf="recommendationTitle == ''"
+      class="btn btn-primary btn-rounded pull-right rev-next-btn"
+      [ngClass]="
+      (isMedPaxReview && medPaxName?.trim()) || (!isMedPaxReview && recommendation?.recommendationEntries?.length > 0)
+        ? 'active'
+        : 'disabled'
+      "
+      (click)="(isMedPaxReview && !medPaxName?.trim()) ? null : reviewRecommendation()"
+      (keypress)="(isMedPaxReview && !medPaxName?.trim()) ? null : reviewRecommendation()"
+      tabindex="0" role="button"
+      >Review Recommendation</a
+    >
+
+    <a
+      *ngIf="backToRecommendation"
+      (click)="goBackToRecommendation()"
+      (keypress)="goBackToRecommendation()"
+      class="btn btn-outline-primary btn-rounded back-btn mr-2"
+      tabindex="0" role="button"
+      >Back</a
+    >
+    <a
+      *ngIf="recommendationTitle == 'review'"
+      class="btn btn-primary btn-rounded pull-right next-btn active"
+      tabindex="0" role="button"
+      (click)="reviewRecommendation()"
+      (keypress)="reviewRecommendation()"
+      >Send Recommendation</a
+    >
+  </div>
+</div>

@@ -1,0 +1,45 @@
+::ng-deep {
+    .t-img {
+        cx-media {
+            img {
+                width: 35px !important;
+            }
+        }
+    }
+}
+
+.t-body {
+    padding-bottom: 16px;
+    border-bottom: 1px solid gainsboro;
+    color: #3E3B49;
+}
+
+.fw-900 {
+    font-weight: 900;
+}
+
+.t-body-dosing-row {
+    margin-top: 10px;
+    margin-left: 10px;
+
+    @media (max-width:500px) {
+        margin-left: 0px;
+        margin-top: 15px;
+    }
+}
+
+@media(min-width: 1024px) {
+    .quantity {
+        display: flex;
+        justify-content: center;
+    }
+    cx-media {
+        object-fit: contain;
+        width: 100%;
+        height: 56px;
+        aspect-ratio: 1;
+        display: flex;
+        justify-content: center;
+    }
+}
+

@@ -1,0 +1,19 @@
+<div role="button" aria-label="webinar-cards" class="webinar-card"
+    [routerLink]="'/webinars'|parseUrl:[product()?.code]">
+    <div class="webinar-card-content">
+        <img [src]="product()?.videoImage" [alt]="product()?.title" [attr.aria-label]="'Image for ' + product()?.title"
+            role="img">
+        <a class="px-1 px-mb-2 " [routerLink]="'/webinars'|parseUrl:[product()?.code]" tabindex="0"
+            [attr.aria-label]="'View webinar titled ' + product()?.title">{{product()?.title}} </a>
+        <p class="px-1 px-mb-2" style="font-style:italic; font-size: 14px;"> Presented by:
+            <span [attr.aria-label]="presenterText || 'No Data'">{{presenterText }}</span>
+        </p>
+        <p class="px-1 px-mb-2" [attr.aria-label]="'Description: ' + product()?.shortDescription">
+            {{product()?.shortDescription }}</p>
+    </div>
+    <button class="btn btn-primary btn-rounded btn-h justify-content-center px-5 w-100"
+        [attr.aria-label]="'Watch the webinar ' + product()?.title"
+        [routerLink]="'/webinars'|parseUrl:[product()?.code]" tabindex="0">
+        Watch Now
+    </button>
+</div>

@@ -1,0 +1,11 @@
+<span class="bolder ws-subtitle-fs"
+      [style.background-color]="bgColor()"
+      [style.color]="titleFontColor()"
+      [attr.aria-label]="'Webinar Title: ' + webinarTitle()">
+    {{webinarTitleWithSuffix}}
+</span>
+
+<img 
+     [src]="titleSrc()" 
+     alt="Purple hexagon image for title background" 
+     [attr.aria-label]="'Decorative background image for webinar title'">

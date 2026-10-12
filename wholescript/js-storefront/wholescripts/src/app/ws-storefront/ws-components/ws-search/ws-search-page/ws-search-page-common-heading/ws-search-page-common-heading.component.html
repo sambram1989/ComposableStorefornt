@@ -1,0 +1,20 @@
+<div class="search-results-heading">
+    <h3>
+        {{heading}}
+    </h3>
+    <div class="count-and-view-all">
+        <span class="results-count">
+            {{totalResultsCount}} results
+        </span>
+        <a class="view-all-link" *ngIf="!viewAllFlag" (click)="viewAllEmit()" (keydown.enter)="viewAllEmit()" tabindex="0">
+            <span>View all</span>
+            <i class="fa-solid fa-chevron-right"></i>
+        </a>
+        <div class="form-group" *ngIf="viewAllFlag">
+            <label for="showMore" class="floating-heading">SHOW</label>
+            <select (change)="getNumberOfResults($event)" id="showMore" [(ngModel)]="numberOfResults">
+                <option *ngFor="let count of showDropDownValues" [value]="count">{{count}}</option>
+            </select>
+        </div>
+    </div>
+</div>

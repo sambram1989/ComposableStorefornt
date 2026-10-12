@@ -1,0 +1,160 @@
+::ng-deep {
+    .slick-slide:focus-visible {
+        outline: 3px solid var(--cx-color-darkest) !important;
+        outline-offset: -4px !important;
+        box-shadow: unset;
+    }
+    .carousel-categories {
+        button:focus-visible {
+            outline: 3px solid var(--cx-color-darkest) !important;
+            outline-offset: 2px !important;
+            box-shadow: unset;
+        }
+    }
+    .product-img:focus-visible {
+        outline: 3px solid var(--cx-color-darkest) !important;
+        outline-offset: 2px !important;
+        box-shadow: unset;
+    }
+    .brand-name {
+        a:focus-visible {
+            outline: 3px solid var(--cx-color-darkest) !important;
+            outline-offset: 2px !important;
+            box-shadow: unset;
+        }
+    }
+    .product-name {
+        a:focus-visible {
+            outline: 3px solid var(--cx-color-darkest) !important;
+            outline-offset: 2px !important;
+            box-shadow: unset;
+        }
+    }
+    .action-btns {
+        button:focus-visible {
+            outline: 3px solid var(--cx-color-darkest) !important;
+            outline-offset: 2px !important;
+            box-shadow: unset;
+        }
+        button {
+          &:disabled {
+            cursor: default;
+            opacity: 0.5;
+          }
+        }
+    }
+
+    .top-container {
+        position: relative;
+        padding: 12px;
+        &:focus-visible {
+          outline: 3px solid var(--cx-color-darkest) !important;
+          outline-offset: -8px !important;
+          box-shadow: unset;
+        }
+
+        cx-media {
+          display: flex;
+          height: 138px;
+          padding: 0px 53px 0px 54px;
+          justify-content: center;
+          align-items: center;
+          align-self: stretch;
+          ::ng-deep {
+            img {
+              height: 138px !important;
+              min-height: 138px !important;
+            }
+          }
+        }
+
+        .code-tooltip {
+            position: unset;
+
+            .code-tooltiptext {
+            right: 23px;
+            margin-bottom: 58px;
+            }
+        }
+
+        .heart-btn {
+          position: absolute;
+          right: 10px;
+          bottom: 8px;
+          border-radius: 50%;
+          width: 40px;
+          height: 40px;
+          background-color: transparent;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+      
+          .fa-heart {
+              color: var(--ws-gray-light-300);
+              font-size: 19px;
+          }
+      
+          &:hover {
+              background-color: var(--ws-brand-50);
+              transition: all 0.2s;
+      
+              .fa-heart {
+                  color: var(--ws-gray-blue-1000);
+              }
+          }
+      }
+      
+      .fa-active {
+          color: var(--cx-color-success-accent) !important;
+      }
+
+        .fa-active {
+          color: var(--cx-color-success-accent) !important;
+        }
+    }
+
+    .cart-controls {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 15px;
+        border: 1.5px solid var(--cx-color-primary);
+        border-radius: 50px;
+        padding: 2px;
+        background: var(--cx-color-inverse);
+        @media (min-width:768px) and (max-width:800px){
+          padding: 0px;
+        }
+  
+        .qty-btn {
+          background-color: transparent;
+          border: none;
+          cursor: pointer;
+          font-size: 12px;
+          color: var(--cx-color-primary);
+          font-weight: 300;
+          padding: 6px 10px;
+          border-radius: 50%;
+          &:hover {
+            background-color: var(--ws-gray-light-200);
+          }
+        }
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+          -webkit-appearance: none;
+          margin: 0;
+        }
+  
+        input[type="number"] {
+          -moz-appearance: textfield;
+        }
+    }
+    
+    .cart-controls input {
+        width: 45px;
+        text-align: center;
+        color: var(--cx-color-secondary);
+        font-weight: 300;
+        font-size: 14px;
+    }
+}

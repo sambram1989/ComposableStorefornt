@@ -1,0 +1,175 @@
+.banner {
+    background-color: white;
+
+    .desc {
+        background-color: white;
+        background-size: auto, auto, auto;
+        background-repeat: no-repeat, no-repeat, no-repeat;
+        background-position: 90% bottom, left center, 100% center;
+        position: relative;
+        width: 100%;
+        display: flex;
+        align-items: flex-start;
+        padding-top: 40px;
+        padding-left: 40px;
+        flex-direction: column;
+        min-height: 250px;
+
+        @media(max-width: 575px) {
+            background-size: 80px, auto 160%;
+            background-position: 96% center, left center;
+        }
+
+        @media(max-width: 1220px) {
+            background-size: 300px, auto 160%;
+            background-position: 90% center, left center;
+        }
+
+        @media(max-width: 991px) {
+            background-size: 144px, auto 160%;
+        }
+
+        h3 {
+            font-size: 54px;
+            line-height: 64px !important;
+            font-weight: 700 !important;
+            color: var(--ws-gray-light-900);
+        }
+
+        p {
+            grid-area: text;
+            font-size: 24px;
+            max-width: 70%;
+            margin-bottom: 0;
+            padding-bottom: 40px;
+            font-weight: 300;
+            line-height: 32px;
+            color: var(--ws-gray-light-600);
+        }
+    }
+}
+
+.guest {
+    @media(min-width: 1220px) {
+        padding-left: 10% !important;
+        padding-right: 10% !important;
+    }
+}
+
+.link {
+    display: none;
+}
+
+@media (max-width: 1024px) {
+    .link {
+        display: inline;
+        background: none;
+        border: none;
+        color: var(--cx-color-primary);
+        cursor: pointer;
+        font-size: 16px;
+        text-decoration: underline;
+        font-weight: 700;
+    }
+
+    .hide-description {
+        display: none;
+    }
+    
+    .show-description {
+        grid-area: text;
+        font-size: 24px;
+        max-width: 70%;
+        margin-bottom: 0;
+        padding-bottom: 40px;
+        font-weight: 300;
+        line-height: 32px;
+        color: var(--ws-gray-light-600);
+    }
+}
+
+@media (max-width: 768px) {
+    .desc {
+        padding-left: 16px !important;
+        height: fit-content;
+        padding-bottom: 32px;
+    }
+
+    h3 {
+        font-size: 35px !important;
+    }
+
+    p {
+        font-size: 16px !important;
+    }
+
+}
+
+::ng-deep *:checked, *:focus {
+    outline: none !important;
+  }
+
+.brands-banner {
+    background-color: var(--ws-gray-light-75);
+
+    .desc {
+        background-color: white;
+        background-image: url(/assets/icons/plp-icons/left-hex.svg), url(/assets/icons/plp-icons/right-hex.svg);
+        background-size: auto, auto;
+        background-repeat: no-repeat, no-repeat;
+        background-position: 10% center, 100% center;
+        position: relative;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        padding-top: 40px;
+        padding-left: 40px;
+
+        @media(max-width: 575px) {
+            background-size: 80px, auto 160%;
+            background-position: 96% center, left center;
+        }
+
+        @media(max-width: 1220px) {
+            background-size: 300px, auto 160%;
+            background-position: 90% center, left center;
+        }
+
+        @media(max-width: 991px) {
+            background-size: 144px, auto 160%;
+        }
+
+        h3 {
+            font-size: 54px;
+            line-height: 64px !important;
+            font-weight: 700 !important;
+            color: var(--ws-gray-light-900);
+        }
+
+        p {
+            font-size: 24px;
+            margin-bottom: 0;
+            padding-bottom: 40px;
+            font-weight: 300;
+            padding-left: 16px;
+            line-height: 1.2;
+            color: var(--ws-gray-light-600);
+        }
+
+        .image {
+            min-height: 300px;
+            min-width: 300px;
+            margin-left: 5%;
+        }
+
+        .logo {
+            max-width: 300px;
+            margin-bottom: 24px;
+        }
+    }
+}
+
+.brand-name{
+    font-size: 58px !important;
+    font-weight: 900 !important;
+}

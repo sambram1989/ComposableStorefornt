@@ -1,0 +1,31 @@
+{
+    "header": {
+        "heading": "The Professional Supplement One-Stop Shop of the Future",
+        "subHeading": "WholeScripts offers exclusive XYMOGEN® formulas and the top 100 practitioner-trusted brands to support all your wellness needs.",
+        "action1": {
+            "cta": "Shop Now",
+            "pageLink": "/catalog/shop"
+        },
+        "action2": {
+            "cta": "Register",
+            "pageLink": "/sign-up"
+        },
+        "patientBullet1Heading": "Get what you want when you want.",
+        "patientBullet1Content": "Hassle-free repeat deliveries with WholeScripts AutoShip.",
+        "patientBullet2Heading": "Create personalized dose packs.",
+        "patientBullet2Content": "Nutritional supplements in go-anywhere dose packs with MedPax.",
+        "imgPatientfg": "https://webs-courteous-wombat.euwest01.umbraco.io/media/tt5hi0ex/hero-fg-1.webp",
+        "imgPatientbg": "https://webs-courteous-wombat.euwest01.umbraco.io/media/klln4kwn/hero-bg-1.webp",
+        "imgPractitionerfg": "https://webs-courteous-wombat.euwest01.umbraco.io/media/rfoitse2/hero-fg-2.webp",
+        "imgPractitionerbg": "https://webs-courteous-wombat.euwest01.umbraco.io/media/t24c0foa/hero-bg-2.webp",
+        "patientBullet1Link": "/patients",
+        "patientBullet2Link": "/why-medpax",
+        "practitionerBullet1Heading": "Recommendations for one or all.",
+        "practitionerBullet1Content": "Send recommendations to a single patient or multiple patients simultaneously.",
+        "practitionerBullet2Heading": "Integrate with EHR.",
+        "practitionerBullet2Content": "Engage with your patients, grow your practice, and improve wellness protocols.",
+        "practitionerBullet1Link": "/practitioners",
+        "practitionerBullet2Link": "/integrations"
+
+    }
+}

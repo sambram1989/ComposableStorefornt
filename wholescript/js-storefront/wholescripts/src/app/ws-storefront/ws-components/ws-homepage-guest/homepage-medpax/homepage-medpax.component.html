@@ -1,0 +1,78 @@
+<section class="medpax pattern-bg2" *ngIf="medPaxApi$|async">
+    <div class="container-full medpax-box box-shadow">
+        <div class = "medpax-imgs">
+        <cx-media [container]="wsPageService?.getImage(medpaxContentSignal()['MedPaxLogoComponent']) || null" class="pills"></cx-media>
+        <cx-media [container]="wsPageService?.getImage(medpaxContentSignal()['MedPaxLogoVerticalComponent']) || null" class="mp-logo"></cx-media>
+        </div>
+        <div class="mp-title">
+            <h2 class="bolder mb-4">
+                {{ medpaxContentSignal()['MedPaxLogoComponent']?.headline }}
+            </h2>
+            <h4 class="text-center fw-500">
+                {{ medpaxContentSignal()['MedPaxLogoComponent']?.content }}
+            </h4>
+        </div>
+        <div class="mp-info">
+            <input type="radio" name="user2" id="practitioner2" checked />
+            <input type="radio" name="user2" id="patient2" />
+            <div class="grid">
+                <div class="left">
+                    <div class="tabview">
+                        <label for="practitioner2" id="prac2">
+                            <i class="fas fa-user-md"></i>
+                            <h5 class="bolder bg-clr">I'm a Practitioner</h5>
+                        </label>
+                        <label for="patient2" id="pat2">
+                            <i class="fas fa-user"></i>
+                            <h5 class="bolder bg-clr">I'm a Patient</h5>
+                        </label>
+                        <div class="indicator">
+                        </div>
+                        <div class="indicator-bg">
+                        </div>
+                    </div>
+                    <div class="practitioner-info">
+                        <div class="mp-mobile-img">
+                            <cx-media [container]="wsPageService.getImage(medpaxContentSignal()['MedpaxPractitionerComponent'])"></cx-media>
+                        </div>
+                        <h4 class="bolder mt-5">
+                            {{ medpaxContentSignal()['MedpaxPractitionerComponent']?.headline }}
+                        </h4>
+                        <h5 class="my-4 bolder">
+                            {{ medpaxContentSignal()['MedpaxPractitionerComponent']?.content }}
+                        </h5>
+                        <a class="btn btn-primary btn-rounded my-4" [href]="medpaxContentSignal()['RecommendMedpaxButttonComponent']?.url">
+                            {{ medpaxContentSignal()['RecommendMedpaxButttonComponent']?.linkName }}
+                        </a>
+                    </div>
+                    <div class="patient-info">
+                        <div class="mp-mobile-img">
+                            <cx-media [container]="wsPageService.getImage(medpaxContentSignal()['MedpaxPatientComponent'])"></cx-media>
+                        </div>
+                        <h4 class="bolder mt-5">
+                            {{ medpaxContentSignal()['MedpaxPatientComponent']?.headline }}
+                        </h4>
+                        <h5 class="my-4 bolder">
+                            {{ medpaxContentSignal()['MedpaxPatientComponent']?.content }}
+                        </h5>
+                        <div class = "patient-actions">
+                        <a class="text-link bolder" [href]="medpaxContentSignal()['MedPaxRegisterLinkComponent']?.url">
+                            {{ medpaxContentSignal()['MedPaxRegisterLinkComponent']?.linkName }}
+                        </a>
+                        <a class="btn btn-primary btn-rounded ml-3 my-4" [href]="medpaxContentSignal()['FindPractitionerButtonComponent']?.url">
+                            {{ medpaxContentSignal()['FindPractitionerButtonComponent']?.linkName }}                        </a>
+                            </div>
+                    </div>
+                </div>
+                <div class="mp-imgs">
+                    <div class="practitioner-img">
+                        <cx-media [container]="wsPageService.getImage(medpaxContentSignal()['MedpaxPractitionerComponent'])"></cx-media>
+                    </div>
+                    <div class="patient-img">
+                        <cx-media [container]="wsPageService.getImage(medpaxContentSignal()['MedpaxPatientComponent'])"></cx-media>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

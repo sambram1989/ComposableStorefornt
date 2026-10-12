@@ -1,0 +1,39 @@
+<div class="t-body" *ngFor="let entries of selectedProduct" role="listitem" aria-label="product">
+    <div class="row my-4 pt-2 align-items-center align-items-md-start">
+        <div class="col-lg-1 col-md-2 col-sm-2 col-2">
+            <div class="col-12 p-0">
+                <div class="t-img">
+                    <cx-media [container]="entries.product.images" format="product" [alt]="entries?.product?.name ?? ''"
+                        aria-hidden="true"></cx-media>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-10 col-sm-10 col-10">
+            <div class="t-name fw-900" role="heading" aria-level="3">
+                {{ entries?.product?.name }}
+            </div>
+        </div>
+        <div class="col-lg-2 col-md-12">
+            <span aria-label="Duration" class="bolder">
+                Duration:
+                <span class="d-block font-weight-normal">{{
+                    weekMapItems.get(entries?.itemDuration) | capitalCase
+                    }}</span></span>
+        </div>
+        <div class="col-lg-2 col-md-6 quantity">
+            <span class="bolder">
+                Qty:
+                <span class="d-block font-weight-normal">{{ entries?.quantity }}</span>
+            </span>
+        </div>
+        <div class="col-lg-3 col-md-6 text-right">
+            <div class="fw-900">
+                {{ entries.totalPrice?.formattedValue }}
+            </div>
+            <div>MSRP: {{ entries?.msrpTotalPrice?.formattedValue }}</div>
+        </div>
+    </div>
+    <div class="t-body-dosing-row" aria-label="Dosing information">
+        <div class="fw-900">Dosing: <span>{{entries?.dosing|slice:0:4|dosingPipe}} </span></div>
+    </div>
+</div>

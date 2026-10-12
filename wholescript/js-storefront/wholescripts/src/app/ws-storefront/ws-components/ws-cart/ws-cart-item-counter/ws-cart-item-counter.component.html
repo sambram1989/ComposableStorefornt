@@ -1,0 +1,41 @@
+
+<div class="input-wrapper">
+    <span>Qty</span>
+    <div class="d-flex justify-content-between px-3">
+        <input
+        #qty
+        type="number"
+        [min]="min"
+        [max]="max"
+        [step]="step"
+        [readonly]="readonly"
+        [tabindex]="readonly ? -1 : 0"
+        [formControl]="control"
+        (keyup.enter)="updateValue()"
+        attr.aria-label="{{ 'itemCounter.quantity' | cxTranslate }}"
+      />
+      <div class="d-flex flex-column align-items-center" >
+        <button
+        type="button"
+        (click)="increment()"
+        [disabled]="control.disabled || control.value >= max"
+        attr.aria-label="{{ 'itemCounter.addOneMore' | cxTranslate }}"
+      >
+      <i class="fa-solid fa-caret-up"></i>
+      </button>
+        <button
+        type="button"
+        (click)="decrement()"
+        [disabled]="control.disabled || control.value <= min"
+        [tabindex]="control.disabled || control.value <= min ? -1 : 0"
+        attr.aria-label="{{ 'itemCounter.removeOne' | cxTranslate }}"
+      >
+      <i class="fa-solid fa-caret-down"></i>
+      </button>
+      
+      </div>
+     
+    </div>
+</div>
+
+

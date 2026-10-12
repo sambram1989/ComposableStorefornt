@@ -1,0 +1,52 @@
+<div class="modal-container">
+    <div class="modal-header">
+        <h3 class="modal-title">ATTENTION NEEDED</h3>
+        <button type="button" class="close" (click)="bsModalRef?.hide()" aria-label="Close">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+
+    <div class="modal-body">
+        <h4 class="policy-title">Brand-Specific Policies</h4>
+        <p class="policy-description">
+            You have chosen one of WholeScripts' third-party brands. As an authorized reseller, you are required to
+            abide by the posted policies of our third-party brands. Please review and agree to each brand-specific
+            policy.
+        </p>
+        <p class="policy-instruction">Please read and agree to the terms below to continue</p>
+
+        <ng-container *ngFor="let agreementDetails of brandContent ; let i = index">
+            <div class="document-container">
+                <div>{{agreementDetails?.name}}</div>
+                <a class="download-link" [href]="getPdfUrl(agreementDetails)" target="_blank">
+                    Download agreement PDF
+                </a>
+                <div class="d-flex align-items-center justify-content-center" *ngIf="loader">
+                    <cx-spinner></cx-spinner>
+                </div>
+                <div [id]="'pdfViewer' + i" class=" document-preview pdf-container" style="width: 100%; height: 300px; overflow: auto;"></div>
+               
+            </div>
+            <br>
+            <div class="funkyradio m-0 w-100 ml-auto">
+                <div class="funkyradio-primary" >
+                    <input #checkbox [id]="i" type="checkbox" (change)="toggleContinueButton(agreementDetails)">
+                    <label [for]="i" class="py-4 position-relative">
+                        <p class="col my-auto pl-0">
+                            I agree to the above terms and conditions.
+                        </p>
+                        <i *ngIf="checkbox.checked" class="fa fa-check" aria-hidden="true"></i>
+                        <i *ngIf="!checkbox.checked" class="fa-regular fa-circle"></i>
+                    </label>
+                </div>
+            </div>
+
+        </ng-container>
+
+        
+        <div class="modal-footer">
+            <button class="btn btn-rounded btn-outline-primary cancel-btn" (click)="bsModalRef?.hide()">Cancel</button>
+            <button class="btn btn-rounded continue-btn" [disabled]="!isAgreed" (click)="continueToCheckout()">Continue to Checkout</button>
+        </div>
+    </div>
+</div>

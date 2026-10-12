@@ -1,0 +1,31 @@
+:host {
+    position: relative;
+    text-align: center;
+    span {
+        display: inline-block;
+        position: relative;
+        z-index: 2;
+        font-size:25px;
+        line-height:40px;
+        color: rgb(62, 59, 73);
+        font-weight: 900;
+        text-align: center;
+        @media(min-width: 992px) {
+            font-size: 30px;
+        }
+    
+        @media(min-width: 768px) {
+            font-size: 27px;
+        }
+    }
+}
+
+img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    width: 74px;
+}
+

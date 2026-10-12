@@ -1,0 +1,69 @@
+.action-buttons {
+    border-top: none;
+    padding: 24px 0 16px;
+    .resync-product-btn,
+  .import-product-btn {
+    width: 100%;
+    padding: 8px 12px;
+    cursor: pointer;
+    font-size: 12px;
+    border-radius: 40px;
+    font-weight: 700;
+    background-color: var(--cx-color-primary);
+    color: var(--cx-color-inverse);
+    &::hover {
+      opacity: 0.9;
+    }
+    .fa-plus {
+      color: var(--cx-color-inverse);
+    }
+  }
+  
+  .delete-product-btn {
+    width: 100%;
+    padding: 5px 12px;
+    cursor: pointer;
+    font-size: 12px;
+    border-radius: 40px;
+    font-weight: 700;
+    background-color: white;
+    border: 1px solid #D0021B;
+    color: #D0021B;
+    transition: opacity 0.2s ease-in-out;
+    &:hover {
+        opacity: 0.9;
+        // background-color: #f8d7da;
+    }
+    .fa-trash {
+        color: #D0021B;
+    }
+}
+
+  .retry-product-btn {
+    width: 100%;
+    padding: 5px 12px;
+    cursor: pointer;
+    font-size: 12px;
+    border-radius: 40px;
+    font-weight: 700;
+    background-color: var(--cx-color-inverse);
+    border: 1px solid var(--ws-warning-900);
+    color: var(--ws-warning-900);
+    &::hover {
+      opacity: 0.9;
+    }
+    .fa-trash {
+      color: var(--ws-warning-900);
+    }
+  }
+}
+
+.product-info {
+  .brand-name, .product-title {
+    text-decoration: none !important;
+
+    &:hover {
+      text-decoration: underline !important;
+    }
+  }
+}

@@ -1,0 +1,223 @@
+<div id="ws-autoships-lists-container">
+    <div class="top-autoships-list-actions">
+        <div class="ws-input-container">
+            <div >
+                <ws-search-box class="ws-search-box" (searchChange)="updateSearch($event)"
+                    aria-label="Search box" [placeholder]="'Search'"
+                    [attr.aria-placeholder]="'Search'" [searchValue]="searchText">
+                </ws-search-box>
+            </div>
+        </div>
+
+        <div class="action-controls">
+
+            <div class="form-group" style="position:relative;">
+                <select (change)="sortAutoships($event)" class="form-control select-style" id="sort"
+                    #select>
+                        <option *ngFor="let sort of sortOptions" [selected] ="sort.selected" [value]="sort?.code">{{sort?.name}}
+                        </option>
+                </select>
+                <label class="label1 select-lable" for="sort">
+                    Sort By
+                </label>
+            </div>
+
+            <div class="view-icons ml-2">
+                <button (click)="showGridView = false" id="list-view" [ngClass]="!showGridView && 'active'" aria-label="Switch to list view">
+                    <i class="fas fa-list"></i>
+                </button>
+                <button (click)="showGridView = true" id="grid-view" [ngClass]="showGridView && 'active'" aria-label="Switch to grid view">
+                    <i class="fa fa-th-large" aria-hidden="true"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="no-results-container" *ngIf="autoShipsHeaderItems?.length === 0">
+        <img src="/assets/qa/accurals-search.svg" title="search" alt="search" aria-label="search" />
+
+        <h2>No results found</h2>
+        @if(searchText){
+            <p class="description">
+                We couldn’t find any matches for <strong>{{searchText}}</strong>. Please try searching with another term.
+            </p>
+            <button class="clear-search-btn" (click)="updateSearch('')" aria-label="Clear search and reset input">Clear search</button>
+        } @else {
+            <p class="description">
+                Be sure to select a recurring frequency for your items during checkout to have them automatically shipped to you!
+            </p>
+        }
+    </div>
+
+    <div class="product-details-grid-container" *ngIf="showGridView && autoShipsHeaderItems?.length > 0">
+        <div class="product-details-wrapper" 
+            *ngFor="let detail of autoShipsHeaderItems | slice
+                : ((paginationSignal().currentPage - 1) * paginationSignal().itemPerPage) :
+                ((paginationSignal().currentPage) * paginationSignal().itemPerPage);
+                let i = index
+        ">
+            <div class="left-section">
+                <div class="left-section-content">
+                    <div class="left-section-content-key">AutoShip#:</div>
+                    <div class="left-section-content-value">{{detail?.orderNumber}}</div>
+                </div>
+                <div class="left-section-content">
+                    <div class="left-section-content-key">Shipping date:</div>
+                    <div class="left-section-content-value">{{detail?.shippingDate | date: 'MM/dd/yy' }}</div>
+                </div>
+                <div class="left-section-content">
+                    <div class="left-section-content-key">Shipping to:</div>
+                    <div class="left-section-content-value" *ngIf="!detail?.hideShipTo">
+                        <span *ngIf="detail?.shippingAddress?.formattedAddress">
+                            {{detail?.shippingAddress?.formattedAddress}}
+                        </span>
+                        <span *ngIf="!detail?.shippingAddress?.formattedAddress">
+                            {{detail?.shipTo}}
+                        </span>
+                    </div>
+                </div>
+                <div class="left-section-content">
+                    <div class="left-section-content-key">Total:</div>
+                    <div class="left-section-content-value">{{detail?.totalPrice | currency : (currency$ | async)}}</div>
+                </div>
+                <div class="edit-link-wrapper">
+                    <div class="edit-link" (click)="goToAutoShipDetails(detail?.orderNumber)" tabindex="0" (keydown)="onKeydown($event, detail?.orderNumber)">Edit</div>
+                </div>
+            </div>
+            <div class="right-section" *ngIf="detail?.products?.length > 0">
+                <div class="products-wrapper">
+                    <ws-autoship-carousel>
+                        <div class="each-product" *ngFor="let product of detail.products">
+                            <div class="product-image">
+                                <cx-media [container]="product?.image ? product?.image : null" [alt]="product?.image?.altText"></cx-media>
+                            </div>
+                            <div class="product-details">
+                                <div class="product-name">
+                                {{product?.matDesc}}
+                                </div>
+                                <div class="product-frequency">
+                                    AutoShip frequency: Every {{product?.frequency ? Number(product?.frequency) : 0}} Days
+                                </div>
+                                <div class="product-price-and-quantity-wrapper">
+                                    <div class="product-price-wrapper">
+                                        <p class="total-price m-0">{{product?.overallTotalSum || product?.price * Number(product?.reqQty) | currency : (currency$ | async)}}</p>
+                                        <p class="each-price m-0" *ngIf="product?.overallTotalSum">Each: {{Number(product?.overallTotalSum / Number(product?.reqQty)) | currency : (currency$ | async)}}</p>
+                                        <p class="each-price m-0" *ngIf="!product?.overallTotalSum">Each: {{Number(product?.price) | currency : (currency$ | async)}}</p>
+                                    </div>
+                                    <div class="product-quantity">
+                                        <span class="quantity-label">
+                                            Qty:
+                                        </span>
+                                        <span class="quantity">
+                                            {{Number(product?.reqQty)}}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </ws-autoship-carousel>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="product-details-list-container"
+        *ngIf="!showGridView && autoShipsHeaderItems?.length > 0">
+        <div class="product-details-wrapper" 
+            *ngFor="let detail of autoShipsHeaderItems | slice
+                : ((paginationSignal().currentPage - 1) * paginationSignal().itemPerPage) :
+                ((paginationSignal().currentPage) * paginationSignal().itemPerPage);
+                let i = index
+        ">
+            <div class="top-section">
+                <div>
+                    <div class="top-section-content">
+                        <div class="top-section-content-key">AutoShip#:</div>
+                        <div class="top-section-content-value">{{detail?.orderNumber}}</div>
+                    </div>
+                    <div class="top-section-content">
+                        <div class="top-section-content-key">Shipping date:</div>
+                        <div class="top-section-content-value">{{detail?.shippingDate}}</div>
+                    </div>
+                    <div class="top-section-content price-md">
+                        <div class="top-section-content-key">Total:</div>
+                        <div class="top-section-content-value">{{detail?.totalPrice | currency : (currency$ | async)}}</div>
+                    </div>
+                </div>
+                <div class="top-section-content">
+                    <div class="top-section-content-key">Shipping to:</div>
+                    <div class="top-section-content-value" *ngIf="!detail?.hideShipTo">
+                        <span *ngIf="detail?.shippingAddress?.formattedAddress">
+                            {{detail?.shippingAddress?.formattedAddress}}
+                        </span>
+                        <span *ngIf="!detail?.shippingAddress?.formattedAddress">
+                            {{detail?.shipTo}}
+                        </span>
+                    </div>
+                </div>
+                <div class="top-section-content price-lg">
+                    <div class="top-section-content-key">Total:</div>
+                    <div class="top-section-content-value">{{detail?.totalPrice | currency : (currency$ | async)}}</div>
+                </div>
+                <div class="edit-link-wrapper">
+                    <div class="edit-link" (click)="goToAutoShipDetails(detail?.orderNumber)" tabindex="0" (keydown)="onKeydown($event, detail?.orderNumber)">Edit</div>
+                </div>
+            </div>
+            <div class="bottom-section" *ngIf="detail?.products?.length > 0">
+                <div class="products" *ngIf="toggleListViewMoreFlag[detail?.orderNumber + detail?.shippingDate]">
+                    <div class="product" *ngFor="let product of detail.products">
+                        <div class="product-detail-wrapper">
+                            <div class="product-image">
+                                <cx-media [container]="product?.image ? product?.image : null" [alt]="product?.image?.altText"></cx-media>
+                            </div>
+                            <div class="details">
+                                <div class="product-name">{{product?.matDesc}}</div>
+                                <div class="frequency">
+                                    AutoShip frequency: Every {{product?.frequency ? Number(product?.frequency) : 0}} Days
+                                </div>
+                            </div>
+                            <div class="quantity">
+                                <span class="qty-text">Qty:</span>
+                                <span class="quantity-value">{{Number(product?.reqQty)}}</span>
+                            </div>
+                            <div class="price-wrapper">
+                                <div class="total-price">
+                                    {{product?.price | currency : (currency$ | async)}}
+                                </div>
+                                <div class="each-price">
+                                    Each: {{Number(product?.price)/Number(product?.reqQty) | currency : (currency$ | async)}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="view-more-wrapper" *ngIf="!toggleListViewMoreFlag[detail?.orderNumber + detail?.shippingDate]"
+                    (click)="toggleListViewMoreFlag[detail?.orderNumber + detail?.shippingDate] = !toggleListViewMoreFlag[detail?.orderNumber + detail?.shippingDate]" (keydown.enter)="toggleListViewMoreFlag[detail?.orderNumber + detail?.shippingDate] = !toggleListViewMoreFlag[detail?.orderNumber + detail?.shippingDate]" tabindex="0" >
+                    <div class="view-more-text">View more</div>
+                    <span><i class="fas fa-chevron-down"></i></span>
+                </div>
+                <div class="view-less-wrapper" *ngIf="toggleListViewMoreFlag[detail?.orderNumber + detail?.shippingDate]"
+                    (click)="toggleListViewMoreFlag[detail?.orderNumber + detail?.shippingDate] = !toggleListViewMoreFlag[detail?.orderNumber + detail?.shippingDate]" (keydown.enter)="toggleListViewMoreFlag[detail?.orderNumber + detail?.shippingDate] = !toggleListViewMoreFlag[detail?.orderNumber + detail?.shippingDate]" tabindex="0">
+                    <div class="view-less-text">View less</div>
+                    <span><i class="fas fa-chevron-up"></i></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 p-0 d-md-flex pt-3">
+        <div class="col-12 pagination p-0">
+            <div class="pagination-style w-100">
+                <div class="pagination">
+                    <ws-pagination-entry-list [endLine]="''" [itemPerPage]="pagination.itemPerPage"
+                        [totalItems]="pagination.totalItems"
+                        [currentPage]="pagination.currentPage"></ws-pagination-entry-list>
+                </div>
+                <div class="pagination">
+                    <ws-pagination [resetReposition]="true" (currentPageChange)="pageChanged($event)" [itemsPerPage]="pagination.itemPerPage"
+                        [totalItems]="pagination.totalItems" [numberOfPagesNeedTOBeShown]="5"
+                        aria-label="Pagination controls"></ws-pagination>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

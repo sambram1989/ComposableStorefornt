@@ -1,0 +1,254 @@
+::ng-deep {
+    #account-settings-container {
+        @media (min-width: 1439px) {
+            padding: 48px 108px 120px 108px;
+        }
+        @media (min-width: 320px) and (max-width: 426px) {
+            padding: 8px 6px 0 8px;
+        }
+        @media (min-width: 426px) and (max-width: 1439px) {
+            padding: 20px 20px 20px 30px
+        }
+        #change-password-container {
+            .gigya-input-submit:focus-visible,
+            .ws-header-link:focus-visible {
+                outline: 3px solid var(--cx-color-darkest) !important;
+                outline-offset: 2px !important;
+                box-shadow: unset !important;
+        }
+    }
+
+
+        .account-settings-header {
+            padding-bottom: 32px;
+            border-bottom: 1px solid var(--ws-gray-light-200);
+            padding-left: 0;
+            margin-left: 15px;
+
+            .as-heading {
+                .PatientAccountSettingsHeader,
+                .PractitionerAccountSettingsHeader {
+                    padding-bottom: 20px;
+
+                    cx-paragraph {
+                        div {
+                            h5 {
+                                color: var(--ws-gray-light-900);
+                                font-size: 23px !important;
+                                font-weight: 700;
+                                line-height: 26px !important;
+                                margin: 0;
+                            }
+
+                            p {
+                                color: var(--ws-gray-light-600);
+                                font-size: 16px;
+                                font-style: normal;
+                                font-weight: 300;
+                                line-height: 24px;
+                                margin: 0;
+                            }
+                        }
+                    }
+                }
+            }
+
+            .as-heading-links {
+                .as-header-links-desktop-wrapper {
+                    @media(max-width: 575px) {
+                        display: none;;
+                    }
+                    .heading-links-body {
+                        border-radius: 10px;
+                        border: 1px solid var(--ws-gray-light-200);
+                        background: var(--ws-base-white);
+                        display: flex;
+                        padding: 8px;
+                        align-items: center;
+                        gap: 4px;
+                        margin: 0;
+                        flex-wrap: wrap;
+                        width: fit-content;
+
+                        .practitioner-settings-item {
+                            display: flex;
+                            .practitioner-settings-link {
+                                color: var(--ws-gray-light-500);
+                                font-size: 14px;
+                                font-weight: 600;
+                                line-height: 20px;
+                                padding: 8px 12px;
+                        
+
+                                &.active {
+                                    color: var(--cx-color-secondary);
+                                    border-radius: 4px;
+                                    background: var(--ws-gray-light-100);
+                                    box-shadow: 0px 1px 3px 0px rgba(16, 24, 40, 0.10), 0px 1px 2px 0px rgba(16, 24, 40, 0.06);
+                                }
+
+                                &:hover {
+                                    background-color: var(--ws-brand-25);
+                                    border-radius: 10px;
+                                    text-decoration: none;
+                                }
+                                &:focus-visible {
+                                    outline: 3px solid var(--cx-color-darkest) !important;
+                                    outline-offset: 2px !important;
+                                    box-shadow: unset;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                .as-header-links-mobile-wrapper {
+                    display: none;
+                    @media(max-width: 575px) {
+                        display: block;;
+                    }
+                }
+
+            }
+
+            @media (max-width: 768px) {
+                margin-left: 0px;
+                padding: 0 15px;
+            }
+        }
+
+        .account-settings-body {
+            padding-top: 32px;
+        }
+
+        ws-as-addresses {
+            #practitioner-addresses-container {
+                .page-header {
+                    h1 {
+                        color: var(--ws-gray-light-900);
+                        /* Text lg/700 */
+                        font-size: 18px !important;
+                        font-style: normal;
+                        font-weight: 600;
+                        line-height: 28px;
+                        letter-spacing: 0px;
+                    }
+
+                    p {
+                        color: var(--ws-gray-light-600);
+                        font-size: 14px;
+                        font-style: normal;
+                        font-weight: 300;
+                        line-height: 20px;
+                        letter-spacing: 0px;
+                    }
+
+                    button {
+                        text-transform: inherit;
+                    }
+                }
+            }
+        }
+
+        ws-practititioner-payments-tab {
+            .heading {
+                font-size: 14px;
+                font-weight: 700;
+            }
+            .paymentTitle {
+                font-size: 30px;
+                line-height: 33px !important;
+            }
+            .payment-box {
+                border: 1px solid var(--cx-color-border-color); 
+            }
+            .paymentBtn {
+                font-size: 14px !important;
+                a:focus-visible {
+                    outline: 3px solid var(--cx-color-darkest) !important;
+                    outline-offset: 2px !important;
+                    box-shadow: unset;
+                }
+            }
+            .the-grid {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+
+                @media(max-width: 768px) {
+                    grid-template-columns: 1fr;
+                }
+                .add-credit-card {
+                    padding: 32px 0 0 0;
+                }
+
+                ::ng-deep {
+                    ws-card-parent {
+                        .payment-box-container {
+                            justify-content: end;
+                            .payment-box {
+                                border: 1px solid var(--cx-color-border-color);
+                                width: 80%;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+        ws-as-notifications {
+            .heading {
+                @media (max-width: 767px) {
+                    width: 100%;
+                }
+            }
+        }
+
+        .PractitionerNotifications  {
+            #notification-container {
+                #notification-container_content {
+                    .gigya-screen {
+                        .gigya-profile-form {
+                            .gigya-layout-row {
+                                @media (min-width: 1220px) {
+                                    width: 50%;
+                                    margin: 0;
+                                }
+                            }
+                        }
+                    }
+                }
+                .gigya-screen input[type=checkbox]:focus-visible,
+                .gigya-input-checkbox:focus-visible,
+                .gigya-input-submit:focus-visible,
+                .switch:focus-visible {
+                        outline: 3px solid var(--cx-color-darkest) !important;
+                        outline-offset: 2px !important;
+                        box-shadow: unset;
+                }
+
+            }
+        }
+    }
+}
+
+.none {
+    display: none;
+}
+
+::ng-deep .gigya-layout-row * {
+    font-family: 'museo-sans' !important;
+}
+::ng-deep .gigya-screen.portrait {
+    padding: 40px 0 !important;
+    margin: 0;
+    width: 100% !important;
+}
+button:focus-visible,
+input:focus-visible,
+.btn:focus-visible,
+a:focus-visible,
+ws-search-box:focus-visible {
+  outline: 3px solid var(--cx-color-darkest) !important;
+  outline-offset: 2px;
+  box-shadow: none;
+}

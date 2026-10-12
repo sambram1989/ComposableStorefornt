@@ -1,0 +1,22 @@
+<div class="rec-sidebar-sec">
+    <div class="rec-sidebar-header">Send a Notification</div>
+    <div class="sidebar-box-body">
+        <div class="sidebar-box-list d-flex align-items-center justify-content-between">
+            <h4>Choose how you would like to notify your patient(s) that they have a new recommendation.</h4>
+        </div>
+        <div class="sidebar-checkbox d-flex align-items-center justify-content-between">
+            <h4>SMS</h4>
+            <label tabindex="0" role="button" (keypress)="onKeyToggle($event, sms)" aria-label="SMS" class="checkbox">
+                <input type="checkbox" [formControl]="sms" value="mind"/>
+                <span class="slider"></span>
+            </label>
+        </div>
+        <div class="sidebar-checkbox d-flex align-items-center justify-content-between">
+            <h4>Email Notification</h4>
+            <label tabindex="0" role="button" (keypress)="onKeyToggle($event, email)" aria-label="Notifications" class="checkbox">
+                <input type="checkbox" [formControl]="email" value="mind"/>
+                <span class="slider"></span>
+            </label>
+        </div>
+    </div>
+</div>

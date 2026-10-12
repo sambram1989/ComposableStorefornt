@@ -1,0 +1,116 @@
+.search-page-webinar {
+    .search-webinar-wrapper {
+        display: flex;
+        align-items: flex-start;
+        align-content: flex-start;
+        gap: 32px 32px;
+        align-self: stretch;
+        flex-wrap: wrap;
+        padding: 32px 0px;
+
+        .search-each-webinar {
+            display: flex;
+            align-self: stretch;
+            width: 48%;
+            justify-content: space-between;
+            gap: 8px;
+            border-radius: 16px;
+            border: 1px solid var(--ws-gray-light-300);
+            background: var(--cx-color-inverse);
+
+            .search-webinar-img {
+                height: 200px;
+                max-width: 300px;
+
+                img {
+                    height: 200px;
+                    max-width: 300px;
+                }
+            }
+
+            .search-webinar-content {
+                display: flex;
+                padding: var(--spacing-3xl, 24px);
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+                flex: 1 0 0;
+                align-self: stretch;
+
+                .title {
+                    color: var(--cx-color-primary-dark);
+                    font-size: 14px;
+                    font-style: normal;
+                    font-weight: 600;
+                    line-height: 20px;
+                }
+
+                .desc {
+                    color: var(--ws-success-900);
+                    font-size: 18px;
+                    font-style: normal;
+                    font-weight: 600;
+                    line-height: 28px;
+                }
+            }
+
+            &:hover {
+                border: 0.5px solid var(--ws-gray-light-600);
+                box-shadow: 0px 3px 10px rgba(88, 64, 145, 0.12);
+            }
+            
+            @media(max-width:990px) {
+                width: 100%;
+            }
+
+            @media(max-width:578px) {
+                display: grid;
+            }
+        }
+    }
+}
+
+.no-results-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    align-self: stretch;
+    display: flex;
+    padding: 12px 32px;
+
+    div {
+      text-align: center;
+
+      .no-results-messages {
+        text-align: center;
+        display: flex;
+        max-width: 352px;
+        flex-direction: column;
+        align-items: center;
+        gap: 4px;
+        align-self: stretch;
+
+        p {
+          color: var(--ws-gray-light-900);
+          text-align: center;
+          font-size: 16px;
+          font-weight: 600;
+          line-height: 24px;
+          margin: 0;
+        }
+
+        div {
+          color: var(--ws-gray-light-600);
+          text-align: center;
+          font-size: 14px;
+          font-weight: 300;
+          line-height: 20px;
+
+          span {
+            font-weight: 600;
+          }
+        }
+      }
+    }
+  }

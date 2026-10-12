@@ -1,0 +1,91 @@
+<div class="search-map-container">
+    <div class="search-bar container-fluid">
+        <div class="row">
+            <div class="col-sm-12 search-and-below-text-location-wrapper d-flex justify-content-center">
+                <div class="search-and-below-text-wrapper">
+                    <div class="input-group">
+                        <label for="addressSearch" class="visually-hidden">Enter your address</label>
+                        <input id="addressSearch" type="input" class="form-control" placeholder="Enter address"
+                            [formControl]="searchControl" aria-labelledby="addressSearch">
+                        <div class="input-group-append">
+                            <button class="btn btn-default" role="presentation" id="search-button" aria-label="Search">
+                                <i class="fas fa-search" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <p>
+                        Showing practitioners near current location
+                    </p>
+                </div>
+                <div class="use-current-location" tabindex="0" role="button" aria-label="Use current location"
+                (keydown.enter)="getLocation()" (keydown.space)="getLocation()"
+                >
+                    <i class="fa-solid fa-crosshairs" (click)="getLocation()"></i>
+                    <span (click)="getLocation()">Use current location</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row map-search-address-details">
+        <div class="col-4 map-search-address-details-left"  #storeDetailsScrollableSectoin>
+            <div class="card practioner-info-card" tabindex="0"
+                [ngClass]="activeStore?.displayName === store?.displayName && 'active'" *ngFor="let store of stores"
+                (click)="setActiveStore(store)" (keydown.enter)="setActiveStore(store)">
+                <div class="practioner-info-card-profile">
+                    <cx-media [container]="store?.mapIcon" alt="Profile Image"></cx-media>
+                    <div>
+                        <h4>
+                            {{store?.address?.firstName}}
+                        </h4>
+                        <p>{{store?.displayName}}</p>
+                    </div>
+                </div>
+                <div class="d-flex flex justify-content-between w-100">
+                    <div class="address-link-wrapper">
+                        <i class="fa fa-map-marker-alt"></i>
+                        <div class="info" tabindex="0">
+                            {{store?.address?.formattedAddress?.replaceAll(',', '')}}
+                        </div>
+                    </div>
+                    <p class="miles">
+                        {{store?.formattedDistance}}
+                    </p>
+                </div>
+
+                <div class="address-link-wrapper" *ngIf="store?.phoneNumber">
+                    <i class="fas fa-phone"></i>
+                    <div class="info">
+                        <a [href]="'tel:' + store?.phoneNumber"> {{store?.phoneNumber}}</a>
+                    </div>
+                </div>
+
+                <div class="address-link-wrapper" *ngIf="store?.email">
+                    <i class="fas fa-envelope"></i>
+                    <div class="info">
+                        <a [href]="'mailto:' + store?.email">{{store?.email}}</a>
+                    </div>
+                </div>
+
+                <div class="address-link-wrapper" *ngIf="store?.webSite">
+                    <div class="info">
+                        <a [href]="store?.webSite" target="_blank" rel="noopener noreferrer">{{store?.webSite}}
+                            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+            <div class="p-3 mt-4 no-results-found" *ngIf="stores.length == 0">
+                <h2 class="bolder">
+                    No practitioners found.
+                </h2 >
+                <h4 class="bolder">Please adjust your search and/or filters</h4>
+            </div>
+        </div>
+        <div class="col-8 map-search-address-details-right">
+            <section class="map" *ngIf="mapUrl">
+                <iframe [src]="mapUrl" style="border:0;" allowfullscreen loading="lazy"></iframe>
+            </section>
+        </div>
+    </div>
+</div>

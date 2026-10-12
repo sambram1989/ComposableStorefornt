@@ -1,0 +1,32 @@
+$info-border: #0E7090;
+$info-bg: #F5FEFF;
+
+@mixin section-style($border-color, $bg-color) {
+    padding: 16px;
+    margin: 0 20px;
+    border-radius: 10px;
+    border: 2px solid $border-color;
+    background-color: $bg-color;
+  }
+.card-header {
+        background: #EEF0F1 !important;
+        border-bottom: 0px;
+        position: relative;
+        z-index: 1;
+        padding: 20px 20px 20px 20px;
+        border: 1px solid var(--ws-gray-light-200);
+        .card-title {
+            font-size: 14px !important;
+            color: var(--ws-table-heading) !important;
+            font-weight: 700;
+        }
+}
+.free-shipping {
+    @include section-style($info-border, $info-bg);
+  }
+
+  @media(min-width:768px) and (max-width: 1024px) {
+    .card {
+      margin-left: 24px !important;
+    }            
+  }

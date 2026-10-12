@@ -1,0 +1,12 @@
+{
+    "address": {
+      "street": "6800 Kingspointe Parkway",
+      "city": "Orlando, FL 32819",
+      "building": "Entrance through XYMOPrint's building"
+    },
+    "pharmacyHours": {
+      "weekdays": "Mon-Fri, 9:00 am - 5:00 pm ET",
+      "weekend": "Sat, 9:00 am - 12:00 pm ET by phone only"
+    },
+    "alertMessage": "Once your order is processing, changing pick-up to shipping will result in a $5.00 handling fee and any applicable shipping costs. Please note, this change will also add 1-2 business days processing time to the order."
+}

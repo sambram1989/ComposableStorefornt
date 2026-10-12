@@ -1,0 +1,9 @@
+#Klaviyo Ordered Product Cronjob
+INSERT_UPDATE ServicelayerJob;code[unique=true];springId
+                             ;klaviyoOrderedProductCronjob;klaviyoOrderedProductCronjob
+
+INSERT_UPDATE CronJob;code[unique=true]			   ;job(code)                   ;singleExecutable           ;sessionLanguage(isocode)
+                     ;KlaviyoOrderedProductCronjob ;klaviyoOrderedProductCronjob;false;en;
+
+INSERT_UPDATE Trigger; cronJob(code)[unique=true]            ; second ; minute ; hour ; day  ; month ; year  ; relative[default=false] ; active[default=true] ; maxAcceptableDelay[default=0]
+                     ; KlaviyoOrderedProductCronjob     	 ; 0      ; 10     ; 0    ; -1 ; -1 ; -1 ; true                  ; true                 ; 0

@@ -1,0 +1,29 @@
+<div *ngIf="bannerSpecs && isCategory" class="banner">
+    <div class="desc" [ngClass]="!isLoggedIn && 'guest'" [ngStyle]="dynamicStyles">
+        <h3>{{ bannerSpecs?.name ? bannerSpecs?.name : '-' }}</h3>
+        <p [ngClass]="{'show-description': showDescription, 'hide-description': !showDescription}">{{ bannerSpecs?.description ? bannerSpecs?.description : '-' }}</p>
+        <a *ngIf="!showDescription" (click)="expandDescription()" class="link">Expand to learn more</a>
+    </div>
+</div>
+
+<div *ngIf="bannerSpecs && !isCategory" class="brands-banner">
+    <div class="desc" [ngClass]="!isLoggedIn && 'guest'">
+        <div style="display: flex; flex-direction: column;" class="col-12 col-md-8">
+        <cx-media class="logo"
+        [container]="bannerSpecs.brandLogo"
+        format="brand"
+        [alt]="bannerSpecs?.name || ''"
+      ></cx-media>
+        <p class="brand-name mt-4 pl-0 pl-md-3 d-none d-md-block">{{ bannerSpecs?.name || '' }}</p>
+        <p class="pl-0 pl-md-3 d-none d-md-block">{{ bannerSpecs?.description ? bannerSpecs?.description : '' }}</p>
+        
+        <a class="link d-sm-block d-md-none" [ngClass]="{'d-none': showDescription}" (click)="expandDescription()">Expand to learn more</a>
+        <p class="pl-0 pl-md-3 d-sm-block d-md-none" *ngIf="showDescription">{{ bannerSpecs?.description ? bannerSpecs?.description : '' }}</p>
+      </div>
+        <cx-media class="col-md-2 p-0 image d-none d-md-block"
+        [container]="bannerSpecs.brandImage"
+        format="brand"
+        [alt]="bannerSpecs?.name || ''"
+      ></cx-media>
+    </div>
+</div>

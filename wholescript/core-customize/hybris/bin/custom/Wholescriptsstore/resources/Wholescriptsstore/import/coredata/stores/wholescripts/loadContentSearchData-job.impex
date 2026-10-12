@@ -1,0 +1,103 @@
+# Groovy Script
+INSERT_UPDATE Script; code[unique=true];content
+;loadContentSearchDataScript;"
+import de.hybris.platform.servicelayer.search.FlexibleSearchQuery
+import de.hybris.platform.servicelayer.model.ModelService
+import com.wholescripts.core.model.ContentSearchModel
+import com.wholescripts.core.model.WholescriptsBrandModel
+import com.wholescripts.core.model.WholescriptsFaqModel
+import de.hybris.platform.category.model.CategoryModel
+import de.hybris.platform.cms2.model.relations.ContentSlotForPageModel
+
+class ContentSearchPopulator {
+    def modelService
+    def flexibleSearchService
+
+    def clearExistingContentSearch() {
+        def deleteQuery = 'SELECT {pk} FROM {ContentSearch}'
+        def results = flexibleSearchService.search(new FlexibleSearchQuery(deleteQuery)).result
+        results.each { contentSearch ->
+            modelService.remove(contentSearch)
+        }
+        println 'Deleted all existing ContentSearch entries.'
+    }
+
+    def populateContentSearch() {
+        clearExistingContentSearch()
+
+        // Fetch WholescriptsBrand
+        def brandQuery = 'SELECT {wb.pk} FROM {WholescriptsBrand AS wb} where {wb.availableForContentSearch} = 1  OR {wb.availableForContentSearch} IS NULL'
+        def brandResults = flexibleSearchService.search(new FlexibleSearchQuery(brandQuery)).result
+
+        brandResults.each { WholescriptsBrandModel brand ->
+            def contentSearch = modelService.create(ContentSearchModel)
+            contentSearch.setBrand(brand)
+            modelService.save(contentSearch)
+        }
+
+        // Fetch WholescriptsFaq
+        def faqQuery = 'SELECT {faq.pk} FROM {WholescriptsFaq AS faq} where {globalSearchEnabled}=1'
+        def faqResults = flexibleSearchService.search(new FlexibleSearchQuery(faqQuery)).result
+
+        faqResults.each { WholescriptsFaqModel faq ->
+            def contentSearch = modelService.create(ContentSearchModel)
+            contentSearch.setFaq(faq)
+            modelService.save(contentSearch)
+        }
+
+        // Fetch Category
+        def categoryQuery = '''
+            SELECT {c.pk} 
+            FROM {Category AS c 
+            JOIN CatalogVersion AS cv ON {c.catalogVersion} = {cv.pk} 
+            JOIN Catalog AS cat ON {cv.catalog} = {cat.pk}} 
+            WHERE {cat.id} = 'Catalog_1710_10' 
+            AND {cv.version} = 'Online' AND ({c.availableForContentSearch} = 1 OR {c.availableForContentSearch} IS NULL)
+        '''
+        def categoryResults = flexibleSearchService.search(new FlexibleSearchQuery(categoryQuery)).result
+
+        categoryResults.each { CategoryModel category ->
+            def contentSearch = modelService.create(ContentSearchModel)
+            contentSearch.setCategory(category)
+            modelService.save(contentSearch)
+        }
+
+        // Fetch ContentSlotForPage
+        def contentSlotQuery = '''
+            SELECT {slot.pk} 
+            FROM {ContentSlotForPage AS slot 
+            JOIN CatalogVersion AS cv ON {slot.catalogVersion} = {cv.pk} 
+            JOIN Catalog AS cat ON {cv.catalog} = {cat.pk}} 
+            WHERE {slot.uid} IN ('practiceBetterSlot-wsIntegrationpage','charmHealthSlot-wsIntegrationpage',
+            'cerboSlot-wsIntegrationpage','getHealthySlot-wsIntegrationpage','wellProZSlot-wsIntegrationpage',
+            'shopifySlot-wsIntegrationpage','betterHealthSlot-wsIntegrationpage',
+            'odxOptimalDXSlot-wsIntegrationpage','GeneticsComapanySlot-wsIntegrationpage','cellScienceSystemsSlot-wsIntegrationpage')
+            AND {cat.id} = 'wholescriptsContentCatalog' 
+            AND {cv.version} = 'Online'
+        '''
+        def contentSlotResults = flexibleSearchService.search(new FlexibleSearchQuery(contentSlotQuery)).result
+
+        contentSlotResults.each { ContentSlotForPageModel contentSlot ->
+            def contentSearch = modelService.create(ContentSearchModel)
+            contentSearch.setIntegration(contentSlot)
+            modelService.save(contentSearch)
+        }
+
+        println 'ContentSearch entries populated successfully.'
+    }
+}
+
+// Instantiate and run the script
+def contentSearchPopulator = new ContentSearchPopulator()
+contentSearchPopulator.modelService = spring.getBean('modelService')
+contentSearchPopulator.flexibleSearchService = spring.getBean('flexibleSearchService')
+contentSearchPopulator.populateContentSearch()
+"
+
+# Job
+INSERT_UPDATE ScriptingJob; code[unique=true];scriptURI
+;loadContentSearchDataJob;model://loadContentSearchDataScript;
+
+# CronJob
+INSERT_UPDATE CronJob;code[unique=true];job(code)[default=loadContentSearchDataJob];sessionLanguage(isoCode)[default=en]
+;loadContentSearchDataCronJob;loadContentSearchDataJob;

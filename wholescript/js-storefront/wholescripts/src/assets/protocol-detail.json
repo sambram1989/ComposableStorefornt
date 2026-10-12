@@ -1,0 +1,23 @@
+{
+    "protocolDetail": {
+        "protocolId": 13373,
+        "lastUpdated": "2024-08-19",
+        "protocolName":"JaniNewPCL",
+        "hasOrderItems":true,
+        "selectedProductsList":[
+            {
+                "productId":123,
+                "productName":"Omega MonoPure® 1300 EC 120 Softgels",
+                "hasOutOfStack":true,
+                "dosing":"1 in Daily",
+                "totalRetailPrice":64.99,
+                "totalWholesalePrice":107.99,
+                "duration":"Ongoing, 1 Unit(s)"
+            }
+        ],
+        "allItemsTotalRetailPrice":70.00,
+        "allItemsTotalWholesalePrice":90.00,
+        "SharedCount":0,
+        "SharedCustomers":[]
+    }
+}

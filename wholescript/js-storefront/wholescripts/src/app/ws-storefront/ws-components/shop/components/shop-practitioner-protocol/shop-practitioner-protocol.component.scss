@@ -1,0 +1,10 @@
+#protocols-card:focus-visible {
+    outline: 3px solid var(--cx-color-darkest) !important;
+    outline-offset: 24px !important;
+    box-shadow: unset;
+}
+.recommendation-card__footer:focus-visible {
+    outline: 3px solid var(--cx-color-darkest) !important;
+    outline-offset: 24px !important;
+    box-shadow: unset;
+}

@@ -1,0 +1,77 @@
+<ng-template [ngIf]="protocolDetail">
+    <div class="modal-header">
+        <h3 class="modal-title mx-auto bolder" id="removeDosingModalLabel">{{protocolDetail?.name}}</h3>
+        <p class="mx-auto text-black">
+            <i class="fas fa-archive"></i>
+            Protocol
+        </p>
+        <a href="/protocol/edit/{{protocolDetail?.id}}">Edit Protocol</a>
+        <span class="draft-label mx-auto" *ngIf="protocolDetail?.protocolStatus == 'DRAFT'">
+            <label class="label label-gray text-dark text-center">Draft</label>
+        </span>
+        <button type="button" class="btn-close close" (click)="bsModalRef.hide()">
+            x
+        </button>
+    </div>
+    <hr>
+    <div class="modal-body text-black p-0">
+        <div class="empty-template" *ngIf="protocolDetail?.selectedProductsList?.length === 0">
+            <div class="bolder">No products have been added</div>
+            <div>Add products to complete this Protocol</div>
+        </div>
+
+        <section *ngFor="let entry of protocolDetail?.entries">
+            <div class="row">
+                <div class="col-2">
+                    <img [src]="entry?.product?.url" class="product-image" width="100%" />
+                </div>
+                <div class="col-10">
+                    <span class="bolder product-name">{{entry?.product?.name}}</span>
+                    <p class="product-dose">Dosing:
+                        <ng-container *ngFor="let dose of entry?.dosing">
+                            <span>{{dose?.quantity}}</span>
+                        </ng-container>
+                    </p>
+                    <p class="product-duration">Duration: {{entry?.itemDuration}}, {{entry?.quantity}}</p>
+                    <p class="product-wholesale-price bolder">{{entry?.totalPrice?.formattedValue}}</p>
+                    <p class="product-retail-price">MSRP: {{entry?.msrpSubTotalPrice?.formattedValue }}</p>
+                </div>
+            </div>
+            <hr>
+        </section>
+
+        <div class="row" style="padding-left: 20px;padding-right: 20px;">
+            <div class="col-12 text-right" *ngIf="protocolDetail?.totalPrice">
+                <h5 class="mt-1 bolder" id="total-wholesale-price">Total: {{protocolDetail?.totalPrice.formattedValue}}</h5>
+                <h5 class="mt-1" id="total-wholesale-price">MSRP Total: {{protocolDetail.msrpSubTotalPrice?.formattedValue}}</h5>
+            </div>
+            <section id="share-options" *ngIf="protocolDetail?.hasOrderItems">
+                <div id="share-status">
+                    <span class="bolder">Share Status:</span> <br>
+                    <span>Not Shared</span>
+                </div>
+                <div class="col-6 text-right share-options-modal-dropdown">
+
+                </div>
+            </section>
+            <div id="details-draft-buttons" class="row col-12 text-right"
+                *ngIf="protocolDetail?.protocolStatus == 'DRAFT'">
+                <button type="button" class="btn btn-outline-danger btn-rounded bolder">Delete</button>
+                <a href="/protocol/edit/{{protocolDetail?.id}}" type="button"
+                    class="btn btn-primary btn-rounded">Continue Editing</a>
+            </div>
+            <div id="bottom-buttons" *ngIf="protocolDetail?.protocolStatus != 'DRAFT'">
+                <div id="non-protocols-page">
+                    <a href="/protocol/details/{{protocolDetail?.id}}" id="more-details-details">View More Details</a>
+                    <button type="button" class="btn btn-outline-primary btn-rounded mt-1 mb-1">
+                        Recommend
+                    </button>
+                    <button type="button" class="btn btn-primary btn-rounded addtocart" (click)="addToCart()" >
+                        Add to Cart
+                        <i class="fas fa-shopping-cart text-success"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>

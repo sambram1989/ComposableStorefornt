@@ -1,0 +1,119 @@
+#showGuestPromoDetailsModal {
+    display: block;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1050;
+    overflow-x: hidden;
+    overflow-y: auto;
+    width: 100%;
+    height: 100%;
+
+    .modal-dialog {
+        position: absolute;
+        right: 0;
+        margin: 0;
+        height: 100%;
+        transform: translate3d(0, 0, 0);
+        max-width: 500px;
+
+        .modal-content-wrapper {
+            height: 100%;
+
+            .modal-content {
+                min-height: 100%;
+                border-radius: 0px;
+                box-shadow: none;
+                border: none;
+                padding: 20px;
+                color: var(--ws-gray-light-700);
+
+                .modal-header {
+                    width: 100%;
+                    border-bottom: 1px solid var(--cx-color-border-bottom-color);
+                    position: relative;
+                    padding: 4px 0px 24px 4px;
+                    .modal-title {
+                        margin: 0;
+                        font-weight: 900;
+                        display: flex;
+                        gap: 16px;
+                        align-items: center;
+                        span {
+                            color:var(--ws-gray-light-900);
+                            font-size: 24px;
+                            font-weight: 600;
+                            line-height: 32px;
+                        }
+                    }
+
+                    .close {
+                        position: absolute;
+                        top: 0;
+                        right: 0;
+                        margin-right: 10px;
+                        z-index: 10;
+                        font-size: 1.5rem;
+                        padding: 0;
+                        margin: 0;
+                        bottom: auto;
+
+                        span {
+                            font-weight: 900;
+                        }
+                    }
+                }
+
+                .modal-body {
+                    position: relative;
+                    -webkit-box-flex: 1;
+                    -webkit-flex: 1 1 auto;
+                    -ms-flex: 1 1 auto;
+                    flex: 1 1 auto;
+                    .login-text {
+                        color: var(--ws-gray-light-600);
+                        font-size: 16px;
+                        font-weight: 300;
+                        line-height: 24px;
+                        margin: 24px 0px;
+                    }
+                }
+
+                .modal-footer {
+                    flex-direction: row;
+                    gap: 12px;
+                    .btn-register {
+                        width: fit-content;
+                        border: none;
+                        color:var(--ws-gray-light-600);
+                    }
+                }
+            }
+        }
+    }
+
+    .container-xs-height {
+        display: table;
+        padding-left: 0px;
+        padding-right: 0px;
+        width: 100%;
+        border-collapse: collapse;
+        table-layout: fixed;
+    }
+
+    .row-xs-height {
+        display: table-row;
+    }
+
+    .col-xs-height {
+        display: table-cell;
+        float: none;
+    }
+
+
+    .full-height {
+        height: 100% !important;
+    }
+}

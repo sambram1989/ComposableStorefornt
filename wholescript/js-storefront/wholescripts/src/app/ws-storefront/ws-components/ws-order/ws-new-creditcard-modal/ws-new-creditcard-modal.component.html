@@ -1,0 +1,79 @@
+@if(paymetricsDetail$ | async ; as paymetricsDetail){
+
+  <div *ngIf="paymetricsDetail && paymetricsDetail.paymetricsIframeAccessTokenUrl" class="p-3">
+    <div id="iframewrapper" #iframeContainer>
+      
+    </div>
+  </div>
+  <div id="Status"></div>
+  <div id="DynamicIFrame"></div>
+  
+  <ng-container
+    *ngTemplateOutlet="isAccountSettings() ? managePaymentsBtn :  addCardButton ; context:{$implicit:paymetricsDetail}"></ng-container>
+  }@else {
+  <cx-spinner></cx-spinner>
+  }
+  <div *ngIf="showLoading" class="text-center card-processing">
+    <cx-spinner></cx-spinner>
+  </div>
+  <ng-template #continueButton let-paymetricsDetail>
+    <div class="row cx-checkout-btns mx-0" *ngIf="!showLoading">
+      <div class="col-12" *ngIf="isSubmitCardError">
+        <ng-container *ngTemplateOutlet="submitCardError"></ng-container>
+      </div>
+      <div class="col-md-12 col-lg-6">
+        <button class="btn btn-block btn-action">
+          Back
+        </button>
+      </div>
+      <div class="col-md-12 col-lg-6 d-flex justify-content-center"
+        *ngIf="paymetricsDetail && paymetricsDetail.paymetricsIframeToken">
+        <button class="btn btn-block btn-primary " (click)="submitform(paymetricsDetail.paymetricsIframeToken)">
+          Continue
+        </button>
+      </div>
+    </div>
+  </ng-template>
+  
+  <ng-template #addCardButton let-paymetricsDetail>
+    <div class="row mx-0" *ngIf="!showLoading">
+      <div class="col-12 text-danger mb-3">
+        * required
+      </div>
+      <div class="col-12" *ngIf="isSubmitCardError">
+        <ng-container *ngTemplateOutlet="submitCardError"></ng-container>
+      </div>
+      <div class="col-6">
+        <div class="checkbox checkbox-wrapper">
+          <input type="checkbox" id="SaveCreditCardCHK" wsCheckbox [formControl]="saveCreditCard" tabindex="0">
+          <label for="SaveCreditCardCHK" tabindex="0">Save credit card</label>
+        </div>
+      </div>
+  
+      <div class="col-6" *ngIf="paymetricsDetail && paymetricsDetail.paymetricsIframeToken">
+        <button type="button" class=" btn btn-primary btn-rounded float-right"
+          (click)="submitform(paymetricsDetail.paymetricsIframeToken)">
+          Add Card
+        </button>
+      </div>
+    </div>
+  </ng-template>
+  
+  <ng-template #managePaymentsBtn let-paymetricsDetail>
+    <div class="w-100" *ngIf="isSubmitCardError">
+      <ng-container *ngTemplateOutlet="submitCardError"></ng-container>
+    </div>
+    <div class="action-btns pr-lg-2" *ngIf="!showLoading">
+      <button class="btn btn-rounded btn-outline-primary fw-600" (click)="closeMe()" >Cancel</button>
+      <button class="btn btn-rounded btn-primary fw-600" *ngIf="paymetricsDetail && paymetricsDetail.paymetricsIframeToken"
+        (click)="submitform(paymetricsDetail.paymetricsIframeToken)"> Save Card</button>
+    </div>
+  </ng-template>
+
+<ng-template #submitCardError>
+  <section class="error-section">
+    <p class="m-0">
+      We encountered an error with this credit card. Please make sure the entered information is valid and try again.
+    </p>
+    </section>
+</ng-template>

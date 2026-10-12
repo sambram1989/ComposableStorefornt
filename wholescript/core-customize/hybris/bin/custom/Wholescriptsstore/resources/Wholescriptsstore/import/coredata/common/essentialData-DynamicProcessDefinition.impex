@@ -1,0 +1,115 @@
+INSERT_UPDATE DynamicProcessDefinition; code[unique = true]           ; active; content
+                                      ; sendW9FormProcess ; true  ; "<?xml version='1.0' encoding='utf-8'?> <process xmlns='http://www.hybris.de/xsd/processdefinition' start='sendW9FormAction'
+         name='sendW9FormProcess'
+         processClass='de.hybris.platform.commerceservices.model.process.StoreFrontCustomerProcessModel' onError='error'>
+    <action id='sendW9FormAction' bean='sendW9FormAction'>
+        <transition name='OK' to='success' />
+        <transition name='NOK' to='error' />
+    </action>
+    <end id='error' state='ERROR'>ERROR: send w9 form  Failed.</end>
+    <end id='success' state='SUCCEEDED'>send w9 form Completed.</end>
+</process>"
+
+;sendRecommendationMessage;true;"<process xmlns='http://www.hybris.de/xsd/processdefinition' start='sendTextMessage'
+name='sendRecommendationProcess' processClass='de.hybris.platform.commerceservices.model.process.StoreFrontCustomerProcessModel'>
+
+ <action id='sendTextMessage' bean='sendTextMessageAction'>
+        <transition name='OK' to='success'/>
+        <transition name='NOK' to='error'/>
+    </action>
+
+    <end id='error' state='ERROR'>Something went wrong.</end>
+    <end id='failed' state='FAILED'>Could not send Recommendation to User. </end>
+    <end id='success' state='SUCCEEDED'>Recommendation Details Shared Successfully.</end>
+
+</process>"
+
+;sendRecommendationEmail;true;"<process xmlns='http://www.hybris.de/xsd/processdefinition' start='generateNotificationSettingsEmail'
+name='wsShareRecommendationEmailProcess' processClass='de.hybris.platform.commerceservices.model.process.StoreFrontCustomerProcessModel'>
+
+ <action id='generateNotificationSettingsEmail' bean='generateShareRecommendationEmail'>
+        <transition name='OK' to='sendEmail'/>
+        <transition name='NOK' to='error'/>
+    </action>
+    <action id='sendEmail' bean='wholescriptsSendEmail'>
+        <transition name='OK' to='removeSentEmail'/>
+        <transition name='NOK' to='failed'/>
+    </action>
+    <action id='removeSentEmail' bean='removeSentEmail'>
+        <transition name='OK' to='success'/>
+        <transition name='NOK' to='error'/>
+    </action>
+    <end id='error' state='ERROR'>Something went wrong.</end>
+    <end id='failed' state='FAILED'>Could not send Recommendation to User. </end>
+    <end id='success' state='SUCCEEDED'>Recommendation Details Shared Successfully.</end>
+
+</process>"
+
+;sendAccetifyFraudCheckEmailProcess;true;"<process xmlns='http://www.hybris.de/xsd/processdefinition' start='generateAccertifyFraudCheckEmail'
+name='sendAccetifyFraudCheckEmailProcess' processClass='de.hybris.platform.commerceservices.model.process.StoreFrontCustomerProcessModel'>
+
+ <action id='generateAccertifyFraudCheckEmail' bean='accertifyFraudCheckEmail'>
+        <transition name='OK' to='sendEmail'/>
+        <transition name='NOK' to='error'/>
+    </action>
+    <action id='sendEmail' bean='wholescriptsSendEmail'>
+        <transition name='OK' to='removeSentEmail'/>
+        <transition name='NOK' to='failed'/>
+    </action>
+    <action id='removeSentEmail' bean='removeSentEmail'>
+        <transition name='OK' to='waitForUserEmailVerification'/>
+        <transition name='NOK' to='error'/>
+    </action>
+    
+    <wait id='waitForUserEmailVerification' then='updateAccertifyFlagInCDC' prependProcessCode='false'>
+		<event>${process.user.uid}_EmailVerified</event>
+	</wait>
+	
+	<action id='updateAccertifyFlagInCDC' bean='updateAccertifyFlagInCDCAction'>
+        <transition name='OK' to='success'/>
+        <transition name='NOK' to='error'/>
+    </action>
+	
+    <end id='error' state='ERROR'>Something went wrong.</end>
+    <end id='failed' state='FAILED'>Could not send Email to User. </end>
+    <end id='success' state='SUCCEEDED'>Email Sent Successfully.</end>
+
+</process>"
+
+
+; sendContactUsEmailProcess ; true ; "<process xmlns='http://www.hybris.de/xsd/processdefinition' start='generateContactUsEmail'
+name='sendContactUsEmailProcess' processClass='de.hybris.platform.commerceservices.model.process.StoreFrontCustomerProcessModel'>
+    <action id='generateContactUsEmail' bean='wsContactUsEmail'>
+        <transition name='OK' to='sendEmail'/>
+        <transition name='NOK' to='error'/>
+    </action>
+    <action id='sendEmail' bean='sendEmail'>
+        <transition name='OK' to='success'/>
+        <transition name='NOK' to='failed'/>
+    </action>
+    <action id='removeSentEmail' bean='removeSentEmail'>
+        <transition name='OK' to='success'/>
+        <transition name='NOK' to='error'/>
+    </action>
+    <end id='error' state='ERROR'>Something went wrong.</end>
+    <end id='failed' state='FAILED'>Could not send Email.</end>
+    <end id='success' state='SUCCEEDED'>Email Sent Successfully.</end>
+</process>"
+; sendThankYouEmailProcess ; true ; "<process xmlns='http://www.hybris.de/xsd/processdefinition' start='generateThankYouEmail'
+name='sendThankYouEmailProcess' processClass='de.hybris.platform.commerceservices.model.process.StoreFrontCustomerProcessModel'>
+    <action id='generateThankYouEmail' bean='wsThankYouEmail'>
+        <transition name='OK' to='sendEmail'/>
+        <transition name='NOK' to='error'/>
+    </action>
+    <action id='sendEmail' bean='sendEmail'>
+        <transition name='OK' to='success'/>
+        <transition name='NOK' to='failed'/>
+    </action>
+    <action id='removeSentEmail' bean='removeSentEmail'>
+        <transition name='OK' to='success'/>
+        <transition name='NOK' to='error'/>
+    </action>
+    <end id='error' state='ERROR'>Something went wrong.</end>
+    <end id='failed' state='FAILED'>Could not send Email.</end>
+    <end id='success' state='SUCCEEDED'>Email Sent Successfully.</end>
+</process>"

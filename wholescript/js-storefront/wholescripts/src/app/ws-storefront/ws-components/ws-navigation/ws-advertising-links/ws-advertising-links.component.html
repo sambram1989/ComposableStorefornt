@@ -1,0 +1,19 @@
+<div class = "nav-links">
+    <div id="api-left-menu-container">
+        <button (click)="showMobileNav = !showMobileNav" id="api-dropdown-button">{{activeLink}}
+            <i class="fa fa-chevron-down float-right pt-1"></i>
+        </button>
+    </div>
+  <section class="menu-hidden" [ngClass]="!showMobileNav && 'hidden'">
+      <div *ngIf = "intro$ | async as intro" class="api-left-button-container">
+          <a class="api-left-button" [ngClass]="currentPage === intro.url && 'active intro-btn'" [routerLink]="intro.url"><b>{{ pageHeadings.intro}}</b></a>
+      </div>
+      <h4>{{ subHeading }}</h4>
+      <div *ngIf = "brands$ | async as brands"  class="api-left-button-container">
+          <a class="api-left-button" [ngClass]="currentPage === brands.url && 'active'" [routerLink]="brands.url">{{ pageHeadings.link1 }}</a>
+      </div>
+      <div *ngIf = "promo$ | async as promo"  class="api-left-button-container">
+          <a class="api-left-button" [ngClass]="currentPage === promo.url && 'active'" [routerLink]="promo.url">{{ pageHeadings.link2 }}</a>
+      </div>
+  </section>
+</div>

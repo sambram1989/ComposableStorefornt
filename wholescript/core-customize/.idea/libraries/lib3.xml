@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="lib3">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/hybris/bin/custom/paymetric/lib/XiPayWSLib-1.25.jar!/" />
+      <root url="jar://$PROJECT_DIR$/hybris/bin/custom/paymetric/lib/XiInterceptSDK-v3.10.1.14.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

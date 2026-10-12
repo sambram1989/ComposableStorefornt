@@ -1,0 +1,109 @@
+.loader {
+  min-height: 500px;
+}
+.integrations-hub {
+  padding: 32px 0;
+  .estore-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding-bottom: 24px;
+  }
+  .content {
+    text-align: start;
+
+    ::ng-deep .heading {
+      h3 {
+        font-size: 18px !important;
+        margin-bottom: 0.5rem;
+        font-weight: 700;
+        color: var(--ws-gray-light-900);
+      }
+    
+      p {
+        font-size: 14px;
+        margin-bottom: 1.5rem;
+        color: var(--ws-gray-light-600);
+      }
+    }
+    h2 {
+      font-size: 18px !important;
+      margin-bottom: 0.5rem;
+      font-weight: 700;
+      color: var(--ws-gray-light-900);
+    }
+    p {
+      font-size: 14px;
+      margin-bottom: 1.5rem;
+      color: var(--ws-gray-light-600);
+    }
+    .cards {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      ::ng-deep .card {
+        width: 100%;
+        padding: 1rem;
+        border-radius: 8px;
+        background-color: var(--ws-gray-dark-50);
+        text-align: left;
+        border: none;
+        h3 {
+          font-size: 16px;
+          margin-bottom: 0.5rem;
+          color: var(--ws-gray-light-900);
+          font-weight: 700;
+        }
+        p {
+          font-size: 16px;
+          color: var(--ws-gray-light-600);
+          font-weight: 300 !important;
+        }
+      }
+    }
+    .actions {
+      .button {
+        padding: 0.75rem 1.5rem;
+        border-radius: 5px;
+        font-size: 1rem;
+        margin: 0 0.5rem;
+        cursor: pointer;
+        &.primary {
+          background-color: var(--cx-color-primary);
+          color: white;
+          border: none;
+        }
+        &.secondary {
+          background-color: transparent;
+          color: var(--cx-color-primary);
+          border: 1px solid var(--cx-color-primary);
+        }
+      }
+      button:focus-visible,
+      input:focus-visible,
+      a:focus-visible,
+      ws-search-box:focus-visible {
+        outline: 3px solid var(--cx-color-darkest) !important;
+        outline-offset: 2px;
+        box-shadow: none;
+      }
+    }
+  }
+}
+@media (min-width: 320px) and (max-width: 1024px) {
+  .estore-header {
+    flex-direction: column;
+  }
+  .btn-start-esotre {
+    margin-top: 10px !important;
+  }
+  .actions {
+    text-align: center;
+  }
+  
+  }
+  @media (min-width: 320px) and (max-width: 426px) {
+    .cards {
+      flex-direction: column;
+  }
+}

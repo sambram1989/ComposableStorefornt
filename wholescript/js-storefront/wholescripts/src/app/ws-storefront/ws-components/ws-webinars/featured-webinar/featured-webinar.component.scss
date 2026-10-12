@@ -1,0 +1,125 @@
+@mixin FW-h-fs {
+    font-size:29px;
+
+    @media(min-width:992px) {
+        font-size:40px;
+    }
+
+    @media(min-width:766px) {
+        font-size:36px;
+    }
+}
+
+@mixin FW-desc-fs {
+    font-size: 16px;
+
+    @media(min-width:992px) {
+        font-size: 18px;
+    }
+}
+
+.feat-web {
+    padding: 60px 32px;
+    background-color: var(--ws-base-white);
+
+    @media (max-width:768px) {
+        padding: 42px 32px;
+    }
+
+    @media (max-width:576px) {
+        padding: 32px 15px;
+    }
+}
+
+.feat-web-flex {
+    display: flex;
+    gap: 30px;
+
+    @media(max-width:992px) {
+        flex-wrap: wrap;
+    }
+}
+
+.feat-web-title {
+    color: var(--ws-brand-500);
+    font-weight: 900;
+    margin-bottom: 10px;
+    @include FW-h-fs;
+    &:focus-visible {
+        outline: 3px solid var(--cx-color-darkest) !important;
+        outline-offset: 2px !important;
+        box-shadow: unset;
+      }
+}
+
+.feat-web-subtitle {
+    color: var(--ws-base-black);
+    font-size: 16px;
+    font-style: italic;
+    margin-bottom: 30px;
+    font-weight: 400;
+}
+
+.feat-web-desc {
+    @include FW-desc-fs;
+    color: var(--ws-base-black);
+    margin-bottom: 30px;
+    font-weight: 400;
+}
+
+.feat-web__img {
+    position: relative; 
+    img {
+        max-width: 250px !important;
+        max-height: 250px !important;
+    }
+}
+
+.feat-web__tag-txt {
+    position: relative;
+    z-index: 2;
+    font-size:16px;
+    font-weight:700;
+    line-height:24px;
+    white-space: nowrap;
+}
+
+.feat-web__tag {
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+    background-color: var(--ws-success-600);
+    color: #082213;
+    padding: 5px 10px;
+    font-weight: 700;
+    z-index: 1;
+}
+
+.feat-web__tag::after {
+    content: '\00a0';
+    width: 26px;
+    height: 98.5%;
+    position: absolute;
+    bottom: 0;
+    right: -12px;
+    transform: skew(-30deg, 0deg);
+    border-bottom-right-radius: 4px;
+    border-top-right-radius: 4px;
+    background-color: var(--ws-success-600);
+    z-index: 1;
+}
+
+.btn-resp {
+    @media (max-width:576px) {
+        width: 100%;
+        justify-content: center;
+    }
+}
+.feat-web__sponsor{
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 21px;
+    margin-top: 10px;
+}

@@ -1,0 +1,44 @@
+<div class="modal fade slide-right show" id="removeItemModals" tabindex="-1" role="dialog"
+    aria-labelledby="removeItemModals" style="display: block;">
+    <div class="modal-dialog">
+        <div class="modal-content-wrapper">
+            <div class="container-xs-height full-height">
+                <div class="row-xs-height">
+                    <div class="modal-content col-xs-height">
+
+                        <div class="modal-header clearfix" *ngIf="!loading">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true" tabindex="0"
+                                aria-label="Close" (click)="closeModal()">
+                                <i class="fa fa-close fs-14"></i>
+                            </button>
+                            <h4 class="modal-title bolder">ATTENTION NEEDED</h4>
+                        </div>
+                        <div class="modal-body" *ngIf="!loading">
+                            <div>
+                                The following items are not available and will be removed
+                            </div>
+                            <ul class="product-list">
+                                <li class="bold" *ngFor="let productName of allUnavailableProducts">
+                                    {{productName}}
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="modal-footer" *ngIf="!loading">
+                            <div class="button-wrapper">
+                                <button type="submit" class="btn btn-secondary btn-rounded btn-cons"
+                                    (click)="closeModal()">Cancel</button>
+                                <button type="submit" class="btn btn-primary btn-rounded btn-cons" (click)="removeItemClick()">Continue to Checkout</button>
+
+                            </div>
+                        </div>
+
+                        <div *ngIf="loading" class="d-flex justify-content-center align-center w-100">
+                            <cx-spinner></cx-spinner>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

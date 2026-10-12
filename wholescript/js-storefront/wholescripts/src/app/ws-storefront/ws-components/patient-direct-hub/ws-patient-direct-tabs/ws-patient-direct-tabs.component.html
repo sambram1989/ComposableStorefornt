@@ -1,0 +1,47 @@
+<div>
+  <h2 class="page-heading">Patient direct hub</h2>
+  <p class="desc">Review or update your patient-direct settings and consultation status.</p>
+
+  <!-- Tabs Section -->
+  <button (click)="showNav = !showNav" class="mobile-tab">
+    @if(selectedTab().toLowerCase().includes('consultation')){
+    @if(isMobile|async){
+    {{'My details'}}
+    }
+    @else {
+    {{selectedTab()}}
+    }
+    }
+    @else{
+    {{selectedTab()}}
+    }
+    <i class="fa fa-chevron-down float-right pt-1"></i>
+  </button>
+  <ul [ngClass]="showNav ? 'ul-visible' : 'ul-hide'">
+    <li>
+      <a class="nav-link" [ngClass]="tabIndex() === 1 && 'active'" id="referral-code-tab" data-toggle="tab"
+        (click)="goToPage('Referral-code', 1)" aria-controls="referral-code" aria-selected="true" tabindex="0" (keydown)="onKeyDown($event,'Referral-code',1)">Referral code</a>
+    </li>
+    <li>
+      <a class="nav-link" [ngClass]="tabIndex() === 2 && 'active'" id="accruals-tab" data-toggle="tab"
+        (click)="goToPage('Accruals', 2)" aria-controls="accruals" aria-selected="false" tabindex="0" (keydown)="onKeyDown($event,'Accruals', 2)">Accruals</a>
+    </li>
+    <li>
+      <a class="nav-link" [ngClass]="tabIndex() === 3 && 'active'" id="web-banners-tab" data-toggle="tab"
+        (click)="goToPage('Web-banners', 3)" aria-controls="web-banners" aria-selected="false" tabindex="0" (keydown)="onKeyDown($event,'Web-banners', 3)">Web banners and
+        snippets</a>
+    </li>
+    <li>
+      <a class="nav-link" [ngClass]="tabIndex() === 4 && 'active'" id="consultation-fee-tab" data-toggle="tab"
+        (click)="goToPage('Consultation-fees', 4)" aria-controls="consultation-fee" aria-selected="false" tabindex="0" (keydown)="onKeyDown($event,'Consultation-fees', 4)">
+        @if(isMobile|async){
+        My details
+        }
+        @else {
+        Consultation fee
+        }
+      </a>
+    </li>
+  </ul>
+  
+  <router-outlet></router-outlet>

@@ -1,0 +1,24 @@
+<div class="container-fluid notFoundPage">
+    <div class="row justify-content-center">
+        <div [ngClass] = "isLoggedIn ? 'col-8' : 'col-10'" class="row mx-auto text-center p-0 mt-sm-0 mt-xl-5">
+            <div class="col-lg-6 row px-sm-0 px-lg-auto mx-0">
+                <div class="d-inline-block d-lg-none col-12 mx-auto mt-5">
+                    <h1 class="bolder">404</h1>
+                    <h4 class="" style="font-weight:500;">Looks like you found something that isn't quite there yet.</h4>
+                </div>
+                <div class="d-none d-lg-inline-block col-12 my-auto ml-5 px-5 text-left">
+                    <h1 class="display-3 bolder">404</h1>
+                    <h4 class="copytext" style="font-weight:500;">Looks like you found something that isn't quite there yet.</h4>
+                </div>
+            </div>
+            <div class="col-lg-6 px-0">
+                <img src="/assets/images/home/404-image.png" class="col-8 mx-auto p-0" alt="Dashed outline of bottles">
+            </div>
+        </div>
+        <div class="col-12 error-container-innner text-cente container text-center mb-5">
+            <form class="error-form p-3 text-center">
+                <button (click)="redirectToHome()" class="btn btn-primary btn-rounded" tabindex="0">Back to {{userRole === 'patient' && isLoggedIn ? 'Shop' : 'Dashboard'}}</button>
+            </form>
+        </div>
+    </div>
+</div>

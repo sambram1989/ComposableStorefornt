@@ -1,0 +1,111 @@
+<div
+  class="card border-unset test"
+  id="filter"
+  >
+  <div class="side-bar-overlay" aria-hidden="true">
+    <div class="card-body pr-3 pl-3">
+      <div class="filter-container">
+        <div class="filter-header">
+          <h3>
+            <svg
+              width="13"
+              height="20"
+              viewBox="0 0 13 20"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M0 5.375C0 4.91016 0.382812 4.5 0.875 4.5H11.375C11.8398 4.5 12.25 4.91016 12.25 5.375C12.25 5.86719 11.8398 6.25 11.375 6.25H0.875C0.382812 6.25 0 5.86719 0 5.375ZM1.75 9.75C1.75 9.28516 2.13281 8.875 2.625 8.875H9.625C10.0898 8.875 10.5 9.28516 10.5 9.75C10.5 10.2422 10.0898 10.625 9.625 10.625H2.625C2.13281 10.625 1.75 10.2422 1.75 9.75ZM7.875 14.125C7.875 14.6172 7.46484 15 7 15H5.25C4.75781 15 4.375 14.6172 4.375 14.125C4.375 13.6602 4.75781 13.25 5.25 13.25H7C7.46484 13.25 7.875 13.6602 7.875 14.125Z"
+                fill="#101828"
+              />
+            </svg>
+            Filters
+          </h3>
+          <button (click)="resetFilters()" class="reset-filters">Reset filters</button>
+          <button type="button" class="close" (click)="closeModal()">
+            <span>x</span>
+          </button>
+        </div>
+      </div>
+      <div class="row mx-0">
+        <div class="bootstrap-tagsinput mx-1">
+          @if(selectedFilter.length > 0){ @for(facet of selectedFilter; track facet){
+          <span class="filter mb-2 mt-2 mr-1">
+            <span class="filter-text">{{ facet.selectedOption }}</span>
+            <span
+              class="filter-remove"
+              (click)="clearUserSpecificFilter(facet)"
+              [attr.aria-label]="'Remove filter: ' + facet.selectedOption"
+              >x</span
+            >
+          </span>
+          } }
+        </div>
+      </div>
+      <div>
+        <cdk-accordion
+          class="ws-accordion"
+          role="region"
+          aria-labelledby="accordion-title"
+          [multi]="true"
+        >
+          @for (header of facetFilters; track header; let index = $index) {
+          <cdk-accordion-item
+            #accordionItem="cdkAccordionItem"
+            class="ws-accordion-item"
+            role="button"
+            [expanded]="header.name == 'importStatus' ? true : header?.isopen"
+            tabindex="0"
+            [attr.id]="'accordion-header-' + index"
+            [attr.aria-expanded]="accordionItem.expanded"
+            [attr.aria-controls]="'accordion-body-' + index"
+            multi="true"
+          >
+            <div
+              class="ws-accordion-item-header"
+              (click)="accordionItem.toggle()"
+              [attr.aria-expanded]="accordionItem.expanded"
+            >
+              <strong class="filter-heading">{{ getFilterByName(header?.name) }}</strong>
+              <span class="ws-accordion-item-description">
+                <span class="pull-right">
+                  @if(accordionItem.expanded){
+                  <i class="fa fa-chevron-up text-small" aria-hidden="true"></i>
+                  } @else {
+                  <i
+                    class="fa fa-chevron-down text-small"
+                    aria-hidden="true"
+                  ></i>
+                  }
+                </span>
+              </span>
+            </div>
+            <div
+              class="ws-accordion-item-body"
+              role="region"
+              [style.display]="accordionItem.expanded ? '' : 'none'"
+              [attr.id]="'accordion-body-' + index"
+              [attr.aria-labelledby]="'accordion-header-' + index"
+            >
+              <ul>
+                @for(option of header?.values; track option){
+                <li>
+                  <div class="checkbox check-primary check-primary">
+                    <div class="checkbox-wrapper">
+                        <input [class.radio]="header.name === 'importStatus'" (change)="setFilter(header.name, option.name, option.selected)"
+                        [attr.type]="header.name === 'importStatus' ? 'radio' : 'checkbox'" 
+                         [(ngModel)]="option.selected" type='checkbox'>
+                      <label [ngClass]="{'radio-label': header.name === 'importStatus'}">{{ option?.name }}</label>
+                    </div>
+                  </div>
+                </li>
+                }
+              </ul>
+            </div>
+          </cdk-accordion-item>
+          }
+        </cdk-accordion>
+      </div>
+    </div>
+  </div>
+</div>

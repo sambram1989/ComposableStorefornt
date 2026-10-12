@@ -1,0 +1,10 @@
+<p class="pl-18" *ngIf="startPage() && endPage()">
+    @if(totalItems() <= 1){ Showing {{totalItems()}} entry } 
+    @else if(endPage() > totalItems()){
+        Showing {{ startPage() }} to {{ totalItems() }} of {{ totalItems() }} {{endLine()||'entries'}} 
+    }
+    @else{
+        Showing {{startPage()}} to {{endPage()}} of {{totalItems()}}
+        {{endLine()||'entries'}}
+    }
+</p>

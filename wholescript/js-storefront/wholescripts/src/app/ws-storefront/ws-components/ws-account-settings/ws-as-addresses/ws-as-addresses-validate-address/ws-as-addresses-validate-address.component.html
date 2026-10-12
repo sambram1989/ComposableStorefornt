@@ -1,0 +1,64 @@
+<div class="modal fade ws-validate-address-modal show" id="validateAddressModal" tabindex="-1" role="dialog"
+    aria-labelledby="validateAddressModal" style="display: block;">
+    <div class="modal-dialog">
+        <div class="modal-content" (keydown)="handleTab($event)">
+            <div *ngIf="!loader">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="removeDosingModalLabel">Validate the Address</h5>
+                    <button #firstElement type="button" data-dismiss="modal" aria-label="Close" (click)="closeModal()">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <p>The provided address is not valid. Please select a validated address from below.</p>
+                    <p>Please select an address:</p>
+
+                    <div class="address-container">
+                        <div class="row">
+
+                            <div class="col-md-6">
+                                <h3>Provided Address:</h3>
+                                <div id="ProvidedAddressWrapperDIV" *ngIf="newAddress?.companyName">
+                                    <p id="ProvidedAddressP">
+                                        {{newAddress?.line1}} {{newAddress?.line2}}<br>
+                                        {{newAddress?.town}}, {{newAddress?.region}} {{newAddress?.postalCode}}
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 text-success bold">
+                                <h3>Validated Address:</h3>
+                                <div id="ModalAddressesWrapperDIV"
+                                    *ngIf="validatedAddressResponse?.suggestedAddresses?.length > 0">
+                                    <div id="SuggestedAddressWrapperDIV" class="validated-address-wrapper"
+                                        *ngFor="let validatedAddress of validatedAddressResponse?.suggestedAddresses">
+                                        <p id="SuggestedAddressP">
+                                            {{validatedAddress?.formattedAddress}}
+                                            <button id="SuggestedAddressBTN" (click)="useValidated(validatedAddress)"
+                                                class="btn btn-primary btn-rounded" type="button" data-dismiss="modal">
+                                                Use Validated
+                                            </button>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button #lastElement id="CloseValidateAddressModalBTN" type="button" (click)="closeModal()"
+                        class="btn btn-outline-primary btn-rounded confirm-remove-formula-btn"
+                        data-dismiss="modal">Close</button>
+                </div>
+            </div>
+            <div *ngIf="loader" class="d-flex align-items-center justify-content-center">
+                <cx-spinner></cx-spinner>
+            </div>
+
+        </div>
+
+    </div>
+</div>

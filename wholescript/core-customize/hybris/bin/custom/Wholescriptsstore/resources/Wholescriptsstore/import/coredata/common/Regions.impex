@@ -1,0 +1,78 @@
+INSERT_UPDATE Region; country(isocode); isocode[unique = true]; name[lang = en]                ; isocodeShort; active; isShippingTAxWarningEnabled[default=false]
+                    ; US              ; US-AA                 ; AA (Armed Forces Americas)     ; AA          ; True                  ; 
+                    ; US              ; US-AE                 ; AE (Armed Forces Europe)       ; AE          ; True                  ;
+                    ; US              ; US-AL                 ; Alabama                        ; AL          ; True                  ;
+                    ; US              ; US-AK                 ; Alaska                         ; AK          ; True                  ;
+                    ; US              ; US-AS                 ; American Samoa                 ; AS          ; True                  ;
+                    ; US              ; US-AP                 ; AP (Armed Forces Pacific)      ; AP          ; True                  ;
+                    ; US              ; US-AZ                 ; Arizona                        ; AZ          ; True                  ;
+                    ; US              ; US-AR                 ; Arkansas                       ; AR          ; True                  ; True
+                    ; US              ; US-CA                 ; California                     ; CA          ; True                  ;
+                    ; US              ; US-CO                 ; Colorado                       ; CO          ; True                  ; True
+                    ; US              ; US-CT                 ; Connecticut                    ; CT          ; True                  ;
+                    ; US              ; US-DE                 ; Delaware                       ; DE          ; True                  ;
+                    ; US              ; US-DC                 ; District of Columbia           ; DC          ; True                  ;
+                    ; US              ; US-FM                 ; Federated States of Micronesia ; FM          ; False                 ;
+                    ; US              ; US-FL                 ; Florida                        ; FL          ; True                  ;
+                    ; US              ; US-GA                 ; Georgia                        ; GA          ; True                  ; True
+                    ; US              ; US-GU                 ; Guam                           ; GU          ; True                  ;
+                    ; US              ; US-HI                 ; Hawaii                         ; HI          ; True                  ; True
+                    ; US              ; US-ID                 ; Idaho                          ; ID          ; True                  ;
+                    ; US              ; US-IL                 ; Illinois                       ; IL          ; True                  ; True
+                    ; US              ; US-IN                 ; Indiana                        ; IN          ; True                  ; True
+                    ; US              ; US-IA                 ; Iowa                           ; IA          ; True                  ;
+                    ; US              ; US-KS                 ; Kansas                         ; KS          ; True                  ; True
+                    ; US              ; US-KY                 ; Kentucky                       ; KY          ; True                  ; True
+                    ; US              ; US-LA                 ; Louisiana                      ; LA          ; True                  ; True
+                    ; US              ; US-ME                 ; Maine                          ; ME          ; True                  ;
+                    ; US              ; US-MH                 ; Marshall Islands               ; MH          ; False                 ;
+                    ; US              ; US-MD                 ; Maryland                       ; MD          ; True                  ;
+                    ; US              ; US-MA                 ; Massachusetts                  ; MA          ; True                  ;
+                    ; US              ; US-MI                 ; Michigan                       ; MI          ; True                  ;
+                    ; US              ; US-MN                 ; Minnesota                      ; MN          ; True                  ; True
+                    ; US              ; US-MS                 ; Mississippi                    ; MS          ; True                  ; True
+                    ; US              ; US-MO                 ; Missouri                       ; MO          ; True                  ;
+                    ; US              ; US-MT                 ; Montana                        ; MT          ; True                  ;
+                    ; US              ; US-NE                 ; Nebraska                       ; NE          ; True                  ; True
+                    ; US              ; US-NV                 ; Nevada                         ; NV          ; True                  ;
+                    ; US              ; US-NH                 ; New Hampshire                  ; NH          ; True                  ;
+                    ; US              ; US-NJ                 ; New Jersey                     ; NJ          ; True                  ;
+                    ; US              ; US-NM                 ; New Mexico                     ; NM          ; True                  ; True
+                    ; US              ; US-NY                 ; New York                       ; NY          ; True                  ;
+                    ; US              ; US-NC                 ; North Carolina                 ; NC          ; True                  ; True
+                    ; US              ; US-ND                 ; North Dakota                   ; ND          ; True                  ; True
+                    ; US              ; US-MP                 ; Northern Mariana Islands       ; MP          ; True                  ;
+                    ; US              ; US-OH                 ; Ohio                           ; OH          ; True                  ; True
+                    ; US              ; US-OK                 ; Oklahoma                       ; OK          ; True                  ;
+                    ; US              ; US-OR                 ; Oregon                         ; OR          ; True                  ;
+                    ; US              ; US-PW                 ; Palau                          ; PW          ; False                 ;
+                    ; US              ; US-PA                 ; Pennsylvania                   ; PA          ; True                  ;
+                    ; US              ; US-PR                 ; Puerto Rico                    ; PR          ; True                  ;
+                    ; US              ; US-RI                 ; Rhode Island                   ; RI          ; True                  ; True
+                    ; US              ; US-SC                 ; South Carolina                 ; SC          ; True                  ; True
+                    ; US              ; US-SD                 ; South Dakota                   ; SD          ; True                  ; True
+                    ; US              ; US-TN                 ; Tennessee                      ; TN          ; True                  ; True
+                    ; US              ; US-TX                 ; Texas                          ; TX          ; True                  ;
+                    ; US              ; US-UT                 ; Utah                           ; UT          ; True                  ;
+                    ; US              ; US-VT                 ; Vermont                        ; VT          ; True                  ;
+                    ; US              ; US-VI                 ; Virgin Islands                 ; VI          ; True                  ;
+                    ; US              ; US-VA                 ; Virginia                       ; VA          ; True                  ;
+                    ; US              ; US-WA                 ; Washington                     ; WA          ; True                  ; True
+                    ; US              ; US-WV                 ; West Virginia                  ; WV          ; True                  ;
+                    ; US              ; US-WI                 ; Wisconsin                      ; WI          ; True                  ; True
+                    ; US              ; US-WY                 ; Wyoming                        ; WY          ; True                  ;
+                    ; CA              ; CA-AB                 ; Alberta                        ; AB          ; True                  ;
+                    ; CA              ; CA-BC                 ; British Columbia               ; BC          ; True                  ;
+                    ; CA              ; CA-MB                 ; Manitoba                       ; MB          ; True                  ;
+                    ; CA              ; CA-NB                 ; New Brunswick                  ; NB          ; True                  ;
+                    ; CA              ; CA-NL                 ; Newfoundland and Labrador      ; NL          ; True                  ;
+                    ; CA              ; CA-NT                 ; Northwest Territories          ; NT          ; True                  ;
+                    ; CA              ; CA-NS                 ; Nova Scotia                    ; NS          ; True                  ;
+                    ; CA              ; CA-NU                 ; Nunavut                        ; NU          ; True                  ;
+                    ; CA              ; CA-ON                 ; Ontario                        ; ON          ; True                  ;
+                    ; CA              ; CA-PE                 ; Prince Edward Island           ; PE          ; True                  ;
+                    ; CA              ; CA-QC                 ; Quebec                         ; QC          ; True                  ;
+                    ; CA              ; CA-SK                 ; Saskatchewan                   ; SK          ; True                  ;
+                    ; CA              ; CA-YT                 ; Yukon Territory                ; YT          ; True                  ;
+                    ; PR              ; US-PR                 ; Puerto Rico                    ; PR          ; True                  ;
+																																	 ;

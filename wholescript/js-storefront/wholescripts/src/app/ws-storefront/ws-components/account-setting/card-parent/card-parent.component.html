@@ -1,0 +1,33 @@
+<div *ngIf="loader">
+    <cx-spinner></cx-spinner>
+</div>
+<div [style.visibility]="!loader ? 'visible' : 'hidden'" class="payment-box-container d-flex row">
+    @if(paymentRes$|async;as card){ @for(item of card?.cartData?.item; track item){
+        <div class="payment-box p-4">
+            <div class="d-flex justify-content-between">
+                <div class="card-details fw-600">
+                    <span><i class="fa-solid fa-credit-card"></i></span>
+                    <span> {{ $any(item)?.cardType }} </span>
+                    <span>({{ $any(item)?.cardNumber?.slice(-4) }}) </span>
+                    <span>| Exp {{ $any(item)?.validTo | date : "MM/yy" }}
+                    <span class="text-danger">{{ item.validTo | isExpired }}</span></span>
+                </div>
+                <div class="close fw-600 cursor-pointer" (click)="removeCard($any(item)?.cardId , $any(item)?.cardNumber, $any(item)?.payer)" tabindex="0">x</div>
+            </div>
+            <div class="d-flex mt-3 fs-18 justify-content-between">
+                <div class="col-4 p-0 cardName">
+                    <h5 class="m-0 fw-600">Name on Card</h5>
+                    <p class="m-0">{{ $any(item)?.creditCardName }}</p>
+                </div>
+                <div class="col-7 p-0 billingAddress">
+                    <h5 class="m-0 fw-600">Billing Address</h5>
+                    <p class="m-0">{{ $any(item)?.billingAddress?.formattedAddress }}</p>
+                    
+                </div>
+            </div>
+        </div>
+         }@empty {
+        <h3 class="bolder">No Credit Cards Saved</h3>
+        } 
+        }
+</div>

@@ -1,0 +1,101 @@
+<div id="autoships-landing-page" class="container-fluid">
+    <div class="row autoships-landing-page-wrapper">
+        <section class="autoships-landing-page-header-section"
+            *ngIf="AutoshipsHeaderBannerComp$ | async as AutoshipsHeaderBannerComp">
+            <div class="header-wrapper">
+                <cx-media [container]="AutoshipsHeaderBannerComp?.media"></cx-media>
+                <div class="header-wrapper-content">
+                    <h3>
+                        {{AutoshipsHeaderBannerComp?.headline}}
+                    </h3>
+                    <div [outerHTML]="AutoshipsHeaderBannerComp?.content"></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="autoships-landing-page-content-section">
+            <div class="autoships-landing-page-content-section-wrapper">
+                <h4>How does it work?</h4>
+                <div class="steps row">
+                    <div class="each-step col-md-3 col-sm-12"
+                        *ngIf="SelectYourProductsBannerComp$ | async as SelectYourProductsBannerComp">
+                        <cx-media [container]="SelectYourProductsBannerComp?.media"></cx-media>
+                        <div class="each-step-content-wrapper">
+                            <p class="each-step-content-heading">{{SelectYourProductsBannerComp?.headline}}</p>
+                            <p class="each-step-content-helper" [outerHTML]="SelectYourProductsBannerComp?.content"></p>
+                        </div>
+                    </div>
+                    <div class="each-step col-md-3 col-sm-12"
+                        *ngIf="SetAutoshipFrequencyBannerComp$ | async as SetAutoshipFrequencyBannerComp">
+                        <cx-media [container]="SetAutoshipFrequencyBannerComp?.media"></cx-media>
+                        <div class="each-step-content-wrapper">
+                            <p class="each-step-content-heading">{{SetAutoshipFrequencyBannerComp?.headline}}</p>
+                            <p class="each-step-content-helper" [outerHTML]="SetAutoshipFrequencyBannerComp?.content">
+                            </p>
+                        </div>
+
+                    </div>
+                    <div class="each-step col-md-3 col-sm-12"
+                        *ngIf="EnjoyAutoshipDeliveriesBannerComp$ | async as EnjoyAutoshipDeliveriesBannerComp">
+                        <cx-media [container]="EnjoyAutoshipDeliveriesBannerComp?.media"></cx-media>
+                        <div class="each-step-content-wrapper">
+                            <p class="each-step-content-heading">{{EnjoyAutoshipDeliveriesBannerComp?.headline}}</p>
+                            <p class="each-step-content-helper" [outerHTML]="EnjoyAutoshipDeliveriesBannerComp?.content"></p>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="GotoCatalogLink$ | async as GotoCatalogLink">
+                    <a class="btn btn-primary btn-rounded go-to-catalog-btn" [routerLink]="GotoCatalogLink?.url">
+                        {{GotoCatalogLink?.linkName}}
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section *ngIf="faqQuestionsAndAnswers?.faqTopicList?.length > 0" class="faq-section">
+            <div class="faq-hexagon-image-wrapper">
+                <svg xmlns="http://www.w3.org/2000/svg" width="98" height="110" viewBox="0 0 98 110" fill="none">
+                    <g opacity="0.5">
+                        <path
+                            d="M88.9846 29.8483L50.9846 8.13403C49.7548 7.43133 48.2452 7.43133 47.0154 8.13403L9.01544 29.8483C7.76914 30.5605 7 31.8859 7 33.3213V76.6787C7 78.1141 7.76914 79.4395 9.01544 80.1517L47.0154 101.866C48.2452 102.569 49.7548 102.569 50.9846 101.866L88.9846 80.1517C90.2309 79.4395 91 78.1141 91 76.6787V33.3213C91 31.8859 90.2309 30.5605 88.9846 29.8483Z"
+                            stroke="#EFEFF4" stroke-width="14" stroke-linecap="round" />
+                    </g>
+                </svg>
+            </div>
+            <h3 class="faq-heading">Frequently asked questions</h3>
+            <p  class="faq-sub-heading">Everything you need to know about AutoShips.</p>
+            <div class="faq-card" *ngFor="let topic of faqQuestionsAndAnswers?.faqTopicList" [ngClass]="[toggleAnswer[topic?.uid] ? 'highlighted' : '']">
+                <button class="accordion" aria-expanded="false" (click)="toggleQuestion(topic)">
+                    <p class="faq-card-question"> 
+                        {{topic?.question}}
+                    </p>
+                    <div class="chevron">
+                        <i class="fas fa-chevron-down" aria-hidden="true" *ngIf="!toggleAnswer[topic?.uid]"></i>
+                        <i class="fas fa-chevron-up" aria-hidden="false" *ngIf="toggleAnswer[topic?.uid]"></i>
+                    </div>
+                </button>
+
+                <div class="panel" id="{{topic?.uid}}" *ngIf="toggleAnswer[topic?.uid]">
+                    <p class="faq-card-answer">
+                        {{topic?.answer}}
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section class="autoships-landing-page-footer-section">
+            <div class="contact-us-wrapper">
+                <div class="contact-us-image-wrapper">
+                    <img src="/assets/icons/common_icons/contact-us-hexagon.svg" alt="contact-us-hexagon">
+                </div>
+                <div class="content-wrapper">
+                    <h4 class="heading">Can’t find what you need?</h4>
+                    <p class="content">Get in touch with us. Call us at 1 (800) 647-6100 or fill in the contact form and
+                        we’ll get back to you</p>
+                </div>
+                <a class="btn btn-rounded contact-us-button" [routerLink]="'/contact-us'">Contact us</a>
+            </div>
+        </section>
+    </div>
+
+</div>

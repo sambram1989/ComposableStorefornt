@@ -1,0 +1,53 @@
+$active-border-color: #64dba8;
+$inactive-border-color: rgba(44, 42, 51, 0.1);
+$inactive-border-left: rgba(44, 42, 51, 0.1);
+$hover-border-color: rgba(44, 42, 51, 0.9);
+$font-color: #242424;
+$background-color: #fff;
+$circle-background-color: rgba(44, 42, 51, 0.1);
+
+@mixin grid-center {
+  display: grid;
+  place-items: center;
+  height: 100%;
+}
+
+@mixin border-styling($border-color, $left-border-color) {
+  border: 2px solid $border-color;
+  border-left: 10px solid $left-border-color;
+}
+
+.parent {
+  color: $font-color;
+  background: $background-color;
+  margin-top: 3px;
+  margin-bottom: 3px;
+  border-radius: 4px;
+  font-weight: bold;
+
+  &.isActive {
+    @include border-styling($active-border-color, $active-border-color);
+  }
+
+  &.notActive {
+    @include border-styling($inactive-border-color, $inactive-border-left);
+    font-weight: normal;
+  }
+
+  &:hover:not(.isActive) {
+    @include border-styling($hover-border-color, $hover-border-color);
+  }
+}
+
+.bg-set {
+  @include grid-center;
+  float: right;
+  background-color: $active-border-color;
+  color: white;
+}
+
+.bg-circle {
+  @include grid-center;
+  float: right;
+  background-color: $circle-background-color;
+}

@@ -1,0 +1,329 @@
+<div class="referral-settings-container">
+  <!-- Back Button -->
+  <div class="back-button">
+    <a (click)="goBack()" class="back-link" tabindex="0" (keydown.enter)="goBack()">&lt; Back</a>
+  </div>
+
+  <!-- Header Section -->
+  <div class="header" *ngIf="!loader">
+    <h1>Referral code settings for {{ referralDetails?.referralCode }} | {{ referralDetails?.lastName }}</h1>
+    <p>
+      View or edit your referral code and business information. Your business information will help your patients know more about your practice/business.
+    </p>
+  </div>
+
+  <!-- Form Section -->
+  <div class="form-section" *ngIf="!loader">
+    <!-- Referral Code, Last Name Display -->
+    <div class="form-group row align-items-center">
+      <label class="col-12 col-md-5">Referral code, last name:</label>
+      <span class="code-display col-12 col-md-7">{{ referralDetails?.referralCode }}, {{ referralDetails?.lastName }}</span>
+    </div>
+
+    <!-- Patient Discount Dropdown -->
+    <div class="form-group row align-items-center">
+      <label class="col-12 col-md-5" for="patientDiscountSelect">Patient discount: <span>*</span></label>
+      <div class="col-12 col-md-7">
+      <select [(ngModel)] = "discount" id="patientDiscountSelect">
+        <option value = '0'>0%</option>
+        <option value = '5'>5%</option>
+        <option value = '10' >10%</option>
+        <option value = '15'>15%</option>
+        <option value = '20'>20%</option>
+        <option value = '25'>25%</option>
+        <option value = '30'>30%</option>
+      </select>
+      </div>
+    </div>
+
+    <!-- Referral Link -->
+    <div class="form-group row align-items-center">
+      <label class="col-12 col-md-5" for="referralLinkInput">Referral link: <span>*</span></label>
+      <div class="col-12 col-md-7">
+        <div class="referral-link w-100">
+        <span>{{baseUrl}}/register/</span>
+        <input id="referralLinkInput" [maxLength]="64" type="text" [(ngModel)]="referralLink" />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="!loader">
+    <div class="col-sm-5 profile-image-text-section">
+        <h5>Profile image</h5>
+        <p>If no image is provided a default will be displayed instead</p>
+    </div>
+    <div class="col-sm-7 profile-image-section">
+        <img *ngIf="!selectedFile && !referralCodeDetails?.profileImage?.url" alt="profile-image" src="/assets/icons/common_icons/avatar.svg" />
+        <cx-media *ngIf="!selectedFile && referralCodeDetails?.profileImage?.url" [container]="referralCodeDetails?.profileImage"></cx-media>
+        <div *ngIf="selectedFile" class="selected-file-image">
+            <img [src]="imageUrl" width="64" height="64" alt="Uploaded Image" class="rounded-image" />
+            <a (click)="removeImage()" tabindex="0" (keydown.enter)="removeImage()">Remove</a>
+        </div>
+        <div class="profile-image-upload-section" (dragover)="onDragOver($event)" (dragleave)="onDragLeave()" (drop)="onDrop($event)">
+            <div>
+                <img alt="upload" width="48" height="48" src="/assets/icons/common_icons/upload-icon.svg" />
+            </div>
+            <div class="profile-image-file-upload">
+                <input id="profile-image-upload-input" aria-label="Profile Image" accept=".png, .jpg, .jpeg, .gif" type="file" #fileInput (change)="onFileSelected($event)" hidden />
+                <div class="profile-image-upload">
+                    <div>
+                        <span (click)="fileInput.click()" tabindex="0" (keydown.enter)="fileInput.click()">Click to upload</span> or drag and drop
+                    </div>
+                    <div>
+                        PNG, JPG or GIF (max. 300x300px)
+                    </div>
+                </div>
+                <div class="profile-file-image-wrapper">
+                    <img alt="jpg" src="/assets/icons/common_icons/file-jpg.svg" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div class="account-info-form-wrapper row" *ngIf="!loader">
+    <div class="account-info-form-header col-sm-5">
+        <h5>About your practice</h5>
+        <p>Get featured by providing the required information</p>
+    </div>
+    <div class="account-info-form-content col-sm-7">
+        <form id="accountInfoForm" [formGroup]="accountInfoForm" (ngSubmit)="onSubmit()" *ngIf="!formSuccess">
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <span class="floating-heading">PRACTICE NAME<span>*</span></span>
+                        <input placeholder="Enter your practice name" [maxLength]="128" formControlName="practiceName" [maxLength]="100"
+                            class="form-control form-control-practiceName" aria-label="Practice Name">
+                        <div
+                            *ngIf="(submitted && accountInfoForm.controls.practiceName.invalid) || (accountInfoForm.controls.practiceName.invalid && (accountInfoForm.controls.practiceName.dirty || accountInfoForm.controls.practiceName.touched))">
+                            <div
+                                class="error-message required">
+                                Please enter your practice name.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+              <div class="col-sm-12">
+                  <div class="form-group">
+                      <span class="floating-heading">TITLE</span>
+                      <input placeholder="Enter title" [maxLength]="128" formControlName="name" [maxLength]="100"
+                          class="form-control form-control-name" aria-label="Name">
+                  </div>
+              </div>
+          </div>
+
+          <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <span class="floating-heading">DESCRIPTION</span>
+                    <textarea placeholder="Enter a description..." maxlength="2048" formControlName="description"
+                        class="form-control form-control-name" aria-label="Description"></textarea>
+                        <div>
+                        <div
+                            class="description">
+                            2048 character limit
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <span class="floating-heading">ADDRESS<span>*</span></span>
+                        <input placeholder="Enter your address" formControlName="address" [maxLength]="100"
+                            class="form-control form-control-address" aria-label="Address">
+                        <div
+                            *ngIf="(submitted && accountInfoForm.controls.address.invalid) || (accountInfoForm.controls.address.invalid && (accountInfoForm.controls.address.dirty || accountInfoForm.controls.address.touched))">
+                            <div *ngIf="!accountInfoForm.controls.address.errors?.['forbiddenText']"
+                                class="error-message required">
+                                Please enter your address.
+                            </div>
+                            <div *ngIf="accountInfoForm.controls.address.errors?.['forbiddenText']"
+                                class="error-message required">
+                                Address can't have a P.O. Box.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-6 col-sm-6">
+                    <div class="form-group">
+                        <span class="floating-heading">APT/SUITE</span>
+                        <input placeholder="Enter apt/suite" formControlName="aptOrSuite" [maxLength]="100"
+                            class="form-control form-control-aptOrSuite" aria-label="Apt or Suite">
+                        <div *ngIf="accountInfoForm.controls.aptOrSuite.errors?.['forbiddenText']"
+                            class="error-message required">
+                            Suite, Apt, etc. can't have a P.O. Box.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-6 col-sm-6">
+                    <div class="form-group">
+                        <span class="floating-heading">CITY<span>*</span></span>
+                        <input placeholder="Enter City" formControlName="city" [maxLength]="100"
+                            class="form-control form-control-city" aria-label="City">
+                        <div
+                            *ngIf="(submitted && accountInfoForm.controls.city.invalid) || (accountInfoForm.controls.city.invalid && (accountInfoForm.controls.city.dirty || accountInfoForm.controls.city.touched))">
+                            <div
+                                class="error-message required">
+                                Please enter your city.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-6 col-sm-6">
+                    <div class="form-group">
+                        <span class="floating-heading">STATE<span>*</span></span>
+                        <select class="form-control input-lg form-control-inquiry py-0" formControlName="state">
+                            <option value="">Select state</option>
+                            <option *ngFor="let region of regions" [value]="region?.isocode">{{region?.name}}
+                            </option>
+                        </select>
+                        <div
+                            *ngIf="(submitted && accountInfoForm.controls.state.invalid) || (accountInfoForm.controls.state.invalid && (accountInfoForm.controls.state.dirty || accountInfoForm.controls.state.touched))">
+                            <div
+                                class="error-message required">
+                                Please select a state.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-6 col-sm-6">
+                    <div class="form-group">
+                        <span class="floating-heading">ZIP CODE<span>*</span></span>
+                        <input placeholder="Enter zip code" formControlName="zipCode" type="text" pattern="[0-9]*" inputmode="numeric" [maxLength]="10" (input)="onZipcodeInput($event)"
+                            class="form-control form-control-zipCode" aria-label="Zip Code">
+                        <div
+                            *ngIf="(submitted && accountInfoForm.controls.zipCode.invalid) || (accountInfoForm.controls.zipCode.invalid && (accountInfoForm.controls.zipCode.dirty || accountInfoForm.controls.zipCode.touched))">
+                            <div
+                                class="error-message required">
+                                Please enter a valid zip code.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <span class="floating-heading">PHONE<span>*</span></span>
+                        <!-- <input placeholder="Enter phone number" class="form-control form-control-phone" type="tel" maxlength="14"
+                            formControlName="phone" aria-label="Phone Number"> -->
+                            
+                        <ws-formcontrol-input [wsLabel]="'Phone'" [FixedLabel]="true"
+                            [wsControlName]="accountInfoForm.controls.phone" [maskValue]="'(000) 000-0000'" [isShowMaskTyped]="true"
+                            [isMasked]="true" [wswidth]="'100%'" [wsheight]="'44px'" [isSelectBox]="false" [isShowStart]="false"
+                            aria-required="false">
+                        </ws-formcontrol-input>
+                        <div
+                            *ngIf="(submitted && accountInfoForm.controls.phone.invalid) || (accountInfoForm.controls.phone.invalid && (accountInfoForm.controls.phone.dirty || accountInfoForm.controls.phone.touched))">
+                            <div
+                                class="error-message required">
+                                Please enter a valid phone number.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="form-group email">
+                        <span class="floating-heading">EMAIL<span>*</span></span>
+                        <i class="fa fa-envelope" aria-hidden="true"></i>
+                        <input id="contactEmail" [maxLength]="256" placeholder="Enter email" class="form-control form-control-email" [maxLength]="256"
+                            type="email" formControlName="email" aria-label="Email">
+                        <div
+                            *ngIf="(submitted && accountInfoForm.controls.email.invalid) || (accountInfoForm.controls.email.invalid && (accountInfoForm.controls.email.dirty || accountInfoForm.controls.email.touched))">
+                            <div
+                                class="error-message required">
+                                Please enter a valid email.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+
+                <div class="col-sm-12">
+                    <div class="form-group asterisk small-asterisk">
+                        <span class="floating-heading">WEBSITE</span>
+                        <input placeholder="Enter your website" [maxLength]="2048" class="form-control form-control-webSite" [maxLength]="64"
+                            formControlName="webSite" aria-label="Website">
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <p class="col-sm-12 m-0 error-text">* Required fields</p>
+                <div class="col-12 col-sm-12 error-block" *ngIf="submitted && (
+                    accountInfoForm.controls.name.invalid ||
+                    accountInfoForm.controls.practiceName.invalid ||
+                    accountInfoForm.controls.address.invalid ||
+                    accountInfoForm.controls.city.invalid ||
+                    !accountInfoForm?.value?.state ||
+                    accountInfoForm.controls.zipCode.invalid ||
+                    accountInfoForm.controls.email.invalid ||
+                    accountInfoForm.controls.phone.invalid
+                )">
+                    <div>
+                        <p class="block-error" *ngIf="accountInfoForm.controls.practiceName.invalid">Please enter your
+                            practice name.</p>
+                        <p class="block-error" *ngIf="accountInfoForm.controls.address.invalid">Please enter your address.
+                        </p>
+                        <p class="block-error" *ngIf="accountInfoForm.controls.city.invalid">Please enter your city.</p>
+                        <p class="block-error" *ngIf="!accountInfoForm?.value?.state">Please select a state.</p>
+                        <p class="block-error" *ngIf="accountInfoForm.controls.zipCode.invalid">Please enter a valid zip
+                            code.</p>
+                        <p class="block-error" *ngIf="accountInfoForm.controls.phone.invalid">Please enter a valid phone
+                            number.</p>
+                        <p class="block-error" *ngIf="accountInfoForm.controls.email.invalid">Please enter a valid email.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 d-flex align-items-center justify-content-end">
+                    <button id="btnSend" type="submit" class="btn btn-primary btn-rounded float-right">Save
+                        Changes</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div *ngIf="loader" class="d-flex align-items-center justify-content-center">
+    <cx-spinner></cx-spinner>
+</div>
+
+
+
+<div class="toast-wrapper" *ngIf="toastMessage">
+  <div class="toast">
+      <div class="d-flex toast-header">
+          <img width="32" height="32" src="/assets/icons/common_icons/featured-success-icon.svg" />
+          <div class="d-flex toast-header-message-wrapper">
+              <p>{{toastMessage}}</p>
+              <i class="fa fa-close" (click)="toastMessage = ''"></i>
+          </div>
+      </div>
+  </div>
+</div>
+</div>

@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="wholescriptsbackoffice_bof">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/hybris/bin/custom/wholescriptsbackoffice/resources/backoffice/wholescriptsbackoffice_bof.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

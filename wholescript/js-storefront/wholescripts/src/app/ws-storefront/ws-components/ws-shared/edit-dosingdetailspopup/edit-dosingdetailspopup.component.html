@@ -1,0 +1,111 @@
+<ng-content select="[topSection]"></ng-content>
+
+<div class="modal-body text-black p-0">
+    <hr>
+    <div class="row">
+        <div class="col-3 edit-protocol-img">
+            <cx-media
+                [container]="(currentProduct?.prod?.medPaxImage && currentProduct?.prod?.medPaxImage?.url) 
+                ? currentProduct?.prod?.medPaxImage|| null : 
+                ( (currentProduct?.product?.images && currentProduct?.product?.images.length) 
+                ? currentProduct?.product?.images[1] || null : null)"
+                 [alt]="currentProduct?.prod?.name">
+                </cx-media>
+        </div>
+        <div class="col-9">
+            <span class="bolder" [innerHTML]="currentProduct?.prod?.name"></span>
+            <br>
+            <span>Label Dosing: {{ +currentProduct?.prod?.inAM ? currentProduct?.prod?.inAM + ' in AM' : '' }}
+                {{((+currentProduct?.prod?.inAM)&&(+currentProduct?.prod?.inPM)) ? ' | ' : '' }}
+                {{ +currentProduct?.prod?.inPM ? currentProduct?.prod?.inPM + ' in PM' : '' }}
+                {{((+currentProduct?.prod?.inPM)&&(+currentProduct?.prod?.inDaily)) ? ' | ' : '' }}
+                {{ +currentProduct?.prod?.inDaily ? currentProduct?.prod?.inDaily + ' in Daily' : '' }}
+                {{((+currentProduct?.prod?.inDaily)&&(+currentProduct?.prod?.inBedtime)) ? ' | ' : '' }}
+                {{ +currentProduct?.prod?.inBedtime ? currentProduct?.prod?.inBedtime + ' in Bedtime' : '' }}
+            </span>
+                <br>
+            <span>@if(customDosingList()?.dosingList?.length){Custom Dosing: 
+                {{customDosingList()?.dosingList|slice:0:4|dosingPipe}}
+                }
+            </span>
+            <div>
+                <span role="button" tabindex="0" class="span-btn bolder text-danger btn-link fs-16 " (keypress)="updateLabelDosing(currentProduct?.prod,true)" (click)="updateLabelDosing(currentProduct?.prod,true)">Reset to Label</span>
+                <span *ngIf="customDosingList()?.dosingList?.length"  class="">&nbsp;|&nbsp;</span>
+                <span *ngIf="customDosingList()?.dosingList?.length" role="button" tabindex="0" class="span-btn bolder text-danger btn-link fs-16" (keypress)="updateCustomDosing('resetCustom')" (click)="updateCustomDosing('resetCustom')">
+                    @if(customDosingList()?.dosingList?.length){
+                    Reset to Custom
+                    }
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="row my-3">
+        <div class="col-12">
+            <span class="bolder">Dosing</span>
+        </div>
+        <ng-container [formGroup]="wrapperForm">
+            <ng-container formArrayName="hobbiesArray">
+                <ng-container *ngFor="let auxInfo of hobbies.controls; index as idx; last as isLast">
+                    <ng-container [formGroupName]="idx">
+                        <div class="mt-3">
+                            <div class="row justify-content-center align-items-center mx-0 dosing-section">
+                                <div class="col-4 qty pl-0" id="unitsQtyDiv">
+                                    <div class="qty-flex">
+                                        <label for="qty-{{idx}}" class="ml-35" style="font-size:12px; font-weight:200;"
+                                            id="unitsLabel">QTY</label>
+                                        <div class="nice-number">
+                                            <button type="button" class="min" (click)="decrementQty(idx)">-</button>
+                                            <input id="qty-{{idx}}" type="text" formControlName="qty"
+                                                class="text-center w-25 in-h">
+                                            <button type="button" class="max" (click)="incrementQty(idx)">+</button>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="col-7 row justify-content-between align-items-center dosing">
+                                    @for(time of DisplayItemTimes; track time){
+                                    <div class="col-3 text-center radio-container"  [class.disabled-radio]="!isRadioEnabled(idx, time.code)">
+                                        <!-- <input role="button" tabindex="0" [value]="time.code" class="ws-radio" formControlName="radio"
+                                        (click)="onRadioChange(idx)" (keypress)="onRadioChange(idx)"
+                                            [class.disabled]="!isRadioEnabled(idx, time.code)"> -->
+                                        <div>
+                                            <span style="font-size:18px;">{{time.code}}</span>
+                                            <img role="button" tabindex="0" (click)="isRadioEnabled(idx, time.code) && onRadioChange(idx, time)" (keypress)="isRadioEnabled(idx, time.code) && onRadioChange(idx, time)" [class.border-ws]="getSelectedRadio(idx) == time.code" [src]="time.src"
+                                                alt="{{time.alt}}" class="img-icon">
+                                        </div>
+                                    </div>
+                                    }
+                                </div>
+                                <div class="col-1 text-right">
+                                </div>
+                                <a tabindex="0" role="button" class="text-danger bolder edit-dose-del del" style="cursor: pointer;"
+                                    *ngIf="hobbies.length > 1" (keypress)="removeInputControl(idx)" (click)="removeInputControl(idx)">×</a>
+                            </div>
+                            <div class="row align-items-center mx-0">
+                                <div class="col-6 mt-md-4">
+                                    @if(isLast && (idx < 3)){ <a
+                                        tabindex="0" role="button"
+                                        class="btn btn-outline-primary btn-rounded btn-h bolder h6 moredoseBtn"
+                                        (keypress)="addInputControl()"
+                                        (click)="addInputControl()">
+                                        + More dosing times</a>
+                                        }
+                                </div>
+                                <div class="col-6 text-right mt-4" [class.disable-anchor]="!wrapperForm.valid" >
+                                    @if(isLast){
+                                    <a  tabindex="0" role="button" class="text-link bolder h6 cursor-pointer"
+                                     (click)="saveEditDosing()" (keypress)="saveEditDosing()">
+                                        <i [ngClass]=" savedCustomSignal ?'fa fa-check':'fa fa-download'"></i>
+                                        Save as custom
+                                    </a>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </ng-container>
+                </ng-container>
+            </ng-container>
+        </ng-container>
+    </div>
+</div>
+<ng-content select="[bottomSection]"></ng-content>

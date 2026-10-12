@@ -1,0 +1,61 @@
+# -----------------------------------------------------------------------
+# Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+# -----------------------------------------------------------------------
+# 
+# Create the BaseStore
+#
+$productCatalog = Catalog_1710_10
+$currencies = USD
+$net = true
+$storeUid = wholescripts
+$defaultCurrency = USD
+$languages = en
+$defaultLanguage = en
+$deliveryCountries = US
+$billingCountries = US
+$orderProcessCode = order-process
+$customerAllowedToIgnoreSuggestions = true
+$paymentProvider = Mockup
+$checkoutFlowGroup = defaultCheckoutGroup
+$lang=en
+
+# Base Store
+INSERT_UPDATE BaseStore ; uid[unique = true] ; catalogs(id) ; currencies(isocode) ; net  ; taxGroup(code) ; storelocatorDistanceUnit(code) ; defaultCurrency(isocode) ; languages(isocode) ; defaultLanguage(isocode) ; deliveryCountries(isocode) ; billingCountries(isocode) ; submitOrderProcessCode ; pickupInStoreMode(code) ; customerAllowedToIgnoreSuggestions  ; paymentProvider  ; checkoutFlowGroup  ; maxRadiusForPoSSearch;paymentricStoreId
+                        ; $storeUid          ;              ; $currencies         ; $net ;                ; miles                          ; $defaultCurrency         ; $languages         ; $defaultLanguage         ; $deliveryCountries         ; $billingCountries         ; $orderProcessCode      ; BUY_AND_COLLECT         ; $customerAllowedToIgnoreSuggestions ; $paymentProvider ; $checkoutFlowGroup ; 4,000,000        ;1
+
+INSERT_UPDATE Warehouse; code[unique = true]; name[lang = en];vendor(code)
+                       ; 1710     ; 1710;1710
+# Vendor
+INSERT_UPDATE Vendor ; code[unique=true] ; name
+                     ; 1710           ; 1710
+
+INSERT_UPDATE BaseStore2WarehouseRel ; source(uid)[unique=true] ; target(code)[unique=true]
+                                     ; $storeUid                ; 1710
+                                     
+INSERT_UPDATE BaseStore2DeliveryModeRel ; source(uid)[unique=true] ; target(code)[unique=true]
+                                        ; $storeUid                ; premium-net              
+                                        ; $storeUid                ; standard-net             
+
+######## Create SAP Configuration ##########
+INSERT_UPDATE sapconfiguration ; core_name[unique=true] ; sapcommon_salesOrganization ; sapcommon_distributionChannel ; sapcommon_division
+                               ; sapWholescripts        ; 1710                        ; 10                            ; 10                
+
+INSERT_UPDATE BaseStore ; uid[unique=true] ; sapconfiguration(core_name)
+                        ; wholescripts     ; sapWholescripts            
+
+INSERT_UPDATE ReferenceDistributionChannelMapping ; salesOrganization[unique=true] ; distChannel[unique=true] ; distChannelName[lang=$lang] ; refDistChannelConditions ; refDistChannelConditionsName[lang=$lang] ; refDistChannelCustMat ; refDistChannelCustMatName[lang=$lang] ;  
+                                                  ; 1710                           ; 10                       ; "Distribution Channel 10"   ; 10                       ; "Distribution Channel "                  ; 10                    ; "Distribution Channel 10"             
+
+INSERT_UPDATE ReferenceDivisionMapping ; salesOrganization[unique=true] ; division[unique=true] ; divisionName[lang=$lang] ; refDivisionConditions ; refDivisionConditionsName[lang=$lang] ; refDivisionCustomer ; refDivisionCustomerName[lang=$lang]
+                                       ; 1710                           ; 10                    ; "Product division 10"    ; 10                    ; "Product division 10"                 ; 00                  ; "Product Division 10"              
+
+
+INSERT_UPDATE SAPDeliveryMode; sapConfiguration(core_name)[unique=true]; deliveryMode(code)[unique=true] ; deliveryValue
+                             ; sapWholescripts            ; standard-net       ; 01
+								  
+UPDATE sapconfiguration;core_name[unique=true];sapCustomerPriceGroup;reconciliationAcct;sortkey;creditMemoPytTerm;bankStatement;deliveryPriority;incoterms;actAsGrp;maxPartDeliveries;taxClass;sapcommon_transactionType
+                       ;sapWholescripts       ;01                   ;12100000          ;001    ;XCRD             ;2            ;03              ;FOB      ;01      ;5                ;1       ;OR  
+
+                       
+UPDATE BaseStore ; uid[unique = true] 	; isNotificationSettingsEnabled
+				 ; wholescripts			; true

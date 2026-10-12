@@ -1,0 +1,44 @@
+<div #ngSelectWrapper>    
+@defer(when (wsControlName)) {
+    <div class="ws-form-control">   
+        @if(isSelectBox) {
+        
+            <ng-select class="select-control" [formControl]="wsControlName" [searchable]="true" [disabled]="dropdownData().length === 1"
+                [clearable]="false" aria-label="input-label" [placeholder]="placeholder">
+                <ng-option *ngFor="let opt of selectBoxData || dropdownData()" [value]="opt?.code" [attr.aria-label]="opt?.value || opt?.name ">
+                    {{opt?.value || opt?.name}}
+                </ng-option>
+            </ng-select>
+       
+        <span class="select-span" id="select-label">{{wsLabel}}</span>
+        <i class="text-danger fas fa-asterisk float-right required-asterisk" [ngStyle]="{top: top,left: left}" [ngClass]="{'d-none':!isShowStart}"
+            aria-hidden="true"></i>
+        } @else {
+            <label [for]="wsControlName?.value" class="sr-only">{{ wsLabel || 'Input field' }}</label>
+        <div class="input-box">
+            @if (isMasked) {
+            <input [maxLength]="maxLength ? maxLength : 28" aria-label="select" type="text" [ngStyle]="{width:wswidth, height:wsheight}" [mask]="maskValue"
+                [showMaskTyped]="isShowMaskTyped" [formControl]="wsControlName" [attr.aria-label]="wsLabel"
+                aria-required="true" wsMinLengthCheck [placeholder]="FixedLabel ? wsLabel : '' ">
+    
+            <span [class.is-fixed-label]="FixedLabel" [class.d-none]="FixedLabel" >{{wsLabel}}</span>
+            } @else {
+            <input [maxLength]="maxLength ? maxLength : 28" aria-label="select" class="input-style" [ngStyle]="{width:wswidth, height:wsheight}" [type]="WsInputType()" wsMinLengthCheck
+                [formControl]="wsControlName" [attr.aria-label]="wsLabel" aria-required="true" [readOnly]="isReadOnly"
+                 [placeholder]="FixedLabel ? wsLabel : ''">
+            <span [class.is-fixed-label]="FixedLabel" [class.d-none]="FixedLabel" >{{wsLabel}}</span>
+            <i class="text-danger fas fa-asterisk float-right required-asterisk" [ngStyle]="{top: top,}"
+                [ngClass]="{'d-none':!isShowStart}" aria-hidden="true"></i>
+            }
+        </div>
+        }
+    </div>
+
+    <!-- 
+        <div class="form-error" *ngIf="wsControlName.invalid && wsControlName.touched">
+            <span>{{errorMessage()}}</span>
+        </div>
+        -->
+    
+    }
+</div>

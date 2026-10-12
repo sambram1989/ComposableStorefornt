@@ -1,0 +1,77 @@
+<div class="referal-container p-2 p-md-0">
+  <!-- Tab Content -->
+  <div class="tab-content mt-3" id="myTabContent">
+    <!-- Referral Code Tab -->
+    <div *ngIf = "!referralCodeService.CODE_EDIT && !loader" class="tab-pane fade show active" id="referral-code" role="tabpanel" aria-labelledby="referral-code-tab">
+      <div class="d-md-flex justify-content-between align-items-center">
+        <div class="col-lg-7 col-12 p-0">
+         <h3>Referral code</h3>
+         <span>View, edit or create referral code(s), and share referral links with your patients. 
+          Please note: The referral code will allow your patient(s) to receive the discount you assign on their first and all subsequent orders. 
+          You must manually edit a patient's account to change or remove their discount.</span>
+        </div>
+        <div class="col-lg-5 d-flex justify-content-end action-buttons p-md-0">
+        <button class="btn btn-secondary btn-rounded export" (click)="exportReferrals()" tabindex="0">Export referral codes</button>
+        <button class="btn btn-primary btn-rounded new-referral" (click)="createNewReferral()" tabindex="0">+ New referral code</button>
+        </div>
+      </div>
+
+      <ws-search-box class="ws-search-box mt-3 mb-3" (searchChange)="searchReferrals($event)"
+        aria-label="Search box" [placeholder]="'Search referral code, last name'"
+        [attr.aria-placeholder]="'Search referral code, last name'">
+      </ws-search-box>
+
+      <!-- Referral Codes Table -->
+      <table *ngIf="referralCodes" class="table table-striped">
+        <thead>
+          <tr>
+            <th>Referral code</th>
+            <th>Last name</th>
+            <th>Discount</th>
+            <th class="actions">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let code of referralCodes.referralCodeListWsDto">
+            <td>
+              <span>Referral code</span>
+              {{ code.referralCode | slice:0:15 }}  
+            </td>
+            <td>
+              <span>Last name</span>
+              {{ code.lastName | slice:0:15 }}</td>
+            <td>
+              <span>Discount</span>
+              {{ code.discount ? code.discount + '%' : '0%' }}</td>
+            <td class="actions">
+              <button class="btn btn-sm btn-link edit" (click)="showEditCode(code)" tabindex="0">Edit</button>
+              <button class="btn btn-sm btn-link share" (click) ="shareReferral(code)" tabindex="0">Share</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+        <div class="table-empty" *ngIf="referralCodes && referralCodes.referralCodeListWsDto.length === 0">
+            <div>
+            <h4 class="table-empty__h">No results found</h4>
+            <div *ngIf="searchText">We couldn't find any matches for <span style="font-weight:900">{{searchText}}</span></div>
+            <div>Please try searching with another term</div>
+            </div>
+        </div>
+
+      <!-- Pagination -->
+      <div class="col-12 justify-content-end pagination">
+          <ws-pagination [resetReposition]="true" [totalItems]="pagination()?.totalCount" [itemsPerPage]="pagination()?.count"
+          (currentPageChange)="pageChanged($event -1)"></ws-pagination>
+      </div>
+    </div>
+
+<div *ngIf="loader" class="d-flex align-items-center justify-content-center">
+    <cx-spinner></cx-spinner>
+</div>
+
+    <div class="edit-referral" *ngIf = "referralCodeService.CODE_EDIT">
+      <ws-edit-referral-code [referralDetails] = "selectedCode" (saveChanges) = "changesSavedAfterEdit()"></ws-edit-referral-code>
+    </div>
+  </div>
+</div>

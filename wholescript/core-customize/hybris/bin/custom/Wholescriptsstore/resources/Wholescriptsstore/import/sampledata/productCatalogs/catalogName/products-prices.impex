@@ -1,0 +1,150 @@
+##########################Prices
+#% impex.setLocale( Locale.ENGLISH );
+$productCatalog=catalog_1710_10_ProductCatalog
+$catalogVersion=catalogversion(catalog(id[default=$productCatalog]),version[default='Staged'])[unique=true,default='$productCatalog:Staged']
+$prices=Europe1prices[translator=de.hybris.platform.europe1.jalo.impex.Europe1PricesTranslator]
+$taxGroup=Europe1PriceFactory_PTG(code)[default=us-sales-tax-full]
+
+# Set product approval status to Approved only for those products that have prices.
+$approved=approvalstatus(code)[default='approved']
+
+UPDATE Product;code[unique=true];$prices;$approved;$catalogVersion;$taxGroup
+              ;0005101;1 pieces = 61.99 USD N
+              ;0005375;1 pieces = 61.99 USD N
+              ;0005374;1 pieces = 31.99 USD N
+              ;0005148;1 pieces = 24.99 USD N
+              ;0005139;1 pieces = 21.99 USD N
+              ;0005335;1 pieces = 45.99 USD N
+              ;0005068;1 pieces = 36.99 USD N
+              ;0005333;1 pieces = 23.99 USD N
+              ;0010856;1 pieces = 40.99 USD N
+              ;0010857;1 pieces = 40.99 USD N
+              ;0008483;1 pieces = 50.99 USD N
+              ;0004956;1 pieces = 30.99 USD N
+              ;0007267;1 pieces = 36.99 USD N
+              ;0004955;1 pieces = 36.99 USD N
+              ;0006875;1 pieces = 18.99 USD N
+              ;0009113;1 pieces = 42.00 USD N
+			;0010662;1 pieces = 22.50 USD N
+			;0010044;1 pieces = 38.36 USD N
+			;0010008;1 pieces = 43.44 USD N
+			;0006670;1 pieces = 61.99 USD N
+			;0004874;1 pieces = 61.99 USD N
+			;0005015;1 pieces = 31.99 USD N
+			;0005012;1 pieces = 24.99 USD N
+			;0005002;1 pieces = 21.99 USD N
+			;0004936;1 pieces = 45.99 USD N
+			;0007259;1 pieces = 36.99 USD N
+			;0006873;1 pieces = 23.99 USD N
+			;0004857;1 pieces = 40.99 USD N
+			;0004872;1 pieces = 40.99 USD N
+			;0008769;1 pieces = 50.99 USD N
+			;0007425;1 pieces = 30.99 USD N
+			;0005052;1 pieces = 36.99 USD N
+			;0010978;1 pieces = 36.99 USD N
+			;0008599;1 pieces = 18.99 USD N
+			;0006877;1 pieces = 42.00 USD N
+			;0006945;1 pieces = 22.50 USD N
+			;0006865;1 pieces = 38.36 USD N
+			;0006976;1 pieces = 43.44 USD N
+			;0006869;1 pieces = 42.00 USD N
+			;0010130;1 pieces = 22.50 USD N
+			;0006927;1 pieces = 38.36 USD N
+			;0007406;1 pieces = 43.44 USD N
+
+INSERT_UPDATE PriceRow;productId[unique=true];unit(code[unique=true,default=pieces]);currency(isocode)[unique=true];price;minqtd;unitFactor;net
+                      ;0005101;pieces;USD;61.99;1;1;false
+                      ;0005375;pieces;USD;61.99;1;1;false
+                      ;0005374;pieces;USD;31.99;1;1;false
+                      ;0005148;pieces;USD;24.99;1;1;false
+                      ;0005139;pieces;USD;21.99;1;1;false
+                      ;0005335;pieces;USD;45.99;1;1;false
+                      ;0005068;pieces;USD;36.99;1;1;false
+                      ;0005333;pieces;USD;23.99;1;1;false
+                      ;0010856;pieces;USD;40.99;1;1;false
+                      ;0010857;pieces;USD;40.99;1;1;false
+                      ;0008483;pieces;USD;50.99;1;1;false
+                      ;0004956;pieces;USD;30.99;1;1;false
+                      ;0007267;pieces;USD;36.99;1;1;false
+                      ;0004955;pieces;USD;36.99;1;1;false
+                      ;0006875;pieces;USD;18.99;1;1;false
+                      ;0009113;pieces;USD;42.00;1;1;false
+						;0010662;pieces;USD;22.50;1;1;false
+						;0010044;pieces;USD;38.36;1;1;false
+						;0010008;pieces;USD;43.44;1;1;false
+						;0006670;pieces;USD;61.99;1;1;false
+						;0004874;pieces;USD;61.99;1;1;false
+						;0005015;pieces;USD;31.99;1;1;false
+						;0005012;pieces;USD;24.99;1;1;false
+						;0005002;pieces;USD;21.99;1;1;false
+						;0004936;pieces;USD;45.99;1;1;false
+						;0007259;pieces;USD;36.99;1;1;false
+						;0006873;pieces;USD;23.99;1;1;false
+						;0004857;pieces;USD;40.99;1;1;false
+						;0004872;pieces;USD;40.99;1;1;false
+						;0008769;pieces;USD;50.99;1;1;false
+						;0007425;pieces;USD;30.99;1;1;false
+						;0005052;pieces;USD;36.99;1;1;false
+						;0010978;pieces;USD;36.99;1;1;false
+						;0008599;pieces;USD;18.99;1;1;false
+						;0006877;pieces;USD;42.00;1;1;false
+						;0006945;pieces;USD;22.50;1;1;false
+						;0006865;pieces;USD;38.36;1;1;false
+						;0006976;pieces;USD;43.44;1;1;false
+						;0006869;pieces;USD;42.00;1;1;false
+						;0010130;pieces;USD;22.50;1;1;false
+						;0006927;pieces;USD;38.36;1;1;false
+						;0007406;pieces;USD;43.44;1;1;false
+
+
+INSERT_UPDATE PriceRow ; productId[unique=true] ; unit(code[unique=true,default=pieces]) ; currency(isocode)[unique=true] ; price ; minqtd ; unitFactor ; net  
+                       ; 0005101                ; pieces                                 ; USD                            ; 61.99 ; 1      ; 1          ; false
+                       ; 0005375                ; pieces                                 ; USD                            ; 61.99 ; 1      ; 1          ; false
+                       ; 0005374                ; pieces                                 ; USD                            ; 31.99 ; 1      ; 1          ; false
+                       ; 0005148                ; pieces                                 ; USD                            ; 24.99 ; 1      ; 1          ; false
+                       ; 0005139                ; pieces                                 ; USD                            ; 21.99 ; 1      ; 1          ; false
+                       ; 0005335                ; pieces                                 ; USD                            ; 45.99 ; 1      ; 1          ; false
+                       ; 0005068                ; pieces                                 ; USD                            ; 36.99 ; 1      ; 1          ; false
+                       ; 0005333                ; pieces                                 ; USD                            ; 23.99 ; 1      ; 1          ; false
+                       ; 0010856                ; pieces                                 ; USD                            ; 40.99 ; 1      ; 1          ; false
+                       ; 0010857                ; pieces                                 ; USD                            ; 40.99 ; 1      ; 1          ; false
+                       ; 0008483                ; pieces                                 ; USD                            ; 50.99 ; 1      ; 1          ; false
+                       ; 0004956                ; pieces                                 ; USD                            ; 30.99 ; 1      ; 1          ; false
+                       ; 0007267                ; pieces                                 ; USD                            ; 36.99 ; 1      ; 1          ; false
+                       ; 0004955                ; pieces                                 ; USD                            ; 36.99 ; 1      ; 1          ; false
+                       ; 0006875                ; pieces                                 ; USD                            ; 18.99 ; 1      ; 1          ; false
+                       ; 0009113                ; pieces                                 ; USD                            ; 42.00 ; 1      ; 1          ; false
+                       ; 0010662                ; pieces                                 ; USD                            ; 22.50 ; 1      ; 1          ; false
+                       ; 0010044                ; pieces                                 ; USD                            ; 38.36 ; 1      ; 1          ; false
+                       ; 0010008                ; pieces                                 ; USD                            ; 43.44 ; 1      ; 1          ; false
+#MEDPAX PRODUCT                       
+                       ; 000000000500000030              ; EA                                 ; USD                            ; 0 ; 1      ; 1          ; false
+                       ; 000000000500000031              ; EA                                 ; USD                            ; 0 ; 1      ; 1          ; false
+                       ; 000000000200000633              ; EA                                 ; USD                            ; 0 ; 1      ; 1          ; false
+                       ; 000000000500000032              ; EA                                 ; USD                            ; 0 ; 1      ; 1          ; false
+
+
+UPDATE Product ; code[unique=true] ; $prices               ; $approved ; $catalogVersion ; $taxGroup
+               ; 0005101           ; 1 pieces = 61.99 USD N
+               ; 0005375           ; 1 pieces = 61.99 USD N
+               ; 0005374           ; 1 pieces = 31.99 USD N
+               ; 0005148           ; 1 pieces = 24.99 USD N
+               ; 0005139           ; 1 pieces = 21.99 USD N
+               ; 0005335           ; 1 pieces = 45.99 USD N
+               ; 0005068           ; 1 pieces = 36.99 USD N
+               ; 0005333           ; 1 pieces = 23.99 USD N
+               ; 0010856           ; 1 pieces = 40.99 USD N
+               ; 0010857           ; 1 pieces = 40.99 USD N
+               ; 0008483           ; 1 pieces = 50.99 USD N
+               ; 0004956           ; 1 pieces = 30.99 USD N
+               ; 0007267           ; 1 pieces = 36.99 USD N
+               ; 0004955           ; 1 pieces = 36.99 USD N
+               ; 0006875           ; 1 pieces = 18.99 USD N
+               ; 0009113           ; 1 pieces = 42.00 USD N
+               ; 0010662           ; 1 pieces = 22.50 USD N
+               ; 0010044           ; 1 pieces = 38.36 USD N
+               ; 0010008           ; 1 pieces = 43.44 USD N
+#MEDPAX PRODUCT                
+               ; 500000030         ; 1 pieces = 0 USD N
+               ; 200000633         ; 1 pieces = 0 USD N
+               ; 500000032         ; 1 pieces = 0 USD N

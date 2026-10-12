@@ -1,0 +1,81 @@
+<div  class="container-fluid p-2 border-bottom-product">
+    <div class="discount-applied-wrapper" *ngIf="promoCodeEntries?.includes(item()?.entryNumber)">
+        <div class="discount-applied">
+            <img src="/assets/icons/common_icons/discount_amount_icon.svg" width="10px" height="10px" alt="">
+            <span>Discount applied</span>
+        </div>
+    </div>
+    <div class="row product-row bg-white p-2 border-bottom-1">
+        <div class="col-2 col-sm-2 col-md-2 col-lg-1 mb-3">
+            <a  class="itemImage" [routerLink]="{ cxRoute: 'product', params: item()?.product } | cxUrl" tabindex="0">
+                <ng-container *ngIf="getImgUrl(); else noImage">
+                    <img [src]="getImgUrl()" alt="product image" class="img-fluid" />
+                </ng-container>
+                <ng-template #noImage>
+                    <img  [src]="item()?.product?.no_images?.url ?? '/assets/images/recomendation/default-image.png'" alt="product image" class="img-fluid no-image">
+                </ng-template>
+            </a>        </div>
+        <div class="col-10 col-sm-10 col-md-10 col-lg-4 product-name-container v-align-middle">
+            <span *ngIf="!isMedPax()" class="bolder text-dark">
+                {{item()?.product?.name}}
+            </span>
+            <span *ngIf="isMedPax()" class="cx-name m-0 mb-2">
+                <b>MedPax:</b> {{item().medpaxName }}
+             </span>
+            <div class="align-items-center text-left d-none  d-md-block">
+                <ws-product-status *ngIf="item()?.product" [product]="item()?.product"></ws-product-status>
+            </div>
+        </div>
+        <div class="col-12 col-sm-12 col-md-12 col-lg-2 size-container v-align-bottom">
+            <dl class="label2 small mb-0">
+                <span>Frequency:</span>
+            </dl>
+            <strong>
+                {{ getFrequency() }}
+            </strong>
+        </div>
+        <div class="col-6 col-sm-6 col-md-2 col-md-6 col-lg-2 qty-container v-align-bottom">
+            <dl class="label2 small mb-0">
+                <span>
+                    @if(item()?.product?.isPrivateLabel){
+                        Case
+                    }
+                    Qty:
+                </span>
+            </dl>
+            <strong>
+                {{ isMedPax() ? item()?.abstractOrderQty : item()?.quantity}}
+            </strong>
+            @if(item()?.product?.isPrivateLabel){
+                <p class="mb-0 small font-italic">{{item()?.quantityByCase}} units total</p>
+            }
+        </div>
+
+        <div class="col-6 col-sm-6 col-md-6 col-lg-3 price-container v-align-bottom">
+            <dl class="small d-inline d-lg-none text-right">
+                <dd class="mb-0">
+                    Total:
+                </dd>
+            </dl>
+            <div class="bold text-right">
+                <span class="bolder">
+                    {{item()?.basePrice?.value| currency}}
+                </span>
+                <p class="hint-text text-right fs-12">
+                    @if(item()?.product?.isPrivateLabel){
+                    <span>
+                        {{(item()?.basePrice?.value/item()?.quantity) |currency}} / case
+                    </span>
+                    }@else{
+                    <span>
+                        each {{isMedPax() ? ((item()?.basePrice?.value)/(item()?.abstractOrderQty)| currency) :
+                        ((item()?.basePrice?.value/item()?.quantity)| currency)}}
+                    </span>
+                    }
+                </p>
+            </div>
+        </div>
+        <div class="col-12 col-sm-12 col-md-12 col-lg-1 price-container v-align-bottom">
+        </div>
+    </div>
+</div>

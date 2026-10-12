@@ -1,0 +1,52 @@
+
+<div class="referral-code-container">
+  <!-- Header Section -->
+  <div class="header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true" tabindex="0"
+    aria-label="Close" (click)="onActionClick('close')" #firstFocusElement>
+    <i class="fa fa-close fs-14"></i>
+    </button>
+    <!-- <i (click)="onActionClick('close')" #firstFocusElement class="fa-solid fa-xmark"></i> -->
+    <h1>UPDATE PAYMENT METHOD</h1>
+  </div>
+
+  <!-- Form Section -->
+  <div *ngIf = "!loader" class="form-section">
+    <div class="form-group">
+      <small>Please select a card to set as the default payment method for your store orders or add a new card to use.
+      </small>
+
+      <table class="ws-table">
+        <thead class="p-3 ws-table__header">
+          <tr>
+            <th aria-label="card type">Your Cards</th>
+            <th aria-label="card info"></th>
+            <th aria-label="action button"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor = "let item of cards$; index as i">
+            <td><i class="fa fa-credit-card"></i> {{ item?.cardType }}</td>
+            <td style="width: 70%;">
+              <div>************{{ item?.cardNumber.slice(-4) }} | Exp. {{ item?.validTo | date: 'MM/yy' }} <span class="text-danger">{{ item?.validTo | isExpired }}</span></div>
+              <div>{{ item?.billingAddress?.line1}}, {{item?.billingAddress?.line1}}</div>
+            </td>
+            <td class="text-right">
+              <button [disabled]="(item?.validTo | isExpired) === 'Expired' || getActiveCard(item, defaultCard)" [ngClass]="getActiveCard(item, defaultCard) ? 'btn-primary selected' : ''" class="btn btn-rounded continue-button" tabindex="0" (click) = "updateMethod(item, getActiveCard(item, defaultCard))">{{ getActiveCard(item, defaultCard) ? 'Selected' : 'Select'}}</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+  </div>
+  </div>
+  <div *ngIf="loader" class="d-flex align-items-center loader justify-content-center">
+    <cx-spinner></cx-spinner>
+  </div>
+
+
+  <!-- Footer Buttons -->
+  <div class="footer-buttons">
+    <button class="continue-button btn-rounded" (click)="addNewCard()">+ Add New Card</button>
+    <button class="cancel-button btn-rounded" (click)="onActionClick('close')">Close</button>
+  </div>
+</div>

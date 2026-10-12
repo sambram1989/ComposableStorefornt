@@ -1,0 +1,6 @@
+REMOVE ProductFeature[ batchmode=true];itemtype (code)[unique=true]
+                                      ;ProductFeature
+
+
+REMOVE WholescriptsIntegrations[ batchmode=true];itemtype (code)[unique=true]
+                                      ;WholescriptsIntegrations

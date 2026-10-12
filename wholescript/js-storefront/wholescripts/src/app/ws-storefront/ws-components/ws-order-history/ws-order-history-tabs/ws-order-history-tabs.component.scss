@@ -1,0 +1,102 @@
+.ws-order-history-container {
+  max-width: 1440px;
+  padding: 16px 32px;
+
+  .order-history-tabs-section {
+    .ws-tab-container-desktop {
+      border-bottom: 1px solid var(--ws-gray-light-200);
+      @media (max-width: 575px) {
+        display: none;
+      }
+
+      .nav-tabs-heading {
+        display: flex;
+        padding: 4px;
+        gap: 4px;
+        border-radius: 8px;
+        border: 1px solid var(--ws-gray-light-200);
+        background: var(--cx-color-transparent);
+        width: fit-content;
+
+        .active {
+          border-radius: 4px;
+          background: var(--ws-gray-light-100) !important;
+          box-shadow: 0px 1px 3px 0px var(rgba(16, 24, 40, 0.1)),
+            0px 1px 2px 0px var(rgba(16, 24, 40, 0.06));
+        }
+
+        .tab-header-item {
+          height: 36px;
+          padding: 6px 16px 4px;
+          cursor: pointer;
+
+          .tab-header-link {
+            color: var(--ws-gray-light-700);
+            font-size: 14px;
+            font-style: normal;
+            font-weight: 600;
+            line-height: 20px;
+            letter-spacing: 0px;
+            text-decoration: none;
+          }
+
+          p {
+            margin-bottom: 0;
+          }
+        }
+      }
+    }
+
+    .ws-tab-container-mobile {
+      display: none;
+
+      @media (max-width: 575px) {
+        display: block;
+      }
+    }
+  }
+}
+.patient-tab {
+  max-width: none;
+}
+
+li:focus {
+  outline: 1px solid var(--cx-color-secondary) !important;
+}
+
+button:focus-visible,
+input:focus-visible,
+.btn:focus-visible,
+a:focus-visible,
+select:focus-visible,
+img:focus-visible,
+.search-each-brand,
+ws-search-box:focus-visible {
+outline: 3px solid var(--cx-color-darkest) !important;
+outline-offset: 2px;
+box-shadow: none;
+}
+::ng-deep .wsOrderHistoryHeadingPara {
+  @media (max-width: 575px) {
+      padding-top: 0;
+  }
+
+  h2 {
+      color: var(--ws-gray-light-900);
+      font-size: 23px !important;
+      font-style: normal;
+      font-weight: 900;
+      line-height: 25.3px !important;
+      letter-spacing: 0px;
+      margin: 0 !important;
+  }
+
+  p {
+      color: var(--ws-gray-light-600);
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 300;
+      line-height: 24px;
+      letter-spacing: 0px;
+  }
+}

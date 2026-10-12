@@ -1,0 +1,74 @@
+:host {
+    display: flex;
+    width: 100%;
+    align-items: center;
+}
+  
+  .search-container{
+    min-width: 350px;
+    width: 100%;
+  }
+
+  .input-wrapper {
+    position: relative;
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+  }
+  
+  input {
+    width: 100%;
+    padding: 8px 30px 8px 12px;
+    border: 1px solid var(--ws-gray-light-300) !important;
+    border-radius: 4px;
+    font-size: 16px;
+    color: var(--ws-base-black);
+  
+    &:focus::placeholder {
+      opacity: 1;
+      color: var(--ws-base-black);
+    }
+  
+    &:focus {
+        border: 2px solid var(--ws-indigo-700) !important;
+    }
+  }
+  
+  .input-icons {
+    position: absolute;
+    right: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--ws-gray-light-500);
+    font-size: 14px;
+    cursor: pointer;
+    gap: 8px;
+  
+    .fas.fa-times,
+    .fa.fa-search {
+      margin-left: 5px;
+    }
+  
+    &:hover {
+      color: var(--ws-gray-dark-700);
+    }
+    &:focus{
+      outline: 3px solid var(--cx-color-darkest) !important;
+      outline-offset: 2px !important;
+      box-shadow: unset;
+    }
+  }
+  option:focus-visible,
+  select:focus-visible {
+    outline: 3px solid var(--cx-color-darkest) !important;
+    outline-offset: 2px !important;
+    box-shadow: unset;
+  
+  }
+  span:focus-visible,
+  i:focus-visible {
+    outline: 3px solid var(--cx-color-darkest) !important;
+    outline-offset: 2px !important;
+    box-shadow: unset;
+  }

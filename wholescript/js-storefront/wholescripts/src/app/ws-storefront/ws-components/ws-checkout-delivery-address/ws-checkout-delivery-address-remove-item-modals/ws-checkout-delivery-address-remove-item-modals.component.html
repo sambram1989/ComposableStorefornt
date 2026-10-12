@@ -1,0 +1,98 @@
+<div class="modal fade slide-right show" id="removeItemModals" tabindex="-1" role="dialog"
+    aria-labelledby="removeItemModals" style="display: block;">
+    <div class="modal-dialog">
+        <div class="modal-content-wrapper">
+            <div class="container-xs-height full-height">
+                <div class="row-xs-height">
+                    <div class="modal-content col-xs-height">
+
+                        <div class="modal-header clearfix ">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true" tabindex="0"
+                                aria-label="Close" (click)="closeModal()">
+                                <i class="fa fa-close fs-14"></i>
+                            </button>
+                            <h4 class="modal-title bolder">ITEM<ng-container *ngIf="products?.length > 1">S</ng-container> WILL BE REMOVED</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="csa-alert csa-alert-warning">
+                                <div *ngIf="type === 'region'">
+                                    The following item not available to ship to California.
+                                    <span class="bold">It will be removed from your order.
+                                    </span>
+                                </div>
+                                <div *ngIf="type === 'po'">
+                                    Because of age-restricted items in your selected state, we cannot ship to a PO Box
+                                    address. Please choose another shipping address.
+                                </div>
+                                <div *ngIf="type === 'restricted'">
+                                    Because of age-restricted items in your selected state, we cannot ship to this
+                                    address. If this is in error, please reach out to customer service at 1-800-647-6100
+                                    for assistance.
+                                </div>
+                            </div>
+                            <div class="ws-card" *ngIf="products?.length > 0">
+                                <div class="restricted-item__container">
+
+                                    <div class="restricted-item" *ngFor="let entry of products">
+                                        <div class="restricted-item__image">
+                                            <a [routerLink]="{ cxRoute: 'product', params: entry.product } | cxUrl"
+                                                tabindex="0">
+                                                <cx-media [container]="entry.product?.images"
+                                                [alt]="entry?.image?.altText || entry?.image?.name" format="cartIcon"></cx-media>
+                                            </a>
+                                        </div>
+
+                                        <div class="restricted-item__name">
+                                            <p>{{entry?.product?.name}}</p>
+
+                                        </div>
+
+                                        <div class="restricted-item__info">
+                                            <div class="restricted-item__frequency">
+                                                <div>Frequency:</div>
+                                                {{entry?.autoShipCode}}
+                                            </div>
+
+                                            <div class="restricted-item__quantity">
+                                                <div>Qty:</div>
+                                                {{entry?.quantity}}
+                                            </div>
+
+                                            <div class="restricted-item__totals">
+                                                <div class="bolder">{{entry?.totalPrice?.formattedValue}}</div>
+                                                <span class="unit-price">each:
+                                                    {{entry?.basePrice?.formattedValue}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="modal-footer">
+                            <div class="bold">
+                                <div *ngIf="type === 'region'">
+                                    Would you like to update your shipping address to a non-California address or remove
+                                    the items and go back to the cart?
+                                </div>
+                                <div *ngIf="type === 'po'">
+                                    Would you like to update your shipping address or remove the PO Box restricted item
+                                    and go back to the cart?
+                                </div>
+                                <div *ngIf="type === 'restricted'">
+                                    Would you like to update your shipping address to a different state or remove the
+                                    item and go back to the cart?
+                                </div>
+                            </div>
+                            <div class="button-wrapper">
+                                <button type="submit" class="btn btn-secondary btn-rounded btn-cons"
+                                    (click)="closeModal()">Update Shipping Address</button>
+                                <button type="submit" class="btn btn-primary btn-rounded btn-cons" (click)="removeItemClick()">Remove Item<ng-container *ngIf="products?.length > 1">s</ng-container></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

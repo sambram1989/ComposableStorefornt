@@ -1,0 +1,54 @@
+:host {
+    --cx-color-visual-focus: transparent;
+}
+
+.resell {
+    font-size: 14px;
+    font-weight: 900;
+    background-color: rgb(238, 240, 241);
+    color: rgb(62, 59, 73);
+}
+
+.radio-btn-section input[type="radio"] {
+    width: 13px;
+    margin-left: 0px;
+    border: 1px solid #000;
+    accent-color: #584091;
+}
+
+.radio-btn-section input[type="radio"]::after {
+    background-color: transparent;
+}
+
+
+.radio-btn-section input[type="radio"]~label {
+    margin-left: 30px;
+}
+
+.required-asterisk {
+    font-size: 10px;
+    font-weight: 900;
+}
+.w9-container {
+    max-width: 830px !important;
+}
+label {
+    color: var(--cx-color-secondary) !important;
+}
+.btn-rounded {
+    justify-content: center;
+    display: flex;
+    align-items: center;
+}
+.radio-btn-section {
+    label {
+        text-transform: uppercase;
+        font-size: 12px !important;
+    }
+}
+hr {
+    border-top: 1px solid var(--ws-gray-light-200);
+}
+.radio-group-error{
+    color: var(--ws-warning-error-text-color) !important;
+}

@@ -1,0 +1,342 @@
+<div id="practitioner-patient-profile-wrapper">
+    <div class="content">
+        <div class="container-fluid container-fixed-lg">
+            <div id="page-content">
+                <div class="row pt-5" *ngIf="pageHeadingParagraph$ | async as pageHeadingParagraph">
+                    <div class="col-md-6 patient-profile-heading">
+                        <div [outerHTML]="pageHeadingParagraph['content']" tabindex="0" (keydown.enter)="navigateToAddRecommendation()"
+                        (keydown.space)="navigateToAddRecommendation()" title="Page Heading"></div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="pt-2 text-right recommend-button-wrapper">
+                            <button class="btn btn-primary btn-rounded"
+                                (click)="navigateToAddRecommendation()"(keydown.enter)="navigateToAddRecommendation()"
+                                (keydown.space)="navigateToAddRecommendation()"
+                                tabindex="0" title="Recommend">Recommend</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" *ngIf="pageHeadingParagraph$ | async as pageHeadingParagraph">
+                    <div class="col-md-12" *ngIf="patientDetails">
+                        <div class="container-fluid text-left pt-5 pt-md-0 pl-0 row pb-4" id="patientNameGiven">
+                            <h3 class="patient-name text-primary pr-3 pl-3" tabindex="0" title="Patient Name {{patientDetails?.name}}">
+                                <i class="fa fa-user"></i>
+                                {{patientDetails?.name}}
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="container-fluid p-0" *ngIf="patientDetails">
+                    <div class="card card-rounded card-transparent border-0">
+                        <div class="card-block p-0">
+                            <div class="row">
+                                <div class="col-lg-6 sortable-column pb-0">
+                                    <div class="card card-rounded card-default basic-information-card" data-pages="card"
+                                        *ngIf="basicInfo$ | async as basicInfo">
+                                        <div class="card-header bg-gray pt-3">
+                                            <div class="card-title mb-0" tabindex="0" title="Basic Information">
+                                                Basic Information
+                                            </div>
+                                        </div>
+                                        <div class="card-block p-4">
+                                            <div ng-hide="EditMode" class="patientDetailsInfo mb-2">
+                                                <div>
+                                                    <div class="details-wrapper">
+                                                        <strong>Name:</strong>
+                                                        <span id="patientName" tabindex="0" title="Patient Name {{ patientDetails?.name }}">
+                                                            {{patientDetails?.name}}
+                                                        </span>
+                                                    </div>
+                                                    <div class="details-wrapper">
+                                                        <strong>Email:</strong>
+                                                        <span id="patientEmail" tabindex="0" title="Email {{ patientDetails?.uid }}">
+                                                            {{patientDetails?.uid}}</span>
+                                                        <strong class="email-notification"
+                                                            [ngClass]="patientDetails?.isEmailNotificationEnabled ? 'notification-on' : 'notification-off'"
+                                                            tabindex="0"
+                                                            title="Email Notification {{ patientDetails?.isEmailNotificationEnabled ? 'On' : 'Off' }}"
+                                                            >
+                                                            <span class="tml-3">
+                                                                Email Notification
+                                                                <span
+                                                                    *ngIf="patientDetails?.isEmailNotificationEnabled">On</span>
+                                                                <span
+                                                                    *ngIf="!patientDetails?.isEmailNotificationEnabled">Off</span>
+                                                            </span>
+                                                        </strong>
+                                                    </div>
+                                                    <div class="details-wrapper">
+                                                        <strong>Phone:</strong>
+                                                        <span id="patientNumber" tabindex="0" title="Phone Number {{ patientDetails?.contactNumber }}">
+                                                            {{patientDetails?.contactNumber}}
+                                                        </span>
+                                                        <strong class="text-notification"
+                                                            [ngClass]="patientDetails?.isSmsNotificationEnabled ? 'notification-on' : 'notification-off'"
+                                                            tabindex="0"
+                                                            title="Text Notification {{ patientDetails?.isSmsNotificationEnabled ? 'On' : 'Off' }}"
+                                                            >
+                                                            <span>
+                                                                Text Notification
+                                                                <span
+                                                                    *ngIf="patientDetails?.isSmsNotificationEnabled">On</span>
+                                                                <span
+                                                                    *ngIf="!patientDetails?.isSmsNotificationEnabled">Off</span>
+                                                            </span>
+                                                        </strong>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card card-rounded card-default basic-information-card" data-pages="card"
+                                        *ngIf="referralCodeSettings$ | async as referralCodeSettings">
+                                        <div class="card-header bg-gray pt-3">
+                                            <div class="card-title mb-0" tabindex="0" title="Referral Code Settings">
+                                                Referral Code Settings
+                                            </div>
+                                            <div class="card-controls" *ngIf="!referralCodeSettingsEditFlag">
+                                                <button type="button" class="btn-link edit-details-btn"
+                                                    (click)="referralCodeSettingsEditFlag = true" (keydown.enter)="referralCodeSettingsEditFlag = true" (keydown.space)="referralCodeSettingsEditFlag = true" title="Edit Referral Code Settings"> Edit </button>
+                                            </div>
+                                        </div>
+                                        <div class="card-block p-4">
+                                            <div *ngIf="!referralCodeSettingsEditFlag" class="patientDetailsInfo mb-2">
+                                                <p ng-if="!IsLinks" class="mb-0">
+                                                    <span class="text-dark bold">Referral Code: </span>
+                                                    <span id="patientRefCode" tabindex="0" title="Referral Code {{patientDetails?.referralCode}}">{{patientDetails?.referralCode}}</span>
+                                                </p>
+                                                <hr>
+                                                <p class="mb-0">
+                                                    <span class="text-dark bold">Discount: </span>
+                                                    <span id="patientDiscount" tabindex="0" title="Discount {{patientDetails?.discount}} percent">{{patientDetails?.discount ? patientDetails?.discount : 0}}</span>%
+                                                </p>
+                                            </div>
+                                            <div *ngIf="referralCodeSettingsEditFlag" id="patientDetailsForm">
+                                                <div *ngIf="loader" class="d-flex align-items-center justify-content-center">
+                                                    <cx-spinner></cx-spinner>
+                                                </div>
+                                                <form class="patient-details-active" name="PatientInfoForm" role="form" *ngIf="!loader">
+                                                    <hr>
+                                                    <p class="mb-0"><span class="text-dark bold">Please select the
+                                                            referral code given
+                                                            to
+                                                            this patient</span></p>
+                                                    <div class="form-group form-group-default required mt-3">
+                                                        <label class="label2" for="ReferralCodeDDL">Referral Code | Last
+                                                            Name</label>
+                                                        <select id="ReferralCodeDDL" name="ReferralCodeDDL"
+                                                            class="form-control selectpicker show-menu-arrow p-2"
+                                                            (change)="changeReferralCode($event)"
+                                                            [(ngModel)]="selectedReferralCode" tabindex="0" title="Select Referral Code">
+                                                            <option value="" selected>Select</option>
+                                                            <option [value]="referral?.referralCode + '|' + referral?.lastName"
+                                                                *ngFor="let referral of referralCodes">
+                                                                {{referral?.referralCode}} | {{referral?.lastName}}
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                    <hr>
+                                                    <p class="mb-0"><span class="text-dark bold">Please select
+                                                            the
+                                                            discount given to this patient</span></p>
+                                                    <div class="form-group  form-group-default required  mt-3">
+                                                        <label class="label2" for="ddlDiscountPatient">Discount</label>
+                                                        <select id="ddlDiscountPatient" name="ddlDiscountPatient"
+                                                            class="form-control selectpicker show-menu-arrow p-2"
+                                                            (change)="changeDiscount($event)"
+                                                            [(ngModel)]="selectedDiscount" tabindex="0" title="Select Discount">
+                                                            <option value="">0%</option>
+                                                            <option value="5">5%</option>
+                                                            <option value="10">10%</option>
+                                                            <option value="15">15%</option>
+                                                            <option value="20">20%</option>
+                                                            <option value="25">25%</option>
+                                                            <option value="30">30%</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-12 text-right btn-update-patient pl-0 pr-0 pt-3">
+                                                        <button type="button"
+                                                            class="btn btn-outline-primary btn-rounded mt-2"
+                                                            (click)="referralCodeSettingsEditFlag = false" (keydown.enter)="referralCodeSettingsEditFlag = false" (keydown.space)="referralCodeSettingsEditFlag = false" tabindex="0" title="Cancel changes">Cancel</button>
+                                                        <button type="button" class="btn btn-primary btn-rounded mt-2"
+                                                            (click)="updateDetails()" (keydown.enter)="updateDetails()" (keydown.space)="updateDetails()" [disabled]="!selectedReferralCode" title="Update Referral Code and Discount">Update</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card card-default card-rounded" id="addresses"
+                                        *ngIf="patientDetails?.defaultAddress && patientAddresses$ | async as patientAddresses">
+                                        <div class="card-header bg-gray pt-3">
+                                            <div class="card-title">Address(es) </div>
+                                        </div>
+                                        <div class="card-block p-4">
+                                            <div class="row">
+                                                <div class="col-lg-6 address-column">
+                                                    <div class="card card-default card-rounded p-4">
+                                                        <div class="card-header p-0">
+                                                            <div class="card-title" tabindex="0" title="Default Address">
+                                                                <label class="label label-info default-address-label"
+                                                                    ng-show="true">Default</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="scroll-wrapper card-block p-0 scrollable"
+                                                            style="position: relative;">
+                                                            <div class="card-block p-0 scrollable scroll-content" tabindex="0" title="Patient Address: 
+                                                            {{patientDetails?.defaultAddress?.firstName}} 
+                                                            {{patientDetails?.defaultAddress?.lastName}}, 
+                                                            {{patientDetails?.defaultAddress?.line1}}, 
+                                                            {{patientDetails?.defaultAddress?.line2}}, 
+                                                            {{patientDetails?.defaultAddress?.town}}, 
+                                                            {{patientDetails?.defaultAddress?.region?.isocode}}, 
+                                                            {{patientDetails?.defaultAddress?.postalCode}}, 
+                                                            {{patientDetails?.defaultAddress?.phone}}">
+                                                                <p class="address-inactive p-0">
+                                                                    <strong class="ng-binding">
+                                                                        {{patientDetails?.defaultAddress?.firstName}}
+                                                                        {{patientDetails?.defaultAddress?.lastName}}
+                                                                    </strong><br>
+                                                                    <span>
+                                                                        {{patientDetails?.defaultAddress?.line1}},
+                                                                        {{patientDetails?.defaultAddress?.line2}}<br>
+                                                                    </span>
+                                                                    {{patientDetails?.defaultAddress?.town}},
+                                                                    {{patientDetails?.defaultAddress?.region?.isocode}}
+                                                                    {{patientDetails?.defaultAddress?.postalCode}}<br>
+                                                                    {{patientDetails?.defaultAddress?.phone}}
+                                                                    <br>
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 pb-2 sortable-column">
+                                    <div class="card card-rounded card-default"
+                                        *ngIf="latestOrders$ | async as latestOrders" tabindex="0" title="Latest Orders Section">
+                                        <div class="card-header bg-gray pt-3">
+                                            <div class="card-title" tabindex="0" title="Latest Orders">Latest Orders </div>
+                                        </div>
+                                        <div class="card-block p-4">
+                                            <div class="card card-rounded card-default rounded mb-1">
+                                                <div class="scroll-wrapper card-block p-0 scrollable mb-0"
+                                                    style="position: relative;">
+                                                    <div class="card-block p-0 scrollable mb-0 scroll-content">
+                                                        <table class="table table-reponsive-inline-block mt-0 mb-0">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th class="text-left text-uppercase text-dark">
+                                                                        Order #
+                                                                    </th>
+                                                                    <th class="text-uppercase text-dark">Order Date</th>
+                                                                    <th class="text-uppercase text-dark">Status</th>
+                                                                    <th class="text-uppercase text-right text-dark">
+                                                                        Total
+                                                                    </th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody
+                                                                *ngIf="patientOrderHistoryDetails?.length > 0">
+                                                                <tr
+                                                                    *ngFor="let order of patientOrderHistoryDetails">
+                                                                    <td class="text-left v-align-middle">
+                                                                        <a class="text-link"
+                                                                            (click)="navigateToOrderDetails(order?.salesOrder)"
+                                                                            (keydown.enter)="navigateToOrderDetails(order?.salesOrder)"
+                                                                            (keydown.space)="navigateToOrderDetails(order?.salesOrder)"
+                                                                            tabindex="0"
+                                                                            title="View details for Order {{order?.salesOrder}}"
+                                                                            >
+                                                                            {{order?.salesOrder}}
+                                                                        </a>
+                                                                    </td>
+                                                                    <td class="v-align-middle" tabindex="0" title="Order Date {{order?.docDate}}">{{order?.docDate}}</td>
+                                                                    <td class="v-align-middle" tabindex="0" title="Status {{order?.orderStatus}}">
+                                                                        <span
+                                                                            class="label">{{order?.orderStatus}}</span>
+                                                                    </td>
+                                                                    <td class="v-align-middle text-right" tabindex="0" title="Order total {{order?.total | currency : (currency$ | async) }}">
+                                                                        {{order?.total  | currency : (currency$ | async) }}</td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 text-right p-0">
+                                                <a class="btn btn-outline-primary btn-rounded mt-2"
+                                                    (click)="goToOrderList()" (keydown.enter)="goToOrderList()" (keydown.space)="goToOrderList()" tabindex="0" title="View more orders">View More</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card card-rounded card-default" data-pages="card"
+                                        *ngIf="recommendations$ | async as recommendations">
+                                        <div class="card-header bg-gray pt-3">
+                                            <div class="card-title" tabindex="0" title="Latest Recommendations">Latest Recommendations </div>
+                                        </div>
+                                        <div class="card-block p-4">
+                                            <div class="card card-rounded card-default rounded mb-1">
+                                                <div class="scroll-wrapper card-block p-0 scrollable mb-0"
+                                                    style="position: relative;">
+                                                    <div class="card-block p-0 scrollable mb-0 scroll-content">
+                                                        <table class="table table-reponsive-inline-block mt-0">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th class="text-left text-uppercase text-dark">
+                                                                        Recomm. #</th>
+                                                                    <th class="text-uppercase text-dark">Sent Date</th>
+                                                                    <th class="text-uppercase text-dark">Total</th>
+                                                                    <th class="text-uppercase text-right text-dark">
+                                                                        Status</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody *ngIf="patientRecommendationDetails">
+                                                                <tr
+                                                                    *ngFor="let recommendation of patientRecommendationDetails?.recommendations">
+                                                                    <td class="text-left v-align-middle">
+                                                                        <a class="text-link"
+                                                                            (click)="navigateToRecommendation(recommendation?.id,null,recommendation?.status)"
+                                                                            (keydown.enter)="navigateToRecommendation(recommendation?.id ,null,recommendation?.status)"
+                                                                            (keydown.space)="navigateToRecommendation(recommendation?.id ,null,recommendation?.status)"
+                                                                            tabindex="0"
+                                                                            title="View details for Recommendation {{recommendation?.id}}"
+                                                                            >
+                                                                            {{recommendation?.id}}
+                                                                        </a>
+                                                                    </td>
+                                                                    <td class="v-align-middle" tabindex="0" title="Sent Date {{recommendation?.creationDate}}">
+                                                                        {{recommendation?.creationDate}}
+                                                                    </td>
+                                                                    <td class="v-align-middle" tabindex="0" title="Total {{recommendation?.msrpSubTotalPrice?.formattedValue}}">
+                                                                        {{recommendation?.msrpSubTotalPrice?.formattedValue}}
+                                                                    </td>
+                                                                    <td class="v-align-middle text-right" tabindex="0" title="Status {{getStatusName(recommendation?.status)}}">
+                                                                        <span class="label"
+                                                                            [ngClass]="getStatusClassName(recommendation?.status)">
+                                                                            {{getStatusName(recommendation?.status)}}
+                                                                        </span>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 text-right p-0">
+                                                <a class="btn btn-outline-primary btn-rounded mt-2"
+                                                    (click)="goToRecommendations()" (keydown.enter)="goToRecommendations()" (keydown.space)="goToRecommendations()" tabindex="0" title="View more recommendations">View More</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

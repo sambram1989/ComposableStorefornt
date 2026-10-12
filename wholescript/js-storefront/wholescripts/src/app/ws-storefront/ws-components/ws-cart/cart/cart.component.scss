@@ -1,0 +1,42 @@
+::ng-deep {
+    .alerting-info {
+        background-color: var(--ws-cyan-25);
+        color: var(--cx-color-secondary);
+        border: 1px solid var(--cx-color-info);
+        padding: 0.75rem 1.25rem;
+        width: 100%;
+        font-weight: 500;
+        border-radius: 5px !important;
+    }
+    
+    @media(min-width:320px) and (max-width: 1439px) {
+        .cartUpperDiv {
+            padding: 24px 48px 24px;
+            p {
+                padding: 0 !important;
+            }
+        }
+    }
+
+    @media(min-width:1440px) and (max-width: 1920px) {
+        .cartUpperDiv {
+            padding: 24px 100px 24px;
+            p {
+                padding: 0 !important;
+            }
+        }
+    }
+    @media(min-width:425px) and (max-width:767px){
+        .alerting-info{
+            max-height: 17rem;
+        }
+    }
+    @media(min-width:768px) and (max-width: 1440px) {
+        .cartUpperDiv {
+            padding: 24px 32px 24px;
+            p {
+                padding: 0 !important;
+            }
+        }
+    }
+}

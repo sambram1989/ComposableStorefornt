@@ -1,0 +1,420 @@
+.integrations-agreement {
+  color: var(--ws-gray-light-900);
+  display: flex;
+  flex-direction: column;
+
+  @media (min-width: 320px) and (max-width: 376px) {
+    width: 360px !important;
+
+    .back-link {
+      min-width: 360px !important;
+    }
+  }
+
+  @media (min-width: 376px) and (max-width: 475px) {
+    width: 430px;
+
+    .back-link {
+      min-width: 380px !important;
+    }
+
+    .content-2{
+      width: 360px !important;
+    }
+  }
+
+  @media (min-width: 476px) and (max-width: 1020px) {
+    width: 100%;
+    padding-left: 10px;
+
+    .back-link {
+      min-width: 650px !important;
+    }
+  }
+
+  .header {
+    background-image: url(/assets/images/home/estore-agreement-header.svg);
+    padding: 1rem;
+    text-align: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 250px;
+    border-radius: 30px;
+  }
+
+  .back-link {
+    color: var(--ws-gray-light-600);
+    text-decoration: none;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    display: inline-block;
+    align-self: center;
+    min-width: 800px;
+    margin-top: 32px;
+    font-size: 14px;
+  }
+
+
+  .content-2 {
+    max-width: 800px;
+    align-self: center;
+
+    h2 {
+      font-size: 16px !important;
+      margin: 8px 0;
+      font-weight: 900;
+    }
+
+    .credit-card-section {
+      margin-top: 2rem;
+
+      h2 p {
+        margin-bottom: 0 !important;
+      }
+
+      p {
+        line-height: 2;
+      }
+
+      .card-list {
+        margin-top: 1rem;
+
+        label {
+          display: flex;
+          align-items: flex-start;
+          border-radius: 8px;
+          cursor: pointer;
+          margin-bottom: 0;
+
+          input[type='radio'] {
+            margin-left: 16px;
+            z-index: 4;
+            margin-top: 16px;
+          }
+
+          .card {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            border: none;
+            column-count: 2;
+            column-gap: 16px;
+            flex-direction: row;
+            padding: 8px 0 8px 40px;
+            border-bottom: 1px solid var(--ws-border-color);
+
+            .card-type {
+              color: var(--ws-gray-light-900);
+              font-size: 14px;
+              font-weight: 500;
+            }
+
+            img {
+              padding-right: 8px;
+            }
+
+            .expiry-date {
+              color: var(--ws-gray-dark-600);
+              font-weight: 300;
+              font-size: 14px;
+              text-transform: capitalize;
+            }
+          }
+        }
+      }
+    }
+
+    .signature-section {
+      margin-top: 8px;
+
+      h3 {
+        font-size: 16px;
+        margin-bottom: 1rem;
+      }
+
+      input {
+        padding: 0.5rem;
+        margin-right: 1rem;
+        border: 1px solid var(--ws-gray-light-300);
+        border-radius: 4px;
+        height: 50px;
+        font-weight: 300;
+      }
+
+      input[type='date'] {
+        margin-right: 0;
+      }
+    }
+
+    .submit-btn {
+      margin-top: 2rem;
+      background-color: var(--cx-color-primary);
+      color: white;
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 4px;
+      font-size: 1rem;
+      cursor: pointer;
+
+      &:hover {
+        background-color: var(--cx-color-primary-dark);
+      }
+    }
+  }
+
+  .content {
+    margin-top: 8px;
+    max-width: 800px;
+    align-self: center;
+    padding: 16px;
+    border-radius: 12px;
+    background-color: var(--ws-gray-dark-50);
+
+    h2 {
+      font-size: 16px !important;
+      margin: 8px 0;
+      font-weight: 900;
+    }
+
+    .info-section {
+      margin-bottom: 0;
+
+      ul {
+        padding-left: 1.5rem;
+        list-style-type: disc;
+        margin-bottom: 0;
+
+        li {
+          font-size: 16px;
+          font-weight: 300;
+          color: var(--cx-color-secondary);
+          list-style-type: disc;
+        }
+      }
+
+      p {
+        line-height: 1.5;
+        font-size: 16px;
+        font-weight: 300;
+      }
+    }
+  }
+}
+
+p {
+  line-height: 1.5;
+  font-size: 16px;
+  font-weight: 300;
+}
+
+.card-list {
+  border-radius: 4px;
+  border: solid 1px var(--ws-border-color);
+  font-weight: 700;
+  color: var(--cx-color-secondary);
+
+  h3 {
+    background-color: var(--cx-color-background-alt);
+    border-bottom: solid 1px var(--ws-border-color);
+    font-size: 12px !important;
+    margin-bottom: 0;
+    font-weight: 500;
+    color: var(--ws-gray-light-600);
+    padding: 0 16px;
+    line-height: 40px !important;
+  }
+}
+#date{
+  background-color: white;
+}
+
+@media (min-width:390px) and (max-device-width:767px){
+.date-signed{
+  padding-left: 0.23rem !important;
+  }
+#date{
+  padding: 0.2rem;
+  width: 100%;
+  white-space: nowrap;
+  box-sizing: border-box;
+  }
+}
+
+.select-style {
+  width: 100% !important;
+  border-radius: unset;
+  height: calc(2.25rem + 2px);
+  border: 1px solid #BCBCC3 !important;
+
+  &:focus {
+    outline: unset;
+    border: 1px solid #BCBCC3;
+  }
+}
+
+.error {
+  border: 1px solid red !important;
+}
+
+.sl-lable {
+  color: red !important;
+}
+
+.disabled {
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+input[type="radio"] {
+  accent-color: var(--cx-color-primary);
+}
+input[type=radio]:checked::after {
+  background-color: transparent !important;
+}
+
+.select-lable {
+  background-color: white;
+  font-size: 11px !important;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-weight: 500;
+  position: absolute;
+  top: -12px;
+  left: 24px;
+  color: var(--ws-gray-light-500);
+  padding: 6px;
+  z-index: 2;
+}
+
+::ng-deep .Section3 {
+  padding: 40px 0 120px;
+  opacity: 0.99;
+
+  cx-paragraph {
+    display: none;
+  }
+}
+
+
+::ng-deep a {
+  color: var(--cx-color-primary);
+  font-weight: 400;
+  padding-left: 6px;
+  cursor: pointer;
+
+  &:hover {
+    color: var(--cx-color-primary-dark);
+    text-decoration: none;
+  }
+}
+
+.empty-select {
+  gap: 24px;
+
+  .gray {
+    background-color: var(--ws-gray-light-200);
+
+    p {
+      font-size: 14px;
+      color: var(--ws-gray-light-900);
+      font-weight: 300;
+    }
+  }
+
+  a {
+    max-height: 48px !important;
+    padding: 12px !important;
+    font-size: 13px !important;
+  }
+}
+
+
+::ng-deep .Section2 {
+  cx-paragraph {
+    display: flex !important;
+
+    ul {
+      font-weight: 300;
+
+      li {
+        display: list-item;
+        list-style: disc;
+        margin-left: 25px;
+      }
+    }
+  }
+
+  cx-paragraph:nth-child(1),
+  cx-paragraph:nth-child(3),
+  cx-paragraph:nth-child(5) {
+    p {
+      font-size: 16px !important;
+      margin: 8px 0;
+      font-weight: 900;
+      color: var(--ws-gray-light-900);
+
+      strong {
+        font-weight: 900;
+      }
+    }
+  }
+
+  cx-paragraph:nth-child(2),
+  cx-paragraph:nth-child(4),
+  cx-paragraph:nth-child(6),
+  cx-paragraph:nth-child(7),
+  cx-paragraph:nth-child(8) {
+    p {
+      font-size: 16px;
+      font-weight: 300;
+      color: var(--cx-color-secondary);
+      list-style-type: disc;
+      white-space: pre-line !important;
+    }
+  }
+
+  cx-paragraph:nth-child(4),
+  cx-paragraph:nth-child(6) {
+    border-top: 1px solid var(--ws-border-color);
+    padding-top: 8px;
+    margin-top: 6px;
+  }
+}
+.integrations-agreement-img-container {
+  img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+  }
+
+  @media (min-width: 476px) and (max-width: 1025px) { 
+    height: 8rem;
+  }
+}
+.patientOrder-img {
+  position: relative;
+  max-width: 100%;
+}
+.int-agre-text-overlay {
+    position: absolute;
+    transform: translateY(-100%);
+    width: 100%;
+    padding: 10px;
+    @media (min-width: 320px) and (max-width: 475px) { 
+      transform: translateY(-80%);
+    }
+    @media (min-width: 1023px) and (max-width: 1920px) { 
+      transform: translateY(-130%);
+    }
+    @media (min-width: 476px) and (max-width: 1025px) { 
+      position: unset;
+    }
+}
+.int-agre-headline {
+    color: #ffff;
+    font-weight: 700;
+    font-size: 45px;
+    @media (min-width: 320px) and (max-width: 475px) { 
+      font-size: 32px;
+    }
+}

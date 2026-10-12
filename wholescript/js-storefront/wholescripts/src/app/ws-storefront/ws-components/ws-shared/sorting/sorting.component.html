@@ -1,0 +1,11 @@
+    <select class="form-control select-style" id="sort" tabindex="0"
+        [ngModel]="selectedOption"
+        (change)="sortList(select.value)"
+        #select aria-label="Sort By">
+        @for(sort of sortOptions;track sort){
+        <option [value]="sort?.code" tabindex="0">{{ sort.name ? sort.name : sortLabels && sort.code ? sortLabels[sort.code] : ''}}
+        </option>
+        }
+    </select>
+
+

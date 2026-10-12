@@ -1,0 +1,17 @@
+.table-container {
+    border: solid 1px #dadadc;
+    border-radius: 3px;
+    padding: .5rem;
+}
+
+.cart-table-head {
+    font-size: 12px !important;
+    font-weight: 900 !important;
+    color: var(--ws-gray-light-700) !important;
+}
+.bg-unset{
+    background-color: unset;
+}
+.td-u:hover {
+    text-decoration: underline;
+}

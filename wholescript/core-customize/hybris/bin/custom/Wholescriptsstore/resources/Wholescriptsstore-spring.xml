@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:annotation-config/>
+	
+	<import resource="classpath:Wholescriptsstore/hotfolder/hot-folder-wholescriptsstore-spring.xml"/>
+
+	<!-- System Setup -->
+
+	<bean id="yAcceleratorInitialDataSystemSetup"
+	      class="com.wholescripts.setup.InitialDataSystemSetup"
+	      parent="abstractCoreSystemSetup">
+		<property name="coreDataImportService" ref="coreDataImportService"/>
+		<property name="sampleDataImportService" ref="sampleDataImportService"/>
+	</bean>
+	<bean id="abstractCategoryNameValueProvider" abstract="true"
+		  class="de.hybris.platform.commerceservices.search.solrfacetsearch.provider.impl.CategoryNameValueProvider"
+		  parent="abstractPropertyFieldValueProvider" >
+		<property name="fieldNameProvider" ref="solrFieldNameProvider"/>
+		<property name="commonI18NService" ref="commonI18NService"/>
+	</bean>
+	<bean id="wholescriptsCategorySource" parent="defaultCategorySource">
+		<property name="rootCategory" value="1"/> <!-- '1' is the root icecat category -->
+	</bean>
+	<bean id="wholescriptsCategoryNameValueProvider" parent="abstractCategoryNameValueProvider">
+		<property name="categorySource" ref="wholescriptsCategorySource"/>
+	</bean>
+	<bean id="wholescriptsCategoryCodeValueProvider" parent="abstractCategoryCodeValueProvider">
+		<property name="categorySource" ref="wholescriptsCategorySource"/>
+	</bean>
+	<bean id="wholescriptsBrandCategoryCodeValueProvider" parent="abstractCategoryCodeValueProvider"/>
+	<bean id="wholescriptsVariantCategoryCodeValueProvider" parent="abstractCategoryCodeValueProvider">
+		<property name="categorySource" ref="wholescriptsVariantCategorySource"/>
+	</bean>
+	<bean id="wholescriptsBrandCategoryNameValueProvider" parent="abstractCategoryNameValueProvider"/>
+	<bean id="wholescriptsVariantCategorySource" parent="variantCategorySource"/>
+</beans>

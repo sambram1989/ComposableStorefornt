@@ -1,0 +1,41 @@
+<div class="search-page-webinar" *ngIf="searchData?.results?.length > 0">
+    <ws-search-page-common-heading [heading]="'Webinar'" [totalResultsCount]="searchData?.pagination?.totalResults || 0"
+        [viewAllFlag]="viewAllFlag" (showNumberOfResults)="showNumberOfResults($event)"
+        (viewAll)="viewAllEmit()"></ws-search-page-common-heading>
+    <div class="search-webinar-wrapper">
+        <div class="search-each-webinar" *ngFor="let webinar of searchData.results">
+            <div class="search-webinar-img">
+                <img [src]="getThumbnail(webinar)" alt="image"/>
+            </div>
+            <div class="search-webinar-content">
+                <a class="title" [routerLink]="'/webinars'|parseUrl:[webinar?.code]" tabindex="0"  [attr.aria-label]="'View webinar titled ' + webinar?.title">{{webinar?.title}} </a>
+                <div class="desc"> {{ webinar.shortDescription}}</div>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <ws-search-page-common-pagination [currentPage]="currentPage" *ngIf="searchData?.pagination?.totalPages > 1"
+        [totalPageCount]="searchData?.pagination?.totalPages || 0"
+        (setCurrentPage)="setCurrentPage($event)"></ws-search-page-common-pagination>
+</div>
+<!-- <div *ngIf="searchData?.results?.length === 0" class="no-results-wrapper">
+    <div>
+        <img width="48" height="48" src="/assets/icons/common_icons/featured-no-search.svg" />
+        <div class="no-results-messages">
+            <p>
+                No results found
+            </p>
+            <div>
+                We couldn't find any matches for <span>{{searchTerm}}</span>. Please try
+                searching with another term
+            </div>
+        </div>
+    </div>
+</div> -->
+<div class="table-empty" *ngIf="searchData?.results?.length == 0 && viewAllFlag">
+   <div>
+      <h4 class="table-empty__h">No results found</h4>
+      <div>We couldn't find any matches for <span style="font-weight:900">{{searchTerm}}</span></div>
+      <div>Please try reducing your filters or searching with another term</div>
+   </div>
+</div>  

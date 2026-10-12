@@ -1,0 +1,810 @@
+<div *ngFor="let alert of alertSignal()">
+  <alert [type]="alert.type" [dismissOnTimeout]="alert.timeout" (onClosed)="onClosed(alert)">{{ getName(alert.msg) }}</alert>
+</div>
+<div class="container-fluid container-fixed-lg">
+  <div class="d-flex justify-content-between top-header p-0 pb-3 pb-md-0">
+    <div class="header-upper">
+      <h1>
+        New Recommendation for <b class="patient-title"> {{ patientName }} </b>
+      </h1>
+      <div> 
+          Start adding items to your recommendation, select a protocol you’ve
+          previously created, or choose one from our WholeScripts protocol
+          library.
+        </div>
+        <button
+         class="btn btn-primary btn-rounded swap-button"
+         (click)="openSwapProtocolPopup()"
+          >
+          @if(!swappedProtocolId){
+            Select Protocol
+          }@else {
+            <i class="fa fa-exchange-alt"></i>Swap Protocol
+          }
+        </button>
+    </div>
+    <div class="actions">
+    </div>
+  </div>
+
+  <div class="search-container pt-3 pb-2 pl-md-0 pr-md-0 p-3">
+    <div class="row">
+      <h6 class="sub-title col-12 bolder">Search Products:</h6>
+    </div>
+    <div class="search-sort-container align-fs">
+      <div class="searh-bar">
+        <div class="input-group pull-right">
+          <ws-search-box class="ws-search-box" (searchChange)="showSearchResults($event)"
+            aria-label="Search box" [placeholder]="'Search Products'"
+            [attr.aria-placeholder]="'Search Recommendations'">
+          </ws-search-box>
+        </div>
+      </div>
+      
+      <button class="filter-btn mb-3 filters" (click)="filterPopup()">
+        <svg width="13" height="20" viewBox="0 0 13 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M0 5.375C0 4.91016 0.382812 4.5 0.875 4.5H11.375C11.8398 4.5 12.25 4.91016 12.25 5.375C12.25 5.86719 11.8398 6.25 11.375 6.25H0.875C0.382812 6.25 0 5.86719 0 5.375ZM1.75 9.75C1.75 9.28516 2.13281 8.875 2.625 8.875H9.625C10.0898 8.875 10.5 9.28516 10.5 9.75C10.5 10.2422 10.0898 10.625 9.625 10.625H2.625C2.13281 10.625 1.75 10.2422 1.75 9.75ZM7.875 14.125C7.875 14.6172 7.46484 15 7 15H5.25C4.75781 15 4.375 14.6172 4.375 14.125C4.375 13.6602 4.75781 13.25 5.25 13.25H7C7.46484 13.25 7.875 13.6602 7.875 14.125Z" fill="#101828"/>
+        </svg>Filters
+      </button>
+      <div class="form-group position-sort-box" style="position:relative;">
+        <select (change)="sortProducts($event)" class="form-control select-style" id="sort"
+            #select>
+                <option *ngFor="let sort of sortOptions" [selected] ="sort.selected" [value]="sort?.code">{{sort?.name}}
+                </option>
+        </select>
+        <label class="label1 select-lable" for="sort">
+            Sort By
+        </label>
+    </div>
+    </div>
+  </div>
+</div>
+
+<div [ngClass]="isMobile ? '' : 'row col-12 m-0'">
+  <div [ngClass]="isMobile ? '' : 'col-sm-12 col-lg-8 col-12'">
+    <tabset #tabset class="tab-container">
+      <tab heading="Products" class="all">
+        <table>
+          <tr>
+            <th aria-label = "favorite"><i class="far fa-heart fav-btn__icon"></i></th>
+            <th>Product Name</th>
+            <th>MSRP Price</th>
+            <th class="th-actions">Actions</th>
+          </tr>
+          @for(item of dataSource; track $index) {
+          <tr [ngClass]="cartList.includes(item.code) ? 'highlight-row' : ''">
+            <td tabindex="0" (keypress)="updateFavorites(item, isFavorite(item))"
+              (click)="updateFavorites(item, isFavorite(item))">
+              <div class="code-tooltip">
+                <div class="copy-code"><span class="code-tooltiptext">{{ isFavorite(item) ? 'Remove from Favorites' :
+                    'Add to Favorites'}}</span> <i class="fa-heart fav-btn__icon fav-btn__icon--active fa"
+                    [ngClass]="isFavorite(item) ? 'fav-btn__icon--active fa' : 'far'"></i></div>
+              </div>
+            </td>
+            <td class="patient-name">
+              <ws-product-status *ngIf="item" [product]="item"></ws-product-status>
+              <button class="text-link bolder" (click)="openProductDetailPopup(item?.code)" [innerHTML]="item.name"></button>
+              <div style="font-size: 14px" [innerHTML]="item.summary"></div>
+              <div>Dosing:<ng-container *ngIf="getCustomDosingOnProductLevel(item.code)|async as dosingData">
+                  @if(selectedProductCodes()?.includes(item.code)){
+                  {{recommendationEntries |getDosingOnEntryLevel:item.code:'recommendation'|slice:0:4|dosingPipe}}
+                  }@else if($any(dosingData)?.dosingList?.length){
+                  {{$any(dosingData)?.dosingList|slice:0:4|dosingPipe}}
+                  }
+                  @else {
+                  {{ +item?.inAM ? item.inAM + ' in AM' : '' }}
+                  {{((+item?.inAM)&&(+item?.inPM)) ? ' | ' : '' }}
+                  {{ +item?.inPM ? item.inPM + ' in PM' : '' }}
+                  {{((+item?.inPM)&&(+item?.inDaily)) ? ' | ' : '' }}
+                  {{ +item?.inDaily ? item.inDaily + ' in Daily' : '' }}
+                  {{((+item?.inDaily)&&(+item?.inBedtime)) ? ' | ' : '' }}
+                  {{ +item?.inBedtime ? item.inBedtime + ' in Bedtime' : '' }}
+                  }
+                </ng-container></div>
+            </td>
+            <td>
+              <b>{{ item?.retailPrice?.formattedValue }}</b>
+            </td>
+            <td class="row-actions">
+              <button (click)="editDosing(addOrRemove(item?.code) ? 'Remove' : 'Add',item)"
+                [disabled]="getAddToCartDisableFlag(item)" class="btn btn-outline-primary btn-rounded my-1">
+                Edit Dosing
+              </button>
+              <button *ngIf="!cartList.includes(item.code)" class="btn btn-primary btn-rounded"
+                [disabled]="getAddToCartDisableFlag(item)" (click)="addItems(item)">
+                <i class="fa-regular fa-plus pr-2"></i> Add
+              </button>
+              <button *ngIf="cartList.includes(item.code)" [disabled]="getAddToCartDisableFlag(item)"
+                class="btn btn-outline-danger btn-rounded my-1 ml-lg-2 border-w-3 remove-btn"
+                (click)="openRemoveProduct(item.code)">
+                Remove
+              </button>
+            </td>
+          </tr>
+          } @empty {
+          <tr>
+            <td colspan="4" class="empty-state" role="row">
+              <div>
+                <h6 class="bolder mt-0">No results found</h6>
+                <p>
+                  We couldn't find any matches for <span class="bolder">{{SearchText}}</span>
+                </p>
+                <p>Please try another search term and check your filters</p>
+              </div>
+            </td>
+          </tr>
+          }
+        </table>
+      </tab>
+      <tab *ngIf="!hideMedpaxPage" heading="Medpax Products" (selectTab)="callLoadProductOnMedPaxTabSelection(true)"
+        (deselect)="callLoadProductOnMedPaxTabSelection(false)" class="all d-none d-md-block">
+        <ws-medpax-products-table *ngIf="isMedPaxTabSelected()" [products]="products()?.products || []" [selectedProductCodes]="selectedMedPaxProductCodes()"
+          [medPaxData]="medPaxProducts()" [entryNumberList]="entryMedPaxNumberList">
+        </ws-medpax-products-table>
+      </tab>
+    </tabset>
+
+
+    <div class="product-card d-sm-block d-md-none">
+      @for(product of dataSource; track $index) {
+      <div class="container mb-3">
+        <div class="product-header">
+          <div class="product-details">
+            <span (click)="updateFavorites(product, isFavorite(product))" class="favorite-icon">
+              <div class="copy-code"><i class="fa-heart fav-btn__icon fav-btn__icon--active fa"
+                  [ngClass]="isFavorite(product) ? 'fav-btn__icon--active fa' : 'far'"></i></div>
+            </span>
+            <button class="text-link bolder" (click)="openProductDetailPopup(product?.code)" [innerHTML]="product.name"></button>
+            <p>
+              <ng-container *ngIf="getCustomDosingOnProductLevel(product.code)|async as dosingData">
+                @if(selectedProductCodes()?.includes(product.code)){
+                {{recommendationEntries |getDosingOnEntryLevel:product.code:'recommendation'|slice:0:4|dosingPipe}}
+                }@else if($any(dosingData)?.dosingList?.length){
+                {{$any(dosingData)?.dosingList|slice:0:4|dosingPipe}}
+                }
+                @else {
+                {{ +product?.inAM ? product.inAM + ' in AM' : '' }}
+                {{((+product?.inAM)&&(+product?.inPM)) ? ' | ' : '' }}
+                {{ +product?.inPM ? product.inPM + ' in PM' : '' }}
+                {{((+product?.inPM)&&(+product?.inDaily)) ? ' | ' : '' }}
+                {{ +product?.inDaily ? product.inDaily + ' in Daily' : '' }}
+                {{((+product?.inDaily)&&(+product?.inBedtime)) ? ' | ' : '' }}
+                {{ +product?.inBedtime ? product.inBedtime + ' in Bedtime' : '' }}
+                }
+              </ng-container>
+            </p>
+          </div>
+          <p class="price">{{ product?.retailPrice?.formattedValue }}</p>
+        </div>
+        <div class="product-actions">
+          <button (click)="editDosing(addOrRemove(product?.code) ? 'Remove' : 'Add',product)"
+            [disabled]="getAddToCartDisableFlag(product)" class="edit-dosing-btn">Edit Dosing</button>
+          <button *ngIf="!cartList.includes(product.code)" class="add-btn" (click)="addMedpax(product)">
+            + Add
+          </button>
+          <button *ngIf="cartList.includes(product.code)" class="rmv-btn" (click)="openRemoveProduct(product.code)">
+            Remove
+          </button>
+        </div>
+      </div>
+      } @empty {
+      <div>
+        <div colspan="4" class="empty-state" role="row">
+          <div>
+            <h6 class="bolder mt-0">No results found</h6>
+            <p>
+              We couldn't find any matches for <span class="bolder">{{SearchText}}</span>
+            </p>
+            <p>Please try another search term and check your filters</p>
+          </div>
+        </div>
+      </div>
+      }
+    </div>
+    <div *ngIf="dataSource && dataSource.length > 0" class="row d-md-flex d-none" style="align-items: center">
+      <div class="col-6">
+        {{getPaginationMessage(paginationData)}}
+      </div>
+      <div class="col-6 pagination">
+        <ws-pagination [resetReposition]="true" (currentPageChange)="pageChanged($event)" [itemsPerPage]="paginationData.pageSize" [totalItems]="paginationData.totalResults"
+          [numberOfPagesNeedTOBeShown]="5" aria-label="Pagination controls"></ws-pagination>
+      </div>
+    </div>
+    <div *ngIf="dataSource && dataSource.length > 0" class="d-md-none mobile-pagination">
+      <div class="section-1">
+        {{getPaginationMessage(paginationData)}}
+      </div>
+      <div class="section-2">
+        <ws-pagination [resetReposition]="true" (currentPageChange)="pageChanged($event)" [itemsPerPage]="paginationData.pageSize" [totalItems]="paginationData.totalResults"
+          [numberOfPagesNeedTOBeShown]="5" aria-label="Pagination controls"></ws-pagination>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4 col-12 d-none d-lg-flex selected-products">
+    <div class="col-12 p-0 your-rec text-black sticky">
+      <div class="row your-rec-header m-0 align-items-center">
+        <div class="col-12 col-lg-8 p-0 your-rec__title">
+          Your Recommendation:
+        </div>
+        <div class="col-12 col-lg-4 p-0 text-lg-right">
+          {{ (this.medPaxProducts()?.code ? itemsInCart?.length + 1 : itemsInCart?.length || 0) }} 
+          {{ (this.medPaxProducts()?.code ? itemsInCart?.length + 1 : itemsInCart?.length || 0) === 1 ? 'Product' : 'Products' }}
+        </div>
+        <button class="close bolder float-right d-lg-none">
+          ×
+        </button>
+      </div>
+      <div *ngIf="itemsInCart && itemsInCart.length > 0">
+        <div *ngFor="let product of itemsInCart" class="rec-item ">
+          <cx-media [container]="product?.product?.images" format="product" [alt]="product?.name ?? ''"></cx-media>
+          <div *ngIf="product && product?.product?.name" class="rec-item__info col-6">
+            <ws-product-status *ngIf="product?.product" [product]="product?.product"></ws-product-status>
+            <button class="text-link bolder text-left" (click)="openProductDetailPopup(product?.product?.code)" [innerHTML]="product.product.name">
+            </button>
+            <div><span class="bolder">Dosing</span> : {{product?.dosing|slice:0:4|dosingPipe}}</div>
+            <div> <span class="bolder">Duration</span> : {{ weekMapItems.get(product?.itemDuration) | capitalCase  }},
+              {{product?.quantity}} Unit@if((+product?.quantity)>1){(s)}</div>
+            <p [ngClass]="{'bolder': location.path().includes('Recommendation')}" class=" mt-3 mt-lg-0  ">
+              MSRP: {{ product?.msrpTotalPrice?.formattedValue || '$ 0.00' }}
+            </p>
+          </div>
+          <div class="text-right rec-item__actions col-3 pr-0">
+            <a class="bolder text-link " tabindex="0" role="button" (keypress)="editDosing( 'Remove' ,product,true)" (click)="editDosing( 'Remove' ,product,true)">Edit</a>
+            <a class="bolder text-danger del ml-3 ml-lg-2" tabindex="0" role="button" (keypress)="openRemoveProduct(product?.product?.code)" (click)="openRemoveProduct(product?.product?.code)">
+              ×
+            </a>
+          </div>
+          <div class="col-12" [class.d-none]="!product?.notes">
+            <p class="row col-12 bolder mb-0">Note:</p>
+            <input aria-label="notes" title="notes" class="col-12 form-control input-style" type="text"
+                [value]="product?.notes" readonly>
+        </div>
+        </div>
+      </div>
+
+      <div *ngIf="!itemsInCart.length && !isMedPax()" class="your-rec-body empty-state p-3">
+        <div>
+          <h6 class="mt-0 bolder">No products have been added</h6>
+          <p>Add a product to get started.</p>
+        </div>
+      </div>
+      @if(isMedPax()){
+      <div class="ws-medpax-products mt-3">
+        <ws-med-pax-products-right-section
+         [products]="medPaxProducts()"
+          [isPlUser]="checkRoleExist('pluser') | async"
+          [medPaxId]="medPaxProducts()?.code"
+          [medPaxNotes]="medPaxProducts()?.notes?.trim()"></ws-med-pax-products-right-section>
+      </div>
+      }
+    </div>
+  </div>
+  @if(!isMedPax()){
+  <ws-recommendation-sticky (stickyRecommendationClick)="goToReviewRecommendation()" (openProductPopUP)="productPopUp()"
+    [recommendation]="recommendationEntries" [recommendationId]="recommendationId"></ws-recommendation-sticky>
+  }
+
+</div>
+
+@if(isMedPax()){
+<ws-floating-footer>
+  <div class="floot-footer">
+    <div class="p-3 f-grow">
+      <div class="bottom-nav__right d-flex align-items-center justify-content-end mx-0 mx-md-4 align-rec">
+        @if((cartList?.length > 0) || (isMedPax())){
+        <div [ngClass]="{ 'mobile-view': isMobile }" (click)="productPopUp()">
+          <button id="showCartBtn" class="bottom-nav__mobile" *ngIf="isMobile">
+            <span class="bottom-nav__mobile-label"> Your recommendation: </span>
+            @if(cartList?.length > 0){
+            <div class="d-flex align-items-end">
+              <div class="icon-container">
+                <div
+                  class="items-icon fa-solid fa-jar"
+                >
+              </div>
+                <span class="icon-badge badge badge-danger">{{
+                  this.medPaxProducts()?.code
+                    ? itemsInCart?.length + 1
+                    : itemsInCart?.length || 0
+                }}</span>
+              </div>
+              Products
+            </div>
+          }
+          @if(isMedPax()){
+            <div>
+              <div class="d-flex align-items-end">
+                <div class="icon-container">
+                  <div
+                  class="items-icon fa-solid fa-box"
+                >
+              </div>
+                  <span class="icon-badge badge badge-danger">{{
+                    this.medPaxProducts()?.code
+                      ? itemsInCart?.length + 1
+                      : itemsInCart?.length || 0
+                  }}</span>
+                </div>
+                <span>MedPax Items</span>
+              </div>
+            </div>
+          }
+          </button>
+        </div>
+      }
+        <div class="totals-area">
+          <div class="mr-3">
+            <div class="bolder msrp">
+              MSRP: {{recommendationEntries?.msrpSubTotalPrice?.formattedValue ?? msrpSubTotalPrice?.formattedValue}}
+            </div>
+          </div>
+        </div>
+        @if (checkRoleExist('pluser') | async) {
+          <a class="btn btn-primary btn-rounded pull-right next-btn btn-h btn-w" [class.disabler]="!(medPaxProducts()?.medpaxEntry?.length >= 3)"
+            [routerLink]="'/recommendation/edit/medpax/review/PrivateLabelSelectCarton/'| parseUrl:[recommendationId]"> Select Medpax Carton</a>
+        }
+        @else if(checkRoleExist('patientdirect') | async) {
+          <a class="btn btn-primary btn-rounded pull-right next-btn btn-h btn-w" [class.disabler]="!(medPaxProducts()?.medpaxEntry?.length >= 3)"
+          [routerLink]="'/recommendation/edit/medpax/review/'| parseUrl:[recommendationId]"> Review MedPax</a>
+        } 
+         @else {
+        <a class="btn btn-primary btn-rounded pull-right next-btn btn-h btn-w disabler"
+          [routerLink]="'/recommendation/edit/medpax/review/'| parseUrl:[recommendationId]"> Review MedPax</a>
+        }
+
+      </div>
+    </div>
+  </div>
+</ws-floating-footer>
+}
+
+
+<ng-template #editDosingPopup>
+  <div *ngFor="let alert of alertSignal()">
+    <alert [type]="alert.type" [dismissOnTimeout]="alert.timeout" (onClosed)="onClosed(alert)">{{ alert.msg }}</alert>
+  </div>
+  @if( isMedPaxProductsClicked()) {
+  <div class="px-35 py-10 medpax-popup">
+    <ws-edit-dosingdetailspopup [wrapperForm]="wrapperForm" [currentProduct]="currentProduct || currentProduct?.prod" 
+    [savedAsCustomSignal]="savedAsCustomSignal()"
+      [currentMedPaxProduct]="currentMedPaxProduct()" [productCode]="currentProduct?.code ||currentProduct?.prod?.code  ">
+      <div topSection class="topsection">
+        <h3 class="mb-0 mt-3 bolder">EDIT DOSING</h3>
+        <p class="mb-0">
+          <img src="../../../../../assets/qa/medpax-icon-dark.svg" width="15px" alt="medpax"><span>&nbsp;MedPax
+            item</span>
+        </p>
+
+        <div class="close-btn cursor-pointer" (click)="closePopup()">x</div>
+      </div>
+      <div bottomSection class="b-top">
+        <div class="row mt-3">
+          <div class="col-5 supplyDetail">
+            <span class="bolder text-primary fs-unset">Per {{getProductMaterialFromName()}}:
+              {{currentProduct?.retailPrice?.formattedValue}}</span><br>
+            <em class="text-nowrap ">30 day supply: $ {{ currentProduct | thirtyDaySupply: getQuantity() : true |
+              number:'1.2-2' }}</em>
+          </div>
+          <div class="col-7 d-flex justify-content-end align-items-center">
+            <button class="btn btn-outline-primary btn-rounded mr-2 bolder px-3" aria-label="Close" tabindex="0"
+              (click)="closePopup()">
+              Cancel
+            </button>
+            <button type="button" class="btn btn-primary btn-rounded add-to-packet-btn mt-1 mt-sm-0 bolder px-3"
+              tabindex="0" (click)="saveMedpaxDetails(saveButton)" #saveButton
+              [disabled]="!wrapperForm.valid">
+              {{(currentProduct?.code ||currentProduct?.prod?.code)|addOrRemove:selectedMedPaxProductCodes():'save'}}
+            </button>
+          </div>
+        </div>
+      </div>
+    </ws-edit-dosingdetailspopup>
+  </div>
+  }
+  @else{
+  <div class="modal-dialog">
+    <div class="modal-content p-3 border-unset ">
+      <div class="modal-header p-0 border-unset-b">
+        <br>
+        <h3 class="modal-title mx-auto fs-24 fw-900">EDIT DOSING</h3>
+        <button type="button" class="close" tabindex="0" (click)="closePopup()">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+
+      <!-- MODAL BODY -->
+      <div class="modal-body text-black p-0">
+        <hr>
+        <div class="row">
+          <div class="col-3 edit-protocol-img">
+            <cx-media
+              [container]=" (currentProduct.images && currentProduct?.images?.length) ? currentProduct?.images[1]: (currentProduct.product && currentProduct?.product?.images?.length) ? currentProduct?.product?.images[1] : null "></cx-media>
+          </div>
+          <div class="col-9">
+            <span class="bolder" [innerHTML]="currentProduct?.name || currentProduct?.product?.name"></span>
+            <br>
+            <span class="">Label Dosing: {{ +currentProduct?.inAM ? currentProduct.inAM + ' in AM' : '' }}
+              {{((+currentProduct?.inAM)&&(+currentProduct?.inPM)) ? ' | ' : ''
+              }}
+              {{ +currentProduct?.inPM ? currentProduct.inPM + ' in PM' : '' }}
+              {{((+currentProduct?.inPM)&&(+currentProduct?.inDaily)) ? ' | ' :
+              '' }}
+              {{ +currentProduct?.inDaily ? currentProduct.inDaily + ' in Daily'
+              : '' }}
+              {{((+currentProduct?.inDaily)&&(+currentProduct?.inBedtime)) ? ' | ' : '' }}
+              {{ +currentProduct?.inBedtime ? currentProduct.inBedtime + ' in Bedtime' : '' }}
+            </span>
+            <br>
+            <span>@if(customDosingList()?.dosingList?.length) {Custom Dosing: 
+              {{ customDosingList()?.dosingList|slice:0:4|dosingPipe}} }
+            </span><br>
+            <span tabindex="0" role="button" class="span-btn bolder text-danger btn-link fs-16" (keypress)="updateLabelDosing(currentProduct)" (click)="updateLabelDosing(currentProduct)">Reset
+              to Label</span>
+            @if(customDosingList()?.dosingList?.length) {
+              <span>&nbsp;|&nbsp;</span>
+              <span tabindex="0" role="button" class="span-btn bolder text-danger btn-link fs-16" (keypress)="resetToCustom()" (click)="resetToCustom()">
+                Reset to Custom
+              </span>
+            }
+          </div>
+        </div>
+        <div class="my-3">
+          <div class="col-12">
+            <span class="bolder">Dosing</span>
+          </div>
+          <ng-container [formGroup]="wrapperForm">
+            <ng-container formArrayName="hobbiesArray">
+              <ng-container *ngFor="let auxInfo of hobbies.controls; index as idx; last as isLast">
+                <ng-container [formGroupName]="idx">
+                  <div class="mt-3">
+                    <div class="row justify-content-between align-items-center w-100">
+                      <div class="col-4 qty" id="unitsQtyDiv">
+                        <label for="qty-{{idx}}" class="d-flex justify-content-center mb-0" id="unitsLabel">QTY</label>
+                        <div class="quantity-input">
+                          <button type="button" class="min" (click)="decrementQty(idx)">-</button>
+                          <input id="qty-{{idx}}" type="text" formControlName="qty" class="text-center w-50 in-h">
+                          <button type="button" class="max" (click)="incrementQty(idx)">+</button>
+                        </div>
+                      </div>
+                      <div class="col-7 row justify-content-between align-items-center dosing">
+                        @for(time of DisplayItemTimes; track time){
+                        <div class="col-3 text-center" [class.disabled-radio]="!isRadioEnabled(idx, time.code)">
+                          <!-- <input type="radio" [value]="time.code" class="ws-radio" formControlName="radio"
+                            (change)="onRadioChange(idx)" [class.disabled]="!isRadioEnabled(idx, time.code)"> -->
+                          <div>
+                            <span class="fs-16">{{time.code}}</span>
+                            <img role="button" tabindex="0" [class.border-ws]="getSelectedRadio(idx) == time.code" [src]="time.src"
+                              alt="{{time.alt}}" class="img-icon" (click)="isRadioEnabled(idx, time.code) && onRadioChange(idx, time)" (keypress)="isRadioEnabled(idx, time.code) && onRadioChange(idx, time)">
+                          </div>
+                        </div>
+                        }
+                      </div>
+                      <a class="text-danger bolder edit-dose-del del cursor-pointer" *ngIf="hobbies.length > 1"
+                        (click)="removeInputControl(idx)" tabindex="0" role="button"
+                        (keypress)="removeInputControl(idx)">×</a>
+                    </div>
+                    <div class="row">
+                      <div class="col-6 mt-4">
+                        @if(isLast && idx < 3){ <a class="btn btn-outline-primary btn-rounded btn-h dosingtimes text-nowrap"
+                          role="button" tabindex="0"
+                          (keypress)="addInputControl()"
+                          (click)="addInputControl()">
+                          + More dosing times</a>
+                          }
+                      </div>
+                      <div class="col-6 text-right mt-3" [class.disable-anchor]="!wrapperForm.valid">
+                        @if(isLast){
+                        <a class="text-link bolder text-nowrap" (keypress)="saveEditDosing()" (click)="saveEditDosing()"
+                        role="button" tabindex="0">
+                          <i [ngClass]=" savedAsCustomSignal() ?'fa fa-check':'fa fa-download'"></i>
+                          Save as custom
+                        </a>
+                        }
+                      </div>
+                    </div>
+                  </div>
+                </ng-container>
+              </ng-container>
+            </ng-container>
+          </ng-container>
+
+        </div>
+        <form [formGroup]="editDosingField" (ngSubmit)="postEditDosingData()">
+          <div class="b-top">
+            <div class="mt-3 mb-0 bolder">Duration</div>
+            <div class="text-danger fs-13">
+              <!-- Please enter a note no longer than 4000 characters. -->
+            </div>
+            <div class="row unit-section">
+              <div class="col-5">
+                <select id="ddlEditDuration" class="w-100 form-control select-form" class="mx-width text-dark"
+                  formControlName="duration">
+                  @for(opt of durationOptions;track opt){
+                  <option [value]="opt.key" [label]="opt.value">{{opt.value}}</option>
+                  }
+                </select>
+              </div>
+              <div class="col-7 qty text-right" id="unitsQtyDiv">
+                <label class="label1 mb-0" id="unitsLabel">UNIT(S)</label>
+                <div class="nice-number text-right">
+                  <button type="button" class="min" (click)="decrement()">-</button>
+                  <input aria-label="dosing units" type="text" formControlName="units" class="text-center w-25 in-h">
+                  <button type="button" class="max" (click)="increment()">+</button>
+                </div>
+              </div>
+            </div>
+            <hr>
+            <p class="bolder mb-0">Notes:</p>
+            <textarea aria-label="notes" rows="4" class="notes" placeholder="Type your notes here" formControlName="notes"></textarea>
+            @if(editDosingField.controls.notes.invalid && editDosingField.controls.notes.touched){
+            <div class="text-danger fs-13">
+              Please enter a note no longer than 4000 characters.
+            </div>
+            }
+            <div class="row mt-3">
+              <div class="col-sm-5">
+                <!-- <h6 class="bolder">$ {{((currentProduct?.wholeSalePrice?.value) || (currentProduct?.totalPrice?.value)) * (editDosingField.controls.units.value) | number:'1.2-2' }}</h6><br> -->
+                <h6 class="">MSRP: $ {{((currentProduct?.retailPrice?.value) || (currentProduct?.msrpTotalPrice?.value))
+                  * (editDosingField.controls.units.value)| number:'1.2-2'}}</h6>
+              </div>
+              <div class="col-sm-7 modal-btns">
+                <a tabindex="0" role="button" class="btn btn-outline-primary btn-rounded btn-h" (keypress)="closePopup()" (click)="closePopup()">
+                  Cancel
+                </a>
+                <button type="submit" class="btn btn-primary btn-rounded btn-h">
+                  {{ currentProduct?.code|addOrRemove:selectedProductCodes():'save' }}
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  }
+</ng-template>
+
+<ng-template #removeProductPopUp>
+  <div class="topsection rm-mtpax">
+    <h3 class="mb-0 mt-3">REMOVE MEDPAX PRODUCT</h3>
+    <div tabindex="0" role="button" (keypress)="closePopup()" class="close-btn mr-2 mt-2" (click)="closePopup()">x</div>
+  </div>
+  <div class="bolder text-center my-4 fs-16 ">
+    Are you sure you want to remove this product from your MedPax?
+  </div>
+  <div class="text-start p-3">
+    <span class="bolder">
+      <h4 class="remove-product__name">
+        <img src="/assets/images/home/capsules.svg" alt="capsules" width="30">
+        {{getName(removeMedPaxProduct?.name)}}
+      </h4>
+    </span>
+    <ng-container *ngIf="getCustomDosingOnProductLevel(removeMedPaxProduct.code)|async as dosingData">
+      <div class="m-0 ">
+        Dosing:
+        @if(selectedMedPaxProductCodes()?.includes(removeMedPaxProduct.code)){
+        {{medPaxProducts() |getDosingOnEntryLevel:removeMedPaxProduct.code:'medpax'|slice:0:4|dosingPipe}}
+        }@else if($any(dosingData)?.dosingList?.length){
+        {{$any(dosingData)?.dosingList|slice:0:4|dosingPipe}}
+        }
+        @else {
+        {{ +removeMedPaxProduct?.inAM ? removeMedPaxProduct.inAM + ' in AM' : '' }}
+        {{((+removeMedPaxProduct?.inAM)&&(+removeMedPaxProduct?.inPM)) ? ' | ' : '' }}
+        {{ +removeMedPaxProduct?.inPM ? removeMedPaxProduct.inPM + ' in PM' : '' }}
+        {{((+removeMedPaxProduct?.inPM)&&(+removeMedPaxProduct?.inDaily)) ? ' | ' : '' }}
+        {{ +removeMedPaxProduct?.inDaily ? removeMedPaxProduct.inDaily + ' in Daily' : '' }}
+        {{((+removeMedPaxProduct?.inDaily)&&(+removeMedPaxProduct?.inBedtime)) ? ' | ' : '' }}
+        {{ +removeMedPaxProduct?.inBedtime ? removeMedPaxProduct.inBedtime + ' in Bedtime' : '' }}
+        }
+      </div>
+      <section>
+        <span class="bolder ">Per 
+          <span *ngIf="removeMedPaxProduct?.materialProductForm === 'Tablets'" class="bolder">
+            tablet
+        </span>
+        <span *ngIf="removeMedPaxProduct?.materialProductForm === 'Softgels'" class="bolder">
+            softgel
+        </span>
+        <span *ngIf="removeMedPaxProduct?.materialProductForm === 'Capsules'" class="bolder">
+            capsule
+        </span>
+          : ${{removeMedPaxProduct?.retailPrice?.value}}</span><br>
+        <em class="text-nowrap ">30 day supply:
+            @if(selectedMedPaxProductCodes()?.includes(removeMedPaxProduct.code)){
+            ${{removeMedPaxProduct?.retailPrice?.value|calculateQuantity:medPaxProducts():removeMedPaxProduct?.code:false|
+            number:'1.2-2'}}
+            }@else if($any(dosingData)?.dosingList?.length){
+            ${{removeMedPaxProduct?.retailPrice?.value|calculateQuantity:$any(dosingData):removeMedPaxProduct?.code:true|
+            number:'1.2-2'}}
+            }
+            @else {
+            ${{(((30)+((+removeMedPaxProduct?.inAM || 0)+(+removeMedPaxProduct?.inPM || 0)+(+removeMedPaxProduct?.inDaily
+            || 0)+(+removeMedPaxProduct?.inBedtime|| 0))) * (removeMedPaxProduct?.retailPrice?.value || 0)) |
+            number:'1.2-2'}}
+            }
+        </em>
+      </section>
+    </ng-container>
+  </div>
+
+  <hr>
+  <div class="row pr-3">
+    <div class="col-12 text-right">
+      <button class="btn btn-outline-primary btn-rounded bolder" (click)="closePopup()">cancel</button>
+      <button class="btn btn-outline-danger btn-rounded bolder mt-3 mt-sm-0 ml-sm-2 b-3-red medpax-remove"
+        (click)="deleteMedPax()">Yes, Remove</button>
+    </div>
+  </div>
+
+</ng-template>
+
+<ng-template #removeMedPax>
+  <div class="topsection rm-mtpax">
+      <h3 class="mb-0 mt-3 bolder">REMOVE MEDPAX PRODUCT</h3>
+      <p class="mx-auto mb-0 mt-3 text-black bolder">
+          <img src="/assets/qa/medpax-icon-dark.svg" style="height:1rem;" alt="medpax item icon" aria-hidden="true">
+          MedPax item
+      </p>
+      <div tabindex="0" role="button" (keypress)="closePopup()" class="close-btn mr-2 mt-2" (click)="closePopup()">x</div>
+  </div>
+  <hr>
+  <div class="col-8">
+      <ws-medpax-card [medPaxData]="medPaxProducts()" [removalCard]="true" ></ws-medpax-card>
+  </div>
+  <hr>
+     <ws-protocol-medpax-right-table [products]="medPaxProducts()"  [hideActions]="true" ></ws-protocol-medpax-right-table>
+  <hr>
+  <div class="row mx-0">
+      <h6 class="bolder text-center my-4">
+          Are you sure you want to remove this MedPax from your protocol?
+      </h6>
+      <div class="col-12 text-right">
+          <button class="btn btn-outline-primary btn-rounded bolder" (click)="closePopup()">cancel</button>
+          <button class="btn btn-outline-danger btn-rounded bolder mt-3 mt-sm-0 ml-sm-2 b-3-red medpax-remove"
+              (click)="deleteExistingMedPax()">Yes, Remove</button>
+      </div>
+  </div>
+</ng-template>
+
+<ng-template #removeNormalProductPopUp>
+  <div class="p-4">
+      <div class="text-right ">
+          <button aria-label="Close modal bg-transp" (click)="closePopup()">
+              <span aria-hidden="true" class="fw-900">×</span>
+          </button>
+      </div>
+      <div class="d-flex justify-content-center mb-3" role="banner">
+          <h3 class="bolder mb-0" id="filtersTitle">REMOVE PRODUCT</h3>
+      </div>
+      <div class="body" aria-labelledby="filtersTitle">
+          <ws-product [product]="currentBlueLabelProductRemove"></ws-product>
+      </div>
+      <div class="text-center fs-18 my-4 bolder">
+          Are you sure you want to remove this product from your protocol?
+      </div>
+      <div class="right-buttons d-flex flex-wrap justify-content-md-end justify-content-sm-center  mt-30 gap">
+          <div>
+              <button class="btn btn-outline-primary btn-rounded btn-h copy" (click)="closePopup()">
+                  Cancel
+              </button>
+          </div>
+          <div>
+              <button class="btn btn-outline-danger btn-rounded btn-h copy fw-900 b-width blue-label-remove"
+              (click)="removeProduct(currentProduct)">
+                  Yes, Remove
+              </button>
+          </div>
+      </div>
+
+  </div>
+</ng-template>
+
+<ng-template #productPopup>
+  <div class="p-0 pop-header mt-4">
+      <button type="button" class="ws-close close" (click)="closePopup()">
+          x
+      </button>
+      <div class="d-flex justify-content-center flex-column align-items-center ">
+          <div class="modal-title header-title">Your Recommendation:</div>
+          <div class="">Product</div>
+      </div>
+      <div class="col-12 p-0 your-rec text-black sticky">
+          <ng-container>
+              <div class="your-rec-body w-100 bottom-border-unset">
+                  <section>
+                      @for(selectedProduct of itemsInCart;
+                      track selectedProduct ;
+                      let id = $index){
+                      <div class="row p-3">
+                          <div class="col-2 px-1 edit-protocol-img">
+                              <cx-media
+                                  [container]=" (selectedProduct?.product?.images && selectedProduct?.product?.images?.length) ? selectedProduct?.product?.images[1] : null"
+                                  [alt]="selectedProduct?.product?.name"></cx-media>
+                          </div>
+                          <div class="col-7">
+                              <ws-product-status *ngIf="selectedProduct?.product" [product]="selectedProduct?.product"></ws-product-status>
+                              <a class="text-link bolder">{{selectedProduct?.product?.name}}</a>
+                              <div>Dosing:
+                                  <span>{{selectedProduct?.dosing|slice:0:4|dosingPipe}}</span>
+                              </div>
+                              <div>Duration: Ongoing, 1 Unit(s)</div>
+                              <div class="bolder">{{selectedProduct?.retailPrice?.formattedValue}}</div>
+                              <div> MSRP: {{ selectedProduct?.msrpTotalPrice?.formattedValue || '$ 0.00' }}</div>
+                          </div>
+
+                          <div class="col-3 text-right">
+                              <a class="bolder text-link"
+                                  (click)="openEditDosingPopup('Remove',selectedProduct,true)">Edit</a>
+                              <a class="bolder text-danger del ml-4 ml-lg-2 cursor-pointer "
+                                  (click)="openRemoveProduct(selectedProduct.product.code)">x</a>
+                          </div>
+                          <div class="col-12" ngClass="{{selectedProduct?.notes ? 'd-block':'d-none'}}">
+                              <p class="row col-12 bolder mb-0">Note:</p>
+                              <input tabindex="0" class="col-12 form-control input-style" type="text"
+                                  value="{{selectedProduct?.notes}}" readonly>
+                          </div>
+                      </div>
+                      @if( id !== selectedProduct.length){
+                      <hr class="w-100 mx-3">
+                      }
+                      }
+                      @empty {
+                      <div class="your-rec-body empty-state">
+                          <div>
+                              <h6 class="mt-0 bolder">No products have been added</h6>
+                              <p>Add a product to get started.</p>
+                          </div>
+                      </div>
+                      }
+                  </section>
+                  @if(isMedPax()){
+                    <div class="ws-medpax-products">
+                        <ws-med-pax-products-right-section 
+                        [products]="medPaxProducts()"
+                        [isPlUser]="checkRoleExist('pluser') | async"
+                        [medPaxId]="medPaxProducts().code"
+                        [medPaxNotes]="medPaxProducts()?.notes?.trim()"></ws-med-pax-products-right-section>
+                    </div>
+                }
+              </div>
+          </ng-container>
+      </div>
+      <div class="text-right btn-end">
+          <button class="btn btn-primary btn-rounded cursor-pointer " (click)="closePopup()">
+              Close
+          </button>
+      </div>
+  </div>
+</ng-template>
+
+<ng-template #swapProtocolPopup>
+<ws-swap-protocol-popup 
+ [swappedProtocolId]="swappedProtocolId"
+ [isRecommendationHasEntries]="(itemsInCart?.length > 0) || (medPaxProducts()?.medpaxEntry?.length >0)"
+ (openSwapProtocol)="openConfirmSwapProtocol($event)"
+ (SwapProtocol)="swapProtocol($event)" ></ws-swap-protocol-popup>
+</ng-template>
+
+<ng-template #confirmSwapProtocol>
+  <ws-confirm-swap-protocol-popup 
+   [swappedProtocolId]="swappedProtocolId" 
+   [protocolId]="currentSwappableProtocolId"
+   (SwapProtocol)="swapProtocol($event)" ></ws-confirm-swap-protocol-popup>
+</ng-template>
+
+<ng-template #filterPopUp>
+  <div class="pop-header mt-4">
+     <button type="button" class="close d-block c-icon mr-3" (click)="closePopup()">
+        x
+     </button>
+     <div class="d-flex justify-content-center flex-column align-items-center">
+        <div class="modal-title header-title fs-30 fw-900">FILTER BY</div>
+     </div>
+  </div>
+  <ws-product-facet-navigation></ws-product-facet-navigation>
+  <div class="text-right mt-4 mr-3">
+     <a tabindex="0" class="btn btn-outline-primary btn-rounded btn-h" (keypress)="closePopup()" (click)="closePopup()" data-dismiss="modal">
+        Close
+     </a>
+  </div>
+</ng-template>

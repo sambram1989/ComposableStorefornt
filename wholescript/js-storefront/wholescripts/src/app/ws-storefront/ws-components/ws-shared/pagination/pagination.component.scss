@@ -1,0 +1,93 @@
+// Pagination component with centered flex layout, adding hover effects and custom styling for page items and navigation arrows. 
+// It also handles dynamic hiding of first/last items and reordering based on page conditions, to change the default behaviour of the library as per our requirement.
+::ng-deep {
+  ul.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+
+    @media (min-width: 320px) and (max-width: 475px) {
+      gap: 0;
+    }
+
+    .page-item {
+      .page-link {
+        position: relative;
+        display: block;
+        padding: 0.5rem 0.75rem;
+        margin-left: -1px;
+        line-height: 1.25;
+        color: var(--cx-color-secondary);
+        background-color: transparent !important;
+        border: none;
+        min-height: unset !important;
+
+        &::after {
+          content: '';
+          position: absolute;
+          left: 10%; // Adjust for left offset
+          right: 10%; // Adjust for right offset
+          bottom: 0;
+          height: 5px; // Adjust height as needed
+          background-color: var(--cx-color-primary);
+          border-radius: 0 0 20px 20px; // Increase the radius for a more curved effect
+          display: none; // Hide by default
+          @media (min-width: 320px) and (max-width: 475px) {
+            width: 32px;
+          }
+        }
+      }
+
+      &.active {
+        .page-link {
+          z-index: 3;
+          color: var(--cx-color-primary);
+          background-color: transparent !important;
+          border: none;
+          text-align: center;
+          @media (min-width: 320px) and (max-width: 475px) {
+          padding-left: 8px;
+          }
+          &::after {
+            display: block; // Show the curved border when active
+          }
+        }
+      }
+    }
+
+    .pagination-first.page-item,
+    .pagination-last.page-item,
+    .pagination-page.page-item {
+      @media (min-width: 320px) and (max-width: 475px) {
+        width: 32px;
+      }
+      &:hover {
+        border-radius: 50%;
+        background-color: var(--cx-pagination-hover);
+      }
+
+      &.active {
+        &:hover {
+          border-radius: unset;
+          background-color: inherit;
+        }
+      }
+    }
+
+    .pagination-prev, .pagination-next{
+      border: 2px solid var(--ws-gray-light-300);
+      border-radius: 100%;
+
+      &:hover{
+        background: var(--cx-pagination-hover);
+      }
+    }
+
+  }
+}
+.fa:focus-visible {
+  outline: 3px solid var(--cx-color-darkest) !important;
+  outline-offset: 2px !important;
+  box-shadow: unset;
+}

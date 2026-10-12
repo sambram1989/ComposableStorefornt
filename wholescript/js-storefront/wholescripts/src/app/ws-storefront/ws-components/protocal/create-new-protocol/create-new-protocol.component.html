@@ -1,0 +1,86 @@
+<div class="modal-header p-0">
+    <h3 class="modal-title mx-auto">
+        <span class="bolder">{{typeOfProtocol}}</span>
+    </h3>
+    <button type="button" class="close" (click)="bsModalRef.hide()" aria-label="Close modal">
+        x
+    </button>
+</div>
+<hr>
+<form [formGroup]="createProtocol" (ngSubmit)="onSubmit()" aria-label="protocol-form-title">
+<div class="modal-body p-0">
+    <p class="bolder text-center">Please provide the name of this Protocol:</p>
+    <input type="text" class="form-control text-center w-75 mx-auto" aria-label="Protocol Name" placeholder="ENTER PROTOCOL NAME" [maxLength]="50"
+        formControlName="name" aria-required="true" [(ngModel)]="protocolName" />
+        <div *ngIf="isNameTooLong" class="text-center text-danger fs-13" role="alert">
+            Please enter a name no longer than 50 characters.
+        </div>
+        @if(createProtocol.invalid && createProtocol.touched){
+            <div class="text-center text-danger" role="alert" > Please enter a name for your Protocol</div>
+        }
+    <div class="text-muted text-center fs-13 mb-4">Limit of 50 characters</div>
+    <hr>
+    <div class="mb-2" style="width: 87%;margin-left: 20px;">
+        <span class="bolder">Please provide a short description about this Protocol:</span>
+        (Optional)
+    </div>
+    <div class="alert alert-warning text-left" role="alert">
+        <span class="bolder bg-clr">Please note:</span>&nbsp;
+        This description will be visible by your patients if you choose to share this Protocol. Please
+        do not create a description in a way that would express or imply any claims regarding the products
+        or includes your patient's name or any personal information in this protocol.
+    </div>
+    <textarea
+        class="notes"
+        [(ngModel)]="protocolDesc"
+        cols="50" rows="4"
+        formControlName="description"
+        placeholder="Type your description here"
+        aria-label="Description"
+        [maxLength]="500"
+    >
+    </textarea>
+    <div *ngIf="isDescTooLong" class="text-center text-danger fs-13" role="alert">
+        Please enter a description no longer than 500 characters.
+    </div>
+    <div class="text-muted text-center fs-13 mb-4">Limit of 500 characters</div>
+    <hr>
+    <div class="checkbox check-primary" style="margin-left: 20px;width: 90%;">
+        <input id="consentCheckbox"  class="form-check-input checkbox check-primary" aria-label="checkbox input"
+         type="checkbox" formControlName="checkbox" aria-details="consentCheckboxDesc" />
+        <label for="consentCheckbox" class="form-check-label bolder fs-16 mt-3" style="line-height:1.5rem;">
+            By checking this box, I certify the transmission of all information via this messaging platform,
+            including all attachments and/or notes, will be done in compliance with all applicable
+            regulations, including HIPAA, and does not reveal or make known the confidential and/or private
+            health information of any one individual to other members of this—or any other—messaging thread.
+        </label>
+    </div>
+
+    <div class="col-10 alert-danger alert-danger mx-auto border border-danger rounded errors-container"
+        [hidden]="!submitted || !(isNameTooLong || isDescTooLong || isNameEmpty || createProtocol.invalid)" role="alert"
+        [attr.aria-hidden]="!submitted || !(isNameTooLong || isDescTooLong || isNameEmpty || createProtocol.invalid)">
+        <div *ngIf="isNameEmpty">
+            Protocol name can't be empty.
+        </div>
+        <div *ngIf="isNameTooLong">
+            Protocol name maximum size is 50 characters.
+        </div>
+        <div *ngIf="isDescTooLong">
+            Protocol description maximum size is 500 characters.
+        </div>
+    </div>
+
+    <div class="row pt-4 mx-3">
+        <div style="column-gap: 10px;" class="col-12 d-flex align-items-center justify-content-end">
+            <button type="button" class="btn btn-outline-primary btn-rounded"
+                (click)="bsModalRef.hide()">Cancel</button>
+            <button *ngIf="typeOfProtocol ==='CREATE NEW PROTOCOL'" type="submit" [disabled]="!createProtocol.controls.checkbox.value"
+                class="btn btn-primary btn-rounded saveGroupName-btn"  >Continue</button>
+            <button *ngIf="typeOfProtocol ==='DUPLICATE PROTOCOL'" type="submit" [disabled]="!hasDisableContinue"
+                class="btn btn-primary btn-rounded saveGroupName-btn">Continue</button>
+            <button *ngIf="typeOfProtocol ==='EDIT PROTOCOL NAME'" type="submit" [disabled]="!createProtocol.controls.checkbox.value"
+                class="btn btn-primary btn-rounded saveGroupName-btn">Save</button>
+        </div>
+    </div>
+</div>
+</form>

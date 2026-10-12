@@ -1,0 +1,150 @@
+.AboutUsPageTemplate {
+.AboutUsSection1 {
+    flex: 0 0 100%;
+    max-width: 100%;
+
+    cx-paragraph {
+            background-color: var(--ws-gray-light-75);
+            background-image: url(/assets/icons/common_icons/ws.svg), url(/assets/icons/common_icons/dots40.svg);
+            background-size: 300px, auto 160%;
+            background-repeat: no-repeat, no-repeat;
+            background-position: 90% center, left center;
+            position: relative;
+            height: 256px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            padding-top: 40px;
+            box-shadow: inset 0px -20px 15px -14px #dddaef;
+
+            @media(max-width: 1220px) {
+                height: 256px;
+                background-size: 300px, auto 160%;
+                background-position: 90% center, left center;
+            }
+
+            @media(max-width: 991px) {
+                height: 185px;
+                background-size: 144px, auto 160%;
+            }
+
+            @media(max-width: 575px) {
+                background-size: 80px, auto 160%;
+                background-position: 96% center, left center;
+                height: 164px;
+                margin-top: 0;
+            }
+
+            div {
+                font-size: 54px;
+                margin-left: 20%;
+                line-height: 64px;
+                font-weight: 900;
+                padding: 12px;
+                background: linear-gradient(0deg, rgba(246, 246, 246, 0) 0%, rgb(246, 246, 246) 10%, rgb(246, 246, 246) 90%, rgba(246, 246, 246, 0) 100%);
+                font-weight: 900;
+
+                @media(max-width: 991px) {
+                    font-size: 45px;
+                    margin-left: 80px;
+                    line-height: 64px;
+                }
+
+                @media(max-width: 575px) {
+                    font-size: 35px;
+                    line-height: 42px;
+                    margin-left: 0;
+                }
+            }
+        }
+}
+// Whole health
+
+.AboutUsSection4 {
+    text-align: center;
+    padding: 4rem 15rem;
+    background: white;
+    box-shadow: 0 3px 16px #dddaef;
+    @extend .pb-5;
+    @media screen and (max-width: 992px) {
+      font-size: 20px;
+      padding: 4rem 1rem;
+    }
+    cx-paragraph:nth-child(1) {
+      div {
+        width: fit-content;
+        align-self: center;
+        background: url(/assets/images/home/green-hex-dark.svg) no-repeat;
+        padding-left: 8px;
+        @media screen and (max-width: 1024px) {
+          background: url(/assets/images/home/green-hex-dark.svg) no-repeat;
+          background-position: 8% top;
+          background-size: 50px;
+        }
+      }
+      font-size: 40px;
+      line-height: 2;
+      font-weight: 900 !important;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      margin-bottom: 0.5rem;
+      @media screen and (max-width: 1024px) {
+        font-size: 29px;
+        line-height: 1.5;
+      }
+    }
+    cx-paragraph:nth-child(2) {
+      margin-left: auto;
+      margin-right: auto;
+      margin-bottom: 3rem !important;
+      margin-top: 3rem !important;
+      font-size: 24px;
+      line-height: 1.5;
+      @media screen and (max-width: 992px) {
+        font-size: 20px;
+      }
+    }
+    cx-link {
+      height: 80px;
+      align-items: center;
+      display: flex;
+      @extend .display-center;
+      cx-generic-link {
+        @extend .btn-rounded;
+        @extend .btn;
+        @extend .btn-primary;
+        font-weight: 900 !important;
+        background-color: var(--cx-color-primary) !important;
+        border-color: var(--cx-color-primary) !important;
+        text-align: center;
+        display: flex;
+        align-items: center;
+        width: fit-content;
+        padding: 8px 16px;
+
+        &:hover {
+          background-color: var(--cx-color-primary-dark) !important;
+          border-color: var(--cx-color-primary-dark) !important;
+          color: white !important;
+        }
+        a {
+          text-decoration: none;
+          &:hover {
+            color: white !important;
+          }
+        }
+      }
+    }
+    @media screen and (max-width: 900px) {
+      cx-link {
+        flex: 100% !important;
+        justify-content: center;
+        padding-bottom: 30px;
+        a {
+          min-height: fit-content;
+        }
+      }
+    }
+  }
+}

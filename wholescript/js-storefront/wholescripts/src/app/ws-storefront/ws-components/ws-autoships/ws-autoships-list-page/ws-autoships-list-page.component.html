@@ -1,0 +1,62 @@
+<div id="ws-autoships-list-page">
+    <div>
+        <section class="list-page-header-section" *ngIf="CustomizeParaComp$ | async as CustomizeParaComp">
+            <div class="list-page-header" [innerHTML]="CustomizeParaComp?.content" role="heading" aria-level="2" tabindex="0"></div>
+            <div class="alert-wrapper" *ngIf="AutoshipsListHeaderComp$ | async as AutoshipsListHeaderComp">
+                <div class="d-flex alert-header" role="alert" tabindex="0">
+                    <img width="32" height="32"  aria-label="Info Icon" title="Info Icon" alt="Info Icon" src="/assets/icons/common_icons/featured-info-icon.svg" />
+                    <div class="d-flex alert-header-message-wrapper">
+                        <p class="m-0" aria-live="polite" innerHTML="{{shippingMessage?.replace('{{shippingPrice}}', isPatient() ? ('$' + (PATIENT_SHIPPING_PRICE)) : ('$' + (PRACTITIONER_SHIPPING_PRICE)))}}">
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="list-page-body row" *ngIf="!loader" [ngClass]="isPractioner ? '' : 'patient-tab'" aria-label="Autoship Information">
+            <div class="col-md-12 col-lg-4 col-sm-12 p-0" tabindex="0" *ngIf="nextShipmentProducts?.length > 0">
+                <ws-autoships-next-shipment [nextShipmendDate]="nextShipmendDate" [nextShipmentProducts]="nextShipmentProducts"
+                [nextShipmentTotalPrice]="nextShipmentTotalPrice" [isPractioner]="isPractioner"
+                ></ws-autoships-next-shipment>
+            </div>
+            <div class="col-md-12 col-lg-8 col-sm-12" tabindex="0">
+                <ws-autoships-lists [autoShipsHeaderItems]="autoShipsHeaderItems"></ws-autoships-lists>
+            </div>
+        </section>
+        <div *ngIf="loader" class="d-flex align-items-center justify-content-center" role="status" aria-live="polite">
+            <cx-spinner></cx-spinner>
+        </div>
+        <section *ngIf="faqQuestionsAndAnswers?.faqTopicList?.length > 0" class="faq-section">
+            <h3 class="faq-heading">Frequently asked questions</h3>
+            <p  class="faq-sub-heading">Everything you need to know about AutoShips.</p>
+            <div class="faq-card" *ngFor="let topic of faqQuestionsAndAnswers?.faqTopicList" [ngClass]="[toggleAnswer[topic?.uid] ? 'highlighted' : '']">
+                <button class="accordion" aria-expanded="false" (click)="toggleQuestion(topic)">
+                    <p class="faq-card-question"> 
+                        {{topic?.question}}
+                    </p>
+                    <div class="chevron">
+                        <i class="fas fa-chevron-down" aria-hidden="true" *ngIf="!toggleAnswer[topic?.uid]"></i>
+                        <i class="fas fa-chevron-up" aria-hidden="false" *ngIf="toggleAnswer[topic?.uid]"></i>
+                    </div>
+                </button>
+
+                <div class="panel" id="{{topic?.uid}}" *ngIf="toggleAnswer[topic?.uid]">
+                    <p class="faq-card-answer">
+                        {{topic?.answer}}
+                    </p>
+                </div>
+            </div>
+        </section>
+        <section class="autoships-landing-page-footer-section" tabindex="0">
+            <div class="contact-us-wrapper">
+                <div class="content-wrapper">
+                    <h4 class="heading" tabindex="0">Can’t find what you need?</h4>
+                    <p class="content" tabindex="0">Get in touch with us. Call us at 1 (800) 647-6100 or fill in the contact form and
+                        we’ll get back to you</p>
+                </div>
+                <a class="btn btn-rounded contact-us-button" href="/contact-us" tabindex="0" role="button" aria-label="Contact us">Contact us</a>
+            </div>
+        </section>
+    </div>
+</div>
+
+<ng-container *ngIf=" isCurrentUser$|async"></ng-container>

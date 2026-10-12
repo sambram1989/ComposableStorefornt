@@ -1,0 +1,114 @@
+<div class="integrations-agreement">
+  <!-- Header Section -->
+  <!-- <div class="header">
+  </div> -->
+  <div class="integrations-agreement-img-container" *ngIf="integrationAgreementHeaderBannerComp$ | async as data">
+    <img [src]="getImageUrl(data.media)" class="patientOrder-img" alt="PatientOrder image" />
+    <div class="int-agre-text-overlay">
+      <p class="int-agre-headline">{{data.headline}}</p>
+    </div>
+  </div>
+
+  <!-- Content Section -->
+  <a class="back-link" routerLink = "/integrations-hub/estore-settings">&lt; Back</a>
+  <div class="content">
+    <!-- API Program Information -->
+    <cx-page-slot position="Section2"></cx-page-slot>
+    </div>
+
+    <!-- Credit Card Selection -->
+     <div class="content-2">
+      <form [formGroup]="signAgreementForm" (ngSubmit) ="signAgreement()">
+      <div class="credit-card-section">
+      <h2 *ngIf = "creditCardHeader | async as header" [innerHTML] = "$any(header)?.content"></h2>
+      <p *ngIf = "creditCardContent | async as text" [innerHTML] = "$any(text)?.content"></p>
+      <span>*Required</span>
+      
+      <!-- Card Selection -->
+      <div class="card-list" *ngIf="!loader">
+        <h3>Your credit cards*</h3>
+        <ng-container *ngIf="cards$.length">
+        <label *ngFor = "let item of cards$">
+          <ng-container *ngIf="(item.validTo | isExpired) !== 'Expired'">
+            <input type="radio" name="radio" formControlName = "radio" [value] = "item.cardNumber" [attr.disabled]="(item.validTo | isExpired) == 'Expired' ? true : null" 
+            (change)="getSelectedCardData(item)" />
+            <div class="card d-flex align-items-start">
+              <div class="col-6 d-flex">
+                <img [src]="getCardIcon(item.cardType)" />
+              <span class="card-type">{{ item.cardType }} ending in {{ item.cardNumber.slice(-4) }} <br/>
+              <b class="expiry-date">{{ item?.creditCardName }}</b></span>
+              </div>
+              <div class = "col-6">
+                <span class="card-type">Exp. {{ item.validTo | date: 'MM/yy' }} <span class="text-danger">{{ item.validTo | isExpired }}</span><br/>
+                  <b class="expiry-date">{{ item?.billingAddress?.formattedAddress}}</b></span>
+              </div>
+            </div>
+          </ng-container>
+        </label>
+        </ng-container>
+        <div class="d-flex align-items-center empty-select" *ngIf= "!cards$.length">
+          <div class="card gray m-2 p-3 text-center"><p class="font-weight-bold my-auto">No Credit Cards Saved</p></div>
+          <a class="btn btn-outline-primary btn-rounded" (click)="addNewCard()" (keydown.enter)="addNewCard()" tabindex="0"><i class="fa fa-plus"></i> Add New Card</a>
+        </div>
+      </div>
+
+      <div *ngIf="!loader" class="col-12 pagination pt-2 pr-0 pb-3" style="justify-content: flex-end;">
+        <ws-pagination
+        [resetReposition]="true"
+        (currentPageChange)="pageChanged($event)"
+        [itemsPerPage]="5"
+        [totalItems]="cards$.length"
+        [numberOfPagesNeedTOBeShown]="5"
+        aria-label="Pagination controls"
+      ></ws-pagination>
+      </div>
+
+      <div *ngIf="loader" class="d-flex align-items-center justify-content-center">
+        <cx-spinner></cx-spinner>
+      </div>
+    </div>
+    <!-- Signature Section -->
+    <div class="signature-section d-flex">
+      <div class = "col-8 p-0">
+      <!-- <h3 class = "select-lable" [ngClass]="signAgreementForm.controls.sign.invalid && signAgreementForm.controls.sign.touched ? 'sl-lable' : ''">SIGN YOUR NAME*</h3> -->
+      <label 
+         
+        for="sign" 
+        class="select-lable" 
+        [ngClass]="submitted && signAgreementForm.controls.sign.invalid ? 'sl-lable' : ''"
+      >
+        SIGN YOUR NAME*
+      </label>
+      <input id="sign" formControlName="sign"  class="select-style" [ngClass]="submitted && signAgreementForm.controls.sign.invalid ? 'error' : ''" type="text" placeholder="Authorized financial officer or account holder" 
+              [value]="signAgreementForm.get('sign')?.value" [maxLength]="50" />
+      @if(submitted && signAgreementForm.controls.sign.invalid){
+        <div class="text-danger fs-14 fw-300">
+            Please sign your name
+        </div>
+        }
+      </div>
+      <div class = "col-4 p-0 pl-3 date-signed">
+        <!-- <h3 class = "select-lable">DATE SIGNED</h3> -->
+        <label for="date" class="select-lable">DATE SIGNED</label>
+        <input id="date" formControlName="date" class="select-style w-100" type="text" name = "date" />
+      </div>
+    </div>
+
+    <!-- Submit Button -->
+    @if(submitted && signAgreementForm.controls.sign.invalid){
+      <br/><br/>
+      <div class="text-danger fs-14 float-right fw-300 w-100 text-right">
+          Please sign your name
+      </div>
+      }
+      @if(submitted && signAgreementForm.controls.radio.invalid) {
+        <div class="text-danger fs-14 float-right fw-300 w-100 text-right">
+          Please select a credit card
+        </div>
+        }
+    <div class="col-12 p-0 align-items-end">
+    <button class="btn btn-primary btn-rounded float-right mt-4" type = "submit">Submit</button>
+    </div>
+    </form>
+  </div>
+</div>

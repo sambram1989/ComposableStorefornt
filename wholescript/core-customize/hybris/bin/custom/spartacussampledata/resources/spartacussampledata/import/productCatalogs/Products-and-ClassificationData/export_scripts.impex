@@ -1,0 +1,44 @@
+$catalog=Catalog_1710_10
+$version=ERP_IMPORT
+
+"#% impex.setTargetFile( ""CatalogVersion.csv"" );"
+insert_update CatalogVersion ; &Item ; active[allownull=true] ; catalog(id)[forceWrite=true,unique=true,allownull=true] ; categorySystemID ; defaultCurrency(isocode) ; generatorInfo ; inclAssurance[allownull=true] ; inclDuty[allownull=true] ; inclFreight[allownull=true] ; inclPacking[allownull=true] ; languages(isocode) ; mimeRootDirectory ;  owner(&Item)[allownull=true,forceWrite=true] ; previousUpdateVersion ; rootCategories(catalogVersion(catalog(id),version),code) ; territories(isocode) ; version[unique=true,allownull=true]
+"#% impex.exportItems( ""SELECT  {CV:PK} FROM {CatalogVersion as CV  JOIN Catalog as C ON {CV:catalog}={C:PK}}  WHERE  {C:id}='$catalog' AND {CV:version}='$version'"", Collections.EMPTY_MAP, Collections.singletonList( Item.class ), true, true, -1, -1 );"
+
+
+"#% impex.setTargetFile( ""Catalog.csv"" );"
+insert_update Catalog ; &Item ; activeCatalogVersion(catalog(id),version) ; buyer(uid) ; defaultCatalog[allownull=true] ; id[unique=true,allownull=true] ; owner(&Item)[allownull=true,forceWrite=true] ; previewURLTemplate ; supplier(uid) ; urlPatterns
+"#% impex.exportItems( ""Catalog"" , false );"
+
+#-----------------------------------------------------------
+"#% impex.setTargetFile( ""Product.csv"" );"
+insert_update Product; &Item; catalogVersion(catalog(id),version)[unique=true]; code[unique=true]; Europe1PriceFactory_PDG(itemtype(code),code); Europe1PriceFactory_PPG(itemtype(code),code); Europe1PriceFactory_PTG(itemtype(code),code); approvalStatus(itemtype(code),code)[allownull=true]; articleStatus[lang=en]; buyerIDS(key(itemtype(code),code)); catalog(id)[allownull=true]; contentUnit(code); data_sheet(code,catalogVersion(catalog(id),version)); deliveryTime; description[lang=en]; detail(code,catalogVersion(catalog(id),version)); ean; endLineNumber; erpGroupBuyer; erpGroupSupplier; logo(code,catalogVersion(catalog(id),version)); manufacturerAID; manufacturerName; manufacturerTypeDescription[lang=de]; manufacturerTypeDescription[lang=en]; maxOrderQuantity; minOrderQuantity; name[lang=en]; normal(code,catalogVersion(catalog(id),version)); numberContentUnits; offlineDate; onlineDate; order; orderQuantityInterval; others(code,catalogVersion(catalog(id),version)); picture(code,catalogVersion(catalog(id),version)); priceQuantity; remarks[lang=de]; remarks[lang=en]; segment[lang=de]; segment[lang=en]; specialTreatmentClasses; startLineNumber; supplierAlternativeAID; thumbnail(code,catalogVersion(catalog(id),version)); thumbnails(code,catalogVersion(catalog(id),version)); unit(code); variantType(code); variants(code,catalogVersion(catalog(id),version)); discontinuedDate[dateformat=yyyy-MM-dd]; sapMaterialGroup; sapBasicMaterial; isMedpax; sapSalesUnits; wholescriptsBrand
+"#% impex.exportItems(""SELECT  {P:PK} FROM {Product as P}, {CatalogVersion as CV}, {Catalog as C} WHERE {P:catalogversion}={CV:PK} AND {CV:catalog}={C:PK} AND {C:id}='$catalog' AND {CV:version}='$version'"", Collections.EMPTY_MAP, Collections.singletonList( Item.class ), true, true, -1, -1 );"
+#-----------------------------------------------------------
+
+#-------Alternate----------------------------------------------------
+"#% impex.setTargetFile( ""Media.csv"" );"
+insert_update Media ; &Item ; URL ; altText ; catalog(id)[allownull=true] ; catalogVersion(catalog(id),version)[unique=true,allownull=true] ; code[unique=true,allownull=true] ; dataPK ; deniedPrincipals(uid) ; description ; folder(qualifier) ; internalURL ; location ; locationHash ; mediaContainer(catalogVersion(catalog(id),version),qualifier) ; mediaFormat(qualifier) ; mime ; owner(&Item)[allownull=true,forceWrite=true] ; permittedPrincipals(uid) ; realFileName ; removable[allownull=true] ; size ; subFolderPath
+"#% impex.exportItems(""SELECT {M:PK} FROM {Media as M}, {CatalogVersion as CV}, {Catalog as C} WHERE {M:catalogversion}={CV:PK} AND {CV:catalog}={C:PK} AND {C:id}='$catalog' AND {CV:version}='$version'"", Collections.EMPTY_MAP, Collections.singletonList( Item.class ), true, true, -1, -1 );"
+
+#-----------------------------------------------------------
+"#% impex.setTargetFile( ""PriceRow.csv"" );"
+insert_update PriceRow ; &Item ; catalogVersion(catalog(id),version) ; channel(code,itemtype(code)) ; currency(isocode)[allownull=true] ; owner(&Item)[forceWrite=true] ; pg(code,itemtype(code))[forceWrite=true] ; price[allownull=true] ; product(catalogVersion(catalog(id),version),code)[forceWrite=true] ; productId[forceWrite=true][unique=true] ; productMatchQualifier ; sequenceId ; ug(code,itemtype(code)) ; unit(code)[allownull=true] ; unitFactor[allownull=true] ; user(uid)
+"#% impex.exportItems(""SELECT {PR:pk} FROM {PriceRow as PR}, {CatalogVersion as CV}, {Catalog as C} WHERE  {PR:catalogversion}={CV:PK} AND {CV:catalog}={C:PK} AND {C:id}='$catalog' AND {CV:version}='$version'"", Collections.EMPTY_MAP, Collections.singletonList( Item.class ), true, true, -1, -1  );"
+
+#-----------------------------------------------------------
+"#% impex.setTargetFile( ""Category.csv"" );"
+insert_update Category; catalog(id); catalogVersion(catalog(id),version)[unique=true]; code[unique=true]; data_sheet(code,catalogVersion(catalog(id),version)); description[lang=de]; description[lang=en]; detail(code,catalogVersion(catalog(id),version)); logo(code,catalogVersion(catalog(id),version)); name[lang=de]; name[lang=en]; normal(code,catalogVersion(catalog(id),version)); order; others(code,catalogVersion(catalog(id),version)); picture(code,catalogVersion(catalog(id),version)); thumbnail(code,catalogVersion(catalog(id),version)); thumbnails(code,catalogVersion(catalog(id),version))
+"#% impex.exportItems(""Category"" , false   );"
+
+
+"#% impex.setTargetFile( ""CategoryProductRelation.csv"" );"
+insert_update CategoryProductRelation;source(code,catalogVersion(catalog(id),version))[unique=true];target(code,catalogVersion(catalog(id),version))[unique=true];language(isocode)
+"#% impex.exportItems(""SELECT {CPR:pk} FROM {CategoryProductRelation as CPR}, {Product as P}, {CatalogVersion as CV}, {Catalog as C} WHERE {CPR:target}={P:PK} AND {P:catalogversion}={CV:PK} AND {CV:catalog}={C:PK} AND {C:id}='$catalog' AND {CV:version}='$version'"", Collections.EMPTY_MAP, Collections.singletonList( Item.class ), true, true, -1, -1  );"
+
+"#% impex.setTargetFile( ""ProductReference.csv"" );"
+insert_update ProductReference;source(code,catalogVersion(catalog(id),version))[unique=true];target(code,catalogVersion(catalog(id),version))[unique=true];referenceType(code);active;preselected
+"#% impex.exportItems(""SELECT {PR:pk} FROM {ProductReference as PR}, {Product as P}, {CatalogVersion as CV}, {Catalog as C} WHERE {PR:source}={P:PK} AND {P:catalogversion}={CV:PK} AND {CV:catalog}={C:PK} AND {C:id}='$catalog' AND {CV:version}='$version'"", Collections.EMPTY_MAP, Collections.singletonList( Item.class ), true, true, -1, -1  );"
+#-----------------------------------------------------------
+
+

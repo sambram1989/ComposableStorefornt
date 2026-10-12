@@ -1,0 +1,232 @@
+@defer(when (PageLoaded)) {
+<ng-container [ngTemplateOutlet]="headerSection"></ng-container>
+<ng-container [ngTemplateOutlet]="overall"></ng-container>
+} @loading{
+<cx-spinner></cx-spinner>
+} @error {
+<p class="text-center d-flex align-items-center justify-content-center" aria-live="assertive">
+  An loading error occurred
+</p>
+}
+<ng-template #headerSection>
+  <div class="pageHeader row">
+    <div class="col-12 text-md-nowrap">
+      <ng-container *ngIf="fromWholeScriptsProtocolpage; else normalHeading">
+        <div>
+          <h1 class="bolder">Protocol Recommendation</h1>
+          <h3 class="bold">Select Patient(s)</h3>
+          <h4>
+            Please select the patient you would like to send recommendation to
+          </h4>
+        </div>
+      </ng-container>
+
+      <ng-template #normalHeading>
+        <h1 id="page-heading-slot" class="sr-only">My Patients Page Heading</h1>
+        <cx-page-slot position="practitionerMyPatientsPageHeadingSlot" aria-label="page-heading-slot">
+        </cx-page-slot>
+        <cx-page-slot position="recommendationMyPatientsPageHeadingSlot" aria-label="page-heading-slot">
+        </cx-page-slot>
+      </ng-template>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #overall>
+  <div class="row mt-4 ml-0">
+    <div class="col-xl-3 d-none d-xl-block pt-3 pl-0" aria-labelledby="left-filter-heading">
+      <h2 id="left-filter-heading" class="sr-only">Filter Options</h2>
+      <ws-leftfilterfacet [filters]="filters$ | async" (activeFilters)="onFacetSelection($event)"
+        aria-labelledby="left-filter-heading">
+      </ws-leftfilterfacet>
+    </div>
+
+    <div class="col-md-12 col-xl-9 pt-3 pl-0 pl-md-2 patientsTable">
+      <div class="row mb-2 px-2 px-md-0">
+        <div class="col-12 col-md-8 col-lg-6 p-0 mb-2 searchPatients">
+          <ws-search-box (searchChange)="updateSearch($event)" aria-label="Search box" [placeholder]="'Search Patients'"
+            [attr.aria-placeholder]="'Search for patients or other criteria'">
+          </ws-search-box>
+        </div>
+        <div class="col-12 col-md-4 col-lg-6 text-small px-0" id="mobileFilter-Btn">
+          <div class="d-block d-xl-none">
+            <button class="btn col-12 ml-lg-4 my-3 mt-md-0 btn-outline-primary filter-btn" (click)="openFilterModal()"
+              aria-label="Open filter modal" tabindex="0">
+              <span class="pull-left mr-2">
+                <i class="fa fa-filter" aria-hidden="true"></i>
+              </span>
+              <span>Filter</span>
+            </button>
+            <span *ngIf="activeFilters().length > 0" class="badge badge-danger"
+              style="position: relative; top: -15px; right: 15px" aria-live="polite">
+              {{ activeFilters().length }}
+            </span>
+            @if(activeFilters().length > 0){
+            <button *ngIf="activeFilters().length > 0" class="btn-link text-danger text-small clear-btn bolder ml-2"
+              (click)="clearFilters()" tabindex="0" aria-label="Clear all filters">
+              Clear Filter(s)
+            </button>
+            }
+          </div>
+        </div>
+      </div>
+      <ng-container [ngTemplateOutlet]="patientsTable"></ng-container>
+    </div>
+  </div>
+
+  <!-- Mobile Display -->
+  <div>
+    <table class="table table-mb">
+      <thead>
+        <tr>
+          <th scope="col">Name:</th>
+          <th scope="col">Refferal Code:</th>
+          <th scope="col">Last Active:</th>
+          <th scope="col">Discount:</th>
+          <th scope="col" class="actions">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (code of patientsData(); track $index) {
+        <tr>
+          <td>
+            <span>Name:</span>
+            <div class="text-right">
+              {{ code?.name }} <br />
+              <button class="share" (click)="navigateToPatientProfile(code)">
+                View Profile
+              </button>
+            </div>
+          </td>
+          <td>
+            <span>Referral Code:</span>
+            {{ code.referralCode?.split("|").join(" | ") }}
+          </td>
+          <td>
+            <span>Last Active:</span>
+            <div class="td-date">
+              {{ code?.modifiedTime | date : "MM/dd/yyyy" }}<br />
+            </div>
+          </td>
+          <td class="status">
+            <span>Discount:</span>
+            <a>{{ code.discount ? code.discount + "%" : "-" }}</a>
+          </td>
+          <td class="actions">
+            <!-- <button class="btn btn-sm btn-link share" 
+           (click)="goToPatientDetails(code.patient, code.id)"
+           >Continue</button> -->
+            <button class="btn btn-sm btn-link share" (click)="navigateToAddRecommendation(code)">
+              Recommend
+            </button>
+          </td>
+        </tr>
+        } @empty {
+        <tr>
+          <td colspan="4" class="empty-state" role="row">
+            <div>
+              <h6 class="bolder mt-0">No results found</h6>
+              <p>
+                We couldn't find any matches for <span class="bolder">{{payLoad.searchText}}</span>
+              </p>
+              <p>Please try another search term and check your filters</p>
+            </div>
+          </td>
+        </tr>
+        }
+      </tbody>
+    </table>
+    <div [ngClass]="{ 'disabled': loader }" class="row pt-2 table-md">
+      <div class="col-6"></div>
+      <div class="col-12 pagination justify-content-center">
+        <ws-pagination [resetReposition]="true" (currentPageChange)="pageChanged($event)"
+          [itemsPerPage]="pagination()?.count" [totalItems]="pagination()?.totalCount" [numberOfPagesNeedTOBeShown]="5"
+          aria-label="Pagination controls"></ws-pagination>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #patientsTable>
+  <div class="row mb-3 d-none d-md-block">
+    <div class="table-responsive-xl">
+      <table class="table demo-table-search table-responsive-inline-block table-container" id="tableWithSearch"
+        role="table" [ngClass]="{ 'disabled': loader }">
+        <thead class="bg-gray" role="rowgroup">
+          <tr role="row" [wsFS]="'14px'">
+            <th scope="col" style="width: 20%" aria-sort="none">Name</th>
+            <th scope="col" style="width: 24%" aria-sort="none">Referral Code</th>
+            <th scope="col" style="width: 15%" aria-sort="none">Last Active</th>
+            <th *ngIf="isNewRecommendation" scope="col" style="width: 15%" aria-sort="none">
+              Discount
+            </th>
+            <th scope="col" class="text-right" style="width: 19%" aria-sort="none">
+              Action
+            </th>
+          </tr>
+        </thead>
+        <tbody role="rowgroup">
+          @for (item of patientsData(); track $index) {
+          <tr role="row">
+            <td class="pl-3" style="cursor: pointer" role="cell">
+              <a (click)="navigateToPatientProfile(item)" (keydown.enter)="navigateToPatientProfile(item)"
+                class="text-link" tabindex="0" [attr.aria-label]="'Patient Name: ' + (item?.name || 'Unknown')"
+                role="button">{{ item?.name }}</a>
+            </td>
+            <td class="pl-3" role="cell">
+              {{ item?.referralCode?.split("|").join(" | ") }}
+            </td>
+            <td class="pl-3" role="cell">
+              {{ item?.modifiedTime | date : "MM/dd/YYYY" }}
+            </td>
+            <td *ngIf="isNewRecommendation" class="pl-3" role="cell">
+              {{ item.discount ? item.discount + "%" : "-" }}
+            </td>
+            <td class="text-right" role="cell">
+              <a class="btn btn-outline-primary btn-rounded" [attr.aria-label]="
+                  'Recommend ' + (item?.patientName || 'Unknown')
+                " (click)="navigateToAddRecommendation(item)" (keydown.enter)="navigateToAddRecommendation(item)"
+                tabindex="0" role="button">Recommend</a>
+            </td>
+          </tr>
+          } @empty {
+          <tr>
+            <td colspan="4" class="empty-state" role="row">
+              <div>
+                <h6 class="bolder mt-0">No results found</h6>
+                <p>
+                  We couldn't find any matches for <span class="bolder">{{payLoad.searchText}}</span>
+                </p>
+                <p>Please try another search term and check your filters</p>
+              </div>
+            </td>
+          </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <div class="col-12 p-0 pagination" style="justify-content: flex-end" [ngClass]="{ 'disabled': loader }">
+      <ws-pagination [resetReposition]="true" (currentPageChange)="pageChanged($event)"
+        [itemsPerPage]="pagination()?.count" [totalItems]="pagination()?.totalCount" [numberOfPagesNeedTOBeShown]="5"
+        aria-label="Pagination controls"></ws-pagination>
+    </div>
+
+    <div *ngIf="loader" class="d-flex align-items-center justify-content-center col-12 loader-container">
+      <cx-spinner></cx-spinner>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #filterForPopup>
+  <div class="popup-header d-flex" role="banner">
+    <h3 class="title mx-auto bolder" id="filtersTitle">FILTERS</h3>
+    <button aria-label="Close modal" (click)="closeFilterModal()">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+  <div class="body" aria-labelledby="filtersTitle">
+    <ws-leftfilterfacet [fromPopup]="true" [filters]="filters$ | async" (activeFilters)="onFacetSelection($event)"
+      aria-label="Filter options"></ws-leftfilterfacet>
+  </div>
+</ng-template>

@@ -1,0 +1,83 @@
+.testimonials {
+  padding: 14rem 0 8rem 0;
+  position: relative;
+  background-image: radial-gradient(#6c4db4, #584091);
+  @media screen and (max-width: 900px) {
+    padding: 8rem 0;
+  }
+}
+
+.testimonials::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background: url(/assets/images/home/pattern-3.svg) center no-repeat;
+  background-size: 350vw;
+  background-size: min(350vw, 4000px);
+  opacity: 0.23;
+}
+
+.bg-primary {
+  background-color: #584091 !important;
+}
+
+.testimonial.slick-slide {
+  opacity: 0.5;
+  transform: scale(0.7);
+  transition: 0.5s ease-in-out;
+  height: fit-content !important;
+}
+
+.testimonial.slick-current,
+.testimonial.slick-target {
+  opacity: 1;
+  transform: scale(1);
+  transition: 1s ease-in-out;
+}
+
+div.testimonial {
+  color: #fff;
+  cursor: grab;
+  display: flex;
+  flex-direction: column;
+  margin: 0 0 0 3rem;
+  // max-width: 850px;
+}
+
+div.testimonial h4 {
+  line-height: 1.5;
+  @media screen and (max-width: 1024px) { 
+    line-height: 1 !important;
+  }
+}
+
+div.testimonial .icon {
+  display: block;
+  margin: auto;
+  margin-bottom: 2rem;
+  max-width: 8.5rem;
+}
+.text-carousel {
+  img {
+    position: relative;
+    top: 16px;
+    left: -24px;
+  }
+  h4 {
+    font-size: 24px;
+  }
+  @media (min-width: 767px) and (max-width: 800px) {
+    margin: 0 80px;
+  }
+}
+.slick-dotted.slick-slider {
+  @media (min-width: 720px) and (max-width: 820px) {
+    margin-bottom: 0px;
+  }
+}
+.bg-clr {
+  background: rgba(0, 0, 0, 0.01);
+}

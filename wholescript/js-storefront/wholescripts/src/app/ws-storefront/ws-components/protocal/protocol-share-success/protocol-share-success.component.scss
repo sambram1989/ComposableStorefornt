@@ -1,0 +1,22 @@
+.bolder {
+    color: #3E3B49;
+    font-size: 18px;
+}
+
+.fz-16 {
+    font-size: 16px;
+}
+
+.h-42 {
+    height: 42px;
+    min-height: 42px;
+}
+
+.input-group {
+    max-width: 560px;
+}
+
+.input-style {
+    @extend .h-42;
+    border-color: rgb(188, 188, 195);
+}

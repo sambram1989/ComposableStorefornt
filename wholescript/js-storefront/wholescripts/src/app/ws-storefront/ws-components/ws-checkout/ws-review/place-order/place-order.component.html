@@ -1,0 +1,18 @@
+<form class="cx-place-order-form form-check pl-0" [formGroup]="checkoutSubmitForm">
+  <div class="form-group pl-5 mb-4">
+    <label>
+      <input formControlName="termsAndConditions" class="scaled-input form-check-input" type="checkbox" />
+      <span class="form-check-label" [innerHtml]="'checkoutReview.confirmThatRead' | cxTranslate">
+      </span>
+    </label>
+  </div>
+  <div class="d-flex justify-content-between">
+    <button class="btn btn-rounded btn-outline-primary pt-6" (click)="goBack()">Back</button>
+    <button (click)="submitForm()" class="btn btn-primary btn-block"
+      [disabled]="termsAndConditionInvalid"
+      [cxAtMessage]="'checkoutReview.orderInProcess' | cxTranslate">
+      Complete Purchase
+    </button>
+  </div>
+</form>
+

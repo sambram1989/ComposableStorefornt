@@ -1,0 +1,12 @@
+@if (categories$ | async; as categories) {
+  <div class="popular-categories">
+    @for (category of categories?.popularCategories; track category.code) {
+    <a [routerLink]="category.categoryUrl" tabindex="0" role="button" [attr.aria-label]="'Go to ' + category.name + ' category'">
+      <img class="category-image" *ngIf="category.categoryImage" [src]="getMedia(category)" [alt]="category.name" />
+      <div class="category-name">
+        {{ category.name }}
+      </div>
+    </a>
+    }
+  </div>
+  }

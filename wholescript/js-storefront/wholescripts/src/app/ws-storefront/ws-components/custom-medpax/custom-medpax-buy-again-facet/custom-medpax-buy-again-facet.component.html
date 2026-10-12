@@ -1,0 +1,30 @@
+<div class="buy-again-active-facet-container">
+    <div style="padding: 0 10px;"  *ngIf="activeFacetArray.length>0" class="activeFacetHeader">
+        Applied filter:
+        <button tabindex="0" class="text-danger bolder float-right" (click)="resetFilters()">Clear Filter(s)</button>
+    </div>
+
+    <div class="activeFacetContent">
+        <a *ngFor="let activeFacet of activeFacetArray" 
+           role="button" (click)="activeFacetRemoveByIcon(activeFacet)">
+            <span>{{ activeFacet?.replace('%20', ' ') }}</span>
+            <span>
+                <cx-icon aria-hidden="true" [type]="closeIcon"></cx-icon>
+            </span>
+        </a>
+    </div>
+</div>
+<div class="buy-again-facet-container">
+    <div *ngIf="facetArray.length>0" >
+        <div *ngFor="let facet of facetArray">
+            <button class="buy-again-facet-header">
+                {{facet?.name}}
+            </button>
+            <div class="buy-again-facet-values">
+                <a *ngFor="let value of facet.values;let i = index" role="checkbox" class="{{facet?.name+'_'+value?.code}}" (click)="clickOnFilterCheckbox($event , facet?.name , value?.code)">
+                    <span>{{value?.name}}</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

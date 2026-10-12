@@ -1,0 +1,422 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+ Copyright (c) 2020 SAP SE or an SAP affiliate company. All rights reserved.
+-->
+<!--
+	ATTENTION: This is just an example file. You have to edit it according to your needs.
+-->
+
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="beans.xsd">
+
+	<!-- DATA -->
+	<bean class="com.wholescritps.external.webservices.data.UserDataList">
+		<property name="users" type="java.util.List&lt;com.wholescritps.external.webservices.data.UserData>"/>
+	</bean>
+
+	<bean class="com.wholescritps.external.webservices.data.UserData" >
+		<property name="defaultBillingAddress" type="com.wholescritps.external.webservices.data.AddressData"/>
+		<property name="defaultShippingAddress" type="com.wholescritps.external.webservices.data.AddressData"/>
+		<property name="addresses" type="java.util.List&lt;com.wholescritps.external.webservices.data.AddressData>"/>
+		<property name="description" type="String"/>
+		<property name="firstName" type="String"/>
+		<property name="lastName" type="String"/>
+	</bean>
+
+	<bean class="com.wholescritps.external.webservices.data.AddressDataList">
+		<property name="addresses" type="java.util.List&lt;com.wholescritps.external.webservices.data.AddressData>"/>
+	</bean>
+
+	<bean class="com.wholescritps.external.webservices.data.AddressData">
+		<property name="streetname" type="String"/>
+		<property name="streetnumber" type="String"/>
+		<property name="town" type="String"/>
+		<property name="shippingAddress" type="boolean"/>
+		<property name="billingAddress" type="boolean"/>
+		<property name="defaultAddress" type="boolean"/>
+		<property name="formattedAddress" type="String"/>
+	</bean>
+
+	<!-- DTO -->
+	<bean class="com.wholescritps.external.webservices.dto.SampleWsDTO">
+		<description>Sample DTO</description>
+		<hints>
+			<hint name="wsRelated" />
+			<hint name="alias">sample</hint>
+		</hints>
+		<property name="value" type="String">
+			<description>sample value</description>
+			<hints>
+				<hint name="required">true</hint>
+			</hints>
+		</property>
+	</bean>
+
+	<bean class="com.wholescritps.external.webservices.dto.UsersListWsDTO">
+		<description>User list</description>
+		<hints>
+			<hint name="wsRelated" />
+			<hint name="alias">usersList</hint>
+		</hints>
+		<property name="users" type="java.util.List&lt;com.wholescritps.external.webservices.dto.UserWsDTO>"/>
+	</bean>
+
+	<bean class="com.wholescritps.external.webservices.dto.UsersPageWsDTO" extends="de.hybris.platform.webservicescommons.dto.SearchPageWsDTO&lt;com.wholescritps.external.webservices.dto.UserWsDTO>" >
+		<hints>
+			<hint name="wsRelated" />
+			<hint name="alias">usersPage</hint>
+		</hints>
+	</bean>
+
+	<bean class="com.wholescritps.external.webservices.dto.UserWsDTO">
+		<description>User DTO</description>
+		<hints>
+			<hint name="wsRelated" />
+			<hint name="alias">user</hint>
+		</hints>
+		<property name="addresses" type="java.util.List&lt;com.wholescritps.external.webservices.dto.AddressWsDTO>"/>
+		<property name="firstName" type="String">
+			<description>First Name</description>
+			<hints>
+				<hint name="required">true</hint>
+			</hints>
+		</property>
+		<property name="lastName" type="String">
+			<description>Last Name</description>
+			<hints>
+				<hint name="required">true</hint>
+			</hints>
+		</property>
+		<property name="info" type="String" />
+		<property name="billingAddress" type="com.wholescritps.external.webservices.dto.AddressWsDTO">
+			<description>Billing Address</description>
+		</property>
+		<property name="shippingAddress" type="com.wholescritps.external.webservices.dto.AddressWsDTO">
+			<description>Shipping Address</description>
+		</property>
+	</bean>
+
+	<bean class="com.wholescritps.external.webservices.dto.AddressListWsDTO">
+		<description>List of addresses</description>
+		<hints>
+			<hint name="wsRelated" />
+			<hint name="alias">addressList</hint>
+		</hints>
+		<property name="addresses" type="java.util.List&lt;com.wholescritps.external.webservices.dto.AddressWsDTO>"/>
+	</bean>
+
+	<bean class="com.wholescritps.external.webservices.dto.AddressWsDTO">
+		<description>Address DTO</description>
+		<hints>
+			<hint name="wsRelated" />
+			<hint name="alias">address</hint>
+		</hints>
+		<property name="street" type="String"/>
+		<property name="town" type="String"/>
+		<property name="streetNumber" type="String"/>
+	</bean>
+
+	<bean class="com.wholescritps.external.webservices.dto.TestMapWsDTO">
+		<description>Example of DTO with map</description>
+		<hints>
+			<hint name="wsRelated" />
+			<hint name="alias">testMap</hint>
+		</hints>
+		<property name="stringMap" type="java.util.Map&lt;String,String>"/>
+		<property name="integerMap" type="java.util.Map&lt;String,Integer>"/>
+	</bean>
+
+	<bean class="com.wholescripts.dto.ExternalAPIEMRRecommendationWsDTO">
+		<import type="com.fasterxml.jackson.annotation.JsonProperty"/>
+		<property name="practitionerEmail" type="java.lang.String" >
+			<annotations>@JsonProperty("PractitionerEmail")</annotations>
+		</property>
+		<property name="patientEmail" type="java.lang.String" >
+			<annotations>@JsonProperty("PatientEmail")</annotations>
+		</property>
+		<property name="patientFirstName" type="java.lang.String" >
+			<annotations>@JsonProperty("PatientFirstName")</annotations>
+		</property>
+		<property name="patientLastName" type="java.lang.String" >
+			<annotations>@JsonProperty("PatientLastName")</annotations>
+		</property>
+		<property name="notes" type="java.lang.String" >
+			<annotations>@JsonProperty("Notes")</annotations>
+		</property>
+		<property name="referralCode" type="java.lang.String" >
+			<annotations>@JsonProperty("ReferralCode")</annotations>
+		</property>
+		<property name="referralName" type="java.lang.String" >
+			<annotations>@JsonProperty("referralName")</annotations>
+		</property>
+		<property name="sendEmail" type="java.lang.Boolean" >
+			<annotations>@JsonProperty("SendEmail")</annotations>
+		</property>
+		<property name="items" type="java.util.List&lt;com.wholescripts.dto.ExternalAPIEMRRecommendationItemsWsDTO&gt;" >
+			<annotations>@JsonProperty("Items")</annotations>
+		</property>
+		<property name="sourceId" type="java.lang.String" />
+		<property name="sourceName" type="java.lang.String" />
+	</bean>
+	<bean class="com.wholescripts.dto.ExternalAPIEMRRecommendationItemsWsDTO">
+		<import type="com.fasterxml.jackson.annotation.JsonProperty"/>
+		<property name="sku" type="java.lang.String" >
+			<annotations>@JsonProperty("Sku")</annotations>
+		</property>
+		<property name="quantity" type="java.lang.String" >
+			<annotations>@JsonProperty("Quantity")</annotations>
+		</property>
+		<property name="notes" type="java.lang.String" >
+			<annotations>@JsonProperty("Notes")</annotations>
+		</property>
+		<property name="medPaxName" type="java.lang.String" >
+			<annotations>@JsonProperty("MedPaxName")</annotations>
+		</property>
+		<property name="itemDuration" type="java.lang.String" >
+			<annotations>@JsonProperty("ItemDuration")</annotations>
+		</property>
+		<property name="dosing" type="java.lang.String" >
+			<annotations>@JsonProperty("Dosing")</annotations>
+		</property>
+		<property name="medPaxPills" type="java.util.List&lt;com.wholescripts.dto.ExternalAPIEMRRecommendationMedpaxPillsWsDTO&gt;" >
+			<annotations>@JsonProperty("MedPaxPills")</annotations>
+		</property>
+
+	</bean>
+	<bean class="com.wholescripts.dto.ExternalAPIEMRRecommendationMedpaxPillsWsDTO">
+		<import type="com.fasterxml.jackson.annotation.JsonProperty"/>
+		<property name="sku" type="java.lang.String" >
+			<annotations>@JsonProperty("Sku")</annotations>
+		</property>
+		<property name="quantity" type="java.lang.String" >
+			<annotations>@JsonProperty("Quantity")</annotations>
+		</property>
+		<property name="itemTime" type="java.lang.String" >
+			<annotations>@JsonProperty("ItemTime")</annotations>
+		</property>
+	</bean>
+	<bean class="com.wholescripts.dto.ExternalAPIEMRRecommendationResponseWsDTO">
+		<property name="recommendationId" type="java.lang.String" />
+		<property name="patientLink" type="java.lang.String" />
+		<property name="patientId" type="java.lang.String" />
+		<property name="sendEmailStatus" type="java.lang.Boolean" />
+		<property name="success" type="java.lang.Boolean" />
+		<property name="returnMessage" type="java.util.List&lt;java.lang.String>" />
+	</bean>
+
+	<bean class="com.wholescripts.dto.ProductSkusDTO">
+		<property name="productSkus" type="java.util.List&lt;java.lang.String>" />
+	</bean>
+
+	<bean class="com.wholescripts.dto.CustomerSAPIdDTO">
+		<property name="customerSAPID" type="String" />
+	</bean>
+
+	<bean class="com.wholescripts.dto.WholescriptsExternalAPIProductImagesWsDTO">
+		<property name="url" type="String"/>
+		<property name="mimeType" type="String"/>
+		<property name="imageType" type="String"/>
+		<property name="order" type="Integer"/>
+	</bean>
+
+	<bean class="com.wholescripts.dto.WholescriptsExternalAPIProductWsDTO">
+		<property name="brightstockSku" type="String"/>
+		<property name="blueLabelSku" type="String"/>
+		<property name="productName" type="String" />
+		<property name="sku" type="String" />
+		<property name="medPaxSku" type="String" />
+		<property name="medPaxDetails" type="com.wholescripts.dto.MedPaxDetailsWsDTO" />
+		<property name="categories" type="java.util.List&lt;java.lang.String>" />
+		<property name="quantity" type="Integer" />
+		<property name="releaseDate" type="String" />
+		<property name="wholesalePrice" type="Double" />
+		<property name="retailPrice" type="Double" />
+		<property name="upc" type="String" />
+		<property name="count" type="String" />
+		<property name="flavor" type="String" />
+		<property name="descriptionShort" type="String" />
+		<property name="descriptionFull" type="String" />
+		<property name="weight" type="Double" />
+		<property name="length" type="Double" />
+		<property name="width" type="Double" />
+		<property name="height" type="Double" />
+		<property name="productImage" type="String" />
+		<property name="supplementFactsHTML" type="String" />
+		<property name="defaultDosing" type="java.util.List&lt;com.wholescripts.dto.WholescriptsExternalDosingWsDTO>" />
+		<property name="brand" type="String" />
+		<property name="drs" type="String" />
+		<property name="countUnit" type="String" />
+		<property name="weightUnit" type="String" />
+		<property name="warnings" type="java.util.List&lt;java.lang.String>" />
+		<property name="genericName" type="String"/>
+		<property name="onlineMAP" type="Double"/>
+		<property name="materialGroup" type="String"/>
+		<property name="caliProductSwapSKU" type="String"/>
+		<property name="ageRestrictedRegions" type="java.util.List&lt;java.lang.String>" />
+		<property name="isAvailableInCatalog" type="String"/>
+		<property name="isOnBackOrder" type="String"/>
+		<property name="images" type="java.util.List&lt;com.wholescripts.dto.WholescriptsExternalAPIProductImagesWsDTO>"/>
+	</bean>
+
+	<bean class="com.wholescripts.dto.WholescriptsExternalAPIProductListWsDTO">
+		<property name="wholescriptsExternalAPIProductList" type="java.util.List&lt;com.wholescripts.dto.WholescriptsExternalAPIProductWsDTO>"/>
+		<property name="success" type="Boolean"/>
+		<property name="returnMessage" type="java.util.List&lt;java.lang.String>" />
+	</bean>
+
+	<bean class="com.wholescripts.dto.WsExternalRecommendationWsDTO">
+		<property name="id" type="String"/>
+		<property name="practitionerEmail" type="String"/>
+		<property name="patientEmail" type="String"/>
+		<property name="patientFirstName" type="String"/>
+		<property name="patientLastName" type="String"/>
+		<property name="dateSentUtc" type="String"/>
+		<property name="notes" type="String"/>
+		<property name="status" type="String"/>
+		<property name="referralCode" type="String"/>
+		<property name="referralName" type="String"/>
+		<property name="items"
+				  type="java.util.List&lt;com.wholescripts.data.WsExternalRecommendationEntryData>"/>
+	</bean>
+
+
+	<bean class="com.wholescripts.data.WholescriptsExternalExclusionCustclasBrandWsDTO">
+		<property name="kukla" type="String"/>
+		<property name="z_mm_brands" type="String"/>
+		<property name="valid_to" type="String"/>
+		<property name="valid_from" type="String"/>
+		<property name="description" type="String"/>
+	</bean>
+
+	<bean class="com.wholescripts.data.WholescriptsExternalExclusionCustclasMaterialWsDTO">
+		<property name="kukla" type="String"/>
+		<property name="matnr" type="String"/>
+		<property name="valid_to" type="String"/>
+		<property name="valid_from" type="String"/>
+	</bean>
+
+	<bean class="com.wholescripts.data.WholescriptsExternalExclusionCustMatlWsDTO">
+		<property name="customer" type="String"/>
+		<property name="material" type="String"/>
+		<property name="valid_to" type="String"/>
+		<property name="valid_from" type="String"/>
+	</bean>
+	<bean class="com.wholescripts.data.WholescriptsExternalExclusionCustMatlgrpWsDTO">
+		<property name="kunnr" type="String"/>
+		<property name="matkl" type="String"/>
+		<property name="valid_to" type="String"/>
+		<property name="valid_from" type="String"/>
+	</bean>
+	<bean class="com.wholescripts.data.WholescriptsExternalExclusionRegionMatlWsDTO">
+		<property name="region" type="String"/>
+		<property name="material" type="String"/>
+		<property name="valid_to" type="String"/>
+		<property name="valid_from" type="String"/>
+	</bean>
+
+	<bean class="com.wholescripts.dto.WholescriptsExternalRestrictedProductsWsDTO">
+		<property name="exclusion_custclas_brand"
+				  type="java.util.List&lt;com.wholescripts.data.WholescriptsExternalExclusionCustclasBrandWsDTO>"/>
+		<property name="exclusion_custclas_material"
+				  type="java.util.List&lt;com.wholescripts.data.WholescriptsExternalExclusionCustclasMaterialWsDTO>"/>
+		<property name="exclusion_cust_matl"
+				  type="java.util.List&lt;com.wholescripts.data.WholescriptsExternalExclusionCustMatlWsDTO>"/>
+		<property name="exclusion_cust_matlgrp"
+				  type="java.util.List&lt;com.wholescripts.data.WholescriptsExternalExclusionCustMatlgrpWsDTO>"/>
+		<property name="exclusion_region_matl"
+				  type="java.util.List&lt;com.wholescripts.data.WholescriptsExternalExclusionRegionMatlWsDTO>"/>
+		<property name="success" type="Boolean"/>
+		<property name="returnMessage" type="java.util.List&lt;java.lang.String>" />
+	</bean>
+
+	<bean class="com.wholescripts.dto.WholescriptsExternalAPICreditInfoWsDTO">
+		<property name="creditLimit" type="String"/>
+		<property name="commissionTotal" type="String"/>
+	</bean>
+	<bean class="com.wholescripts.dto.WholescriptsExternalAPIReferralCodeWsDTO">
+		<property name="referralCode" type="String"/>
+		<property name="referralName" type="String"/>
+		<property name="discount" type="String"/>
+		<property name="accessLevel" type="String"/>
+	</bean>
+	<bean class="com.wholescripts.dto.WholescriptsExternalAPIAgeRestrictionDataWsDTO">
+		<property name="verifiedUntil" type="String"/>
+		<property name="blockedUntil" type="String"/>
+	</bean>
+	<bean class="com.wholescripts.dto.WholescriptsExternalAPICustomerWsDTO">
+		<property name="firstName" type="String"/>
+		<property name="lastName" type="String"/>
+		<property name="email" type="String"/>
+		<property name="accessLevel" type="String"/>
+		<property name="customerGroup" type="String"/>
+		<property name="customerSAPId" type="String"/>
+		<property name="createDate" type="String"/>
+		<property name="updateDate" type="String"/>
+		<property name="creditInfo" type="com.wholescripts.dto.WholescriptsExternalAPICreditInfoWsDTO"/>
+		<property name="customerClass" type="String"/>
+		<property name="block" type="String"/>
+		<property name="deliveryBlock" type="String"/>
+		<property name="onCreditHold" type="String"/>
+		<property name="discount" type="String"/>
+		<property name="paymentTerms" type="String"/>
+		<property name="salesPerson" type="String"/>
+		<property name="salesTerritory" type="String"/>
+		<property name="shippingCondition" type="String"/>
+		<property name="referralCodes" type="java.util.List&lt;com.wholescripts.dto.WholescriptsExternalAPIReferralCodeWsDTO>"/>
+		<property name="plDropShip" type="boolean"/>
+		<property name="ageRestrictionData" type="com.wholescripts.dto.WholescriptsExternalAPIAgeRestrictionDataWsDTO"/>
+		<property name="emailOptedIn" type="boolean"/>
+		<property name="smsOptedIn" type="boolean"/>
+		<property name="Success" type="java.lang.Boolean"/>
+		<property name="ReturnMessage" type="java.util.List&lt;java.lang.String>"/>
+	</bean>
+
+	<bean class="com.wholescripts.dto.WholescriptsExternalAPIAddressWsDTO">
+		<property name="CustomerSAPId" type="String"/>
+		<property name="AddressId" type="String"/>
+		<property name="FirstName" type="String"/>
+		<property name="LastName" type="String"/>
+		<property name="AddressName" type="String"/>
+		<property name="Email" type="String"/>
+		<property name="Street1" type="String"/>
+		<property name="Street2" type="String"/>
+		<property name="City" type="String"/>
+		<property name="Region" type="String"/>
+		<property name="Zip" type="String"/>
+		<property name="Country" type="String"/>
+		<property name="Language" type="String"/>
+		<property name="Phone" type="String"/>
+		<property name="ShippingCondition" type="String"/>
+	</bean>
+	<bean class="com.wholescripts.dto.WholescriptsExternalAPIAddressListWsDTO">
+		<property name="AddressList"
+			  type="java.util.List&lt;com.wholescripts.dto.WholescriptsExternalAPIAddressWsDTO>"/>
+		<property name="Success" type="java.lang.Boolean"/>
+		<property name="ReturnMessage" type="java.util.List&lt;java.lang.String>"/>
+	</bean>
+
+	<bean class="com.wholescripts.dto.WholescriptsExternalAPIPatientWsDTO">
+		<property name="SAPCustomerId" type="String"/>
+		<property name="FirstName" type="String"/>
+		<property name="LastName" type="String"/>
+		<property name="Email" type="String"/>
+		<property name="ReferralCode" type="com.wholescripts.dto.WholescriptsExternalAPIReferralCodeWsDTO"/>
+	</bean>
+	<bean class="com.wholescripts.dto.WholescriptsExternalAPIPatientListWsDTO">
+		<property name="PatientList"
+				  type="java.util.List&lt;com.wholescripts.dto.WholescriptsExternalAPIPatientWsDTO>"/>
+		<property name="Success" type="java.lang.Boolean"/>
+		<property name="ReturnMessage" type="java.util.List&lt;java.lang.String>"/>
+	</bean>
+
+	<bean class="com.wholescripts.dto.WholescriptsExternalAPIAddressCreationWsDTO">
+		<property name="addressId" type="String"/>
+		<property name="success" type="Boolean"/>
+		<property name="returnMessage" type="java.util.List&lt;java.lang.String>" />
+	</bean>
+	
+	<bean class="com.wholescripts.dto.ExternalCustomerRequestDTO">
+		<property name="customerSAPID" type="String" />
+		<property name="email" type="String" />
+	</bean>
+
+</beans>

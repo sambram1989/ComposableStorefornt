@@ -1,0 +1,17 @@
+<ng-container *ngIf="user$ | async as user; else login">
+  <div class="HeaderLinks">
+  <ws-acc-navigation-ui [node]="nodeTab$ | async" [ngClass]="(styleClass$ | async) ?? ''"
+  [navAriaLabel]="name$ | async">
+</ws-acc-navigation-ui>
+</div>
+<img (click)="toggle($any($event))" class="user-circle d-mob-tab" src="/assets/images/home/user-circle.svg" alt="user-icon">
+  <cx-page-slot class = "d-lg-none d-md-block" position="wsMyFavoriteIcon"></cx-page-slot>
+  <cx-page-slot class = "d-lg-none d-md-block" position="MiniCart"></cx-page-slot>
+</ng-container>
+
+<ng-template #login>
+  <div [ngClass]="{'mb-d-n': true}">
+    <app-login-signup-btn></app-login-signup-btn>
+  </div>
+  <cx-page-slot [ngClass]="{'lg-d-n': true}" position="MiniCart"></cx-page-slot>
+</ng-template>

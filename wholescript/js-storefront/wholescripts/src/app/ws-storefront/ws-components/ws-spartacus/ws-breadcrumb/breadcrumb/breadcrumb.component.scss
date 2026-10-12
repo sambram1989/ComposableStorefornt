@@ -1,0 +1,58 @@
+:host{
+    background-color: var(--ws-breadcrumb-bg);
+}
+.crumb-route {
+    &:focus-visible, &:active, &:focus {
+        outline: 3px solid var(--cx-color-darkest) !important;
+        outline-offset: 2px !important;
+        box-shadow: unset;
+      }
+}
+::ng-deep {
+    cx-breadcrumb {
+        @media(min-width: 1920px) {
+            padding-left: 12%;
+        }
+    }
+    @media (min-width: 320px) and (max-width: 768px) {
+        cx-breadcrumb nav ol {
+            flex-wrap: nowrap;
+            justify-content: flex-start;
+        }
+        .separator:not([ng-reflect-ng-class]) {
+            width: 15px;
+          }
+          .breadcrumb-truncate {
+            margin-left: 0px !important;
+          }
+          cx-breadcrumb nav {
+            align-items: baseline !important;
+          }
+          .scrollable {
+            overflow-x: scroll;
+          }
+    }
+    
+    cx-breadcrumb nav {
+        justify-content: flex-start;
+        align-items: center;
+        ol>li>a{
+            font-weight: 500;
+            color: var(--ws-breadcrumb-text) !important;
+
+            @media(max-width: 768px) {
+                min-height: unset;
+            }
+        }
+        .breadcrumb-truncate {
+            max-width: 16em;
+            width: 100%;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+    }
+    span{
+        font-weight: 500;
+    }
+}

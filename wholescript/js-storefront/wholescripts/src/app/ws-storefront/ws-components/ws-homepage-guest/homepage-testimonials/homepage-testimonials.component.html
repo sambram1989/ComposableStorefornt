@@ -1,0 +1,15 @@
+   <ngx-slick-carousel class="testimonials carousel" 
+    #slickModal="slick-carousel" 
+    [config]="slideConfig" >
+    <!-- TODO WCMS integration -->
+    <div ngxSlickItem *ngFor="let slide of slides" class="slide testimonial">
+            <img class = "icon" src="/assets/images/home/Galeli.webp" alt="Anna Cabeca, DO, FACOG, ABAARM, ABOIM" />
+        <div class="text-carousel">
+            <img src="/assets/images/home/testimonial.svg" alt="testimonials image"/>
+            <h4 class="bolder bg-clr">
+                “I highly recommend WholeScripts because of its comprehensive catalog of XYMOGEN formulas and proprietary highly effective and curated brands. WholeScripts’ customer service and order fulfillment are top-notch which makes for happy and compliant clients that see real results fast.”
+            </h4>
+            <div class="author bg-clr">— Dr. Anna Cabeca, FACOG, Best-selling author of The Hormone Fix, Keto-Green16, and MenuPause, creator of MightyMaca Plus & Julva</div>
+        </div>
+    </div>
+</ngx-slick-carousel>

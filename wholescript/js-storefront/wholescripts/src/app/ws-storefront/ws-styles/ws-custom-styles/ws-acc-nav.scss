@@ -1,0 +1,247 @@
+ws-acc-navigation-ui {
+  display: flex;
+
+  @include media-breakpoint-up(lg) {
+    background-color: var(--cx-color-transparent);
+  }
+
+  @extend %nav-heading;
+  @extend %nav-icon;
+  @extend %nav-wrapper;
+  @extend %nav-childs;
+  @extend %nav-links;
+  @extend %nav-back-button;
+  @extend %nav-wrap;
+
+  nav {
+    outline: none;
+    z-index: 9999;
+
+    ul {
+      list-style: none;
+      padding-inline-start: 0;
+      margin-bottom: 0;
+    }
+
+    button {
+      border: none;
+      background-color: transparent;
+      color: var(--ws-base-white);
+    }
+  }
+
+  &.flyout {
+    @include media-breakpoint-down(md) {
+      &:not(.is-open) {
+          li {
+            button {
+              border-bottom: none !important;
+              opacity: 0;
+              z-index: 99;
+              position: relative;
+              width: 100%;
+            }
+          }
+        }
+      nav {
+        width: 100%;
+
+        ul {
+          flex-direction: column;
+
+          li>cx-generic-link+button {
+            border-inline-start: 1px solid var(--cx-color-light);
+          }
+        }
+      }
+
+      color: #000;
+
+      &.is-open {
+        >nav>ul>li {
+          display: none;
+        }
+
+        li.is-open {
+          display: block;
+          background-color: transparent;
+          margin-top: 0;
+          margin-right: 0;
+          >.wrapper {
+            height: auto;
+          }
+          button {
+            border-bottom: none;
+            opacity: 0;
+            display: none !important;
+          }
+
+          >cx-generic-link+button {
+            display: none;
+          }
+        }
+
+        li.is-opened {
+          display: initial;
+
+          >.wrapper>ul.childs>li {
+            display: none;
+            margin-top: 0 !important;
+            margin-right: 0 !important;
+
+            &.is-open {
+              display: initial;
+            }
+          }
+
+          >cx-generic-link,
+          >span,
+          >button {
+            display: none;
+          }
+
+          >.wrapper {
+            height: auto;
+          }
+        }
+      }
+    }
+
+    @include media-breakpoint-up(lg) {
+      ul.childs[depth='2'] {
+        >li {
+          &:not(:only-child):not(:last-child) {
+            padding-inline-end: 20px;
+          }
+        }
+      }
+
+      // Show dropdowns via hover when no nav is focused
+      >nav>ul>li {
+        >button+.wrapper {
+          padding: 0;
+          position: absolute;
+          margin-inline-start: 0;
+          left: 0;
+          top: 30px;
+          border-radius: 12px;
+          border: 1px solid #E3E3E5;
+          box-shadow: 0 5px 12px #00000012;
+          overflow: hidden;
+          @include hideWrapperDesktop();
+          
+          @media (min-width: 991px) and (max-width: 1024px) { 
+            top: 40px;
+          }
+        }
+
+        // Show dropdowns via focus only once a nav is clicked
+        &:focus-within {
+
+          &:focus,
+          &.is-open {
+            >button+.wrapper {
+              @include showWrapperDesktop();
+            }
+          }
+        }
+      }
+
+      .childs {
+        display: flex;
+      }
+
+      .wrapper cx-icon {
+        display: none;
+      }
+
+      >nav>ul>li {
+        >.wrapper {
+          transition: opacity 0.4s;
+          width: 100%;
+          // box-shadow: 0px 12px 14px -4px var(--ws-gray-light-900) !important;
+          box-shadow: 0 5px 12px rgba(0, 0, 0, 0.0705882353) !important;
+        }
+      }
+    }
+
+    &.accNavComponent {
+      background-color: transparent;
+
+      @include forFeature('a11yImproveContrast') {
+
+        // my account button has text, this fixes white hover on desktop
+        button:hover {
+          color: var(--cx-color-primary);
+          outline: 0;
+        }
+      }
+
+      nav {
+        li.is-open {
+          @include media-breakpoint-down(md) {
+            background-color: var(--cx-color-medium);
+            display: block;
+          }
+        }
+      }
+    }
+  }
+}
+
+.cx-login-greet {
+  color: var(--ws-base-white) !important;
+}
+
+.SiteLogin {
+  position: relative;
+
+  cx-login {
+    display: flex;
+    gap: 0 4px;
+
+    .cx-login-greet {
+      width:auto;
+      margin-right: 4px;
+    }
+
+    .HeaderLinks {
+      flex: 1 1 0%;
+      margin-left: 0;
+      @include media-breakpoint-down(md) {
+        flex: 1 1 50%;
+      }
+      ws-acc-navigation-ui {
+        &:nth-child(2) {
+          display: none;
+        }
+      }
+    }
+  }
+}
+
+ws-acc-navigation-ui {
+  nav {
+    ul {
+      li {
+        button {
+          color: var(--ws-base-white) !important;
+          padding: 0 !important;
+          margin: 0 !important;
+        }
+      }
+    }
+  }
+}
+
+cx-searchbox, ws-header-search {
+  label {
+    input {
+      @include media-breakpoint-down(sm) {
+        background-color: var(--cx-color-background);
+        border-bottom: none;
+      }
+    }
+  }
+}
+

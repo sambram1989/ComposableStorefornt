@@ -1,0 +1,6 @@
+<a [routerLink]="'/catalog'" [queryParams]="{categories:categoryUrl()}" tabindex="0" [attr.aria-label]="'View catalog for ' + categoryName()">
+    <div class="category-image">
+          <img *ngIf="categoryImage" [src]="getMedia(categoryImage)" [alt]="categoryName()" />          
+    </div>
+    <h4 >{{categoryName()}}</h4>
+</a>

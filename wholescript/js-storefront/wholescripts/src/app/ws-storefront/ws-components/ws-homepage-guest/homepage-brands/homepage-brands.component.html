@@ -1,0 +1,23 @@
+<div class="brands-hexagon">
+    <section class="brands">
+        <div class="container-full">
+            <div class="header text-center">
+                <h2 class="bolder mb-0">{{ brandsContent['BestBrandsParagraph1Component'].content }}</h2>
+                <img src="/assets/images/home/grey-hex.svg" alt="Image" title="Image"/>
+            </div>
+            <div class="brands-summary">
+                <h3 class="bolder brands-summary__h">{{ brandsContent['OneStopShopParagraph1Component'].content }}</h3>
+                <h5 class="brands-summary__sh" [innerHTML]="brandsContent['OneStopShopParagraph2Component'].content"></h5>
+                <a class="btn btn-outline-primary btn-rounded" href="/catalog">{{ brandsContent['FullCatalogButtonComponent'].flexType }}</a>
+            </div>
+            <div class="brands-grid">
+                <a *ngFor="let item of icons" class="home-brand-card rounded box-shadow" [href]="item[1].urlLink">
+                    <cx-media [container]="wsPageService.getImage(item[1])"></cx-media>
+                </a>
+            </div>
+        </div>
+    </section>
+</div>
+<div class="angle-down">
+    <img src="/assets/images/home/angle-down.svg" alt="background" />
+</div>

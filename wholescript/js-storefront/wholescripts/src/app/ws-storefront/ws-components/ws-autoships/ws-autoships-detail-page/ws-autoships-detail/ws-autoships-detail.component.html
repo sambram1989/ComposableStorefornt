@@ -1,0 +1,207 @@
+<div class="autoships-details-wrapper">
+    <div class="details-section" *ngFor="let detail of autoShipsHeaderItems | slice:0:1">
+        <div class="top-details-section">
+            <div class="heading">
+                AutoShip #{{detail?.orderNumber}}
+            </div>
+            <div class="content-wrapper">
+                <div class="change-wrapper">
+                    <span class="change-link" tabindex="0" (keydown.enter)="openChangeShippingAddress()" (click)="openChangeShippingAddress()">change</span>
+                </div>
+                <div class="ship-to-wrapper row">
+                    <div class="ship-to col-6">Shipping to:</div>
+                    <div class="shipping-address col-6" *ngIf="!detail?.hideShipTo">
+                        <div class="home" *ngIf="!detail?.shippingAddress">{{detail?.shipTo}}</div>
+                        <div class="home" *ngIf="detail?.shippingAddress?.companyName">{{detail?.shippingAddress?.companyName}}</div>
+                        <div class="name" *ngIf="detail?.shippingAddress?.firstName">{{detail?.shippingAddress?.firstName}} {{detail?.shippingAddress?.lastName}}</div>
+                        <div class="address" *ngIf="detail?.shippingAddress?.formattedAddress">{{detail?.shippingAddress?.formattedAddress}}</div>
+                    </div>
+                </div>
+                <div class="payment-method-wrapper row" *ngIf="autoShipsCC?.ccNumber">
+                    <div class="payment-method-text col-6">Payment method:</div>
+                    <div class="card-wrapper col-6">
+                        <div class="card-details">
+                            <span class="card-name">
+                                <img
+                                    *ngIf="getCardImage(autoShipsCC?.ccType) as cardImage"
+                                    [src]="cardImage"
+                                    [alt]="autoShipsCC?.ccType"
+                                    width="50"
+                                />
+                                    {{ autoShipsCC?.ccType | capitalCase }}
+                                    ending in
+                                    {{ extractLastFourDigits(autoShipsCC?.ccNumber) }}
+                            </span>
+                        </div>
+                        <div class="expiry-date">
+                            Exp. Date: {{autoShipsCC?.ccValidTo | date: 'MM/yy'}}
+                        </div>
+                    </div>
+                </div>
+                <div class="alert-wrapper">
+                    <div class="d-flex alert-header">
+                        <img width="32" height="32" src="/assets/icons/common_icons/featured-info-icon.svg" alt="alert-icon" title="alert-icon" aria-label="alert-icon"/>
+                        <div class="d-flex alert-header-message-wrapper">
+                            <p class="please-note">
+                                Please note:
+                            </p>
+                            <p class="helper-text">
+                                To update your AutoShip payment information, call customer service at 1 (800) 647-6100
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="total-price-wrapper row">
+                    <div class="col-6"></div>
+                    <div class="col-6">
+                        <span class="total-text">Total:</span>
+                        <span class="price"> {{totalPrice | currency : (currency$ | async)}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="cancel-autoship-wrapper">
+            <div class="cancel-autoship-text" (click)="openCancelAutoShipModal()" (keydown.enter)="openCancelAutoShipModal()" tabindex="0">
+                Cancel AutoShip
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cancel-autoship-modal-wrapper" *ngIf="showCancelAutoShipModal" #cancelAutoShipModal>
+    <div class="modal fade slide-right show" id="cancelAutoshipModal" tabindex="-1" role="dialog"
+        aria-labelledby="cancelAutoshipModal" style="display: block;">
+        <div class="modal-dialog">
+            <div class="modal-content-wrapper">
+                <div class="container-xs-height full-height">
+                    <div class="row-xs-height">
+                        <div class="modal-content col-xs-height">
+                            <div class="modal-header clearfix ">
+                                <img width="40" height="40"
+                                    src="/assets/icons/common_icons/featured-warning-icon.svg" alt="Autoship Image" title="Autoship Image" aria-label="Autoship Image"/>
+                                <div class="d-flex cancel-autoship-text-wrapper">
+                                    <h3>Cancel AutoShip</h3>
+                                    <i class="fa fa-close" (click)="closeModal()" (keydown.enter)="closeModal()" tabindex="0"></i>
+                                </div>
+                            </div>
+                            <div class="modal-body">
+                                <div class="modal-body-text">
+                                    Canceling this AutoShip will stop all products included from being delivered on all
+                                    future shipments. This action cannot be undone.
+                                </div>
+                                <div class="modal-body-text">
+                                    As an alternative you can <i>skip</i> products when you edit <i
+                                        class="fas fa-edit"></i> them.
+                                </div>
+                                <div class="cancel-autoship-text">
+                                    Are you sure you want to cancel this AutoShip?
+                                </div>
+                            </div>
+
+
+                            <div class="modal-footer">
+                                <button type="submit" (click)="closeModal()"
+                                    class="btn btn-secondary btn-rounded btn-cons">Close</button>
+                                <button type="submit" class="btn btn-primary btn-rounded cancel-autoship"
+                                    (click)="cancelAutoShipClick()" (keydown.enter)="cancelAutoShipClick()" tabindex="0">Cancel
+                                    AutoShip</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="change-address-modal-wrapper" *ngIf="showChangeShippingAddressModal" #changeAddressModal>
+    <div class="modal fade slide-right show" id="changeAddressModal" tabindex="-1" role="dialog"
+        aria-labelledby="changeAddressModal" style="display: block;">
+        <div class="modal-dialog">
+            <div class="modal-content-wrapper">
+                <div class="container-xs-height full-height">
+                    <div class="row-xs-height">
+                        <div class="modal-content col-xs-height">
+                            <div class="modal-header clearfix " *ngIf="!addressVerificationLoader">
+                                <img width="40" height="40"
+                                    src="/assets/icons/common_icons/featured-warning-icon.svg"  alt="Change Address Image" title="Change Address Image" aria-label="Change Address Image"/>
+                                <div class="d-flex cancel-autoship-text-wrapper">
+                                    <div>
+                                        <h3>Change address</h3>
+                                        <p class="helper-text">Select the address you would like to change your shipment
+                                            to</p>
+                                    </div>
+                                    <i class="fa fa-close" (click)="closeModal()" (keydown.enter)="closeModal()" tabindex="0"></i>
+                                </div>
+                            </div>
+                            <div class="modal-body" *ngIf="!addressVerificationLoader">
+                                <div class="address-selected" *ngIf="selectedAddress?.addressNumber">
+                                    Address selected:
+                                </div>
+                                <div class="address-details" *ngIf="selectedAddress?.addressNumber">
+                                    <div></div>
+                                    <div class="all-address-details">
+                                        <div class="name"> {{selectedAddress?.firstName}} | {{selectedAddress?.lastName}}</div>
+                                        <div class="address">{{selectedAddress?.formattedAddress}}</div>
+                                    </div>
+                                </div>
+                                <div class="find-address-text">
+                                    Find the address you would like this AutoShip to be shipped to:
+                                </div>
+                                <div class="search-wrapper">
+                                    <div class="ws-input-container">
+                                        <div class="ws-input-elements">
+                                            <input maxlength="256" type="text" class="ws-text-input"
+                                                placeholder="Search addresses" aria-label="Search"
+                                                (input)="updateSearch(searchInput.value)" #searchInput (keydown)="handleKeyDown($event)">
+                                            <button class="ws-input-button" title="Search">
+                                                <i class="fa fa-search ws-input-button__search"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="search-results-wrapper" *ngIf="searchText">
+                                        <div class="results">
+                                            <div class="result" *ngFor="let address of addresses; let i = index"
+                                                (click)="selectAddress(address)" [class.focused]="i === focusedIndex" tabindex="0" (keydown.enter)="selectAddress(address)">
+                                                <div class="name">
+                                                    {{address?.firstName}} | {{address?.lastName}}
+                                                </div>
+                                                <div class="description">
+                                                    {{address?.formattedAddress}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="select-address-added-text">
+                                    You can only select addresses that have been added to your account. If you would
+                                    like to add a new address, please go to your <span>Addresses</span> page.
+                                </div>
+                            </div>
+
+                            <div class="cdna-alert cdna-alert-danger" role="alert" *ngIf="updateAddressErrorType">
+                                @if(updateAddressErrorType === 'AgeRestrictionError' || updateAddressErrorType === 'POBoxAgeRestrictionError') {
+                                    You have entered an address in a state with age restrictions. Please go to Id verification in <a [routerLink]="'/accounts-settings'">Account Settings</a> to complete the identification verification steps. You can also enter an address in a different state or contact customer service for assistance at <a href="tel:+18006476100" tabindex="0">1-800-647-6100.</a>
+                                }
+                                @if(updateAddressErrorType === 'RegionExclusionError') {
+                                    The following item not available to ship to California. Please change the address.
+                                }
+                            </div>
+
+                            <div class="modal-footer" *ngIf="!addressVerificationLoader">
+                                <button type="submit" (click)="closeModal()"
+                                    class="btn btn-secondary btn-rounded" tabindex="0">Close</button>
+                                <button type="submit" [disabled]="!selectedAddress?.addressNumber" class="btn btn-primary btn-rounded"
+                                    (click)="changeShippingAddressClick()" tabindex="0">Use this address</button>
+                            </div>
+                            <div *ngIf="addressVerificationLoader" class="d-flex align-items-center justify-content-center">
+                                <cx-spinner></cx-spinner>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

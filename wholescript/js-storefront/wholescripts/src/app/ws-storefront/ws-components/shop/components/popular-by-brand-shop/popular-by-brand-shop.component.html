@@ -1,0 +1,76 @@
+<section id="animated-brand-cards">
+  <section class="animated-cards">
+    <div
+      class="animated-card card-main"
+      *ngIf="primaryBrand$ | async as primaryBrand"
+      tabindex="0"
+      (keydown.enter)="navigateTo(primaryBrand.brandUrl)"
+      (keydown.space)="navigateTo(primaryBrand.brandUrl)"
+    >
+      <div class="animated-card-inner" [routerLink]="primaryBrand.brandUrl" tabindex="0" 
+      (keydown.enter)="this.router.navigateByUrl(primaryBrand.brandUrl)" (keydown.space)="this.router.navigateByUrl(primaryBrand.brandUrl)">
+        <img
+          class="card-logo"
+          *ngIf="primaryBrand.brandLogo?.url"
+          [src]="getMedia(primaryBrand.name, primaryBrand.brandLogo.url)"
+          [alt]="primaryBrand.name"
+        />
+        <div class="card-title">{{ primaryBrand.name }}</div>
+        <div class="card-description">
+          <p>{{primaryBrand.shortDescription}}</p>
+        </div>
+        <div class="card-cta">
+          <a class="d-flex align-items-center" [routerLink]="primaryBrand.brandUrl" (keydown.enter)="navigateTo(primaryBrand.brandUrl)" 
+          (keydown.space)="navigateTo(primaryBrand.brandUrl)">See Products <i class="fa-solid fa-chevron-right pl-1"></i></a>
+        </div>
+      </div>
+      <div class="card-product-image-container">
+        <img
+          class="card-product-image"
+          *ngIf="primaryBrand.brandImage?.url"
+          [src]="getMedia(primaryBrand.name, primaryBrand.brandImage.url)"
+          [alt]="primaryBrand.name"
+        />
+      </div>
+    </div>
+    <div class="animated-cards-secondary">
+      <ng-container *ngFor="let otherBrand of otherBrand$ | async; index as i">
+        <div
+          class="animated-card"
+          [ngClass]="otherCardClass[i + 1]"
+          *ngIf="otherBrand.code !== 'xymogen'"
+          tabindex="0"
+          (keydown.enter)="navigateTo(otherBrand.brandUrl)"
+          (keydown.space)="navigateTo(otherBrand.brandUrl)"
+          (click)="navigateTo(otherBrand.brandUrl)"
+        >
+          <div class="animated-card-inner">
+            <div class="ac-logo">
+              <a [routerLink]="otherBrand.brandUrl">
+                <img
+                  *ngIf="otherBrand.brandLogo?.url"
+                  [src]="getMedia(otherBrand.name, otherBrand.brandLogo.url)"
+                  [alt]="otherBrand.name"
+                />
+              </a>
+            </div>
+            <div class="ac-title visible">
+              <p>{{ otherBrand.shortDescription }}</p>
+            </div>
+          </div>
+          <div class="ac-cta">
+            <a [routerLink]="otherBrand.brandUrl" (keydown.enter)="navigateTo(otherBrand.brandUrl)" (keydown.space)="navigateTo(otherBrand.brandUrl)">See Products</a>
+          </div>
+          <div class="ac-product-image">
+            <img
+              class="card-product-image"
+              *ngIf="otherBrand.brandImage?.url"
+              [src]="getMedia(otherBrand.name, otherBrand.brandImage.url)"
+              [alt]="otherBrand.name"
+            />
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </section>
+</section>

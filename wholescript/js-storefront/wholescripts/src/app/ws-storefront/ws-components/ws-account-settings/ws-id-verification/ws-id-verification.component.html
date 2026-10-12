@@ -1,0 +1,60 @@
+<div class="id-verification" >
+  <div class="cx-spinner persona-spinner" *ngIf="personaLoading">
+    <cx-spinner></cx-spinner>
+  </div>
+  <div class="px-3">
+    <div class="row mt-1" *ngIf="!personaLoading && !compareDates(perosnaExpirationDate) && !compareDates(personaBlockedDate)" >
+        <div class="col-8 p-0">
+            <h1>ID verification</h1>
+            <p class="description">
+              Protect your account and enjoy uninterrupted shipping deliveries.
+            </p>
+        </div>
+        <div class="col-md-4 col-12 p-0">
+            <button class="btn-get-verified btn-rounded float-right" [disabled]="personaLoading" (click)="onVerifyClick()">Get verified</button>
+        </div>
+    </div>
+
+    <div
+      class="verification-failed-message row col-md-10 col-12"
+      *ngIf="!personaLoading && personaStatus === 'failed' && !compareDates(perosnaExpirationDate) && !compareDates(personaBlockedDate)"
+    >
+      <span class="bolder pr-1"> Failed attempt.</span>
+        Too many failed attempts will prevent you from validating your identity. If
+        this is a mistake, please contact customer service at
+      <span class="bolder">1 (800) 647-6100</span>
+    </div>
+
+    <div  class="verification-box row col-md-10 col-12 mt-3" *ngIf="!personaLoading && !compareDates(perosnaExpirationDate) && !compareDates(personaBlockedDate) ">
+      <div class="icon-container">
+      <cx-media [container]="banner?.media"></cx-media>
+      </div>
+      <div [innerHTML]="banner?.content" class="text-container">
+      </div>
+    </div>
+
+    <div class="verification-box row col-md-10 col-12 mt-3" *ngIf="!personaLoading && perosnaExpirationDate && compareDates(perosnaExpirationDate) && !compareDates(personaBlockedDate)">
+      <div class="icon-container">
+        <cx-media [container]="banner?.media"></cx-media>
+      </div>
+      <div class="text-container">
+        <h4><i class="fa fa-check-circle" aria-hidden="true"></i>Success!</h4>
+        <p>We have successfully verified your identity. This information will remain stored for future use. If you have question
+          or need to make changes, please contact our customer service at <b>1 (800) 647-6100</b>
+        </p>
+      </div>
+    </div>
+
+    <div class="verification-box row col-md-10 col-12 mt-3" *ngIf="!personaLoading && personaBlockedDate && compareDates(personaBlockedDate) && !compareDates(perosnaExpirationDate)">
+      <div class="icon-container">
+        <cx-media [container]="banner?.media"></cx-media>
+      </div>
+      <div class="text-container">
+        <h4><i class="fa fa-exclamation-circle" aria-hidden="true"></i>Age verification failed</h4>
+        <p>You have exceeded your allowed number of verification attempts, or your identifiers indicate that you are under the age of 21.
+          If this is in error, please reach out to customer service at <b>1 (800) 647-6100</b> for assistance.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

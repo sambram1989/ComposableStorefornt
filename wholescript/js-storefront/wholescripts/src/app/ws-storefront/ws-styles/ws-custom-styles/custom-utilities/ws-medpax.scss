@@ -1,0 +1,21 @@
+.MedpaxPageTemplate {
+    cx-page-slot {
+        ws-custom-medpax-landing-page {
+            .upper-content {
+                h1 {
+                    font-size: 3rem;
+                    font-weight: 900;
+                    color: var(--cx-color-secondary);
+                }
+
+                p {
+                    margin: 20px 0;
+                    font-weight: 500;
+                    font-size: 18px;
+                    color: var(--cx-color-secondary)
+                }
+            }
+        }
+
+    }
+}

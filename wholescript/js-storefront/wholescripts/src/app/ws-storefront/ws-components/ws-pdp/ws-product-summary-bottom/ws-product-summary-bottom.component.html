@@ -1,0 +1,64 @@
+<ng-container *ngIf="product$ | async as product">
+    <div class="product-summary-bottom-block-container">
+        <div class="product-variants-container" *ngIf="otherAvailableProducts?.length > 0">
+            <div class="heading" [class.d-none]="canShowAlsoAvailableInTag(otherAvailableProducts)" >Also available in: </div>
+            <div *ngFor="let product of otherAvailableProducts" class="size-variant">
+                <ng-container *ngIf="product.productDisplyName === 'MedPax'; else defaultRoute">
+                    @if(canShowMedPax){
+                    <a class="cursor-pointer" (click)="goToMedPax(product)" tabindex="0" (keydown.enter)="goToMedPax(product)">
+                        {{ product.productDisplyName }}
+                        <svg width="16" height="16" viewBox="0 0 16 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M14.6782 3.60687C14.8697 3.70261 15.0612 3.98985 15.0612 4.22921V13.7079C15.0612 13.9473 14.9176 14.2345 14.6782 14.3303L6.77925 18.8781C6.58776 18.9739 6.25266 18.9739 6.06117 18.8781L1.32181 16.1973C1.08244 16.0537 0.938828 15.7664 0.938828 15.575V8.25048C0.938828 8.01112 1.08244 7.91538 1.32181 8.05899L6.06117 10.7877C6.25266 10.8835 6.44415 10.7877 6.44415 10.5962V9.44729C6.44415 9.20793 6.30053 8.9207 6.06117 8.82495L1.32181 6.09623C1.13032 6.00048 1.13032 5.80899 1.32181 5.66538L9.41223 1.02176C9.60372 0.926015 9.93883 0.926015 10.1303 1.02176L14.6782 3.60687Z" fill="#3E3B49"/>
+                            </svg>
+                    </a>
+                }
+                </ng-container>
+                <ng-template #defaultRoute>
+                    <a class="cursor-pointer" [routerLink]="product?.productUrl">
+                        {{ product.productDisplyName }}
+                    </a>
+                </ng-template>
+            </div>
+        </div>
+
+        <ng-container *ngIf="isLoggedIn$ | async as isLoggedIn">
+            <ng-container *ngIf="curUser$ | async as curUser">
+                <ng-container *ngIf="!isPractioner">
+                    <div class="omega-discount-container">
+                        <cx-page-slot position="wsMaxOmegaDiscount"></cx-page-slot>
+                    </div>
+
+                    <div class="SoakUpTheSavings">
+                        <cx-page-slot position="SoakUpTheSavings"></cx-page-slot>
+                    </div>
+                </ng-container>
+            </ng-container>
+        </ng-container>
+
+        <div class="clinical-applications-container">
+            <div class="heading"> Clinical applications: </div>
+            <ul class="pt-1">
+                <li class="li-clinical-app" *ngFor="let clinicalApplications of clinicalApplicationsList "
+                    [innerHTML]="clinicalApplications">
+                </li>
+            </ul>
+        </div>
+
+        <div class="long-description-container" *ngFor="let description of longDescription">
+            <div class="heading">Description:</div>
+            <div class="description-wrapper">
+                <div 
+                    [innerHTML]="show ? description?.featureValues[0]?.value : (description?.featureValues[0]?.value | slice:0:267)" 
+                    class="long-description pt-1"
+                    [class.fade-out]="!show">
+                </div>
+            </div>
+            
+            <div class="more-specs text-center">
+                <button (click)="show = !show" class="more-specs-btn bg-transparent p-2" tabindex="0">
+                    {{ show ? 'Read less' : 'Read more' }}
+                </button>
+            </div>
+        </div>
+    </div>
+</ng-container>

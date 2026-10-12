@@ -1,0 +1,49 @@
+<div class="estimated-total-top">
+  <div class="card p-3 mt-3">
+    <div class="row mb-4" *ngIf="cart?.totalPrice?.value">
+      <div class="col-6 bolder text-left">
+        Estimated total:
+      </div>
+      <div class="col-6 bolder text-right">
+        {{ cart?.totalPrice?.formattedValue }}
+      </div>
+    </div>
+    <ws-proceed-to-checkout></ws-proceed-to-checkout>
+  </div>
+</div>
+<div class="d-flex justify-content-between tab-header">
+  <span class="continue-shopping-ali">
+    <span class="fw-400">
+      <!-- Order Summary -->
+      <button class="continue-shopping" routerLink="/catalog" (keydown)="handleKeyDown($event, 'continueShopping')" tabindex="0"> <i class="fa-solid fa-chevron-left"></i> Continue shopping</button>
+    </span>
+  </span>
+  <span class="text-danger cursor-pointer fw-400 remove-all" (click)="openRemoveAll()" (keydown)="handleKeyDown($event, 'removeAll')" tabindex="0"> Remove all</span>
+</div>
+<table role="table">
+  <tbody class="cx-item-list-items">
+    <ng-container *ngFor="let item of custInput(); let i = index">
+      <ng-container *ngIf="getControl(item?.isMedPax ? item.actualDetails :item) | async as control"
+        [class.is-changed]="control.get('quantity').disabled">
+        <tr class="discount-applied" *ngIf="promoCodeEntries?.includes(item?.entryNumber)">
+          <img src="/assets/icons/common_icons/discount_amount_icon.svg" width="10px" height="10px" alt="">
+          <span>Discount applied</span>
+        </tr>
+        <tr ws-cart-item-list-row role="row" class="cx-item-list-row" [item]="item?.isMedPax ? item.actualDetails :item"
+          [quantityControl]="getQuantityControl(item?.isMedPax ? item.actualDetails :item)" [readonly]="readonly"
+          [promotionLocation]="promotionLocation" [options]="options" [isMedPax]="item?.isMedPax" [cartId]="cartId" (keydown)="handleKeyDown($event, 'item', i)" tabindex="0"></tr>
+      </ng-container>
+      <tr *ngIf="item?.isMedPax" class="cx-item-list-row">
+        <td colspan="10">
+          <ws-medpax-entry-cart [medpaxItem]="item?.subEntries" [medPaxID]="item?.actualDetails?.medpaxId"></ws-medpax-entry-cart>
+        </td>
+      </tr>
+    </ng-container>
+  </tbody>
+</table>
+
+<ng-template #totalHeader>
+  <th role="columnheader" class="cx-item-list-total">
+    {{ 'cartItems.total' | cxTranslate }}
+  </th>
+</ng-template>

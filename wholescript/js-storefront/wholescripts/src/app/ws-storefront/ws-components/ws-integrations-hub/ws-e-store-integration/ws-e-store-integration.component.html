@@ -1,0 +1,230 @@
+<div *ngFor="let alert of alerts">
+  <alert [type]="alert.type" [dismissible]="true" [dismissOnTimeout]="alert.timeout" (onClosed)="onClosed(alert)">{{
+    alert.msg }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </alert>
+</div>
+<div class="integrations-hub">
+  <h1>eStore settings</h1>
+  <p>Effortlessly connect your online store to WholeScripts online store integration using our API.</p>
+
+  <div class="estore-settings-row">
+    <div class="estore-settings-row__card card rounded m-0">
+      <div class="p-3 ws-table__header">
+        <h3>Store Settings</h3>
+      </div>
+      <div class="p-3">
+        <div class="mb-3">Create or select store to view details and modify settings.</div>
+        <div class="store-settings">
+
+          <ng-container *ngIf = "hasCredentialsList.length">
+          <div *ngFor = "let item of hasCredentialsList" class="stores-card" tabindex="0">
+            <div *ngIf = "!item?.storeLogoPath" class="store-card-name">{{ item.name }}</div>
+            <img *ngIf = "item?.storeLogoPath" [src]="item?.storeLogoPath" alt="Well ProZ store logo">
+            <div class="store-card-username">Username: <br/> <strong>{{ item.client?.username }}</strong></div><button id="store_1"
+               data-toggle="modal"
+               (click)="openPasswordModal(item, false)"
+              class="store-card-change-password-button btn btn-primary btn-rounded" tabindex="0" role="button" aria-label="Change Password">Change Password</button>
+          </div>
+          </ng-container>
+          <div *ngIf = "externalStores.length" class="col-12 empty-card p-0 text-center">
+            <p class="col-12 p-0" *ngIf = "!hasCredentialsList.length" >No store setup at this time</p>
+            <div class="col-12 row p-0 generate-card">
+            <select class = "col-6" [(ngModel)] = "credentialSelected" aria-label="Select your Store">
+              <option value="-1" disabled selected>Select your Store</option>
+              <option *ngFor="let store of externalStores; index as i" [value]="i">{{ store.name }}</option>
+            </select>
+            <button class="btn btn-rounded col-4" (click)="getCredentials()">Generate Credentials</button>
+            </div>
+          </div>
+          <div class="stores-row__right gray w-100 col-12">
+            <div class="checkbox check-primary"><input type="checkbox"
+              id="shippingConfirmation" tabindex="0" (change)="sendConfimation($event)" [checked]="shippingConfirmations" aria-labelledby="shippingConfirmationLabel">
+              <label id="shippingConfirmationLabel" for="shippingConfirmation">Send shipping confirmation emails to my
+                customers.</label></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="estore-settings-row__card card listing-body row m-0 p-0">
+      <div class="rounded m-0">
+        <div class="p-3 ws-table__header">
+          <h3>Payment Settings</h3>
+        </div>
+        <div class="p-3">
+          <div class="mb-3">Easily switch, add or update default card details for seamless transactions.</div>
+          <div *ngIf="loader" class="d-flex align-items-center loader justify-content-center">
+            <cx-spinner aria-label="Loading..." role="alert" aria-live="assertive"></cx-spinner>
+          </div>
+          <div *ngIf = "!loader && defaultPayment?.card_accountNumber" class="pending-settings-row">
+            <div class="card card-default p-3 col-md col-12">
+              <div class="card-title"><i class="fa fa-credit-card pr-1"></i><span class="credit-card-name"> <span class="text-uppercase fw-600">{{defaultPayment?.card_cardType}}</span>({{ defaultPayment?.card_accountNumber?.slice(-4)}}) | Exp
+                {{ defaultPayment.card_expirationMonth}}/{{defaultPayment.card_expirationYear }}</span><!----></div>
+              <div class="estore-payment-card-block">
+                <div class="name-on-card"><strong>Name on Card </strong><br><span>{{ defaultPayment.billTo_firstName}} {{defaultPayment.billTo_lastName}}</span></div>
+                <div class="card-billing-address"><strong>Billing Address</strong><br><span>{{ defaultPayment.billTo_street1}}
+                  {{ defaultPayment.billTo_street2}}</span></div>
+              </div>
+            </div>
+            <button class="col-md-5 col-12 btn btn-rounded btn-outline-primary ws-btn" (click)="openPaymentModal()" tabindex="0" role="button" aria-label="Update Payment Method">Update Payment Method</button>
+          </div>
+        </div>
+
+        <div *ngIf = "!loader && !defaultPayment?.card_accountNumber" class="empty-card p-0 text-center m-3">
+          <p class="col-12 p-0">No credit card saved</p>
+          <div class="row p-0 justify-content-center no-cards">
+            <button class="btn btn-rounded btn-primary ws-btn" (click)="openPaymentModal()">Update Payment Method</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cartons -->
+  <div class="col-lg-12 p-0 text-left mb-3" *ngIf = "webCartons?.length">
+    <div class="estore-settings-row__card card listing-body row m-0 p-0">
+      <div class="rounded m-0">
+        <div class="ws-table__header p-3">
+          <h3>Private Label Medpax Carton</h3>
+        </div>
+        <div class="p-3">
+          <div class="mb-3"> View Medpax carton availability and download images to share.</div>
+          <div class = "orders-container">
+            <div class="table-responsive">
+              <table>
+                <thead>
+                  <tr>
+                    <th>SKU</th>
+                    <th>CARTON NAME</th>
+                    <th>AVAILABILITY STATUS</th>
+                    <th>CARTON IMAGE</th>
+                    <th class="text-right">ACTION</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let order of webCartons">
+                    <td>{{ order?.productCode }}</td>
+                    <td class="order-number" aria-label="CARTON NAME">{{ order?.cartonName }}</td>
+                    <td>
+                      <span class="bagde bg-info rounded text-white text-label px-4 mr-12 badge-success"
+                      >In Stock</span>
+                    </td>
+                    <td>
+                      <ng-container *ngIf="order?.images; else noImage">
+                        <cx-media [container]="order?.image" alt=""></cx-media>
+                      </ng-container>
+                      <ng-template #noImage>
+                          <img 
+                            src="assets/images/private-label/pl-generic-icon.png"
+                            class="item-image"
+                            alt="Fallback product image"
+                          />
+                      </ng-template>
+                    </td>
+                    <td class="text-right">
+                      <a [ngClass]="!order?.image ? 'btn-disabled' : ''" [href]="openImage(order?.image?.downloadUrl)" class="details-btn ws-btn"
+                      target="_blank" rel="noopener noreferrer" [download] = "'ws_privateLabel_carton' + '.jpg'">Download Image</a>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Webkits -->
+
+  <div class="col-lg-12 p-0 text-left mb-3" *ngIf = "webKits?.length">
+    <div class="estore-settings-row__card card listing-body row m-0 p-0">
+      <div class="rounded m-0">
+        <div class="ws-table__header p-3">
+          <h3>Private Label Web Kits</h3>
+        </div>
+        <div class="p-3">
+          <div class="mb-3"> View web kit availability and details.</div>
+
+          <div class = "orders-container">
+            <div class="table-responsive">
+              <table>
+                <thead>
+                  <tr>
+                    <th>SKU</th>
+                    <th>KIT NAME</th>
+                    <th>AVAILABILITY STATUS</th>
+                    <th class="text-right">ACTION</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let order of webKits">
+                    <td>{{ order?.sku }}</td>
+                    <td class="order-number" aria-label="KIT Name">{{ order?.kitName }}</td>
+                    <td>
+                      <span class="bagde rounded text-white text-label px-4 mr-12"
+                      [ngClass]="order?.avilablityStatus ? 'badge-success' : 'badge-danger'"
+                      >{{ order?.avilablityStatus ? 'In Stock' : 'Out of Stock' }}</span>
+                    </td>
+                    <td class="text-right"><button class="details-btn ws-btn">Details</button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pending Orders -->
+
+  <div class="col-lg-12 p-0 text-left mb-3" *ngIf = "pendingOrders.length">
+    <div class="estore-settings-row__card card listing-body row m-0 p-0">
+      <div class="rounded m-0">
+        <div class="ws-table__header p-3">
+          <h3>Pending Store Orders</h3>
+        </div>
+        <div class="p-3">
+          <div class="mb-3"> Explore pending orders below for this store. For all orders for this store, review <a
+              class="text-link" href="/order/history" tabindex="0">Order History</a></div>
+          <div class="search-container filter-search">
+            <div><input type="text" placeholder="Search Pending Order #" maxlength="100"
+                aria-label="search pending store orders" (input)="searchOrder($event)"></div>
+            <div><button class="search-button" aria-label="search" tabindex="0"><i
+                  class="fa fa-search"></i></button><!----></div>
+          </div><!---->
+          <div *ngIf = "!pendingOrders.length" class="gray m-2 text-center">
+            <h4 class="font-weight-bold mx-3"><strong>No pending store orders at this time</strong></h4>
+          </div>
+
+          <div class = "orders-container" >
+            <div class="table-responsive">
+              <table>
+                <thead>
+                  <tr>
+                    <th>API STORE</th>
+                    <th>API ORDER NUMBER</th>
+                    <th>DATE RECEIVED</th>
+                    <th>STATUS</th>
+                    <th class="text-right">ACTION</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let order of pendingOrders" tabindex="0" (keydown.enter)="goToPage(order.externalOrderURL)" (keydown.space)="goToPage(order.externalOrderURL)"> 
+                    <td>{{ order?.apiStoreName }}</td>
+                    <td class="order-number" aria-label="API ORDER NUMBER">#{{ order?.orderNumber }}<br/><a tabindex="0" role="button" class="pending-order-number" *ngIf="order.externalOrderURL" (click)="goToPage(order.externalOrderURL)">View in Shopify</a></td>
+                    <td>{{ order.orderDate | date: 'MM/dd/yyyy'}}</td>
+                    <td>{{ order?.orderStatus }}</td>
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

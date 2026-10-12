@@ -1,0 +1,165 @@
+<div class="web-container">
+    <div class="web-top-header">
+        <cx-page-slot position="WebinarListingHeader"></cx-page-slot>
+    </div>
+    <div class="feat-web-cart" *ngIf="featuredWebinar() && (featuredWebinar() | keyvalue).length > 0">
+        <ws-featured-webinar [featuredWebinar]="featuredWebinar()"></ws-featured-webinar>
+    </div>
+    <div class="web-search">
+        <article class="search-bar input-group d-flex justify-content-center">
+            <div class="input-group-append">
+                    <input type="text" id="search-table" class="search-bar-input form-control" maxlength="128"
+                    placeholder="Search Webinars..." aria-label="Search Webinars Input" (blur)="updateSearch(search.value?.trim())"
+                     #search>
+                @if (search.value.length > 0) {
+                <button class="search-bar-lear" aria-label="Clear search" (click)="search.value=''; updateSearch('')">
+                    <i class="fa fa-times" aria-hidden="true"></i>
+                </button>
+                 }
+                <button class="search-bar-btn" (click)="updateSearch(search.value?.trim())" aria-label="Perform search"
+                [ngStyle]="{ 'background-color': search.value.length > 0 ? '#584091' : 'transparent' }">
+                <i class="fa fa-search" aria-hidden="true"></i>
+            </button>
+            </div>
+        </article>
+    </div>
+    <div class="row web-grid px-3 " >
+        <div class="col-12 cx-sorting top">
+            <div class="row justify-content-md-center justify-content-lg-end align-items-center">
+                <div class="col-12 d-md-flex justify-content-center d-lg-none mobile-ft-container">
+                    <section class="mobile-filters" id="mobileFilters" aria-label="Mobile Filters">
+                        <div class="mobile-filters__inner">
+                            <button class="filter-btn" (click)="sortByPopup()" > Sort </button>
+                            <button class="filter-btn" (click)="filterPopup()"> Filter </button>
+                            <button class="filter-btn">Status </button>
+                            <button class="filter-btn">Presenter </button>
+                            <button class="filter-btn">Webinar Category </button>
+                            <button class="filter-btn">Duration </button>
+                        </div>
+                        <img src="" alt="" srcset="">
+                    </section>
+                </div>
+                <label class="form-group cx-sort-dropdown col-12 col-lg-2 col-sm-3 ml-auto  mr-2 show-block-1">
+                    <span class="sort-by">show</span>
+                    <ws-sorting [sortOptions]="pageSizeArray" (sortListEvent)="pageSizeChanged($event)"
+                        [selectedOption]="pageSizeArray[1].code" 
+                        [ariaLabel]="'SHOW'"
+                        aria-controls="product-results-list" 
+                        placeholder="SHOW" class="show-block"></ws-sorting>
+                </label>
+                <label class="form-group cx-sort-dropdown col-12 col-sm-3 col-lg-2 mr-5 d-none d-lg-block show-block">
+                    <span class="sort-by">{{ 'productList.sortBy' | cxTranslate }}</span>
+                    <ws-sorting [sortOptions]="webinars().sorts" (sortListEvent)="sortList($event)"
+                        [selectedOption]="webinars().pagination?.sort" [ariaLabel]="'productList.sortResults' | cxTranslate"
+                        aria-controls="product-results-list"  class="d-md-inline-block"
+                        placeholder="{{ 'productList.sortBy' | cxTranslate }}"></ws-sorting>
+                </label>
+            </div>
+        </div>
+        <div class="leftfacet col-3 mb-4 d-md-none d-lg-block ">
+            <ws-product-facet-navigation></ws-product-facet-navigation>
+        </div>
+        <div class="rightsection col-lg-9 col-md-12  ">
+            <div class="cx-page">
+                <section tabindex="-1" class="cx-page-section"
+                    [attr.aria-label]="'productList.productListResults' | cxTranslate">
+                    <div class="container">
+                        <div class="row mb">
+                            <div class="col-12 col-lg-12" *ngIf="viewMode$ | async as viewMode">
+                                <div id="product-results-list" class="cx-product-container" role="region" aria-labelledby="product-results-list">
+                                    <!-- Product list when using pagination -->
+                                    <ng-container *ngIf="!isInfiniteScroll; else infiniteScroll">
+                                        <ng-container>
+                                            <div class="wrapper">
+                                                @for(product of webinars()?.results;track product){
+                                                    <ws-webinar-carts [product]="product"></ws-webinar-carts>
+                                                }@empty {
+                                                    <section class="content-container mx-auto">
+                                                        <div class="empty-state">
+                                                            <div>
+                                                                <h6 class="bolder mt-0">No results found</h6>
+                                                                <p> We couldn't find any matches for <span class="bolder">{{webinars()?.freeTextSearch}}</span></p>
+                                                                <p> Please try searching with another term. </p>
+                                                            </div>
+                                                        </div>
+                                                    </section>
+                                                }
+                                       
+                                            </div>
+                                        </ng-container>
+                                    </ng-container>
+                                    <ng-template #infiniteScroll>
+                                        <cx-product-scroll [scrollConfig]="scrollConfig" [model]="webinars()"
+                                            [inputViewMode]="viewMode"></cx-product-scroll>
+                                    </ng-template>
+                                </div>
+                                <div class="cx-sorting bottom">
+                                    <div
+                                        class="row justify-content-md-end justify-content-sm-center mr-md-3 mr-sm-0 mt-sm-3">
+                                        <div class="cx-pagination">
+                                            <ws-pagination class="d-flex align-items-center justify-content-end"
+                                                [totalItems]="webinars()?.pagination?.totalResults"
+                                                [itemsPerPage]="webinars()?.pagination?.pageSize"
+                                                [numberOfPagesNeedTOBeShown]="6"
+                                                (currentPageChange)="pageChanged($event-1)"
+                                                aria-label="Pagination controls"></ws-pagination>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+        </div>
+    </div>
+</div>
+<ws-webinar-carousel-ui [isWebinarCard]="false" [titleIconColor]="'#fff'"
+[presenterData]="webinars()?.meetPresenter" ></ws-webinar-carousel-ui>
+<ng-template #filterPopUp>
+    <div class="pop-header mt-5">
+        <button type="button" class="close d-block c-icon " (click)="closePopup()" aria-label="Close filters" >
+            x
+        </button>
+        <div class="d-flex justify-content-center flex-column align-items-center ">
+            <div class="modal-title header-title fs-30 fw-900">FILTERS</div>
+        </div>
+    </div>
+    <ws-product-facet-navigation></ws-product-facet-navigation>
+    <div class="text-right btn-end">
+        <a class="btn btn-outline-primary btn-rounded btn-h" (click)="closePopup()" data-dismiss="modal" aria-label="Close filter popup">
+            Close
+        </a>
+    </div>
+</ng-template>
+
+<ng-template #sortBy>
+    <div class="pop-header mt-5">
+        <button type="button" class="close d-block c-icon " (click)="closePopup()" aria-label="Close sort popup">
+            x
+        </button>
+        <div class="d-flex justify-content-center flex-column align-items-center ">
+            <div class="modal-title header-title fs-30 fw-900">SORT BY</div>
+        </div>
+    </div>
+    <hr class="mx-2">
+    <div class="modal-body p-0 " style="margin-left: 50px;">
+        @for(sort of webinars().sorts;track sort){
+        <div class="mb-2">
+            <input type="radio" class="ws-sort-radio" (change)="sortList(select?.value)" #select [value]="sort?.code"
+                [name]="sort?.name" [attr.aria-label]="sort?.name + 'sort option'">
+            <label for="az-asc">
+                {{sort?.name}}
+            </label>
+        </div>
+        }
+    </div>
+    <div class="text-right btn-end" style="position: absolute;
+    bottom: 15px;
+    right: 15px;">
+        <a class="btn btn-outline-primary btn-rounded btn-h" (click)="closePopup()" data-dismiss="modal" aria-label="Close sort popup">
+            Close
+        </a>
+    </div>
+</ng-template>

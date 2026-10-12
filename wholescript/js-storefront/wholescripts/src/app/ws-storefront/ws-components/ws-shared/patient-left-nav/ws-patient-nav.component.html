@@ -1,0 +1,24 @@
+
+<div class="card card-default">
+  <div class="card-header">
+    <span class="bold text-center">My Account</span>
+  </div>
+  <div class="card-body p-0">
+    <ul class="navbar-nav d-block">
+      @for( data of leftNavData; track data){
+        @if(this.cmsService.getComponentData(data)|async ; as getComponentData){
+          <li
+          [ngClass]="getActiveClass(getComponentData) && 'active'"
+          class="patient-account-item"
+        >
+          <a [routerLink]="$any(getComponentData)?.urlLink" class="patient-account-link">
+            <i class="fa" [ngClass]="$any(getComponentData)?.icon"></i>
+            {{ $any(getComponentData)?.headline }}
+          </a>
+        </li>
+        }
+      }
+
+    </ul>
+  </div>
+</div>

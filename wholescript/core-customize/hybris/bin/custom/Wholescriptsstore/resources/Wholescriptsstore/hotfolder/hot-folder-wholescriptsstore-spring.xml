@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ [y] hybris Platform
+
+ Copyright (c) 2017 SAP SE or an SAP affiliate company.  All rights reserved.
+
+ This software is the confidential and proprietary information of SAP
+ ("Confidential Information"). You shall not disclose such Confidential
+ Information and shall use it only in accordance with the terms of the
+ license agreement you entered into with SAP.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:int="http://www.springframework.org/schema/integration"
+       xmlns:file="http://www.springframework.org/schema/integration/file"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd
+		http://www.springframework.org/schema/integration/file http://www.springframework.org/schema/integration/file/spring-integration-file.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <bean id="mediaCatalogUnawareMapping"
+          class="de.hybris.platform.acceleratorservices.dataimport.batch.converter.mapping.impl.DefaultConverterMapping"
+          p:mapping="wholescriptsMediaCatalogUnaware" p:converter-ref="batchWholescriptsMediaCatalogUnawareConverter"/>
+
+
+    <bean id="batchWholescriptsMediaCatalogUnawareConverter"
+          class="de.hybris.platform.acceleratorservices.dataimport.batch.converter.impl.DefaultImpexConverter">
+        <property name="header">
+            <value># Import media from filesystem
+                   UPDATE GenericItem[processor = de.hybris.platform.commerceservices.impex.impl.ConfigPropertyImportProcessor]; pk[unique = true]
+                   $catalog=Default
+                   $catalogVersion=catalogversion(catalog(id[default = $catalog]), version[default = 'Staged'])[unique = true]
+                   $lang=en
+                   $importFolder=file:$BASE_SOURCE_DIR$/images
+                   INSERT_UPDATE CatalogUnawareMedia; code[unique = true]; folder(qualifier)[default = 'wholescriptsImages']; realfilename; @media[translator = de.hybris.platform.impex.jalo.media.MediaDataTranslator][forceWrite = true]
+            </value>
+        </property>
+        <property name="impexRow">
+            <value>
+                ;{+0};;{+1};$importFolder/{1}
+            </value>
+        </property>
+    </bean>
+    
+     <bean id="wsClassificationMediaMapping"
+          class="de.hybris.platform.acceleratorservices.dataimport.batch.converter.mapping.impl.DefaultConverterMapping"
+          p:mapping="wholescriptsClassificationMedia" p:converter-ref="wsClassificationMediaConverter"/>
+
+
+    <bean id="wsClassificationMediaConverter"
+          class="de.hybris.platform.acceleratorservices.dataimport.batch.converter.impl.DefaultImpexConverter">
+        <property name="header">
+            <value># Import media from filesystem
+                   UPDATE GenericItem[processor = de.hybris.platform.commerceservices.impex.impl.ConfigPropertyImportProcessor]; pk[unique = true]
+                   $productCatalog=$config-cloud.hotfolder.default.zip.mapping.product.catalog
+                   $catalogVersion=catalogVersion(catalog(id[default=$productCatalog]),version[default='Staged'])[unique=true]
+                   $lang=en
+                   $importFolder=file:$BASE_SOURCE_DIR$/images
+                   INSERT_UPDATE Media; code[unique = true]; mediaFormat(qualifier); folder(qualifier)[default = 'wholescriptsImages']; realfilename; @media[translator = de.hybris.platform.impex.jalo.media.MediaDataTranslator][forceWrite = true];$catalogVersion;
+            </value>
+        </property>
+        <property name="impexRow">
+            <value>
+                ;{+0};1200x1200;;{+1};$importFolder/{1};;
+            </value>
+        </property>
+    </bean>
+    
+    
+    <bean id="wsMediaMapping"
+          class="de.hybris.platform.acceleratorservices.dataimport.batch.converter.mapping.impl.DefaultConverterMapping"
+          p:mapping="wholescriptsProductMedia" p:converter-ref="wsMediaConverter"/>
+
+
+    <bean id="wsMediaConverter"
+          class="de.hybris.platform.acceleratorservices.dataimport.batch.converter.impl.DefaultImpexConverter">
+        <property name="header">
+            <value># Import media from filesystem
+                   UPDATE GenericItem[processor = de.hybris.platform.commerceservices.impex.impl.ConfigPropertyImportProcessor]; pk[unique = true]
+                   $productCatalog=$config-cloud.hotfolder.default.zip.mapping.product.catalog
+				   $catalogVersion=catalogVersion(catalog(id[default=$productCatalog]),version[default='Staged'])[unique=true]
+                   $lang=en
+                   $importFolder=file:$BASE_SOURCE_DIR$/images
+                   INSERT_UPDATE Media; code[unique = true];mediaFormat(qualifier); folder(qualifier)[default = 'wholescriptsImages']; realfilename; @media[translator = de.hybris.platform.impex.jalo.media.MediaDataTranslator][forceWrite = true];$catalogVersion;
+            </value>
+        </property>
+        <property name="impexRow">
+            <value>
+                ;{+0};1200x1200;;{+1};$importFolder/{1};;
+            </value>
+        </property>
+    </bean>
+    
+    <bean id="wsProductMediaContainerMapping"
+          class="de.hybris.platform.acceleratorservices.dataimport.batch.converter.mapping.impl.DefaultConverterMapping"
+          p:mapping="wholescriptsProductMedia" p:converter-ref="wsProductMediaContainerConverter"/>
+
+
+    <bean id="wsProductMediaContainerConverter"
+          class="de.hybris.platform.acceleratorservices.dataimport.batch.converter.impl.DefaultImpexConverter">
+        <property name="header">
+            <value># Import media from filesystem
+                   UPDATE GenericItem[processor = de.hybris.platform.commerceservices.impex.impl.ConfigPropertyImportProcessor]; pk[unique = true]
+                   $productCatalog=$config-cloud.hotfolder.default.zip.mapping.product.catalog
+                   $catalogVersion=catalogVersion(catalog(id[default=$productCatalog]),version[default='Staged'])[unique=true]
+                   $lang=en
+                   INSERT_UPDATE MediaContainer;qualifier[unique = true];medias(code, $catalogVersion)[mode = append, collection-delimiter = |];$catalogVersion;conversionGroup(code)[default = ProductMediaConversionGroup]
+            </value>
+        </property>
+        <property name="impexRow">
+            <value>
+                ;{+0};{+0};
+            </value>
+        </property>
+    </bean>
+    
+    <bean id="wsProductMediaConversionMapping"
+          class="de.hybris.platform.acceleratorservices.dataimport.batch.converter.mapping.impl.DefaultConverterMapping"
+          p:mapping="wholescriptsProductMedia" p:converter-ref="wsProductMediaConversionConverter"/>
+
+
+    <bean id="wsProductMediaConversionConverter"
+          class="de.hybris.platform.acceleratorservices.dataimport.batch.converter.impl.DefaultImpexConverter">
+        <property name="header">
+            <value># Import media from filesystem
+                   UPDATE GenericItem[processor = de.hybris.platform.commerceservices.impex.impl.ConfigPropertyImportProcessor]; pk[unique = true]
+                   $productCatalog=$config-cloud.hotfolder.default.zip.mapping.product.catalog
+                   $catalogVersion=catalogVersion(catalog(id[default=$productCatalog]),version[default='Staged'])[unique=true]
+                   $lang=en
+                   UPDATE MediaContainer;qualifier[unique = true];medias(code, $catalogVersion)[mode = append, collection-delimiter = |][translator=com.wholescripts.core.dataimport.batch.translator.WholescriptsMediaConversionTranslator];$catalogVersion;
+            </value>
+        </property>
+        <property name="impexRow">
+            <value>
+                ;{+0};{+0};
+            </value>
+        </property>
+    </bean>
+    
+    
+
+    <bean id="wsProductMediaMapping"
+          class="de.hybris.platform.acceleratorservices.dataimport.batch.converter.mapping.impl.DefaultConverterMapping"
+          p:mapping="wholescriptsProductMedia" p:converter-ref="wsProductMediaConverter"/>
+
+    <bean id="wsProductMediaConverter"
+          class="de.hybris.platform.acceleratorservices.dataimport.batch.converter.impl.DefaultImpexConverter">
+        <property name="header">
+            <value>
+                UPDATE GenericItem[processor = de.hybris.platform.commerceservices.impex.impl.ConfigPropertyImportProcessor]; pk[unique = true]
+                $productCatalog = $config-cloud.hotfolder.default.zip.mapping.product.catalog
+                $catalogVersion=catalogVersion(catalog(id[default=$productCatalog]),version[default='Staged'])[unique=true]
+                $thumbnail=thumbnail(code, $catalogVersion)
+				$thumbnails=thumbnails(code, $catalogVersion)
+				$picture=picture(code, $catalogVersion)
+				$detail=detail(code, $catalogVersion)
+				$normal=normal(code, $catalogVersion)
+				$others=others(code, $catalogVersion)
+				$galleryImages=galleryImages(qualifier, $catalogVersion)
+                UPDATE Product;code[unique=true];$picture;$thumbnail;$galleryImages[batchmode=true];$catalogVersion
+            </value>
+        </property>
+        <property name="impexRow">
+            <value>
+                ;{+2};{+0};{+0};{+0};;
+            </value>
+        </property>
+    </bean>
+
+</beans>

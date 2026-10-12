@@ -1,0 +1,39 @@
+{
+    "protocolDetails": {
+        "protocolId": 13373,
+        "protocolName": "JaniNewPCL",
+        "productsList": [
+            {
+                "productId": 123,
+                "productName": "Omega MonoPure® 1300 EC 120 Softgels",
+                "hasAddedfavourite": true,
+                "hasOutOfStack": true,
+                "dosing": "1 in Daily",
+                "TotalRetailPrice": 64.99,
+                "TotalWholesalePrice": 107.99,
+                "hasProductAdded": true
+            },
+            {
+                "productId": 321,
+                "productName": "ProbioMax® Daily DF 30 Capsules",
+                "hasAddedfavourite": false,
+                "hasOutOfStack": false,
+                "dosing": "1 in Daily",
+                "TotalRetailPrice": 24.99,
+                "TotalWholesalePrice": 46.99,
+                "hasProductAdded": false
+            }
+        ],
+        "selectedProductsList": [
+            {
+                "productId": 123,
+                "productName": "Omega MonoPure® 1300 EC 120 Softgels",
+                "hasOutOfStack": true,
+                "dosing": "1 in Daily",
+                "TotalRetailPrice": 64.99,
+                "TotalWholesalePrice": 107.99,
+                "duration": "Ongoing, 1 Unit(s)"
+            }
+        ]
+    }
+}

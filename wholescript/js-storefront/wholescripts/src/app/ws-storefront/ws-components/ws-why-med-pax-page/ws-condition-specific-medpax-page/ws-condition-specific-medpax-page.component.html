@@ -1,0 +1,73 @@
+<section class="condition-specific-medpax-page-wrapper" *ngIf="medpaxSpecificContent">
+  <section class="hero-images-container content-container">
+    <div class="hero-content-left">
+      <cx-media [container]="wsPageService.getImage(medpaxSpecificContent['csmLogoBannerComponent'])"></cx-media>
+      <h1 [outerHTML]="medpaxSpecificContent['csmLogoBannerComponent']?.headline">
+      </h1>
+      <h2 [outerHTML]="medpaxSpecificContent['csmLogoBannerComponent']?.content">
+      </h2>
+    </div>
+    <div class="hero__img-container">
+      <cx-media class="hero__picture" [ngClass]="activeHeroImage === 1 ? 'show' : ''"
+        [container]="wsPageService.getImage(medpaxSpecificContent['csmHeroBannerComponent1'])"></cx-media>
+      <cx-media class="hero__picture" [ngClass]="activeHeroImage === 2 ? 'show' : ''"
+        [container]="wsPageService.getImage(medpaxSpecificContent['csmHeroBannerComponent2'])"></cx-media>
+      <cx-media class="hero__picture" [ngClass]="activeHeroImage === 3 ? 'show' : ''"
+        [container]="wsPageService.getImage(medpaxSpecificContent['csmHeroBannerComponent3'])"></cx-media>
+    </div>
+  </section>
+
+  <section class="medpax-specific-page-container">
+    <h3 [outerHTML]="medpaxSpecificContent['conditionSection2ParaComponent']?.content">
+
+    </h3>
+    <div class="csm-card-container">
+      <a class="csm-card --energy" [href]="medpaxSpecificContent['condSpecificEnergyLink']?.url">
+        <cx-media [container]="wsPageService.getImage(medpaxSpecificContent['condSpecificEnergyComp'])"></cx-media>
+        <span class="csm-card__title">
+          {{medpaxSpecificContent['condSpecificEnergyLink']?.linkName}}
+        </span>
+      </a>
+      <a class="csm-card --beauty" [href]="medpaxSpecificContent['condSpecificBeautyLink']?.url">
+        <cx-media [container]="wsPageService.getImage(medpaxSpecificContent['condSpecificBeautyComp'])"></cx-media>
+        <span class="csm-card__title">
+          {{medpaxSpecificContent['condSpecificBeautyLink']?.linkName}}
+        </span>
+      </a>
+      <a class="csm-card --gut" [href]="medpaxSpecificContent['condSpecificGutLink']?.url">
+        <cx-media [container]="wsPageService.getImage(medpaxSpecificContent['condSpecificGutComp'])"></cx-media>
+        <span class="csm-card__title">
+          {{medpaxSpecificContent['condSpecificGutLink']?.linkName}}
+        </span>
+      </a>
+      <a class="csm-card --immune" [href]="medpaxSpecificContent['condSpecificImmuneLink']?.url">
+        <cx-media [container]="wsPageService.getImage(medpaxSpecificContent['condSpecificImmuneComp'])"></cx-media>
+        <span class="csm-card__title">
+          {{medpaxSpecificContent['condSpecificImmuneLink']?.linkName}}
+        </span>
+      </a>
+      <a class="csm-card --sleep" [href]="medpaxSpecificContent['condSpecificSleepLink']?.url">
+        <cx-media [container]="wsPageService.getImage(medpaxSpecificContent['condSpecificSleepComp'])"></cx-media>
+        <span class="csm-card__title">
+          {{medpaxSpecificContent['condSpecificSleepLink']?.linkName}}
+        </span>
+      </a>
+    </div>
+  </section>
+
+  <section class="purple-bg-callout-container">
+    <div class="w-600">
+      <h2 class="why-medpax__title">
+        <span>{{medpaxSpecificContent['condSpecificHandPacketComp']?.headline}}</span>
+
+      </h2>
+      <div class="why-medpax__text">
+        {{medpaxSpecificContent['condSpecificHandPacketComp']?.content}}
+      </div>
+      <a [href]="medpaxSpecificContent['condSpecificLearnLink']?.url">
+        {{medpaxSpecificContent['condSpecificLearnLink']?.linkName}}
+      </a>
+    </div>
+    <cx-media [container]="wsPageService.getImage(medpaxSpecificContent['condSpecificHandPacketComp'])"></cx-media>
+  </section>
+</section>

@@ -1,0 +1,115 @@
+::ng-deep {
+
+    // Accordion style
+    .card {
+        border: unset;
+    }
+
+    .card-header {
+        padding-left: 0 !important;
+        background-color: unset;
+        border: unset;
+    }
+    .card-body {
+        padding: 0;
+        padding-bottom: 2rem;
+    }
+    // end      
+}
+
+.cart-header {
+    background: var(--cx-color-primary);
+    color: var(--ws-base-white);
+    border-top-left-radius: .25rem;
+    border-top-right-radius: .25rem;
+    padding: .5rem 1rem;
+    font-weight: 700;
+    font-size: 14px;
+}
+
+.cart-body {
+    border-top: none;
+    border-bottom-left-radius: .25rem;
+    border-bottom-right-radius: .25rem;
+    padding: 1rem;
+    background: var(--ws-base-white);
+    overflow-y: auto;
+    border: solid 1px var(--ws-custom-border-color);
+}
+
+// accordion start
+
+.your-medpax-body {
+    color: var(--ws-gray-light-700);
+    border-radius: 3px;
+    display: flex;
+    column-gap: 20px;
+}
+
+.your-medpax-right-content {
+    color: var(--ws-gray-light-700);
+}
+
+
+
+.btn-h {
+    font-size: 16px;
+    min-height: unset !important;
+    height: 43px !important;
+}
+
+.collapse-arrow {
+    font-size: larger;
+}
+
+.badge {
+    background-color: unset;
+}
+
+.shadow-none {
+    column-gap: 10px;
+    background-color: transparent;
+}
+
+.mp-sup-table {
+    border-top: solid 3px var(--ws-gray-light-700);
+    border-bottom: solid 3px var(--ws-gray-light-700);
+    width: 100%;
+}
+
+.accordion-row {
+    height: 40px;
+    border-bottom: solid 1px #DADADC;
+}
+
+// accordian end
+
+// style re-work
+.col-gap-10{
+    column-gap: 10px;
+}
+.h-40{
+    height: 40px;
+}
+
+.empty-state {
+    .content {
+        .empty-body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin: 32px 0;
+            img {
+                max-width: 200px;
+            }
+        }
+    }
+}
+.td-u:hover {
+    text-decoration: underline;
+}
+
+::ng-deep .card-header.panel-enabled{
+    padding: 0    
+}

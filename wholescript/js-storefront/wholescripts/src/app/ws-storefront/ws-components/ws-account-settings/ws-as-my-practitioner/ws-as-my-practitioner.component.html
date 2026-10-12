@@ -1,0 +1,218 @@
+<div class="patient mt-2">
+  <div class="col-md-12">
+    <div class="card card-default container mb-5">
+      <div class="row">
+        <div class="col-12 col-md-8">
+          <div class="card-title pt-2 pb-1">
+            <h4 class="bolder">
+              <i class="fa fa-user-md"></i> My Practitioner
+            </h4>
+          </div>
+        </div>
+        <div class="col-12 col-md-4 text-right v-align-middle">
+          <button
+            id="editPractitioner-btn"
+            class="btn btn-primary btn-rounded mt-2 mb-2 float-right"
+            (click)="toggleCollapse()"
+          >
+            Change Practitioner
+          </button>
+        </div>
+      </div>
+
+      <div class="card-body p-4">
+        <div
+          id="editPractitioner"
+          class="mt-3 collapse" 
+          [ngClass]="{ show: !isCollapsed }"
+        >
+          <form [formGroup]="practitionerForm" (ngSubmit)="onSaveChanges()">
+            <div class="form-group">
+              <label for="referralCode">Referral Code</label>
+              <input
+                id="referralCode"
+                type="text"
+                class="form-control"
+                formControlName="referralCode"
+                placeholder="Referral Code"
+                maxlength="60"
+                [ngClass]="{ 'touched-only-invalid': !isFormSubmitted }"
+              />
+              <div
+                *ngIf="hasError('referralCode', 'required')"
+                class="text-danger"
+              >
+                Referral Code is required.
+              </div>
+              <div
+                *ngIf="hasError('referralCode', 'maxlength')"
+                class="text-danger"
+              >
+                Referral Code cannot exceed 60 characters.
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="lastName">Practitioner Last Name</label>
+              <input
+                id="lastName"
+                type="text"
+                class="form-control"
+                formControlName="lastName"
+                placeholder="Practitioner Last Name"
+                maxlength="35"
+                [ngClass]="{ 'touched-only-invalid': !isFormSubmitted }"
+              />
+              <div *ngIf="hasError('lastName', 'required')" class="text-danger">
+                Last Name is required.
+              </div>
+              <div
+                *ngIf="hasError('lastName', 'maxlength')"
+                class="text-danger"
+              >
+                Last Name cannot exceed 35 characters.
+              </div>
+            </div>
+
+            <div class="text-center d-flex justify-content-center pb-2">
+              <button
+                type="submit"
+                class="btn btn-primary btn-rounded submit-btn"
+                [disabled]="isSubmitting"
+              >
+                {{ isSubmitting ? "Saving..." : "Save Changes" }}
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <div class="error-block" *ngIf="!isCollapsed">
+          <div
+            id="errors-div"
+            class="ws-message message-red message-full-width"
+            role="alert"
+            *ngIf="updatePractitionerError"
+          >
+          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="32" viewBox="0 0 28 32" fill="none">
+            <defs>
+              <linearGradient id="strokeGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" style="stop-color:var(--ws-error-200);stop-opacity:1" />
+                <stop offset="100%" style="stop-color:var(--ws-error-150);stop-opacity:1" />
+              </linearGradient>
+            </defs>
+            <path
+              d="M12.25 1.58771C13.3329 0.962498 14.6671 0.962498 15.75 1.58771L25.6064 7.27831C26.6893 7.90353 27.3564 9.05897 27.3564 10.3094V21.6906C27.3564 22.941 26.6893 24.0965 25.6064 24.7217L15.75 30.4123C14.6671 31.0375 13.3329 31.0375 12.25 30.4123L2.39359 24.7217C1.31069 24.0965 0.643594 22.941 0.643594 21.6906V10.3094C0.643594 9.05897 1.31069 7.90353 2.39359 7.27831L12.25 1.58771Z"
+              fill="#FFF0F3"
+              stroke="url(#strokeGradient)"
+              stroke-width="1"
+            />
+            <path
+            d="M14 9V16M14 20V22"
+            stroke="#FF0000"
+            stroke-width="2"
+            stroke-linecap="round"
+          />
+          </svg>
+            {{ errorMessage }}
+          </div>
+          <hr />
+          <div
+            class="cdna-alert cdna-alert-danger"
+            *ngIf="
+              isSubmitting &&
+              (
+                !practitionerForm?.value?.referralCode ||
+                !practitionerForm?.value?.lastName
+              )
+            "
+          >
+            <div>
+              <p
+                class="block-error"
+                *ngIf="!practitionerForm?.value?.referralCode"
+              >
+                Referral code required
+              </p>
+              <p class="block-error" *ngIf="!practitionerForm?.value?.lastName">
+                Practitioner last name required.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="text-center">
+          <img
+            class="img-sm"
+            id="CompanyLogoIMG"
+            alt="PractitionerProfile"
+            title="PractitionerProfile"
+            src="../../../../../assets/images/my-aacount/Practitioner-profile-default.jpg"
+          />
+        </div>
+
+        <h3 class="text-center bolder practitionerName">{{ $any(practitionerDetails)?.name }}</h3>
+        <div
+          id="practitionerMoreDetails"
+          class="collapse"
+          [ngClass]="{ show: !isDetails }"
+        >
+          <div class="row">
+            <div class="col-12 text-left">
+              <h3 class="bolder location">Location(s)</h3>
+            </div>
+            <div class="col-12 col-md-4 text-left">
+              <label class="bold">Address:</label><br />
+              <span id="AddressBlockP">
+                {{ $any(practitionerDetails)?.defaultAddress?.line1 }}
+                <br />
+                {{ $any(practitionerDetails)?.defaultAddress?.town }},
+                {{ $any(practitionerDetails)?.defaultAddress?.region?.isocodeShort }}
+                {{ $any(practitionerDetails)?.defaultAddress?.country?.isocode }}
+                {{ $any(practitionerDetails)?.defaultAddress?.postalCode }}
+              </span>
+            </div>
+            <div class="col-12 col-md-4 text-left">
+              <label class="bold">Phone:</label><br />
+              <span class="hint-text">
+                {{ $any(practitionerDetails)?.contactNumber }}
+              </span>
+            </div>
+            <div class="col-12 col-md-4 text-left">
+              <label class="bold">Email:</label><br />
+              <p>
+                <a
+                  id="EmailLNK"
+                  href="mailto: {{ $any(practitionerDetails)?.email }}"
+                  class="text-link"
+                >
+                  {{ $any(practitionerDetails)?.email }}
+                </a>
+              </p>
+            </div>
+            <hr class="col-12 m-l-1 m-r-1 p-0" />
+          </div>
+        </div>
+
+        <div class="text-center">
+          <button
+            *ngIf="isDetails"
+            (click)="toggleCollapsed()"
+            id="practitionerMoreDetails-btn"
+            class="btn btn-outline-primary btn-rounded mt-2"
+          >
+            More Details
+          </button>
+
+          <button
+            *ngIf="!isDetails"
+            (click)="toggleCollapsed()"
+            id="practitionerCloseDetails-btn"
+            class="btn btn-outline-primary btn-rounded mt-2"
+          >
+            Close Details
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

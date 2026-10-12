@@ -1,0 +1,35 @@
+<div class="guest-promotions-modal-wrapper">
+    <div class="modal fade slide-right show" id="showGuestPromoDetailsModal" #modalContainer tabindex="-1" role="dialog"
+        aria-labelledby="showGuestPromoDetailsModal" style="display: block;">
+        <div class="modal-dialog">
+            <div class="modal-content-wrapper">
+                <div class="container-xs-height full-height">
+                    <div class="row-xs-height">
+                        <div class="modal-content col-xs-height">
+                            <div class="modal-header">
+                                <h3 class="modal-title">
+                                    <img width="40" height="40"
+                                        src="/assets/icons/common_icons/featured_icon_promo.svg" />
+                                    <span>Unlock your promo code!</span>
+                                </h3>
+                                <button type="button" class="close" (click)="closePopup()" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <img src="/assets/icons/common_icons/guest-promo-image.svg" width="430" height="238">
+                                <p class="login-text">
+                                    Log in or register, and enjoy faster checkouts with saved addresses and order history.
+                                </p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn-register"[routerLink]="['/register']">Register</button>
+                                <button type="button" class="btn btn-outline-primary btn-primary btn-rounded" [routerLink]="['/login']" >Log in</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,28 @@
+<div class="card mt-4 ml-lg-2">
+    <div class="card-header bg-gray pt-3 pb-3 fs-20">
+        <div class="card-title text-dark v-align-middle mb-0">
+            <ng-content select="[cartHeader]"></ng-content>
+        </div>
+    </div>
+    <div class="card-body">
+        <ng-content select="[cartBody]"></ng-content>
+    </div>
+    <!-- @if(authService.isUserLoggedIn()|async){
+    <ws-cart-shipping-address></ws-cart-shipping-address>
+    } -->
+    @if(authService.isUserLoggedIn()|async){
+    <section class="free-shipping" *ngIf="shippingMessage && isPatient() ? (PATIENT_SHIPPING_PRICE - cartTotalPrice) > 0 : (PRACTITIONER_SHIPPING_PRICE - cartTotalPrice) > 0">
+        <p class="m-0">
+            {{shippingMessage?.replace('{{shippingPrice}}', isPatient() ? ('$' + (PATIENT_SHIPPING_PRICE - cartTotalPrice).toFixed(2)) : ('$' + (PRACTITIONER_SHIPPING_PRICE - cartTotalPrice).toFixed(2)))}}
+        </p>
+     </section>
+    }
+     <div *ngIf="cartData?.success == false">
+        <ws-order-total-calculating-error></ws-order-total-calculating-error>
+    </div>
+    <div class="p-4 shipping-box">
+        <ng-content select="[cartbottom]"></ng-content>
+    </div>
+</div>
+
+<ng-container *ngIf=" isCurrentUser$|async"></ng-container>

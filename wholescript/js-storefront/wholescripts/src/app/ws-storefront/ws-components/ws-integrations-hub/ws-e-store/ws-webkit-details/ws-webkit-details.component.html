@@ -1,0 +1,65 @@
+ 
+  <!-- Request Change Password modal  -->
+  <div *ngIf = "!loader" class="referral-code-container">
+    <!-- Header Section -->
+    <div class="header">
+      <i (click)="onActionClick('close')" class="fa-solid fa-xmark"></i>
+      <h1>{{name}}</h1>
+    </div>
+    <div class="form-section">
+
+      <!-- TO-DO Integration -->
+
+    <div class="item">
+      <cx-media
+      [container]="kit?.image" format="product" [alt]=""
+              aria-hidden="true"
+      class="item-image"
+    ></cx-media>
+      <div class="item-details col-md-9">
+        <h4>{{ kit?.bluelabelName }}</h4>
+        <p>Qty: {{ kit?.quantity }}</p>
+      </div>
+    </div>
+
+        <!-- Medpax products - TO-DO INTEGRATION --> 
+
+        <ng-container *ngIf = "kit?.MedPax">
+          <div class="card p-3 col-12 mb-3">
+            <table class="table table-responsive-inline-block w-100 d-inline-table dosingDetails mt-0">
+                <thead>
+                    <tr>
+                        <th class="text-left pt-0">
+                            Formula
+                        </th>
+                        <th class="text-right pt-0">
+                            Dosing &amp; Time
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                        <tr *ngFor = "let item of kit.Medpax" >
+                            <td [routerLink]="" class="border-0 item-name">
+                                {{ name }}
+                            </td>
+                            <td class="border-0 text-right">
+                             {{ item.dosing }}
+                            </td>
+                        </tr>
+                </tbody>
+            </table>
+        </div>
+        </ng-container>
+  
+  
+    <!-- Footer Buttons -->
+    <div class="footer-buttons">
+      <button class="cancel-button btn-rounded" (click)="onActionClick('close')">Close</button>
+    </div>
+    </div>
+  </div>
+
+<div *ngIf="loader" class="d-flex align-items-center loader justify-content-center">
+  <cx-spinner></cx-spinner>
+</div>

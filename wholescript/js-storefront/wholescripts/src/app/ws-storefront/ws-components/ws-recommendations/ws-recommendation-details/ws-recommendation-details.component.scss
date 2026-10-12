@@ -1,0 +1,167 @@
+.recommendation-details-container {
+  padding: 48px 32px 128px 32px;
+  @media(max-width: 786px) {
+     padding: 48px 16px 128px 16px;
+  }
+}
+.btn {
+  &:focus-visible, &:focus {
+    outline: 3px solid var(--cx-color-darkest) !important;
+    outline-offset: 2px !important;
+    box-shadow: none;
+  }
+}
+.dosingDetails thead tr th {
+  color: #000;
+  border-bottom: 1px solid #000;
+  padding-left: 0;
+  padding-bottom: 5px;
+  font-weight: bold;
+  font-size: 12px;
+}
+.card-header {
+  background-color: white;
+  .card-title,
+  span {
+    color: var(--cx-color-secondary);
+  }
+}
+.btn-link {
+  background-color: transparent;
+}
+.rec-id {
+  background-color: #eef0f1 !important;
+}
+.product-row {
+  border-bottom: 1px solid #eef0f1;
+}
+h1, h4, .btn {
+  font-weight: 900;
+}
+.btn-link:hover {
+  color: var(--ws-error-600) !important;
+}
+.input-group {
+  max-height: 38px;
+  .btn {
+    height: fit-content;
+    font-size: 16px;
+    border-radius: 0;
+    padding: 6px 16px !important;
+    display: flex;
+    align-items: flex-start;
+    min-height: 38px;
+  }
+}
+h5 {
+  font-size: 22px;
+  font-weight: 900;
+  padding-bottom: 8px;
+}
+h6 {
+  font-size: 16px;
+  font-weight: 900;
+  padding-bottom: 8px;
+}
+.status label {
+  padding: 3px 9px;
+  font-size: 11px;
+  line-height: 1;
+  text-shadow: none;
+  font-weight: 600;
+  color: #21252b;
+  border-radius: 0.25em;
+  background-color: #eef0f1;
+}
+.sent label {
+  color: var(--ws-success-800);
+  background-color: var(--ws-success-50);
+  border: 1px solid var(--ws-success-200);
+}
+.disabled label, .viewed label {
+  background-color: var(--ws-gray-light-50);
+  border: 1px solid var(--ws-gray-light-200);
+}
+.ordered label {
+  color: var(--cx-color-inverse) !important;
+  background-color: var(--ws-success-600) !important;
+}
+.practitioner_cancelled label {
+  color: var(--ws-error-700);
+  background-color: var(--ws-error-50);
+  border: 1px solid var(--ws-error-200);
+}
+.cancelled label, .deleted label {
+  color: var(--cx-color-inverse) !important;
+  background-color: var(--cx-color-danger-accent) !important;
+}
+
+.recommendation-notes {
+  padding-top: 1rem;
+  .notes-heading {
+    font-weight: 500;
+  }
+}
+
+#patient-details {
+  display: flex;
+  flex-direction: column;
+  a {
+    font-size: 29px;
+  }
+  .external-order {
+    span {
+      color: var(--cx-color-inverse);
+      text-align: center;
+      font-size: 12px;
+      font-weight: 400;
+      line-height: 18px;
+      background: var(--ws-base-black);
+      border-radius: 9999px;
+      padding: 1px 6px; 
+    }
+  }
+}
+
+@media (max-width: 767px) {
+  .mt-4 {
+    margin-top: 4.5rem !important;
+    text-align: center;
+  }
+  .heading-buttons {
+    position: absolute;
+    margin: 1rem 3rem;
+  }
+  #patient-details {
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.958);
+  }
+  .cancel-recom {
+    display: inline-flex;
+  }
+  .cancel-recommendation {
+    width: 13rem;
+  }
+  .edit-recom {
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: center;
+  }
+}
+
+::ng-deep .product-row {
+  div {
+    img {
+      width: 40px;
+      height: 100%;
+    }
+  }
+}
+
+@media (min-width: 320px) and (max-width: 475px) {
+  .save-proto-mobile {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+}

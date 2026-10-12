@@ -1,0 +1,67 @@
+<div class="select-carton-container">
+    <h1 class="bolder">Review Your MedPax</h1>
+    <h5>Create a
+        @if(location?.path()?.includes('recommendation')){
+        recommendation
+        }@else if(location?.path()?.includes('protocol')){
+        protocol
+        }@else {
+        MedPax
+        }
+        with a WholeScripts standard carton or use your private label carton</h5>
+    <div class="text-center">
+        <h4 class="bolder mt-5">Select MedPax Carton</h4>
+        <p class="mb-2">Select which carton you'd like to use for this
+            @if(location?.path()?.includes('recommendation')){
+            recommendation
+            }@else if(location?.path()?.includes('protocol')){
+            protocol
+            }@else {
+            MedPax
+            }</p>
+    </div>
+    <br>
+    @if(getAllCartons$ | async ; as cardcontent ){
+        <div class="container">
+            <div class="row justify-content-center">
+              @for (content of cardcontent?.medpaxCartonList; track content) {
+                <div class="col-12 col-md-12 col-lg-4 col-xl-3 mb-4 d-flex justify-content-center">
+                  <div class="card text-center w-100 h-100 d-flex flex-column align-items-center p-3"
+                       tabindex="0"
+                       (keydown.enter)="selectCard(content)"
+                       [class.selected]="content?.productCode == cartonCardControl?.value"
+                       (click)="selectCard(content)">
+                    
+                    <ng-container *ngIf="content?.image?.url; else noImage">
+                      <img [ngSrc]="baseSite + content?.image?.url" width="200" height="100" [alt]="content.cartonName || 'carton-img'">
+                    </ng-container>
+                    <ng-template #noImage>
+                      <img src="assets/images/private-label/pl-generic-icon.png" width="200" height="100" [alt]="content.cartonName || 'carton-img'">
+                    </ng-template>
+                           
+                    <h6 class="bolder mt-4">{{ content?.cartonName }}</h6>
+          
+                    <div>
+                      <input type="radio"
+                             [formControl]="cartonCardControl"
+                             (keydown.enter)="selectCard(content)"
+                             aria-label="Carton Card"
+                             [value]="content?.productCode"
+                             role="button"
+                             (change)="selectCard(content)"
+                             [class.active]="content?.productCode == cartonCardControl?.value" />
+                    </div>
+          
+                    <div class="d-block mt-2">
+                      {{ (content?.productCode == cartonCardControl?.value) ? 'Selected' : 'Select' }}
+                    </div>
+                  </div>
+                </div>
+              }
+            </div>
+          </div>
+          
+    }
+</div>
+<ws-custom-medpax-floating-footer  [medPaxProducts]="medPaxProducts()" [recommendationEntries]="recommendationEntries()" [proptocolEntries]="proptocolEntries()" [flowType]="flowType"
+    [isMedPaxAvailable]="true" [plUser]="true"></ws-custom-medpax-floating-footer>

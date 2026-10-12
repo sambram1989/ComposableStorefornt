@@ -1,0 +1,80 @@
+######################Stock
+$productCatalog=catalog_1710_10_ProductCatalog
+$productCatalogName=Product Catalog for 1710_10
+$catalogVersion=catalogversion(catalog(id[default=$productCatalog]),version[default='Staged'])[unique=true,default=$productCatalog:Staged]
+INSERT_UPDATE Warehouse ; code[unique=true] ; name[lang=en]             
+                        ; ws_warehouse_s    ; Wholescripts Warehouse South
+
+INSERT_UPDATE Warehouse; code[unique = true]; name[lang = en]
+                       ; pw_warehouse_s     ; Powertools Warehouse South
+
+INSERT_UPDATE StockLevel; productCode[unique = true]; warehouse(code)[unique = true, default = default]; available; inStockStatus(code); maxPreOrder[default = 1]; maxStockLevelHistoryCount[default = -1]; overSelling[default = 0]; preOrder[default = 0]; reserved[default = 0]
+                        ; 0005101                   ; pw_warehouse_s                                   ; 414      ; forceInStock       ; 0                       ; 0                                      ; 0                       ; 0                    ; 0
+                        ; 0005375                   ; pw_warehouse_s                                   ; 414      ; forceInStock       ; 0                       ; 0                                      ; 0                       ; 0                    ; 0
+                        ; 0005374                   ; pw_warehouse_s                                   ; 414      ; forceInStock       ; 0                       ; 0                                      ; 0                       ; 0                    ; 0
+                        ; 0005148                   ; pw_warehouse_s                                   ; 414      ; forceInStock       ; 0                       ; 0                                      ; 0                       ; 0                    ; 0
+                        ; 0005139                   ; pw_warehouse_s                                   ; 414      ; forceInStock       ; 0                       ; 0                                      ; 0                       ; 0                    ; 0
+                        ; 0005335                   ; pw_warehouse_s                                   ; 414      ; forceInStock       ; 0                       ; 0                                      ; 0                       ; 0                    ; 0
+                        ; 0005068                   ; pw_warehouse_s                                   ; 414      ; forceInStock       ; 0                       ; 0                                      ; 0                       ; 0                    ; 0
+                        ; 0005333                   ; pw_warehouse_s                                   ; 414      ; forceInStock       ; 0                       ; 0                                      ; 0                       ; 0                    ; 0
+                        ; 0010856                   ; pw_warehouse_s                                   ; 414      ; forceInStock       ; 0                       ; 0                                      ; 0                       ; 0                    ; 0
+                        ; 0010857                   ; pw_warehouse_s                                   ; 414      ; forceInStock       ; 0                       ; 0                                      ; 0                       ; 0                    ; 0
+                        ; 0008483                   ; pw_warehouse_s                                   ; 414      ; forceInStock       ; 0                       ; 0                                      ; 0                       ; 0                    ; 0
+                        ; 0004956                   ; pw_warehouse_s                                   ; 414      ; forceInStock       ; 0                       ; 0                                      ; 0                       ; 0                    ; 0
+                        ; 0007267                   ; pw_warehouse_s                                   ; 414      ; forceInStock       ; 0                       ; 0                                      ; 0                       ; 0                    ; 0
+                        ; 0004955                   ; pw_warehouse_s                                   ; 414      ; forceInStock       ; 0                       ; 0                                      ; 0                       ; 0                    ; 0
+                        ; 0006875                   ; pw_warehouse_s                                   ; 414      ; forceInStock       ; 0                       ; 0                                      ; 0                       ; 0                    ; 0
+                        ; 0009113                   ; pw_warehouse_s                                   ; 414      ; forceInStock       ; 0                       ; 0                                      ; 0                       ; 0                    ; 0
+;0010662;pw_warehouse_s;414;forceInStock;0;0;0;0;0
+;0010044;pw_warehouse_s;414;forceInStock;0;0;0;0;0
+;0010008;pw_warehouse_s;414;forceInStock;0;0;0;0;0
+;0006670;pw_warehouse_s;414;forceInStock;0;0;0;0;0
+;0004874;pw_warehouse_s;414;forceInStock;0;0;0;0;0
+;0005015;pw_warehouse_s;414;forceInStock;0;0;0;0;0
+;0005012;pw_warehouse_s;414;forceInStock;0;0;0;0;0
+;0005002;pw_warehouse_s;414;forceInStock;0;0;0;0;0
+;0004936;pw_warehouse_s;414;forceInStock;0;0;0;0;0
+;0007259;pw_warehouse_s;414;forceInStock;0;0;0;0;0
+;0006873;pw_warehouse_s;414;forceInStock;0;0;0;0;0
+;0004857;pw_warehouse_s;414;forceInStock;0;0;0;0;0
+;0004872;pw_warehouse_s;414;forceInStock;0;0;0;0;0
+;0008769;pw_warehouse_s;414;forceInStock;0;0;0;0;0
+;0007425;pw_warehouse_s;414;forceInStock;0;0;0;0;0
+;0005052;pw_warehouse_s;414;forceInStock;0;0;0;0;0
+;0010978;pw_warehouse_s;414;forceInStock;0;0;0;0;0
+;0008599;pw_warehouse_s;414;forceInStock;0;0;0;0;0
+;0006877;pw_warehouse_s;414;forceInStock;0;0;0;0;0
+;0006945;pw_warehouse_s;414;forceInStock;0;0;0;0;0
+;0006865;pw_warehouse_s;414;forceInStock;0;0;0;0;0
+;0006976;pw_warehouse_s;414;forceInStock;0;0;0;0;0
+;0006869;pw_warehouse_s;414;forceInStock;0;0;0;0;0
+;0010130;pw_warehouse_s;414;forceInStock;0;0;0;0;0
+;0006927;pw_warehouse_s;414;forceInStock;0;0;0;0;0
+;0007406;pw_warehouse_s;414;forceInStock;0;0;0;0;0
+                        
+INSERT_UPDATE StockLevel ; productCode[unique=true] ; warehouse(code)[unique=true,default=default] ; available ; inStockStatus(code) ; maxPreOrder[default=1] ; maxStockLevelHistoryCount[default=-1] ; overSelling[default=0] ; preOrder[default=0] ; reserved[default=0]
+                         ; 0005101                  ; ws_warehouse_s                               ; 414       ; forceInStock        ; 0                      ; 0                                     ; 0                      ; 0                   ; 0                  
+                         ; 0005375                  ; ws_warehouse_s                               ; 414       ; forceInStock        ; 0                      ; 0                                     ; 0                      ; 0                   ; 0                  
+                         ; 0005374                  ; ws_warehouse_s                               ; 414       ; forceInStock        ; 0                      ; 0                                     ; 0                      ; 0                   ; 0                  
+                         ; 0005148                  ; ws_warehouse_s                               ; 414       ; forceInStock        ; 0                      ; 0                                     ; 0                      ; 0                   ; 0                  
+                         ; 0005139                  ; ws_warehouse_s                               ; 414       ; forceInStock        ; 0                      ; 0                                     ; 0                      ; 0                   ; 0                  
+                         ; 0005335                  ; ws_warehouse_s                               ; 414       ; forceInStock        ; 0                      ; 0                                     ; 0                      ; 0                   ; 0                  
+                         ; 0005068                  ; ws_warehouse_s                               ; 414       ; forceInStock        ; 0                      ; 0                                     ; 0                      ; 0                   ; 0                  
+                         ; 0005333                  ; ws_warehouse_s                               ; 414       ; forceInStock        ; 0                      ; 0                                     ; 0                      ; 0                   ; 0                  
+                         ; 0010856                  ; ws_warehouse_s                               ; 414       ; forceInStock        ; 0                      ; 0                                     ; 0                      ; 0                   ; 0                  
+                         ; 0010857                  ; ws_warehouse_s                               ; 414       ; forceInStock        ; 0                      ; 0                                     ; 0                      ; 0                   ; 0                  
+                         ; 0008483                  ; ws_warehouse_s                               ; 414       ; forceInStock        ; 0                      ; 0                                     ; 0                      ; 0                   ; 0                  
+                         ; 0004956                  ; ws_warehouse_s                               ; 414       ; forceInStock        ; 0                      ; 0                                     ; 0                      ; 0                   ; 0                  
+                         ; 0007267                  ; ws_warehouse_s                               ; 414       ; forceInStock        ; 0                      ; 0                                     ; 0                      ; 0                   ; 0                  
+                         ; 0004955                  ; ws_warehouse_s                               ; 414       ; forceInStock        ; 0                      ; 0                                     ; 0                      ; 0                   ; 0                  
+                         ; 0006875                  ; ws_warehouse_s                               ; 414       ; forceInStock        ; 0                      ; 0                                     ; 0                      ; 0                   ; 0                  
+                         ; 0009113                  ; ws_warehouse_s                               ; 414       ; forceInStock        ; 0                      ; 0                                     ; 0                      ; 0                   ; 0                  
+                         ; 0010662                  ; ws_warehouse_s                               ; 414       ; forceInStock        ; 0                      ; 0                                     ; 0                      ; 0                   ; 0                  
+                         ; 0010044                  ; ws_warehouse_s                               ; 414       ; forceInStock        ; 0                      ; 0                                     ; 0                      ; 0                   ; 0                  
+                         ; 0010008                  ; ws_warehouse_s                               ; 414       ; forceInStock        ; 0                      ; 0                                     ; 0                      ; 0                   ; 0                  
+#MEDPAX PRODUCT                          
+                         ; 000000000500000031                ; 1710                               ; 414       ; forceInStock        ; 0                      ; 0      
+                         ; 000000000500000030                ; 1710                               ; 414       ; forceInStock        ; 0                      ; 0                                     ; 0                      ; 0                   ; 0                  
+                         ; 000000000200000633                ; 1710                               ; 414       ; forceInStock        ; 0                      ; 0                                     ; 0                      ; 0                   ; 0                  
+                         ; 000000000500000032                ; 1710                               ; 414       ; forceInStock        ; 0                      ; 0                                     ; 0                      ; 0                   ; 0                  
+                         

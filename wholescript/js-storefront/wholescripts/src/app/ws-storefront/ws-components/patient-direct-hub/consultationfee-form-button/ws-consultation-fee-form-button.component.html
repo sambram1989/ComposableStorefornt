@@ -1,0 +1,14 @@
+<div *ngFor="let alert of alertSignal()">
+    <alert [type]="alert.type" 
+    [dismissOnTimeout]="alert.timeout" 
+    (onClosed)="onClosed(alert)">{{ alert.msg }}</alert>
+  </div>
+
+<button type="button" tabindex="0"  
+             class="btn btn-primary btn-rounded w-lg-100 text-center"
+             (click)="download()" >
+             <img src="../../../../../assets/icons/featured_icons/cloud-DownLoad.svg"
+             width="20px" 
+             alt="DownLoad Icon"> 
+            Download my W-9 form
+            </button>

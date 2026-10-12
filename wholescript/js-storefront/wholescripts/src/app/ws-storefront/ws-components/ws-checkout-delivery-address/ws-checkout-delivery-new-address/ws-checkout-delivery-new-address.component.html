@@ -1,0 +1,229 @@
+<div class="modal fade slide-right show" id="addNewAppModal" tabindex="-1" role="dialog"
+    aria-labelledby="addNewAppModal" style="display: block;">
+    <div class="modal-dialog">
+        <div class="modal-content-wrapper">
+            <div class="container-xs-height full-height">
+                <div class="row-xs-height">
+                    <div class="modal-content col-xs-height" (keydown)="handleTab($event)">
+
+                        <div class="modal-header clearfix ">
+                            <button type="button" #firstElement class="close" data-dismiss="modal" aria-hidden="true" tabindex="0"
+                                aria-label="Close" (click)="closeModal()">
+                                <i class="fa fa-close fs-14"></i>
+                            </button>
+                            <h4 class="modal-title bolder">New Address</h4>
+                        </div>
+                        <div class="modal-body">
+                            <p class="small-text">Complete the field to add a new address</p>
+                            <hr>
+                            <form name="AddressModalFRM" role="form" [formGroup]="newDeliveryAddress">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="form-group form-group-default required" 
+                                            [ngClass]="{'validation-error': newDeliveryAddress.get('companyName').invalid && newDeliveryAddress.get('companyName').touched}">
+                                            <label for="AddressName">
+                                                Address Description
+                                            </label>
+                                            <input name="AddressName" id="AddressName" type="text" class="form-control"
+                                                placeholder="ex. Home, Work" maxlength="40" aria-label="Address name"
+                                                tabindex="0" formControlName="companyName">
+                                                <span class="icon" aria-hidden="true">*</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-6">
+
+                                        <div class="form-group form-group-default required"
+                                            [ngClass]="{'validation-error': newDeliveryAddress.get('firstName').invalid && newDeliveryAddress.get('firstName').touched}">
+                                            <label for="FirstName">
+                                                First Name
+                                            </label>
+                                            <input name="FirstName" id="FirstName" type="text" class="form-control"
+                                                maxlength="35" tabindex="0" aria-label="First name"
+                                                formControlName="firstName">
+                                                <span class="icon" aria-hidden="true">*</span>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group form-group-default required"
+                                            [ngClass]="{'validation-error': newDeliveryAddress.get('lastName').invalid && newDeliveryAddress.get('lastName').touched}">
+                                            <label for="LastName">
+                                                Last Name
+                                            </label>
+                                            <input name="LastName" id="LastName" type="text" class="form-control"
+                                                maxlength="35" required="" tabindex="0" aria-label="Last name"
+                                                formControlName="lastName">
+                                                <span class="icon" aria-hidden="true">*</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="form-group form-group-default">
+                                            <label for="Email">
+                                                Email
+                                            </label>
+                                            <input name="Email" id="Email" type="text" class="form-control"
+                                                maxlength="241" tabindex="0" aria-label="Email" formControlName="email">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="form-group form-group-default required"
+                                            [ngClass]="{'validation-error': newDeliveryAddress.get('line1').invalid && newDeliveryAddress.get('line1').touched}">
+                                            <label for="Address1">
+                                                Street Address
+                                            </label>
+                                            <input name="Address1" id="Address1" type="text" class="form-control"
+                                                maxlength="35" required="" tabindex="0" aria-label="Address 1"
+                                                formControlName="line1">
+                                                <span class="icon" aria-hidden="true">*</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="form-group form-group-default">
+                                            <label for="Address2">
+                                                Suite, Apt, etc.
+                                            </label>
+                                            <input name="Address2" id="Address2" type="text" class="form-control"
+                                                maxlength="35" aria-label="Address 2" formControlName="line2">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="form-group form-group-default required"
+                                            [ngClass]="{'validation-error': newDeliveryAddress.get('town').invalid && newDeliveryAddress.get('town').touched}">
+                                            <label for="City">
+                                                City
+                                            </label>
+                                            <input name="City" id="City" type="text" class="form-control" maxlength="25"
+                                                required="" tabindex="0" aria-label="City" formControlName="town">
+                                                <span class="icon" aria-hidden="true">*</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="form-group form-group-default required"
+                                            [ngClass]="{'validation-error': newDeliveryAddress.get('country').invalid && newDeliveryAddress.get('country').touched}">
+                                            <label for="CountryDDL">
+                                                Country
+                                            </label>
+                                            <select class="form-control" id="CountryDDL" name="CountryDDL" required=""
+                                                tabindex="0" formControlName="country">
+                                                <option value="US" selected>United States</option>
+                                            </select>
+                                            <span class="icon" aria-hidden="true">*</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div id="StateDDLFormGroup" class="form-group form-group-default required"
+                                            [ngClass]="{'validation-error': newDeliveryAddress.get('region').invalid && newDeliveryAddress.get('region').touched}">
+                                            <label for="StateDDL">
+                                                State
+                                            </label>
+                                            <select class="form-control" [ngClass]="!newDeliveryAddress?.value?.region ? 'empty' : ''" id="StateDDL" name="StateDDL" tabindex="0"
+                                                formControlName="region">
+                                                <option value="">Select state</option>
+                                                <option *ngFor="let region of regions" [value]="region?.isocode">{{region?.name}}
+                                                </option>
+                                            </select>
+                                            <span class="icon" aria-hidden="true">*</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="form-group form-group-default required"
+                                            [ngClass]="{'validation-error': newDeliveryAddress.get('postalCode').invalid && newDeliveryAddress.get('postalCode').touched}">
+                                            <label for="ZipPostalCode">
+                                                Zip/Postal Code
+                                            </label>
+                                            <input name="ZipPostalCode" id="ZipPostalCode" type="number" (keydown)="validateZipCode($event)"
+                                                class="form-control" [maxlength]="10" tabindex="0" aria-label="Zip code"
+                                                formControlName="postalCode" [value]="newDeliveryAddress.get('postalCode')?.value">
+                                                <span class="icon" aria-hidden="true">*</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12 phone-wrapper">
+                                        <label for="PhoneNumber" class="phone-label">
+                                            Phone
+                                        </label>
+                                        <ws-formcontrol-input [wsLabel]="'Phone'" [FixedLabel]="true"
+                                            [wsControlName]="newDeliveryAddress.controls.phone" [maskValue]="'(000) 000-0000'" [isShowMaskTyped]="true"
+                                            [isMasked]="true" [wswidth]="'100%'" [wsheight]="'44px'" [isSelectBox]="false" [isShowStart]="false"
+                                            aria-required="false">
+                                        </ws-formcontrol-input>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                        <div id="message">
+                            <div class="cdna-alert cdna-alert-danger" role="alert" *ngIf="addNewAddressError">
+                                Oops! We encountered an issue. Please try again or call customer service at (800)
+                                647-6100 for assistance.
+                            </div>
+                            <div class="cdna-alert cdna-alert-danger" *ngIf="submitted && (
+                                !newDeliveryAddress?.value?.companyName ||
+                                !newDeliveryAddress?.value?.firstName ||
+                                !newDeliveryAddress?.value?.lastName ||
+                                !newDeliveryAddress?.value?.line1 ||
+                                !newDeliveryAddress?.value?.town ||
+                                !newDeliveryAddress?.value?.country ||
+                                !newDeliveryAddress?.value?.postalCode ||
+                                !newDeliveryAddress?.value?.region ||
+                                !newDeliveryAddress?.get('email')?.valid
+                            )">
+                                <div>
+                                    <p class="block-error" *ngIf="!newDeliveryAddress?.value?.companyName">
+                                        Address Description is required.
+                                    </p>
+                                    <p class="block-error" *ngIf="!newDeliveryAddress?.value?.firstName">
+                                        First Name is required.
+                                    </p>
+                                    <p class="block-error" *ngIf="!newDeliveryAddress?.value?.lastName">
+                                        Last Name is required.
+                                    </p>
+                                    <p class="block-error" *ngIf="!newDeliveryAddress?.get('email')?.valid">
+                                        Please enter a valid email or remove the email.
+                                    </p>
+                                    <p class="block-error" *ngIf="!newDeliveryAddress?.value?.line1">
+                                        Street Address is required.
+                                    </p>
+                                    <p class="block-error" *ngIf="!newDeliveryAddress?.value?.town">
+                                        City is required.
+                                    </p>
+                                    <p class="block-error" *ngIf="!newDeliveryAddress?.value?.region">
+                                        State is required.
+                                    </p>
+                                    <p class="block-error" *ngIf="!newDeliveryAddress?.value?.country">
+                                        Country is required.
+                                    </p>
+                                    <p class="block-error" *ngIf="!newDeliveryAddress?.value?.postalCode">
+                                        Zip / Postal Code is required.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button #lastElement type="submit" (click)="validateAddress()"
+                                class="btn btn-primary btn-rounded btn-cons">Add</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

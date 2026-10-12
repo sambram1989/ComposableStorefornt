@@ -1,0 +1,14 @@
+{
+  "searchBox": {
+    "placeholder": "Search by Product, Brands or SKU"
+  },
+  "common": {
+    "fullCatalog": "Full Catalog",
+    "dashboard": "Dashboard"
+  },
+  "pageMetaResolver": {
+    "category": {
+      "title": "{{query}}"
+    }
+  }
+}

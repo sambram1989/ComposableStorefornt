@@ -1,0 +1,46 @@
+<div *ngIf = "pageState.stepSelected === 1" class="verification-container step-1">
+  <div (click)="close()" class="col-12 p-0 justify-content-end d-flex close">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" aria-hidden="true">
+      <path stroke="#3E3B49" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+        d="M18 6 6 18M6 6l12 12"></path>
+    </svg>
+  </div>
+  <div class="header">
+    <img src="/assets/images/home/id-verify.png" alt="Identity Icon" class="icon" />
+  </div>
+  <h2 class="title">We need some information to help us confirm your identity.</h2>
+  <img src="/assets/images/home/verification.png" alt="Identity Icon" class="verify-img" />
+  <div class="content">
+    <p>
+      By clicking the button below, you consent to Persona, our vendor, collecting, using, and
+      utilizing its service providers to process your biometric information to verify your identity, identify fraud, and
+      improve Persona’s platform in accordance with its Privacy Policy. Your biometric information will be stored for no
+      more than 3 years.
+    </p>
+  </div>
+  <button class="verify-button" (click)="goToStep(2)">Begin verifying</button>
+  <div class="footer">
+    <div class="select-container"> <i class="fa-solid fa-globe"></i>
+      <select class="language-selector">
+        <option>English</option>
+      </select>
+    </div>
+    <img src="/assets/images/home/secured-persona.svg" alt="persona Icon" />
+  </div>
+</div>
+
+<div *ngIf = "pageState.stepSelected === 2" class="verification-container step-2">
+  <div (click)="close()" class="col-12 p-0 justify-content-end d-flex close">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" aria-hidden="true">
+      <path stroke="#3E3B49" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+        d="M18 6 6 18M6 6l12 12"></path>
+    </svg>
+  </div>
+  <h2 class="title">Identity verification</h2>
+  <div class="content">
+    <p>
+      WholeScripts requires identity verification to purchase certain products that will be shipped to a state with age restrictions. 
+    </p>
+  </div>
+  <button class="verify-button">Continue</button>
+</div>

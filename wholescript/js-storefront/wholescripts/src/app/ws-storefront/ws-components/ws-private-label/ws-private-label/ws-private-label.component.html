@@ -1,0 +1,175 @@
+<div class="ws-private-label-contaner pt-4">
+  <div *ngFor="let alert of alerts">
+    <alert [type]="alert.type" [dismissOnTimeout]="alert.timeout" (onClosed)="onClosed(alert)">{{ alert.msg }}</alert>
+  </div>
+  <div class="header-container">
+    <div
+      class="heading"
+      *ngIf="heading$ | async as heading"
+      [innerHTML]="heading?.content"
+    ></div>
+    <div class="pl-header-btns">
+      <a
+        href="https://app.smartsheet.com/b/form/3c5d5e603a924b06800d847e0af4aa87"
+        class="btn btn-outline-primary btn-rounded"
+        target="_blank"
+      >
+        <i class="fa fa-plus"></i>
+        New Product Request
+      </a>
+      <a
+        class="btn btn-outline-primary btn-rounded"
+        href="https://app.smartsheet.com/b/form/c261c8e4f2044fa48d80d8e675a191ff"
+        target="_blank"
+      >
+        Webkit Request
+      </a>
+    </div>
+  </div>
+  <h6 class="sub-title col-12 pt-4 p-0 bolder">
+    Search Private Label products:
+  </h6>
+  <div class="row pt-1 search-section">
+    <div class="col-sm-12 col-md-6 search">
+      <ws-search-box
+       (searchChange)="showSearchResults($event)"
+        aria-label="Search box"
+        [placeholder]="'Search by Name and SKU'"
+        [attr.aria-placeholder]="'Search'"
+      >
+      </ws-search-box>
+    </div>
+    <div class="form-group col-md-3 sort" style="position: relative">
+      <select
+        class="form-control select-style"
+        id="sort"
+        (change)="sortList(select?.value)"
+        #select
+      >
+        @for(sort of sortOptions;track sort){
+        <option [selected]="sort.selected" [value]="sort?.code">
+          {{ sort?.name }}
+        </option>
+        }
+      </select>
+      <label class="label1 select-lable" for="sort"> Sort By </label>
+    </div>
+    <div class="col-md-3 d-flex justify-content-end align-items-center">
+      <span class="export-csv" role="button" tabindex="0" (keypress)="exportCSV()" (click)="exportCSV()"> Export CSV</span>
+    </div>
+  </div>
+  <div class="row col-12 table-unit pr-0">
+    <div class="col-md-2 px-0">
+      <ws-private-label-facets
+        [facetFilters]="filterfacets"
+        (setFilter)="setFilter($event)"
+        (resetFilter)="resetFilter()"
+      ></ws-private-label-facets>
+    </div>
+    <div class="col-md-10 pr-0">
+      <table role="table" id="ws-pl-table" class="table ws-pl-table bg-white">
+        <thead class="ws-pl-thead-desktop">
+          <tr role="row">
+            <th>Product</th>
+            <th>Pre-Labeled Inventory
+              <span class="tooltip-icon">ℹ
+                <div class="tooltip-text">
+                  <div>The number of pre-labeled units currently on hand, ready to ship. </div>
+                   <div>These items will ship faster than inventory that is not existing.</div> 
+                  </div>
+            </span>
+            </th>
+            <th>Case Qty</th>
+            <th class="text-right">Price</th>
+            <th class="text-right">Qty of Cases</th>
+            <th class="text-right">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let product of privateLabelProducts; let i = index;" class="pl-products">
+            <td class="pl-prod-info">
+              <div *ngIf="product?.stockStatus === 'outOfStock'" class="badge-stock out-of-stock">
+                <div class="dot out-of-stock-dot"></div>
+                Out of stock
+              </div>
+              <div class="prod-name" [innerHTML]="product?.name"></div>
+              <ws-private-label-tag></ws-private-label-tag>
+              <span
+                class="prod-desc-link"
+                tabindex="0"
+                [innerHTML]="product?.productDescription"
+                (click)="openProductDetailPopup(product?.code)"
+                (keypress)="openProductDetailPopup(product?.code)"
+              ></span>
+              <div class="prod-code">SKU: {{ product?.code }}</div>
+            </td>
+            <td class="pl-prod-pli">
+              <div>{{ product?.preLabeledCases }} cases</div>
+              <div>{{ product?.preLabeledUnit }} units</div>
+            </td>
+            <td class="pl-prod-ipc">
+              <div *ngIf="product?.caseQty">
+                {{ product?.caseQty | number : "1.0-0" }} units per case
+              </div>
+            </td>
+            <td class="pl-prod-price text-right">
+              <div
+                class="case-price bolder"
+                *ngIf="product?.casePrice?.formattedValue"
+              >
+                {{ product?.casePrice?.formattedValue }}/case
+              </div>
+              <div
+                class="unit-price"
+                *ngIf="product?.wholeSalePrice?.formattedValue"
+              >
+                <em> {{ product?.wholeSalePrice?.formattedValue }}/unit </em>
+              </div>
+              <div
+                class="msrp-price"
+                *ngIf="product?.retailPrice?.formattedValue"
+              >
+                <em> MSRP:{{ product?.retailPrice?.formattedValue }} </em>
+              </div>
+            </td>
+            <td class="pl-prod-qty-inputs text-right">
+              <div class="cart-controls">
+                <a [attr.tabindex]="0"
+                role="button"
+                aria-label="Remove item" (keypress)="removeQuantity(product)" (click)="removeQuantity(product)" class="qty-btn">
+                  <i class="fa fa-minus minus-icon" aria-hidden="true" style="margin-top: 3px;"></i>
+                    </a>
+                <input aria-label="quantity" type="text" [value]="product.quantity || 1" maxlength="4" (change)="setQuantity(product, $event)">
+                <a [attr.tabindex]="0"
+                role="button"
+                aria-label="Add item" (keypress)="addQuantity(product)" (click)="addQuantity(product)" class="qty-btn"><i class="fa-regular fa-plus plus-icon" style="margin-top: 3px;"></i></a>
+            </div>
+            </td>
+            <td class="pl-prod-addtocart text-right">
+              <button
+                (click)="addProductToCart(product)"
+                (keypress)="addProductToCart(product)"
+                class="btn btn-primary btn-rounded addtocart"
+                [disabled]="(cartIsLoading$ | async) || getAddToCartDisableFlag(product)"
+              >
+                Add to cart
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div *ngIf="privateLabelProducts?.length === 0" class="ws-pl-empty-state">
+        <div class="empty-state-inner">
+          <h6 class="empty-state-title">No results found</h6>
+          <div>
+            We couldn't find any matches for
+            <span class="bolder"> {{ SearchText }} </span>
+          </div>
+          <div>Please try searching with another term</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

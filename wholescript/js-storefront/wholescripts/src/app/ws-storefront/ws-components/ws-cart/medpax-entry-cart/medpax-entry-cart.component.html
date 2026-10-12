@@ -1,0 +1,40 @@
+@if(currentUser$|async; as user){
+    @if((user !== 'patient') && (location?.path()?.includes('cart'))){
+        <div class="text-right">
+            <button class="text-link fw-700 mr-3 bolder " [routerLink]="'/medpax'|parseUrl:[medPaxID()]" [queryParams]="{from:'cart'}">
+                Edit Dosing
+            </button>
+        </div>
+    }
+    <div class="card p-3">
+        <table class="table table-responsive-inline-block w-100 d-inline-table dosingDetails mt-0">
+            <thead>
+                <tr class="bt-unset">
+                    <th class="text-left pt-0">
+                        Formula
+                    </th>
+                    <th class="pt-0">
+                        Dosing &amp; Time
+                    </th>
+                    <th *ngIf="(medpaxItem()|totalEntriesCheck) && (location?.path()?.includes('cart'))">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for(item of medpaxItem();track item){
+                @for(entry of item?.entries;track entry){
+                <tr class="border-bottom-unset bt-unset">
+                    <td class="border-0 ">
+                        {{entry?.product?.name}} <ws-product-status *ngIf="entry?.product" [product]="entry?.product"></ws-product-status>
+                    </td>
+                    <td class="border-0 text-right">
+                        {{entry?.quantity}} in {{item?.label}}
+                    </td>
+                    <td *ngIf="(medpaxItem()|totalEntriesCheck) && (location?.path()?.includes('cart'))" class="text-danger bolder cursor-pointer"
+                     (click)="removeMedpaxEntryFromCart(entry, medpaxItem(),item?.label)">X</td>
+                </tr>
+                }
+                }
+            </tbody>
+        </table>
+    </div>
+}

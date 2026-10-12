@@ -1,0 +1,141 @@
+INSERT_UPDATE B2BUnit; description         ; uid[unique = true]; name                ; locName[lang = en]  ; groups(uid); patientDirectHub(id)
+                     ; Wholscripts B2bUnit ; wholscriptsb2bnit ; Wholscripts B2bUnit ; Wholscripts B2bUnit ;            ; WSPatientdirecthub01
+
+
+
+INSERT_UPDATE ReferralCodes; referralCode[unique = true]; lastName     ; discount; patientDirectHub(id)
+                           ; wholescript123             ; Practioner01 ; 15      ; WSPatientdirecthub01
+                           ; wholescript567             ; Practioner02 ; 20      ; WSPatientdirecthub01
+
+INSERT_UPDATE PatientDirectHub; id[unique = true]
+                              ; WSPatientdirecthub01 ;
+
+INSERT_UPDATE UserGroup; uid[unique = true] ; groups(uid)
+                       ; WholescriptsDoctor ; b2bgroup
+                       ; PLDoctor           ; b2bgroup
+                       ; patientdirectcustomergroup   ; b2bgroup
+                       ; distributorcustomergroup ; b2bgroup
+                       ; studentcustomergroup ; b2bgroup
+                       ; employeecustomergroup ; b2bgroup
+                       ; salesrepcustomergroup ; b2bgroup
+                       ; friendsfamilycustomergroup ; b2bgroup
+#practioner
+INSERT_UPDATE B2BCustomer; uid[unique = true]                 ; customerID                         ; name                      ; description; sessionLanguage(isocode); sessionCurrency(isocode); groups(uid)[append = true]                                                          ; password; email[allownull = true]            ; customerProfile(code); defaultB2BUnit(uid)
+                         ; test.practioner01@knacksystems.com ; test.practioner01@knacksystems.com ; Wholescripts Practioner01 ;            ; en                      ; USD                     ; b2bcustomergroup,b2bgroup,wholscriptsb2bnit,practitionercustomergroup                    ; 1234    ; test.practioner01@knacksystems.com ; PRACTITIONER         ; wholscriptsb2bnit
+                         ; test.practioner02@knacksystems.com ; test.practioner02@knacksystems.com ; Wholescripts Practioner02 ;            ; en                      ; USD                     ; b2bcustomergroup,b2bgroup,wholscriptsb2bnit,practitionercustomergroup                    ; 1234    ; test.practioner02@knacksystems.com ; PRACTITIONER         ; wholscriptsb2bnit
+                         ; test.practioner03@knacksystems.com ; test.practioner03@knacksystems.com ; Wholescripts Doctor       ;            ; en                      ; USD                     ; b2bcustomergroup,b2bgroup,wholscriptsb2bnit,practitionercustomergroup,WholescriptsDoctor ; 1234    ; test.practioner03@knacksystems.com ; PRACTITIONER         ; wholscriptsb2bnit
+#patients
+INSERT_UPDATE B2BCustomer; uid[unique = true]              ; customerID                      ; name                   ; description; sessionLanguage(isocode); sessionCurrency(isocode); groups(uid)[append = true]                                  ; password; email[allownull = true]         ; customerProfile(code); referralCode   ; referralName
+                         ; test.patient01@knacksystems.com ; test.patient01@knacksystems.com ; Wholescripts Patient01 ;            ; en                      ; USD                     ; b2bcustomergroup,b2bgroup,wholscriptsb2bnit,patientcustomergroup ; 1234    ; test.patient01@knacksystems.com ; PATIENT              ; wholescript123 ; Practioner01
+                         ; test.patient02@knacksystems.com ; test.patient02@knacksystems.com ; Wholescripts Patient02 ;            ; en                      ; USD                     ; b2bcustomergroup,b2bgroup,wholscriptsb2bnit,patientcustomergroup ; 1234    ; test.patient02@knacksystems.com ; PATIENT              ; wholescript123 ; Practioner01
+                         ; test.patient03@knacksystems.com ; test.patient03@knacksystems.com ; Wholescripts Patient03 ;            ; en                      ; USD                     ; b2bcustomergroup,b2bgroup,wholscriptsb2bnit,patientcustomergroup ; 1234    ; test.patient03@knacksystems.com ; PATIENT              ; wholescript567 ; Practioner02
+                         ; test.patient04@knacksystems.com ; test.patient04@knacksystems.com ; Wholescripts Patient04 ;            ; en                      ; USD                     ; b2bcustomergroup,b2bgroup,wholscriptsb2bnit,patientcustomergroup ; 1234    ; test.patient04@knacksystems.com ; PATIENT              ; wholescript567 ; Practioner02
+
+#anonymous
+INSERT_UPDATE Customer; uid[unique = true]; groups(uid)
+                      ; anonymous         ; anonymousUserGroup
+
+############################################################ Dr Cindy Sample Customer ###############################################
+
+INSERT_UPDATE B2BCustomer; uid[unique = true]       ; customerID               ; name     ; description; sessionLanguage(isocode); sessionCurrency(isocode); groups(uid)                          ; password; email[allownull = true]  ; customerProfile(code); defaultB2BUnit(uid)
+                         ; dr.cindy.woods@ahara.com ; dr.cindy.woods@ahara.com ; Dr Cindy ;            ; en                      ; USD                     ; b2bcustomergroup,practitionercustomergroup,b2bgroup,0010333322 ; 1234    ; dr.cindy.woods@ahara.com ; PRACTITIONER         ; 0010333322
+
+#patients
+INSERT_UPDATE B2BCustomer; uid[unique = true]        ; customerID                ; name          ; description; sessionLanguage(isocode); sessionCurrency(isocode); groups(uid)                          ; password; email[allownull = true]   ; customerProfile(code); referralCode; referralName
+                         ; linda.wolf@yopmail.com    ; linda.wolf@yopmail.com    ; linda wolf    ;            ; en                      ; USD                     ; b2bcustomergroup,patientcustomergroup,b2bgroup,0010333322 ; 1234    ; linda.wolf@yopmail.com    ; PATIENT              ; AUG         ; CORP
+                         ; james.bell@yopmail.com    ; james.bell@yopmail.com    ; james bell    ;            ; en                      ; USD                     ; b2bcustomergroup,patientcustomergroup,b2bgroup,0010333322 ; 1234    ; james.bell@yopmail.com    ; PATIENT              ; AUG         ; CORP
+                         ; hanna.schmidt@yopmail.com ; hanna.schmidt@yopmail.com ; hanna schmidt ;            ; en                      ; USD                     ; b2bcustomergroup,patientcustomergroup,b2bgroup,0010333322 ; 1234    ; hanna.schmidt@yopmail.com ; PATIENT              ; SEP         ; CORP
+                         ; carla.torres@yopmail.com  ; carla.torres@yopmail.com  ; carla.torres  ;            ; en                      ; USD                     ; b2bcustomergroup,patientcustomergroup,b2bgroup,0010333322 ; 1234    ; carla.torres@yopmail.com  ; PATIENT              ; SEP         ; CORP
+
+
+INSERT_UPDATE B2BUnit; description       ; uid[unique = true]; name              ; locName[lang = en]; groups(uid); PatientDirectHub(id)
+                     ; Ahara Corporation ; 0010333322        ; Ahara Corporation ; Ahara Corporation ;            ; DISP0010333322
+
+
+INSERT_UPDATE ReferralCodes; referralCode[unique = true]; lastName; discount; PatientDirectHub(id)
+                           ; AUG                        ; CORP    ; 15      ; DISP0010333322
+                           ; SEP                        ; CORP    ; 25      ; DISP0010333322
+
+INSERT_UPDATE PatientDirectHub; id[unique = true]
+                              ; DISP0010333322 ;
+
+######################################## Demo Practioner and patient data ###############################################
+#practioner
+INSERT_UPDATE B2BCustomer; uid[unique = true]           ; customerID                   ; name                          ; description; sessionLanguage(isocode); sessionCurrency(isocode); groups(uid)[append = true]                                       ; password; email[allownull = true]      ; customerProfile(code); defaultB2BUnit(uid)
+                         ; chrisdurhammd@gmail.com      ; chrisdurhammd@gmail.com      ; Bluegrass Preventive Medicine ;            ; en                      ; USD                     ; b2bcustomergroup,b2bgroup,0000318608,practitionercustomergroup ; 1234    ; chrisdurhammd@gmail.com      ; PRACTITIONER         ; 0000318608
+                         ; mrsdianaedwards@gmail.com    ; mrsdianaedwards@gmail.com    ; Chad Edwards, DO              ;            ; en                      ; USD                     ; b2bcustomergroup,b2bgroup,0000234356,practitionercustomergroup ; 1234    ; mrsdianaedwards@gmail.com    ; PRACTITIONER         ; 0000234356
+                         ; testpractitioner@yopmail.com ; TestPractitioner@yopmail.com ; Test Practitioner             ;            ; en                      ; USD                     ; b2bcustomergroup,b2bgroup,0000223191,practitionercustomergroup ; 1234    ; TestPractitioner@yopmail.com ; PRACTITIONER         ; 0000223191
+                         ; qapractitioner@yopmail.com   ; QAPractitioner@yopmail.com   ; QA Practitioner               ;            ; en                      ; USD                     ; b2bcustomergroup,b2bgroup,0000311838,practitionercustomergroup ; 1234    ; QAPractitioner@yopmail.com   ; PRACTITIONER         ; 0000311838
+
+
+#patients
+INSERT_UPDATE B2BCustomer; uid[unique = true]      ; customerID              ; name               ; description; sessionLanguage(isocode); sessionCurrency(isocode); groups(uid)[append = true]                ; password; email[allownull = true] ; customerProfile(code); referralCode       ; referralName
+                         ; avery3223@aol.com       ; avery3223@aol.com       ; Elisabeth A Newman ;            ; en                      ; USD                     ; b2bcustomergroup,b2bgroup,patientcustomergroup ; 1234    ; avery3223@aol.com       ; PATIENT              ; WILDPARTNER|DAWSON ; DAWSON
+                         ; testpatient@yopmail.com ; TestPatient@yopmail.com ; Test Patient       ;            ; en                      ; USD                     ; b2bcustomergroup,b2bgroup,patientcustomergroup ; 1234    ; TestPatient@yopmail.com ; PATIENT              ; wholescript123     ; Practioner
+                         ; qapatient@yopmail.com   ; QAPatient@yopmail.com   ; QA Patient         ;            ; en                      ; USD                     ; b2bcustomergroup,b2bgroup,patientcustomergroup ; 1234    ; QAPatient@yopmail.com   ; PATIENT              ; TAPO|DUEY          ; DUEY
+
+#Wholescripts Doctors
+INSERT_UPDATE B2BCustomer; uid[unique = true]      ; customerID              ; name                      ; description; sessionLanguage(isocode); sessionCurrency(isocode); groups(uid)[append = true]                                                          ; password; email[allownull = true] ; customerProfile(code); defaultB2BUnit(uid)
+                         ; james.munro@xymogen.com ; james.munro@xymogen.com ; James Munro               ;            ; en                      ; USD                     ; b2bcustomergroup,b2bgroup,0010171523,practitionercustomergroup,WholescriptsDoctor ; 1234    ; james.munro@xymogen.com ; PRACTITIONER         ; 0010171523
+                         ; testdoctor@yopmail.com  ; TestDoctor@yopmail.com  ; Test Doctor               ;            ; en                      ; USD                     ; b2bcustomergroup,b2bgroup,0000270626,practitionercustomergroup,WholescriptsDoctor ; 1234    ; TestDoctor@yopmail.com  ; PRACTITIONER         ; 0000270626
+                         ; qadoctor@yopmail.com    ; QADoctor@yopmail.com    ; QA Doctor                 ;            ; en                      ; USD                     ; b2bcustomergroup,b2bgroup,0010227506,practitionercustomergroup,WholescriptsDoctor ; 1234    ; QADoctor@yopmail.com    ; PRACTITIONER         ; 0010227506
+
+INSERT_UPDATE B2BUnit; description                         ; uid[unique = true]   ; name                         ; locName[lang = en]                  ; groups(uid); patientDirectHub(id)
+                     ; Bluegrass Preventive Medicine Unit  ; 0000318608           ; Bluegrass Preventive Medicine; Bluegrass Preventive Medicine Unit  ;            ; WSPD0000318608
+                     ; Chad Edwards, DO Unit               ; 0000234356           ; Chad Edwards, DO             ; Chad Edwards, DO Unit               ;            ; WSPD0000234356
+                     ; Test Practitioner Unit              ; 0000223191           ; Test Practitioner            ; Test Practitioner Unit              ;            ; WSPD0000223191
+                     ; QA Practitioner Unit                ; 0000311838           ; QA Practitioner              ; QA Practitioner Unit                ;            ; WSPD0000311838
+                     ; James Munro Unit                    ; 0010171523           ; James Munro                  ; James Munro Unit                    ;            ; WSPD0010171523
+                     ; Test Doctor Unit                    ; 0000270626           ; Test Doctor                  ; Test Doctor Unit                    ;            ; WSPD0000270626
+                     ; QA Doctor Unit                      ; 0010227506           ; QA Doctor                    ; QA Doctor Unit                      ;            ; WSPD0010227506
+
+INSERT_UPDATE ReferralCodes; referralCode[unique = true]; lastName     ; discount; patientDirectHub(id)
+                           ; WILDPARTNER|DAWSON         ; Dawson       ; 30      ; WSPD0000318608
+                           ; TAPO|DUEY                  ; DUEY         ; 0       ; WSPD0000311838
+                           ; wholescript123             ; Practioner ; 15      ; WSPD0000223191
+
+
+INSERT_UPDATE PatientDirectHub; id[unique = true]
+                              ; WSPD0000318608    ;
+                              ; WSPD0000234356    ;
+                              ; WSPD0000223191    ;
+                              ; WSPD0000311838    ;
+                              ; WSPD0010171523    ;
+                              ; WSPD0000270626    ;
+                              ; WSPD0010227506    ;
+                              
+INSERT_UPDATE Employee; UID[unique = true]; groups(uid)[mode = append]
+                      ; cdcadmin             ; backofficeadministratorrole
+
+
+
+INSERT_UPDATE B2BCustomer; uid[unique = true]          ; customerID                  ; name             ; description; sessionLanguage(isocode); sessionCurrency(isocode); groups(uid)[append = true]                                       ; password; email[allownull = true]     ; customerProfile(code); defaultB2BUnit(uid)
+                         ; mrsdianaedwards@yopmail.com ; mrsdianaedwards@yopmail.com ; Chad Edwards, DO ;            ; en                      ; USD                     ; b2bcustomergroup,b2bgroup,234356_1710_10_10,practitionercustomergroup ; 1234    ; mrsdianaedwards@yopmail.com ; PRACTITIONER         ; 234356_1710_10_10
+
+#patients
+INSERT_UPDATE B2BCustomer; uid[unique = true] ; customerID         ; name        ; description; sessionLanguage(isocode); sessionCurrency(isocode); groups(uid)[append = true]                                  ; password; email[allownull = true]; customerProfile(code); referralCode       ; referralName; defaultB2BUnit(uid)
+                         ; ljbeck@yopmail.com ; ljbeck@yopmail.com ; LEWISA BECK ;            ; en                      ; USD                     ; b2bcustomergroup,b2bgroup,patientcustomergroup,211984_1710_10_10 ; 1234    ; ljbeck@yopmail.com     ; PATIENT              ; REVOLUTION|EDWARDS ; EDWARDS     ; 211984_1710_10_10
+
+#Wholescripts Doctors
+
+
+INSERT_UPDATE B2BUnit; uid[unique = true]; patientDirectHub(id)
+                     ; 234356_1710_10_10 ; WSPD0000234356
+INSERT_UPDATE ReferralCodes; referralCode[unique = true]; lastName; discount; patientDirectHub(id)
+                           ; REVOLUTION|EDWARDS         ; EDWARDS ; 10      ; WSPD0000234356
+
+
+INSERT_UPDATE PatientDirectHub; id[unique = true]
+                              ; WSPD0000234356 ;
+
+
+INSERT_UPDATE UserGroup;UID[unique=true]
+                       ;employeesalesrepusergroup
+
+INSERT_UPDATE SearchRestriction;code[unique=true]                               ;name[lang=en] ;restrictedType(code)  ;principal(uid)  ;active     ;generate  ;query
+                               ;asm_b2bunit_practitioner_salesperson_restricted ;              ;B2BUnit               ;employeesalesrepusergroup    ;true       ;true      ;{pk} in ({{ SELECT DISTINCT {b.pk} FROM {B2BUnit AS b JOIN SapCustomerGroupEnum AS cg ON {cg.pk} = {b.sapcustomergroup}} WHERE {cg.code} = '02' AND {b.salesPerson} IN ({{ SELECT RIGHT(CONCAT('0000000000', SUBSTRING({b1.uid}, 1, CHARINDEX('_', {b1.uid}) - 1)), 10) FROM {B2BUnit AS b1 JOIN SapCustomerGroupEnum AS cg1 ON {cg1.pk} = {b1.sapcustomergroup}} WHERE {cg1.code} = '01' and {b1.salesPerson} = ?session.user.sapBusinessPartnerID }}) }})
+                               ;asm_b2bcustomer_practitioner_salesperson_restricted      ;     ;B2BCustomer           ;employeesalesrepusergroup    ;true       ;true      ;{pk} in ({{ SELECT uniontable.PK FROM({{ SELECT DISTINCT {c.pk} FROM {B2BUnit AS b join B2BCustomer as c on {c.defaultB2BUnit} = {b.pk}} WHERE {b.salesPerson} = ?session.user.sapBusinessPartnerID }}UNION {{ SELECT DISTINCT {c1.pk} FROM {B2BUnit AS b1 JOIN SapCustomerGroupEnum AS cg1 ON {cg1.pk} = {b1.sapcustomergroup} join B2BCustomer as c1 on {c1.defaultB2BUnit} = {b1.pk}} WHERE {cg1.code} = '02' AND {b1.salesPerson} IN ({{ SELECT RIGHT(CONCAT('0000000000', SUBSTRING({b2.uid}, 1, CHARINDEX('_', {b2.uid}) - 1)), 10) FROM {B2BUnit AS b2 JOIN SapCustomerGroupEnum AS cg2 ON {cg2.pk} = {b2.sapcustomergroup} join B2BCustomer as c2 on {c2.defaultB2BUnit} = {b2.pk}} WHERE {cg2.code} = '01' AND {b2.salesPerson} = ?session.user.sapBusinessPartnerID }}) }}) uniontable}})
+
+
+
+

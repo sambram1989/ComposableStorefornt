@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="exported-data">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/hybris/bin/custom/Wholescriptsstore/resources/Wholescriptsstore/import/sampledata/exported-data/Product-features.zip!/" />
+      <root url="jar://$PROJECT_DIR$/hybris/bin/custom/Wholescriptsstore/resources/Wholescriptsstore/import/sampledata/exported-data/price-rows.zip!/" />
+      <root url="jar://$PROJECT_DIR$/hybris/bin/custom/Wholescriptsstore/resources/Wholescriptsstore/import/sampledata/exported-data/Product_classifications.zip!/" />
+      <root url="jar://$PROJECT_DIR$/hybris/bin/custom/Wholescriptsstore/resources/Wholescriptsstore/import/sampledata/exported-data/stock-level.zip!/" />
+      <root url="jar://$PROJECT_DIR$/hybris/bin/custom/Wholescriptsstore/resources/Wholescriptsstore/import/sampledata/exported-data/Product-impex.zip!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

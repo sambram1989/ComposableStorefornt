@@ -1,0 +1,24 @@
+
+<div *ngIf = "!loader" class="integrations-hub">
+  <div *ngIf="!showAgreement" class="content">
+    <div *ngIf = "heading$ | async as heading" class="estore-header">
+    <div class = "heading" [innerHTML]="heading.content" tabindex="0">
+    </div>
+    <div class="actions">
+      <button class="button secondary btn-rounded btn-visit" (click)="apiResources()" (keydown.enter)="apiResources()" (keydown.space)="apiResources()">Visit our API resources</button>
+      <button class="button primary btn-rounded btn-start-esotre" (click)="startIntegration()" (keydown.enter)="startIntegration()" (keydown.space)="startIntegration()">Start Your eStore Integration</button>
+    </div>
+    </div>
+    <div class="cards">
+      <div *ngIf = "card1$ | async as card1" class="card" [innerHTML] = "card1.content" tabindex="0" role="region" aria-label="eStore Card 1">
+      </div>
+      <div *ngIf = "card2$ | async as card2" class="card" [innerHTML] = "card2.content" tabindex="0" role="region" aria-label="eStore Card 2">
+      </div>
+    </div>
+  </div>
+  <ws-e-store-integration *ngIf = "showAgreement" aria-label="eStore Agreement Section"></ws-e-store-integration>
+</div>
+
+<div *ngIf="loader" class="d-flex align-items-center loader justify-content-center">
+  <cx-spinner aria-label="Loading..." role="alert" aria-live="assertive"></cx-spinner>
+</div>

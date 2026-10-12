@@ -1,0 +1,21 @@
+<section class="feat-web" title="featured webinar title" aria-label="featured-webinar-title">
+    <div class="feat-web-flex">
+        <article class="feat-web__img">
+            <span class="feat-web__tag">
+                <span class="feat-web__tag-txt">Featured webinar</span>
+            </span>
+            <img *ngIf="featuredWebinar()?.presenters" [src]="getMedia(featuredWebinar()?.presenters[0]?.image)" [attr.aria-label]="'Image for ' + featuredWebinar()?.title">
+            <div class="feat-web__sponsor"> Sponsored by: <span>{{featuredWebinar()?.sponsorName}}</span></div>
+        </article>
+        <article>
+            <a class="feat-web-title" [routerLink]="'/webinars'|parseUrl:[featuredWebinar()?.code]" tabindex="0"  [attr.aria-label]="'View featured webinar titled ' + featuredWebinar()?.title">
+                {{featuredWebinar()?.title}}</a>
+            <div class="feat-web-subtitle"> Presented by: 
+                {{featuredWebinar()?.presenter}}
+            </div>
+            <div class="feat-web-desc"  [attr.aria-label]="'Description: ' + featuredWebinar()?.shortDescription">{{featuredWebinar()?.shortDescription}}</div>
+            <a class="btn btn-primary btn-rounded btn-resp"
+            [routerLink]="'/webinars'|parseUrl:[featuredWebinar()?.code]" tabindex="0" [attr.aria-label]="'Watch the featured webinar ' + featuredWebinar()?.title"> Watch Now </a>
+        </article>
+    </div>
+</section>

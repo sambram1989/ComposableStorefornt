@@ -1,0 +1,2129 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+ Copyright (c) 2020 SAP SE or an SAP affiliate company. All rights reserved.
+-->
+<!--
+	ATTENTION: This is just an example file. You have to edit it according to your needs.
+-->
+
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="beans.xsd">
+
+	<bean class="com.wholescripts.dto.protocol.ProtocolListWsDTO">
+		<property name="protocolsListWsDto"
+				  type="java.util.List&lt;com.wholescripts.dto.protocol.ProtocolWsDTO>"/>
+		 <property name="pagination" type="de.hybris.platform.webservicescommons.dto.PaginationWsDTO"/>
+	</bean>
+	<bean class="com.wholescripts.dto.protocol.ProtocolWsDTO">
+		<property name="id" type="String"/>
+		<property name="modifiedTime" type="String"/>
+		<property name="name" type="String"/>
+		<property name="description" type="String"/>
+		<property name="protocolStatus" type="String"/>
+		<property name="protocolSharedStatus" type="String"/>
+		<property name="termsAgreed" type="String"/>
+		<property name="isWSProtocol" type="boolean"/>
+		<property name="totalItems" type="Integer"/>
+		<property name="notes" type="String"/>
+		<property name="patientList" type="java.util.List&lt;com.wholescripts.dto.PatientWsDTO>" />
+		<property name="totalPrice" type="de.hybris.platform.commercewebservicescommons.dto.product.PriceWsDTO"/>
+		<property name="msrpSubTotalPrice" type="de.hybris.platform.commercewebservicescommons.dto.product.PriceWsDTO"/>
+		<property name="protocolEntries" type="java.util.List&lt;com.wholescripts.dto.protocol.ProtocolEntryWsDto>"/>	
+	    <property name="patients" type="java.util.List&lt;String>" />
+	    <property name="sharedWithAll" type="boolean"/>
+		<property name="totalUnitCount" type="Integer"/>
+	</bean>
+	<bean class="com.wholescripts.dto.protocol.ProtocolEntryWsDto">
+	    <property name="entryNumber" type="Integer"/>
+        <property name="quantity" type="Long"/>
+        <property name="basePrice" type="de.hybris.platform.commercewebservicescommons.dto.product.PriceWsDTO"/>
+        <property name="totalPrice" type="de.hybris.platform.commercewebservicescommons.dto.product.PriceWsDTO"/>
+        <property name="product" type="de.hybris.platform.commercewebservicescommons.dto.product.ProductWsDTO"/>
+		<property name="deliveryPointOfService" type="de.hybris.platform.commercewebservicescommons.dto.store.PointOfServiceWsDTO"/>
+		<property name="itemDuration" type="String"/>
+		<property name="productItemType" type="String"/>
+		<property name="notes" type="String"/>
+		<property name="dosing" type="java.util.List&lt;com.wholescripts.dto.DosingWsDTO>"/>
+		<property name="msrpBasePrice" type="de.hybris.platform.commercewebservicescommons.dto.product.PriceWsDTO"/>
+		<property name="msrpTotalPrice" type="de.hybris.platform.commercewebservicescommons.dto.product.PriceWsDTO"/>
+	</bean>
+	<bean class="com.wholescripts.dto.dosing.DosingListWsDTO">
+		<hints>
+			<hint name="wsRelated"/>
+			<hint name="alias">DosingList</hint>
+		</hints>
+		<property name="dosingList"
+				  type="java.util.List&lt;com.wholescripts.dto.DosingWsDTO>"/>
+	</bean>
+	<bean class="com.wholescripts.dto.dosing.DosingRequestWsDto">
+		<hints>
+			<hint name="wsRelated"/>
+			<hint name="alias">dosingRequest</hint>
+		</hints>
+		<property name="productId" type="String"/>
+		<property name="isSavedAsCustom" type="boolean"/>
+		<property name="itemTimesCodes" type="java.util.Map&lt;String,String>"/>
+    </bean>		
+	<bean class="com.wholescripts.dto.PatientWsDTO">
+		<description>Details of a Patient</description>
+		<property name="uid" type="String">
+			<description>Uid of the Patient</description>
+		</property>
+		<property name="name" type="String">
+			<description>Full name of the Patient</description>
+		</property>
+		<property name="referralCode" type="String">
+			<description>Referral Code of the Patient</description>
+		</property>
+		<property name="discount" type="String">
+			<description>Discount</description>
+		</property>
+		<property name="modifiedTime" type="String">
+			<description>Last Active</description>
+		</property>
+	   <property name="email" type="String">
+			<description>Discount</description>
+		</property>
+	</bean>
+	
+	<bean class="com.wholescripts.dto.WSContactUsFormWsDTO">
+			<description>Details of a contact us form</description>
+		<property name="firstName" type="String">
+			<description>first name</description>
+		</property>
+		<property name="lastName" type="String">
+			<description>last name</description>
+		</property>
+		<property name="phone" type="String">
+			<description>phone number</description>
+		</property>
+		<property name="email" type="String">
+			<description>email</description>
+		</property>
+		<property name="accountNumber" type="String">
+			<description>account number</description>
+		</property>
+	   <property name="message" type="String">
+			<description>message</description>
+		</property>
+		<property name="category" type="String">
+			<description>category</description>
+		</property>
+	</bean>
+	
+
+	<bean class="com.wholescripts.dto.PatientsListWsDTO">
+		<description>Representation of an organizational unit node list</description>
+		<property name="patients"
+			type="java.util.List&lt;com.wholescripts.dto.PatientWsDTO>">
+			<description>List of Unit Nodes</description>
+		</property>
+		<property name="pagination" type="de.hybris.platform.webservicescommons.dto.PaginationWsDTO" />
+	</bean>
+
+	<bean class="com.wholescripts.dto.referralCodes.ReferralCodeListWsDTO">
+		<property name="referralCodeListWsDto"
+				  type="java.util.List&lt;com.wholescripts.dto.referralCodes.ReferralCodeWsDTO>"/>
+		<property name="pagination" type="de.hybris.platform.webservicescommons.dto.PaginationWsDTO"/>
+	</bean>
+
+	<bean class="com.wholescripts.dto.referralCodes.ReferralCodeWsDTO">
+	    <hints>
+			<hint name="wsRelated"/>
+			<hint name="alias">referralCodeWsDTO</hint>
+		</hints>
+		<property name="referralCode" type="String" />
+		<property name="discount" type="Integer" />
+		<property name="lastName" type="String" />
+		<property name="patientDirectHubId" type="String" />
+		<property name="profileImage" type="de.hybris.platform.cmssmarteditwebservices.dto.MediaWsDTO" />
+		<property name="referralLink" type="String" />
+		<property name="website" type="String" />
+		<property name="description" type="String" />
+		<property name="address" type="de.hybris.platform.commercewebservicescommons.dto.user.AddressWsDTO" />
+		<property name="practitionerName" type="String"/>
+		<property name="credential" type="String"/>
+	</bean>
+	<bean class="com.wholescripts.dto.PatientDirectHubRequestWsDTO">
+		<hints>
+			<hint name="wsRelated"/>
+			<hint name="alias">patientDirectHubRequest</hint>
+		</hints>
+		<property name="referralCode" type="String" />
+		<property name="discount" type="Integer"/>
+		<property name="lastName" type="String" />
+		<property name="patientDirectHubId" type="String" />
+		<property name="profileImage" type="de.hybris.platform.cmssmarteditwebservices.dto.MediaWsDTO" />
+		<property name="referralLink" type="String" />
+		<property name="website" type="String" />
+		<property name="description" type="String" />
+    </bean>	
+
+    <bean class="com.wholescripts.dto.AvalaraTaxLinkWsDTO">
+		<property name="avalaraTaxLink" type="String" />
+	</bean>
+    
+	<bean class="com.wholescripts.dto.W9FormWsDTO">
+		<hints>
+			<hint name="wsRelated"/>
+			<hint name="alias">W9FormWsDTO</hint>
+		</hints>
+		<property name="b2bCustomer" type="String" />
+		<property name="name" type="String" />
+		<property name="businessName" type="String" />
+		<property name="fedTaxClass" type="String"/>
+		<property name="taxClassLimitedText" type="String"/>
+		<property name="taxClassOtherText" type="String"/>
+		<property name="exemptPayee" type="String" />
+		<property name="exemptFatca" type="String" />
+		<property name="address" type="de.hybris.platform.commercewebservicescommons.dto.user.AddressWsDTO" />
+		<property name="accountNumbers" type="String" />
+		<property name="requestersInfo" type="String" />
+		<property name="ssn" type="String" />
+		<property name="ein" type="String" />
+		<property name="signature" type="String" />
+		<property name="signatureDate" type="String" />
+		<property name="browserString" type="String" />
+		<property name="ip" type="String" />
+    </bean>
+    
+	<bean class="com.wholescripts.dto.W9FormResponseWsDTO">
+		<hints>
+			<hint name="wsRelated"/>
+			<hint name="alias">W9FormResponseWsDTO</hint>
+		</hints>
+		<property name="success" type="Boolean" />
+		<property name="message" type="String" />
+    </bean>	
+    
+	<bean class="com.wholescripts.dto.FedTaxClassWsDTO">
+		<hints>
+			<hint name="wsRelated"/>
+			<hint name="alias">FedTaxClassWsDTO</hint>
+		</hints>
+		<property name="individual" type="Boolean" />
+		<property name="cCorporation" type="Boolean" />
+		<property name="sCorporation" type="Boolean" />
+		<property name="partner" type="Boolean" />
+		<property name="trust" type="Boolean" />
+		<property name="llc" type="Boolean" />
+		<property name="llcText" type="String" />
+		<property name="other" type="Boolean"/>
+		<property name="otherText" type="String" />
+    </bean>	
+    <bean class="com.wholescripts.dto.FaqWsResponseDTO">
+        <hints>
+			<hint name="wsRelated"/>
+			<hint name="alias">FaqWsListDTO</hint>
+		</hints>
+		<property name="data" type="java.util.List&lt;com.wholescripts.dto.FaqWsListDTO>" />
+    </bean>
+    <bean class="com.wholescripts.dto.FaqWsDTO">
+        <hints>
+			<hint name="wsRelated"/>
+			<hint name="alias">faqWsDTO</hint>
+		</hints>
+		<property name="uid" type="String" />
+		<property name="question" type="String" />
+		<property name="answer" type="String" />
+    </bean>
+    <bean class="com.wholescripts.dto.FaqWsListDTO">
+        <hints>
+			<hint name="wsRelated"/>
+			<hint name="alias">faqWsListDTO</hint>
+		</hints>
+		<property name="uid" type="String" />
+		<property name="title" type="String" />
+		<property name="faqTopicList" type="java.util.List&lt;com.wholescripts.dto.FaqWsDTO>" />
+		<property name="child" type="java.util.List&lt;com.wholescripts.dto.FaqWsListDTO>" />
+    </bean>
+    <bean class="com.wholescripts.dto.WsPopularCategoriesWsDTO">
+        <hints>
+            <hint name="wsRelated"/>
+            <hint name="alias">WsPopularCategoriesWsDTO</hint>
+        </hints>
+        <property name="popularByCategory" type="java.util.List&lt;de.hybris.platform.commercewebservicescommons.dto.product.CategoryWsDTO>" />
+        <property name="popularCategories" type="java.util.List&lt;de.hybris.platform.commercewebservicescommons.dto.product.CategoryWsDTO>" />
+        <property name="topBrands" type="java.util.List&lt;com.wholescripts.dto.WholescriptsBrandWsDTO>" />
+    </bean>
+    <bean class="de.hybris.platform.commercewebservicescommons.dto.product.CategoryWsDTO">
+        <hints>
+            <hint name="wsRelated"/>
+            <hint name="alias">CategoryWsDTO</hint>
+        </hints>
+        <property name="description" type="String" />
+        <property name="products" type="java.util.List&lt;de.hybris.platform.commercewebservicescommons.dto.product.ProductWsDTO>" />
+		<property name="categoryImage" type="de.hybris.platform.commercewebservicescommons.dto.product.ImageWsDTO"/>
+		<property name="categoryUrl" type="String"/>
+		<property name="retailName" type="java.lang.String"/>
+    </bean>
+    
+    <bean class="de.hybris.platform.commercewebservicescommons.dto.product.ProductWsDTO">
+        <property name="discontinuedDate" type="String">
+            <description>Discontinued date of the product</description>
+        </property>
+		<property name="retailPrice" type="de.hybris.platform.commercewebservicescommons.dto.product.PriceWsDTO"/>
+		<property name="wholeSalePrice" type="de.hybris.platform.commercewebservicescommons.dto.product.PriceWsDTO"/>
+		<property name="mapPrice" type="de.hybris.platform.commercewebservicescommons.dto.product.PriceWsDTO"/>
+		<property name="yourPrice" type="de.hybris.platform.commercewebservicescommons.dto.product.PriceWsDTO"/>
+		<property name="isFeatured" type="Boolean"/>
+		<property name="isNew" type="Boolean"/>
+		<property name="isBestSeller" type="Boolean"/>
+		<property name="isMedpax" type="Boolean"/>
+		<property name="brandName" type="String"/>
+		<property name="brandUrl" type="String"/>
+		<property name="brandCode" type="String"/>
+		<property name="materialProductForm" type="String"/>
+		<property name="inAM" type="String"/>
+		<property name="inPM" type="String"/>
+		<property name="inDaily" type="String"/>
+		<property name="inBedtime" type="String"/>
+		<property name="sapEAN" type="String"/>
+		<property name="otherAvailableProducts" type="java.util.List&lt;com.wholescripts.dto.OtherAvailableProductsWsDTO&gt;"/>
+		<property name="doctorReferenceSheet" type="de.hybris.platform.commercewebservicescommons.dto.product.ImageWsDTO" />
+		<property name="supplementFacts" type="de.hybris.platform.commercewebservicescommons.dto.product.ImageWsDTO" />
+        <property name="genericPLName" type="String"/>
+        <property name="caseQty" type="String"/>
+        <property name="deliveryForm" type="String"/>
+        <property name="brightStock" type="String"/>
+        <property name="blueLabel" type="String"/>
+        <property name="productDescription" type="String"/>
+        <property name="account" type="String"/>
+        <property name="preLabeledUnit" type="String"/>
+		<property name="stockStatus" type="String"/>
+        <property name="preLabeledCases" type="String"/>
+        <property name="privateLabelDescription" type="String"/>
+        <property name="casePrice" type="de.hybris.platform.commercewebservicescommons.dto.product.PriceWsDTO"/>
+		<property name="autoShipFrequency" type="java.util.List&lt;com.wholescripts.dto.SupportedAutoShipWsDTO&gt;"/>
+		<property name="medPaxUrl" type="String"/>
+		<property name="shortDescription" type="String"/>
+		<property name="productName" type="String"/>
+		<property name="regionSwapDescription" type="String" />
+		<property name="forceOutOfStock" type="Boolean"/>
+		<property name="isPrivateLabel" type="Boolean"/>
+		<property name="privateLabelImage" type="de.hybris.platform.commercewebservicescommons.dto.product.ImageWsDTO"/>
+		<property name="medPaxImage" type="de.hybris.platform.commercewebservicescommons.dto.product.ImageWsDTO"/>
+		<property name="isFavorite" type="Boolean"/>
+	</bean>
+	<bean class="com.wholescripts.dto.OtherAvailableProductsWsDTO">
+		<property name="productDisplyName" type="String"/>
+		<property name="productUrl" type="String"/>
+	</bean>
+	<bean class="com.wholescripts.dto.WholescriptsBrandWsDTO">
+        <hints>
+            <hint name="wsRelated"/>
+            <hint name="alias">WholescriptsBrandWsDTO</hint>
+        </hints>
+		<property name="code" type="String" />
+		<property name="name" type="String" />
+		<property name="description" type="String" />
+		<property name="brandLogo" type="de.hybris.platform.commercewebservicescommons.dto.product.ImageWsDTO"/>
+		<property name="brandImage" type="de.hybris.platform.commercewebservicescommons.dto.product.ImageWsDTO"/>
+		<property name="brandUrl" type="String"/>
+		<property name="isTopBrand" type="Boolean"/>
+		<property name="brandPriority" type="Integer"/>
+		<property name="brandAgreementPdfUrl" type="String"/>
+		<property name="agreementRequired" type="Boolean"/>
+		<property name="brandAgreementPdf" type="de.hybris.platform.commercewebservicescommons.dto.product.ImageWsDTO"/>
+		<property name="shortDescription" type="String" />
+    </bean>
+
+	<bean class="com.wholescripts.dto.WholescriptsWebinarWsDTO">
+		<hints>
+			<hint name="wsRelated" />
+		</hints>
+		<property name="code" type="String" />
+		<property name="title" type="String" />
+		<property name="shortDescription" type="String" />
+		<property name="description" type="String" />
+		<property name="duration" type="String" />
+		<property name="isFeatured" type="java.lang.Boolean" />
+		<property name="videoImage"
+			type="String" />
+		<property name="video"
+			type="String" />
+		<property name="videoStatus" type="String" />
+		<property name="sponsorImageUrl" type="String" />
+		<property name="sponsorImageAltText" type="String" />
+		<property name="sponsorName" type="String" />
+		<property name="presenter" type="java.util.List&lt;java.lang.String>" />
+		<property name="presenterCode" type="java.util.List&lt;java.lang.String>" />
+		<property name="webinarTag" type="java.util.List&lt;java.lang.String>" />
+		<property name="videoUrl" type="String"/>
+		<property name="presenters" type="java.util.List&lt;com.wholescripts.dto.WholescriptsPresenterWsDTO&gt;"/>
+		<property name="webinarCategories" type="java.util.List&lt;com.wholescripts.dto.WholescriptsWebinarCategoryTagDataDTO>"/>
+		<property name="catalogCategories" type="java.util.List&lt;de.hybris.platform.commercewebservicescommons.dto.product.CategoryWsDTO>"/>
+		<property name="relatedWebinars" type="java.util.List&lt;com.wholescripts.dto.WholescriptsWebinarWsDTO&gt;"/>
+		<property name="videoCaptionUrl" type="String"/>
+		<property name="sponsorImage" type="de.hybris.platform.commercewebservicescommons.dto.product.ImageWsDTO"/>
+	</bean>
+
+	<bean class="com.wholescripts.dto.WholescriptsContentWsDTO">
+	    <property name="code" type="java.lang.String" />
+		<property name="name" type="java.lang.String" />
+		<property name="description" type="java.lang.String" />
+		<property name="brandLogo" type="java.lang.String" />
+		<property name="brandImage" type="java.lang.String" />
+		<property name="brandURL" type="java.lang.String" />
+		<property name="brandPriority" type="java.lang.String" />
+		<property name="isTopBrand" type="java.lang.Boolean" />
+		<property name="uid" type="java.lang.String" />
+		<property name="question" type="java.lang.String" />
+		<property name="answer" type="java.lang.String" />
+		<property name="thumbnail" type="java.lang.String" />
+		<property name="catgeoryPath" type="java.lang.String" />
+		<property name="integrations" type="java.util.List&lt;java.lang.String>" />
+		<property name="brandCode" type="java.lang.String" />
+		<property name="brandName" type="java.lang.String" />
+		<property name="categoryImage" type="java.lang.String" />
+	</bean>
+
+	<bean
+		class="com.wholescripts.dto.WholescriptsWebinarSearchPageWsDTO">
+		<description>Representation of a Webinar Search Page</description>
+		<hints>
+			<hint name="wsRelated" />
+			<hint name="alias">WebinarSearchPage</hint>
+		</hints>
+		<property name="freeTextSearch" type="String">
+			<description>Free text search</description>
+		</property>
+		<property name="spellingSuggestion"
+			type="de.hybris.platform.commercewebservicescommons.dto.search.facetdata.SpellingSuggestionWsDTO">
+			<description>Spelling suggestion</description>
+		</property>
+		<property name="results"
+			type="java.util.List&lt;com.wholescripts.dto.WholescriptsWebinarWsDTO>">
+			<description>List of Webinar</description>
+		</property>
+		<property name="meetPresenter"
+			type="java.util.List&lt;java.lang.String>">
+			<description>List of Webinar</description>
+		</property>
+		<property name="sorts"
+			type="java.util.List&lt;de.hybris.platform.commercewebservicescommons.dto.search.pagedata.SortWsDTO>">
+			<description>List of sorts</description>
+		</property>
+		<property name="pagination"
+			type="de.hybris.platform.commercewebservicescommons.dto.search.pagedata.PaginationWsDTO">
+			<description>Pagination number</description>
+		</property>
+		<property name="currentQuery"
+			type="de.hybris.platform.commercewebservicescommons.dto.search.SearchStateWsDTO">
+			<description>Current query</description>
+		</property>
+		<property name="breadcrumbs"
+			type="java.util.List&lt;de.hybris.platform.commercewebservicescommons.dto.search.facetdata.BreadcrumbWsDTO>">
+			<description>List of breadcrumbs info</description>
+		</property>
+		<property name="facets"
+			type="java.util.List&lt;de.hybris.platform.commercewebservicescommons.dto.search.facetdata.FacetWsDTO>">
+			<description>List of facets</description>
+		</property>
+	</bean>
+	<bean
+		class="com.wholescripts.dto.WholescriptsContentSearchPageWsDTO">
+		<description>Representation of a Search Page</description>
+		<hints>
+			<hint name="wsRelated" />
+			<hint name="alias">SearchPage</hint>
+		</hints>
+		<property name="freeTextSearch" type="String">
+			<description>Free text search</description>
+		</property>
+		<property name="spellingSuggestion"
+			type="de.hybris.platform.commercewebservicescommons.dto.search.facetdata.SpellingSuggestionWsDTO">
+			<description>Spelling suggestion</description>
+		</property>
+		<property name="results"
+			type="java.util.List&lt;com.wholescripts.dto.WholescriptsContentWsDTO>">
+			<description>List of Content</description>
+		</property>
+		<property name="sorts"
+			type="java.util.List&lt;de.hybris.platform.commercewebservicescommons.dto.search.pagedata.SortWsDTO>">
+			<description>List of sorts</description>
+		</property>
+		<property name="pagination"
+			type="de.hybris.platform.commercewebservicescommons.dto.search.pagedata.PaginationWsDTO">
+			<description>Pagination number</description>
+		</property>
+		<property name="currentQuery"
+			type="de.hybris.platform.commercewebservicescommons.dto.search.SearchStateWsDTO">
+			<description>Current query</description>
+		</property>
+		<property name="breadcrumbs"
+			type="java.util.List&lt;de.hybris.platform.commercewebservicescommons.dto.search.facetdata.BreadcrumbWsDTO>">
+			<description>List of breadcrumbs info</description>
+		</property>
+		<property name="facets"
+			type="java.util.List&lt;de.hybris.platform.commercewebservicescommons.dto.search.facetdata.FacetWsDTO>">
+			<description>List of facets</description>
+		</property>
+	</bean>
+	<bean class="com.wholescripts.dto.WholescriptsPresenterWsDTO">
+		<property name="code" type="java.lang.String" />
+		<property name="name" type="java.lang.String" />
+		<property name="websiteUrl" type="java.lang.String" />
+		<property name="biography" type="java.lang.String" />
+		<property name="image" type="de.hybris.platform.commercewebservicescommons.dto.product.ImageWsDTO" />
+		<property name="relatedWebinars" type="java.util.List&lt;com.wholescripts.dto.WholescriptsWebinarWsDTO&gt;"/>
+	</bean>
+	<bean class="com.wholescripts.dto.WholescriptsPresentersListDTO">
+		<property name="presentersList" type="java.util.List&lt;com.wholescripts.dto.WholescriptsPresenterWsDTO&gt;"/>
+	</bean>
+	<bean class="com.wholescripts.dto.WholescriptsWebinarCategoryTagDataDTO">
+		<property name="code" type="java.lang.String" />
+		<property name="name" type="java.lang.String" />
+	</bean>
+		
+	<bean class="com.wholescripts.dto.WholeScriptsPractitionerWsDTo">
+		<property name="practitionerDetails" type="java.util.List&lt;de.hybris.platform.commercewebservicescommons.dto.store.PointOfServiceWsDTO&gt;" />
+
+	</bean>
+	<bean class="de.hybris.platform.commercewebservicescommons.dto.store.PointOfServiceWsDTO">
+		<property name="phoneNumber" type="String" />
+		<property name="webSite" type="String" />
+		<property name="email" type="String" />
+		<property name="practitionerDirectoryOptIn" type="Boolean" />
+		<property name="practitionerName" type="String" />
+    </bean>
+	<bean class="com.wholescripts.dto.XymonetW9ResponseDTO">
+		<hints>
+			<hint name="wsRelated" />
+			<hint name="alias">xymonetW9ResponseDTO</hint>
+		</hints>
+		<property name="success" type="String" />
+		<property name="msg" type="String" />
+		<property name="signedBy" type="String" />
+		<property name="signedDate" type="String" />
+		<property name="fileData" type="String" />
+		<property name="mimeType" type="String" />
+		<property name="fileName" type="String" />
+	</bean>
+	<bean class="com.wholescripts.dto.WishlistListsWsDTO">
+		<hints>
+			<hint name="wsRelated"/>
+			<hint name="alias">Wishlists</hint>
+		</hints>
+		<property name="wishLists"
+				  type="java.util.List&lt;com.wholescripts.dto.WishlistWsDTO>"/>
+	</bean>
+	<bean class="com.wholescripts.dto.WishlistWsDTO">
+		<hints>
+			<hint name="wsRelated"/>
+			<hint name="alias">WishlistWsDTO</hint>
+		</hints>
+		<property name="name" type="String"/>
+		<property name="wishListEntries" type="java.util.List&lt;com.wholescripts.dto.WishlistEntryWsDTO>"/>
+	</bean>
+	<bean class="com.wholescripts.dto.WishlistEntryWsDTO">
+		<hints>
+			<hint name="wsRelated"/>
+			<hint name="alias">WishlistEntryWsDTO</hint>
+		</hints>
+		<property name="productCode" type="String"/>
+	</bean>
+	<bean class="de.hybris.platform.commercewebservicescommons.dto.user.AddressWsDTO">
+		<hints>
+			<hint name="wsRelated"/>
+			<hint name="alias">Address</hint>
+		</hints>
+		<property name="website" type="String"/>
+		<property name="description" type="String"/>
+		<property name="addressNumber" type="String"/>
+		<property name="addressType" type="String"/>
+		<property name="remarks" type="String"/>
+		<property name="addressDescription" type="String"/>
+		<property name="isCardAvailable" type="Boolean" />
+		<property name="creditCardIds" type="java.util.List&lt;java.lang.String>"/>
+		<property name="accertifyEventSource" type="String"/>
+		<property name="accertifyHashedPassword" type="String"/>
+		<property name="accertifyDeviceTransactionId" type="String"/>
+		<property name="accertifyUbaID" type="String"/>
+		<property name="accertifyPageId" type="String"/>
+		<property name="accertifyUbaEvents" type="String"/>
+		<property name="accertifySessionID" type="String"/>
+	</bean>
+	 <bean class="com.wholescripts.dto.AccuralsPDFResponseWsDTO">
+	 <hints>
+			<hint name="wsRelated" />
+			<hint name="alias">AccuralsPDFResponseWsDTO</hint>
+		</hints>
+		<property name="O_XSTRING" type="String" />		
+    </bean>
+     <bean class="com.wholescripts.dto.AccuralsInvoiceResponseListWSDTO">
+     <hints>
+			<hint name="wsRelated" />
+			<hint name="alias">AccuralsInvoiceResponseListWSDTO</hint>
+		</hints>
+	    <property name="invoiceList" type="com.wholescripts.dto.AccuralsInvoiceItemWSDTO" />
+    </bean>
+	<bean class="com.wholescripts.dto.AccuralsInvoiceItemWSDTO">
+	 <hints>
+			<hint name="wsRelated" />
+			<hint name="alias">AccuralsInvoiceItemWSDTO</hint>
+		</hints>
+	<property name="items"
+		type="java.util.List&lt;com.wholescripts.dto.AccuralsInvoiceResponseWSDTO>" />
+    </bean>
+     <bean class="com.wholescripts.dto.AccuralsInvoiceResponseWSDTO">
+     <hints>
+			<hint name="wsRelated" />
+			<hint name="alias">AccuralsInvoiceResponseWSDTO</hint>
+		</hints>
+	     <property name="invoiceNumber" type="String" />
+	     <property name="invoiceDate" type="String" />
+	     <property name="invoiceType" type="String" />
+	     <property name="docCategory" type="String" />
+	     <property name="soldTo" type="String" />
+	     <property name="shipTo" type="String" />
+	     <property name="currency" type="String" />
+	     <property name="total" type="double" />
+	     <property name="tax" type="double" />
+	     <property name="docCommission" type="double" />
+	     <property name="discount" type="double" />
+	     <property name="productTotal" type="double" />
+	     <property name="netPrice" type="double" />
+	     <property name="docCommissionPerc" type="double" />
+	     <property name="order" type="com.wholescripts.dto.AccuralsOrderItemWSDto" />
+	     <property name="address" type="com.wholescripts.dto.AccuralsAddressItemWSDto" />
+		 <property name="profileId" type="String"/>
+		 <property name="patientReferralCode" type="String"/>
+		 <property name="patientLastName" type="String"/>
+	 </bean>
+     <bean class="com.wholescripts.dto.AccuralsInvoiceOrderWSDTO">
+     <hints>
+			<hint name="wsRelated" />
+			<hint name="alias">AccuralsInvoiceOrderWSDTO</hint>
+		</hints>
+	    <property name="orderNumber" type="String" />
+	    <property name="orderDate" type="String" />
+	    <property name="orderType" type="String" />
+    </bean>
+    <bean class="com.wholescripts.dto.AccuralsInvoiceAddressWSDTO">
+     <hints>
+			<hint name="wsRelated" />
+			<hint name="alias">AccuralsInvoiceAddressWSDTO</hint>
+		</hints>
+	    <property name="partner" type="String" />
+	    <property name="formofaddr" type="String" />
+	    <property name="name" type="String" />
+	    <property name="name2" type="String" />
+	    <property name="name3" type="String" />
+	    <property name="name4" type="String" />
+	    <property name="street" type="String" />
+	    <property name="country" type="String" />
+	    <property name="postlCode" type="String" />
+	    <property name="city" type="String" />
+	    <property name="region" type="String" />
+	    <property name="countyCde" type="String" />
+	    <property name="poBox" type="String" />
+	    <property name="telephone" type="String" />
+	    <property name="telephone2" type="String" />
+	    <property name="houseNo" type="String" />
+	    <property name="gender" type="String" />
+	    <property name="email" type="String" />
+	    <property name="strSuppl1" type="String" />
+	    <property name="strSuppl2" type="String" />
+	    <property name="strSuppl3" type="String" />
+    </bean>
+    <bean class="com.wholescripts.dto.AccuralsOrderItemWSDto">
+      <hints>
+			<hint name="wsRelated" />
+			<hint name="alias">AccuralsOrderItemWSDto</hint>
+		</hints>
+		<property name="items"
+			type="java.util.List&lt;com.wholescripts.dto.AccuralsInvoiceOrderWSDTO>"/>
+	</bean>
+	<bean class="com.wholescripts.dto.AccuralsAddressItemWSDto">
+	  <hints>
+			<hint name="wsRelated" />
+			<hint name="alias">AccuralsAddressItemWSDto</hint>
+		</hints>
+		<property name="items"
+			type="java.util.List&lt;com.wholescripts.dto.AccuralsInvoiceAddressWSDTO&gt;"/>
+	</bean>
+	
+    <bean class="com.wholescripts.dto.MedPaxWsDTO">
+        <property name="name" type="String"/>
+        <property name="code" type="String"/>
+        <property name="protocolId" type="String"/>
+        <property name="recommendationId" type="String"/>
+        <property name="description" type="String"/>
+        <property name="box" type="Integer"/>
+        <property name="packetCount" type="Integer"/>
+        <property name="formulas" type="Integer"/>
+        <property name="notes" type="String"/>
+		<property name="msrpTotalPrice" type="double"/>
+		<property name="totalPrice" type="double"/>
+		<property name="medpaxEntry" type="java.util.List&lt;com.wholescripts.dto.MedpaxEntryWsDTO>"/>
+		<property name="carton" type="com.wholescripts.dto.MedpaxCartonWsDTO" />
+		<property name="abstractOrderQty" type="Long"/>
+		<property name="itemDuration" type="String"/>
+		<property name="externalCartonCode" type="String"/>
+    </bean>
+    
+    
+    <bean class="de.hybris.platform.commercewebservicescommons.dto.order.DeliveryModeWsDTO">
+        <property name="sapCarrier" type="String"/>
+        <property name="sapCarrierShippingOption" type="String"/>
+        <property name="apiCode" type="String"/>
+    </bean>
+        
+    <bean class="com.wholescripts.dto.ReviewMedPaxWsDTO">
+        <property name="name" type="String"/>
+        <property name="medPaxCode" type="String"/>
+        <property name="description" type="String"/>
+        <property name="box" type="Integer"/>
+        <property name="packetCount" type="Integer"/>
+        <property name="formulas" type="Integer"/>
+        <property name="notes" type="String"/>
+        <property name="packets" type="java.util.List&lt;com.wholescripts.dto.MedPaxPacketsWsDTO>"/>
+        <property name="carton" type="com.wholescripts.dto.MedpaxCartonWsDTO" />
+        <property name="msrpTotalPrice" type="de.hybris.platform.commercewebservicescommons.dto.product.PriceWsDTO"/>
+        <property name="totalPrice" type="de.hybris.platform.commercewebservicescommons.dto.product.PriceWsDTO"/>
+    </bean>
+    
+    <bean class="com.wholescripts.dto.MedPaxPacketsWsDTO">
+        <property name="packetCode" type="String"/>
+        <property name="itemTime" type="com.wholescripts.dto.ItemTimeWsDTO"/>
+        <property name="packetEntries" type="java.util.List&lt;com.wholescripts.dto.PacketEntryWsDTO>"/>
+    </bean>
+    
+    <bean class="com.wholescripts.dto.PacketEntryWsDTO">
+        <property name="entryNumbers" type="String"/>
+        <property name="product" type="de.hybris.platform.commercewebservicescommons.dto.product.ProductWsDTO"/>
+        <property name="price" type="Double"/>
+        <property name="quantity" type="Long"/>
+    </bean>
+
+    <bean class="com.wholescripts.dto.MedpaxEntryWsDTO">
+        <property name="entryNumber" type="String"/>
+        <property name="product" type="de.hybris.platform.commercewebservicescommons.dto.product.ProductWsDTO"/>
+        <property name="dosing" type="java.util.List&lt;com.wholescripts.dto.DosingWsDTO>"/>
+        <property name="price" type="Double"/>
+		<property name="msrpPrice" type="double"/>
+		<property name="quantity" type="Integer"/>
+	</bean>
+
+    <bean class="com.wholescripts.dto.UpdateMedPaxPacketsWsDTO">
+        <property name="entryNumber" type="java.util.List&lt;String>"/>
+        <property name="medPaxId" type="String"/>
+        <property name="changeItemTimeTo" type="String"/>
+    </bean>
+
+	<bean class="com.wholescripts.dto.UpdateMedPaxPacketsInfoWsDTO">
+		<property name="medPaxId" type="String"/>
+		<property name="changeItemTimeTo" type="String"/>
+		<property name="changeItemTimeFrom" type="String"/>
+	</bean>
+	<bean class="com.wholescripts.dto.CategoryOrBrandWsDTO">
+		<property name="categoryDetails" type="de.hybris.platform.commercewebservicescommons.dto.product.CategoryWsDTO" />
+		<property name="brandDetails" type="com.wholescripts.dto.WholescriptsBrandWsDTO" />
+	</bean>
+	<bean class="com.wholescripts.dto.RegistraionResponseWsDTO">
+	<hints>
+			<hint name="wsRelated" />
+			<hint name="alias">RegistraionResponseWsDTO</hint>
+		</hints>
+        <property name="accountNumber" type="String" />
+        <property name="addressData" type="com.wholescripts.dto.RegistrationAddressWsDTO"/>
+      </bean>
+      <bean class="com.wholescripts.dto.RegistrationAddressWsDTO">
+      <hints>
+			<hint name="wsRelated" />
+			<hint name="alias">RegistrationAddressWsDTO</hint>
+		</hints>
+	    <property name="coName" type="String"/>
+	    <property name="street" type="String"/>
+	    <property name="strSuppl1" type="String"/>
+	    <property name="strSuppl2" type="String"/>
+	    <property name="city" type="String"/>
+	    <property name="region" type="String"/>
+	    <property name="postlCode" type="String"/>
+	    <property name="country" type="String"/>
+	    <property name="lang" type="String"/>
+	    <property name="telephone" type="String"/>
+	    <property name="mobile" type="String"/>
+	    <property name="ordEmail" type="String"/>
+	    <property name="mktEmail" type="String"/>
+	    <property name="notEmail" type="String"/>
+	    <property name="houseNo" type="String"/>
+	    <property name="fax" type="String"/>
+	    <property name="commNotes" type="String"/>
+	    <property name="remarks" type="String"/>
+	    <property name="gstEmail" type="String"/>
+    </bean>
+	<bean class="de.hybris.platform.commercewebservicescommons.dto.search.SearchStateWsDTO">
+		<property name="categoryCode" type="String"/>
+		<property name="brandCode" type="String"/>
+	</bean>
+	<bean class="com.wholescripts.dto.AccertifyVerificationResponseWsDTO">
+		<hints>
+			<hint name="wsRelated" />
+			<hint name="alias">AccertifyVerificationResponseWsDTO</hint>
+		</hints>
+		<property name="eventID" type="java.lang.String" />
+		<property name="eventDetails" type="com.wholescripts.dto.AccertifyEventDetailsWsDTO" />
+		<property name="messages" type="com.wholescripts.dto.AccertifyMessagesWsDTO" />
+		<property name="results" type="com.wholescripts.dto.AccertifyResultWsDTO" />
+		<property name="status" type="java.lang.String" />
+	</bean>
+
+	<bean class="com.wholescripts.dto.AccertifyVerificationCreateAccountResponseWsDTO">
+		<hints>
+			<hint name="wsRelated" />
+			<hint name="alias">AccertifyVerificationCreateAccountResponseWsDTO</hint>
+		</hints>
+		<property name="eventID" type="java.lang.String" />
+		<property name="eventDetails" type="com.wholescripts.dto.AccertifyEventDetailsWsDTO" />
+		<property name="messages" type="com.wholescripts.dto.AccertifyMessagesWsDTO" />
+		<property name="results" type="com.wholescripts.dto.AccertifyResultWsDTO" />
+		<property name="status" type="java.lang.String" />
+	</bean>
+	<bean class="com.wholescripts.dto.AccertifyVerificationUpdateAccountResponseWsDTO">
+		<hints>
+			<hint name="wsRelated" />
+			<hint name="alias">AccertifyVerificationUpdateAccountResponseWsDTO</hint>
+		</hints>
+		<property name="eventID" type="java.lang.String" />
+		<property name="eventDetails" type="com.wholescripts.dto.AccertifyEventDetailsWsDTO" />
+		<property name="messages" type="com.wholescripts.dto.AccertifyMessagesWsDTO" />
+		<property name="results" type="com.wholescripts.dto.AccertifyResultWsDTO" />
+		<property name="status" type="java.lang.String" />
+	</bean>
+
+	<bean class="com.wholescripts.dto.AccertifyEventDetailsWsDTO">
+		<hints>
+			<hint name="wsRelated" />
+			<hint name="alias">AccertifyEventDetailsWsDTO</hint>
+		</hints>
+		<property name="deviceDetails" type="com.wholescripts.dto.DeviceDetailsWsDTO" />
+		<property name="connectionDetails" type="com.wholescripts.dto.ConnectionDetailsWsDTO" />
+	</bean>
+	<bean class="com.wholescripts.dto.DeviceDetailsWsDTO">
+		<hints>
+			<hint name="wsRelated" />
+			<hint name="alias">DeviceDetailsWsDTO</hint>
+		</hints>
+		<property name="browserSpoofRisk" type="java.lang.String" />
+		<property name="deviceIDConfidence" type="java.lang.String" />
+		<property name="deviceIDNew" type="java.lang.String" />
+		<property name="browserIsMobile" type="java.lang.String" />
+		<property name="mobileIsRooted" type="java.lang.String" />
+		<property name="deviceIDFirstSeen" type="java.lang.String" />
+		<property name="browserNewCookie" type="java.lang.String" />
+		<property name="deviceIDTimesSeen" type="java.lang.String" />
+		<property name="mobileApp" type="java.lang.String" />
+		<property name="browserReplayTagStatus" type="java.lang.String" />
+		<property name="deviceID" type="java.lang.String" />
+	</bean>
+	<bean class="com.wholescripts.dto.ConnectionDetailsWsDTO">
+		<hints>
+			<hint name="wsRelated" />
+			<hint name="alias">ConnectionDetailsWsDTO</hint>
+		</hints>
+		<property name="carrierCode" type="java.lang.String"/>
+		<property name="connectionType" type="java.lang.String"/>
+		<property name="connectionTypeReal" type="java.lang.String"/>
+		<property name="regOrgCode" type="java.lang.String"/>
+		<property name="regOrgCodeReal" type="java.lang.String"/>
+		<property name="countryCode" type="java.lang.String"/>
+		<property name="countryCodeReal" type="java.lang.String"/>
+		<property name="routingType" type="java.lang.String"/>
+		<property name="routingTypeReal" type="java.lang.String"/>
+		<property name="realIPMatch" type="java.lang.String"/>
+		<property name="isProxy" type="java.lang.String"/>
+		<property name="isTor" type="java.lang.String"/>
+		<property name="hostingIndicator" type="java.lang.String"/>
+		<property name="hostingIndicatorReal" type="java.lang.String"/>
+	</bean>
+	<bean class="com.wholescripts.dto.AccertifyMessagesWsDTO">
+		<hints>
+			<hint name="wsRelated" />
+			<hint name="alias">AccertifyMessagesWsDTO</hint>
+		</hints>
+		<property name="warning" type="java.util.List&lt;java.lang.String>" />
+		<property name="error" type="java.util.List&lt;java.lang.String>" />
+		<property name="info" type="java.util.List&lt;java.lang.String>" />
+	</bean>
+	<bean class="com.wholescripts.dto.AccertifyResultWsDTO">
+		<hints>
+			<hint name="wsRelated" />
+			<hint name="alias">AccertifyResultWsDTO</hint>
+		</hints>
+		<property name="riskScore" type="com.wholescripts.dto.AccertifyRiskScoreWsDTO" />
+	</bean>
+	<bean class="com.wholescripts.dto.AccertifyRiskScoreWsDTO">
+		<hints>
+			<hint name="wsRelated" />
+			<hint name="alias">AccertifyRiskScoreWsDTO</hint>
+		</hints>
+		<property name="score" type="java.lang.String" />
+		<property name="reasonCodes" type="com.wholescripts.dto.AccertifyReasonCodesWsDTO" />
+		<property name="recommendationCode" type="java.lang.String" />
+	</bean>
+	<bean class="com.wholescripts.dto.AccertifyReasonCodesWsDTO">
+		<hints>
+			<hint name="wsRelated" />
+			<hint name="alias">AccertifyReasonCodesWsDTO</hint>
+		</hints>
+		<property name="riskFactors" type="java.util.List&lt;java.lang.String>" />
+		<property name="trustFactors" type="java.util.List&lt;java.lang.String>" />
+	</bean>
+	<bean class="de.hybris.platform.commercewebservicescommons.dto.user.AddressListWsDTO">
+		<property name="pagination" type="de.hybris.platform.webservicescommons.dto.PaginationWsDTO"/>
+	</bean>
+
+	<!--Beans for Order history-->
+	<bean class="com.wholescripts.dto.OrderHistoryListResponseWsDTO">
+		<hints>
+			<hint name="wsRelated" />
+			<hint name="alias">OrderHistoryListResponseWsDTO</hint>
+		</hints>
+		<property name="orderAddress" type="com.wholescripts.dto.OrderHistoryAddressItemWsDTO" />
+		<property name="orderCcard" type="com.wholescripts.dto.OrderCreditCardInfoItemWsDTO" />
+		<property name="orderCount" type="String" />
+		<property name="orderHdrBil" type="com.wholescripts.dto.OrderHDRBillingItemWsDTO" />
+		<property name="orderHdrDlv" type="com.wholescripts.dto.OrderHDRDLVItemWsDTO" />
+		<property name="orderHeader" type="com.wholescripts.dto.OrderHeaderResponseItemWsDTO" />
+		<property name="orderItem" type="com.wholescripts.dto.OrderItemsItemWsDTO" />
+		<property name="orderItmBil" type="com.wholescripts.dto.OrderHDRBillingItemWsDTO" />
+		<property name="orderItmDlv" type="com.wholescripts.dto.OrderItemDeliveryItemWsDTO" />
+		<property name="orderText" type="com.wholescripts.dto.OrderTextItemWsDTO" />
+	</bean>
+
+	<!-- OrderHistoryAddressItemWsDTO Bean -->
+	<bean class="com.wholescripts.dto.OrderHistoryAddressItemWsDTO">
+		<hints>
+			<hint name="wsRelated" />
+			<hint name="alias">OrderHistoryAddressItemWsDTO</hint>
+		</hints>
+		<property name="items" type="java.util.List&lt;com.wholescripts.dto.OrderHistoryAddressResponseWsDTO>" />
+	</bean>
+
+	<!-- OrderHistoryAddressResponseWsDTO Bean -->
+	<bean class="com.wholescripts.dto.OrderHistoryAddressResponseWsDTO">
+		<hints>
+			<hint name="wsRelated" />
+			<hint name="alias">OrderHistoryAddressResponseWsDTO</hint>
+		</hints>
+		<property name="docNumber" type="String" />
+		<property name="partner" type="String" />
+		<property name="formOfAddr" type="String" />
+		<property name="name" type="String" />
+		<property name="name2" type="String" />
+		<property name="name3" type="String" />
+		<property name="name4" type="String" />
+		<property name="street" type="String" />
+		<property name="country" type="String" />
+		<property name="postalCode" type="String" />
+		<property name="city" type="String" />
+		<property name="region" type="String" />
+		<property name="countyCode" type="String" />
+		<property name="poBox" type="String" />
+		<property name="telephone" type="String" />
+		<property name="telephone2" type="String" />
+		<property name="houseNo" type="String" />
+		<property name="gender" type="String" />
+		<property name="email" type="String" />
+		<property name="strSuppl1" type="String" />
+		<property name="strSuppl2" type="String" />
+		<property name="strSuppl3" type="String" />
+	</bean>
+
+	<!-- OrderCreditCardInfoItemData Bean -->
+	<bean class="com.wholescripts.dto.OrderCreditCardInfoItemWsDTO">
+		<property name="items" type="java.util.List&lt;com.wholescripts.dto.OrderCreditCardInfoWsDTO>" />
+	</bean>
+
+	<!-- OrderCreditCardInfoData Bean -->
+	<bean class="com.wholescripts.dto.OrderCreditCardInfoWsDTO">
+		<property name="salesOrder" type="String" />
+		<property name="ccType" type="String" />
+		<property name="ccNumber" type="String" />
+		<property name="ccValidT" type="String" />
+		<property name="ccName" type="String" />
+		<property name="billAmount" type="String" />
+		<property name="authFlag" type="String" />
+		<property name="authAmount" type="String" />
+		<property name="currency" type="String" />
+		<property name="currIso" type="String" />
+		<property name="authDate" type="String" />
+		<property name="authTime" type="String" />
+		<property name="authCcNo" type="String" />
+		<property name="authRefNo" type="String" />
+		<property name="ccReact" type="String" />
+		<property name="ccReAmount" type="String" />
+		<property name="glAccount" type="String" />
+		<property name="ccStatEx" type="String" />
+		<property name="ccReactT" type="String" />
+		<property name="virtCard" type="String" />
+		<property name="merchIdCl" type="String" />
+		<property name="preAuth" type="String" />
+		<property name="ccSeqNo" type="String" />
+		<property name="amountChan" type="String" />
+		<property name="authorType" type="String" />
+		<property name="dataOrigin" type="String" />
+		<property name="rAdrCheck1" type="String" />
+		<property name="rAdrCheck2" type="String" />
+		<property name="rAdrCheck3" type="String" />
+		<property name="rCardCheck" type="String" />
+		<property name="ccLimited" type="String" />
+		<property name="ccVerifValue" type="String" />
+		<property name="ccCtrlField" type="String" />
+		<property name="ccInUseSt" type="String" />
+		<property name="ccToken" type="String" />
+		<property name="dpPsp" type="String" />
+		<property name="dpPayId" type="String" />
+		<property name="dpPspTransId" type="String" />
+		<property name="zzNetworkId" type="String" />
+		<property name="zzraci" type="String" />
+		<property name="zzasc" type="String" />
+		<property name="zztNum" type="String" />
+		<property name="zzlDate" type="String" />
+		<property name="zzlTime" type="String" />
+		<property name="zzrrNum" type="String" />
+		<property name="zzvCode" type="String" />
+		<property name="zzcRes" type="String" />
+		<property name="zzChldrId" type="String" />
+		<property name="zzAds" type="String" />
+		<property name="zzPosMode" type="String" />
+		<property name="zzAlpCode" type="String" />
+		<property name="zzInd" type="String" />
+		<property name="zzRCode" type="String" />
+		<property name="zzToken1" type="String" />
+		<property name="zzToken2" type="String" />
+		<property name="zzAcqRef1" type="String" />
+		<property name="zzPromoRes" type="String" />
+		<property name="zzProApFlg" type="String" />
+		<property name="zzProAftrFlg" type="String" />
+		<property name="zzProDurApr" type="String" />
+		<property name="zzProAftApr" type="String" />
+		<property name="zzProDur" type="String" />
+		<property name="zzProDesc" type="String" />
+		<property name="zzReceipt1" type="String" />
+		<property name="zzReceipt2" type="String" />
+		<property name="zzReceipt3" type="String" />
+		<property name="zzReceipt4" type="String" />
+		<property name="zzProcCode" type="String" />
+		<property name="zz3DSCavv" type="String" />
+		<property name="zz3DSAuth" type="String" />
+		<property name="zz3DSXid" type="String" />
+		<property name="zz3DSEci" type="String" />
+		<property name="zzEwsStatusCode" type="String" />
+		<property name="zzEwsAoaCondCd" type="String" />
+		<property name="zzEwsNameMatch" type="String" />
+		<property name="zzEwsFirstNmm" type="String" />
+		<property name="zzEwsLastNmm" type="String" />
+		<property name="zzEwsBusNmm" type="String" />
+		<property name="zzEwsAddrNmm" type="String" />
+		<property name="zzEwsCityMatch" type="String" />
+		<property name="zzEwsStateMatch" type="String" />
+		<property name="zzEwsZipMatch" type="String" />
+		<property name="zzSurchAmount" type="String" />
+		<property name="zzSurchargeId" type="String" />
+		<property name="zzRMap" type="String" />
+		<property name="zzOrigGuid" type="String" />
+		<property name="zzCurrentGuid" type="String" />
+		<property name="zzChqNum" type="String" />
+		<property name="zzChqTyp" type="String" />
+		<property name="zzMtid" type="String" />
+		<property name="zzEcaid" type="String" />
+		<property name="zzChqRt" type="String" />
+		<property name="zzCashback" type="String" />
+		<property name="zzRecur" type="String" />
+		<property name="zzInstallType" type="String" />
+		<property name="zzNumMonths" type="String" />
+		<property name="zzDefPlan" type="String" />
+		<property name="zzRecurRsp" type="String" />
+		<property name="zzSecmID" type="String" />
+		<property name="cardGuid" type="String" />
+	</bean>
+
+	<!-- Order Header Response Item WS DTO -->
+	<bean class="com.wholescripts.dto.OrderHeaderDetailsResponseItemWsDTO">
+		<property name="items" type="com.wholescripts.dto.OrderHeaderResponseWsDTO" />
+	</bean>
+
+	<!-- Order Header Response Item WS DTO -->
+	<bean class="com.wholescripts.dto.OrderHeaderResponseItemWsDTO">
+		<property name="items" type="java.util.List&lt;com.wholescripts.dto.OrderHeaderResponseWsDTO>"/>
+	</bean>
+
+	<!-- Order Header Response WS DTO -->
+	<bean class="com.wholescripts.dto.OrderHeaderResponseWsDTO">
+		<property name="salesOrder" type="String" />
+		<property name="salesOrg" type="String" />
+		<property name="distChannel" type="String" />
+		<property name="division" type="String" />
+		<property name="soldTo" type="String" />
+		<property name="shipTo" type="String" />
+		<property name="payer" type="String" />
+		<property name="salesPerson" type="String" />
+		<property name="carrier" type="String" />
+		<property name="docType" type="String" />
+		<property name="docCategory" type="String" />
+		<property name="docDate" type="String" />
+		<property name="priceGroup" type="String" />
+		<property name="salesTerritory" type="String" />
+		<property name="priceList" type="String" />
+		<property name="payTerms" type="String" />
+		<property name="poDate" type="String" />
+		<property name="orderOrigin" type="String" />
+		<property name="discount" type="String" />
+		<property name="shipCond" type="String" />
+		<property name="promoCode" type="String" />
+		<property name="currency" type="String" />
+		<property name="subtotal" type="String" />
+		<property name="discAmt" type="String" />
+		<property name="taxes" type="String" />
+		<property name="freight" type="String" />
+		<property name="total" type="String" />
+		<property name="dlvStatus" type="String" />
+		<property name="bilStatus" type="String" />
+		<property name="ihpCommission" type="String" />
+		<property name="salCommission" type="String" />
+		<property name="docCommission" type="String" />
+		<property name="refdoc" type="String" />
+		<property name="canceled" type="String" />
+		<property name="apiRefNo" type="String" />
+		<property name="custRefer" type="String" />
+		<property name="delBlock" type="String" />
+		<property name="serviceFee" type="String" />
+		<property name="orderStatus" type="String" />
+	</bean>
+
+	<!-- Order Items Item WsDTO -->
+	<bean class="com.wholescripts.dto.OrderItemsItemWsDTO">
+		<property name="items" type="java.util.List&lt;com.wholescripts.dto.OrderItemsResponseWsDTO>" />
+	</bean>
+
+	<!-- Order Items Response WsDTO -->
+	<bean class="com.wholescripts.dto.OrderItemsResponseWsDTO">
+		<property name="salesOrder" type="String" />
+		<property name="salesItem" type="String" />
+		<property name="salesItemHigh" type="String" />
+		<property name="dlvStatus" type="String" />
+		<property name="bilStatus" type="String" />
+		<property name="material" type="String" />
+		<property name="description" type="String" />
+		<property name="custMaterial" type="String" />
+		<property name="quantity" type="String" />
+		<property name="salesUnit" type="String" />
+		<property name="unitPrice" type="String" />
+		<property name="extPrice" type="String" />
+		<property name="discAmt" type="String" />
+		<property name="taxes" type="String" />
+		<property name="total" type="String" />
+		<property name="ihpCommission" type="String" />
+		<property name="salCommission" type="String" />
+		<property name="docCommission" type="String" />
+		<property name="refDoc" type="String" />
+		<property name="refItm" type="String" />
+		<property name="canceled" type="String" />
+		<property name="subscription" type="String" />
+		<property name="subItem" type="String" />
+		<property name="frequency" type="String" />
+		<property name="frequencyType" type="String" />
+		<property name="api" type="String" />
+		<property name="recommId" type="String" />
+		<property name="templateId" type="String" />
+		<property name="image" type="de.hybris.platform.commercewebservicescommons.dto.product.ImageWsDTO"/>
+		<property name="stock" type="de.hybris.platform.commercewebservicescommons.dto.product.StockWsDTO"/>
+		<property name="productUrl" type="String"/>
+		<property name="productName" type="String"/>
+		<property name="isMedPax" type="boolean"/>
+		<property name="isPrivateLabel" type="boolean"/>
+		<property name="isBlueLabel" type="boolean"/>
+		<property name="isCarton" type="boolean"/>
+		<property name="isProductUnavailable" type="boolean"/>
+	</bean>
+
+    <bean class="com.wholescripts.dto.OrderDetailsResponseWsDTO">
+        <hints>
+            <hint name="wsRelated" />
+            <hint name="alias">OrderHistoryListResponseWsDTO</hint>
+        </hints>
+        <property name="orderAddress" type="com.wholescripts.dto.OrderAddressItemWsDTO" />
+        <property name="orderCcard" type="com.wholescripts.dto.OrderCreditCardInfoItemWsDTO" />
+        <property name="orderCount" type="String" />
+        <property name="orderHdrBil" type="com.wholescripts.dto.OrderHDRBillingItemWsDTO" />
+        <property name="orderHdrDlv" type="com.wholescripts.dto.OrderHDRDLVItemWsDTO" />
+        <property name="orderHeader" type="com.wholescripts.dto.OrderHeaderDetailsResponseItemWsDTO" />
+        <property name="orderItem" type="com.wholescripts.dto.OrderItemsItemWsDTO" />
+        <property name="orderItmBil" type="com.wholescripts.dto.OrderHDRBillingItemWsDTO" />
+        <property name="orderItmDlv" type="com.wholescripts.dto.OrderItemDeliveryItemWsDTO" />
+        <property name="orderText" type="com.wholescripts.dto.OrderTextItemWsDTO" />
+		<property name="headerDiscount" type="com.wholescripts.dto.OrderDetailsResponseDiscountWsDTO" />
+		<property name="itemDiscount" type="com.wholescripts.dto.OrderDetailsResponseDiscountWsDTO" />
+    </bean>
+	<bean class="com.wholescripts.dto.OrderDetailsResponseDiscountWsDTO">
+		<property name="items" type="java.util.List&lt;com.wholescripts.dto.OrderDetailsResponseDiscountItemWsDTO&gt;" />
+	</bean>
+	<bean class="com.wholescripts.dto.OrderDetailsResponseDiscountItemWsDTO">
+		<property name="salesOrder" type="String" />
+		<property name="itemNumber" type="String" />
+		<property name="promoCode" type="String" />
+		<property name="discount" type="String" />
+		<property name="discountCash" type="String" />
+		<property name="stackable" type="String" />
+		<property name="nonDiscount" type="String" />
+		<property name="applied" type="String" />
+	</bean>
+	<!-- OrderHistoryAddressItemWsDTO Bean -->
+	<bean class="com.wholescripts.dto.OrderAddressItemWsDTO">
+		<hints>
+			<hint name="wsRelated" />
+			<hint name="alias">OrderHistoryAddressItemWsDTO</hint>
+		</hints>
+		<property name="items" type="java.util.List&lt;com.wholescripts.dto.OrderHistoryAddressResponseWsDTO>" />
+	</bean>
+
+	<!-- OrderHistoryAddressResponseWsDTO Bean -->
+	<bean class="com.wholescripts.dto.OrderAddressResponseWsDTO">
+		<hints>
+			<hint name="wsRelated" />
+			<hint name="alias">OrderHistoryAddressResponseWsDTO</hint>
+		</hints>
+		<property name="docNumber" type="String" />
+		<property name="partner" type="String" />
+		<property name="formOfAddr" type="String" />
+		<property name="name" type="String" />
+		<property name="name2" type="String" />
+		<property name="name3" type="String" />
+		<property name="name4" type="String" />
+		<property name="street" type="String" />
+		<property name="country" type="String" />
+		<property name="postalCode" type="String" />
+		<property name="city" type="String" />
+		<property name="region" type="String" />
+		<property name="countyCode" type="String" />
+		<property name="poBox" type="String" />
+		<property name="telephone" type="String" />
+		<property name="telephone2" type="String" />
+		<property name="houseNo" type="String" />
+		<property name="gender" type="String" />
+		<property name="email" type="String" />
+		<property name="strSuppl1" type="String" />
+		<property name="strSuppl2" type="String" />
+		<property name="strSuppl3" type="String" />
+	</bean>
+
+	<bean class="com.wholescripts.dto.OrderHistoryListPractionerResponseWsDTO">
+		<property name="order_count" type="String" />
+		<property name="order_list" type="com.wholescripts.dto.OrderHistoryPractionerItemWsDTO" />
+	</bean>
+
+	<bean class="com.wholescripts.dto.OrderHistoryPractionerItemWsDTO">
+		<property name="items" type="java.util.List&lt;com.wholescripts.dto.OrderListResponseWsDTO>" />
+	</bean>
+
+	<bean class="com.wholescripts.dto.OrderListResponseWsDTO">
+		<property name="salesOrder" type="String" />
+		<property name="docDate" type="String" />
+		<property name="total" type="double" />
+		<property name="dlvStatus" type="String" />
+		<property name="bilStatus" type="String" />
+		<property name="canceled" type="String" />
+		<property name="shipName" type="String" />
+		<property name="apiRefNo" type="String" />
+		<property name="delDocs" type="com.wholescripts.dto.DeliveryDocumentsResponseItemWsDTO" />
+		<property name="billDocs" type="com.wholescripts.dto.BillingDocumentsResponseItemWsDTO" />
+		<property name="orderStatus" type="String" />
+	</bean>
+
+	<bean class="com.wholescripts.dto.DeliveryDocumentsResponseItemWsDTO">
+		<property name="item" type="java.util.List&lt;String&gt;" />
+	</bean>
+
+	<bean class="com.wholescripts.dto.BillingDocumentsResponseItemWsDTO">
+		<property name="items" type="java.util.List&lt;com.wholescripts.dto.BillingDocumentsResponseWsDTO&gt;" />
+	</bean>
+
+	<!-- Example BillingDocumentsResponse DTO Definition -->
+	<bean class="com.wholescripts.dto.BillingDocumentsResponseWsDTO">
+		<property name="docnum" type="String" />
+		<property name="doctype" type="String" />
+		<property name="docval" type="double" />
+	</bean>
+
+	<!-- OrderItemDelivery DTO Definitions -->
+	<bean class="com.wholescripts.dto.OrderItemDeliveryItemWsDTO">
+		<property name="items" type="java.util.List&lt;com.wholescripts.dto.OrderItemDeliveryResponseWsDTO>" />
+	</bean>
+
+	<bean class="com.wholescripts.dto.OrderItemDeliveryResponseWsDTO">
+		<property name="docNumber" type="String" />
+		<property name="itmNumber" type="String" />
+		<property name="delNumber" type="String" />
+		<property name="delItem" type="String" />
+		<property name="refQty" type="String" />
+		<property name="baseUom" type="String" />
+	</bean>
+
+	<!-- OrderItemBilling DTO Definitions -->
+	<bean class="com.wholescripts.dto.OrderItemBillingItemWsDTO">
+		<property name="items" type="java.util.List&lt;com.wholescripts.dto.OrderItemBillingResponseWsDTO>" />
+	</bean>
+
+	<bean class="com.wholescripts.dto.OrderItemBillingResponseWsDTO">
+		<property name="docNumber" type="String" />
+		<property name="itmNumber" type="String" />
+		<property name="delNumber" type="String" />
+		<property name="delItem" type="String" />
+		<property name="bilNumber" type="String" />
+		<property name="bilItem" type="String" />
+		<property name="subtotal" type="String" />
+		<property name="discAmt" type="String" />
+		<property name="taxes" type="String" />
+		<property name="total" type="String" />
+	</bean>
+
+	<!-- OrderHDRDLV DTO Definitions -->
+	<bean class="com.wholescripts.dto.OrderHDRDLVItemWsDTO">
+		<property name="items" type="java.util.List&lt;com.wholescripts.dto.OrderHDRDLVResponseWsDTO>" />
+	</bean>
+
+	<bean class="com.wholescripts.dto.OrderHDRDLVResponseWsDTO">
+		<property name="docNumber" type="String" />
+		<property name="delNumber" type="String" />
+		<property name="trackingNo" type="String" />
+		<property name="crtDate" type="String" />
+		<property name="shipDate" type="String" />
+		<property name="bilNumber" type="String" />
+		<property name="status" type="String" />
+		<property name="vsbed" type="String" />
+		<property name="vtext" type="String" />
+		<property name="shipMeth" type="String" />
+	</bean>
+
+	<!-- OrderHDRBilling DTO Definitions -->
+	<bean class="com.wholescripts.dto.OrderHDRBillingItemWsDTO">
+		<property name="items" type="java.util.List&lt;com.wholescripts.dto.OrderHDRBillingResponseWsDTO>" />
+	</bean>
+
+	<bean class="com.wholescripts.dto.OrderHDRBillingResponseWsDTO">
+		<property name="docNumber" type="String" />
+		<property name="delNumber" type="String" />
+		<property name="bilNumber" type="String" />
+		<property name="billDate" type="String" />
+		<property name="currency" type="String" />
+		<property name="subtotal" type="String" />
+		<property name="discAmt" type="String" />
+		<property name="taxes" type="String" />
+		<property name="freight" type="String" />
+		<property name="total" type="String" />
+		<property name="doctype" type="String" />
+		<property name="itmNumber" type="String" />
+		<property name="bilItem" type="String" />
+		<property name="delItem" type="String" />
+	</bean>
+
+	<!-- OrderText DTO Definitions -->
+	<bean class="com.wholescripts.dto.OrderTextItemWsDTO">
+		<property name="items" type="java.util.List&lt;com.wholescripts.dto.OrderTextResponseWsDTO>" />
+	</bean>
+
+	<bean class="com.wholescripts.dto.OrderTextResponseWsDTO">
+		<property name="salesOrder" type="String" />
+		<property name="salesItem" type="String" />
+		<property name="textId" type="String" />
+		<property name="text" type="String" />
+	</bean>
+    <bean class="de.hybris.platform.commercewebservicescommons.dto.order.OrderEntryWsDTO">
+		<property name="entryGroupNumbers" type="java.util.Collection&lt;Integer&gt;"/>
+		<property name="medpaxName" type="java.lang.String"/>
+		<property name="medpaxId" type="java.lang.String"/>
+		<property name="autoShipCode" type="String"/>
+		<property name="regionSwapDescription" type="String"/>
+		<property name="hidden" type="boolean" />
+		<property name="medPaxEntryNumber" type="String"/>
+		<property name="abstractOrderQty" type="Long"/>
+		<property name="subTotal" type="de.hybris.platform.commercewebservicescommons.dto.product.PriceWsDTO"/>
+        <property name="totalTax" type="de.hybris.platform.commercewebservicescommons.dto.product.PriceWsDTO"/>
+        <property name="totalDiscounts" type="de.hybris.platform.commercewebservicescommons.dto.product.PriceWsDTO"/>
+		<property name="quantityByCase" type="Integer"/>
+	</bean>
+	<bean class="com.wholescripts.dto.WholescriptsPaymetricTokenizationWsDTO">
+		<property name="paymetricsIframeAccessTokenUrl" type="java.lang.String" />
+		<property name="paymetricsIframeStaticToken" type="java.lang.String" />
+		<property name="paymetricsIframeToken" type="java.lang.String" />
+		<property name="signature" type="java.lang.String" />
+	</bean>
+	<bean class="com.wholescripts.dto.WholescriptsCreditCardTokenizedWsDTO">
+		<property name="cardType " type="java.lang.String" />
+		<property name="expirationMonth " type="java.lang.String" />
+		<property name="expirationYear " type="java.lang.String" />
+		<property name="cardNumber " type="java.lang.String" />
+		<property name="cardHolderName " type="java.lang.String" />
+		<property name="cVV2 " type="java.lang.String" />
+		<property name="status " type="java.lang.String" />
+		<property name="message " type="java.lang.String" />
+	</bean>
+	<bean class="de.hybris.platform.commercewebservicescommons.dto.user.UserWsDTO">
+	   <property name="rootUrl" type="String"/>
+		<property name="isSmsNotificationEnabled" type="boolean"/>
+		<property name="isEmailNotificationEnabled" type="boolean"/>
+		<property name="referralCode" type="String"/>
+		<property name="discount" type="String"/>
+		<property name="contactNumber" type="String"/>
+		<property name="paymentTerms" type="com.wholescripts.dto.WholescriptsPaymentTermsWsDTO"/>
+		<property name="autoShips" type="Boolean"/>
+		<property name="perosnaExpirationDate" type="String"/>
+        <property name="personaBlockedDate" type="String"/>
+         <property name="receiveConsultationFee" type="boolean"/>
+		<property name="creditAmount" type="String"/>
+		<property name="creditUsed" type="String"/>
+		<property name="sapCentralDeliveryBlock" type="com.wholescripts.dto.SapCentralDeliveryBlockWsDTO"/>
+		<property name="sapOnCreditHold" type="com.wholescripts.dto.SapOnCreditHoldWsDTO"/>
+		<property name="sapCustomerClassification" type="com.wholescripts.dto.SapCustomerClassificationWsDTO"/>
+		<property name="hideMedpaxPage" type="Boolean"/>
+	</bean>
+	<bean class="com.wholescripts.dto.WholescriptsPaymentTermsWsDTO">
+		<property name="code" type="String"/>
+		<property name="name" type="String"/>
+	</bean>
+	<bean class="com.wholescripts.dto.WholescriptsGetCCResponseWsDTO">
+		<property name="cartData" type="com.wholescripts.dto.WholescriptsGetCCCartItemListResponseWsDTO"/>
+	</bean>
+	<bean class="com.wholescripts.dto.WholescriptsGetCCCartItemResponseWsDTO">
+		<property name="accountNumber" type="String"/>
+		<property name="payer" type="String"/>
+		<property name="cardId" type="String"/>
+		<property name="cardType" type="String"/>
+		<property name="cardNumber" type="String"/>
+		<property name="defaultCard" type="String"/>
+		<property name="creditCardName" type="String"/>
+		<property name="validTo" type="String"/>
+		<property name="billingAddress" type="de.hybris.platform.commercewebservicescommons.dto.user.AddressWsDTO"/>
+	</bean>
+	<bean class="com.wholescripts.dto.WholescriptsGetCCCartItemListResponseWsDTO">
+		<property name="item" type="java.util.List&lt;com.wholescripts.dto.WholescriptsGetCCCartItemResponseWsDTO&gt;">
+		</property>
+	</bean>
+
+	<bean class="com.wholescripts.dto.SharedRewardsRequestWsDTO">
+		<property name="accountNumber" type="String" />
+		<property name="salesOrg" type="String" />
+		<property name="distChannel" type="String" />
+		<property name="division" type="String" />
+	</bean>
+	<bean class="com.wholescripts.dto.SharedRewardsResponseWsDTO">
+		<property name="returnCode" type="String" />
+		<property name="shareReward" type="com.wholescripts.dto.ShareRewardWsDTO" />
+		<property name="zhPartner" type="String" />
+		<property name="rewardsLevel" type="com.wholescripts.dto.SharedRewardsLevelItemWsDTO" />
+		<property name="discountPercentage" type="String"/>
+	</bean>
+	<bean class="com.wholescripts.dto.ShareRewardWsDTO">
+		<property name="account" type="String" />
+		<property name="curSrewards" type="String" />
+		<property name="transValue" type="double" />
+		<property name="prSales" type="double" />
+		<property name="patValues" type="double" />
+		<property name="totSavings" type="double" />
+	</bean>
+	<bean class="com.wholescripts.dto.SharedRewardsLevelItemWsDTO">
+		<property name="item" type="java.util.List&lt;com.wholescripts.dto.SharedRewardsLevelWsDTO>" />
+	</bean>
+	<bean class="com.wholescripts.dto.SharedRewardsLevelWsDTO">
+		<property name="konda" type="String" />
+		<property name="zrewardsValue" type="double" />
+		<property name="grandfather" type="String" />
+	</bean>
+	<!--Aging wsDto's-->
+	<bean class="com.wholescripts.dto.AgingRequestWsDTO">
+		<property name="account" type="String" />
+		<property name="company" type="String" />
+		<property name="keydate" type="String" />
+		<property name="salesOrg" type="String" />
+		<property name="distChannel" type="String" />
+		<property name="division" type="String" />
+	</bean>
+	<bean class="com.wholescripts.dto.AgingResponseWsDTO">
+		<property name="agingTotals" type="com.wholescripts.dto.AgingTotalsWsDTO" />
+		<property name="returnCode" type="String" />
+		<property name="etItems" type="com.wholescripts.dto.ETItemLevelItemWsDTO" />
+		<property name="itDays" type="com.wholescripts.dto.ITDaysItemWsDTO" />
+	</bean>
+	<bean class="com.wholescripts.dto.AgingTotalsWsDTO">
+		<property name="currency" type="String" />
+		<property name="rast0" type="double" />
+		<property name="rast1" type="double" />
+		<property name="rast2" type="double" />
+		<property name="rast3" type="double" />
+		<property name="rast4" type="double" />
+		<property name="rast5" type="double" />
+		<property name="rast6" type="double" />
+	</bean>
+	<bean class="com.wholescripts.dto.ETItemLevelItemWsDTO">
+		<property name="item" type="java.util.List&lt;com.wholescripts.dto.ETItemWsDTO>" />
+	</bean>
+
+	<bean class="com.wholescripts.dto.ETItemWsDTO">
+		<property name="invoice" type="String" />
+		<property name="xblnr" type="String" />
+		<property name="blart" type="String" />
+		<property name="gjahr" type="String" />
+		<property name="inDate" type="String" />
+		<property name="dueDate" type="String" />
+		<property name="orderNo" type="String" />
+		<property name="deliveryNo" type="String" />
+		<property name="waers" type="String" />
+		<property name="dmbtr1" type="double" />
+		<property name="rast0" type="double" />
+		<property name="rast1" type="double" />
+		<property name="rast2" type="double" />
+		<property name="rast3" type="double" />
+		<property name="rast4" type="double" />
+		<property name="rast5" type="double" />
+		<property name="rast6" type="double" />
+	</bean>
+	<bean class="com.wholescripts.dto.ITDaysItemWsDTO">
+		<property name="item" type="java.util.List&lt;com.wholescripts.dto.ITDaysWsDTO>" />
+	</bean>
+	<bean class="com.wholescripts.dto.ITDaysWsDTO">
+		<property name="days" type="String" />
+	</bean>
+
+	<bean class="com.wholescripts.dto.WholescriptsGetAddressFromSapResponseWSDTO">
+		<property name="addresses" type="com.wholescripts.dto.WholescriptsGetAddressFromSapItemListResponseWSDTO" />
+		<property name="returnCode" type="String" />
+	</bean>
+
+	<bean class="com.wholescripts.dto.WholescriptsGetAddressFromSapItemListResponseWSDTO">
+		<property name="item" type="java.util.List&lt;com.wholescripts.dto.WholescriptsGetAddressFromSapItemResponseWSDTO&gt;" />
+	</bean>
+
+	<bean class="com.wholescripts.dto.WholescriptsGetAddressFromSapItemResponseWSDTO">
+		<property name="account" type="String"/>
+		<property name="addressNumber" type="String"/>
+		<property name="externalAddress" type="String"/>
+		<property name="category" type="String"/>
+		<property name="name1" type="String"/>
+		<property name="name2" type="String"/>
+		<property name="name3" type="String"/>
+		<property name="name4" type="String"/>
+		<property name="legalForm" type="String"/>
+		<property name="industrySector" type="String"/>
+		<property name="foundationDate" type="String"/>
+		<property name="liquidationDate" type="String"/>
+		<property name="locNo1" type="String"/>
+		<property name="locNo2" type="String"/>
+		<property name="chkDigit" type="String"/>
+		<property name="legalOrg" type="String"/>
+		<property name="firstName" type="String"/>
+		<property name="lastName" type="String"/>
+		<property name="birthName" type="String"/>
+		<property name="middleName" type="String"/>
+		<property name="secondName" type="String"/>
+		<property name="titleAca1" type="String"/>
+		<property name="titleAca2" type="String"/>
+		<property name="titleSppl" type="String"/>
+		<property name="prefix1" type="String"/>
+		<property name="prefix2" type="String"/>
+		<property name="nickname" type="String"/>
+		<property name="initials" type="String"/>
+		<property name="nameFormat" type="String"/>
+		<property name="namCountry" type="String"/>
+		<property name="namCountryIso" type="String"/>
+		<property name="sex" type="String"/>
+		<property name="birthPlace" type="String"/>
+		<property name="birthDate" type="String"/>
+		<property name="deathDate" type="String"/>
+		<property name="maritalStatus" type="String"/>
+		<property name="correspondLanguage" type="String"/>
+		<property name="correspondLanguageIso" type="String"/>
+		<property name="fullName" type="String"/>
+		<property name="employer" type="String"/>
+		<property name="occupation" type="String"/>
+		<property name="nationality" type="String"/>
+		<property name="nationalityIso" type="String"/>
+		<property name="countryOrigin" type="String"/>
+		<property name="birthDtStatus" type="String"/>
+		<property name="companyName" type="String"/>
+		<property name="street" type="String"/>
+		<property name="houseNumber" type="String"/>
+		<property name="poBox" type="String"/>
+		<property name="streetSupply1" type="String"/>
+		<property name="streetSupply2" type="String"/>
+		<property name="streetSupply3" type="String"/>
+		<property name="location" type="String"/>
+		<property name="city" type="String"/>
+		<property name="region" type="String"/>
+		<property name="postalCode" type="String"/>
+		<property name="country" type="String"/>
+		<property name="language" type="String"/>
+		<property name="telephone" type="String"/>
+		<property name="mobile" type="String"/>
+		<property name="email" type="String"/>
+		<property name="gstEmail" type="String"/>
+		<property name="mktEmail" type="String"/>
+		<property name="notEmail" type="String"/>
+		<property name="faxNumber" type="String"/>
+		<property name="commNotes" type="String"/>
+		<property name="remarks" type="String"/>
+		<property name="createDate" type="String"/>
+		<property name="changeDate" type="String"/>
+		<property name="accountType" type="String"/>
+		<property name="priceGroup" type="String"/>
+		<property name="discount" type="String"/>
+		<property name="externalNumber" type="String"/>
+		<property name="paymentTerms" type="String"/>
+		<property name="salesTerritory" type="String"/>
+		<property name="salesPerson" type="String"/>
+		<property name="refCode" type="com.wholescripts.dto.AddrRefCodesItemWsDto"/>
+		<property name="block" type="String"/>
+		<property name="accessLevel" type="String"/>
+		<property name="isCardAvailable" type="Boolean" />
+	</bean>
+
+	<bean class="com.wholescripts.dto.AddrRefCodesItemWsDto">
+		<property name="item" type="java.util.List&lt;com.wholescripts.dto.AddrReferalCodesItemWsDto&gt;"/>
+	</bean>
+
+	<bean class="com.wholescripts.dto.AddrReferalCodesItemWsDto">
+		<property name="refCodeType" type="String"/>
+		<property name="refCode" type="String"/>
+		<property name="refName" type="String"/>
+		<property name="discount" type="String"/>
+		<property name="accessLevel" type="String"/>
+		<property name="validFrom" type="String"/>
+		<property name="validTo" type="String"/>
+		<property name="action" type="String"/>
+	</bean>
+
+	<bean class="com.wholescripts.dto.AutoShipOrderResponseWsDTO">
+		<property name="autoShips" type="com.wholescripts.dto.AutoShipResponseWsDTO"/>
+		<property name="autoShipsCC" type="com.wholescripts.dto.AutoShipsResponseCCWsDTO"/>
+		<property name="autoShipsHdr" type="com.wholescripts.dto.AutoShipsResponseHdrWsDTO"/>
+	</bean>
+
+	<!-- AUTO_SHIPS -->
+	<bean class="com.wholescripts.dto.AutoShipResponseWsDTO">
+		<property name="items" type="java.util.List&lt;com.wholescripts.dto.AutoShipItemResponseWsDTO>"/>
+	</bean>
+
+	<bean class="com.wholescripts.dto.AutoShipItemResponseWsDTO">
+		<property name="practitioner" type="String"/>
+		<property name="orderNumber" type="String"/>
+		<property name="soldTo" type="String"/>
+		<property name="shipTo" type="String"/>
+		<property name="itmNumber" type="String"/>
+		<property name="hgLvItem" type="String"/>
+		<property name="material" type="String"/>
+		<property name="matDesc" type="String"/>
+		<property name="reqQty" type="String"/>
+		<property name="salesUnit" type="String"/>
+		<property name="price" type="String"/>
+		<property name="startDate" type="String"/>
+		<property name="endDate" type="String"/>
+		<property name="frequency" type="String"/>
+		<property name="frequencyType" type="String"/>
+		<property name="schedLine" type="String"/>
+		<property name="schedDate" type="String"/>
+		<property name="image" type="de.hybris.platform.commercewebservicescommons.dto.product.ImageWsDTO"/>
+		<property name="stock" type="de.hybris.platform.commercewebservicescommons.dto.product.StockWsDTO"/>
+		<property name="autoShipFrequency" type="java.util.List&lt;com.wholescripts.dto.SupportedAutoShipWsDTO&gt;"/>
+		<property name="productName" type="String"/>
+		<property name="isCarton" type="boolean"/>
+
+	</bean>
+	<bean class="de.hybris.platform.acceleratorocc.dto.payment.SopPaymentDetailsWsDTO">
+		<property name="addressNumber" type="String"/>
+		<property name="billTo_region" type="String"/>
+		<property name="card_nameOnCard" type="String"/>
+		<property name="checkoutPage" type="boolean"/>
+	</bean>
+
+	<!-- AUTO_SHIPS_CC -->
+	<bean class="com.wholescripts.dto.AutoShipsResponseCCWsDTO">
+		<property name="item" type="java.util.List&lt;com.wholescripts.dto.AutoShipsResponseCCItemWsDTO>"/>
+	</bean>
+
+	<bean class="com.wholescripts.dto.AutoShipsResponseCCItemWsDTO">
+		<property name="orderNumber" type="String"/>
+		<property name="ccType" type="String"/>
+		<property name="ccNumber" type="String"/>
+		<property name="ccValidTo" type="String"/>
+		<property name="ccName" type="String"/>
+	</bean>
+
+	<!-- AUTO_SHIPS_HDR -->
+	<bean class="com.wholescripts.dto.AutoShipsResponseHdrWsDTO">
+		<property name="item" type="java.util.List&lt;com.wholescripts.dto.AutoShipsResponseHdrItemWsDTO>"/>
+	</bean>
+
+	<bean class="com.wholescripts.dto.AutoShipsResponseHdrItemWsDTO">
+		<property name="orderNumber" type="String"/>
+		<property name="soldTo" type="String"/>
+		<property name="payer" type="String"/>
+		<property name="shipTo" type="String"/>
+		<property name="salesOrg" type="String"/>
+		<property name="distChannel" type="String"/>
+		<property name="division" type="String"/>
+		<property name="webOrderNumber" type="String"/>
+		<property name="orderDate" type="String"/>
+		<property name="promoCode" type="String"/>
+		<property name="shipMethod" type="String"/>
+		<property name="carrier" type="String"/>
+		<property name="paymentTerms" type="String"/>
+		<property name="instructions" type="String"/>
+		<property name="doseNote" type="String"/>
+		<property name="shippingAddress" type="de.hybris.platform.commercewebservicescommons.dto.user.AddressWsDTO"/>
+		<property name="hideShipTo" type="boolean"/>
+
+	</bean>
+	<bean class="de.hybris.platform.commercewebservicescommons.dto.order.PaymentDetailsListWsDTO">
+		<description>Representation of a Payment details list</description>
+		<property name="cartPaymentInfo"
+				  type="de.hybris.platform.commercewebservicescommons.dto.order.PaymentDetailsWsDTO">
+			<description>List of payment details</description>
+		</property>
+	</bean>
+	<bean class="de.hybris.platform.b2bwebservicescommons.dto.order.B2BPaymentTypeWsDTO">
+		<property name="description" type="String"/>
+	</bean>
+
+	<bean class="com.wholescripts.dto.WholescriptsProductFamilyListWsDTO">
+		<property name="WholescriptsProductFamilyList" type="java.util.List&lt;com.wholescripts.dto.WholescriptsProductFamilyWsDTO>"/>
+	</bean>
+
+	<bean class="com.wholescripts.dto.WholescriptsProductFamilyWsDTO">
+		<property name="productName" type="String"/>
+		<property name="brandName" type="String"/>
+		<property name="sku" type="String"/>
+		<property name="description" type="java.lang.String"/>
+		<property name="summary" type="String"/>
+		<property name="image" type="de.hybris.platform.cmssmarteditwebservices.dto.MediaWsDTO"/>
+		<property name="mapPrice" type="double"/>
+		<property name="yourPrice" type="double"/>
+		<property name="otherAvailableProducts" type="java.util.List&lt;com.wholescripts.dto.OtherAvailableProductsWsDTO&gt;"/>
+		<property name="productUrl" type="java.lang.String"/>
+		<property name="brandUrl" type="String"/>
+	</bean>
+		<bean class="com.wholescripts.dto.WholescriptsValidateCartsWsDTO">
+		<hints>
+			<hint name="wsRelated" />
+			<hint name="alias">WholescriptsValidateCartsWsDTO</hint>
+		</hints>
+		<property name="address" type="de.hybris.platform.commercewebservicescommons.dto.user.AddressWsDTO"/>
+			<property name="brandValidation" type="boolean"/>
+	</bean>
+	
+		<bean class="com.wholescripts.dto.WholescriptsValidateAutoshipWsDTO">
+		<hints>
+			<hint name="wsRelated" />
+			<hint name="alias">WholescriptsValidateAutoshipWsDTO</hint>
+		</hints>
+		<property name="address" type="de.hybris.platform.commercewebservicescommons.dto.user.AddressWsDTO"/>
+			<property name="productCodes" type="java.util.List&lt;java.lang.String>" />
+			
+	</bean>
+
+	<bean class="com.wholescripts.dto.CartErrorWsDTO">
+		<hints>
+			<hint name="wsRelated" />
+			<hint name="alias">CartErrorWsDTO</hint>
+		</hints>
+		 <property name="entries"
+                  type="java.util.List&lt;de.hybris.platform.commercewebservicescommons.dto.order.OrderEntryWsDTO>"/>
+		<property name="brandEntries"
+				  type="java.util.List&lt;com.wholescripts.dto.WholescriptsBrandWsDTO&gt;"/>
+         <property name="type" type="String"/>
+	</bean>
+	<bean class="com.wholescripts.dto.OrderChangeAutoShipRequestWsDTO">
+		<property name="orderNumber" type="String"/>
+		<property name="instructions" type="String"/>
+		<property name="doseNote" type="String"/>
+		<property name="shipMethod" type="String"/>
+		<property name="carrier" type="String"/>
+		<property name="shipTo" type="String"/>
+		<property name="distChannel" type="String"/>
+		<property name="division" type="String"/>
+		<property name="salesOrg" type="String"/>
+		<property name="endDate" type="String"/>
+		<property name="creditCardDetails" type="com.wholescripts.dto.OrderChangeAutoShipCreditCardRequestWsDTO"/>
+		<property name="items" type="com.wholescripts.dto.OrderChangeAutoShipLineItemListWsDTO"/>
+	</bean>
+	<bean class="com.wholescripts.dto.OrderChangeAutoShipLineItemListWsDTO">
+		<property name="item" type="java.util.List&lt;com.wholescripts.dto.OrderChangeAutoShipLineItemWsDTO&gt;">
+		</property>
+	</bean>
+	<bean class="com.wholescripts.dto.OrderChangeAutoShipCreditCardRequestWsDTO">
+		<property name="validTo" type="String"/>
+		<property name="cardType" type="String"/>
+		<property name="cardNumber" type="String"/>
+		<property name="cardHolderName" type="String"/>
+	</bean>
+	<bean class="com.wholescripts.dto.OrderChangeAutoShipsReturnMessageResponseWsDTO">
+		<property name="type" type="String"/>
+		<property name="id" type="String"/>
+		<property name="number" type="String"/>
+		<property name="message" type="String"/>
+		<property name="logno" type="String"/>
+		<property name="logmsgno" type="String"/>
+		<property name="messageV1" type="String"/>
+		<property name="messageV2" type="String"/>
+		<property name="messageV3" type="String"/>
+		<property name="messageV4" type="String"/>
+		<property name="parameter" type="String"/>
+		<property name="field" type="String"/>
+		<property name="row" type="String"/>
+		<property name="system" type="String"/>
+	</bean>
+	<bean class="com.wholescripts.dto.OrderChangeAutoShipsReturnMessageListResponseWsDTO">
+		<property name="item" type="java.util.List&lt;com.wholescripts.dto.OrderChangeAutoShipsReturnMessageResponseWsDTO&gt;">
+		</property>
+	</bean>
+	<bean class="com.wholescripts.dto.OrderChangeAutoShipLineItemWsDTO">
+		<property name="entryNumber" type="String"/>
+		<property name="entryGroupNumber" type="String"/>
+		<property name="poItemNumber" type="String"/>
+		<property name="material" type="String"/>
+		<property name="description" type="String"/>
+		<property name="requestedQty" type="String"/>
+		<property name="salesUnit" type="String"/>
+		<property name="price" type="String"/>
+		<property name="startDate" type="String"/>
+		<property name="endDate" type="String"/>
+		<property name="frequency" type="String"/>
+		<property name="frequency_type" type="String"/>
+		<property name="text" type="String"/>
+		<property name="action" type="String"/>
+		<property name="doseNote" type="String"/>
+		<property name="sapPrice" type="String"/>
+		<property name="confirmedQuantity" type="String"/>
+		<property name="nextDate" type="String"/>
+		<property name="dateChangeType" type="String"/>
+		<property name="sapDiscount" type="String"/>
+		<property name="sapSubtotal" type="String"/>
+		<property name="sapTax" type="String"/>
+		<property name="sapTotal" type="String"/>
+		<property name="matEntered" type="String"/>
+		<property name="caExclusion" type="String"/>
+		<property name="priority" type="String"/>
+		<property name="recommendationId" type="String"/>
+		<property name="discount" type="String"/>
+		<property name="templateId" type="String"/>
+		<property name="discountCash" type="String"/>
+	</bean>
+	<bean class="com.wholescripts.dto.OrderUpdateAutoShipResponseWsDTO">
+		<property name="autoShips" type="com.wholescripts.dto.AutoShipResponseWsDTO">
+		</property>
+		<property name="autoShipsCC" type="com.wholescripts.dto.AutoShipsResponseCCWsDTO">
+		</property>
+		<property name="autoShipsHdr" type="com.wholescripts.dto.AutoShipsResponseHdrWsDTO">
+		</property>
+		<property name="returnCode" type="String">
+		</property>
+		<property name="items" type="com.wholescripts.dto.OrderChangeAutoShipLineItemListWsDTO">
+		</property>
+		<property name="returnMessage" type="com.wholescripts.dto.OrderChangeAutoShipsReturnMessageListResponseWsDTO">
+		</property>
+	</bean>
+	<bean class="com.wholescripts.dto.SupportedAutoShipWsDTO">
+		<property name="code" type="String"/>
+		<property name="name" type="String"/>
+		<property name="priority" type="String"/>
+	</bean>
+	
+		<bean class="com.wholescripts.dto.MedpaxCartonListWsDTO">
+		<hints>
+			<hint name="wsRelated" />
+			<hint name="alias">MedpaxCartonListWsDTO</hint>
+		</hints>
+		<property name="medpaxCartonList" type="java.util.List&lt;com.wholescripts.dto.MedpaxCartonWsDTO>" />
+    </bean>
+	<bean class="com.wholescripts.dto.MedpaxCartonWsDTO">
+		<hints>
+			<hint name="wsRelated" />
+			<hint name="alias">MedpaxCartonWsDTO</hint>
+		</hints>
+		<property name="cartonName" type="String" />
+		<property name="productCode" type="String" />
+		<property name="defaultCarton" type="boolean" />
+		<property name="image" type="de.hybris.platform.cmssmarteditwebservices.dto.MediaWsDTO"/>
+		<property name="stock" type="de.hybris.platform.commercewebservicescommons.dto.product.StockWsDTO"/>
+    </bean>
+    
+    <bean class="com.wholescripts.dto.MedpaxWebKitListWsDTO">
+		<hints>
+			<hint name="wsRelated" />
+			<hint name="alias">MedpaxWebKitListWsDTO</hint>
+		</hints>
+		<property name="medpaxKitList" type="java.util.List&lt;com.wholescripts.dto.MedpaxWebKitWsDTO>" />
+    </bean>
+    
+      <bean class="com.wholescripts.dto.MedpaxWebKitWsDTO">
+      <hints>
+			<hint name="wsRelated" />
+			<hint name="alias">MedpaxWebKitWsDTO</hint>
+		</hints>
+		<property name="kitName" type="String" />
+		<property name="sku" type="String" />
+		<property name="blueLabelSku" type="String" />
+		<property name="bluelabelQty" type="Integer" />
+		<property name="avilablityStatus" type="boolean" />
+		<property name="image" type="de.hybris.platform.cmssmarteditwebservices.dto.MediaWsDTO" />
+		<property name="bluelabelName" type="String" />
+    </bean>
+
+	<bean class="com.wholescripts.dto.IngredientListWsDTO">
+		<hints>
+			<hint name="wsRelated"/>
+			<hint name="alias">IngredientListWsDTO</hint>
+		</hints>
+		<property name="ingredientList" type="java.util.List&lt;com.wholescripts.dto.IngredientWsDTO>"/>
+	</bean>
+
+	<bean class="com.wholescripts.dto.IngredientWsDTO">
+		<hints>
+			<hint name="wsRelated"/>
+			<hint name="alias">IngredientWsDTO</hint>
+		</hints>
+		<property name="code" type="String"/>
+		<property name="name" type="String"/>
+		<property name="rda" type="Double"/>
+		<property name="priority" type="Integer"/>
+		<property name="percentageDV" type="Integer"/>
+		<property name="unit" type="String" />
+		<property name="comments" type="String" />
+		<property name="isSealed" type="boolean" />
+		<property name="ingredientReferenceUnit" type="Double" />
+	</bean>
+	<bean class="de.hybris.platform.commercewebservicescommons.dto.product.StockWsDTO">
+		<property name="forceOutOfStock" type="boolean"/>
+	</bean>
+
+	<bean class="com.wholescripts.dto.OrderHistoryResponseWsDTO">
+		<property name="T_ERRORS" type="String"/>
+		<property name="T_ORDERS" type="com.wholescripts.dto.OrderList"/>
+	</bean>
+
+	<bean class="com.wholescripts.dto.OrderList">
+		<property name="item" type="java.util.List&lt;com.wholescripts.dto.OrderItemWsDTO&gt;"/>
+	</bean>
+
+	<bean class="com.wholescripts.dto.OrderItemWsDTO">
+		<property name="VBELN" type="String"/>
+		<property name="ORDER_DATE" type="String"/>
+	</bean>
+	<bean class="com.wholescripts.dto.OrderedMedpaxProductsWsDTO">
+		<property name="products" type="java.util.List&lt;de.hybris.platform.commercewebservicescommons.dto.product.ProductWsDTO&gt;" />
+		<property name="facets" type="com.wholescripts.dto.ProductFacetWsDTO"/>
+	</bean>
+
+	<bean class="com.wholescripts.dto.NewPatientItemWsDTO">
+		<property name="kunnr" type="String"/>
+		<property name="name1" type="String"/>
+		<property name="erdat" type="String"/>
+		<property name="patientId" type="String"/>
+	</bean>
+
+	<bean class="com.wholescripts.dto.TopPatientItemWsDTO">
+		<property name="kunnr" type="String"/>
+		<property name="vbelnCount" type="String"/>
+		<property name="patientId" type="String"/>
+		<property name="patientName" type="String"/>
+	</bean>
+
+	<bean class="com.wholescripts.dto.LatestOrdersItemWsDTO">
+		<property name="patientName" type="String"/>
+		<property name="patientId" type="String"/>
+		<property name="kunnr" type="String"/>
+		<property name="vbeln" type="String"/>
+		<property name="erdat" type="String"/>
+		<property name="netwr" type="String"/>
+		<property name="cmwae" type="String"/>
+		<property name="lkgsk" type="String"/>
+		<property name="uvfak" type="String"/>
+		<property name="abstk" type="String"/>
+		<property name="status" type="String"/>
+	</bean>
+
+	<bean class="com.wholescripts.dto.MostOrderedItemWsDTO">
+		<property name="productURL" type="String"/>
+		<property name="price" type="String"/>
+		<property name="matnr" type="String"/>
+		<property name="arktx" type="String"/>
+		<property name="kwmeng" type="String"/>
+	</bean>
+
+
+	<bean class="com.wholescripts.dto.NewPatientItemResponseWsDTO">
+		<property name="items"
+				  type="java.util.List&lt;com.wholescripts.dto.NewPatientItemWsDTO&gt;"/>
+	</bean>
+
+	<bean class="com.wholescripts.dto.LatestOrdersItemResponseWsDTO">
+		<property name="items"
+				  type="java.util.List&lt;com.wholescripts.dto.LatestOrdersItemWsDTO&gt;"/>
+	</bean>
+
+	<bean class="com.wholescripts.dto.MostOrderedItemResponseWsDTO">
+		<property name="items"
+				  type="java.util.List&lt;com.wholescripts.dto.MostOrderedItemWsDTO&gt;"/>
+	</bean>
+
+	<bean class="com.wholescripts.dto.TopPatientItemResponseWsDTO">
+		<property name="items"
+				  type="java.util.List&lt;com.wholescripts.dto.TopPatientItemWsDTO&gt;"/>
+	</bean>
+
+	<bean class="com.wholescripts.dto.SalesPersonDetailsWsDTO">
+		<property name="name" type="String"/>
+		<property name="email" type="String"/>
+	</bean>
+
+
+	<bean class="com.wholescripts.dto.LatestRecommendationsWsDTO">
+		<property name="patientName" type="String"/>
+		<property name="date" type="String"/>
+		<property name="status" type="String"/>
+		<property name="patientId" type="String"/>
+		<property name="recommendationCode" type="String"/>
+	</bean>
+
+	<bean class="com.wholescripts.dto.DashboardResponseWsDTO">
+		<property name="recommendations" type="java.util.List&lt;com.wholescripts.dto.LatestRecommendationsWsDTO&gt;"/>
+		<property name="salesPersonDetails" type="com.wholescripts.dto.SalesPersonDetailsWsDTO"/>
+		<property name="tNewPatients" type="com.wholescripts.dto.NewPatientItemResponseWsDTO"/>
+		<property name="tPaLatestOrders" type="com.wholescripts.dto.LatestOrdersItemResponseWsDTO"/>
+		<property name="tPaMostOrdered" type="com.wholescripts.dto.MostOrderedItemResponseWsDTO"/>
+		<property name="tPraLatestOrders" type="com.wholescripts.dto.LatestOrdersItemResponseWsDTO"/>
+		<property name="tPraMostOrdered" type="com.wholescripts.dto.MostOrderedItemResponseWsDTO"/>
+		<property name="tTopPatients" type="com.wholescripts.dto.TopPatientItemResponseWsDTO"/>
+	</bean>
+
+	<bean class="com.wholescripts.dto.SapCentralDeliveryBlockWsDTO">
+		<property name="code" type="String"/>
+		<property name="name" type="String"/>
+	</bean>
+
+	<bean class="com.wholescripts.dto.SapOnCreditHoldWsDTO">
+		<property name="code" type="String"/>
+		<property name="name" type="String"/>
+	</bean>
+
+	<bean class="com.wholescripts.dto.SapCustomerClassificationWsDTO">
+		<property name="code" type="String"/>
+		<property name="name" type="String"/>
+	</bean>
+
+	<bean class="com.wholescripts.dto.ProductFacetWsDTO">
+		<property name="categories" type="java.util.List&lt;com.wholescripts.dto.ProductFacetValueWsDTO>"/>
+		<property name="deliveryForm" type="java.util.List&lt;com.wholescripts.dto.ProductFacetValueWsDTO>"/>
+		<property name="brand" type="java.util.List&lt;com.wholescripts.dto.ProductFacetValueWsDTO>"/>
+	</bean>
+
+	<bean class="com.wholescripts.dto.ProductFacetValueWsDTO">
+		<property name="code" type="java.lang.String"/>
+		<property name="name" type="java.lang.String"/>
+	</bean>
+
+	<bean class="com.wholescripts.dto.DashboardProductsWSDTO">
+		<property name="buyAgainProducts" type="java.util.List&lt;de.hybris.platform.commercewebservicescommons.dto.product.ProductWsDTO>" />
+		<property name="bestSellerProducts" type="java.util.List&lt;de.hybris.platform.commercewebservicescommons.dto.product.ProductWsDTO>" />
+	</bean>
+
+	<bean class="de.hybris.platform.cmsocc.data.CMSPageWsDTO">
+		<property name="keywords" type="String" />
+		<property name="properties" type="String" />
+	</bean>
+
+	<bean class="com.wholescripts.dto.ConsentUpdateBrandListWsDTO">
+		<property name="brands" type="java.util.List&lt;com.wholescripts.dto.ConsentUpdateBrandWsDTO>"/>
+	</bean>
+
+	<bean class="com.wholescripts.dto.ConsentUpdateBrandWsDTO">
+		<property name="brandName" type="String"/>
+		<property name="isConsentAccepted" type="boolean"/>
+		<property name="pdfPath" type="String"/>
+	</bean>
+	
+	 <bean class="de.hybris.platform.commercewebservicescommons.dto.product.PromotionWsDTO">
+	   <property name="promotitle" type="String" />
+	   <property name="promoDescription" type="String" />
+	   <property name="promotionBanner" type="de.hybris.platform.commercewebservicescommons.dto.product.ImageWsDTO">
+            <description>Image banner of the promotion</description>
+        </property>
+		 <property name="productUrl" type="String"/>
+		 <property name="redirectUrl" type="String"/>
+		 <property name="colorBackground" type="String"/>
+		 <property name="colorText" type="String"/>
+		 <property name="showOnBanners" type="Boolean"/>
+        <property name="showOnPLP" type="Boolean"/>  
+        <property name="nonDiscountable" type="String"/>
+     </bean>
+
+	<bean class="com.wholescripts.dto.KlaviyoCatalogFeedWsDTO">
+		<property name="id" type="String" />
+		<property name="sku" type="String" />
+		<property name="title" type="String" />
+		<property name="link" type="String" />
+		<property name="description" type="String" />
+		<property name="price" type="Double" />
+		<property name="image_link" type="String" />
+		<property name="categories" type="java.util.List&lt;java.lang.String>" />
+		<property name="inventory_quantity" type="Integer" />
+		<property name="inventory_policy" type="Integer" />
+	</bean>
+
+	<bean class="com.wholescripts.dto.KlaviyoCatalogFeedListWsDTO">
+		<property name="klaviyoCatalogFeedList" type="java.util.List&lt;com.wholescripts.dto.KlaviyoCatalogFeedWsDTO>"/>
+		<property name="success" type="Boolean"/>
+		<property name="returnMessage" type="java.util.List&lt;java.lang.String>" />
+	</bean>
+
+	<bean class="com.wholescripts.sinch.dto.InboundWsDTO">
+		<property name="body" type="String"/>
+		<property name="from" type="String"/>
+		<property name="id" type="String"/>
+		<property name="operator_id" type="String"/>
+		<property name="received_at" type="String"/>
+		<property name="to" type="String"/>
+		<property name="type" type="String"/>
+	</bean>
+
+	<bean class="com.wholescripts.sinch.dto.SinchInboundMessageDTO">
+		<property name="count" type="String"/>
+		<property name="page" type="String"/>
+		<property name="inbounds" type = "java.util.List&lt;com.wholescripts.sinch.dto.InboundWsDTO>"/>
+		<property name="page_size" type="String"/>
+	</bean>
+
+	<bean class="de.hybris.platform.commercewebservicescommons.dto.order.CartWsDTO">
+	      <property name="headerInvalidsPromoCodes" type="java.util.List&lt;String>" />
+          <property name="itemInvalidsPromoCodes" type="java.util.List&lt;String>" />
+            <property name="success" type="Boolean" />
+	</bean>
+	<bean class="de.hybris.platform.commercewebservicescommons.dto.order.OrderWsDTO">
+	<property name="paymentType" type="de.hybris.platform.b2bacceleratorfacades.order.data.B2BPaymentTypeData" />
+	</bean>
+	    <bean class="de.hybris.platform.commercewebservicescommons.dto.user.RegionWsDTO">
+        <description>Response body fields which will be returned while fetching the list of country's regions.</description>
+        <hints>
+            <hint name="wsRelated"/>
+            <hint name="alias">Region</hint>
+        </hints>
+      <property name="isShippingTAxWarningEnabled" type="Boolean"/>
+    </bean>
+
+    <bean class="com.wholescripts.dto.PaymetricResponseDTO">
+		<property name="paymetricResponse" type="com.wholescripts.dto.PaymetricFieldsDTO"/>
+	</bean>
+	
+	<bean class="com.wholescripts.dto.PaymetricFieldsDTO">
+		<property name="fields" type="com.wholescripts.dto.PaymetricFieldsListDTO"/>
+	</bean>
+	
+	<bean class="com.wholescripts.dto.PaymetricFieldsListDTO">
+		<property name="formField" type="java.util.List&lt;com.wholescripts.dto.PaymetricFormFieldDTO>"/>
+	</bean>
+	
+	<bean class="com.wholescripts.dto.PaymetricFormFieldDTO">
+		<property name="name" type="String"/>
+		<property name="value" type="String"/>
+	</bean>
+</beans>

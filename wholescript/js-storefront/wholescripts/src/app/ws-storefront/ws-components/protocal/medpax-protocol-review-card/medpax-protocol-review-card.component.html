@@ -1,0 +1,86 @@
+@if(apiData$|async; as data){
+    <alert
+    [type]="alert.type"
+    *ngIf="alert?.msg"
+    [dismissOnTimeout]="alert.timeout"
+    (onClosed)="onClosed()"
+    >{{ alert.msg }}</alert>
+    <div class="color b-top">
+        @if(data.notes && data.notes?.trim().length > 0){
+            <div class="row my-3 ">
+                <div class="col-12">
+                    <div class="medpax-review-notes">
+                        <span class="bolder">MedPax Note: </span>
+                        {{data?.notes}}
+                    </div>
+                </div>
+            </div>
+        }
+        @if(isRecommendation || isPatientProtocol){
+            <div class="medpax-notes">
+                <span class="bolder">Please note:</span>
+                It is recommended that MedPax be used within 60 days of the dispensing/fulfillment date as shown on
+                package.
+            </div>
+        }
+        <div class="container-fluid py-4 pr-0 pl-0">
+            <div class="row product-row bg-white p-2 border-bottom-1 mb-4">
+                <div class="col-lg-1 col-md-2 col-sm-2 col-2"> 
+                    <img [src]="getProductImageUrl(data?.carton?.image)" alt="medpax-img" width="100%" height="100%">
+                </div>
+                <div class="col-lg-4 col-md-10 col-sm-10 col-10">
+                    <h6 class="bolder m-0">Custom MedPax:</h6>
+                    {{ data?.name }}
+                </div>
+                <div class="col-lg-2 col-md-12 d-md-block d-flex mt-2 mt-md-0">
+                    <dl class="label2 mb-0 bolder">Duration:</dl>
+                    <span>4 Weeks</span>
+                </div>
+                <div class="col-lg-2 col-md-6 text-lg-center d-md-block d-flex mt-2 mt-md-0">
+                    <dl class="label2 mb-0 bolder">Qty:</dl> 
+                    <span>1</span>
+                </div>
+                <div class="col-lg-3 col-md-6 text-lg-right mt-2 mt-md-0">
+                    @if(!isRecommendation && !isPatientProtocol){
+                        <dl class="label2 mb-0 bolder">
+                            ${{data?.totalPrice| number:'1.2-3'}}
+                        </dl>
+                        <span>MSRP: ${{data?.msrpTotalPrice| number:'1.2-3'}}</span>
+                    } @else {
+                        <dl class="label2 mb-0 bolder">
+                            MSRP: ${{data?.msrpTotalPrice| number:'1.2-3'}}
+                        </dl>
+                    }
+                
+                </div>
+            </div>
+        </div>
+        <div class="card rounded pt-0 px-3 mb-0">
+            <table class="table dosingDetails" aria-label="dosing-table">
+                <thead>
+                    <tr>
+                        <th class="fs-16 bolder color">
+                            FORMULA(S)
+                        </th>
+                        <th class="fs-16 text-right bolder color">
+                            DOSING &amp; TIME
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for(packet of data?.medpaxEntry; track packet){
+                        <tr>
+                            <td class="bolder v-align-middle ">
+                                {{data?.carton?.defaultCarton ? packet?.product?.name : packet?.product?.genericPLName}}
+                            </td>
+                            <td class="text-right v-align-middle">
+                                <div>{{packet?.dosing|slice:0:4|dosingPipe}}</div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+}
+

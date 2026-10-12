@@ -1,0 +1,209 @@
+::ng-deep {
+    #ws-autoships-list-page {
+        padding: 48px 32px 128px 32px;
+        button:focus-visible,
+        .btn:focus-visible,
+        select:focus-visible,
+        a:focus-visible {
+        outline: 3px solid var(--cx-color-darkest) !important;
+        outline-offset: 2px;
+        box-shadow: none;
+        }
+        @media(min-width: 1441px) {
+            max-width: 1440px;
+            margin: auto;
+            padding: 48px 0 128px 0;
+        }
+        @media(max-width: 768px) {
+            padding:  40px 32px 80px 32px;
+        }
+        @media (max-width: 575px) {
+            padding: 32px 16px 64px 32px;
+        }
+
+        .list-page-header-section {
+            border-bottom: 1px solid var(--ws-gray-light-200);
+            padding-bottom: 32px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 32px;
+            margin-bottom: 32px;
+            .list-page-header {
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 4px;
+
+                h3 {
+                    color: var(--ws-gray-light-900);
+                    font-size: 23px;
+                    font-weight: 700;
+                    line-height: 25.3px;
+                    margin: 0;
+                }
+
+                p {
+                    color: var(--ws-gray-light-600);
+                    font-size: 16px;
+                    font-weight: 300;
+                    line-height: 24px;
+                    margin: 0;
+                }
+            }
+
+            .alert-wrapper {
+                .alert-header {
+                    display: flex;
+                    max-width: 592px;
+                    padding: 16px;
+                    align-items: center;
+                    gap: 16px;
+                    align-self: stretch;
+                    border-radius: 8px;
+                    border: 1px solid var(--ws-cyan-700);
+                    background: var(--ws-cyan-25);
+                    @media (max-width: 768px) {
+                        max-width: 100%;
+                    }
+                    .alert-header-message-wrapper {
+                        p {
+                            color: var(--ws-gray-light-600);
+                            font-size: 14px;
+                            font-weight: 300;
+                            line-height: 20px;
+                        }
+                    }
+                }
+            }
+        }
+
+        @media(min-width: 1024px) {
+            .list-page-body {
+                margin: 0 !important;
+            }
+        }
+      
+        .autoships-landing-page-footer-section {
+            width: 100%;
+            margin-top: 16px;
+            margin-bottom: 16px;
+            .contact-us-wrapper {
+                display: flex;
+                padding: 32px 32px 40px 32px;
+                flex-direction: column;
+                align-items: center;
+                gap: 32px;
+                align-self: stretch;
+                border-radius: 16px;
+                margin-left: 16px;
+                margin-right: 16px;
+                background: linear-gradient(325deg, var(--cx-color-primary-light) 40.8%, var(--cx-color-link-primary) 109.58%);
+
+                .content-wrapper {
+                    display: flex;
+                    max-width: 480px;
+                    flex-direction: column;
+                    align-items: center;
+                    gap: 8px;
+                    align-self: stretch;
+                    margin: 0 auto;
+
+                    .heading {
+                        color: var(--ws-base-white);
+                        text-align: center;
+                        font-size: 24px;
+                        font-weight: 600;
+                        line-height: 32px;
+                    }
+
+                    .content {
+                        color: var(--ws-base-white);
+                        text-align: center;
+                        font-size: 18px;
+                        font-weight: 300;
+                        line-height: 20px;
+                    }
+                }
+
+                .contact-us-button {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    gap: 6px;
+                    border: 1px solid var(--ws-gray-light-300);
+                    background: var(--ws-base-white);
+                    color: var(--ws-gray-light-700);
+                    font-size: 16px;
+                    font-weight: 600;
+                    line-height: 24px;
+                    min-height: 40px;
+                }
+            }
+        }
+
+        .faq-section {
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            max-width: 768px;
+            margin-top: 160px;
+            margin-bottom: 64px;
+            .faq-heading {
+                color: var(--ws-gray-light-900);
+                text-align: center;
+                font-size: 30px;
+                font-weight: 700;
+                margin-bottom: 20px;
+            }
+            .faq-sub-heading {
+                color: var(--ws-gray-light-600);
+                text-align: center;
+                font-size: 24px;
+                font-weight: 300;
+                line-height: 32px;
+                margin-bottom: 64px;
+            }
+            .faq-card {
+                display: flex;
+                padding: 32px;
+                flex-direction: column;
+                align-items: flex-start;
+                align-self: stretch;
+                margin-bottom: 16px;
+                &.highlighted {
+                    border-radius: 16px;
+                    background: var(--ws-gray-dark-50);
+                }
+                .accordion {
+                    display: flex;
+                    justify-content: space-between;
+                    width: 100%;
+                    &:focus {
+                        box-shadow: none;
+                    }
+                    .faq-card-question {
+                        margin: 0;
+                        color: var(--ws-success-900);
+                        font-size: 18px;
+                        font-weight: 400;
+                        line-height: 28px;
+                    }
+                }
+                
+                .faq-card-answer {
+                    padding-top: 8px;
+                    color: var(--ws-gray-light-600);
+                    font-size: 16px;
+                    font-weight: 300;
+                    line-height: 24px;
+                }
+            }
+        }
+    }
+}
+
+.patient-tab {
+    max-width: none;
+  }

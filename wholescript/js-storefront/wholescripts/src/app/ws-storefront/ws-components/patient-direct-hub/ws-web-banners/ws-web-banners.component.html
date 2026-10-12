@@ -1,0 +1,60 @@
+<div class="web-banner-heading">
+    <hr class="w-100">
+    <cx-page-slot position="webBannersAndSnippetsHeadingAndPara"></cx-page-slot>
+    <cx-page-slot position="webBannersAndSnippetsParaSection2" class="webBannersAndSnippetsParaSection2"></cx-page-slot>
+</div>
+
+<div *ngFor="let alert of alerts">
+    <alert [type]="alert.type" [dismissOnTimeout]="alert.timeout" (onClosed)="onClosed(alert)">{{ alert.msg }}</alert>
+</div>
+
+<div class="ws-web-banner-container">
+    <hr class="w-100">
+    <div class="web-banner-filter row">
+        <div class="col-md-3">
+            <label for="referral">Referral code selected:</label>
+        </div>
+
+        <div class="referralCode-options col-md-9">
+            <select id="referral" [(ngModel)]="selectedReferral" (change)="fetchBanners()" tabindex="0">
+                <option *ngFor="let referral of referrals; index as i" [value]="referral.referralCode+ '|' + referral.lastName">
+                    {{ referral.referralCode }} | {{ referral.lastName}}
+                </option>
+            </select>
+        </div>
+    </div>
+    <ng-container *ngIf="webBanners$ | async as web">
+        <ng-container *ngFor="let webdata of web?.entries">
+            <hr class="w-100">
+            <div class="row">
+                <div class="banner-left-options col-md-3">
+                    <span>{{ webdata.optionId }}</span>
+                    <div [innerHTML]="webdata.optionName"></div>
+                </div>
+
+                <div class="web-banner-right-side col-md-9">
+                    <div class="code-section">
+                        <div class="code-tooltip">
+                            <div class="copy-code" (click)="copyToClipboard(getReferralLink(webdata?.script, web?.referralLink))">
+                                <i class="fas fa-copy text-capitalize"></i>
+                                <span class="copy-text" tabindex="0" (keydown)="onKeyDown($event, 'copyToClipboard', webdata?.script)"> Copy</span>
+                            </div>
+                        </div>
+                        <pre><code>{{getReferralLink(webdata?.script, web?.referralLink)}}</code></pre>
+                    </div>
+                    <div class="web-banner-image-container">
+                        <span class="heading"> {{ webdata.webPageViewName }} </span>
+                        <div *ngIf="!webdata?.image">
+                            <a href=" {{ webdata.webPageViewUrl }} " tabindex="0">
+                                {{ webdata.webPageViewUrl }}
+                            </a>
+                        </div>
+                        <div class="web-banner-image" *ngIf="webdata?.image">
+                            <cx-media [container]="webdata?.image"></cx-media>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+    </ng-container>
+</div>

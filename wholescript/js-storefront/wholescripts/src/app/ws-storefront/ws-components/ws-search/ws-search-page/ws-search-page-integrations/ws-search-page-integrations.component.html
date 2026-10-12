@@ -1,0 +1,30 @@
+<div class="search-page-integrations" *ngIf="searchData?.results?.length > 0">
+    <ws-search-page-common-heading [heading]="'Integrations'"
+        [totalResultsCount]="searchData?.pagination?.totalResults || 0" [viewAllFlag]="viewAllFlag"
+        (showNumberOfResults)="showNumberOfResults($event)" (viewAll)="viewAllEmit()"></ws-search-page-common-heading>
+    <div class="search-integrations-wrapper">
+        <div class="search-each-integration" *ngFor="let integration of searchData.results">
+            <div class="integration-image">
+                <img [src]="getMedia(integration?.cmsContent, integration?.mediaURL)" [ngClass]="integration.url.includes('https://www.optimaldx.com/') ? 'optimalDxImg' : ''" [alt]="'Integration Image'"/>
+            </div>
+            <div class="integration-description">
+                {{integration?.cmsContent}}
+            </div>
+            <div class="integration-learn-more">
+                <button class="btn btn-outline-secondary btn-rounded"
+                    (click)="navigateTo(integration?.url)">Learn more</button>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <ws-search-page-common-pagination *ngIf="searchData?.pagination?.totalPages > 1" [currentPage]="currentPage"
+        [totalPageCount]="searchData?.pagination?.totalPages || 0"
+        (setCurrentPage)="setCurrentPage($event)"></ws-search-page-common-pagination>
+</div>
+<div class="table-empty" *ngIf="searchData?.results?.length == 0 && viewAllFlag">
+   <div>
+      <h4 class="table-empty__h">No results found</h4>
+      <div>We couldn't find any matches for <span style="font-weight:900">{{searchTerm}}</span></div>
+      <div>Please try reducing your filters or searching with another term</div>
+   </div>
+</div>  

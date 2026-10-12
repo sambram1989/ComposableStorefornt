@@ -1,0 +1,64 @@
+{
+  "advertisingBanners" : {
+    "newBrands": "New Brand Onboarding",
+    "update": "Latest update 2023/05/17",
+    "subHeading": "Asset requirements from new brands set the stage for a successful partnership which is essential for creating impactful and effective marketing campaigns.",
+    "tableColumns": [
+      {
+        "heading": "Runtime",
+        "tableContent": "2 weeks"
+      },
+      {
+        "heading": "Placements",
+        "tableContent": "<ul class = 'list'><li>Practitioner's Dashboard</li> <li>PagePatient's Landing Page</li></ul>"
+      },
+      {
+        "heading": "URL Destinations",
+        "tableContent": "<ul class = 'list'><li>Brand Page</li></ul>"
+      },
+      {
+        "heading": "File Sizes",
+        "tableContent": "<ul class = 'list'><li>Desktop Large: 3060x300px at 300Kb max</li><li>Desktop Small: 1800x300px at 200Kb max</li><li>Tablet: 1400x330px at 200Kb max</li><li>Mobile: 700x300px at 70Kb max</li></ul>Note: The banners will be displayed at half the size of what we are requesting to preserve the quality. Ex: 3060x300px will be displayed at 1530x150px on the site."
+      },
+      {
+        "heading": "Requirements",
+        "tableContent": "<ul class = 'list'><li>Brand logo</li><li>Tagline/Headline</li><li>Product image(s)</li><li>The minimum font-size is 30px</li><li>'New Brand' badge on the top-left corner</li><li>'Order Now' button on Large and Small Desktop banners. Button is optional on Tablet and Mobile banners.</li></ul>"
+      },
+      {
+        "heading": "PSD Template",
+        "tableContent": "<a class = 'btn-link'>Download PSD File</a>"
+      }
+    ]
+  },
+  "promoBanners" : {
+      "newBrands": "Promo Banners",
+      "update": "Latest update 2023/05/17",
+      "subHeading": "Our promo banners are unique. A modular banner size that adapts well to different screen sizes and placements.",
+      "tableColumns": [
+        {
+          "heading": "Runtime",
+          "tableContent": "2 weeks"
+        },
+        {
+          "heading": "Placements",
+          "tableContent": "<ul class = 'list'><li>Practitioner's Dashboard</li> <li>PagePatient's Landing Page</li></ul>"
+        },
+        {
+          "heading": "URL Destinations",
+          "tableContent": "<ul class = 'list'><li>Brand Page</li></ul>"
+        },
+        {
+          "heading": "File Sizes",
+          "tableContent": "<ul class = 'list'><li>Desktop Large: 3060x300px at 300Kb max</li><li>Desktop Small: 1800x300px at 200Kb max</li><li>Tablet: 1400x330px at 200Kb max</li><li>Mobile: 700x300px at 70Kb max</li></ul>Note: The banners will be displayed at half the size of what we are requesting to preserve the quality. Ex: 3060x300px will be displayed at 1530x150px on the site."
+        },
+        {
+          "heading": "Requirements",
+          "tableContent": "<ul class = 'list'><li>Brand logo</li><li>Tagline/Headline</li><li>Product image(s)</li><li>The minimum font-size is 30px</li><li>'New Brand' badge on the top-left corner</li><li>'Order Now' button on Large and Small Desktop banners. Button is optional on Tablet and Mobile banners.</li></ul>"
+        },
+        {
+          "heading": "PSD Template",
+          "tableContent": "<a class = 'btn-link'>Download PSD File</a>"
+        }
+      ]
+    }
+  }

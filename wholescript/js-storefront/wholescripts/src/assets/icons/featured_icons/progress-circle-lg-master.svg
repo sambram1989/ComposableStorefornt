@@ -1,0 +1,28 @@
+<svg class="ws-loader-svg" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+            viewBox="0 0 44.5 50.7" style="enable-background:new 0 0 44.5 50.7;" xml:space="preserve" width="50" height="50">
+            <style type="text/css">
+                .ws-loader-svg {
+                    width: 50px;
+                    stroke-dasharray: 137;
+                    stroke-dashoffset: 137;
+                    animation: dash 1.5s linear normal infinite;
+                }
+
+                @keyframes dash {
+                    to {
+                        stroke-dashoffset: 0;
+                    }
+                }
+
+                .st0 {
+                    fill: none;
+                    stroke: #4F3981;
+                    stroke-width: 5;
+                    stroke-linecap: round;
+                    stroke-linejoin: round;
+                    stroke-miterlimit: 10;
+                }
+            </style>
+            <path class="st0" d="M23.3,2.9l17.9,10.3c0.6,0.3,1,1.1,1,1.7v20.7c0,0.6-0.5,1.4-1,1.7L23.3,47.8c-0.6,0.3-1.5,0.3-2,0L3.4,37.4
+        	c-0.6-0.3-1-1.1-1-1.7V15c0-0.6,0.5-1.4,1-1.7L21.3,2.9C21.8,2.6,22.7,2.6,23.3,2.9" />
+        </svg>

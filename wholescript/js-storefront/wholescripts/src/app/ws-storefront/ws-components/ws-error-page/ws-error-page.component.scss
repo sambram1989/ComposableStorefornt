@@ -1,0 +1,22 @@
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 100% !important;
+    justify-content: center;
+    @media(max-width: 768px) {
+        margin-top: 0 !important;
+    }
+}
+h4 {
+    font-weight: 500;
+    font-size: 24px !important;
+    color: var(--cx-color-secondary);
+}
+h1 {
+    font-size: 70px !important;
+    color: var(--cx-color-secondary);
+    font-weight: 500;
+}
+::ng-deep .Breadcrumb {
+    display: none !important;
+}

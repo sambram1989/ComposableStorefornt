@@ -1,0 +1,70 @@
+::ng-deep {
+    #ws-autoships-detail-page {
+        max-width: 1440px;
+        margin: auto;
+        padding: 48px 32px 128px 32px;
+        @media(min-width: 1441px) {
+            padding: 48px 0 128px 0;
+        }
+        @media (max-width: 768px) {
+            padding: 40px 32px 80px 32px;
+        }
+        @media (max-width: 578px) {
+            padding: 32px 16px 64px 16px;
+        }
+        .autoships-details-page-header-section {
+            display: inline-flex;
+            flex-direction: row;
+            align-items: flex-end;
+            padding-bottom: 32px;
+            border-bottom: 1px solid var(--ws-gray-light-200);
+            margin-bottom: 32px;
+            .details-page-header {
+                display: flex;
+                flex-direction: column;
+                gap: 4px;
+                flex: 1 0 0;
+
+                h3 {
+                    color: var(--ws-gray-light-900);
+                    font-size: 23px !important;
+                    font-weight: 700;
+                    line-height: 25.3px !important;
+                }
+
+                p {
+                    color: var(--ws-gray-light-600);
+                    font-size: 16px;
+                    font-weight: 300;
+                    line-height: 24px;
+                    margin: 0;
+                    display: inline-block;
+                }
+            }
+
+            a {
+                color: var(--ws-gray-light-600);
+                font-size: 16px;
+                font-weight: 600;
+                line-height: 24px;
+                text-decoration-line: underline;
+                text-decoration-style: solid;
+                text-decoration-skip-ink: none;
+                text-decoration-thickness: auto;
+                text-underline-offset: auto;
+                padding-left: 4px;
+                cursor: pointer;
+            }
+        }
+        .autoships-details-section {
+            margin: 0 !important;
+            .autoship-products {
+                padding-left: 32px;
+                @media(max-width: 768px) {
+                    padding-left: 0;
+                    padding-right: 0;
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,211 @@
+::ng-deep {
+    .close {
+        margin-bottom: 0px !important;
+    }
+    .alert {
+         position: unset !important;  
+         width: auto; 
+         max-width: unset !important;
+         z-index: unset !important; 
+    }
+    .modal-dialog {
+        float: right;
+        width: -webkit-fill-available;
+        margin: 0 !important;
+    }
+    .modal-open .modal {
+        z-index: 9999 !important;
+    }
+    .errors-container {
+        margin-top: 10px;
+        padding: 12px 20px;
+    }
+
+    @media (min-width: 768px) and (max-device-width: 1025px) {
+        .modal-dialog {
+            height: 100%;
+    
+            .modal-content{
+                height: 100%;
+            }
+        }
+    }
+}
+
+.form-check-label{
+    padding-left: 2rem !important;
+}
+
+.modal-header {
+    text-align: center;
+    border-bottom: 0;
+    padding: 25px 25px 0 25px;
+    position: relative;
+    flex-direction: column;
+    align-items: center;
+    .close {
+        padding: 0px;
+    }
+}
+
+.modal-title {
+    font-size: 24px !important;
+    line-height: 29px;
+    text-transform: uppercase;
+    margin-top: 25px;
+}
+
+.fs-13 {
+    font-size: 13px;
+}
+
+h3 {
+    font-size: 1.875rem;
+    font-weight: 900;
+}
+
+.notes {
+    border-radius: 5px;
+    border: 1px solid #0000004D;
+    font-size: 16px;
+    padding: 5px;
+
+    &:focus {
+        outline: none;
+    }
+}
+
+.close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 10;
+    margin-right: 10px !important;
+    font-weight: 900;
+    color: #3E3C49;
+    opacity: 1 !important;
+    font-size: 1.5rem !important;
+    margin-bottom: 24px;
+}
+
+.modal-body.p-0>p {
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+.modal-body.p-0>input {
+    height: 50px;
+}
+
+.bolder {
+    font-weight: 900 !important;
+}
+
+.text-center {
+    text-align: center !important;
+}
+
+.alert-warning {
+    color: var(--cx-color-secondary) !important;
+    border-color: var(--ws-warning-800) !important;
+    background-color: var(--ws-warning-50) !important;
+}
+
+.bg-clr {
+    background: rgba(0, 0, 0, 0.01);
+}
+
+.alert {
+    display: block !important;
+    padding: 0.75rem 1.25rem;
+    font-weight: 500;
+    border-radius: 5px !important;
+    margin-left: 20px;
+    width: 90%;
+}
+
+.modal-body.p-0>textarea {
+    border-radius: 5px;
+    // border: 1px solid #0000004D;
+    font-size: 16px;
+    margin-left: 20px;
+    width: 90%;
+}
+
+.checkbox input[type="checkbox"] {
+    margin-left: auto;
+    margin-top: 17px;
+}
+
+input[type="checkbox"] {
+    accent-color: #584091;
+}
+
+input,
+input:focus {
+    -webkit-transition: none !important;
+}
+
+.checkbox label {
+    display: inline-block;
+    cursor: pointer;
+    //position: relative;
+    padding-left: 25px;
+    margin-right: 15px;
+    min-width: 17px;
+    min-height: 17px;
+    font-size: 13px;
+    line-height: 20px;
+    margin-bottom: 0;
+}
+
+.fs-16 {
+    font-size: 16px !important;
+}
+
+.btn-outline-primary:hover,
+.btn-primary:focus {
+    background-color: #433372 !important;
+    color: #fff !important;
+    font-weight: 900;
+    border: 3px solid #433372 !important;
+    box-shadow: 0px 3px 10px rgba(88, 64, 145, .32);
+    -moz-box-shadow: 0 3px 10px rgba(88, 64, 145, .32);
+    -webkit-box-shadow: 0 3px 10px rgba(88, 64, 145, .32);
+    text-decoration: none;
+}
+
+.btn:hover {
+    box-shadow: none;
+}
+
+.btn-outline-primary {
+    background-color: none !important;
+    color: #584091 !important;
+    font-weight: 900;
+    border-radius: 0;
+    border: 3px solid #584091 !important;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    &:focus {
+        color: var(--ws-base-white) !important;
+    }
+}
+
+.btn-rounded {
+    border-radius: 100px !important;
+}
+
+.btn-primary[disabled] {
+    background-color: #b1a7d0;
+    border-color: #b1a7d0 !important;
+}
+
+.btn-primary {
+    background-color: #584091;
+    color: #fff !important;
+    font-weight: 900;
+    border-radius: 0;
+    border: 3px solid #584091 !important;
+    padding: 0.5rem 1rem;
+}

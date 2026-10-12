@@ -1,0 +1,425 @@
+.PatientShopPageTemplate {
+  cx-page-slot.Section5 {
+    margin-top: 80px;
+    margin-bottom: 20px;
+    cx-paragraph:nth-child(1) {
+      text-align: center;
+      h2 {
+        font-weight: 900;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        &::before {
+          content: url('../../../assets/images/home/hero-hexagon.svg');
+          opacity: 0.04;
+          position: absolute;
+          height: 6.25rem;
+          width: 6.25rem;
+        }
+      }
+    
+      p {
+        font-weight: 500;
+      }
+      @media(min-width: 744px) {
+        p {
+            display: block;
+            font-size: 1.25rem;
+            line-height: 2.25rem;
+            margin-top: 40px;
+            margin-bottom: 40px;
+        }
+      }
+      @media (min-width:834px) and (max-device-width:840px){
+        margin: 40px !important;
+      }
+      @media (min-width:820px) and (max-device-width:830px){
+        margin: 40px 0px !important;
+      }
+      @media (min-width: 1024px) and (max-device-width:1100px){
+        p {
+            font-size: 1.5rem;
+            max-width: unset;
+            margin: 40px;
+        }
+      }
+    }
+
+    @media (min-width: 1280px) {
+      cx-paragraph:nth-child(1) {
+          max-width: 800px;
+      }
+    }
+
+    ws-popular-by-brand-shop {
+    
+      
+#animated-brand-cards {
+  margin: 0 auto;
+  width: 100%;
+  padding: 0 15px;
+}
+
+.animated-cards {
+  display: grid;
+  grid-template-columns: 100%;
+  grid-template-rows: 1fr auto;
+  gap: 50px;
+  position: relative;
+}
+.animated-cards a:any-link {
+  cursor: pointer;
+}
+
+.animated-cards-secondary {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+  flex-wrap: wrap;
+  gap: var(--small-animated-cards-gap);
+  position: relative;
+}
+
+.animated-card-inner {
+  background-color: white;
+  height: 100%;
+  width: 100%;
+  border-radius: var(--card-border-radius);
+  overflow: hidden;
+}
+
+.animated-card.card-main.animated-card.card-main {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  box-shadow: 0 3px 16px #dddaef;
+  border-radius: var(--card-border-radius);
+}
+
+@media (max-width: 744px) {
+  .animated-card.card-main.animated-card.card-main {
+    min-height: 275px;
+  }
+}
+.animated-card {
+  cursor: pointer;
+}
+.animated-card.card-main .animated-card-inner {
+  padding: 30px;
+  position: relative;
+  overflow: hidden;
+  background-color: #05b2e2;
+  width: 100%;
+}
+.animated-card.card-main .animated-card-inner:hover {
+  background-color: #049fc9;
+}
+.animated-card.card-main .card-logo {
+  position: absolute;
+  width: 110%;
+  height: 100%;
+  object-fit: contain;
+  margin-left: -40px;
+  margin-top: -30px;
+  opacity: 0.15;
+  filter: brightness(200%);
+  pointer-events: none;
+}
+.animated-card.card-main .card-title {
+  font-size: 1.6rem;
+  font-weight: 900;
+  color: white;
+  z-index: 4;
+  position: relative;
+  pointer-events: none;
+  background: rgba(0, 0, 0, 0.01);
+}
+.animated-card.card-main .card-description {
+  color: white;
+  margin-top: 25px;
+  z-index: 5;
+  position: relative;
+  pointer-events: none;
+}
+.animated-card.card-main .card-description p {
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.8rem;
+}
+.animated-card.card-main .card-cta {
+  position: absolute;
+  bottom: 30px;
+  z-index: 6;
+  background: rgba(0, 0, 0, 0.01);
+}
+.animated-card.card-main .card-cta a {
+  font-size: 18px;
+  font-weight: 900;
+  color: white;
+}
+
+.animated-card.card-main .card-cta a:hover {
+  text-decoration: underline;
+}
+.animated-card.card-main .card-product-image-container {
+  width: 175px;
+  height: 175px;
+  pointer-events: none;
+  position: absolute;
+  z-index: 2;
+  bottom: calc(-1 * var(--main-card-image-offset));
+  right: 0;
+}
+.animated-card.card-main .card-product-image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.animated-cards-secondary .animated-card .ac-product-image {
+  display: none;
+}
+
+.animated-cards-secondary .animated-card {
+  transition: all var(--card-animation-duration);
+  overflow: hidden;
+  box-shadow: 0 3px 16px rgba(0, 0, 0, 0.16);
+  border-radius: var(--card-border-radius);
+  min-height: 132px;
+}
+.animated-cards-secondary .animated-card .animated-card-inner {
+  padding: var(--small-cards-padding);
+  background-image: url(https://www.wholescripts.com/images/common/left-dot-pattern.svg);
+  background-repeat: no-repeat;
+  background-position: left;
+  background-size: 40%;
+  transition: all var(--card-animation-duration);
+}
+.animated-cards-secondary .animated-card .ac-product-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.animated-cards-secondary .animated-card .ac-title {
+  display: none;
+  width: 50%;
+  pointer-events: none;
+}
+.animated-cards-secondary .animated-card .ac-cta {
+  display: none;
+  background: rgba(0, 0, 0, 0.01);
+}
+.animated-cards-secondary .animated-card .ac-logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 60%;
+  max-width: 220px;
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+  transition: all 40;
+  margin: 0 auto;
+}
+.animated-cards-secondary .animated-card .ac-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+@media screen and (min-width: 744px) {
+  #animated-brand-cards {
+    padding: 0 40px;
+  }
+  .animated-cards {
+    gap: 70px;
+  }
+  .animated-card.card-main {
+    min-height: 345px;
+  }
+  .animated-card.card-main .card-title {
+    font-size: 2.5rem;
+  }
+  .animated-card.card-main .card-description {
+    max-width: calc(100% - 280px);
+  }
+  .animated-card.card-main .card-product-image-container {
+    height: 320px;
+    width: 320px;
+  }
+  #animated-brand-cards .animated-cards-secondary {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+}
+@media screen and (min-width: 1024px) {
+  #animated-brand-cards .animated-cards-secondary {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+@media screen and (min-width: 1280px) {
+  #animated-brand-cards {
+    margin: 0 auto;
+    width: fit-content;
+    padding: initial;
+    padding-bottom: 110px;
+  }
+  .animated-cards {
+    grid-template-columns: 370px calc(
+        3 * var(--secondary-card-width) + 2 * var(--animated-cards-gap)
+      );
+    grid-template-rows: 1fr;
+    gap: var(--animated-cards-gap);
+  }
+  .animated-cards-secondary {
+    flex-direction: row;
+    gap: var(--animated-cards-gap);
+  }
+  .animated-card {
+    position: absolute;
+    width: var(--secondary-card-width);
+    height: var(--secondary-card-height);
+  }
+  .animated-card .card-product-image-container {
+    position: absolute;
+    bottom: -30px;
+    right: 20px;
+  }
+  .animated-card.card-main {
+    margin-bottom: initial;
+  }
+  .animated-card.card-main .animated-card-inner {
+    width: 370px;
+  }
+  .animated-card.card-main .card-title {
+    font-size: 40px;
+  }
+  .animated-card.card-main .card-description {
+    max-width: unset;
+  }
+  .animated-card.card-main .card-product-image-container {
+    width: 195px;
+    height: 195px;
+  }
+  .animated-cards-secondary .animated-card .animated-card-inner {
+    background-size: 50%;
+  }
+  .animated-cards-secondary .animated-card .ac-product-image {
+    display: initial;
+    width: 320px;
+    height: 320px;
+    opacity: 0;
+    transform: scale(var(--small-cards-image-initial-scale));
+    position: absolute;
+    transition: all var(--card-animation-duration);
+    pointer-events: none;
+    visibility: hidden;
+  }
+  .animated-cards-secondary .animated-card .ac-title {
+    max-width: 50%;
+  }
+  .animated-cards-secondary .animated-card .ac-title p {
+    font-size: 1.5rem;
+    line-height: 2rem;
+    font-weight: 300 !important;
+    color: var(--darkest);
+  }
+  .animated-cards-secondary .animated-card .ac-title,
+  .animated-cards-secondary .animated-card .ac-cta {
+    display: block;
+    position: absolute;
+    transition: all var(--card-animation-duration);
+    bottom: 0;
+    opacity: 0;
+    font-weight: 900;
+    color: var(--primary);
+  }
+  .animated-cards-secondary .animated-card .ac-logo {
+    width: calc(var(--secondary-card-width) - 2 * var(--small-cards-padding));
+    margin: unset;
+  }
+  .card-top {
+    top: 0;
+  }
+  .card-bottom {
+    bottom: 0;
+  }
+  .card-left {
+    left: 0;
+  }
+  .card-right {
+    right: 0;
+  }
+  .card-center {
+    left: 50%;
+    transform: translateX(-50%);
+    margin: 0 auto;
+  }
+  .animated-cards-secondary .card-bottom .ac-product-image {
+    bottom: calc(-1 * var(--small-cards-image-vertical-offset));
+  }
+  .animated-cards-secondary .card-top .ac-product-image {
+    bottom: calc(
+      -1 * (var(--small-cards-image-vertical-offset) +
+            var(--secondary-card-height) + var(--animated-cards-gap))
+    );
+  }
+  .animated-cards-secondary .card-right .ac-product-image {
+    right: var(--small-cards-image-horizontal-offset);
+  }
+  .animated-cards-secondary .card-center .ac-product-image {
+    right: calc(
+      -1 * var(--secondary-card-width) - var(--animated-cards-gap) + var(--small-cards-image-horizontal-offset)
+    );
+  }
+  .animated-cards-secondary .card-left .ac-product-image {
+    right: calc(
+      -2 * var(--secondary-card-width) - 2 * var(--animated-cards-gap) + var(--small-cards-image-horizontal-offset)
+    );
+  }
+  .on-top {
+    z-index: 5;
+  }
+  .animated-cards-secondary .animated-card:hover {
+    width: 100%;
+    height: 100%;
+    overflow: initial;
+    z-index: 6;
+  }
+  .animated-cards-secondary .animated-card:hover .animated-card-inner {
+    background-size: initial;
+  }
+  .animated-cards-secondary .animated-card:hover .ac-cta {
+    display: block;
+    opacity: 1;
+    transform: translate(30px, -40px);
+  }
+  .animated-cards-secondary .animated-card:hover .ac-title {
+    /*
+    display  : block;
+    opacity  : 1;
+    */
+    transform: translate(15px, -120px);
+  }
+  .animated-cards-secondary .animated-card:hover .ac-title.visible {
+    opacity: 1;
+  }
+  .animated-cards-secondary .animated-card:hover .ac-product-image {
+    transform: scale(1);
+    visibility: visible;
+    opacity: 1;
+    bottom: calc(-1 * var(--small-cards-image-bottom-bleed));
+    right: 30px;
+  }
+  .animated-cards-secondary .animated-card:hover .ac-logo {
+    transform: scale(120%);
+    top: 20px;
+    left: 30px;
+  }
+}
+
+    }
+  }
+}

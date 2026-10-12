@@ -1,0 +1,177 @@
+.referal-container {
+  margin-inline-start: 0%;
+  .edit-referral {
+    width: 70%;
+    @media (max-width: 1300px) {
+      width: 100%;
+    }
+  }
+  .export {
+    margin-right: 16px;
+    background: white;
+    font-size: 14px;
+    border: 1px solid var(--ws-gray-light-300);
+    color: var(--cx-color-secondary);
+    padding: 10px 14px;
+  }
+  .tab-content {
+    border-top: 1.5px solid var(--ws-gray-light-200);
+    padding-top: 32px;
+  }
+  .new-referral {
+    font-size: 14px;
+    padding: 10px 14px;
+  }
+  input[type="text"] {
+    padding: 0.5rem 0.5rem;
+    border: 1px solid var(--ws-gray-light-200);
+    border-radius: 4px;
+    width: 100%;
+    font-weight: 300;
+    color: var(--ws-gray-light-500);
+    font-size: 16px;
+    background-image: url(/assets/icons/common_icons/search-icon.svg);
+    background-position: 97%;
+    background-repeat: no-repeat;
+    line-height: 24px;
+  }
+  h3 {
+    font-size: 18px !important;
+    line-height: 28px;
+    color: var(--cx-color-secondary);
+    font-weight: 700 !important;
+  }
+  span {
+    color: var(--cx-color-secondary);
+    font-size: 14px;
+    font-weight: 300;
+  }
+
+  .table {
+    border-radius: 10px;
+    overflow: hidden;
+    .actions {
+      text-align: end;
+      .edit {
+        color: var(--ws-gray-light-600);
+      }
+      button {
+        text-decoration: underline;
+        font-weight: 700 !important;
+      }
+      .share {
+        color: var(--cx-color-primary);
+      }
+    }
+    thead tr {
+      background-color: var(--ws-gray-dark-50);
+      border: 1px solid var(--ws-gray-light-200) !important;
+      border-radius: 10px;
+      th {
+        color: var(--ws-gray-light-600);
+        font-size: 12px;
+        text-transform: capitalize;
+        font-weight: 600 !important;
+        line-height: 18px;
+        padding: 12px 24px;
+        vertical-align: middle;
+        width: 25%;
+      }
+    }
+    tbody tr {
+      background-color: white !important;
+      border-bottom: 1px solid var(--ws-gray-light-200);
+      border-left: 1px solid var(--ws-gray-light-200);
+      border-right: 1px solid var(--ws-gray-light-200);
+      td {
+        font-size: 14px;
+        font-weight: 300;
+        color: var(--ws-gray-light-900);
+        line-height: 20px;
+        padding: 16px 24px;
+        vertical-align: middle;
+        width: 25%;
+        text-transform: uppercase;
+        span {
+          display: none;
+        }
+      }
+    }
+  }
+
+  @media (max-width: 578px) {
+    .action-buttons {
+      justify-content: space-between !important;
+      padding-top: 16px !important;
+      padding-left: 8px;
+      @media(max-width: 578px) {
+        padding: 0;
+        button {
+          padding: 6px 12px;
+        }
+      }
+      .export {
+        margin-right: 0;
+      }
+    }
+    table {
+      thead {
+        display: none;
+      }
+      tbody tr {
+        flex-direction: column;
+        display: flex;
+        width: 100%;
+        margin-bottom: 16px;
+        padding-top: 0;
+        border-radius: 10px;
+        td {
+          display: flex;
+          width: 100% !important;
+          justify-content: space-between;
+          padding: 8px 16px !important;
+          span {
+            display: inline-block !important;
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--ws-gray-light-600);
+          }
+        }
+        .actions {
+          justify-content: flex-end;
+          .edit {
+            text-decoration: none;
+          }
+        }
+      }
+    }
+  }
+}
+.export:focus-visible,
+.new-referral:focus-visible,
+.edit:focus-visible,
+.share:focus-visible {
+  outline: 3px solid var(--cx-color-darkest) !important;
+  outline-offset: 2px !important;
+  box-shadow: unset;
+}
+
+.table-empty {
+  text-align: center;
+  border-radius: 3px;
+  background-color: var(--ws-base-white);
+  padding: 15px;
+}
+
+.table-empty>div {
+  background-color: var(--cx-color-background-alt);
+  border: solid 1px var(--ws-border-color);
+  border-radius: 3px;
+  padding: 30px;
+}
+
+.table-empty__h {
+  font-size: 18px !important;
+  font-weight: 900;
+  margin: 0;
+}

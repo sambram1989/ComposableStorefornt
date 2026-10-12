@@ -1,0 +1,258 @@
+:root {
+    --cx-color-primary: #584091;
+    --cx-color-primary-light: #6c4db4;
+    --cx-color-secondary: #3E3B49;
+    --cx-color-success: #29A979;
+    --cx-color-info: #0E7090; // info not appear in figma so cyan as info
+    --cx-color-warning: #FF8F09;
+    --cx-color-danger: #C50139; //danger not appear in figma so error as danger
+    --cx-color-primary-accent: #6E5AA1;
+    --cx-color-secondary-accent: #8A8892;
+    --cx-color-success-accent: #29A979;
+    --cx-color-info-accent: #22CCEE;
+    --cx-color-warning-accent: #FFBA68;
+    --cx-color-danger-accent: #FF738E;
+    --cx-color-primary-dark: #433372;
+    --cx-color-link-primary: #584091;
+    --cx-color-darkest: #3e3b49;
+    --cx-color-inverse: #ffffff;
+    --cx-pagination-hover: #F3F4FF;
+    --cx-buttons-border-radius: 0.25rem;
+    --cx-color-light: #d3d6db;
+    --cx-color-transparent: #FFFFFF 0%;
+    --cx-color-visual-focus: #9A8DC0;
+    --cx-color-text: #333;
+    --cx-color-dark: #1F242F;
+    --cx-color-background: #f4f4f4;
+    --cx-color-background-info-primary: #F5FEFF;
+
+    --cx-color-table-header: #EDF0F1;
+    --cx-color-background-alt: #eef0f1;
+    --cx-color-medium: #d5c7d9;
+    --cx-color-background-dark: #212738;
+    --cx-color-background-darkest: #013147;
+    --cx-color-dark-grey:#333;
+    --cx-color-background-focus: rgba(200, 80, 244, 0.1);
+    --cx-color-border-focus: rgba(181, 160, 242, 0.6);
+    --cx-color-border-color: #eaeaea;
+    --cx-color-border-bottom-color: #e6e6e6;
+    --cx-product-shadow: #C6BBDB;
+    --cx-color-background-light: #d5c5fa;
+    --cx-box-shadow-default: rgba(0, 0, 0, 0.1);
+    --cx-color-grey-light-200: #b3bec2;
+    --cx-color-grey-light-250: #cad2d5;
+    --cx-color-grey-light-300: #f9f9f9;
+    --cx-color-grey-light-350: #e5e9ea;
+
+    --ws-base-white: #FFFFFF;
+    --ws-base-black: #000000;
+    --ws-base-Transparent: #FFFFFF 0%;
+    --ws-breadcrumb-bg: #f4f4f4;
+    --ws-breadcrumb-text: #3e3b49;
+    --ws-search-result-found-text: #77757F;
+    --ws-search-placeholder-text: #B9B9B9;
+    --ws-border-color: #dfdfdf;
+
+    --ws-gray-light-alt: #F0F0F0;
+    --ws-gray-light-25: #FCFCFD;
+    --ws-gray-light-50: #FAFAFA; // can use it as ws background
+    --ws-gray-light-75: #F6F6F6;
+    --ws-gray-light-100: #EFEFF4;
+    --ws-gray-light-200: #E3E3E5;
+    --ws-gray-light-300: #BCBCC3;
+    --ws-gray-light-400: #8A8892;
+    --ws-gray-light-500: #716E7A;
+    --ws-gray-light-600: #575561;
+    --ws-gray-light-700: #3E3B49;
+    --ws-gray-light-800: #2C2A33;
+    --ws-gray-light-850: #242424;
+    --ws-gray-light-900: #101828;
+    --ws-gray-light-950: #0C111D;
+    --ws-gray-dark: #3E3C49;
+
+    --ws-gray-dark-alt: #f3f4ff;
+    --ws-gray-dark-25: #FAFAFA;
+    --ws-gray-dark-50: #F5F5F6;
+    --ws-gray-dark-100: #F0F1F1;
+    --ws-gray-dark-200: #ECECED;
+    --ws-gray-dark-300: #CECFD2;
+    --ws-gray-dark-350: #ddd;
+    --ws-gray-dark-400: #94969C;
+    --ws-gray-dark-500: #85888E;
+    --ws-gray-dark-600: #61646C;
+    --ws-gray-dark-700: #333741;
+    --ws-gray-dark-800: #1F242F;
+    --ws-gray-dark-900: #161B26;
+    --ws-gray-dark-950: #0C111D;
+
+    --ws-brand-25: #F3F4FF;
+    --ws-brand-50: #DDDAEF;
+    --ws-brand-100: #C7C1E0;
+    --ws-brand-200: #B1A7D0;
+    --ws-brand-300: #9A8DC0;
+    --ws-brand-400: #6E5AA1;
+    --ws-brand-500: #584091;
+    --ws-brand-600: #4E3981;
+    --ws-brand-700: #433372;
+    --ws-brand-800: #3C2D65;
+    --ws-brand-900: #312457;
+    --ws-brand-950: #2C1C5F;
+
+    --ws-error-25: #FFF9FA;
+    --ws-error-50: #FFF0F3;
+    --ws-error-100: #FFDEE4;
+    --ws-error-150: #FFDBE3;
+    --ws-error-200: #FFC4CF;
+    --ws-error-300: #FF8EA4;
+    --ws-error-400: #FF738E;
+    --ws-error-500: #FF5979;
+    --ws-error-600: #FF3E63;
+    --ws-error-650: #FF2051;
+    --ws-error-700: #C50139;
+    --ws-error-750: #d10128;
+    --ws-error-800: #A0002E;
+    --ws-error-900: #7C0024;
+    --ws-error-950: #59001A;
+
+    --ws-warning-25: #FCF7F2;
+    --ws-warning-50: #FFF4E6;
+    --ws-warning-100: #FFE6C6;
+    --ws-warning-200: #FFD7A7;
+    --ws-warning-300: #FFC987;
+    --ws-warning-400: #FFBA68;
+    --ws-warning-500: #FFAC48;
+    --ws-warning-600: #FF9D29;
+    --ws-warning-650: #FF9F31;
+    --ws-warning-700: #FF8F09;
+    --ws-warning-800: #C56000;
+    --ws-warning-900: #8D4500;
+    --ws-warning-950: #663200;
+
+    --ws-success-25: #F7FFFC;
+    --ws-success-50: #E6F9F1;
+    --ws-success-100: #D1F4E5;
+    --ws-success-200: #BBEFD9;
+    --ws-success-300: #A5EACC;
+    --ws-success-400: #8FE5C0;
+    --ws-success-500: #7AE0B4;
+    --ws-success-600: #64DBA8;
+    --ws-success-700: #29A979;
+    --ws-success-800: #12714D;
+    --ws-success-900: #101828;
+    --ws-success-950: #06271A;
+
+    --ws-gray-blue-25: #FCFCFD;
+    --ws-gray-blue-50: #F8F9FC;
+    --ws-gray-blue-100: #EAECF5;
+    --ws-gray-blue-200: #D5D9EB;
+    --ws-gray-blue-300: #B3B8DB;
+    --ws-gray-blue-400: #717BBC;
+    --ws-gray-blue-500: #4E5BA6;
+    --ws-gray-blue-600: #3E4784;
+    --ws-gray-blue-700: #363F72;
+    --ws-gray-blue-800: #293056;
+    --ws-gray-blue-900: #101323;
+    --ws-gray-blue-950: #0D0F1C;
+    --ws-gray-blue-1000: #5C3F90;
+
+    --ws-cyan-25: #F5FEFF;
+    --ws-cyan-50: #ECFDFF;
+    --ws-cyan-100: #CFF9FE;
+    --ws-cyan-200: #A5F0FC;
+    --ws-cyan-300: #67E3F9;
+    --ws-cyan-400: #22CCEE;
+    --ws-cyan-500: #06AED4;
+    --ws-cyan-550: #2196F3;
+    --ws-cyan-600: #088AB2;
+    --ws-cyan-700: #0E7090;
+    --ws-cyan-800: #155B75;
+    --ws-cyan-900: #164C63;
+    --ws-cyan-950: #0D2D3A;
+
+    --ws-purple-25: #FAFAFF;
+    --ws-purple-50: #F4F3FF;
+    --ws-purple-100: #EBE9FE;
+    --ws-purple-200: #D9D6FE;
+    --ws-purple-300: #BDB4FE;
+    --ws-purple-400: #9B8AFB;
+    --ws-purple-500: #7A5AF8;
+    --ws-purple-600: #6938EF;
+    --ws-purple-700: #5925DC;
+    --ws-purple-750: #5c4b7d;
+    --ws-purple-800: #4A1FB8;
+    --ws-purple-900: #3E1C96;
+    --ws-purple-950: #27115F;
+
+    --ws-pink-25: #FEF6FB;
+    --ws-pink-50: #FDF2FA;
+    --ws-pink-100: #FCE7F6;
+    --ws-pink-200: #FCCEEE;
+    --ws-pink-300: #FAA7E0;
+    --ws-pink-400: #F670C7;
+    --ws-pink-500: #EE46BC;
+    --ws-pink-600: #DD2590;
+    --ws-pink-700: #C11574;
+    --ws-pink-800: #9E165F;
+    --ws-pink-900: #851651;
+    --ws-pink-950: #4E0D30;
+
+    --ws-orange-25: #FEFAF5;
+    --ws-orange-50: #FEF6EE;
+    --ws-orange-100: #FDEAD7;
+    --ws-orange-200: #F9DBAF;
+    --ws-orange-300: #F7B27A;
+    --ws-orange-400: #F38744;
+    --ws-orange-500: #EF6820;
+    --ws-orange-600: #E04F16;
+    --ws-orange-700: #B93815;
+    --ws-orange-800: #932F19;
+    --ws-orange-900: #772917;
+    --ws-orange-950: #511C10;
+
+    // missing colors
+    --ws-missing-gray: #808080;
+    --ws-table-heading: #21252b;
+    --ws-form-control: #495057;
+    --ws-card-description: #212529;
+
+    //badge-colors
+    --ws-badge-bestseller: #B2CCFF;
+    --ws-badge-bestseller-text: #002266;
+    --ws-badge-featured: #F6D0FE;
+    --ws-badge-featured-text: #47104C;
+    --ws-badge-new: #FEEE95;
+    --ws-badge-new-text: #542C0D;
+
+    //success-icon
+    --ws-success-icon-background: #239563;
+    --ws-success-backgound: #eeebf6;
+    --ws-success-text: #12714d;
+    --ws-progress-bar-success: #10cfbd;
+
+    //border colors
+    --ws-custom-border-color: #ededed;
+
+    //input disabled colors
+    --ws-input-disabled-text-color: #2c2c2c;
+    --ws-input-disabled-bg-color: #f8f8f8;
+
+    // high contrast colors - ADA
+    --error-contrast-red: #B00000;
+    --error-contrast-hover-red: #800000;
+
+    --secondary-card-width: 235px;
+    --secondary-card-height: 157px;
+    --animated-cards-gap: 30px;
+    --small-animated-cards-gap: 20px;
+    --card-animation-duration: 0.5s;
+    --card-border-radius: 8px;
+    --main-card-image-offset: 30px;
+    --small-cards-image-vertical-offset: 192px;
+    --small-cards-image-horizontal-offset: -120px;
+    --small-cards-image-initial-scale: 20%;
+    --small-cards-image-bottom-bleed: 30px;
+    --small-cards-padding: 15px;
+    $theme-green: black !important;
+    --ws-warning-error-text-color:#BC1B06;
+    --ws-indigo-700: #4B0082;
+}

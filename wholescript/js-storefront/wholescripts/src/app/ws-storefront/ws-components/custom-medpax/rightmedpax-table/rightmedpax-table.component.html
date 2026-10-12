@@ -1,0 +1,68 @@
+<table class="table mt-0 table-container" role="table" aria-label="Product List">
+    @if(isMedPaxAvailable()){
+        <thead>
+            <tr role="row">
+                <th role="columnheader" class="cart-table-head" scope="col" aria-label="Product">Product</th>
+                <th role="columnheader" class="cart-table-head" scope="col" aria-label="Price">{{isFromProtocol() ? 'Dosing' : 'Price'}}</th>
+                <th class="text-right cart-table-head" role="columnheader" scope="col" aria-label="Actions" *ngIf="isActionsVisible">Actions</th>
+            </tr>
+        </thead>
+    }
+    <tbody>
+        @if(products()|isArray){
+        @for(product of products(); track product){
+        <tr class="rec-table__row" role="row">
+            <td class="align-middle product-name rec-table__name pr-2 ">
+                @if(showMedpaxPLNameOrName) {
+                    <button class="text-link bolder" (click)="openProductDetailPopup(product?.product?.code)" [innerHTML]="medPaxData()?.carton?.defaultCarton ? product?.product?.name : product?.product?.genericPLName" [attr.aria-label]="'View details of'+product.product.name"></button><br>
+                }@else {
+                    <button class="text-link bolder" (click)="openProductDetailPopup(product?.product?.code)" [innerHTML]="product.product.name" [attr.aria-label]="'View details of'+product.product.name"></button><br>
+                    <ws-private-label-tag [class.d-none]="!product?.product?.genericPLName" [labelName]="product?.product?.genericPLName" [productCode]="product?.product?.code" (labelClick)="openProductDetailPopup($event)"></ws-private-label-tag>   
+                }
+                @if(!isFromProtocol()){
+                    <br>
+                    <span class="fs-13"> Dosing:&nbsp;{{product?.dosing|slice:0:4|dosingPipe:true}}</span>
+                }
+            </td>
+            <td class="align-middle rec-table__price px-0">
+                @if(isFromProtocol()){
+                    <span class="fs-13">Dosing:&nbsp;{{product?.dosing|slice:0:4|dosingPipe:true}}</span>
+                }@else {
+                    <span class="bolder">  ${{product?.price | number:'1.2-2'}}</span>
+                }
+            </td>
+            <td class="justify-content-center button-td pe-unset align-middle cursor-pointer" *ngIf="isActionsVisible">
+                <span class="td-u bolder text-primary my-1" (keypress)="editDosing(product.product)" (click)="editDosing(product.product)" [attr.aria-label]="'Edit Dosing for ' + product.product.name" tabindex="0" role="button">Edit
+                </span>
+                <button class="pb-unset  my-1 ml-2  d-none d-lg-inline bolder btn-link text-danger remove-btn cursor-pointer"
+                    (click)="removeProduct(product)" [attr.aria-label]="'Remove ' + product.product.name + ' from the protocol'" tabindex="0" role="button">x</button>
+            </td>
+        </tr>
+        }
+        @empty {
+        <tr>
+            <td colspan="3">
+                <div class="text-center my-3" role="alert" aria-live="polite">
+                    <img src="https://qa.wholescripts.com/images/medpax/empty-MedPax.svg" class="w-100"
+                        alt="No Products">
+                    <h5 class="bolder mt-4">No Products have been added</h5>
+                    Add a product to get started
+                </div>
+            </td>
+        </tr>
+
+        }
+    }
+        @if(isMedPaxAvailable() && products()?.length >= 2){
+            @for( opt of (products()?.length == 1) ? [1,2] : (products()?.length == 2) ?[1] :[] ; track opt ){
+                <ng-container *ngTemplateOutlet="addAnotherFormula"></ng-container>
+            }
+        }
+    </tbody>
+</table>
+
+<ng-template #addAnotherFormula>
+    <tr>
+        <div class="text-danger italic mb-2 pl-2"  role="alert" aria-live="assertive">[Add another formula]</div>
+    </tr>
+</ng-template>

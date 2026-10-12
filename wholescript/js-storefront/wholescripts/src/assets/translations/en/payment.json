@@ -1,0 +1,9 @@
+{
+  "paymentTypes": {
+    "title": "Payment method",
+    "paymentType_CARD": "Credit Card",
+    "paymentType_ACCOUNT": "Account",
+    "paymentType_ZTEL": "ZTEL",
+    "paymentType_XCRD": "XCRD"
+  }
+}

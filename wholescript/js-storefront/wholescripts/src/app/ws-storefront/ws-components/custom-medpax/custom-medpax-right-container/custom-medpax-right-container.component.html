@@ -1,0 +1,87 @@
+<ng-container *ngIf="medPaxData()?.medpaxEntry?.length > 0 ; else emptyState">
+    <div class="sticky" aria-label="cart-header">
+        <section class="cart-header">
+            <div class="d-inline cart-header__text" aria-label="MedPax Cart Header">Your <span
+                    class="d-none d-sm-inline ">@if(isRightContainerPopup()){Personalized}</span> MedPax:</div>
+            <button class="close bolder float-right d-lg-none" tabindex="0" aria-label="Close Cart Header">
+                ×
+            </button>
+            <div class="d-lg-inline float-xl-right d-md-block float-sm-none cart-header__products" aria-live="polite">
+                @if(isMedPaxAvailable()){
+                <span class="d-sm-inline ">{{medPaxData()?.medpaxEntry?.length}} Product<span>@if(medPaxData() &&
+                        medPaxData()?.medpaxEntry?.length > 1){s}</span></span>
+                }
+            </div>
+        </section>
+        <section class="cart-body" aria-label="cart-body-section">
+            @if(false){
+            <div class="custom-inline-alert w-100 mb-3 text-center" role="alert" aria-live="assertive">
+                This Medpax is currently not available. Please remove the Medpax.
+            </div>
+            }
+            @if(isMedPaxAvailable() && !isRightContainerPopup()){
+            <div class="mb-3">
+                <ws-medpax-card [medPaxData]="medPaxData()" [isPlUser]="isPlUser"></ws-medpax-card>
+            </div>
+            }
+            @if(isMedPaxAvailable()){
+            @if(medPaxData() && medPaxData()?.medpaxEntry?.length < 3){ <div
+                class="custom-inline-alert  text-center w-100 mb-3 " role="alert" aria-live="assertive">
+                Minimum of 3 items required for MedPax
+    </div>
+    }
+    }
+    <div>
+        <section class="table-container mb-3">
+            <ws-rightmedpax-table [medPaxData]="medPaxData()" [products]="medPaxData()?.medpaxEntry" [isActionsVisible]="isVisibleActions"
+                [isMedPaxAvailable]="isMedPaxAvailable()" aria-label="MedPax Table"></ws-rightmedpax-table>
+        </section>
+        @if(isMedPaxAvailable()){
+        <section class="d-flex">
+            <div class="ml-auto">
+                <span class="bolder" aria-live="polite">Total: ${{medPaxData()?.totalPrice | number:'1.2-3'}}</span>
+            </div>
+        </section>
+        }
+
+        @if(!isRightContainerPopup()) {
+        @if(isMedPaxAvailable()){
+        <hr>
+      
+                <button class="text-link bolder d-flex  shadow-none col-gap-10" accordion-heading type="button"
+                    [attr.aria-expanded]="isSupplementVisible()" aria-controls="combinedSupplementFacts"
+                    (click)="toggleSupplementFacts()">
+                    <div class="td-u pull-left float-left"> View Combined Supplement Facts <i class="fas"
+                            [ngClass]="isSupplementVisible() ? 'fa-chevron-up' : 'fa-chevron-down'"
+                            aria-hidden="true"></i>
+                    </div>
+                </button>
+                <ws-supplementfacts *ngIf="toggleAccordion" [productIds]="productCodes"
+                    [productName]="productName">
+                </ws-supplementfacts>           
+       
+        } }
+    </div>
+    <section class="d-lg-none text-right my-3">
+        <button class="btn btn-rounded btn-primary" tabindex="0">
+            Close
+        </button>
+    </section>
+    </section>
+    </div>
+</ng-container>
+
+<ng-template #emptyState>
+    <div class="empty-state">
+        <section class="cart-header">
+            <div class="d-inline cart-header__text" aria-label="MedPax Cart Header">Your MedPax: </div>
+        </section>
+        <section class="cart-body content">
+            <div class="empty-body">
+                <img src="https://qa.wholescripts.com/images/medpax/empty-MedPax.svg" alt="">
+                <h5 class="bolder mt-4">No Products have been added</h5>
+                Add a product to get started
+            </div>
+        </section>
+    </div>
+</ng-template>

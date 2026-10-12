@@ -1,0 +1,12 @@
+#Impex for Avalara Cronjob
+INSERT_UPDATE ServicelayerJob;code[unique=true];springId[unique=true]
+                             ;getAvalaraTaxLinkJob; getAvalaraTaxLinkJob
+
+INSERT_UPDATE GetAvalaraTaxLinkCronjob;code[unique=true];job(code);singleExecutable;sessionLanguage(isocode)
+                                      ;GetAvalaraTaxLinkCronjobPerformable; getAvalaraTaxLinkJob;false;en;
+
+# Insert or update Trigger
+INSERT_UPDATE Trigger; cronJob(code)[unique=true]            ; second ; minute ; hour ; day  ; month ; year  ; relative[default=false] ; active[default=true] ; maxAcceptableDelay[default=0]
+                     ; GetAvalaraTaxLinkCronjobPerformable     ; 0      ; 0      ; 4    ; -1 ; -1 ; -1 ; true                  ; true                 ; 0
+
+

@@ -1,0 +1,49 @@
+.carousel-container {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+  }
+  
+  .carousel-items {
+    display: flex;
+    gap: 1rem;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    padding: 0.5rem;
+    scrollbar-width: none;
+  }
+  
+  .carousel-items::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .nav-button {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 100%;
+    display: flex;
+    align-items: center;
+
+    .icon {
+        display: flex;
+        width: 48px;
+        height: 48px;
+        justify-content: center;
+        align-items: center;
+        flex-shrink: 0;
+        border-radius: 9999px;
+        border: 1px solid var(--ws-gray-light-200);
+        background: var(--cx-color-inverse);
+    }
+  }
+  
+  .nav-button.left {
+    left: 0;
+  }
+  
+  .nav-button.right {
+    right: 0;
+  }
+  

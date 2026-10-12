@@ -1,0 +1,14 @@
+<hr class="my-2" >
+<div class="col-12 d-lg-flex d-md-flex flex-lg-row flex-md-row d-sm-block mt-3">
+    <div class="col-lg-9 col-md-7 col-sm-12 col-xs-12">
+        <cx-page-slot position="consultationFeeHeading"></cx-page-slot>
+        <cx-page-slot position="consultationFeeBodyContent"></cx-page-slot>
+    </div>
+    <div class="col-lg-3 col-md-5 col-sm-12 col-xs-12 mt-1">
+        @if(canDownload$|async ; as downloadable){ 
+        @if(downloadable?.success !== 'false'){
+        <cx-page-slot position="consultationFeeFormButton"></cx-page-slot>
+        } 
+        }
+    </div>
+</div>

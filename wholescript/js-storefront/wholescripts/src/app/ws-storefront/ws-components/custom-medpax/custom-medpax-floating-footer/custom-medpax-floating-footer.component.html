@@ -1,0 +1,94 @@
+<ws-floating-footer aria-label="Review and Total Summary">
+   <div class="floot-footer">
+      <div class="view-popup d-block d-xl-none" (click)="openViewPopup.emit({})">
+         View
+      </div>
+      <div class="p-3 f-grow">
+         <div class="bottom-nav__right d-flex align-items-center justify-content-end mx-0 mx-md-4">
+            <div class="totals-area">
+               <div class="mr-3" *ngIf="flowType() === 'recommendation'">
+                  <div class="bolder">
+                     MSRP: 
+                     {{ recommendationEntries()?.msrpSubTotalPrice?.formattedValue }}
+                  </div>
+                  
+               </div>
+               <div class="mr-3" *ngIf="flowType() === 'protocol'">
+                  <h3 class="bolder">
+                     Total:  
+                     {{ proptocolEntries()?.totalPrice?.formattedValue}}
+                  </h3>
+                  @if(!location.path()?.toLowerCase()?.includes('review')){   
+                     <div>
+                        MSRP: 
+                        {{ proptocolEntries()?.msrpSubTotalPrice?.formattedValue }}
+                     </div>
+                  }
+               </div>
+               <div class="mr-3" *ngIf="flowType() === 'medpax'">
+                  <h3 class="bolder">
+                     Total: $
+                     {{ medPaxProducts()?.totalPrice || 0.0 | number : "1.2-2" }}
+                  </h3>
+                  @if(!location.path()?.toLowerCase()?.includes('medpax/medpaxselectcarton')){   
+                     <div>
+                        MSRP: $
+                        {{ medPaxProducts()?.msrpTotalPrice || 0.0 | number : "1.2-2" }}
+                     </div>
+                  }
+               </div>
+            </div>
+            @if(plUser()){
+               @if((location?.path()?.toLowerCase()?.includes('recommendation'))||
+               (location?.path()?.toLowerCase()?.includes('protocol'))){
+               <a class="btn btn-outline-primary btn-rounded pull-right next-btn btn-h btn-w mr-2"
+               tabindex="0" role="button" (keypress)="location.back()"
+                  (click)="location.back()">Back</a>
+               <a class="btn btn-primary btn-rounded pull-right next-btn btn-h btn-w"
+                  [routerLink]="(location?.path()?.toLowerCase()?.includes('recommendation')) ? ('/recommendation/edit/medpax/review/'|parseUrl:[currentUrlId]) : '/protocol/edit/medpax/review/' | parseUrl : [currentUrlId]"
+                  tabindex="0" aria-label="Review MedPax">
+                  {{(location?.path()?.toLowerCase()?.includes('recommendation')) ? 'Review MedPax' : 'Next'}}
+               </a>
+               } @else{
+               @if(location?.path()?.toLowerCase().includes('carton')){
+               <ng-container *ngTemplateOutlet="navigateToReviewMedpax"></ng-container>
+               }@else {
+                  @if(from === 'cart'){
+                     <button class="btn btn-primary btn-rounded pull-right next-btn btn-h btn-w"
+                        [routerLink]="'/medpax/review/' | parseUrl : [medPaxProducts()?.code]" tabindex="0"
+                        aria-label="Review MedPax" [disabled]="medPaxProducts().medpaxEntry?.length < 3">
+                        Review MedPax</button>
+                  } @else {
+                     @if(isMedPaxAvailable()) {
+                        <button class="btn btn-primary btn-rounded pull-right next-btn btn-h btn-w"
+                        [routerLink]="'/medpax/MedPaxSelectCarton/' | parseUrl : [medPaxProducts()?.code]" tabindex="0"
+                        aria-label="Review MedPax" [disabled]="medPaxProducts().medpaxEntry?.length < 3">
+                        Select Carton</button>
+                     } @else {
+                        <button class="btn btn-primary btn-rounded pull-right next-btn btn-h btn-w disabled"
+                        tabindex="0"
+                        aria-label="Review MedPax" >
+                        Select Carton</button>
+                      }
+                  }
+               }
+            }
+            }@else {
+            <ng-container *ngTemplateOutlet="navigateToReviewMedpax"></ng-container>
+            }
+         </div>
+      </div>
+   </div>
+</ws-floating-footer>
+
+<ng-template #navigateToReviewMedpax>
+   @if(((selectedProductCodes()?.length <= 2)) || !isMedPaxAvailable()){ <a
+      class="btn btn-primary btn-rounded pull-right next-btn btn-h btn-w disabled" tabIndex="0" [routerLink]="'/medpax'"
+      aria-label="Review MedPax Disabled" disabled>
+      Review MedPax</a>
+      }@else{
+      <a class="btn btn-primary btn-rounded pull-right next-btn btn-h btn-w"
+         [routerLink]="'/medpax/review/' | parseUrl : [medPaxProducts()?.code]" tabindex="0" aria-label="Review MedPax">
+         Review MedPax</a>
+      }
+</ng-template>

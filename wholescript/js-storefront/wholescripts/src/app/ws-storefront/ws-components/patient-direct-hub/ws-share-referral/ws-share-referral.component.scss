@@ -1,0 +1,180 @@
+.referral-sharing-container {
+  max-width: 100%;
+  .fa-xmark {
+    top: 24px;
+    position: absolute;
+    right: 24px;
+    font-size: 20px;
+    cursor: pointer;
+    &:focus-visible {
+      outline: 3px solid var(--cx-color-darkest) !important;
+      outline-offset: 2px !important;
+      box-shadow: unset;
+    }
+  }
+  .modal-header {
+    flex-direction: column;
+    border-bottom: 1px solid var(--ws-gray-light-200);
+    h1 {
+      font-size: 24px !important;
+      margin-bottom: 10px;
+      color: var(--ws-gray-light-900);
+      font-weight: 700;
+    }
+
+    p {
+      font-size: 14px;
+      font-weight: 300;
+      color: var(--ws-gray-light-600);
+    }
+  }
+
+  .section {
+    margin: 0 24px;
+    border-bottom: 1px solid var(--ws-gray-light-200);
+    padding: 16px 0;
+
+    &:nth-child(4) {
+      border-bottom: none;
+    }
+
+    .share-inputs {
+      flex-direction: row;
+      display: flex;
+      gap: 16px;
+    }
+
+    h2 {
+      font-size: 14px !important;
+      font-weight: 500 !important;
+      margin-bottom: 5px;
+      color: var(--ws-gray-light-700);
+      padding-top: 16px;
+    }
+
+    p {
+      font-size: 14px;
+      color: var(--ws-gray-light-600);
+      margin-bottom: 16px;
+      font-weight: 300;
+    }
+
+    .input-group {
+      margin-bottom: 15px;
+      flex-direction: column;
+
+      label {
+        display: block;
+        font-weight: 300;
+        margin-bottom: 5px;
+        font-size: 12px;
+        text-transform: uppercase;
+      }
+
+      .input-group-content {
+        display: flex;
+        align-items: center;
+        border: 1px solid var(--ws-gray-light-300);
+        border-radius: 4px;
+
+        input {
+          width: 100%;
+          padding: 10px;
+          border: none;
+          background-color: transparent;
+          font-size: 16px;
+          font-weight: 300;
+          line-height: 24px;
+          color: var(--ws-gray-light-900);
+        }
+
+        .copy-btn {
+          background-color: transparent;
+          color: var(--ws-gray-light-900);
+          font-weight: 700;
+          padding: 10px 20px;
+          border: none;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          border-left: 1px solid var(--ws-gray-light-300);
+
+          &:hover {
+            color: white;
+            background-color: var(--cx-color-primary);
+          }
+        }
+      }
+    }
+
+    .row {
+      display: flex;
+      justify-content: space-between;
+
+      .input-group {
+        width: 48%;
+      }
+    }
+  }
+
+  .modal-ft {
+    display: flex;
+    justify-content: flex-end;
+    padding: 16px 24px;
+
+    button {
+      background-color: white;
+      border: 1px solid var(--ws-gray-light-300);
+      color: var(--ws-gray-light-700);
+      border-radius: 40px;
+      cursor: pointer;
+      padding: 10px 20px;
+      font-weight: bold;
+      transition: background-color 0.3s;
+    }
+    button:hover {
+      background-color: var(--ws-gray-light-200);
+    }
+  }
+}
+
+.toast-wrapper {
+  position: fixed;
+  top: 100px;
+  right: 24px;
+  .toastMsg {
+      opacity: 1;
+      .toast-header {
+          display: flex;
+          padding: 16px;
+          align-items: flex-start;
+          gap: 16px;
+          align-self: stretch;
+          border-radius: 12px;
+          border: 1px solid var(--ws-success-800);
+          background: var(--ws-success-50);
+          box-shadow: 0px 12px 16px -4px  rgba(16, 24, 40, 0.08), 0px 4px 6px -2px rgba(16, 24, 40, 0.03);
+          align-items: center;
+          .toast-header-message-wrapper {
+              gap: 16px;
+              justify-content: space-between;
+              width: 100%;
+              display: flex;
+              align-items: center;
+              p {
+                  color: var(--ws-success-900);
+                  font-size: 14px;
+                  font-weight: 600;
+                  line-height: 20px;
+                  margin: 0;
+              }
+
+              .fa-close {
+                  cursor: pointer;
+              }
+          }
+      }
+  }
+}
+

@@ -1,0 +1,46 @@
+@if( totalItems()> itemsPerPage()){
+  <pagination
+    [totalItems]="totalItems()"
+    (pageChanged)="pageChanged($event)"
+    [itemsPerPage]="itemsPerPage()"
+    [boundaryLinks]="showBoundaryLinks()"
+    [align]="true"
+    [rotate]="false"
+    [customPreviousTemplate]="firstTemplate"
+    [customNextTemplate]="lastTemplate"
+    [customFirstTemplate]="firstPageLinkTemplate"
+    [customLastTemplate]="lastPageLinkTemplate"
+    [maxSize]="numberOfPagesNeedTOBeShown()"
+  >
+  </pagination>
+}
+
+<!-- First Page Link -->
+<ng-template #firstPageLinkTemplate let-disabled="disabled">
+  <span *ngIf="showFirstPageLink()" aria-hidden="true">
+    1
+  </span>
+</ng-template>
+
+<!-- Last Page Link -->
+<ng-template #lastPageLinkTemplate let-disabled="disabled">
+  <span *ngIf="showLastPageLink()" aria-hidden="true">
+   {{ getLastPage() }}
+  </span>
+</ng-template>
+
+<!-- Prev Link -->
+<ng-template #firstTemplate let-disabled="disabled">
+  <span aria-hidden="true">
+    <i class="fa fa-chevron-left left-icon"></i>
+  </span>
+  <span class="sr-only">Previous</span>
+</ng-template>
+
+<!-- Next Link -->
+<ng-template #lastTemplate let-disabled="disabled">
+  <span aria-hidden="true">
+    <i class="fa fa-chevron-right right-icon"></i>
+  </span>
+  <span class="sr-only">Next</span>
+</ng-template>

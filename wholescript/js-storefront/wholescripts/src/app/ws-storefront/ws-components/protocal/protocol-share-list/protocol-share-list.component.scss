@@ -1,0 +1,257 @@
+.protoco-share-list-container {
+    padding: 48px 32px 128px 32px;
+    @media(min-width: 1441px) {
+        max-width: 1440px;
+        margin: auto;
+        padding: 48px 0 128px 0;
+    }
+    @media(max-width: 768px) {
+        padding:  40px 32px 80px 32px;
+    }
+    @media (max-width: 575px) {
+        padding: 32px 16px 64px 16px;
+    }
+}
+table {
+    border: solid 1px rgba(230, 230, 230, 0.7);
+    border-radius: .2rem;
+
+    thead {
+        background-color: #EEF0F1;
+
+        tr {
+            th {
+                text-transform: capitalize;
+                font-weight: 700;
+                letter-spacing: 0.06em;
+                padding: 20px;
+                color: #21252b;
+                vertical-align: middle;
+                border-bottom: 1px solid #eceeef;
+                border-top: none;
+                font-size: 14px;
+            }
+        }
+    }
+
+    tbody {
+        tr {
+            background: #fff;
+            border-bottom: 1px solid rgba(230, 230, 230, 0.7);
+
+            td {
+                vertical-align: middle;
+                padding: 20px;
+                line-height: 1.4;
+
+                div {
+                    input[type="checkbox"] {
+                        width: 17px;
+                        border: 1px solid #d0d0d0;
+                    }
+
+                    input[type="checkbox"]:checked+label::before {
+                        background-color: var(--cx-color-primary);
+                    }
+                }
+
+                .btn-rounded {
+                    font-weight: 900;
+                    font-size: 16px;
+                    line-height: 24px;
+                    padding: 8px 16px;
+
+                    &:hover {
+                        background-color: #433372;
+                        color: #fff;
+                        border: 3px solid #433372;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.patient-name {
+    cursor: pointer;
+    h6 {
+        button {
+            text-align: initial;
+        }
+    }
+}
+
+.check-style {
+    position: relative;
+    left: 20px;
+    top: -10px;
+    accent-color: rgb(88, 64, 145);
+}
+
+.text-link {
+    font-weight: 600;
+
+}
+
+.fs-13 {
+    font-size: 13px;
+}
+
+.fw-900 {
+    font-weight: 900;
+}
+
+.img-style {
+    width: 170px;
+}
+
+.tr-overlay-message {
+    position: absolute;
+    max-width: 880px;
+    font-size: 18px;
+    line-height: 27px;
+    text-align: center;
+    top: 100px;
+    background-color: #F3F4FF;
+    box-shadow: 0 3px 16px rgb(88, 64, 145, .35);
+    color: #584091;
+    border: 2px solid #584091;
+    border-radius: 5px;
+    z-index: 2;
+    padding: 20px;
+}
+
+.overlay-wrapper {
+    display: flex !important;
+    align-items: center !important;
+}
+
+.share-all-title {
+    font-size: 18px;
+    font-weight: 900;
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+.share-all-text {
+    font-size: 18px;
+    font-weight: 500;
+    text-align: left;
+}
+
+.icon-text {
+    font-size: 16px;
+    display: block;
+    margin-top: 20px;
+    font-weight: 500;
+}
+
+.btn-h {
+    height: 42px !important;
+    min-height: 42px !important;
+    font-size: 16px !important;
+}
+
+.btn-continue {
+    height: 42px;
+    min-height: 42px;
+    font-size: 16px;
+
+    &:hover {
+        background-color: #433372 !important
+    }
+
+}
+
+.btn-r {
+    color: #c50139 !important;
+    background-color: #fff;
+    border: 3px solid #c50139;
+
+    &:hover {
+        background-color: #ff3e63 !important;
+        border: 3px solid #ff3e63 !important;
+        color: #fff !important;
+    }
+}
+
+.header-title {
+    font-size: 30px;
+    font-weight: 900;
+    color: #3E3B49;
+}
+
+.remove-all-btn {
+    color: #c50139 !important;
+}
+
+.view-title {
+    font-size: 19px;
+    font-weight: 900 !important;
+    color: #3E3B49;
+}
+
+.share-title {
+    font-size: 24px;
+    font-weight: 900 !important;
+    color: #3E3B49;
+}
+
+.my-15 {
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.mx-20 {
+    margin-left: 30px;
+    margin-right: 30px;
+}
+
+.form-check-label {
+    line-height: 25px;
+}
+
+.form-check-input {
+    position: absolute;
+    top: 10px;
+    left: 40px;
+    width: 17px;
+    accent-color: #584091;
+}
+
+.btn-share {
+    background-color: var(--cx-color-primary) !important;
+    color: #fff !important;
+    font-weight: 900;
+    border-radius: 0;
+    border: 3px solid #584091 !important;
+
+    &:hover {
+        background-color: #433372 !important
+    }
+}
+
+.empty-state.no-table {
+    border-radius: 3px;
+    border: solid 1px #ededed;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 1rem;
+    background: white;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+    border: solid 1px #ededed;
+    border-top: none;
+}
+
+.disable {
+    pointer-events: none;
+    opacity: .65;
+}
+
+.undisable {
+    pointer-events: unset;
+    // opacity: .5;
+}

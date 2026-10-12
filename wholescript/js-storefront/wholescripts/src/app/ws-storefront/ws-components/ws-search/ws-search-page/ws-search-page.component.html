@@ -1,0 +1,100 @@
+<div id="search-page-main">
+    <div>
+        <div>
+            <div class="search-results-page-top-sections-wrapper">
+                <section class="search-results-page-heading-section">
+                    <cx-page-slot position="globalSearchPageTitle" aria-label="search-page-title"></cx-page-slot>
+                </section>
+                <section class="search-results-page-tabs-section">
+                    <div class="sr-header-links-desktop-wrapper">
+                        <ul class="heading-links-body" role="tablist">
+                            @for( data of componentListArray; track data){
+                            @if(this.cmsService.getComponentData(data)|async ; as getComponentData){
+                            <li class="search-header-item" (click)="changeTab($any(getComponentData)?.uid)" role="presentation">
+                                <a [innerHTML]="$any(getComponentData)?.content" class="search-header-link"
+                                    [ngClass]="activeTabId === $any(getComponentData)?.uid && 'active'"
+                                    [attr.aria-selected]="activeTabId === getComponentData?.uid"
+                                    tabindex="0"
+                                    role="tab"
+                                    (keydown.enter)="changeTab($any(getComponentData)?.uid)"
+                                    >
+                                </a>
+                            </li>
+                            }
+                            }
+                        </ul>
+                    </div>
+                    <div class="sr-header-links-mobile-wrapper">
+                        <div class="form-group">
+                            <select class="form-control input-lg form-control-inquiry py-0" (change)="changeSelectedTab($event)">
+                                @for( data of componentListArray; track data){
+                                @if(this.cmsService.getComponentData(data)|async ; as getComponentData){
+                                <option [value]="$any(getComponentData)?.uid">
+                                    <a class="search-header-link" [innerHTML]="$any(getComponentData)?.content">
+                                    </a>
+                                </option>
+                                }}
+                            </select>
+                        </div>
+                    </div>
+                </section>
+                <section class="search-results-search-bar-section">
+                    <div class="search-bar container-fluid">
+                        <div class="row">
+                            <div class="col-sm-12 p-0">
+                                <div class="input-group mb-3">
+                                    <input type="search" class="form-control" [maxLength]="100" [value]="searchTerm" id="search-box" (input)="searching($event)" placeholder="Search" aria-label="Search term">
+                                    <div class="input-group-append" *ngIf="searchTerm">
+                                    <button
+                                        *ngIf="searchTerm"
+                                        type="button"
+                                        class="btn btn-default" role="presentation" 
+                                        (click)="clearSearch()"
+                                        aria-label="Clear search"
+                                    >
+                                    &times;
+                                  </button>
+                                  </div>
+                                    <div class="input-group-append" *ngIf="!searchTerm">
+                                        <button class="btn btn-default" role="presentation"  id="search-button" aria-label="Search">
+                                            <i class="fas fa-search" aria-hidden="true" ></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <div class="search-results-page-bottom-sections-wrapper">
+                <section class="search-results-sections">
+                    <p *ngIf="resultsCount > 0" class="showing-search-results">Showing results for <span (click)="toggleShowAll()">"{{searchTerm}}"</span></p>
+                    <div class="search-results-wrapper" *ngIf="toggleShowAll && (activeTabId === 'wsBodySearchAllParagraph' || activeTabId === 'wsBodySearchProductParagraph')">
+                        <ws-search-page-products [searchTerm]="searchTerm" [viewAllFlag]="activeTabId === 'wsBodySearchProductParagraph'" (viewAll)="viewAll('wsBodySearchProductParagraph')"></ws-search-page-products>
+                    </div>
+                    <div class="search-results-wrapper" *ngIf="toggleShowAll && (activeTabId === 'wsBodySearchAllParagraph' || activeTabId === 'wsBodySearchBrandParagraph')">
+                        <ws-search-page-brands [searchTerm]="searchTerm"  [viewAllFlag]="activeTabId === 'wsBodySearchBrandParagraph'" (viewAll)="viewAll('wsBodySearchBrandParagraph')"></ws-search-page-brands>
+                    </div>
+                    <div class="search-results-wrapper" *ngIf="toggleShowAll && (activeTabId === 'wsBodySearchAllParagraph' || activeTabId === 'wsBodySearchCategoryParagraph')">
+                        <ws-search-page-categories [searchTerm]="searchTerm" [viewAllFlag]="activeTabId === 'wsBodySearchCategoryParagraph'" (viewAll)="viewAll('wsBodySearchCategoryParagraph')"></ws-search-page-categories>
+                    </div>
+                    <div class="search-results-wrapper" *ngIf="toggleShowAll && (activeTabId === 'wsBodySearchAllParagraph' || activeTabId === 'wsBodySearchIntegrationParagraph')">
+                        <ws-search-page-integrations [searchTerm]="searchTerm" [viewAllFlag]="activeTabId === 'wsBodySearchIntegrationParagraph'" (viewAll)="viewAll('wsBodySearchIntegrationParagraph')"></ws-search-page-integrations>
+                    </div>
+                    <!-- <div class="search-results-wrapper" *ngIf="activeTabId === 'wsBodySearchAllParagraph' || activeTabId === 'wsBodySearchMagazineParagraph'">
+                        <ws-search-page-magazines></ws-search-page-magazines>
+                    </div> -->
+                    <div class="search-results-wrapper" *ngIf="toggleShowAll && (activeTabId === 'wsBodySearchAllParagraph' || activeTabId === 'wsBodySearchFAQParagraph')">
+                        <ws-search-page-faqs [searchTerm]="searchTerm" [viewAllFlag]="activeTabId === 'wsBodySearchFAQParagraph'" (viewAll)="viewAll('wsBodySearchFAQParagraph')"></ws-search-page-faqs>
+                    </div>
+                    <div class="search-results-wrapper" *ngIf="activeTabId === '!wsBodySearchAllParagraph' || activeTabId === 'wsBodySearchPrivateLabelParagraph'">
+                        <ws-search-page-private-label  [searchTerm]="searchTerm" [viewAllFlag]="activeTabId === 'wsBodySearchPrivateLabelParagraph'" (viewAll)="viewAll('wsBodySearchPrivateLabelParagraph')"></ws-search-page-private-label>
+                    </div>
+                    <div class="search-results-wrapper" *ngIf="activeTabId === '!wsBodySearchAllParagraph' || activeTabId === 'wsBodySearchWebinarsParagraph'">
+                        <ws-search-page-webinar [searchTerm]="searchTerm" [viewAllFlag]="activeTabId === 'wsBodySearchWebinarsParagraph'" (viewAll)="viewAll('wsBodySearchWebinarsParagraph')" (resultsLength)="updateResultsCount($event)"></ws-search-page-webinar>
+                    </div>
+                </section>              
+            </div>
+        </div>
+    </div>
+</div>

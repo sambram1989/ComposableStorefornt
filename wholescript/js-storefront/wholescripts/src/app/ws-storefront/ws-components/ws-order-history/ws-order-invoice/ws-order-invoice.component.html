@@ -1,0 +1,269 @@
+<div class="order-invoice">
+  <div class="invoice-heading-conatiner">
+    <div *ngIf="invoiceHeadingParagraph$ | async as pageHeadingParagraph">
+      <div [innerHTML]="pageHeadingParagraph['content']"></div>
+    </div>
+    <div class="export-table">
+      <button class="export" (click)="exportTable()"> Export table </button>
+    </div>
+  </div>
+
+  <div class="ws-search-box-container">
+    <div class="search-input">
+      <ws-search-box
+        class="ws-search-box"
+        aria-label="Search box"
+        [placeholder]="'Search'"
+        [attr.aria-placeholder]="'Search'"
+        (searchChange)="searchInvoices($event)"  
+      >
+      </ws-search-box>
+    </div>
+
+    <div
+      class="input-daterange input-group col-md-5 col-12"
+      id="datepicker-range"
+    >
+      <span class="p-2 bolder"> From </span>
+      <div class="position-relative">
+        <!-- <i class="fa-solid fa-calendar calendar-icon"></i>
+        <input
+        aria-label="Select date"
+        type="text"
+        class="form-control select-date input-with-icon"
+        bsDatepicker
+        [bsConfig]="{
+          minDate: getMinDate(),
+          dateInputFormat: 'MMM DD, YYYY', 
+          containerClass: 'theme-default',
+          showWeekNumbers: false
+        }"
+        [(ngModel)]="firstDate"
+        (ngModelChange)="onInvoiceDateChange()"
+        (keydown)="onDateKeydown($event, 'first')"
+        aria-haspopup="dialog"
+        [attr.aria-expanded]="calendarOpened"
+      /> -->
+      <input 
+      id="fromDate"
+      type="date"
+      class="input-sm form-control newDatePicker"
+      aria-label="filter from date in format (MM/dd/yyyy)" 
+      [(ngModel)]="orderStartDate"
+      (change)="onInvoiceDateChange()">     
+      </div>
+     
+      <span class="p-2 bolder">To</span>
+      <div class="position-relative">
+        <!-- <i class="fa-solid fa-calendar calendar-icon"></i>
+        <input
+        aria-label="Select date"
+        type="text"
+        class="form-control select-date input-with-icon"
+        bsDatepicker
+        [bsConfig]="{
+          dateInputFormat: 'MMM DD, YYYY',
+          containerClass: 'theme-default',
+          showWeekNumbers: false
+        }"
+        [(ngModel)]="lastDate"
+        (ngModelChange)="onInvoiceDateChange()"
+        (keydown)="onDateKeydown($event, 'last')"
+        aria-haspopup="dialog"
+        [attr.aria-expanded]="calendarOpened"
+      /> -->
+      <input 
+      id="fromDate"
+      type="date"
+      class="input-sm form-control newDatePicker"
+      aria-label="filter to date in format (MM/dd/yyyy)" 
+      [(ngModel)]="orderEndDate"
+      (change)="onInvoiceDateChange()">  
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-container
+  *ngIf="updatedOrderInvoice.length > 0 && !loading; else noInvoices"
+>
+  <ng-container>
+    <div class="cx-order-invoice-body">
+      <div class="cx-spinner pdf-spinner" *ngIf="pdfLoading">
+        <cx-spinner></cx-spinner>
+      </div>
+      <table
+        role="table"
+        id="order-invoice-table"
+        class="table cx-order-invoice-table"
+      >
+        <thead class="cx-order-invoice-thead-mobile">
+          <tr role="row">
+            <th role="columnheader">
+              Inv #
+              <button
+                aria-label="sort-button"
+                [disabled]="!updatedOrderInvoice.length"
+                (click)="sortOnInvoiceNumber()"
+              >
+                <i
+                  class="fa"
+                  [ngClass]="{
+                    'fa-arrow-up': isAscendingInvoicerNumber,
+                    'fa-arrow-down': !isAscendingInvoicerNumber
+                  }"
+                ></i>
+              </button>
+            </th>
+            <th role="columnheader" [ngStyle]="{ textTransform: 'none'}">
+              Inv date
+              <button
+                aria-label="sort-button"
+                [disabled]="!updatedOrderInvoice.length"
+                (click)="sortOrdersOnInvoiceDate()"
+              >
+                <i
+                  class="fa"
+                  [ngClass]="{
+                    'fa-arrow-up': isAscendingInvoiceDate,
+                    'fa-arrow-down': !isAscendingInvoiceDate
+                  }"
+                ></i>
+              </button>
+            </th>
+            <th role="columnheader">
+              Order #
+              <button
+                aria-label="sort-button"
+                [disabled]="!updatedOrderInvoice.length"
+                (click)="sortOnOrderNumber()"
+              >
+                <i
+                  class="fa"
+                  [ngClass]="{
+                    'fa-arrow-up': isAscendingOrderNumber,
+                    'fa-arrow-down': !isAscendingOrderNumber
+                  }"
+                ></i>
+              </button>
+            </th>
+            <th role="columnheader" [ngStyle]="{ textTransform: 'none'}">
+              Order date
+              <button
+                aria-label="sort-button"
+                [disabled]="!updatedOrderInvoice.length"
+                (click)="sortOrdersOnOrderDate()"
+              >
+                <i
+                  class="fa"
+                  [ngClass]="{
+                    'fa-arrow-up': isAscendingOrderDate,
+                    'fa-arrow-down': !isAscendingOrderDate
+                  }"
+                ></i>
+              </button>
+            </th>
+
+            <th role="columnheader" [ngStyle]="{ textTransform: 'none'}">Inv total</th>
+          </tr>
+        </thead>
+        <tbody
+          *ngFor="
+            let order of updatedOrderInvoice
+              | slice
+                : (paginationSignal().currentPage - 1) *
+                    paginationSignal().itemPerPage
+                : paginationSignal().currentPage *
+                    paginationSignal().itemPerPage;
+            let i = index
+          "
+        >
+          <tr role="row">
+            <td role="cell" class="order-invoice-placed">
+              <div class="cx-order-invoice-label-mobile">Inv #</div>
+              <div>
+                <div class="cx-order-invoice-value number">
+                  <i class="fa-solid fa-file-pdf"></i>
+                  <button
+                    tabindex="0"
+                    class="invoiceNumber"
+                    (click)="downloadPdf(order?.invoiceNumber)"
+                  >
+                    {{ order?.invoiceNumber }}
+                </button>
+                </div>
+              </div>
+            </td>
+
+            <td role="cell" class="order-invoice-code">
+              <div class="cx-order-invoice-label-mobile">Inv date</div>
+              <div class="cx-order-invoice-value">
+                {{ order?.invoiceDate | date : "MM/dd/yy" }}
+              </div>
+            </td>
+            <td role="cell" class="order-invoice-status">
+              <div class="cx-order-invoice-label-mobile">Order #</div>
+              <div>
+                <a
+                  [routerLink]="
+                {
+                  cxRoute: 'orderDetails',
+                  params: {salesOrder: order?.order?.items[0]?.orderNumber },
+                } | cxUrl
+              "
+                  class="cx-order-invoice-value number"
+                >
+                  {{ order?.order?.items[0]?.orderNumber }}
+                </a>
+              </div>
+            </td>
+
+            <td role="cell" class="order-invoice-total">
+              <div class="cx-order-invoice-label-mobile">Order date:</div>
+              <div class="cx-order-invoice-value">
+                {{ order?.order?.items[0]?.orderDate | date : "MM/dd/yy" }}
+              </div>
+            </td>
+
+            <td role="cell" class="order-invoice">
+              <div class="cx-order-invoice-label-mobile">Inv total:</div>
+              <div class="cx-order-invoice-value">
+                {{ order?.total | currency : (currency$ | async) }}
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="pagination-style">
+      <div class="pagination">
+        <ws-pagination-entry-list
+          [endLine]="'orders'"
+          [itemPerPage]="pagination.itemPerPage"
+          [totalItems]="pagination.totalItems"
+          [currentPage]="pagination.currentPage"
+        ></ws-pagination-entry-list>
+      </div>
+      <div class="pagination">
+        <ws-pagination
+          [resetReposition]="true"
+          (currentPageChange)="pageChanged($event)"
+          [itemsPerPage]="pagination.itemPerPage"
+          [totalItems]="pagination.totalItems"
+          [numberOfPagesNeedTOBeShown]="5"
+          aria-label="Pagination controls"
+        ></ws-pagination>
+      </div>
+    </div>
+  </ng-container>
+</ng-container>
+<ng-template #noInvoices>
+  <div class="bolder pt-2" *ngIf="!loading">No invoices to display</div>
+  <div
+    class="cx-spinner d-flex justify-content-center align-center"
+    *ngIf="loading"
+  >
+    <cx-spinner></cx-spinner>
+  </div>
+</ng-template>

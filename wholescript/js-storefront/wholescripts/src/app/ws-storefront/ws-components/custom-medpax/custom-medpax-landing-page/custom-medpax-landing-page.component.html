@@ -1,0 +1,485 @@
+<div class="custom-medpax-container">
+   <div class="upper-content" [innerHTML]="cmsData().paraData.MedpaxCustomPageHeaderParagraph" tabindex="0"
+      aria-label="MedPax Custom Page Header Paragraph">
+   </div>
+
+   <div class="down-content row mx-0 col-12">
+      <div class="inside-content col-lg-4 col-md-12">
+         <h3 tabindex="0">Don't Know Where to start ?</h3>
+         <p>
+            Let us do work for you.Condition-Specific Medpax are custom designed to
+            include XYMOGEN formulas in convenient 30-day packs.
+            <span><a [routerLink]="cmsData().paraData.medpaxLearnMoreLink.link"
+                  [innerHTML]="cmsData().paraData.medpaxLearnMoreLink.linkName" [attr.aria-label]="
+               'Learn more about ' +
+               cmsData().paraData.medpaxLearnMoreLink.linkName
+            ">Learn More</a></span>
+         </p>
+      </div>
+      <div class="carusel-content col-lg-8 col-md-12">
+         <ws-custom-carusel-medpax [slides]="cmsData()?.banner"></ws-custom-carusel-medpax>
+      </div>
+   </div>
+
+   <div class="the-grid">
+      <!-- Keeping the complete row of search , filter and sort for buy again seperate as it's handelled from only frontend -->
+      @if(tabName=='Buy Again')  {
+         <div class="searchArea" aria-label="Search Area">
+            <h6 class="bolder">Search Products:</h6>
+            <div class="row mx-0 row-gap">
+               <div class="px-0 col-sm-12 col-md-6">
+                  <ws-search-box class="ws-search-box" (searchChange)="updateBuyAgainSearch($event)"
+                     aria-label="Search box" [placeholder]="'Search'"
+                     [attr.aria-placeholder]="'Search'">
+                  </ws-search-box>
+               </div>
+               <div class="col-5 col-lg-4 col-xl-4 ml-2 px-0 d-lg-flex d-none"
+                  [ngClass]="screen.extraLargeWidth() ? 'remove-btn' : 'show-btn'">
+                  <button class="btn btn-outline-primary filter-style" (click)="filterPopupForBuyAgain()" tabindex="0"
+                     aria-label="Open filter options" [disabled]="products()?.products?.length == 0">
+                     <span class="d-none d-md-inline-block">
+                        <i class="fas fa-filter" aria-hidden="true"></i>
+                     </span>
+                     Filters
+                  </button>
+                  <div class="form-group ml-5 position-relative">
+                     <select class="form-control select-style" id="sort-by" (change)="sortListBuyAgain(select?.value)" #select
+                        tabindex="0">
+                        @for(sort of sorts ;track sort){
+                        <option [value]="sort?.code">{{ sort?.name }}</option>
+                        }
+                     </select>
+                     <label class="label1 select-lable" for="sort-by"> Sort By </label>
+                  </div>
+               </div>
+               <button (click)="filterPopupForBuyAgain()"
+                  class="d-none d-lg-none d-md-inline-block search__filterBtn btn btn-outline-primary bg-white fs-16 bolder mi-height"
+                  type="button" id="btnListView" tabindex="0" aria-label="Filters and Sorts">
+                  Filters and Sorts
+               </button>
+               <div class="mobile-filters__inner d-sm-flex d-md-none">
+                  <button class="mobile-filters__btn" tabindex="0">Sort</button>
+                  <button class="mobile-filters__btn" tabindex="0" (click)="filterPopupForBuyAgain()">
+                     Filter
+                  </button>
+                  <button class="mobile-filters__btn" tabindex="0">
+                     Health Category
+                  </button>
+                  <button class="mobile-filters__btn" tabindex="0">Brand</button>
+                  <button class="mobile-filters__btn" tabindex="0">Delivery Form</button>
+               </div>
+            </div>
+         </div>
+      } 
+      @else {
+      <!-- Below code is for apart from Buy Again tab -->
+         <div class="searchArea" aria-label="Search Area">
+            <h6 class="bolder">Search Products:</h6>
+            <div class="row mx-0 row-gap">
+               <div class="px-0 col-sm-12 col-md-6">
+                  <ws-search-box (searchChange)="updateSearch($event)"
+                     aria-label="Search box" [attr.aria-placeholder]="'Search for patients or other criteria'" [placeholder]="'Search Products'" [searchValue]="searchTerm">
+                  </ws-search-box>
+               </div>
+               <div class="col-5 col-lg-4 col-xl-4 ml-2 px-0 d-lg-flex d-none d-md-flex"
+                  [ngClass]="screen.extraLargeWidth() ? 'remove-btn' : 'show-btn'">
+                  <button class="btn btn-outline-primary filter-style" (click)="filterPopup()" tabindex="0"
+                     aria-label="Open filter options" [disabled]="products()?.products?.length == 0">
+                     <span class="d-none d-md-inline-block">
+                        <i class="fas fa-filter" aria-hidden="true"></i>
+                     </span>
+                     Filters <span class="d-lg-none">({{selectedFilters?.length}})</span>
+                  </button>
+                  <div class="form-group ml-t position-relative">
+                     <select class="form-control select-style" id="sort-name" (change)="sortList(select?.value)" #select
+                        tabindex="0">
+                        @for(sort of sorts ;track sort){
+                        <option [value]="sort?.code" [selected] ="sort.selected">{{ sort?.name }}</option>
+                        }
+                     </select>
+                     <label class="label1 select-lable" for="sort-name"> Sort By </label>
+                  </div>
+               </div>
+               <div class="mobile-filters__inner d-sm-flex d-md-none pt-1">
+               <div class="position-relative">
+                  <select class="form-control select-style mobile-filters__btn min-w-h" id="sort-types" (change)="sortList(mbSelect?.value)"
+                     #mbSelect tabindex="0">
+                     <option *ngFor="let sort of sorts; trackBy: trackSort" [value]="sort?.code">
+                        {{ sort?.name }}
+                      </option>
+                  </select>
+                  <label class="label1 select-lable" for="sort-types"> Sort</label>
+               </div>
+                  <button class="mobile-filters__btn" tabindex="0" (click)="filterPopup()">
+                     Filter
+                  </button>
+                  <button class="mobile-filters__btn" tabindex="0" (click)="filterPopup('Categories')">
+                     Health Category
+                  </button>
+                  <button class="mobile-filters__btn" tabindex="0" (click)="filterPopup('Brand')">Brand</button>
+                  <button class="mobile-filters__btn" tabindex="0" (click)="filterPopup('Delivery Form')">Delivery Form</button>
+               </div>
+            </div>
+         </div>
+      }
+   </div>
+   <ws-active-facets *ngIf="tabName == 'All Products'" [isListPage]="true"></ws-active-facets>
+   <div class="row col-12 mx-0 mt-3 pl-0 pr-0">
+      <div class="col-lg-12 col-xl-8 pl-0 pr-0">
+         <tabset #tabset class="tab-container" aria-label="Product Tabs">
+            <tab heading="All Products" class="all" (selectTab)="onTabSelect($event)">
+               <div class="col-12 p-0 rec-table" id="searchTabsContent">
+                  <div class="w-100 tab-pane">
+                     @if(products()?.products?.length){
+                     <ws-custom-medpax-table [products]="products()" [entryNumberList]="entryNumberList"
+                        [medPaxData]="medPaxProducts()"
+                        [selectedProductCodes]="selectedProductCodes"></ws-custom-medpax-table>
+                     }@else {
+                     <ng-container *ngTemplateOutlet="empty"></ng-container>
+                     }
+                  </div>
+                  <div class="pagination-style" *ngIf="products()?.products?.length">
+                     <div class="pagination">
+                           {{getPaginationMessage(pagination())}}
+                     </div>
+                     <div class="pagination">
+                        <ws-pagination 
+                           [resetReposition]="true"
+                           (currentPageChange)="pageChanged($event-1)"
+                           [itemsPerPage]="pagination().pageSize"
+                           [totalItems]="pagination().totalResults"
+                           [numberOfPagesNeedTOBeShown]="5"
+                           aria-label="Pagination controls">
+                        </ws-pagination>
+                     </div>
+                  </div>
+               </div>
+            </tab>
+            <tab heading="Buy Again" class="all buy-again" (selectTab)="onTabSelect($event)">
+               <div *ngIf="!buyAgainloader" class="col-12 p-0 rec-table" id="searchTabsContent">
+                  <div class="w-100 tab-pane">
+                     @if(updatedBuyAgainProducts()?.products?.length){
+                     <ws-custom-medpax-table [products]="updatedBuyAgainProducts()" [entryNumberList]="entryNumberList"
+                        [selectedProductCodes]="selectedProductCodes"
+                        [medPaxData]="medPaxProducts()"></ws-custom-medpax-table>
+                     }@else {
+                     <ng-container *ngTemplateOutlet="empty"></ng-container>
+                     }
+                  </div>
+                  <ws-pagination class="d-flex align-items-center justify-content-end" [resetReposition]="true"
+                     [totalItems]="updatedBuyAgainProducts()?.pagination?.totalResults" [itemsPerPage]="updatedBuyAgainProducts()?.pagination?.pageSize"
+                     [numberOfPagesNeedTOBeShown]="updatedBuyAgainProducts()?.pagination?.totalPages"
+                     (currentPageChange)="pageChanged($event-1)" aria-label="Pagination controls" tabindex="0">
+                  </ws-pagination>
+               </div>
+               <div *ngIf="buyAgainloader" class="d-flex align-items-center loader justify-content-center">
+                  <cx-spinner></cx-spinner>
+               </div>
+            </tab>
+            <!-- <tab heading="Recently Viewed" class="all">
+               <div class="col-12 p-0 rec-table" id="searchTabsContent">
+                  <div class="w-100 tab-pane">
+                     @if(medPaxProducts()?.medpaxEntry?.length){
+                     <ws-custom-medpax-table [products]="products()" [entryNumberList]="entryNumberList"
+                        [selectedProductCodes]="selectedProductCodes"
+                        [medPaxData]="medPaxProducts()"></ws-custom-medpax-table>
+                     }@else {
+                     <ng-container *ngTemplateOutlet="empty"></ng-container>
+                     }
+                  </div>
+                  <ws-pagination class="d-flex align-items-center justify-content-end"
+                     [totalItems]="products()?.pagination?.totalResults" [itemsPerPage]="products()?.pagination?.pageSize"
+                     [numberOfPagesNeedTOBeShown]="products()?.pagination?.totalPages"
+                     (currentPageChange)="pageChanged($event-1)" aria-label="Pagination controls" tabindex="0">
+                  </ws-pagination>
+               </div>
+            </tab> -->
+         </tabset>
+      </div>
+      <div class="left-ection col-4 mt-40 pr-0 d-none d-xl-block" tabindex="0" aria-label="MedPax information and options">
+         <ws-custom-medpax-right-container [isMedPaxAvailable]="isMedPaxAvailable()"
+            [medPaxData]="medPaxProducts()" [isPlUser]="checkRoleExist('pluser') | async"></ws-custom-medpax-right-container>
+      </div>
+   </div>
+</div>
+
+<ng-template #rightContainerPopup>
+   <div class="px-4">
+      <div class="topsection well-back">
+         <h3 class="mb-0 mt-3">Welcome Back !</h3>
+         <div tabindex="0" role="button" class="close-btn c-point" (keypress)="closePopup()" (click)="closePopup()">x</div>
+      </div>
+      <ws-custom-medpax-right-container [medPaxData]="medPaxProducts()" [isMedPaxAvailable]="true"
+         [isVisibleActions]="false" [isRightContainerPopup]="true"></ws-custom-medpax-right-container>
+      <div class="bolder text-center my-4 fs-16">
+         Would you like to create a new MedPax or continue editing your current
+         one?
+      </div>
+      <div class="row">
+         <div class="col-12 text-right">
+            <button class="btn btn-outline-primary btn-rounded bolder" (click)="deleteExistingMedPax()">
+               Create a new Medpax
+            </button>
+            <button class="btn bg-primary btn-rounded bolder mt-3 mt-sm-0 ml-sm-2 text-white" (click)="closePopup()">
+               Continue Editing
+            </button>
+         </div>
+      </div>
+   </div>
+</ng-template>
+
+<ng-template #editDosing>
+   <div *ngFor="let alert of alertsSignal()">
+      <alert [type]="alert.type" [dismissOnTimeout]="alert.timeout" (onClosed)="onClosed(alert)">{{ alert.msg }}</alert>
+   </div>
+   <div class="p-24px">
+      <ws-edit-dosingdetailspopup (emitResetEvent)="showToasterMsg('Dosing reset to label')" [wrapperForm]="wrapperForm" [currentProduct]="editDosingProduct"
+         [productCode]="editDosingProductCode" [currentMedPaxProduct]="currentMedPaxProduct()" (emitResetCustomEvent)="showToasterMsg('Dosing reset to custon')">
+         <div topSection class="topsection">
+            <h3 class="mb-0 mt-3 mtpax-h">EDIT DOSING</h3>
+            <p class="mb-0">
+               <img src="/assets/qa/medpax-icon-dark.svg" width="15px" alt="medpax" /><span>&nbsp;MedPax item</span>
+            </p>
+            <div tabindex="0" role="button" class="close-btn c-point" (keypress)="closePopup()" (click)="closePopup()">x</div>
+         </div>
+         <div bottomSection class="b-top">
+            <div class="row mt-3">
+               <div class="col-5">
+                  <span class="bolder fs-unset">Per {{getProductMaterialFromName()}}:
+                     {{
+                     editDosingProduct?.prod?.wholeSalePrice?.formattedValue
+                     }}</span><br />
+                  <em class="text-nowrap">30 day supply: $
+                     {{
+                     editDosingProduct
+                     | thirtyDaySupply : getQuantity()
+                     | number : "1.2-2"
+                     }}</em>
+               </div>
+               <div class="col-7 d-flex justify-content-end">
+                  <button class="btn btn-outline-primary btn-rounded mr-2 bolder px-3" aria-label="Close" tabindex="0"
+                     (click)="closePopup()">
+                     Cancel
+                  </button>
+                  <button type="button" class="btn btn-primary btn-rounded add-to-packet-btn mt-1 mt-sm-0 bolder px-3 text-nowrap"
+                     tabindex="0" (click)="saveMedpaxDetails(saveButton)" #saveButton 
+                     [disabled]="!wrapperForm.valid">
+                     {{
+                     (editDosingProduct?.code|| editDosingProduct?.prod?.code)
+                     | addOrRemove : selectedProductCodes : "save"
+                     }}
+                  </button>
+               </div>
+            </div>
+         </div>
+      </ws-edit-dosingdetailspopup>
+   </div>
+</ng-template>
+
+<ng-template #removeProduct>
+   <div class="topsection rm-mtpax">
+      <h3 class="mb-0 mt-3 mtpax-h">REMOVE MEDPAX PRODUCT {{currentUser()}}</h3>
+      <div tabindex="0" role="button" (keypress)="closePopup()" class="close-btn mr-2" (click)="closePopup()">x</div>
+   </div>
+   <hr class="mt-0"/>
+   <div class="text-start py-3 pl-24">
+      <div class="bolder">
+         <h4 class="remove-product__name">
+            <img *ngIf="deleteProduct?.materialProductForm === 'Tablets' || deleteProduct?.materialProductForm === 'Packets' || deleteProduct?.materialProductForm === 'Lozenges'" src="/assets/images/home/tablets.svg" alt="tablets" class="w-25px">
+            <img *ngIf="deleteProduct?.materialProductForm === 'Softgels'" src="/assets/images/home/softgels.svg" alt="softgels" class="w-25px">
+            <img *ngIf="deleteProduct?.materialProductForm === 'Capsules'" src="/assets/images/home/capsules.svg" alt="capsules" class="w-25px">
+            <img *ngIf="deleteProduct?.materialProductForm === 'Caplets'" src="/assets/images/home/caplets.svg" alt="caplets" class="w-25px">
+            <span class="fw-pl" [innerHTML]="deleteProduct?.name"></span>
+         </h4>
+      </div>
+      @if(currentUser$|async; as user){
+         @if(user.indexOf('pluser') > -1) {
+            <img src="/assets/icons/common_icons/private-label-icon.svg" width="16px" height="16px" alt="">
+            <span class="bolder">
+              {{ deleteProduct?.genericPLName }}
+            </span>
+         }
+      }
+      <div class="m-0 my-2">{{deleteProduct?.shortDescription}}</div>
+      <ng-container *ngIf="getCustomDosingOnProductLevel(deleteProduct?.code) | async as dosingData">
+         <div class="m-0">
+            Dosing: @if(selectedProductCodes?.includes(deleteProduct.code)){
+            {{
+            medPaxProducts()
+            | getDosingOnEntryLevel : deleteProduct.code : "medpax"
+            | slice : 0 : 4
+            | dosingPipe
+            }}
+            }@else if($any(dosingData)?.dosingList?.length){
+            {{ $any(dosingData)?.dosingList | slice : 0 : 4 | dosingPipe }}
+            } @else {
+            {{ +deleteProduct?.inAM ? deleteProduct.inAM + " in AM" : "" }}
+            {{ +deleteProduct?.inAM && +deleteProduct?.inPM ? " | " : "" }}
+            {{ +deleteProduct?.inPM ? deleteProduct.inPM + " in PM" : "" }}
+            {{ +deleteProduct?.inPM && +deleteProduct?.inDaily ? " | " : "" }}
+            {{ +deleteProduct?.inDaily ? deleteProduct.inDaily + " in Daily" : "" }}
+            {{ +deleteProduct?.inDaily && +deleteProduct?.inBedtime ? " | " : "" }}
+            {{ +deleteProduct?.inBedtime ? deleteProduct.inBedtime + " in Bedtime" : "" }}
+            }
+         </div>
+         <section>
+            <span class="bolder">Per capsule: ${{ deleteProduct?.wholeSalePrice?.value }}</span><br />
+            <em class="text-nowrap">30 day supply:
+               @if(selectedProductCodes?.includes(deleteProduct.code)){
+               ${{
+               deleteProduct?.wholeSalePrice?.value| calculateQuantity: medPaxProducts(): deleteProduct?.code: false|
+               number : "1.2-2"
+               }}
+               }
+               @else if($any(dosingData)?.dosingList?.length){
+               ${{
+               deleteProduct?.wholeSalePrice?.value| calculateQuantity: $any(dosingData): deleteProduct?.code: true| number : "1.2-2"
+               }}
+               } @else {
+               ${{
+               (30 +
+               ((+deleteProduct?.inAM || 0) +
+               (+deleteProduct?.inPM || 0) +
+               (+deleteProduct?.inDaily || 0) +
+               (+deleteProduct?.inBedtime || 0))) *
+               (deleteProduct?.wholeSalePrice?.value || 0) | number : "1.2-2"
+               }}
+               }
+            </em>
+         </section>
+      </ng-container>
+   </div>
+   <hr class="m-rl"/>
+   <div class="bolder text-center my-4 fs-16 m-16">
+      Are you sure you want to remove this product from your MedPax?
+   </div>
+   <div class="row m-0">
+      <div class="col-12 text-right  d-flex-d">
+         <button class="btn btn-outline-primary btn-rounded bolder wd-100" (click)="closePopup()">
+            cancel
+         </button>
+         <button class="btn btn-outline-danger btn-rounded bolder mt-3 mt-sm-0 ml-sm-2 b-3-red"
+            (click)="deleteMedPax()">
+            Yes, Remove
+         </button>
+      </div>
+   </div>
+</ng-template>
+
+<ng-template #viewPopup>
+   <div class="p-3">
+      <div topSection class="topsection your-medpax">
+         <h3 class="mb-0">Your MedPax</h3>
+         <div class="close-btn" (click)="closePopup()">x</div>
+      </div>
+      <div class="bolder text-center my-4 fs-16">
+         <ws-medpax-card [medPaxData]="medPaxProducts()"></ws-medpax-card>
+      </div>
+      <ws-rightmedpax-table [medPaxData]="medPaxProducts()" [products]="medPaxProducts()?.medpaxEntry" [isActionsVisible]="false"
+         [isFromProtocol]="false" [isMedPaxAvailable]="
+        medPaxProducts()?.medpaxEntry && medPaxProducts()?.medpaxEntry?.length
+      " aria-label="MedPax Table"></ws-rightmedpax-table>
+      <div class="d-flex justify-content-end my-4 fw-900">
+         Total: $ {{ medPaxProducts()?.totalPrice || 0.0 }}
+      </div>
+      <hr />
+      <accordion>
+         <accordion-group>
+             <button class="text-link bolder d-flex w-100 shadow-none col-gap-10" accordion-heading type="button"
+                 [attr.aria-expanded]="isSupplementVisible()" aria-controls="combinedSupplementFacts"
+                 (click)="toggleSupplementFacts()">
+                 <div class="td-u pull-left float-left"> View Combined Supplement Facts <i class="fas"
+                         [ngClass]="isSupplementVisible() ? 'fa-chevron-up' : 'fa-chevron-down'"
+                         aria-hidden="true"></i>
+                 </div>
+             </button>
+             <ws-supplementfacts *ngIf="isSupplementVisible()" [productIds]="productCodes"
+                 [productName]="productName">
+             </ws-supplementfacts>
+         </accordion-group>
+     </accordion>
+      <section class="d-flex justify-content-end mt-4">
+         <button class="btn btn-rounded btn-primary btn-h fw-900" (click)="closePopup()">
+            Close
+         </button>
+      </section>
+   </div>
+</ng-template>
+
+<ng-template #empty>
+   <div class="table-empty">
+      <div>
+         <h4 class="table-empty__h">No results found</h4>
+         @if(tabName=='Buy Again' && !searchKeyBuyAgain) {
+            <div>You haven't bought any Medpax Products</div>
+         }
+         @else {
+            <div>We couldn't find any matches for <span style="font-weight:900">{{searchKey ? searchKey : searchKeyBuyAgain}}</span></div>
+            <div>Please try reducing your filters or searching with another term</div>
+         } 
+      </div>
+   </div>
+</ng-template>
+
+<ng-template #filterPopUp>
+   <div class="pop-header mt-4">
+      <button type="button" class="close d-block c-icon mr-3" (click)="closePopup()">
+         x
+      </button>
+      <div class="d-flex justify-content-center flex-column align-items-center">
+         <div class="modal-title header-title fs-30 fw-900">{{filterTextTitle ? filterTextTitle : 'FILTER'}}</div>
+      </div>
+   </div>
+   <ws-product-facet-navigation [filterData]="filterTextTitle"></ws-product-facet-navigation>
+   <div class="text-right mt-4 mr-3">
+      <a tabindex="0" class="btn btn-outline-primary btn-rounded btn-h" (keypress)="closePopup()" (click)="closePopup()" data-dismiss="modal">
+         Close
+      </a>
+   </div>
+</ng-template>
+
+
+<ng-template #filterPopUpForBuyAgain>
+   <div class="pop-header mt-4">
+      <button type="button" class="close d-block c-icon mr-3" (click)="closePopup()">
+         x
+      </button>
+      <div class="d-flex justify-content-center flex-column align-items-center">
+         <div class="modal-title header-title fs-30 fw-900">FILTERS</div>
+      </div>
+   </div>
+   <div>
+      <ws-custom-medpax-buy-again-facet 
+         [buyAgainFacets]="buyAgainFacets" 
+         [savedFacet]="savedFacet" 
+         [savedActiveFacet]="selectedActiveFacetOutput" 
+         (clearAllFilters)="clearAllFilters()"
+         (selectedFacetOutput)="receiveSelectedValues($event)"
+         (selectedActiveFacetOutput)="receiveActiveSelectedValues($event)">
+      </ws-custom-medpax-buy-again-facet>
+   </div>
+   <div class="text-right mt-4 mr-3">
+      <a class="btn btn-outline-primary btn-rounded btn-h" (click)="closePopup()" data-dismiss="modal">
+         Close
+      </a>
+   </div>
+</ng-template>
+
+
+<ws-custom-medpax-floating-footer (openViewPopup)="openViewPopup()" [plUser]="checkRoleExist('pluser') | async"
+   [selectedProductCodes]="selectedProductCodes" [medPaxProducts]="medPaxProducts()"
+   [isMedPaxAvailable]="isMedPaxAvailable()" flowType="medpax"></ws-custom-medpax-floating-footer>
+
+
+<!-- Toast message -->
+<div class="toast-wrapper" *ngIf="toastMessage">
+   <div class="toast">
+       <div class="d-flex toast-header">
+           <img width="32" height="32" src="/assets/icons/common_icons/featured-success-icon.svg" />
+           <div class="d-flex toast-header-message-wrapper">
+               <p>{{toastMessage}}</p>
+               <i class="fa fa-close" (click)="toastMessage = ''"></i>
+           </div>
+       </div>
+   </div>
+</div>

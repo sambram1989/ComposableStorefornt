@@ -1,0 +1,124 @@
+<div *ngFor="let alert of alertsSignal()">
+    <alert [type]="alert.type" [dismissOnTimeout]="alert.timeout" (onClosed)="onClosed(alert)">{{ alert.msg }}</alert>
+</div>
+<div class="custom-medpax-review-container">
+<div class="d-flex flex-md-column flex-lg-row col-12 p-0 top-section">
+    <div class="col-lg-6 col-md-12 pl-0">
+        <cx-page-slot [position]="location.path().includes('recommendation') ? 
+         'Section1-recommendationmedpaxReview':
+          location.path().includes('protocol') ? 'Section1-medpaxReview': 'Section1' ">
+        </cx-page-slot>
+    </div>
+    <div class="col-lg-6 col-md-12 pr-0">
+        <ws-medpaxdetailscard [details]="getPacket()" [total]="recommendationEntries?.totalPrice || medPaxProducts()?.totalPrice || getPacket()?.totalPrice?.value" aria-label="MedPax Details Card"></ws-medpaxdetailscard>
+    </div>
+</div>
+<form [formGroup]="dosingDetails" aria-label="dosing-form">
+    <section >
+        @for(packet of getPacket()?.packets;track packet; let i = $index){
+            <ws-custom-med-pax-review-card
+            [medPaxData]="getPacket()"
+            [packet]="packet"
+            [controlName]="dosingDetails | controlName: packet?.packetCode"
+            [cardName]="packet?.packetCode"
+            [currentCardIndex]="i" attr.aria-label="Review Card for {{packet?.packetCode}}">
+           </ws-custom-med-pax-review-card>
+        }
+    </section>
+</form>
+</div>
+
+
+@if(location.path().includes('recommendation/edit/medpax/review')){ 
+<ws-recommendation-sticky (stickyRecommendationClick)="goToReviewRecommendation()" [isMedPaxReview]="true"
+    [recommendation]="recommendationEntries" [recommendationId]="protocolId()" [msrpSubTotalPrice]="msrpSubTotalPrice" [medPaxName]="getPacket()?.name"></ws-recommendation-sticky>
+}@else {
+<ws-floating-footer>
+    <div class="floot-footer">
+        <div class="p-3 f-grow">
+            <div class="bottom-nav__right d-flex align-items-center justify-content-end mx-0 mx-md-4">
+                <div class="totals-area">
+                    <div class="mr-3">
+                        @if(location.path().includes('recommendation/edit/medpax/review')|| this.location.path().includes('protocol/edit/medpax/review')){
+                            <div class="bolder">
+                                Total: {{recommendationEntries?.totalPrice?.formattedValue}}
+                            </div>
+                            <div>
+                                MSRP:{{recommendationEntries?.msrpSubTotalPrice?.formattedValue}}
+                            </div>
+                        }@else {
+                            <h3 class="bolder">
+                                Total: $ {{ (medPaxProducts()?.totalPrice || getPacket()?.totalPrice?.value || 0.00) | number:'1.2-2'}}
+                            </h3>
+                            @if(!location.path().toLowerCase().includes('review')){
+                                <div>
+                                    MSRP: $ {{ (medPaxProducts()?.msrpTotalPrice || getPacket()?.msrpTotalPrice?.value || 0.00) | number:'1.2-2'}}
+                                </div>
+                            }
+                        }
+                    </div>
+                </div>
+                <button class="btn btn-rounded btn-outline-primary mr-2" (click)="location.back()" tabindex="0" aria-label="Go Back" >
+                    Back
+                </button>
+                @if(this.location.path().includes('protocol/edit/medpax/review')){
+                        <a class="btn btn-primary btn-rounded pull-right next-btn btn-h btn-w"
+                        [routerLink]="'/protocol/edit/review/'|parseUrl:[protocolId()]"> Review Protocol</a>
+                }@else {
+                <a tabindex="0" (keypress)="addToCart()" class="btn btn-primary btn-rounded pull-right next-btn btn-h btn-w add-medpax-to-cart-btn" (click)="addToCart()" [ngClass]="((cartIsLoading$ | async) || addToCartCalled)&& 'disabled'"> Add MedPax
+                    to Cart &nbsp;
+                    <i class="fas fa-shopping-cart text-success" aria-hidden="true"></i></a>
+                }
+            </div>
+        </div>
+    </div>
+</ws-floating-footer>
+}
+
+<ng-template #EditName>
+    <div class="edit-name-modal p-3 text-center">
+        <div class="header">
+            <h3 class="bolder ">PACKET NAME</h3>
+        </div>
+        <hr>
+        <p class="w-75 mt-3 mx-auto">Please provide the name that you would like to appear on each packet.*</p>
+        <input type="text" placeholder="ENTER PACKET NAME" [formControl]="packetName"
+            class="w-75 form-control mx-auto my-4" id="name-packet" maxlength="32" aria-label="Enter packet name"
+            tabindex="0">
+        <div class="text-danger danger-popup">
+            <em>Please do not name your packet in a way that would express or imply any claims regarding the product.
+                Using your patient's or practice's name is recommended.</em>
+        </div>
+        <p class="text-muted mt-1">Limit of 32 characters</p>
+        <div class="d-flex justify-content-between mt-5">
+            <div class="col-3 text-danger ">
+                * Required
+            </div>
+            <div class="col-9 d-content ">
+                <div class="d-flex justify-content-end">
+                    <div class="btns-container col-12 d-flex">
+                        <button class="btn btn-outline-primary btn-rounded" (click)="goBack()" tabindex="0">
+                            Back
+                        </button>
+                        <button type="button" class="btn btn-primary btn-rounded save-packet-name-btn"
+                            [disabled]="packetName?.invalid" (click)="updatePacketName()" tabindex="0">
+                            Save
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<div class="toast-wrapper" *ngIf="toastMessage">
+    <div class="toast">
+        <div class="d-flex toast-header">
+            <img width="32" height="32" src="/assets/icons/common_icons/featured-success-icon.svg" />
+            <div class="d-flex toast-header-message-wrapper">
+                <p>{{toastMessage}}</p>
+                <i class="fa fa-close" (click)="toastMessage = ''"></i>
+            </div>
+        </div>
+    </div>
+ </div>

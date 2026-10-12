@@ -1,0 +1,41 @@
+.sticky-bottom {
+  overflow: hidden;
+  background-color: #fff;
+  width: 100%;
+  margin-bottom: 0 !important;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+}
+
+.navbar {
+  height: fit-content;
+  margin-bottom: 20px;
+  padding: 10px !important;
+}
+
+.navbar a {
+  text-decoration: none;
+}
+
+.row {
+  align-items: center;
+  padding: 0 16px 0 0;
+  column-gap: 24px;
+
+  strong {
+    color: var(--cx-color-secondary);
+
+    @media (max-width: 1440px) {
+      padding-bottom: 8px;
+    }
+  }
+
+  a {
+    font-weight: 900;
+  }
+
+  @media (max-width: 1112px) {
+    flex-direction: column;
+  }
+}

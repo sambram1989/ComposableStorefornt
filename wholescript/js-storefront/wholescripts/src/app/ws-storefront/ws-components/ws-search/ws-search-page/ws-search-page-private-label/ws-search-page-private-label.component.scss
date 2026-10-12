@@ -1,0 +1,126 @@
+::ng-deep {
+    .search-page-private-label {
+        display: flex;
+        flex-direction: column;
+        gap: 32px;
+
+        .search-private-label-wrapper {
+            display: flex;
+            align-items: flex-start;
+            align-content: flex-start;
+            align-self: stretch;
+            flex-wrap: wrap;
+            gap: 2%;
+            width: 100%;
+            row-gap: 16px;
+            padding-top: 32px;
+
+            .search-each-private-label {
+                display: flex;
+                align-items: flex-start;
+                gap: 20px;
+                align-self: stretch;
+                flex-direction: row;
+                width: 30%;
+                &:hover {
+                    .private-label-image {
+                        border: 0.5px solid var(--ws-gray-light-600);
+                    }
+            
+                    .desc-container{
+                        text-decoration: underline;
+                    }
+                }
+                
+                @media (max-width: 990px) {
+                    width: 48%;
+                }
+
+                @media (max-width: 578px) {
+                    width: 100%;
+                }
+
+                .private-label-image {
+                    display: flex;
+                    padding: 4.55px;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 9.1px;
+                    border-radius: 12px;
+                    border: 1.137px solid var(--ws-gray-light-300);
+                    background: var(--cx-color-inverse);
+                    img {
+                        width: 82px;
+                        height: 82px;
+                    }
+                    cx-media {
+                        width: 82px;
+                        height: 82px;
+                    }
+                }
+
+                .private-label-details-section {
+                    .name {
+                        color: var(--ws-gray-light-600);
+                        font-size: 14px;
+                        font-weight: 300;
+                        font-style: normal;
+                        line-height: 20px;
+                    }
+                    .desc-container {
+                        display: flex;
+                        gap: 4px;
+
+                        .icon {
+                            height: 18px;
+                            min-width: 18px;
+                            padding: 0px 4px;
+                            border-radius: 9999px;
+                            background: var(--ws-gray-light-900);
+                            color: var(--cx-color-inverse);
+                            text-align: center;
+                            font-size: 12px;
+                            font-weight: 400;
+                            line-height: 18px;
+                        }
+
+                        .desc {
+                            color: var(--ws-gray-light-900);
+                            font-size: 14px;
+                            font-weight: 600;
+                            line-height: 20px;
+                            margin: 0;
+                            text-decoration: none;
+                            min-height: unset;
+                        }
+                    }
+
+                    .private-label-sku {
+                        color: var(--ws-gray-light-600);
+                        font-size: 14px;
+                        font-weight: 300;
+                        line-height: 20px;
+                        margin: 0;
+                    }
+
+                    .private-label-description {
+                        overflow: hidden;
+                        color: var(--ws-gray-light-600);
+                        text-overflow: ellipsis;
+                        font-size: 14px;
+                        font-weight: 300;
+                        line-height: 20px;
+                        display: -webkit-box;
+                        -webkit-line-clamp: 5;
+                        -webkit-box-orient: vertical;
+                        max-height: 100px;
+
+                        p {
+                            margin-bottom: 0;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

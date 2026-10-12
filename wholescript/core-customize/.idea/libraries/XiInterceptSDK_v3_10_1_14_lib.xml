@@ -1,0 +1,45 @@
+<component name="libraryTable">
+  <library name="XiInterceptSDK-v3.10.1.14_lib">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/hybris/bin/custom/paymetric/lib/XiInterceptSDK-v3.10.1.14_lib/jdom-1.1.3.jar!/" />
+      <root url="jar://$PROJECT_DIR$/hybris/bin/custom/paymetric/lib/XiInterceptSDK-v3.10.1.14_lib/relaxng-datatype-2.3.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/hybris/bin/custom/paymetric/lib/XiInterceptSDK-v3.10.1.14_lib/jcifs-1.3.19.jar!/" />
+      <root url="jar://$PROJECT_DIR$/hybris/bin/custom/paymetric/lib/XiInterceptSDK-v3.10.1.14_lib/log4j-1.2-api-2.14.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/hybris/bin/custom/paymetric/lib/XiInterceptSDK-v3.10.1.14_lib/encoder-1.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/hybris/bin/custom/paymetric/lib/XiInterceptSDK-v3.10.1.14_lib/jersey-common.jar!/" />
+      <root url="jar://$PROJECT_DIR$/hybris/bin/custom/paymetric/lib/XiInterceptSDK-v3.10.1.14_lib/jaxb-xjc.jar!/" />
+      <root url="jar://$PROJECT_DIR$/hybris/bin/custom/paymetric/lib/XiInterceptSDK-v3.10.1.14_lib/jersey-client.jar!/" />
+      <root url="jar://$PROJECT_DIR$/hybris/bin/custom/paymetric/lib/XiInterceptSDK-v3.10.1.14_lib/javax.annotation-api-1.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/hybris/bin/custom/paymetric/lib/XiInterceptSDK-v3.10.1.14_lib/jersey-container-servlet.jar!/" />
+      <root url="jar://$PROJECT_DIR$/hybris/bin/custom/paymetric/lib/XiInterceptSDK-v3.10.1.14_lib/xsom.jar!/" />
+      <root url="jar://$PROJECT_DIR$/hybris/bin/custom/paymetric/lib/XiInterceptSDK-v3.10.1.14_lib/jaxb-runtime.jar!/" />
+      <root url="jar://$PROJECT_DIR$/hybris/bin/custom/paymetric/lib/XiInterceptSDK-v3.10.1.14_lib/jaxb-jxc.jar!/" />
+      <root url="jar://$PROJECT_DIR$/hybris/bin/custom/paymetric/lib/XiInterceptSDK-v3.10.1.14_lib/hk2-utils-2.5.0-b42.jar!/" />
+      <root url="jar://$PROJECT_DIR$/hybris/bin/custom/paymetric/lib/XiInterceptSDK-v3.10.1.14_lib/dtd-parser.jar!/" />
+      <root url="jar://$PROJECT_DIR$/hybris/bin/custom/paymetric/lib/XiInterceptSDK-v3.10.1.14_lib/hk2-locator-2.5.0-b42.jar!/" />
+      <root url="jar://$PROJECT_DIR$/hybris/bin/custom/paymetric/lib/XiInterceptSDK-v3.10.1.14_lib/javax.ws.rs-api-2.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/hybris/bin/custom/paymetric/lib/XiInterceptSDK-v3.10.1.14_lib/FastInfoset.jar!/" />
+      <root url="jar://$PROJECT_DIR$/hybris/bin/custom/paymetric/lib/XiInterceptSDK-v3.10.1.14_lib/javax.activation-api.jar!/" />
+      <root url="jar://$PROJECT_DIR$/hybris/bin/custom/paymetric/lib/XiInterceptSDK-v3.10.1.14_lib/servlet-api.jar!/" />
+      <root url="jar://$PROJECT_DIR$/hybris/bin/custom/paymetric/lib/XiInterceptSDK-v3.10.1.14_lib/jersey-container-servlet-core.jar!/" />
+      <root url="jar://$PROJECT_DIR$/hybris/bin/custom/paymetric/lib/XiInterceptSDK-v3.10.1.14_lib/encoder-jsp-1.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/hybris/bin/custom/paymetric/lib/XiInterceptSDK-v3.10.1.14_lib/java-json.jar!/" />
+      <root url="jar://$PROJECT_DIR$/hybris/bin/custom/paymetric/lib/XiInterceptSDK-v3.10.1.14_lib/validation-api-1.1.0.Final.jar!/" />
+      <root url="jar://$PROJECT_DIR$/hybris/bin/custom/paymetric/lib/XiInterceptSDK-v3.10.1.14_lib/txw2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/hybris/bin/custom/paymetric/lib/XiInterceptSDK-v3.10.1.14_lib/hk2-api-2.5.0-b42.jar!/" />
+      <root url="jar://$PROJECT_DIR$/hybris/bin/custom/paymetric/lib/XiInterceptSDK-v3.10.1.14_lib/jersey-server.jar!/" />
+      <root url="jar://$PROJECT_DIR$/hybris/bin/custom/paymetric/lib/XiInterceptSDK-v3.10.1.14_lib/istack-commons-tools.jar!/" />
+      <root url="jar://$PROJECT_DIR$/hybris/bin/custom/paymetric/lib/XiInterceptSDK-v3.10.1.14_lib/log4j-api-2.14.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/hybris/bin/custom/paymetric/lib/XiInterceptSDK-v3.10.1.14_lib/javax.inject-2.5.0-b42.jar!/" />
+      <root url="jar://$PROJECT_DIR$/hybris/bin/custom/paymetric/lib/XiInterceptSDK-v3.10.1.14_lib/jaxb-api.jar!/" />
+      <root url="jar://$PROJECT_DIR$/hybris/bin/custom/paymetric/lib/XiInterceptSDK-v3.10.1.14_lib/istack-commons-runtime.jar!/" />
+      <root url="jar://$PROJECT_DIR$/hybris/bin/custom/paymetric/lib/XiInterceptSDK-v3.10.1.14_lib/codemodel.jar!/" />
+      <root url="jar://$PROJECT_DIR$/hybris/bin/custom/paymetric/lib/XiInterceptSDK-v3.10.1.14_lib/jersey-hk2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/hybris/bin/custom/paymetric/lib/XiInterceptSDK-v3.10.1.14_lib/stax-ex.jar!/" />
+      <root url="jar://$PROJECT_DIR$/hybris/bin/custom/paymetric/lib/XiInterceptSDK-v3.10.1.14_lib/relaxng-datatype.jar!/" />
+      <root url="jar://$PROJECT_DIR$/hybris/bin/custom/paymetric/lib/XiInterceptSDK-v3.10.1.14_lib/rngom.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

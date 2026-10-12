@@ -1,0 +1,231 @@
+.product-summary-container {
+    padding-bottom: 14px;
+
+    .price {
+        color: var(--ws-gray-light-900);
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 28px;
+        letter-spacing: 0px;
+    }
+
+    .form-group {
+        position: relative;
+        margin: 0;
+        width: 50%;
+
+        @media (max-width:767px){
+            width: 85%;
+        }
+
+        select {
+            padding: 5px 10px;
+            border: 1px solid var(--ws-border-color);
+            border-radius: 5px;
+            background-color: var(--ws-base-white);
+            font-size: 14px;
+            &:focus-visible {
+                outline: 3px solid var(--cx-color-darkest) !important;
+                outline-offset: 2px !important;
+                box-shadow: unset;
+            }
+        }
+
+        label {
+            margin-right: 5px;
+            color: var(--cx-color-secondary);
+            font-weight: bold;
+            font-size: 10px;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            font-weight: 500;
+            background-color: var(--ws-base-white);
+            position: absolute;
+            top: -6px;
+            left: 10px;
+            margin-bottom: unset;
+        }
+    }
+
+    .practioner-price-container {
+        display: flex;
+        justify-content: space-between;
+        @media (max-width:767px){
+            flex-direction: column;
+            gap: 15px;
+        }
+        .price {
+            margin-bottom: 0 !important;
+        }
+
+        .practioner-price {
+            display: flex;
+            align-items: flex-start;
+
+            .wholesale-price {
+                display: flex;
+                padding-right: 8px;
+                flex-direction: column;
+                justify-content: center;
+                align-items: flex-start;
+                color: var(--ws-gray-light-600);
+                font-size: 16px;
+                font-style: normal;
+                font-weight: 300;
+                line-height: 24px;
+                letter-spacing: 0px;
+                border-right: 1px solid var(--ws-gray-light-200);
+            }
+
+            .msrp {
+                display: flex;
+                padding-left: 8px;
+                justify-content: center;
+                align-items: center;
+                gap: 8px;
+                color: var(--ws-gray-light-600);
+                font-size: 16px;
+                font-style: normal;
+                font-weight: 300;
+                line-height: 24px;
+                letter-spacing: 0px;
+            }
+        }
+    }
+
+    .patient-price {
+        display: flex;
+        justify-content: space-between;
+        .price {
+            margin-bottom: 0 !important;
+        }
+
+        .retail {
+            color: var(--ws-gray-light-600);
+            font-size: 16px;
+            font-style: normal;
+            font-weight: 300;
+            line-height: 24px;
+            letter-spacing:  0px;
+        }
+    }
+}
+
+.promo-code-wrapper {
+    background-color: var(--ws-base-white);
+    border-radius: 8px;
+    box-shadow: 0 2px 10px var(--cx-box-shadow-default);
+    text-align: center;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border: 1px solid var(--ws-gray-light-200);
+    overflow: hidden;
+    cursor: pointer;
+    margin-bottom: 24px;
+    .badge {
+        background: var(--ws-success-200);
+        position: absolute;
+        top: -2px;
+        left: -10px;
+        color: transparent;
+        padding: 5px 14px;
+        font-size: 12px;
+        font-weight: 400;
+        transform: skew(-30deg);
+        height: 30px;
+        color: var(--ws-success-950);
+        justify-content: center;
+        display: flex;
+        align-items: center;
+        width: 170px;
+    }
+    .badge-text {
+        position: absolute;
+        left: 16px;
+        font-size: 12px;
+        font-weight: 500;
+        line-height: 18px;
+        background-color: transparent;
+        transform: skew(30deg);
+        padding: 2px;
+        color: var(--ws-success-950);
+        font-size: 12px;
+        font-style: normal;
+        font-weight: 400;
+    }
+    .promo-details {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 32px 32px 16px 32px;
+        .promo-title {
+            color:  var(--ws-gray-light-900);
+            font-size: 16px;
+            font-weight: 600;
+            line-height: 24px;
+            &:focus-visible {
+                outline: 3px solid var(--cx-color-darkest) !important;
+                outline-offset: 2px !important;
+                box-shadow: unset;
+            }
+        }
+        .promo-sub-text {
+            color: var(--ws-gray-light-600);
+            font-size: 14px;
+            font-weight: 300;
+            line-height: 20px;
+        }
+        .promo-codes {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            align-content: center;
+            row-gap: 8px;
+            align-self: stretch;
+            flex-wrap: wrap;
+            height: 36px;
+            span {
+                padding-left: 6px;
+            }
+            .promo-code-text {
+                color: var(--ws-gray-light-600);
+                font-size: 14px;
+                font-weight: 600;
+                line-height: 20px;
+            }
+            .promo-code {
+                color: var(--ws-brand-700);
+                font-size: 14px;
+                font-weight: 600;
+                line-height: 20px;
+                padding-left: 16px;
+            &:focus-visible {
+                outline: 3px solid var(--cx-color-darkest) !important;
+                outline-offset: 2px !important;
+                box-shadow: unset;
+                }
+            }
+            .see-details-text {
+                color: var(--ws-brand-700);
+                font-size: 14px;
+                font-weight: 600;
+                line-height: 24px;
+                text-decoration-line: underline;
+                text-decoration-style: solid;
+                &:focus-visible {
+                    outline: 3px solid var(--cx-color-darkest) !important;
+                    outline-offset: 2px !important;
+                    box-shadow: unset;
+                }
+            }
+        }
+    }
+}
+
+.color-text-grey{
+color: var(--cx-color-secondary);
+}

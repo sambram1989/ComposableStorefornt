@@ -1,0 +1,133 @@
+::ng-deep {
+    .edit-protocol-img {
+        cx-media {
+            img {
+                width: 100% !important;
+                height: 60px;
+            }
+        }
+    }
+}
+
+span, input, .img-icon {
+    &:focus-visible {
+       outline: 3px solid var(--cx-color-darkest) !important;
+       outline-offset: 2px !important;
+       box-shadow: unset;
+     }
+ }
+
+input[type="radio"] {
+    display: inline-block;
+    accent-color: #584091 !important;
+    margin-left: -20px;
+    margin-top: 0px;
+
+    &:focus {
+        background: unset !important;
+        background-color: unset !important;
+    }
+
+}
+
+input[type=radio]:checked::after {
+    background-color: unset !important;
+}
+
+input[type=radio]::after {
+    background-color: unset !important;
+}
+
+.img-icon {
+    border: solid 2px #BCBCC3;
+    border-radius: 5px;
+    padding: .2rem;
+    object-fit: contain;
+    height: 45px;
+    width: 45px;
+}
+
+.disabled-radio {
+    cursor: not-allowed;
+    opacity: 0.5;
+    input {
+        pointer-events: none;
+        z-index: 0;
+    }
+
+    img {
+        cursor: not-allowed;
+    }
+}
+
+.border-ws {
+    border: 3px solid var(--cx-color-primary);
+}
+
+.ws-radio {
+    right: 0%;
+    bottom: 10%;
+    width: 62px;
+    height: 48px;
+    z-index: 1;
+    visibility: hidden;
+}
+
+.disabler {
+    filter: grayscale(60%);
+    cursor: not-allowed !important;
+    text-decoration: none;
+}
+.nice-number{
+    button{
+        background: #64dba8;
+        color: #3e3b49;
+        width: 1vw;
+        min-width: 30px;
+        border: 0;
+        padding: 6px;
+    }
+    .min{
+        border-top-left-radius: 3px;
+        border-bottom-left-radius: 3px;
+    }
+    .max{
+        border-top-right-radius:3px;
+        border-bottom-right-radius:3px; 
+    }
+    input {
+        padding: 6%;
+    }
+}
+.qty-flex{
+    display:flex;
+  flex-direction: column;
+}
+.edit-protocol-img{
+    display: flex;
+    justify-content: center;
+}
+
+.disable-anchor{
+    cursor: not-allowed;
+    a{
+        pointer-events: none;
+    }
+}
+.moredoseBtn {
+    white-space: nowrap;
+    padding: 10px 4px !important;
+}
+
+.dosing-section {
+    @media(max-width: 767px) {
+        position: relative;
+
+        .edit-dose-del {
+            position: absolute;
+            top: 34%;
+            right: 0;
+            margin-right: -24px;
+        }
+    }
+}

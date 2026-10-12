@@ -1,0 +1,56 @@
+<div class="id-verification">
+  <div class="cx-spinner persona-spinner" *ngIf="personaLoading">
+    <cx-spinner></cx-spinner>
+  </div>
+  <div class="p-3">
+    <div id="id-verificaiton-container"  *ngIf="!personaLoading && !compareDates(perosnaExpirationDate) && !compareDates(personaBlockedDate)">
+      <div class="id-verification-content">
+        <div class="id-verification-image">
+          <img src="assets/images/checkout-delivery/age-verification-icon.png" alt="Age verification icon">
+        </div>
+
+        <div class="age-verification-text">
+          <h1>Verify your identity</h1>
+          <h2>Let's make sure you're you</h2>
+          <p>
+            You have selected an address in a state that requires age verification.
+            We use a secure identification verification partner to verify the age of purchasers who
+            request shipment of certain products to states with restrictions.
+            The account is verified, in part, by matching identity data to the account holder’s main
+            address on file.
+            Please update your main address to match your identifiers before starting verification.
+          </p>
+        </div>
+
+        <div class="d-flex align-items-center">
+          <button class="btn btn-primary btn-rounded " id="IdVerificationGetStartedBTN" [disabled]="personaLoading" (click)="onVerifyClick()" >
+            <span>Get Started</span>
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="verification-box row col-md-10 col-12 mt-3"
+      *ngIf="!personaLoading && perosnaExpirationDate && compareDates(perosnaExpirationDate) && !compareDates(personaBlockedDate)">
+      <div class="text-container">
+        <h4><i class="fa fa-check-circle" aria-hidden="true"></i>Success!</h4>
+        <p>We have successfully verified your identity. This information will remain stored for future use. If you have
+          question
+          or need to make changes, please contact our customer service at <b>1 (800) 647-6100</b>
+        </p>
+      </div>
+    </div>
+
+    <div class="verification-box row col-md-10 col-12 mt-3"
+      *ngIf="!personaLoading && personaBlockedDate && compareDates(personaBlockedDate) && !compareDates(perosnaExpirationDate)">
+      <div class="text-container">
+        <h4><i class="fa fa-exclamation-circle" aria-hidden="true"></i>Age verification failed</h4>
+        <p>You have exceeded your allowed number of verification attempts, or your identifiers indicate that you are
+          under the age of 21.
+          If this is in error, please reach out to customer service at <b>1 (800) 647-6100</b> for assistance.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

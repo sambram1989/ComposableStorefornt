@@ -1,0 +1,171 @@
+<div *ngFor="let alert of alertsSignal()">
+    <alert [type]="alert.type" [dismissOnTimeout]="alert.timeout" (onClosed)="onClosed(alert)">{{ alert.msg }}</alert>
+</div>
+<div class="ml-3 mr-3">
+    <div class="mt-30 w-75 header-wp">
+        <cx-page-slot position="wsProtocolListPageTitle"></cx-page-slot>
+    </div>
+    <div class="mt-25 mb-25">
+        <div>
+            <h6 class="sub-title col-12 bolder pl-0">Search Protocols:</h6>
+        </div>
+        <div class="col-12 col-md-6 pl-0">
+            <ws-search-box (searchChange)="updateSearch($event)"
+            aria-label="Search box" [placeholder]="'Search WholeScripts Protocol'"
+                [attr.aria-placeholder]="'Search for patients or other criteria'" >
+            </ws-search-box>
+        </div>
+    </div>
+    <div class="card-block p-0">
+        <div class="table-responsive">
+            <table class="table table-hover demo-table-search" id="tableWithSearch">
+                <thead class="table-header">
+                    <tr>
+                        <th style="width:8%" class="table-th">Last Updated</th>
+                        <th style="width:23%" class="table-th">Protocol Name</th>
+                        <th style="width:9%" class="table-th" aria-label="th"></th>
+                        <th class="text-left table-th" style="width:10%">Price</th>
+                        <th class="text-right table-th" style="width:35%">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="">
+                    @if(service$|async;as wsUser){
+                    @for(wsuser of wsUser.protocolsListWsDto;track wsuser){
+                    <tr style="border:1px solid rgba(230, 230, 230, 0.7);">
+                        <td class="v-align-middle">
+                            <span class="">{{wsuser?.modifiedTime|date:'MM/dd/yyy'}}</span>
+                        </td>
+                        <td class="v-align-middle template-name logobg">
+                            <div> <button class="btn btn-link" (click)="openFilterModal(wsuser)" tabindex="0">
+                                    {{wsuser?.name}}
+                                </button>
+                            </div>
+                        </td>
+                        <td class="v-align-middle text-left template-items">
+                            {{wsuser?.protocolEntries?.length}} item(s)
+                        </td>
+                        <td class="v-align-middle text-left">
+                            <span class="bold template-price fw-900 "> {{wsuser?.totalPrice?.formattedValue}}</span>
+                            <br>
+                            <!-- TODO:MSRP Need to be updated -->
+                            MSRP: <span class="font-italic">{{wsuser?.msrpSubTotalPrice?.formattedValue}}</span>
+                        </td>
+                        <td class="v-align-middle">
+                            <div class="right-buttons d-flex flex-wrap justify-content-md-end justify-content-sm-start"
+                                style="gap: 10px;">
+                                <button *ngIf="isPatientDirect && hasPatients" (click)="recommendThisProtocol(wsuser)"
+                                    class="btn btn-rounded recommend btn-outline-primary btn-h bolder" tabindex="0">
+                                    Recommend
+                                </button>
+                                <button class="btn btn-primary btn-rounded addtocart btn-h bolder"
+                                    (click)="addToCartFunctionality(wsuser)" tabindex="0">
+                                    Add to Cart &nbsp;<i class="fas fa-shopping-cart text-success"></i>
+                                </button>
+                                <button class="btn btn-primary protocols btn-rounded btn-h bolder" (click)="copyToProtoCols(wsuser)" tabindex="0">
+                                    Copy to My Protocols
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    }
+                }
+                
+            </tbody>
+        </table>
+        </div>      
+    </div>
+    @if(service$|async;as wsUser){
+        <div class="table-empty" *ngIf="wsUser.protocolsListWsDto.length === 0">
+            <div>
+            <h4 class="table-empty__h">No results found</h4>
+            <div *ngIf="payLoad.searchText">We couldn't find any matches for <span style="font-weight:900">{{payLoad.searchText}}</span></div>
+            <div>Please try searching with another term</div>
+            </div>
+        </div>
+    }
+        <div class="pagination-style">
+            <div class="pagination"  >
+                <ws-pagination-entry-list [endLine]="'Entries'" [itemPerPage]="pagination().count"
+                    [totalItems]="pagination().totalCount" [currentPage]="currentPage()"></ws-pagination-entry-list>
+            </div>
+            <div class="pagination">
+                <ws-pagination [resetReposition]="true" (currentPageChange)="pageChanged($event)" [itemsPerPage]="pagination().count"
+                    [totalItems]="pagination().totalCount" [numberOfPagesNeedTOBeShown]="5"
+                    aria-label="Pagination controls"></ws-pagination>
+            </div>
+
+        </div>
+</div>
+
+
+<ng-template #protoProduct>
+    <div class="alert-container" *ngFor="let alert of alertsSignal()">
+        <alert [type]="alert.type" [dismissOnTimeout]="alert.timeout" (onClosed)="onClosed(alert)">
+          {{ alert.msg }}
+        </alert>
+      </div>
+
+    <div class="p-4">
+        <div class="close mr-15">
+            <button aria-label="Close modal" (click)="closeFilterModal()" tabindex="0">
+                <span aria-hidden="true" class="fw-900">×</span>
+            </button>
+        </div>
+        @if(protocolProducts$|async; as entry) {
+        <div class="popup-header d-flex mt-4" role="banner">
+            <h3 class="bolder mb-0" id="filtersTitle">{{entry?.name}}</h3>
+            <p class="text-black">
+                <i class="fas fa-archive"></i>
+                Protocol
+            </p>
+        </div>
+        <hr>
+        <div class="" style="padding: 0 16px;">
+            <p class="fw-900 mb-0">Description:</p>
+            <p>{{entry?.name}}</p>
+        </div>
+
+        <div class="body" aria-labelledby="filtersTitle">
+            @for(item of entry?.protocolEntries; track item){
+            <ws-product [product]="item"></ws-product>
+            }
+            @if(medPaxProtocol){
+                <ws-medpax-card [medPaxData]="medPaxProtocol"></ws-medpax-card>
+                <ws-rightmedpax-table [medPaxData]="medPaxProtocol" [products]="medPaxProtocol?.medpaxEntry" [isActionsVisible]="false" [isFromProtocol]="true"
+                  [isMedPaxAvailable]="medPaxProtocol?.medpaxEntry && medPaxProtocol?.medpaxEntry?.length"
+                  aria-label="MedPax Table"></ws-rightmedpax-table>
+                <hr>
+            }
+    
+        </div>
+        <div class="text-right mt-30">
+            <h5 class="mt-1 mb-0 bolder">
+                Total: {{entry?.totalPrice?.formattedValue}}
+            </h5>
+            <p>
+                MSRP Total: {{entry?.msrpSubTotalPrice?.formattedValue}}
+            </p>
+        </div>
+        <div class="right-buttons d-flex flex-wrap justify-content-end justify-content-sm-center mt-30" style="gap: 10px;">
+            <div class="btn-group" dropdown>
+                <button class="btn-rounded btn-outline-primary dropdown-toggle btn-style" type="button"
+                    id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" tabindex="0">
+                    Additional Options
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item"
+                    (click)="recommendThisProtocol(entry)" tabindex="0" (keydown.enter)="recommendThisProtocol(entry)">Recommend</a>
+                    <a class="dropdown-item" (click)="addToCartFunctionality(entry)" tabindex="0" (keydown.enter)="addToCartFunctionality(entry)">Add to Cart</a>
+                    <a class="dropdown-item" (click)="viewMore(entry?.id)" tabindex="0" (keydown.enter)="viewMore(entry?.id)">View More Details</a>
+                </div>
+            </div>
+            <div>
+                <button class="btn btn-primary btn-rounded btn-h copy" (click)="copyToProtoCols(entry)" tabindex="0">
+                    Copy to My Protocols
+                </button>
+            </div>
+        </div>
+    }
+    </div>
+    
+</ng-template>

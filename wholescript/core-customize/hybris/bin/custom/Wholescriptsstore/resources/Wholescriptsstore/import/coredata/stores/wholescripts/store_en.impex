@@ -1,0 +1,14 @@
+# -----------------------------------------------------------------------
+# Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+# -----------------------------------------------------------------------
+#
+# Import the BaseStore
+#
+
+# Language
+$lang=en
+$storeUid=wholescripts
+
+# Create Base Store
+UPDATE BaseStore;uid[unique=true];name[lang=$lang];pickupInStoreMode(code)
+                ;$storeUid;wholescripts;BUY_AND_COLLECT

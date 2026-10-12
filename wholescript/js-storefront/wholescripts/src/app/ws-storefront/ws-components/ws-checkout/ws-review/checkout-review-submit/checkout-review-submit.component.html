@@ -1,0 +1,44 @@
+<div class="ach-payment-wrapper" [ngStyle]="{ 'display': isACHPaymentMethod ? 'block' : 'none' }">
+  <h2>ACH Payment</h2>
+  <div id="iframehost" style="width: 100%;"></div>
+</div>
+<div *ngIf="loading$ | async" class="d-flex justify-content-center">
+  <cx-spinner></cx-spinner>
+</div>
+<ng-container *ngIf="!(loading$ | async)">
+  <div [ngStyle]="{ 'visibility': !isACHPaymentMethod ? 'visible' : 'hidden' }">
+    <h2>Review Your Order</h2>
+    <cx-promotions [promotions]="(cart?.appliedOrderPromotions || []).concat(cart?.potentialOrderPromotions || [])"></cx-promotions>
+    <ws-title-body-content>
+      <div cartHeader>
+        <div class="d-flex p-2 justify-content-between">
+          <p class="text-section-head mb-0">Order Summary</p>
+          <a class="text-primary bolder" [routerLink]="{ cxRoute: 'cart'} | cxUrl" >Edit</a>
+        </div>
+      </div>
+      <div cartBody>
+        <ng-container>
+          <ng-container *ngIf="entries$ | async as entries">
+            @for( entry of cart.entries; track entry){
+            <div *ngIf="entry?.regionSwapDescription" class="region-swap-warning-wrapper">
+              <span>
+                <strong>*⚠ WARNING: </strong> Risk of cancer and reproductive harm from exposure to Lead. See <a href="https://www.p65warnings.ca.gov" target="_blank" rel="noopener noreferrer">www.p65warnings.ca.gov</a>
+              </span>
+            </div>
+            <ws-checkout-order-review [cartData]="cart" [item]="entry?.isMedPax ? entry.actualDetails : entry"
+            [isMedPax]="entry?.isMedPax"
+            ></ws-checkout-order-review>
+            @if(entry?.isMedPax) {
+            <ws-medpax-entry-cart [medpaxItem]="entry?.subEntries"></ws-medpax-entry-cart>
+            } }
+          </ng-container>
+        </ng-container>
+      </div>
+    </ws-title-body-content>
+    
+    
+    <div class="mt-4">
+      <ws-place-order />
+    </div>
+  </div>
+</ng-container>

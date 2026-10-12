@@ -1,0 +1,101 @@
+<ng-container *ngIf="node$ | async as node">
+  <!-- @if(currentUser$; as wsUser){ -->
+  <ng-container *ngIf="node.title.indexOf('Ws') > -1">
+    <button type="button" class="close-menu" (click)="hideMenu()" aria-labelledby="close-menu-label">
+      <i class="fa-solid fa-chevron-left"></i>
+    </button>
+    <span id="close-menu-label" class="sr-only">Close menu</span>
+
+    <!--for mobile start-->
+    <ng-container *ngIf="mobileLeftNav$ | async as nodeTab">
+      <ul id="accordion" class="accordion accordion-tab" *ngIf="nodeTab?.children && nodeTab?.children[0] as nodeTabs">
+        <ng-container *ngFor="let menu of nodeTabs.children; let i = index">
+        <li *ngIf="!(hideMedpaxPage && menu.url?.includes('medpax'))" [class.active]="menu.active">
+          <div *ngIf="menu.url" class="menu-li" (click)="toggle(menu, i)" [class.highlight-menu]="menu.isCurrentUrl">
+            <cx-generic-link class="menu-li-link" [class.d-none]="menu.url.includes('wsprotocols/list')"
+              [url]="menu.url" [target]="menu.target" (click)="hideMenu(menu.children)">
+              <ng-container *ngIf="menu.media">
+                <cx-media [container]="menu.media"></cx-media>
+              </ng-container>
+              {{ menu.title }}
+            </cx-generic-link>
+
+            <button *ngIf="menu.children && menu.children.length > 0" tabIndex="0" type="button" class="dropdown-btn" aria-labelledby="submenu-label">
+              <i class="fa"></i>
+            </button>
+            <span id="submenu-label" class="sr-only">Expand submenu</span>
+          </div>
+
+          <ul class="submenu" *ngIf="menu.children && menu.children.length > 0" #submenu
+            [style.height.px]="menu.active ? submenu.scrollHeight : 0">
+            <li *ngFor="let submenu of menu.children" [class.highlight-menu]="submenu.isCurrentUrl">
+              <div class="submenu-li">
+                <cx-generic-link class="menu-li-link" [url]="submenu.url" [target]="submenu.target" (click)="hideMenu()">
+                  {{ submenu.title }}
+                </cx-generic-link >
+              </div>
+            </li>
+          </ul>
+        </li>
+        </ng-container>
+      </ul>
+    </ng-container>
+    <!--for mobile end-->
+    <div class="divider"></div>
+    <ng-container *ngIf="currentUser$ | async as curUser">
+      <ng-container *ngIf="curUser !== 'patient'">
+    <ng-container *ngIf="isLoggedIn$ | async as isLoggedIn">
+      <ul id="accordion" class="accordion" *ngIf="isLoggedIn && node?.children && node?.children[0] as nodes">
+        <li *ngFor="let menu of nodes.children; let i = index" [class.active]="menu.active">
+          <div *ngIf="menu.url" class="menu-li" (click)="toggle(menu, i)" [class.highlight-menu]="menu.isCurrentUrl">
+            <cx-generic-link class="menu-li-link"
+              [class.d-none]="(wsUser()=='doctor') && menu.url.includes('wsprotocols/list')" [url]="menu.url"
+              [target]="menu.target" (click)="hideMenu(menu.children)">
+              <a class="tab-link" *ngIf="menu.media" [routerLink]="menu.url" tabindex="-1">
+                <cx-media [container]="menu.media"></cx-media>
+                {{ menu.title }}
+              </a>
+            </cx-generic-link>
+
+            <button *ngIf="menu.children && menu.children.length > 0" tabIndex="0" type="button" class="dropdown-btn"  aria-labelledby="submenu-label">
+              <i class="fa"></i>
+            <span id="submenu-label" class="sr-only">Expand submenu</span>
+
+            </button>
+          </div>
+          <ul class="submenu" *ngIf="menu.children && menu.children.length > 0" #submenu
+            [style.height.px]="menu.active ? submenu.scrollHeight : 0">
+            <li *ngFor="let submenu of menu.children" [class.highlight-menu]="submenu.isCurrentUrl">
+              <div class="submenu-li">
+                <cx-generic-link class="menu-li-link" [url]="submenu.url" [target]="submenu.target" (click)="hideMenu()">
+                  <a class="tab-link" [routerLink]="submenu.url"  tabindex="-1">
+                  {{ submenu.title }}
+                  </a>
+                </cx-generic-link>
+              </div>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </ng-container>
+  </ng-container>
+</ng-container>
+
+  </ng-container>
+  <!-- } -->
+</ng-container>
+
+<!-- <ng-container *ngIf="isMobile">
+  <ng-container *ngIf="nodeTab$ | async as nodeTab">
+    <ng-container *ngIf="nodeTab.title.indexOf('Account') > -1">
+      <ws-acc-navigation-ui [node]="nodeTab$ | async" [ngClass]="(styleClass$ | async) ?? ''"
+        [navAriaLabel]="name$ | async">
+      </ws-acc-navigation-ui>
+    </ng-container>
+  </ng-container>
+</ng-container> -->
+<ng-template cxOutletRef="HeaderLinks" [cxOutletPos]="outletPosition.REPLACE">
+  <ws-acc-navigation-ui [node]="nodeTab$ | async" [ngClass]="(styleClass$ | async) ?? ''"
+    [navAriaLabel]="name$ | async">
+  </ws-acc-navigation-ui>
+</ng-template>

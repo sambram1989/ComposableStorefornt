@@ -1,0 +1,101 @@
+<div *ngIf="recommendations$ | async as recommendations" class="review-container">
+  <div class="row">
+    <ws-recommendation-review-header [patientName]="patientName"></ws-recommendation-review-header>
+  </div>
+  <div class="row">
+    <main class="col-12 col-lg-8">
+      <div class="rec-table-sec d-flex flex-column">
+        <div class="rec-table-header position-relative d-flex align-items-center justify-content-between">
+          <div class="rec-table-title">Recommendation Preview</div>
+          <button type="button" tabindex="0" class="rec-edit-btn position-relative d-flex" [routerLink]="'/Recommendation/BasicRecommendation'|parseUrl:[recommendations?.id]" >Edit</button>
+        </div>
+        <div class="rec-table-body">
+          <table class="table">
+            <tbody>
+              <tr *ngFor="let entries of recommendations.recommendationEntries">
+                <td class="product-details-name">
+                  <div class="rec-t-product-title d-flex position-relative">
+                    <div class="rec-t-product-img d-flex align-items-center justify-content-center">
+                      <cx-media [container]="entries.product.images" format="product"
+                        [alt]="entries.product.name ?? ''"></cx-media>
+                    </div>
+                    <div class="rec-t-product-text">{{entries.product.name}}</div>
+                  </div>
+                  <div class="rec-t-product-sub-title dosing-desktop-v">
+                    <strong>Dosing: </strong><span>{{entries?.dosing|slice:0:4|dosingPipe}}</span>
+                  </div>
+                  <div *ngIf="entries?.notes && entries.notes.trim().length > 0" class="rec-t-product-sub-title dosing-desktop-v pt-2">
+                    <strong>Note: </strong><span>{{entries?.notes}}</span>
+                  </div>
+                </td>
+                <td>
+                  <div class="rec-t-product-title m-0 d-flex position-relative">
+                    <div class="rec-t-product-text">Duration: <span>{{weekMapItems.get(entries?.itemDuration) | capitalCase}}</span></div>
+                  </div>
+                </td>
+                <td>
+                  <div class="rec-t-product-title m-0 d-flex position-relative">
+                    <div class="rec-t-product-text">Qty: <span>{{entries.quantity}}</span></div>
+                  </div>
+                </td>
+                <td>
+                  <div class="rec-t-product-title m-0 d-flex position-relative justify-content-end">
+                    <div class="rec-t-product-text">MSRP: {{ entries.msrpTotalPrice?.formattedValue }}</div>
+                  </div>
+                  <div class="rec-t-product-sub-title dosing-mobile-v">
+                    <span>Dosing:{{entries?.dosing|slice:0:4|dosingPipe}}</span>
+                   
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="5">
+                  <ws-medpax-protocol-review-card [protocolId]="reviewId"></ws-medpax-protocol-review-card>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+    <aside class="col-12 col-lg-4">
+      <ws-recommendation-review-notes [(notes)]="notes"></ws-recommendation-review-notes>
+
+      <ws-recommendation-review-notification
+       [sms]="smsControl"
+       [email]="emailControl"
+     ></ws-recommendation-review-notification>
+    </aside>
+  </div>
+
+  <ws-recommendation-sticky recommendationTitle="review" [backToRecommendation]="true"
+    (stickyRecommendationClick)="sendeRcommendation()" [recommendation]="recommendations"
+    [recommendationId]="reviewId"></ws-recommendation-sticky>
+</div>
+
+<ng-template #sendRecommendationPoup>
+  <div class="popup-sec">
+    <div class="popup-header d-flex" role="banner">
+      <h3 class="title mx-auto bolder" id="filtersTitle">PRIVACY AGREEMENT</h3>
+      <button aria-label="Close modal" (click)="closeFilterModal()">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+    <div class="body" aria-labelledby="filtersTitle">
+      <div class="checkbox d-flex align-items-start">
+        <input tabindex="0" role="button" class="form-check-input checkbox" type="checkbox" id="privacyPolicy" [(ngModel)]="privacyPolicyChecked" (keydown)="handleKeypress($event)">
+        <label class="form-check-label" for="privacyPolicy">
+          By checking this box, I certify the transmission of all information via this messaging platform will be done
+          in compliance with all applicable regulations, including HIPAA, and does not reveal or make known the
+          confidential and/or private health information of any one individual to other members of this—or any
+          other—messaging thread.
+        </label>
+      </div>
+      <div class="d-flex justify-content-end mt-4">
+        <button tabindex="0" class="btn btn-primary btn-rounded pull-right next-btn" [disabled]="privacyPolicyChecked ?  false : true"
+          [ngClass]="privacyPolicyChecked ? '' : 'disabled'" (click)="navigateToCompleteReview()">Send
+          Recommendation</button>
+      </div>
+    </div>
+  </div>
+</ng-template>

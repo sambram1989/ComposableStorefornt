@@ -1,0 +1,9 @@
+<div *ngIf="!product?.isMedpax && product?.stock?.stockLevelStatus === 'outOfStock'" class="badge-stock out-of-stock">
+    <div class="dot out-of-stock-dot"></div>
+    Out of stock
+</div>
+<div *ngIf="product?.isMedpax && product?.stock?.stockLevelStatus === 'outOfStock'" class="badge-stock unavailable">
+    <div class="dot unavailable-dot"></div>
+    Unavailable
+</div>
+<br>

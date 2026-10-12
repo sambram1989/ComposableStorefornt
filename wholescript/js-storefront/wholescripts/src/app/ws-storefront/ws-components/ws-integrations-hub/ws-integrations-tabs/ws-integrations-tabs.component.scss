@@ -1,0 +1,118 @@
+::ng-deep {
+    #account-settings-container {
+        max-width: 1500px;
+        margin: 0 auto;
+        padding: 24px;
+
+        .account-settings-header {
+            padding-bottom: 32px;
+            border-bottom: 1px solid var(--ws-gray-light-200);
+
+            .as-heading {
+                .IntegrationsHubHeader {
+                    padding-bottom: 20px;
+
+                    cx-paragraph {
+                        div {
+                            h3 {
+                                color: var(--ws-gray-light-900) !important;
+                                font-size: 28px !important;
+                                font-weight: 900;
+                                margin: 0;
+                            }
+
+                            p {
+                                color: var(--ws-gray-light-600);
+                                font-size: 16px;
+                                font-style: normal;
+                                font-weight: 300;
+                                line-height: 24px;
+                                margin: 0;
+                            }
+                        }
+                    }
+                }
+            }
+
+            .as-heading-links {
+                .as-header-links-desktop-wrapper {
+                    @media(max-width: 575px) {
+                        display: none;;
+                    }
+                    .heading-links-body {
+                        border-radius: 10px;
+                        border: 1px solid var(--ws-gray-light-200);
+                        background: var(--ws-base-white);
+                        display: flex;
+                        padding: 8px;
+                        align-items: center;
+                        gap: 4px;
+                        margin: 0;
+                        flex-wrap: wrap;
+                        max-width: fit-content;
+
+                        .practitioner-settings-item {
+                            display: flex;
+                            .practitioner-settings-link {
+                                color: var(--ws-gray-light-900);
+                                font-size: 14px;
+                                font-weight: 600;
+                                line-height: 20px;
+                                padding: 8px 12px;
+
+                                &.active {
+                                    border-radius: 4px;
+                                    background: var(--ws-gray-light-100);
+                                    box-shadow: 0px 1px 3px 0px rgba(16, 24, 40, 0.10), 0px 1px 2px 0px rgba(16, 24, 40, 0.06);
+                                }
+                                &:hover {
+                                    background-color: var(--ws-brand-25);
+                                    text-decoration: none;
+                                    box-shadow: 0px 1px 3px 0px rgba(16, 24, 40, 0.10), 0px 1px 2px 0px rgba(16, 24, 40, 0.06);
+                                    border-radius: 4px;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                .as-header-links-mobile-wrapper {
+                    display: none;
+                    @media(max-width: 575px) {
+                        display: block;;
+                    }
+                }
+
+            }
+        }
+    }
+
+        @media (max-width: 1023px) {
+            #account-settings-container {
+                padding: 0;
+    
+                .bagde {
+                    white-space: nowrap;
+                }
+            }
+    
+            .estore-settings-row__card  {
+                .rounded {
+                    max-width: 100% !important;
+                }
+            }
+        }
+}
+
+.none {
+    display: none;
+}
+button:focus-visible,
+      input:focus-visible,
+      th:focus-visible,
+      a:focus-visible,
+      ws-search-box:focus-visible {
+        outline: 3px solid var(--cx-color-darkest) !important;
+        outline-offset: 2px;
+        box-shadow: none;
+}

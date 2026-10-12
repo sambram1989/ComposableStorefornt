@@ -1,0 +1,30 @@
+<!-- 
+  <ng-container *ngIf="items$ | async as items">
+    <app-slider [sliderData]="items"></app-slider>
+  </ng-container> -->
+  <ng-container *ngIf="items$ | async as items">
+    <div class="upwardly angle-down">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 1920 83.4"
+        preserveAspectRatio="none"
+      >
+        <path
+          fill="#fafafa"
+          d="M1920 0l-895.4 81c-35.5 3.2-93.8 3.2-129.4 0L0 0h1920z"
+        ></path>
+      </svg>
+    </div>
+    <ngx-slick-carousel class="testimonials carousel"
+      #slickModal="slick-carousel"
+      [config]="slideConfig">
+      <div *ngFor="let slide of items" ngxSlickItem class="slide testimonial">
+        <img [src]="getImageUrl(slide.media)" class="patientHome-img" alt="patientHome image" />
+        <div class="text-carousel">
+          <img class="content-icon" src="/assets/images/home/testimonial.svg" />
+          <h4 class="bolder" [innerHTML]="slide.content"></h4>
+          <span  [innerHTML]="slide.author"></span>
+        </div>
+      </div>
+    </ngx-slick-carousel>
+  </ng-container>

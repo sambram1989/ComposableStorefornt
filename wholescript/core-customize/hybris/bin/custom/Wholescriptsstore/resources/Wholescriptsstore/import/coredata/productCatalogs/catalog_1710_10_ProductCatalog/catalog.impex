@@ -1,0 +1,91 @@
+# -----------------------------------------------------------------------
+# Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+# -----------------------------------------------------------------------
+# 
+# Import the Product Catalog and Classification Catalog
+#
+
+
+$productCatalog=Catalog_1710_10
+$classificationCatalog_1=ERP_CLASSIFICATION_001
+$classificationCatalog_2=ERP_CLASSIFICATION_023
+$catalogStagedVersion=catalogversion(catalog(id[default=$productCatalog]),version[default='Staged'])[unique=true,default=$productCatalog:Staged]
+$catalogOnlineVersion=catalogversion(catalog(id[default=$productCatalog]),version[default='Online'])[unique=true,default=$productCatalog:Online]
+
+$languages=ja,en,de,zh
+# Product catalog
+INSERT_UPDATE Catalog; id[unique = true]
+                     ; $productCatalog
+
+# Product versions for product catalogs
+INSERT_UPDATE CatalogVersion; catalog(id)[unique = true]; version[unique = true]; active; languages(isoCode)
+                            ; $productCatalog           ; ERP_IMPORT            ; false ; $languages ;
+                            ; $productCatalog           ; Online                ; true  ; $languages ;
+
+### Promotions of Promotion-Engine ###
+INSERT_UPDATE CatalogVersionToRuleEngineContextMapping; context(name)[unique = true]; catalogVersion(catalog(id), version)[unique = true]
+"#%beforeEach:
+import de.hybris.platform.core.Registry;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.apache.commons.lang3.StringUtils;
+import de.hybris.platform.util.Config;
+Logger LOG = LoggerFactory.getLogger(""ImpExImportReader"");
+extensionNames = Registry.getCurrentTenant().getTenantSpecificExtensionNames();
+extensionName = ""promotionengineservices"";
+if(!extensionNames.contains(extensionName))
+{
+	templateId = line.get(1);
+	LOG.info(""CatalogVersionToRuleEngineContextMapping [{}] was skipped because the extension [{}] is not included in the setup"", templateId, extensionName);
+	line.clear();
+}
+"
+                                                      ; promotions-context          ; Catalog_1710_10:Online
+# catalog version specific access rights for marketingManagerGroup
+# this allows read access for catalog-aware items in the rule builder UI
+INSERT_UPDATE CatalogVersion; catalog(id)[unique = true]; version[unique = true]; readPrincipals(uid)[mode = append]
+"#%beforeEach:
+import de.hybris.platform.core.Registry;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.apache.commons.lang3.StringUtils;
+import de.hybris.platform.util.Config;
+Logger LOG = LoggerFactory.getLogger(""ImpExImportReader"");
+extensionNames = Registry.getCurrentTenant().getTenantSpecificExtensionNames();
+extensionName = ""promotionengineservices"";
+if(!extensionNames.contains(extensionName))
+{
+	templateId = line.get(1);
+	LOG.info(""CatalogVersion [{}] was skipped because the extension [{}] is not included in the setup"", templateId, extensionName);
+	line.clear();
+}
+"
+                           # ; $productCatalog           ; Staged                ; marketingManagerGroup
+                            ; $productCatalog           ; Online                ; marketingManagerGroup
+### End Promotions of Promotion-Engine ###
+
+# Classification catalog
+INSERT_UPDATE ClassificationSystem; id[unique = true]
+                                  ; $classificationCatalog_1
+                                  ; $classificationCatalog_2
+# Insert Classifications System Version
+INSERT_UPDATE ClassificationSystemVersion; catalog(id)[unique = true]; version[unique = true]; active; inclPacking[virtual = true, default = true]; inclDuty[virtual = true, default = true]; inclFreight[virtual = true, default = true]; inclAssurance[virtual = true, default = true]
+                                         ; $classificationCatalog_1  ; 1.0                   ; true
+                                         ; $classificationCatalog_2  ; 1.0                   ; true
+# Create default tax row for all products in product catalog
+INSERT_UPDATE TaxRow; $catalogStagedVersion; tax(code)[unique = true]; pg(code)[unique = true]; ug(code)[unique = true]
+                    ;                      ; us-sales-tax-full       ; us-sales-tax-full      ; us-taxes
+                    ;                      ; ca-sales-tax-full       ; ca-sales-tax-full      ; ca-taxes
+
+
+$syncJob=sync $productCatalog:Staged->$productCatalog:Online
+$productCatalogStagedCV=sourceVersion(catalog(id[default=$productCatalog]),version[default='Staged'])[unique=true,default='$productCatalog:Staged']
+$productCatalogOnlineCV=targetVersion(catalog(id[default=$productCatalog]),version[default='Online'])[unique=true,default='$productCatalog:Online']
+
+INSERT_UPDATE CatalogVersionSyncJob; code[unique = true]; $productCatalogStagedCV; $productCatalogOnlineCV; syncPrincipals(uid)[mode = append]; syncPrincipalsOnly[default = false]; removeMissingItems; createNewItems; sendEmail[default = true]; emailNotificationTemplate(code)[default = 'DefaultCronJobFinishNotificationTemplate']; rootTypes(code)
+                                   ; $syncJob           ;                        ;                        ; cmsmanagergroup                   ;                                    ; true              ; true          ;                          ;                                                                                      ; ; MediaContainer,Category,Product,Media,Keyword,TaxRow,PriceRow,DiscountRow,BundleTemplate,BundleTemplateStatus,BundleSelectionCriteria,ChangeProductPriceBundleRule
+
+
+
+
+

@@ -1,0 +1,87 @@
+<cx-page-slot position="TopBannerSlot"></cx-page-slot>
+<ng-container [ngTemplateOutlet]="referralcode"></ng-container>
+
+<ng-template #referralcode>
+    <section class="container mb-4 form-section">
+        <div class="pdintro">
+            <div class="bolder fs-18">Please create a referral code, and select a discount percentage below</div>
+            <div>(Any discount will be deducted from your consultation fees)</div>
+        </div>
+        <div class="card rounded mb-40">
+            <div ng-show="isProcessing" class="loadingSection divLoading ng-hide" aria-live="polite">
+                <!-- Add an aria-live region to announce loading status -->
+            </div>
+            <div class="pd-card__title bolder text-center" role="heading" aria-level="2">
+                Referral Code
+            </div>
+            <div class="card-body pd-card__body">
+                <div class="fs-18 bolder">
+                    What’s a Referral Code?
+                </div>
+                <div class="fs-18 mb-40">
+                    A Referral Code is a unique code given to your patients that allows us to connect them to you. We do
+                    this by associating your unique code and your last name together.
+                </div>
+                <div class="mb-40">
+                    To create a new Referral Code, type in the code you’d like, your last name, and the discount you’d
+                    like associated with that code (optional). You can review and edit the discount later in your
+                    dispensary
+                    settings page.
+                </div>
+                <hr class="mb-40">
+                <form [formGroup]="w9ReferralForm" (ngSubmit)="submit()">
+                    <div class="row ref-code-grid mb-30">
+                        <div class="form-group required col-12 col-lg-6">
+                            <ws-formcontrol-input [wsLabel]="'REFERRAL CODE'" 
+                                [wsControlName]="w9ReferralForm.controls.newReferralCode" [wswidth]="'100%'"
+                                [wsheight]="'44px'" [isSelectBox]="false" [isShowStart]="true" aria-required="true"
+                                aria-invalid="{{w9ReferralForm.controls.newReferralCode.invalid}}">
+                            </ws-formcontrol-input>
+                        </div>
+                        <div class="form-group required col-12 col-lg-6">
+                            <ws-formcontrol-input [wsLabel]="'PRACTITIONER LAST NAME'" 
+                                [wsControlName]="w9ReferralForm.controls.newReferralLastName" [wswidth]="'100%'"
+                                [wsheight]="'44px'" [isSelectBox]="false" [isShowStart]="true" aria-required="true"
+                                aria-invalid="{{w9ReferralForm.controls.newReferralLastName.invalid}}">
+                            </ws-formcontrol-input>
+                        </div>
+
+                        <div class="form-group col-12 col-lg-6">
+                            <ws-formcontrol-input [wsLabel]="'DISCOUNT'"
+                                [wsControlName]="w9ReferralForm.controls.discount" [wswidth]="'100%'"
+                                [selectBoxData]="discountArray"
+                                [wsheight]="'44px'" [isSelectBox]="true" [isShowStart]="false">
+                            </ws-formcontrol-input>
+                        </div>
+                    </div>
+                </form>
+                <div class="col-lg-12 justify-content-center mt-3">
+                    <div class="col-10 alert-danger alert-danger mx-auto py-4 border border-danger rounded" role="alert"
+                        [hidden]="!(w9ReferralForm.invalid && formContainsError)"
+                        [attr.aria-hidden]="!(w9ReferralForm.invalid && formContainsError)">
+                        <ul class="mb-0">
+                            @if(w9ReferralForm.controls.newReferralCode.invalid){
+                            <li>Referral Code Required.</li>
+                            }
+                            @if(w9ReferralForm.controls.newReferralLastName.invalid){
+                            <li>Practitioner Last Name Required.</li>
+                            }
+                            @if(w9ReferralForm.controls.newReferralCode.invalid ||
+                            w9ReferralForm.controls.newReferralLastName.invalid){
+                            <li>Only Letters and Numbers allowed.</li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 p-0 text-right my-4 d-flex justify-content-between">
+            <div class="float-left text-danger fs-14">* Required</div>
+            <div>
+                <a class="btn btn-primary btn-rounded my-2 my-md-0 ml-md-2" (click)="submit()" aria-label="Finish">
+                    Finish
+                </a>
+            </div>
+        </div>
+    </section>
+</ng-template>

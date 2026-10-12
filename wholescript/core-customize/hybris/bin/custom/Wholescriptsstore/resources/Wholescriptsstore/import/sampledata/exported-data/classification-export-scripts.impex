@@ -1,0 +1,53 @@
+#% impex.setLocale( new Locale( ""en"" , """" ) );"
+
+$classificationsystem=ERP_CLASSIFICATION_001
+$version=ERP_IMPORT
+
+insert_update ClassificationSystem;&Item;activeCatalogVersion(catalog(id),version);buyer(uid);defaultCatalog[allownull=true];id[unique=true,allownull=true];name[lang=de];name[lang=en];previewURLTemplate;supplier(uid);urlPatterns
+"#% impex.exportItems(""SELECT {CS:pk} FROM {ClassificationSystem as CS} WHERE {CS:id}='$classificationsystem'"", Collections.EMPTY_MAP, Collections.singletonList( Item.class ), true, true, -1, -1 );"
+
+insert_update ClassificationSystemVersion;&Item;active[allownull=true];catalog(id)[unique=true,forceWrite=true,allownull=true];categorySystemDescription[lang=de];categorySystemDescription[lang=en];categorySystemID;categorySystemName[lang=de];categorySystemName[lang=en];defaultCurrency(isocode);generationDate;generatorInfo;inclAssurance[allownull=true];inclDuty[allownull=true];inclFreight[allownull=true];inclPacking[allownull=true];languages(isocode);mimeRootDirectory;previousUpdateVersion;synchronizations(code);territories(isocode);version[unique=true,allownull=true]
+"#% impex.exportItems(""SELECT {CSV:pk} FROM {ClassificationSystemVersion as CSV},{ClassificationSystem as CS} WHERE {CSV:catalog}={CS:PK} AND {CS:id}='$classificationsystem' AND {CSV:version}='$version'"", Collections.EMPTY_MAP, Collections.singletonList( Item.class ), true, true, -1, -1 );"
+
+insert_update ClassificationClass;&Item;catalog(id)[allownull=true];catalogVersion(catalog(id),version)[unique=true,forceWrite=true,allownull=true];code[unique=true,allownull=true];data_sheet(catalogVersion(catalog(id),version),code);description[lang=de];description[lang=en];detail(catalogVersion(catalog(id),version),code);externalID;hmcXML;logo(catalogVersion(catalog(id),version),code);name[lang=de];name[lang=en];normal(catalogVersion(catalog(id),version),code);order;others(catalogVersion(catalog(id),version),code);picture(catalogVersion(catalog(id),version),code);revision;showEmptyAttributes[allownull=true];thumbnail(catalogVersion(catalog(id),version),code);thumbnails(catalogVersion(catalog(id),version),code)
+"#% impex.exportItems(""SELECT {CC:pk} FROM {ClassificationClass as CC}, {ClassificationSystemVersion as CSV}, {ClassificationSystem as CS} WHERE {CC:catalogversion}={CSV:PK} AND {CSV:catalog}={CS:PK} AND {CS:id}='$classificationsystem' AND {CSV:version}='$version'"", Collections.EMPTY_MAP, Collections.singletonList( Item.class ), true, true, -1, -1  );"
+
+insert_update ClassAttributeAssignment;&Item;attributeType(itemtype(code),code)[unique=true];classificationAttribute(code,systemVersion(catalog(id),version))[forceWrite=true,allownull=true,unique=true];classificationClass(catalogVersion(catalog(id),version),code)[forceWrite=true,allownull=true,unique=true];comparable[allownull=true];description[lang=de];description[lang=en];externalID;formatDefinition;listable[allownull=true];localized[allownull=true];mandatory[allownull=true];multiValued[allownull=true];position;range[allownull=true];searchable[allownull=true];systemVersion(catalog(id),version)[forceWrite=true,unique=true];unit(code,systemVersion(catalog(id),version),unitType)[unique=true];visibility(itemtype(code),code)
+"#% impex.exportItems(""SELECT {CAA:pk} FROM {ClassAttributeAssignment as CAA}, {ClassificationSystemVersion as CSV}, {ClassificationSystem as CS} WHERE {CAA:systemVersion}={CSV:PK} AND {CSV:catalog}={CS:PK} AND {CS:id}='$classificationsystem' AND {CSV:version}='$version'"", Collections.EMPTY_MAP, Collections.singletonList( Item.class ), true, true, -1, -1  );"
+
+insert_update AttributeValueAssignment;&Item;attribute(&Item);attributeAssignment(classificationAttribute(code,systemVersion(catalog(id),version)),systemVersion(catalog(id),version),classificationClass(catalogVersion(catalog(id),version),code))[forceWrite=true,unique=true];externalID;position;systemVersion(catalog(id),version);value(code,systemVersion(catalog(id),version))[forceWrite=true,allownull=true,unique=true]
+"#% impex.exportItems(""SELECT {AVA:pk} FROM {AttributeValueAssignment as AVA}, {ClassificationSystemVersion as CSV}, {ClassificationSystem as CS} WHERE {AVA:systemVersion}={CSV:PK} AND {CSV:catalog}={CS:PK} AND {CS:id}='$classificationsystem' AND {CSV:version}='$version'"", Collections.EMPTY_MAP, Collections.singletonList( Item.class ), true, true, -1, -1  );"
+
+insert_update ClassificationAttributeUnit;&Item;code[allownull=true,unique=true];conversionFactor;externalID;name[lang=de];name[lang=en];symbol[allownull=true];systemVersion(catalog(id),version)[forceWrite=true,allownull=true,unique=true];unitType[unique=true]
+"#% impex.exportItems(""SELECT {CAU:pk} FROM {ClassificationAttributeUnit as CAU}, {ClassificationSystemVersion as CSV}, {ClassificationSystem as CS} WHERE {CAU:systemVersion}={CSV:PK} AND {CSV:catalog}={CS:PK} AND {CS:id}='$classificationsystem' AND {CSV:version}='$version'"", Collections.EMPTY_MAP, Collections.singletonList( Item.class ), true, true, -1, -1  );"
+
+insert_update ClassificationAttribute;&Item;code[forceWrite=true,allownull=true,unique=true];externalID;name[lang=de];name[lang=en];systemVersion(catalog(id),version)[allownull=true,unique=true]
+"#% impex.exportItems(""SELECT {CA:pk} FROM {ClassificationAttribute as CA}, {ClassificationSystemVersion as CSV}, {ClassificationSystem as CS} WHERE {CA:systemVersion}={CSV:PK} AND {CSV:catalog}={CS:PK} AND {CS:id}='$classificationsystem' AND {CSV:version}='$version'"", Collections.EMPTY_MAP, Collections.singletonList( Item.class ), true, true, -1, -1  );"
+
+insert_update ClassificationAttributeValue;&Item;code[forceWrite=true,allownull=true,unique=true];externalID;name[lang=de];name[lang=en];systemVersion(catalog(id),version)[forceWrite=true,allownull=true,unique=true]
+"#% impex.exportItems(""SELECT {CAV:pk} FROM {ClassificationAttributeValue as CAV}, {ClassificationSystemVersion as CSV}, {ClassificationSystem as CS} WHERE {CAV:systemVersion}={CSV:PK} AND {CSV:catalog}={CS:PK} AND {CS:id}='$classificationsystem' AND {CSV:version}='$version'"", Collections.EMPTY_MAP, Collections.singletonList( Item.class ), true, true, -1, -1  );"
+
+insert_update ClassificationKeyword;&Item;catalog(id)[allownull=true,unique=true];catalogVersion(catalog(id),version)[allownull=true,unique=true];externalID;keyword[allownull=true,unique=true];language(isocode)[forceWrite=true,allownull=true,unique=true];
+"#% impex.exportItems(""SELECT {CK:pk} FROM {ClassificationKeyword as CK}, {ClassificationSystemVersion as CSV}, {ClassificationSystem as CS} WHERE {CK:catalogVersion}={CSV:PK} AND {CSV:catalog}={CS:PK} AND {CS:id}='$classificationsystem' AND {CSV:version}='$version'"", Collections.EMPTY_MAP, Collections.singletonList( Item.class ), true, true, -1, -1  );"
+
+insert_update ClassificationAttributeTypeEnum;code[unique=true];extensionName;name[lang=de];name[lang=en];sequenceNumber
+"#% impex.exportItems( ""ClassificationAttributeTypeEnum"" , false );"
+
+insert_update ClassificationAttributeVisibilityEnum;code[unique=true];extensionName;name[lang=de];name[lang=en];sequenceNumber
+"#% impex.exportItems( ""ClassificationAttributeVisibilityEnum"" , false );"
+
+insert_update Category2KeywordRelation;&Item;language(isocode)[unique=true];qualifier;source(catalogVersion(catalog(id),version),code)[unique=true];target(catalogVersion(catalog(id),version),keyword,language)[unique=true]
+"#% impex.exportItems(""SELECT {CKR:pk} FROM {Category2KeywordRelation as CKR}, {ClassificationKeyword as CK}, {CatalogVersion as CV}, {Catalog as C} WHERE {CKR:target}={CK:PK} AND {CK:catalogversion}={CV:PK} AND {CV:catalog}={C:PK} AND {C:id}='$catalog' AND {CV:version}='$version'"", Collections.EMPTY_MAP, Collections.singletonList( Item.class ), true, true, -1, -1  );"
+
+insert_update Product2KeywordRelation;&Item;language(isocode)[unique=true];qualifier;source(catalogVersion(catalog(id),version),keyword,language)[unique=true];target(catalogVersion(catalog(id),version),code)[unique=true]
+"#% impex.exportItems(""SELECT {PKR:pk} FROM {Product2KeywordRelation as PKR}, {ClassificationKeyword as CK}, {ClassificationSystemVersion as CSV}, {ClassificationSystem as CS} WHERE {PKR:source}={CK:PK} AND {CK:catalogversion}={CSV:PK} AND {CSV:catalog}={CS:PK} AND {CS:id}='$classificationsystem' AND {CSV:version}='$version'"", Collections.EMPTY_MAP, Collections.singletonList( Item.class ), true, true, -1, -1  );"
+
+insert_update CategoryProductRelation;source(code,catalogVersion(catalog(id),version))[unique=true];target(code,catalogVersion(catalog(id),version))[unique=true];language(isocode)[unique=true]
+"#% impex.exportItems(""SELECT {CPR:pk} FROM {CategoryProductRelation as CPR}, {ClassificationClass as CC}, {ClassificationSystemVersion as CSV}, {ClassificationSystem as CS} WHERE {CPR:source}={CC:PK} AND {CC:catalogversion}={CSV:PK} AND {CSV:catalog}={CS:PK} AND {CS:id}='$classificationsystem' AND {CSV:version}='$version'"", Collections.EMPTY_MAP, Collections.singletonList( Item.class ), true, true, -1, -1  );"
+
+insert_update CategoryCategoryRelation;source(code,catalogVersion(catalog(id),version))[unique=true];target(code,catalogVersion(catalog(id),version))[unique=true];language(isocode)[unique=true]
+"#% impex.exportItems(""SELECT {CCR:pk} FROM {CategoryCategoryRelation as CCR}, {ClassificationClass as CC}, {ClassificationSystemVersion as CSV}, {ClassificationSystem as CS} WHERE {CCR:target}={CC:PK} AND {CC:catalogversion}={CSV:PK} AND {CSV:catalog}={CS:PK} AND {CS:id}='$classificationsystem' AND {CSV:version}='$version'"", Collections.EMPTY_MAP, Collections.singletonList( Item.class ), true, true, -1, -1  );"
+
+insert_update Category2PrincipalRelation;source(code,catalogVersion(catalog(id),version))[unique=true];target(uid)[unique=true];language(isocode)[unique=true]
+"#% impex.exportItems(""SELECT {CPR:pk} FROM {Category2PrincipalRelation as CPR}, {ClassificationClass as CC}, {ClassificationSystemVersion as CSV}, {ClassificationSystem as CS} WHERE {CPR:source}={CC:PK} AND {CC:catalogversion}={CSV:PK} AND {CSV:catalog}={CS:PK} AND {CS:id}='$classificationsystem' AND {CSV:version}='$version'"", Collections.EMPTY_MAP, Collections.singletonList( Item.class ), true, true, -1, -1  );"
+

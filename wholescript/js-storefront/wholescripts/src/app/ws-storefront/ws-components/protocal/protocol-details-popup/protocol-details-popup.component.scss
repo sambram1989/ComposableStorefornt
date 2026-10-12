@@ -1,0 +1,267 @@
+::ng-deep .modal-dialog {
+    margin: 0 !important
+}
+
+::ng-deep .modal-content {
+    height: 100vh !important;
+}
+
+::ng-deep .modal-open .modal {
+    z-index: 9999 !important;
+}
+
+.modal-title {
+    font-size: 24px !important;
+    line-height: 29px;
+    text-transform: uppercase;
+    margin-top: 25px;
+    margin-bottom: 0
+}
+
+.bolder {
+    font-weight: 900 !important;
+}
+
+.text-black {
+    color: #2c2c2c !important;
+}
+
+.modal-header>p {
+    font-size: 18px;
+}
+
+.modal-header>a {
+    font-size: 16px;
+    font-weight: 900;
+    color: #584091;
+    text-decoration: none;
+    cursor: pointer;
+    margin: 0 auto;
+}
+
+.fas {
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    display: inline-block;
+    font-style: normal;
+    font-variant: normal;
+    text-rendering: auto;
+    line-height: 1;
+}
+
+.draft-label {
+    display: inline-block;
+    margin-left: 10px;
+}
+
+.draft-label label {
+    font-weight: 700;
+}
+
+.label-gray {
+    background-color: #EEF0F1 !important;
+}
+
+.close {
+    margin-right: 0 !important;
+    font-weight: 900;
+    color: #3E3C49;
+    opacity: 1 !important;
+    position: absolute;
+    right: 25px;
+    top: 15px;
+    font-size: 1.5rem !important;
+    padding-right: 25px;
+    margin-bottom: 62px;
+}
+
+.modal-header {
+    text-align: center;
+    border-bottom: 0;
+    padding: 5px 25px 0 25px;
+    position: relative;
+    flex-direction: column;
+    align-items: center;
+}
+
+::ng-deep .modal-dialog {
+    float: right;
+    width: -webkit-fill-available;
+}
+
+.product-name {
+    font-size: 16px;
+    line-height: 24px;
+}
+
+#share-options {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0 0 30px 0px;
+    font-size: 16px;
+    margin: 30px 15px 0 20px;
+    border-bottom: 1px solid #DFDFDF;
+    width: 100%;
+}
+
+#share-options div {
+    padding: 0;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.product-name {
+    font-size: 16px;
+    line-height: 24px;
+}
+
+.product-dose {
+    margin: 10px 0 0 0;
+}
+
+.product-duration {
+    font-size: 16px !important;
+    line-height: 24px;
+    font-weight: 500;
+}
+
+.product-wholesale-price {
+    font-size: 14px;
+    font-weight: 900;
+    margin: 0;
+}
+
+.product-retail-price {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+#share-options-popup {
+    padding: 5px 0 !important;
+    margin-left: -65px;
+    margin-top: 3px;
+}
+
+#bottom-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 30px;
+    margin-top: 30px;
+    align-items: center;
+    padding: 0;
+    margin-right: 15px;
+    width: 100%;
+}
+
+#non-protocols-page {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+#more-details-details {
+    font-weight: 900;
+    font-size: 16px;
+    text-decoration: none;
+    margin-right: 10px;
+    color: #584091;
+}
+
+#more-details-details:hover {
+    text-decoration: underline;
+    color: #433372;
+}
+
+.text-success {
+    color: #64dba8 !important;
+}
+
+.fas {
+    font-weight: 900;
+}
+
+.btn-primary {
+    background-color: #584091;
+    color: #fff !important;
+    font-weight: 900;
+    border-radius: 0;
+    border: 3px solid #584091 !important;
+}
+
+.btn-rounded {
+    border-radius: 100px !important;
+}
+
+#total-wholesale-price {
+    font-size: 18px;
+    margin-top: 10px !important;
+    margin-bottom: 0;
+}
+
+#bottom-buttons button {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.btn-outline-primary {
+    background-color: none !important;
+    color: #584091 !important;
+    font-weight: 900;
+    border-radius: 0;
+    border: 3px solid #584091 !important;
+    text-decoration: none;
+}
+
+.empty-template {
+    background-color: #EEF0F1;
+    border: 1px solid #DFDFDF;
+    border-radius: 3px;
+    padding: 30px;
+    margin: 0px 20px 0px 20px;
+}
+
+.empty-template div:first-child {
+    font-size: 18px;
+    font-weight: 900;
+    text-align: center;
+}
+
+.empty-template div:last-child {
+    font-size: 14px;
+    font-weight: 500;
+    text-align: center;
+}
+
+#details-draft-buttons {
+    display: flex;
+    width: 100%;
+    justify-content: flex-end;
+    gap: 10px;
+    padding: 0;
+    margin-top: 20px;
+}
+
+.btn.btn-outline-danger {
+    color: #ff3e63 !important;
+    background-color: #fff;
+    border: 3px solid #ff3e63;
+}
+
+.btn.btn-outline-danger:hover {
+    background-color: #ff3e63;
+    border: 3px solid #ff3e63;
+    color: #fff !important;
+}
+
+.btn-primary:hover {
+    background-color: #433372 !important;
+    color: #fff !important;
+    font-weight: 900;
+    border-radius: 0;
+    border: 3px solid #433372 !important;
+}

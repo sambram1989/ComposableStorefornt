@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="catalogName">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/hybris/bin/custom/Wholescriptsstore/resources/Wholescriptsstore/import/sampledata/productCatalogs/catalogName/wholescriptsMediaCatalogUnaware_222288.zip!/" />
+      <root url="jar://$PROJECT_DIR$/hybris/bin/custom/Wholescriptsstore/resources/Wholescriptsstore/import/sampledata/productCatalogs/catalogName/wholescriptsProductMedia_1111777.zip!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

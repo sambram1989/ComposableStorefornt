@@ -1,0 +1,23 @@
+<div class="order-modal-container">
+    <div class="order-modal-header">
+        <div class="heading">ATTENTION NEEDED</div>
+        <button (click)="close()">&times;</button>
+    </div>
+    
+    <div class="order-modal-body">
+        <div class="items-container">
+            <div>The following items are not available and not be added to cart.</div>
+            <ul class="product-list">
+                <li class="product-item" *ngFor="let item of outOfStockItems">
+                    <cx-media [container]="item?.image" class="product-image"></cx-media>
+                  <span class="product-name">{{ item?.description }} </span>
+                </li>
+              </ul>
+        </div>
+
+        <div class="btns-container">
+            <button class="btn btn-rounded btn-outline-danger" (click)="close()"> Cancel </button>
+            <button class="btn btn-primary btn-rounded" (click)="onConfirmClick()"> Continue to Cart</button>
+        </div>
+    </div>
+</div>

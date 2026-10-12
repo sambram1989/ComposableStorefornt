@@ -1,0 +1,17 @@
+<div class="container-fluid">
+    <cx-page-slot position="AboutUsSection1"></cx-page-slot>
+    <div *ngIf="bannerImg | async as banner" class="main">
+        <cx-media [container]="banner?.media"></cx-media>
+    <div class="right-section">
+        @for( data of componentListArray; track data){
+            @if(this.cmsservice.getComponentData(data.uid)|async ; as getComponentData){
+               <p *ngIf = "$any(getComponentData)?.typeCode !== 'BannerComponent'" [innerHTML]="$any(getComponentData)?.content">
+               </p>
+            }
+        }
+    </div>
+    </div>
+
+    <cx-page-slot position="AboutUsSection3"></cx-page-slot>
+    <cx-page-slot position="AboutUsSection4"></cx-page-slot>
+</div>

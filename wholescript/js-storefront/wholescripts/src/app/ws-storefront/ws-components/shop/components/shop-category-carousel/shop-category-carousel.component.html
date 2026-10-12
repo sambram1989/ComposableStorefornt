@@ -1,0 +1,126 @@
+@if (items&& items?.length) {
+  <alert
+    [type]="alert.type"
+    *ngIf="alert?.msg"
+    [dismissOnTimeout]="alert.timeout"
+    (onClosed)="onClosed()"
+    >{{ alert.msg }}</alert
+  >
+  <ngx-slick-carousel
+  class="carousel" 
+  #slickModal="slick-carousel"
+  [config]="slickConfig"
+  >
+    @for (item of items; track item?.Id) {
+    <div ngxSlickItem  class="slide">
+      <div class="slide-content" tabindex="-1" [routerLink]="item?.url">
+        @if(item?.isBestSeller){
+        <div class="best-seller">
+          <p>Best Seller</p>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25.825 32">
+            <path
+              id="angle"
+              d="M0,32a11.856,11.856,0,0,0,8.629-4.4L25.013,4.4c1.711-2.422.628-4.4-2.407-4.4H0Z"
+              fill="#64dba8"
+            ></path>
+          </svg>
+        </div>
+        }
+        <a [routerLink]="item?.DetailUrl" class="product-img" tabindex="0" (keydown.enter)="goToProduct(item)" (keydown.space)="goToProduct(item)">
+          <div class="top-container">
+            <cx-media
+              *ngIf="item.images"
+              [container]="item.images"
+              format="product"
+              [alt]="item.name ?? ''"
+            ></cx-media>
+            <img
+              *ngIf="!item.images"
+              src="assets/images/recomendation/default-image.png"
+              [alt]="item.name"
+            />
+          <ng-container *ngIf="isLoggedIn$ | async as isLoggedIn">
+            <div class="code-tooltip" *ngIf="isLoggedIn">
+              <div class="copy-code" (click)="updateFavorites(item)" (click)="stopPdpNavigation($event)">
+                <span class="code-tooltiptext">{{ item.isFavorite ? 'Added as favorites' : 'Add favorite'}}</span>
+                <button aria-label="Favourite button" title="Favourite button" class="heart-btn">
+                  <i class="fa-solid fa-heart" [ngClass]="item.isFavorite && 'fa-active'"></i>
+                </button>
+              </div>
+            </div>
+          </ng-container>
+          </div>
+        </a>
+        @if (item?.brandName){
+        <div class="brand-name" *ngIf="item?.brandName">
+          <a [routerLink]="item?.brandUrl" tabindex="0" (keydown.enter)="goToBrand(item?.brandUrl)" (click)="stopPdpNavigation($event)" (keydown.space)="goToBrand(item?.brandUrl)">
+            {{ item?.brandName }}
+          </a>
+        </div>
+        }
+        @else{
+          <div class="brand-name"></div>
+        }
+        <div class="product-name" *ngIf="item?.name">
+          <a [routerLink]="item?.url" tabindex="0" (keydown.enter)="goToProduct(item?.url)" (keydown.space)="goToProduct(item?.url)">
+            {{ item?.name }}
+          </a>
+        </div>
+        @if (item?.shortDescription){
+        <div class="product-desc" *ngIf="item?.shortDescription" [innerHTML]="getSanitizedDescription(item?.shortDescription)">
+          {{ item?.shortDescription }}
+        </div>
+        }
+        @else{
+          <div class="product-desc"></div>
+        }
+
+        <div class="product-price d-flex justify-content-between mt-5" *ngIf="isLoggedIn$ | async">
+          <p class="mt-2" *ngIf="item?.retailPrice?.formattedValue">{{ item?.retailPrice?.formattedValue }}</p>
+            <div class="cart-controls">
+              <a (click)="removeQuantity(item)" (keypress)="removeQuantity(item)" (click)="stopPdpNavigation($event)" class="qty-btn minus"  [attr.tabindex]="0"
+              role="button"
+              aria-label="Remove item">
+                  <svg style="padding-bottom: 2px;" width="10" height="18" viewBox="0 0 10 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M8.9375 9.25C8.9375 9.60156 8.64453 9.875 8.3125 9.875H1.4375C1.08594 9.875 0.8125 9.60156 0.8125 9.25C0.8125 8.91797 1.08594 8.625 1.4375 8.625H8.3125C8.64453 8.625 8.9375 8.91797 8.9375 9.25Z" fill="#3E3B49"/>
+                      </svg>
+              </a>
+              <input maxlength="4" aria-label="quantity" type="text" [value]="item.quantity || 1" (input)="setQuantity(item, $event)" (keypress)="setQuantity(item, $event)" (focusout)="setQuantityOnFocus(item, $event, 'focus')" (click)="stopPdpNavigation($event)">
+              <a (click)="addQuantity(item)" (keypress)="addQuantity(item)"  (click)="stopPdpNavigation($event)" class="qty-btn"  [attr.tabindex]="0"
+              role="button"
+              aria-label="Add item"><i class="fa-regular fa-plus" style="margin-top: 3px;"></i></a>
+            </div>
+        </div>
+  
+        <div class="slide-buttons">
+          <div class="action-btns" *ngIf="!(isLoggedIn$ | async)">
+            <button (click)="goToRegister($event)" class="add-to-cart" tabindex="0" (keydown.enter)="goToRegister($event)" (keydown.space)="goToRegister($event)">
+              Register Now
+            </button>
+          </div>
+          <ng-container *ngIf="isLoggedIn$ | async as isLoggedIn">
+            <div *ngIf="isLoggedIn" class="action-btns">
+              <button (click)="addProductToCart(item, $event)"[disabled]="(cartIsLoading$ | async)" class="add-to-cart" tabindex="0" (keydown.enter)="addProductToCart(item, $event)" (keydown.space)="addProductToCart(item, $event)">
+                Add to Cart <i class="fa-solid fa-cart-shopping"></i>
+              </button>
+              @for(medpax of item?.otherAvailableProducts; track medpax) {
+              @if(medpax.productDisplyName === 'MedPax' && !userDetails?.roles?.includes("patientcustomergroup")){
+              <a (click)="goToMedPax(medpax)" class="medpax" tabindex="0" (keydown.enter)="goToMedPax(medpax)" (keydown.space)="goToMedPax(medpax)">
+                {{ medpax?.productDisplyName }}
+                <img
+                  class="w-1-25rem mr-8"
+                  src="../../../../../assets/images/home/MedPax-icon.svg"
+                  alt="medpax item icon"
+                  aria-hidden="true"
+                />
+              </a>
+              } }
+            </div>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+    }
+</ngx-slick-carousel>
+  }
+  

@@ -1,0 +1,198 @@
+<ng-template [cxOutlet]="StorefrontOutlets.STOREFRONT" cxPageTemplateStyle>
+  <ng-template cxOutlet="cx-header">
+    <header cxSkipLink="cx-header" class="storefront-header fixed-header" id="storefront-header">
+      <button
+        id="left-menu-button"
+        type="button"
+        *ngIf="isLoggedIn$ | async"
+        aria-label="Toggle navigation"
+        class="left-menu-button"
+        (click)="showMenu()"
+      >
+      <svg width="18" height="24" viewBox="0 0 16 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0 1.625C0 1.02734 0.492188 0.5 1.125 0.5H14.625C15.2227 0.5 15.75 1.02734 15.75 1.625C15.75 2.25781 15.2227 2.75 14.625 2.75H1.125C0.492188 2.75 0 2.25781 0 1.625ZM0 7.25C0 6.65234 0.492188 6.125 1.125 6.125H10.125C10.7227 6.125 11.25 6.65234 11.25 7.25C11.25 7.88281 10.7227 8.375 10.125 8.375H1.125C0.492188 8.375 0 7.88281 0 7.25ZM6.75 12.875C6.75 13.5078 6.22266 14 5.625 14H1.125C0.492188 14 0 13.5078 0 12.875C0 12.2773 0.492188 11.75 1.125 11.75H5.625C6.22266 11.75 6.75 12.2773 6.75 12.875Z" fill="white"/>
+        </svg>
+        
+      </button>
+      <button
+        id="left-menu-button"
+        type="button"
+        *ngIf="!(isLoggedIn$ | async)"
+        aria-label="Toggle navigation"
+        class="left-menu-button"
+        (click)="showMenu()"
+      >
+        <svg
+          xmlns="https://www.w3.org/2000/svg"
+          viewBox="0 0 23.89 22.3"
+          style="width: 24px; fill: #ffffff"
+        >
+          <g id="Layer_2" data-name="Layer 2">
+            <g id="Layer_3" data-name="Layer 3">
+              <g id="Hamburger-menu">
+                <rect
+                  class="cls-1"
+                  width="23.89"
+                  height="3.41"
+                  rx="1.71"
+                ></rect>
+                <path
+                  class="cls-1"
+                  d="M18.94 11.15a1.72 1.72 0 0 1-1.71 1.71H1.71a1.71 1.71 0 1 1 0-3.42h15.52a1.72 1.72 0 0 1 1.71 1.71ZM13.1 20.59a1.71 1.71 0 0 1-1.71 1.71H1.71a1.71 1.71 0 0 1 0-3.42h9.68a1.71 1.71 0 0 1 1.71 1.71Z"
+                ></path>
+              </g>
+            </g>
+          </g>
+        </svg>
+      </button>
+      <cx-page-layout section="header"></cx-page-layout>
+    </header>
+    <cx-page-slot position="BottomHeaderSlot"></cx-page-slot>
+    
+    <div class="freeShippingBannerWrapper">
+      <ws-free-shipping-banner></ws-free-shipping-banner>
+    </div>
+    
+    <cx-global-message
+      aria-atomic="true"
+      aria-live="assertive"
+    ></cx-global-message>
+  </ng-template>
+
+  <main cxSkipLink="cx-main" class="storefront-main has-fixed-header">
+    <div class="container-fluid p-0 m-0">
+      <div class="row flex-nowrap m-0 main-outlet">
+        <div
+          class="menu-overlay" (click)="onOverlayClick($event)"
+          [class.is-expanded]="menuToggle$ | async"  
+        ></div>
+        <!--TODO: patient- is hard coded now once we have roles will be replaced by patient role-->
+        <ng-container *ngIf="isLoggedIn$ | async as isLoggedIn">
+          <ng-container *ngIf="currentUser$ | async as curUser">
+            <div
+              [ngClass]="isMobile ? 'd-block' : 'col-md-2'"
+              class="px-sm-2 px-0 bg-dark sidebar-menu-sec" (click)="$event.stopPropagation()"
+              [class.is-expanded]="menuToggle$ | async"
+              *ngIf="isLoggedIn && curUser !== 'patient'"
+            >
+              <cx-page-slot position="TopHeaderSlot"></cx-page-slot>
+            </div>
+            <div
+            [ngClass]="isMobile ? 'd-block' : 'd-none'"
+            class="px-sm-2 px-0 bg-dark sidebar-menu-sec"
+            [class.is-expanded]="menuToggle$ | async"
+            *ngIf="isLoggedIn && curUser === 'patient'"
+          >
+            <cx-page-slot position="TopHeaderSlot"></cx-page-slot>
+          </div>
+            <div id="idForContentBlock" class="contentBlock" *ngIf="isLoggedIn && curUser !== 'patient'" [ngClass]="isMobile ? '' : 'main-layout col-md-10 '">
+              <cx-page-slot position="header_banner_slot"></cx-page-slot>
+              <cx-page-slot position="Breadcrumb"></cx-page-slot>
+              <div *ngIf="loader" class="cart-page-loader">
+                <cx-spinner></cx-spinner>
+              </div>
+              <router-outlet></router-outlet>
+              <ng-template cxOutlet="cx-footer">
+                <footer cxSkipLink="cx-footer" class="storefront-footer" [ngStyle]="{'margin-top': loader ? '100px' : '0px' }">
+                  <cx-page-layout section="footer"></cx-page-layout>
+                </footer>
+              </ng-template>
+            </div>
+            <div id="idForContentBlock" class="contentBlock" *ngIf="isLoggedIn && curUser === 'patient'" [ngClass]="isMobile ? '' : 'main-layout col-md-12 '">
+              <cx-page-slot position="header_banner_slot"></cx-page-slot>
+              <cx-page-slot position="Breadcrumb"></cx-page-slot>
+              <div *ngIf="loader" class="cart-page-loader">
+                  <cx-spinner></cx-spinner>
+              </div>
+              <router-outlet></router-outlet>
+              <ng-template cxOutlet="cx-footer">
+                <footer cxSkipLink="cx-footer" class="storefront-footer" [ngStyle]="{'margin-top': loader ? '100px' : '0px' }">
+                  <cx-page-layout section="footer"></cx-page-layout>
+                </footer>
+              </ng-template>
+            </div>
+          </ng-container>
+        </ng-container>
+      </div>
+
+      <div class="row flex-nowrap m-0 addHeight">
+        <div
+          class="menu-overlay"
+          [class.is-expanded]="menuToggle$ | async" (click)="onOverlayClick($event)"
+        ></div>
+      <ng-container *ngIf="!(isLoggedIn$ | async )">
+          <div
+            [ngClass]="isMobile ? 'd-block' : 'd-none'"
+            class="px-sm-2 px-0 bg-dark sidebar-menu-sec" (click)="$event.stopPropagation()"
+            [class.is-expanded]="menuToggle$ | async"
+          >
+            <cx-page-slot position="TopHeaderSlot"></cx-page-slot>
+            <div class="ws-left-menu-buttons">
+              <app-login-signup-btn></app-login-signup-btn>
+            </div>
+          </div>
+      </ng-container>
+
+      <ng-container *ngIf="!(isLoggedIn$ | async)">       
+        <div class="p-0 col-12 b-guest" [ngClass]="isMobile ? '' : 'main-layout col-md-12 '">
+          <cx-page-slot position="header_banner_slot"></cx-page-slot>
+          <cx-page-slot position="Breadcrumb" ></cx-page-slot>
+          <div *ngIf="loader" class="cart-page-loader">
+            <cx-spinner></cx-spinner>
+          </div>
+          <router-outlet></router-outlet>
+          <ng-template cxOutlet="cx-footer">
+            <footer cxSkipLink="cx-footer" class="storefront-footer" [ngStyle]="{'margin-top': loader ? '100px' : '0px' }">
+              <cx-page-layout section="footer"></cx-page-layout>
+            </footer>
+          </ng-template>
+        </div>
+      </ng-container>
+      </div>
+    </div>
+  </main>
+
+</ng-template>
+
+<ng-template
+  cxOutletRef="SiteLogo"
+  [cxOutletPos]="outletPosition.BEFORE"
+  let-model
+>
+</ng-template>
+
+<div class="d-lg-none d-md-block">
+  <cx-page-slot position="mobileSiteLogo">
+    <app-mobile-home-logo></app-mobile-home-logo>
+  </cx-page-slot>
+<div>
+
+<ng-template
+  cxOutletRef="Footer"
+  [cxOutletPos]="outletPosition.AFTER"
+  let-model
+>
+  <div class="address-social-icon">
+    <cx-page-slot position="HeadingImgAndParaSlot"></cx-page-slot>
+    <cx-page-slot position="FooterAddressAndPhoneinfoSlot"></cx-page-slot>
+    <cx-page-slot position="FooterSocialIconSlot"></cx-page-slot>
+  </div>
+</ng-template>
+<ng-template
+  cxOutletRef="Footer"
+  [cxOutletPos]="outletPosition.AFTER"
+  let-model
+>
+  <div class="footer-copy-right">
+    <cx-page-slot position="BottomFooterSlot"></cx-page-slot>
+  </div>
+</ng-template>
+
+
+<!-- <ng-template
+  cxOutletRef="header_banner_slot"
+  [cxOutletPos]="outletPosition.REPLACE"
+  let-model
+>
+<cx-breadcrumb></cx-breadcrumb>
+</ng-template> -->

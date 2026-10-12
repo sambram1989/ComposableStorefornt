@@ -1,0 +1,197 @@
+.del-icon-style {
+    cursor: pointer;
+}
+
+::ng-deep .medpax { 
+    span {
+    font-size: 13px;
+    font-style: italic;
+    font-weight: 400;
+    line-height: 24px;
+}
+img {
+    width: 15px !important;
+    cursor: pointer;
+    margin-right: 3px;
+}
+}
+td {
+    padding: 64px 16px;
+
+   @media(min-width:768px) and (max-width: 1024px) {
+     padding-bottom: 32px;
+   }
+}
+.item-image {
+    width: 98px !important;
+}
+::ng-deep .cx-link {
+    border: none;
+    color: var(--cx-color-primary) !important;
+    cursor: pointer !important;
+    text-decoration: none;
+    padding: 0;
+    text-align: initial;
+    background: none;
+    font-weight: 900 !important;
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
+.select-style {
+    position: relative !important;
+    max-width: 320px;
+    select {
+        min-width: 320px;
+        cursor: pointer;
+    }
+}
+
+@media screen and (min-width: 1025px) {
+    select {
+        min-width: 320px;
+        max-width: 320px;
+    }
+}
+
+.sort-by {
+    position: absolute;
+    left: 10px;
+    top: -8px;
+    background-color: white;
+    font-size: 13px;
+    z-index: 1;
+}
+
+.m-unset {
+    @media (max-width:500px) {
+        margin-inline-start: unset !important;
+    }
+}
+
+img {
+    width: 22px;
+    cursor: pointer;
+}
+
+.mt-52 {
+    margin-top: 52px;
+}
+
+.form-group {
+    position: relative;
+    margin: 0;
+    width: 100%;
+select {
+        padding: 5px 10px;
+        border: 1px solid var(--ws-border-color);
+        border-radius: 5px;
+        background-color: var(--ws-base-white);
+        font-size: 16px;
+        min-height: 48px;
+        color: var(--cx-color-secondary);
+    }
+    input {
+        padding: 5px 10px;
+        border: 1px solid var(--ws-border-color);
+        border-radius: 5px;
+        background-color: var(--ws-base-white);
+        font-size: 16px;
+        min-height: 48px;
+        color: var(--cx-color-secondary);
+        width: 82px;
+    }
+    .label1 {
+        left: 28px !important;
+    }
+
+    label {
+        margin-right: 5px;
+        color: var(--ws-gray-light-400);;
+        font-weight: bold;
+        font-size: 12px;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        font-weight: 500;
+        background-color: var(--ws-base-white);
+        position: absolute;
+        top: -8px;
+        left: 10px;
+        margin-bottom: unset;
+    }
+}
+::ng-deep .itemImage {
+    cx-media {
+        height: 100px !important;
+        picture {
+            img {
+                height: 100px !important;
+            }
+        }
+    }
+}
+
+$error-border: var(--ws-error-300);
+$error-bg: var(--ws-error-50);
+
+@mixin section-style($border-color, $bg-color) {
+    border-radius: 10px;
+    border: 2px solid $border-color;
+    background-color: $bg-color;
+    position: absolute;
+    top: 0;
+    padding: 8px;
+    margin: 8px 0px;
+    p {
+        margin: 0;
+    }
+}
+
+.error-section {
+    @include section-style($error-border, $error-bg);
+}
+
+@media (min-width: 320px) and (max-width: 767px) {
+    td {
+        padding: 16px 0px;
+    }
+    .cx-quantity {
+        margin-left: 0px !important;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1023px){
+    .cx-value{
+        margin: -3rem 0rem 0rem 25rem;
+    }
+    .cx-total {
+        margin-top: -3rem;
+    }
+    td{
+        padding: 0;
+    }
+    .del-icon-style{
+        margin-top: 4rem;
+    }
+}
+
+button:focus-visible,
+  input:focus-visible,
+  .btn:focus-visible,
+  a:focus-visible,
+  p:focus-visible,
+  .delete-item:focus-visible,
+  .del-icon-style:focus-visible,
+  ws-search-box:focus-visible {
+  outline: 3px solid var(--cx-color-darkest) !important;
+  outline-offset: 2px;
+  box-shadow: none;
+  }
+
+  .autoShipFrequency {
+    ws-formcontrol-input {
+        margin: 35px 0 0 0;
+        display: block;
+    }
+  }

@@ -1,0 +1,205 @@
+// Register section
+
+section.intro {
+  border-radius: 20px 0 0 20px;
+  position: relative;
+  background: url("/assets/images/home/dot-pattern-right.svg") bottom right -5% no-repeat;
+  background-size: 300px;
+  background-color: white;
+  padding: 3.125rem 0;
+  margin-bottom: 115px;
+  
+	@media screen and (max-width: 1024px) {
+    margin-left: 100px;
+	}
+	@media screen and (max-width: 575px) {
+    margin-left: unset;
+	}
+}
+.btn-find-pract {
+  border-width: 3px;
+  display: flex;
+  align-items: center;
+  width: fit-content;
+  font-weight: 900;
+}
+
+section.intro div.left,
+section.medpax div.left {
+  padding: 0 4rem;
+  width: auto;
+}
+
+section.intro .grid {
+  display: grid;
+  grid-template-columns: 5fr 7fr;
+}
+
+section.intro .right img,
+section.intro .right cx-media {
+  display: block;
+  margin: auto;
+  transform: translate3d(0, calc(var(--y) * 0.15), 0);
+  position: relative;
+  width: 80%;
+  max-width: 775px;
+}
+
+section.intro .mobile-imgs {
+  display: none;
+}
+
+section.intro .bottom {
+  padding: 5rem 4rem 2rem 4rem;
+  align-items: center;
+}
+
+.container-left {
+  margin-left: 15%;
+  .left{
+    height: 80vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    @media screen and (max-width: 1024px) {
+      height: auto;
+    }
+  }
+  .left::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.container-full {
+  margin: 0 15%;
+}
+
+.pattern-bg-right {
+  background: url("/assets/images/home/dot-pattern-right.svg") bottom -10vw right -5%
+    no-repeat;
+  background-size: 400px;
+  background-size: clamp(350px, 25vw, 470px);
+}
+
+.box-shadow {
+  box-shadow: 0 3px 16px var(--ws-brand-50);
+}
+
+.grid .right .practitioner-img {
+  position: sticky !important;
+  top: 32px;
+}
+input#patient:checked ~ .bottom.patient {
+  display: flex;
+  align-items: center;
+  .row {
+	align-items: center;
+  }
+}
+
+.fw-500 {
+  font-weight: 500;
+}
+
+div.features {
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  grid-column-gap: 1.5rem;
+  grid-row-gap: 3.125rem;
+  align-items: center;
+}
+
+div.features div {
+  font-size: 18px;
+}
+
+div.features img {
+  max-width: 96px;
+  max-height: 96px;
+  margin: auto;
+}
+
+div.patient-info {
+  display: none;
+}
+
+.bg-clr {
+  background: rgba(0, 0, 0, 0.01);
+}
+
+@media screen and (max-width: 1024px) {
+  section.intro {
+    // border-radius: 0;
+    .grid {
+      grid-template-columns: auto;
+    }
+    .mobile-imgs {
+      display: block;
+      padding-top: 2rem;
+      margin-right: -8rem;
+      background: url(/assets/images/home/hex-dot-pattern.svg) top left
+        no-repeat;
+      background-size: 125px;
+      width: 100%;
+
+      cx-media {
+        width: 100%;
+        height: auto;
+        margin-left: 2rem;
+        object-fit: contain;
+      }
+    }
+    .right {
+      display: none;
+    }
+  }
+  input#practitioner:checked ~ .grid .left .tabview label#prac,
+  input#practitioner2:checked ~ .grid .left .tabview label#prac2,
+  input#patient:checked ~ .grid .left .tabview label#pat,
+  input#patient2:checked ~ .grid .left .tabview label#pat2 {
+    box-shadow: 0 3px 16px #dddaef;
+    border-bottom: solid 5px #584091;
+  }
+input#practitioner:checked ~ .bottom.practitioner {
+  display: flex !important;
+    flex-direction: row;
+    justify-content: left;
+    text-align: center;
+	align-items: center;
+}
+
+input#patient:checked ~ .bottom.patient {
+	display: flex;
+	flex-direction: column;
+    justify-content: center;
+    text-align: center;
+	align-items: center;
+	.col-12 {
+		padding-bottom: 24px !important;
+		align-items: center;
+		display: flex;
+		flex-direction: column;
+
+		span {
+			padding-bottom: 16px;
+		}
+	}
+  }
+  .indicator,
+  .indicator-bg {
+    display: none;
+  }
+  .practitioner-info,
+  .patient-info {
+    h4 {
+      font-size: 20px;
+    }
+  }
+  .container-left {
+    margin-left: 0;
+  }
+  section.intro div.left {
+    padding: 0 16px;
+    width: auto;
+  }
+}

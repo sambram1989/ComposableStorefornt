@@ -1,0 +1,317 @@
+<div id="account-settings-find-a-practitioner-form">
+    <ws-edit-referral-code *ngIf = "isPatientDirect" [referralDetails] = "referralDetails"></ws-edit-referral-code>
+    <div *ngIf = "!isPatientDirect">
+        <div class="heading" *ngIf="findPractitionerHeading$ | async as heading" [innerHTML]="heading?.content" appRouterLinkify> </div>
+    </div>
+    <div *ngIf = "!isPatientDirect">
+        <div class="paragraph" *ngIf="findPractitionerPara$ | async as heading" [innerHTML]="heading?.content"></div>
+    </div>
+    <div *ngIf = "!isPatientDirect && !loading" class="requered-text">
+        *Required
+    </div>
+    <div class="row" *ngIf="!loading">
+        <div class="col-sm-5 profile-image-text-section">
+            <h5>Profile image</h5>
+            <p>If no image is provided a default will be displayed instead</p>
+        </div>
+        <div class="col-sm-7 profile-image-section">
+            <img *ngIf="!selectedFile && !practionerDetails?.mapIcon?.url" alt="profile-image" src="/assets/icons/common_icons/avatar.svg" />
+            <!-- <cx-media *ngIf="!selectedFile && practionerDetails?.mapIcon?.url" [container]="practionerDetails?.mapIcon"></cx-media> -->
+            <div *ngIf="selectedFile || practionerDetails?.mapIcon?.url" class="selected-file-image">
+                <img [src]="!selectedFile && practionerDetails?.mapIcon?.url ? getUrl() : imageUrl" width="64" height="64" alt="Uploaded Image" class="rounded-image" />
+                <a (click)="removeImage()" (keydown.enter)="removeImage()" (keydown.space)="removeImage()" role="button" tabindex="0">Remove</a>
+            </div>
+            <div class="profile-image-upload-section" (dragover)="onDragOver($event)" (dragleave)="onDragLeave()" (drop)="onDrop($event)">
+                <div>
+                    <img alt="upload" width="48" height="48" src="/assets/icons/common_icons/upload-icon.svg" />
+                </div>
+                <div class="profile-image-file-upload">
+                    <label for="profile-image-upload-input" id="visually-hidden" class="floating-heading">Upload Profile Image</label>
+                    <input id="profile-image-upload-input" accept=".png, .jpg, .jpeg, .gif" type="file" #fileInput (change)="onFileSelected($event)" hidden />
+                    <div class="profile-image-upload">
+                        <div>
+                            <span (click)="fileInput.click()" (keydown.enter)="fileInput.click()" (keydown.space)="fileInput.click()" role="button" tabindex="0">Click to upload</span> or drag and drop
+                        </div>
+                        <div>
+                            PNG, JPG or GIF (max. 300x300px)
+                        </div>
+                    </div>
+                    <div class="profile-file-image-wrapper">
+                        <img alt="jpg" src="/assets/icons/common_icons/file-jpg.svg" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div *ngIf="!loading" class="account-info-form-wrapper row">
+        <div class="account-info-form-header col-sm-5">
+            <h5>About your practice</h5>
+            <p>Get featured by providing the required information</p>
+        </div>
+        <div class="account-info-form-content col-sm-7">
+            <form id="accountInfoForm" [formGroup]="accountInfoForm" (ngSubmit)="onSubmit()" *ngIf="!formSuccess">
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <!-- <span class="floating-heading">YOUR NAME*</span> -->
+                            <label id="name-label" for="nameInput" class="floating-heading">YOUR NAME*</label>
+                            <input id="nameInput" placeholder="Enter your name" formControlName="name"
+                                class="form-control form-control-name" aria-labelledby="name-label">
+                            <div
+                                *ngIf="(submitted && accountInfoForm.controls.name.invalid) || (accountInfoForm.controls.name.invalid && (accountInfoForm.controls.name.dirty || accountInfoForm.controls.name.touched))">
+                                <div
+                                    class="error-message required">
+                                    Please enter your name.
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <!-- <span class="floating-heading">PRACTICE NAME*</span> -->
+                            <label id="practiceName-label" for="practiceNameInput" class="floating-heading">PRACTICE NAME*</label>
+                            <input id="practiceNameInput" placeholder="Enter your practice name" formControlName="practiceName"
+                                class="form-control form-control-practiceName" aria-labelledby="practiceName-label">
+                            <div
+                                *ngIf="(submitted && accountInfoForm.controls.name.invalid) || (accountInfoForm.controls.practiceName.invalid && (accountInfoForm.controls.practiceName.dirty || accountInfoForm.controls.practiceName.touched))">
+                                <div
+                                    class="error-message required">
+                                    Please enter your practice name.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <!-- <span class="floating-heading">ADDRESS*</span> -->
+                            <label for="addressInput" class="floating-heading">ADDRESS*</label>
+                            <input id="addressInput" placeholder="Enter your address" formControlName="address"
+                                class="form-control form-control-address">
+                            <div
+                                *ngIf="(submitted && accountInfoForm.controls.name.invalid) || (accountInfoForm.controls.address.invalid && (accountInfoForm.controls.address.dirty || accountInfoForm.controls.address.touched))">
+                                <div
+                                    class="error-message required">
+                                    Please enter your address.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-6 col-sm-6">
+                        <div class="form-group">
+                            <!-- <span class="floating-heading">APT/SUITE*</span> -->
+                            <label for="aptSuiteInput" class="floating-heading">APT/SUITE</label>
+                            <input id="aptSuiteInput" placeholder="Enter apt/suite" formControlName="aptOrSuite"
+                                class="form-control form-control-aptOrSuite">
+                        </div>
+                    </div>
+
+                    <div class="col-6 col-sm-6">
+                        <div class="form-group">
+                            <!-- <span class="floating-heading">CITY*</span> -->
+                            <label for="cityInput" class="floating-heading">CITY*</label>
+                            <input id="cityInput" placeholder="Enter City" formControlName="city"
+                                class="form-control form-control-city">
+                            <div
+                                *ngIf="(submitted && accountInfoForm.controls.name.invalid) || (accountInfoForm.controls.city.invalid && (accountInfoForm.controls.city.dirty || accountInfoForm.controls.city.touched))">
+                                <div
+                                    class="error-message required">
+                                    Please enter your city.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-6 col-sm-6">
+                        <div class="form-group">
+                            <!-- <span class="floating-heading">STATE*</span> -->
+                            <label for="stateSelect" class="floating-heading">STATE*</label>
+                            <select id="stateSelect" class="form-control input-lg form-control-inquiry py-0" [class.empty-option-value]="accountInfoForm.controls.state.invalid" formControlName="state">
+                                <option [ngValue]="null" selected disabled hidden class="empty-option-value">Select state</option>
+                                <option *ngFor="let region of regions" [value]="region?.isocode">{{region?.name}}
+                                </option>
+                            </select>
+                            <div
+                                *ngIf="submitted || (accountInfoForm.controls.state.invalid && (accountInfoForm.controls.state.dirty || accountInfoForm.controls.state.touched))">
+                                <div *ngIf="accountInfoForm.controls.state.errors?.['required']"
+                                    class="error-message required">
+                                    Please select a state.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-6 col-sm-6">
+                        <div class="form-group">
+                            <!-- <span class="floating-heading">ZIP CODE*</span> -->
+                            <label for="zipCodeInput" class="floating-heading">ZIP CODE*</label>
+                            <input id="zipCodeInput" placeholder="Enter zip code" formControlName="zipCode"
+                                class="form-control form-control-zipCode">
+                            <div
+                                *ngIf="(submitted && accountInfoForm.controls.zipCode.invalid) || (accountInfoForm.controls.zipCode.invalid && (accountInfoForm.controls.zipCode.dirty || accountInfoForm.controls.zipCode.touched))">
+                                <div
+                                    class="error-message required">
+                                    Please enter a valid zip code.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <!-- <span class="floating-heading">PHONE*</span> -->
+                            <label for="phoneInput" class="floating-heading">PHONE*</label>
+                            <input id="phoneInput" placeholder="Enter phone number" class="form-control form-control-phone" type="tel" maxlength="14"
+                                formControlName="phone">
+                            <div
+                                *ngIf="(submitted && accountInfoForm.controls.phone.invalid) || (accountInfoForm.controls.phone.invalid && (accountInfoForm.controls.phone.dirty || accountInfoForm.controls.phone.touched))">
+                                <div
+                                    class="error-message required">
+                                    Please enter a valid phone number.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group email">
+                            <!-- <span class="floating-heading">EMAIL*</span> -->
+                            <label for="contactEmail" class="floating-heading">EMAIL*</label>
+                            <i class="fa fa-envelope" aria-hidden="true"></i>
+                            <input id="contactEmail" placeholder="Enter email" class="form-control form-control-email"
+                                type="email" formControlName="email">
+                            <div
+                                *ngIf="(submitted && accountInfoForm.controls.name.invalid) || (accountInfoForm.controls.email.invalid && (accountInfoForm.controls.email.dirty || accountInfoForm.controls.email.touched))">
+                                <div
+                                    class="error-message required">
+                                    Please enter a valid email.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+
+                    <div class="col-sm-12">
+                        <div class="form-group asterisk small-asterisk">
+                            <!-- <span class="floating-heading">WEBSITE</span> -->
+                            <label for="websiteInput" class="floating-heading">WEBSITE</label>
+                            <input id="websiteInput" placeholder="Enter your website" class="form-control form-control-webSite"
+                                formControlName="webSite">
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-12 col-sm-12 error-block" *ngIf="submitted && (
+                        accountInfoForm.controls.name.invalid ||
+                        accountInfoForm.controls.practiceName.invalid ||
+                        accountInfoForm.controls.address.invalid ||
+                        accountInfoForm.controls.city.invalid ||
+                        !accountInfoForm?.value?.state ||
+                        accountInfoForm.controls.zipCode.invalid ||
+                        accountInfoForm.controls.email.invalid ||
+                        accountInfoForm.controls.phone.invalid
+                    )">
+                        <div>
+                            <p class="block-error" *ngIf="accountInfoForm.controls.name.invalid">Please enter your name.</p>
+                            <p class="block-error" *ngIf="accountInfoForm.controls.practiceName.invalid">Please enter your
+                                practice name.</p>
+                            <p class="block-error" *ngIf="accountInfoForm.controls.address.invalid">Please enter your address.
+                            </p>
+                            <p class="block-error" *ngIf="accountInfoForm.controls.city.invalid">Please enter your city.</p>
+                            <p class="block-error" *ngIf="!accountInfoForm?.value?.state">Please select a state.</p>
+                            <p class="block-error" *ngIf="accountInfoForm.controls.zipCode.invalid">Please enter a valid zip
+                                code.</p>
+                            <p class="block-error" *ngIf="accountInfoForm.controls.phone.invalid">Please enter a valid phone
+                                number.</p>
+                            <p class="block-error" *ngIf="accountInfoForm.controls.email.invalid">Please enter a valid email.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12 d-flex align-items-center justify-content-end">
+                        <a class="remove-directory-link" *ngIf="!!practionerDetails?.practitionerDirectoryOptIn && !isPatientDirect" (click)="openRemoveFromDirectoryModal()" (keydown.enter)="openRemoveFromDirectoryModal()" (keydown.space)="openRemoveFromDirectoryModal()" >
+                            Remove my practice from the directory
+                        </a>
+                        <button id="btnSend" type="submit" class="btn btn-primary btn-rounded float-right">Save
+                            changes</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div *ngIf="loading" class="d-flex justify-content-center align-center">
+        <cx-spinner></cx-spinner>
+    </div>
+</div>
+
+
+<ng-template #removeFromDirectoryPopUp>
+    <div class="remove-from-directory-modal-wrapper">
+        <div class="popup-header">
+            <div class="d-flex popup-header-content">
+                <img width="40" height="40" src="/assets/icons/common_icons/featured-warning-icon.svg" />
+                <div class="d-flex remove-directory-text-wrapper">
+                    <h3>Remove from directory</h3>
+                    <i class="fa fa-close" (click)="closeRemoveFromDirectoryModal()" (keydown.enter)="closeRemoveFromDirectoryModal()" (keydown.space)="closeRemoveFromDirectoryModal()" role="button" tabindex="0"></i>
+                </div>
+            </div>
+        </div>
+        <div class="popup-content">
+            <p class="opting-out-msg">You are opting-out from being in the practitioner directory. Your practice
+                information will be removed.</p>
+            <div class="please-note-section">
+                <img width="32" height="32" src="/assets/icons/common_icons/featured-info-icon.svg" />
+                <div>
+                    <h6>Please note:</h6>
+                    <p>In order to opt-in, you will have to fill out all the required fields again.</p>
+                </div>
+            </div>
+            <p class="opting-out-confirmation-msg">Are you sure you want to remove your practice from the practitioner
+                directory?</p>
+        </div>
+        <div class="popup-footer">
+            <button class="btn btn-outline-secondary btn-rounded"
+                (click)="closeRemoveFromDirectoryModal()">Cancel</button>
+            <button class="btn btn-remove btn-rounded" (click)="removeFromDirectory()">Remove</button>
+        </div>
+    </div>
+
+</ng-template>
+
+
+
+<div class="toast-wrapper" *ngIf="toastMessage">
+    <div class="toast">
+        <div class="d-flex toast-header">
+            <img width="32" height="32" src="/assets/icons/common_icons/featured-success-icon.svg" />
+            <div class="d-flex toast-header-message-wrapper">
+                <p>{{toastMessage}}</p>
+                <i class="fa fa-close" (click)="toastMessage = ''"></i>
+            </div>
+        </div>
+    </div>
+</div>

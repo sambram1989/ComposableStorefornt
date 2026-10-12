@@ -1,0 +1,25 @@
+
+INSERT_UPDATE Trigger; cronJob(code)[unique=true]            		; second 	; minute 	; hour 	; day  	; month ; year  ; relative[default=false] ; active[default=true] 	; maxAcceptableDelay[default=0]
+                     ; PrivateLabelCustomerRolesCronJob     		; 0      	; 0      	; 3    	; -1 	; -1 	; -1 	; true                  ; true                 		; 0
+                     ; GetAvalaraTaxLinkCronjobPerformable     		; 0      	; 0      	; 4    	; -1 	; -1 	; -1 	; true                  ; true                 		; 0
+                     ; wholescriptsInventoryCronjob     	 		; 0      	; 0     	; 3    	; -1 	; -1 	; -1 	; true                  ; true                 		; 0
+                     ; wholescriptsCMIRCronJob     	 				; 0      	; 0     	; 3    	; -1 	; -1 	; -1 	; true                  ; true                 		; 0
+                     ; full-wholescriptsProductIndex-cronJob   		; 0     	; 0     	; 3   	; -1 	; -1   	; -1  	; true   				; true 						; -1
+                     ; update-wholescriptsProductIndex-cronJob 		; 0     	; 1     	; -1  	; -1 	; -1   	; -1  	; true    				; true 						; -1
+                     ; full-wholescriptsPrivateLabelIndex-cronJob	; 0     	; 0     	; 3   	; -1 	; -1   	; -1  	; true   				; true 						; -1
+
+
+INSERT_UPDATE Trigger	; cronJob(code)[unique=true]				; cronExpression	; active[default=true]
+						; wholescriptsASwapRestrictionCronJob       ; 0 0 21 ? * * * 	;
+						; wholescriptsProductExclusionCronJob     	; 0 0 22 ? * * * 	;
+						; wholescriptsAgeRestrictionCronJob     	; 0 0 23 ? * * *   	;
+						; full-wholescriptsWebinarIndex-cronJob     ; 0 0 22 ? * * *  	;
+						; full-wholescriptsContentIndex-cronJob     ; 0 0 23 ? * * * 	;
+	 
+					 
+INSERT_UPDATE Trigger	; job(code)[unique=true]														; cronExpression	; relative  ; active ; maxAcceptableDelay
+ 						; "sync Default\:Staged->Catalog_1710_10\:ERP_IMPORT"							; 0 20 * ? * * *	; true		; true	 ; -1
+ 						; "syncproduct Catalog_1710_10\:ERP_IMPORT->Catalog_1710_10\:Online"			; 0 21 * ? * * *	; true		; true   ; -1
+ 						; "syncproductfeature Catalog_1710_10\:ERP_IMPORT->Catalog_1710_10\:Online"		; 0 23 * ? * * *	; true		; true   ; -1
+ 						; "syncprice Catalog_1710_10\:ERP_IMPORT->Catalog_1710_10\:Online"				; 0 03 * ? * * *	; true		; true	 ; -1
+ 						; "sync wholescriptsContentCatalog\:Staged->wholescriptsContentCatalog\:Online"	; 0 05 * ? * * *	; true		; true	 ; -1

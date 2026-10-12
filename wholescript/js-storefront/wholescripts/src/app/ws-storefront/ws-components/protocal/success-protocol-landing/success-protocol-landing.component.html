@@ -1,0 +1,91 @@
+
+<div class="rec-sucessfull-sec" role="region" aria-label="protocol-summary">
+    <div class="row justify-content-center">
+        <div class="col-12 col-lg-12 col-xl-10 ">
+            <ws-complete-protocal-header [protocolId]="protocolId" [caller]="caller" [protocol]="selectedProduct"
+                [isComeFromWs]="isComeFromWs" [isProtocoDetailsPage]="isProtocoDetailsPage">
+                <ng-content></ng-content>
+            </ws-complete-protocal-header>
+            <div class="rec-table-sec d-flex flex-column mt-5">
+                <div
+                    class="rec-table-header position-relative d-flex align-items-center justify-content-between flex-wrap">
+                    <div class="rec-table-title" role="heading" aria-level="2">Protocol Summary</div>
+                    @if(currentUser$|async; as user)
+                      {
+                      <div class="dropdown d-flex mt-3 mt-sm-3 mt-md-0  " style="gap: 10px;flex-wrap: wrap;">
+                          @if(user.indexOf('patientdirect') > -1){
+                            @if(!(user.indexOf('employee') > -1)){
+                                @if(!isWholescriptsProtocol && patientList?.patients?.length > 0) {
+                                    <button class="btn btn-outline-primary btn-rounded font-weight-bold btn-reset recommend-btn bolder" type="button"
+                                    id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                                    aria-controls="shareOptions">
+                                    Share Options <i class="fas fa-chevron-down" aria-hidden="true"></i>
+                                </button>
+                                <div class="dropdown-menu share-options-menu" aria-label="dropdownMenuButton">
+                                    <a class="dropdown-item"
+                                        [routerLink]="'/protocol/share/select-patient/'| parseUrl:[protocolId,'true']">
+                                        Share with all patients
+                                    </a>
+                                    <a class="dropdown-item"
+                                        [routerLink]="'/protocol/share/select-patient/'| parseUrl:[protocolId,'false']">
+                                        Share with select patients
+                                    </a>
+                                </div>
+                                }
+                        }
+                          @if(!isComeFromWs && patientList?.patients?.length > 0){
+                            <button class="btn btn-outline-primary btn-rounded btn-reset recommend-btn bolder" (click)="recommendThisProtocol()">
+                                Recommend
+                            </button>
+                          }
+                          }
+                          @if(isComeFromWs){
+                              <button class="btn btn-outline-primary btn-rounded btn-reset recommend-btn bolder" (click)="recommendThisProtocol()">
+                                  Recommend
+                              </button>
+                          }
+                          <button class="btn btn-primary btn-rounded ml-1 addtocart btn-reset bolder" (click)="addToCart()">
+                              Add to Cart &nbsp;
+                              <i class="fas fa-shopping-cart text-success" aria-hidden="true"></i>
+                          </button>
+                          @if(isComeFromWs){
+                              <button class="btn btn-primary btn-rounded ml-1 addtocart btn-reset bolder" (click)="recommendThisProtocol()">
+                                  Copy to My Protocols
+                              </button>
+                          }
+                      </div>
+                      }
+                </div>
+                <div class="rec-table-body">
+                    <div class="protocolDescription">
+                        <span class="bolder"> Description:</span>
+                        <span> {{ description() }}</span>
+                    </div>
+                    <ws-success-product [selectedProduct]="selectedProduct?.protocolEntries"></ws-success-product>
+                    <ws-medpax-protocol-review-card [protocolId]="protocolId" [isWSProtocol]="selectedProduct?.isWSProtocol"></ws-medpax-protocol-review-card>
+                    <hr>
+                    <div class="rec-table-footer position-relative d-flex align-items-center justify-content-end">
+                        <div>
+                            <h3>Total <span>{{totalPrice() || 0.00}}</span></h3>
+                            <div>
+                                MSRP:{{totalMsrpPrice() || 0.00}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="rec-table-sec d-flex flex-column mt-4">
+                <div class="rec-table-header position-relative d-flex align-items-center justify-content-between">
+                    <div class="rec-table-title">Protocol Notes :</div>
+                </div>
+                <div class="rec-table-body">
+                    <div class="container-fluid p-2">
+                        <p class="border-1 rounded p-2 ng-binding" aria-label="Protocol notes">
+                            {{selectedProduct?.notes}} &nbsp;
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

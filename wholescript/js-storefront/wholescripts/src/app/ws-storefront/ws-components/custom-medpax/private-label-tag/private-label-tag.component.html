@@ -1,0 +1,9 @@
+
+  @if(this.isPlUser()){
+    <img src="/assets/icons/common_icons/private-label-icon.svg" width="16px" height="16px" alt="">
+    <span role="button" [ngStyle]="{ 'font-size': fontSize(), 'font-weight': fontWeight(), 'color': color() }" [ngClass]="{ 'cur-point': productCode() !== ''}" (click)="openPrivateLabelModal()" tabindex="0" (keypress)="openPrivateLabelModal()">
+      {{ labelName() }}
+    </span>
+  }
+
+

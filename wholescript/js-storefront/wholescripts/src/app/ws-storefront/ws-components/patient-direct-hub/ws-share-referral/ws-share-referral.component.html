@@ -1,0 +1,91 @@
+<div class="referral-sharing-container">
+  <div class="modal-header">
+    <i (click) = "closeModal()" class="fa-solid fa-xmark" tabindex="0" (keydown)="onKeyDown($event)"></i>
+    <h1>Referral code sharing options</h1>
+    <p>Share your referral code or referral link with your patients</p>
+  </div>
+
+  <!-- Copy and share section -->
+  <div class="section">
+    <h2>Copy and share with your patients</h2>
+    <p>
+      Before patients are able to order on WholeScripts they must first register an account.
+      These options below will allow them to create their WholeScripts account.
+    </p>
+</div>
+
+
+    <!-- Referral link section -->
+    <div class="section">
+      <h2>Referral link</h2>
+      <p>
+        This referral link will direct your patients to the WholeScripts registration page where they need to create their account      
+      </p>
+    <div class="input-group">
+      <div class="input-group-content col-12 p-0">
+        <input
+          type="text"
+          [value]="baseLink + '/register/' + referralCode?.referralLink?.toUpperCase()"
+          readonly
+          aria-label="Copy Link"
+        />
+        <button class="copy-btn" (click)="copyLink()"><i class="fa-solid fa-copy"></i>Copy</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Referral code and Last name section -->
+  <div class="section">
+    <h2>Referral code and Last name</h2>
+    <p>
+      This information will allow your patients to use a custom referral code and your last name to register their account.
+    </p>
+
+    <div class="share-inputs">
+      <!-- Referral code section -->
+      <div class="input-group">
+        <label>Referral code</label>
+        <div class="input-group-content">
+          <input
+            type="text"
+            [value]="referralCode.referralCode.toUpperCase()"
+            readonly
+            aria-label="Referral Code"
+          />
+          <button class="copy-btn" (click)="copyCode()"><i class="fa-solid fa-copy"></i>Copy</button>
+        </div>
+      </div>
+
+      <!-- Last name section -->
+      <div class="input-group">
+        <label>Last name</label>
+        <div class="input-group-content">
+          <input
+            type="text"
+            [value]="referralCode.lastName.toUpperCase()"
+            readonly
+            aria-label="Last Name"
+          />
+          <button class="copy-btn" (click)="copyLastName()"><i class="fa-solid fa-copy"></i>Copy</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Close button -->
+  <div class="modal-ft">
+    <button (click)="closeModal()">Close</button>
+  </div>
+</div>
+
+<!-- Toast message -->
+<div class="toast-wrapper" *ngIf="toastMessage">
+  <div class="toastMsg">
+      <div class="d-flex toast-header">
+          <div class="d-flex toast-header-message-wrapper">
+              <p>{{toastMessage}}</p>
+              <i class="fa fa-close" (click)="toastMessage == ''"></i>
+          </div>
+      </div>
+  </div>
+</div>

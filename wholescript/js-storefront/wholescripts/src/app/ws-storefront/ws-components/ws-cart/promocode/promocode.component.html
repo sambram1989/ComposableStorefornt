@@ -1,0 +1,53 @@
+<div class="card">
+    <div class="input-group row m-0 flex-column card-header">
+        <label class="card-title text-dark bolder">Promo code: </label>
+    </div>
+    <div [class.flex]="isUserLoggedOut()" [class.flex-column]="isUserLoggedOut()">
+        @if(isUserLoggedOut()){
+        <p>Redeem your discount when you <a class="text-primary bolder " [routerLink]="'/login'"><u>login</u></a> or <a
+                class="text-primary bolder text-decoration-underline " [routerLink]="'/sign-up'"><u>register</u></a></p>
+        <div>
+            <ng-container *ngTemplateOutlet="inputContent"></ng-container>
+        </div>
+        }@else {
+        <ng-container *ngTemplateOutlet="inputContent"></ng-container>
+        }
+    </div>
+</div>
+
+<ng-template #inputContent>
+    <div *ngIf="!loading">
+        <div class="promo-container">
+            <input type="text" class="form-control form-group-default pull-right h-45px placeholder-style"
+                placeholder="Enter promo code" aria-label="Promo code" [(ngModel)]="promoCode"
+                [ngClass]="{ 'error' : isPromoCodeError } ">
+            <button type="button"
+                class="default btn btn-rounded btn-outline-primary pt-1 col-auto ml-1"
+                (click)="redeemCode()" aria-label="Redeem" tabindex="0">
+                Redeem
+            </button>
+        </div>
+        <div *ngIf="allPromotionsWithDescription?.length > 0" class="promo-codes-wrapper">
+            <div class="applied-promos-text">Applied promo codes:</div>
+            <div *ngFor="let promoCode of allPromotionsWithDescription" class="each-promo-code-wrapper">
+                <span class="promo-code">{{promoCode?.code}}</span>
+                <div class="promo-code-actions">
+                    <span class="cursor-pointer see-details" (click)="seeDetails(promoCode)" tabindex="0">See details</span>
+                    <span (click)="removePromoCode(promoCode?.code)" class="cursor-pointer remove" tabindex="0">Remove</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="loading" class="d-flex justify-content-center align-center w-100">
+        <cx-spinner></cx-spinner>
+    </div>
+</ng-template>
+
+<div *ngIf="showPromoDetailsModal">
+    <ws-promo-details-modal [selectedPromotion]="selectedPromotion"
+        (closeModal)="closeModal()"></ws-promo-details-modal>
+</div>
+
+<div *ngIf="showGuestPromoDetailsModal">
+    <ws-guest-promo-details-modal (closeGuestModal)="closeGuestModal()"></ws-guest-promo-details-modal>
+</div>

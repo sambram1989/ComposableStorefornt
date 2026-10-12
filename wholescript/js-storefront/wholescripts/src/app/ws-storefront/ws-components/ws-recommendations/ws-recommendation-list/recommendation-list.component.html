@@ -1,0 +1,204 @@
+<div class="page">
+  <div class="container-fluid container-fixed-lg pt-4">
+    <div class="row top-header p-0 pageContent align-items-center">
+      <div class="col-md-8 col-12 p-3">
+        <h1>{{ pageContent.headline }}</h1>
+        <h4 class="para">{{ pageContent.content }}</h4>
+      </div>
+      <div class="col-md-4 col-12 actions">
+        <button class="btn btn-primary btn-rounded mt-1 new-rec mb-4" (click)="navigateToUrl()">
+          New recommendation
+        </button>
+      </div>
+    </div>
+    <div class="row pl-3 pl-xl-0">
+      <div class="col-xl-3 d-none d-xl-block filters">
+        <ws-leftfilterfacet [filters]="filtersApi$|async"
+          (activeFilters)="onFacetSelection($event)"></ws-leftfilterfacet>
+      </div>
+      <div class="row col-12 col-xl-9 pr-0 table-unit d-md-flex">
+        <div class="search-container mb-3 col-12">
+          <!-- <h6 class="sub-title d-md-block d-none col-12 p-0 bolder">Search Recommendations:</h6> -->
+          <div class="search-ct my-0">
+            <div class="col-12 col-xl-6 mb-md-3 mb-xl-0 p-0 d-md-flex">
+              <div class="input-group search-container pull-right col-12 col-md-9 col-xl-7">
+                <ws-search-box class="ws-search-box" (searchChange)="showSearchResults($event)" aria-label="Search box"
+                  [placeholder]="'Search Recommendations'" [attr.aria-placeholder]="'Search Recommendations'">
+                </ws-search-box>
+              </div>
+              <button class="btn btn-primary d-none d-md-none" style="height: 40px">
+                <span class="d-none d-md-inline-block"><i class="fas fa-filter"></i>&nbsp;</span>
+                Filters
+              </button>
+              <button class="filter-btn col-12 col-md-2 ml-md-3 my-3 my-md-0 d-xl-none" (click)="openMobileFilters()">
+                <svg width="13" height="20" viewBox="0 0 13 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M0 5.375C0 4.91016 0.382812 4.5 0.875 4.5H11.375C11.8398 4.5 12.25 4.91016 12.25 5.375C12.25 5.86719 11.8398 6.25 11.375 6.25H0.875C0.382812 6.25 0 5.86719 0 5.375ZM1.75 9.75C1.75 9.28516 2.13281 8.875 2.625 8.875H9.625C10.0898 8.875 10.5 9.28516 10.5 9.75C10.5 10.2422 10.0898 10.625 9.625 10.625H2.625C2.13281 10.625 1.75 10.2422 1.75 9.75ZM7.875 14.125C7.875 14.6172 7.46484 15 7 15H5.25C4.75781 15 4.375 14.6172 4.375 14.125C4.375 13.6602 4.75781 13.25 5.25 13.25H7C7.46484 13.25 7.875 13.6602 7.875 14.125Z"
+                    fill="#101828" />
+                </svg>
+                Filters
+              </button>
+            </div>
+            <div class="input-daterange input-group col-xl-6 col-md-6 col-12 p-0" id="datepicker-range">
+              <span class="p-2 bolder from-date">
+                <i class="fas fa-calendar"></i>
+                From
+              </span>
+              <input type="date" class="input-sm form-control" aria-label="filter from date in format (MM/dd/yyyy)"
+                [(ngModel)]="startDate" (change)="getStartDateResponse($event)">
+              <span class="p-2 bolder to-date"></span>
+              <input type="date" class="input-sm form-control" aria-label="filter to date in format (MM/dd/yyyy)"
+                [(ngModel)]="endDate" (change)="getEndDateResponse($event)">
+            </div>
+          </div>
+        </div>
+        <div class="mx-xl-0 p-0 rec-tabl col-12">
+          <div class="table-responsive-lg">
+            <table class="table-dp">
+              <tr *ngIf="dataSource().length">
+                <th>Name</th>
+                <th>Refferal Code</th>
+                <th>Date Created</th>
+                <th>Status</th>
+                <th class="th-actions">Actions</th>
+              </tr>
+              <tr *ngFor="let item of dataSource(); let i = index;">
+                <td class="patient-name">
+                  <a>{{ item?.patient }}</a>
+                </td>
+                <td>
+                  <div>{{ item?.referralCode }} | {{ item?.referralName }}</div>
+                </td>
+                <td>
+                  <i>{{ item?.creationDate }}</i>
+                  <div *ngIf="item?.sourceName" class="external-order">
+                    <span> {{ item?.sourceName }} </span>
+                  </div>
+                </td>
+                <td class="status" [ngClass]="item.status.toLowerCase()">
+                  <a>{{ item.statusName }}</a>
+                </td>
+                <td class="row-actions">
+                  <button class="btn btn-link" (click)="navigateToPatientProfile(item)">
+                    View Patient Profile
+                  </button>
+                  <button *ngIf="item.status === 'DRAFT'" class="btn btn-outline-primary btn-rounded"
+                    (click)="goToPatientDetails(item.patient, item.id)">
+                    Continue
+                  </button>
+                  <button *ngIf="item.status === 'DRAFT'" class="text-button mt-3 mt-lg-0"
+                    (click)="deleteRecommendation(item.id)" [title]="'Delete Recommendation'"
+                    [attr.aria-label]="'Delete Recommendation'">
+                    <i class="fa fa-times text-danger"></i>
+                  </button>
+                  <button (click)="goToDetails(item)"
+                    *ngIf="item.status === 'SENT' || item.status === 'PRACTITIONER_CANCELLED' || item.status === 'PATIENT_VIEWED' || item.status === 'PATIENT_DELETED'"
+                    class="btn btn-outline-primary btn-rounded">
+                    See Recommendation
+                  </button>
+                </td>
+              </tr>
+
+              <tr *ngIf="!dataSource().length">
+                <th>Name</th>
+                <th>Date Created</th>
+                <th>Status</th>
+                <th class="th-actions">Actions</th>
+              </tr>
+              <tr *ngIf="!dataSource().length ">
+                <td colspan="4" role="row" class="empty-state pt-3 pb-1">
+                  <div>
+                    <h6 class="bolder mt-0">No results found</h6>
+                    <p>
+                      We couldn't find any matches for <span class="bolder"> {{ SearchText }}</span>
+                    </p>
+                    <p>Please try another search term and check your filters</p>
+                  </div>
+                </td>
+              </tr>
+            </table>
+          </div>
+
+          <div *ngIf="pagination() && pagination().totalCount" class="col-12 p-0 d-none d-md-flex pt-3">
+            <div class="col-12 col-md-6 d-flex align-items-center action-controls p-0 footer-actn">
+              <span> Showing<b> {{ getPaginationRange(pagination().page, pagination().count, pagination().totalCount
+                  ).start }} to {{ getPaginationRange(pagination().page, pagination().count, pagination().totalCount
+                  ).end }}</b> of {{ pagination()?.totalCount}} entries
+              </span>
+            </div>
+
+            <div class="col-12 col-md-6 justify-content-end pagination p-0">
+              <ws-pagination [resetReposition]="true" [itemsPerPage]="pagination()?.count"
+                (currentPageChange)="pageChanged($event)" [totalItems]="pagination()?.totalCount"
+                [numberOfPagesNeedTOBeShown]="5" aria-label="Pagination controls"></ws-pagination>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+  <!-- Mobile Display -->
+  <div class="mx-3 d-md-none">
+    <table *ngIf="dataSource().length" class="table table-mb">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Refferal Code</th>
+          <th>Date Created</th>
+          <th>Status</th>
+          <th class="actions">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let code of dataSource()">
+          <td>
+            <span>Name</span>
+            <div class="text-right">{{ code.patient }} <br />
+              <button class="share" (click)="goToPatientDetails(code.patient, code.id)">
+                View Profile
+              </button>
+            </div>
+          </td>
+          <td>
+            <span>Referral Code</span>
+            {{ code.referralCode }} | {{ code.referralName }}
+          </td>
+          <td>
+            <span>Date Created</span>
+            <div class="td-date">
+              {{ code.creationDate }}<br />
+              <a class="badge badge-dark">Carbo</a>
+            </div>
+          </td>
+          <td class="status" [ngClass]="code.status.toLowerCase()">
+            <span>Status</span>
+            <a>{{ code.status|capitalizeFormat }}</a>
+          </td>
+          <td class="actions">
+            <!-- <button class="btn btn-sm btn-link share" 
+          (click)="goToPatientDetails(code.patient, code.id)"
+          >Continue</button> -->
+            <button class="btn btn-sm btn-link share" (click)="goToDetails(code)">View details</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div *ngIf="pagination() && pagination().totalCount" class="col-12 p-0 d-md-flex py-3 py-xl-0">
+      <div class="col-12 mb-3 mb-md-0 col-md-6 d-flex align-items-center justify-content-center p-0 footer-actn">
+        <span> Showing<b> {{ getPaginationRange(pagination().page, pagination().count, pagination().totalCount
+            ).start }} to {{ getPaginationRange(pagination().page, pagination().count, pagination().totalCount
+            ).end }}</b> of {{ pagination()?.totalCount}} entries
+        </span>
+      </div>
+
+      <div class="col-12 col-md-6 justify-content-center pagination p-0">
+        <ws-pagination [resetReposition]="true" [itemsPerPage]="pagination()?.count"
+          (currentPageChange)="pageChanged($event)" [totalItems]="pagination()?.totalCount"
+          [numberOfPagesNeedTOBeShown]="5" aria-label="Pagination controls"></ws-pagination>
+      </div>
+    </div>
+  </div>
+</div>

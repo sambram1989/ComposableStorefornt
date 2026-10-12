@@ -1,0 +1,143 @@
+:host {
+  background-color: var(--cx-color-primary);
+  padding: 20px 40px;
+  display: block;
+  width: inherit;
+}
+
+.product {
+  padding: 20px 0;
+}
+
+.dots-bg {
+	background: url("/assets/images/home/dot-pattern-left.svg") top left -5% no-repeat, url("/assets/images/home/dot-pattern-right.svg") bottom right -5% no-repeat;
+  z-index: 1;
+  position: relative;
+}
+
+@media screen and (min-width: 992px) {
+  .dots-bg {
+    background-size: 400px;
+    // background-size: clamp(300px, 25vw, 400px);
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .dots-bg {
+    background-size: 300px;
+  }
+}
+
+.slider-wrap {
+  position: relative;
+  overflow: hidden;
+  // min-height: 350px;
+  display: flex;
+  justify-content: center;
+}
+
+.slider-main {
+  position: absolute;
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+  justify-content: space-around;
+}
+
+.item {
+ display: grid;
+ grid-template-columns: repeat(auto-fit,minmax(150px,1fr));
+ gap: 1rem;
+ margin-top:1rem;
+ 
+  @media (min-width: 1220px) {
+    width: 33%;
+  }
+  @media (min-width: 1024px){
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+  }
+}
+
+.text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color:var(--ws-base-white);
+  font-size: 25px;
+  font-weight: bolder;
+}
+
+#indicators {
+  text-align: center;
+  position: relative;
+  margin: 20px auto;
+  bottom: 0;
+}
+
+.indicator {
+  width: 15px;
+  height: 15px;
+  border: none;
+  border-radius: 50%;
+  opacity: 0.5;
+  background-color: #f1eeee;
+  display: inline-block;
+  margin-left: 20px;
+  cursor: pointer;
+}
+
+.indicator.active {
+  opacity: 1;
+}
+
+.mtp__prev {
+  display: block;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-100%);
+  left: -15px;
+  background: none;
+  border: none;
+  color: var(--ws-base-white);
+  font-size: 36px;
+  opacity: 0.5;
+  cursor: pointer;
+ 
+  @media (max-width: 575px) {
+    left: 0;
+  }
+}
+
+.mtp__next {
+  display: block;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-100%);
+  right: -15px;
+  background: none;
+  border: none;
+  color: var(--ws-base-white);
+  font-size: 36px;
+  opacity: 0.5;
+  cursor: pointer;
+ 
+  @media (max-width: 575px) {
+    right: 0;
+  }
+}
+
+.slider-main {
+  padding: 1rem 0 60px 0;
+  position: relative;
+  gap: 1rem;
+  z-index: 2;
+}
+@media (min-width: 320px) and (max-width: 767px) {
+  :host {
+    padding: 40px 0px;
+  }
+}
+
+

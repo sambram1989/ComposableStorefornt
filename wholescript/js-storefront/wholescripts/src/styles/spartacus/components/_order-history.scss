@@ -1,0 +1,129 @@
+cx-page-layout.AccountPageTemplate {
+    .bs-datepicker-container {
+        background-color: black;
+        background: black;
+    }
+
+    ws-pagination-entry-list {
+        p {
+            padding-left: 0 !important;
+            color: var(--ws-gray-light-600);
+            text-align: center;
+            font-size: 14px;
+            font-style: normal;
+            font-weight: 600;
+            line-height: 20px;
+            letter-spacing: 0px;
+        }
+    }
+
+    cx-page-slot {
+        padding-inline-start: 0;
+        padding-inline-end: 0;
+        max-width: inherit;
+
+        &.wsOrderHistoryFullBodyFlex {
+            padding-top: 0;
+
+            @media (max-width: 575px) {
+                padding: 32px 16px 64px 16px;
+            }
+
+            ws-search-box {
+                width: 320px;
+                min-width: 200px;
+                max-width: 320px;
+                border-radius: 4px;
+                border: 1px solid var(--ws-gray-light-300);
+                background: var(--cx-color-inverse);
+                box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
+
+                input,
+                span {
+                    border: none;
+                }
+
+                span:focus {
+                    box-shadow: 0 3px 22px -5px rgb(104, 75, 173) !important;
+                }
+
+                .input-group-addon {
+                    background: var(--cx-color-transparent);
+                }
+            }
+        }
+
+        &.wsOrderHistoryOrdersBodyPara {
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--ws-gray-light-200);  
+
+            cx-paragraph {
+                div {
+                    max-width: 640px;
+                    padding-right: 24px;
+
+                    @media (max-width: 575px) {
+                        padding-right: 0;
+                    }
+
+                    b {
+                        color: var(--ws-success-900);
+                        font-size: 18px;
+                        font-style: normal;
+                        font-weight: 600;
+                        line-height: 28px;
+                        letter-spacing: 0px;
+                    }
+
+                    p {
+                        color: var(--ws-gray-light-600);
+                        font-size: 16px;
+                        font-style: normal;
+                        font-weight: 300;
+                        line-height: 24px;
+                        letter-spacing: 0px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+ws-order-history,
+ws-order-invoice {
+    .search-input {
+        width: 350px;
+        max-width: 350px;
+        @media (max-width: 768px) {
+            width: 100%;
+            max-width: 100%;
+        }
+    }
+    ws-search-box {
+        input {
+            border: none !important;
+            padding: 10px 14px;
+        }
+
+        span {
+            border: none !important;
+            background-color: var(--cx-color-inverse) !important;
+            color: var(--ws-gray-light-500) !important;
+            padding: 10px 14px !important;
+        }
+    }
+
+    .input-with-icon {
+        padding-left: 40px;
+        width: 150px;
+        cursor: pointer;
+      }
+  
+      .calendar-icon {
+        position: absolute;
+        left: 20px;
+        top: 42%;
+        transform: translateY(-50%);
+        pointer-events: none;
+      }
+}

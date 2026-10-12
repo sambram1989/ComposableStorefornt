@@ -1,0 +1,111 @@
+<div *ngIf="selectedProduct$ | async as selectedProduct" class="review-container">
+  <div class="row">
+    <ws-review-protocol-header [protocol]="selectedProduct"></ws-review-protocol-header>
+  </div>
+  <div class="row">
+    <main class="col-12 col-lg-8" role="main">
+      <div class="rec-table-sec d-flex flex-column">
+        <div class="rec-table-header position-relative d-flex align-items-center justify-content-between">
+          <div class="rec-table-title" role="heading" aria-level="1">Protocol Preview</div>
+          <a type="button" class="rec-edit-btn position-relative d-flex" tabindex="0" (keydown.enter)="navigateToProtocolEdit()"
+            [routerLink]="'/protocol/edit/' | parseUrl:[protocolId]" aria-label="Edit protocol">
+            Edit
+          </a>
+        </div>
+        <div class="rec-table-body mb-4">
+          <table class="table" role="table" aria-label="Protocol entries table">
+            <tbody>
+              <tr *ngFor="let entries of selectedProduct.protocolEntries" role="row">
+                <td role="cell">
+                  <div class="rec-t-product-title d-flex position-relative">
+                    <div class="rec-t-product-img d-flex align-items-center justify-content-center">
+                      <cx-media [container]="entries.product.images" format="product" [alt]="entries.product.name ?? ''"
+                        aria-hidden="true"></cx-media>
+                    </div>
+                    <div class="rec-t-product-text bolder" role="heading" aria-level="2">
+                      {{ entries.product.name }}
+                    </div>
+                  </div>
+                  <div class="rec-t-product-sub-title dosing-desktop-v">
+                    <span>Dosing:</span>
+                    <ng-container *ngIf="entries.dosing.length > 1">
+                      <span>
+                        {{entries?.dosing|slice:0:4|dosingPipe}}
+                      </span>
+                    </ng-container>
+                    <span *ngIf="entries.dosing.length === 1">
+                      1 in Daily
+                    </span>
+                  </div>
+                </td>
+                <td role="cell">
+                  <div class="rec-t-product-title m-0 d-flex position-relative">
+                    <div class="rec-t-product-text">
+                      Duration: <span>{{ entries.itemDuration }}</span>
+                    </div>
+                  </div>
+                </td>
+                <td role="cell">
+                  <div class="rec-t-product-title m-0 d-flex position-relative">
+                    <div class="rec-t-product-text">
+                      Qty: <span>{{ entries.quantity }}</span>
+                    </div>
+                  </div>
+                </td>
+                <td role="cell">
+                  <div class="rec-t-product-title m-0 d-flex position-relative justify-content-end">
+                    <div class="rec-t-product-text">
+                      <div class="total">
+                        {{entries?.totalPrice?.formattedValue}}
+                      </div>
+                      <span>
+                        MSRP: {{entries?.msrpTotalPrice?.formattedValue}}
+                      </span>
+                    </div>
+                  </div>
+                  <div class="rec-t-product-sub-title dosing-mobile-v">
+                    <span>Dosing:</span>
+                    <ng-container *ngIf="entries.dosing.length > 1">
+                      <span *ngFor="let dosing of entries.dosing; let i = index">
+                        {{ dosing.quantity }} in
+                        {{ dosing.itemTimes?.timeOfTheDay }}
+                        <span *ngIf="i !== entries.dosing.length - 1"> | </span>
+                      </span>
+                    </ng-container>
+                    <span *ngIf="entries.dosing.length === 1">
+                      1 in Daily  
+                    </span>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <ws-medpax-protocol-review-card [protocolId]="protocolId"></ws-medpax-protocol-review-card>
+        </div>
+      </div>
+    </main>
+    <aside class="col-12 col-lg-4" role="complementary">
+      <ws-review-protocol-note [(notes)]="notes" aria-label="Protocol notes"></ws-review-protocol-note>
+    </aside>
+  </div>
+</div>
+<ws-floating-footer>
+  <div class="float-right p-3">
+    <div class="bottom-nav__right d-flex align-items-center justify-content-end mx-4">
+      <div class="totals-area">
+        <div class="mr-3">
+          <div class="bolder">
+            Total: {{totalPrice() || 0.00}}
+          </div>
+          <div>
+            MSRP:{{totalMsrpPrice() || 0.00}}
+          </div>
+        </div>
+      </div>
+      <a class="btn btn-outline-primary btn-rounded pull-right next-btn mr-2"
+        [routerLink]="'/protocol/edit/' | parseUrl:[protocolId]" aria-label="Back to edit protocol">Back</a>
+      <a class="btn btn-primary btn-rounded pull-right next-btn" tabindex="0" (keydown.enter)="gotToConfirmation()" (click)="gotToConfirmation()"
+        aria-label="Save protocol">Save Protocol</a>
+    </div>
+  </div>
+</ws-floating-footer>

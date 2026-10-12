@@ -1,0 +1,15 @@
+<ng-container *ngIf="reviewHeader$ | async as reviewHeader">
+    <div class="col-12">
+      <div class="rec-header">
+        <h1 aria-label="Review Header">{{reviewHeader.headline}}</h1>
+        <h6>
+          <span [innerHtml]="reviewHeader.content"></span>
+          <span class="protocol-name pl-1">{{ protocol?.name }}</span>
+          <span class="patient-name">
+            <a>{{ patientName }}</a>
+          </span>
+        </h6>
+      </div>
+     </div>
+  </ng-container>
+  

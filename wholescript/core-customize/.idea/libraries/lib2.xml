@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="lib2">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/hybris/bin/custom/Wholescriptscore/lib/jjwt-api-0.12.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/hybris/bin/custom/Wholescriptscore/lib/json-20231013.jar!/" />
+      <root url="jar://$PROJECT_DIR$/hybris/bin/custom/Wholescriptscore/lib/libphonenumber-8.12.49.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

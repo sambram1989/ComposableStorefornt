@@ -1,0 +1,52 @@
+<!-- Images to be removed after WCMS integration for carousel -->
+
+<article class="header-wrapper">
+    <article class="header-container">
+        <div class="header-text">
+        </div>
+        <div class="header-img-area">
+            <div class="section1-content-wrapper" id="section1Wrapper">
+                <div class="section1" [ngClass]="setBulletVisibility ? '--show' : '--hide'" id="section11">
+                    <div class="section1-img-container">
+                        <img class="section1-img --fg" [src]="sectionData.imgPatientfg" alt="Patient Image 1">
+                        <img class="section1-img --bg" [src]="sectionData.imgPatientbg" alt="Patient Image 2">
+                    </div>
+                    <a class="header-bullet --patient --bullet1" [href]="sectionData.patientBullet1Link">
+                        <img src="/assets/images/home/autoship-icon.svg" alt="Autoship">
+                        <div>
+                            <div class="bolder">{{ sectionData.patientBullet1Heading }}</div>
+                            <div class="header-bullet__subtitle">{{ sectionData.patientBullet1Content }}</div>
+                        </div>
+                    </a>
+                    <a class="header-bullet --patient --bullet2" [href]="sectionData.patientBullet2Link">
+                        <img src="/assets/images/home/medpax-icon-1.svg" alt="Medpax">
+                        <div>
+                            <div class="bolder">{{ sectionData.patientBullet2Heading }}</div>
+                            <div class="header-bullet__subtitle">{{ sectionData.patientBullet2Content }}</div>
+                        </div>
+                    </a>
+                </div>
+                <div class="section1" [ngClass]="!setBulletVisibility ? '--show' : '--hide'" id="section12">
+                    <div class="section1-img-container">
+                        <img class="section1-img --fg" [src]="sectionData.imgPractitionerfg" alt="section1 image 2">
+                        <img class="section1-img --bg" [src]="sectionData.imgPractitionerbg" alt="section1 image 3">
+                    </div>
+                    <a class="header-bullet --practitioner --bullet1" [href]="sectionData.practitionerBullet1Link">
+                        <img src="/assets/images/home/recommend-icon.svg" alt="recommend">
+                        <div>
+                            <div class="bolder"> {{ sectionData.practitionerBullet1Heading }}</div>
+                            <div class="header-bullet__subtitle">{{ sectionData.practitionerBullet1Content }}</div>
+                        </div>
+                    </a>
+                    <a class="header-bullet --practitioner --bullet2" [href]="sectionData.practitionerBullet2Link">
+                        <img src="/assets/images/home/ehr-icon.svg" alt="ehr">
+                        <div>
+                            <div class="bolder">{{ sectionData.practitionerBullet2Heading }}</div>
+                            <div class="header-bullet__subtitle">{{ sectionData.practitionerBullet2Content }}</div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </article>
+</article>

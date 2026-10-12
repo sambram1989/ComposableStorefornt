@@ -1,0 +1,111 @@
+.table {
+
+    thead tr {
+        background: var(--cx-color-background-alt);
+        border-left: solid 1px var(--ws-custom-border-color);
+        border-right: solid 1px var(--ws-custom-border-color);
+
+        th {
+            color: var(--ws-gray-light-700) !important;
+            text-transform: none !important;
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        td {
+            background: transparent;
+        }
+    }
+
+    .product-added-row {
+        background-color: var(--ws-gray-dark-alt) !important;
+        transition: background-color 0.2s ease-in-out;
+    }
+
+    tbody {
+        border: solid 1px rgba(230, 230, 230, 0.7);
+        border-radius: .2rem;
+        tr:hover {
+            background-color: var(--ws-gray-dark-alt);
+        }
+    }
+
+    .product-name,
+    .copy-code {
+        cursor: pointer;
+    }
+
+    .rec-table_action-btns {
+        span {
+            cursor: pointer;
+        }
+    }
+
+    .border-top-unset {
+        border-top: unset;
+    }
+
+    .fav-btn__icon--active {
+        color: var(--ws-success-600);
+    }
+
+}
+ 
+.btn-h {
+    font-size: 16px;
+    min-height: unset !important;
+    height: 43px !important;
+    padding-top: 6px !important;
+ }
+ .remove-btn {
+    color: var(--cx-color-danger) !important;
+    background-color: #fff;
+    border: 3px solid var(--cx-color-danger);
+ }
+ .remove-btn:hover{
+    background-color: var(--cx-color-danger);
+    border: 3px solid var(--cx-color-danger);
+    color: #fff !important;
+ }
+
+//  styles re-work
+
+.w-10{
+    width: 10%;
+}
+.w-20{
+    width: 20%;
+}
+.w-30{
+    width: 30%;
+}
+.w-1-25rem{
+    width: 1.25rem;
+}
+
+.disabler-greyout{
+    pointer-events: none;
+    filter: grayscale(60%);
+}
+
+.disabled {
+    pointer-events: none;
+    opacity: 0.85;
+}
+
+@media screen and (max-width: 767px) {
+    table {
+        display: list-item;
+        overflow-x: scroll;
+
+    }
+
+    .edit-dosing-btn {
+        width: 8rem;
+    }
+
+    .add-dosing {
+        width: 8rem;
+        justify-content: center;
+    }
+}

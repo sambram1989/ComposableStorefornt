@@ -1,0 +1,58 @@
+<div class="ws-bg-white p-2">
+@if(loader()){
+<div class="address-container col-12 ">
+    @if(selectedCard()?.addressNumber){
+        <p class="fs-16">Main Address : </p>
+        <ws-address-card-selector [existingAddress]="selectedCard()" [isActive]="true" class="mb-2"  ></ws-address-card-selector>
+    }@else{
+        <div class="mainAddress mb-2">
+            <p class="fs-16">Main Address : </p>
+            <ws-address-card-selector [existingAddress]="mainCard() || AddressList()[0] " [isActive]="isMainCardSelected()" (isActiveChange)="updateCurrentCard('Main')" ></ws-address-card-selector>
+        </div>
+        @if(!isAccountSettings()){
+            <div class="shipToAddress mb-3">
+                <p>Ship Address To : </p>
+                <ws-address-card-selector [existingAddress]="AddressList()[0]" [isActive]="!isMainCardSelected()" (isActiveChange)="updateCurrentCard('Ship')"></ws-address-card-selector>
+            </div>
+        }
+    }
+</div>
+
+<div class="col-12 mt-3">
+    <ws-search-box (searchChange)="updateSearch($event)" [isBlueBgIcon]="true" [searchValue]="searchText"></ws-search-box>
+    @if(searchText?.trim()?.length){
+    <div class="search-results px-2 py-3">
+        @for(item of AddressList()|search:searchText:'formattedAddress';track item){
+        <li class="p-3" (click)="updateSelectedCard(item)"
+        (keydown.enter)="updateSelectedCard(item)" 
+        (keydown.space)="updateSelectedCard(item)"
+        role="option"
+        >
+            <div class="content-address" tabindex="0">
+                <p>{{item?.addressDescription}} | {{item?.firstName}} {{item?.lastName}} </p>
+                <p>{{item?.formattedAddress}}</p>
+            </div>
+        </li>
+        }@empty {
+        <p>No matching addresses found for '{{searchText}}'</p>
+        }
+        @if(AddressList()){
+        showing {{(AddressList()|search:searchText:'formattedAddress')?.length}} Addresses
+        }
+    </div>
+    }
+</div>
+}
+@else {
+<cx-spinner></cx-spinner>
+}
+<hr>
+    <p class="px-3">Safe & Secure SSL Encryption</p>
+    <div class="images-container mb-3 px-3 ">
+        @for (item of images; track $index) {
+        <img [src]="item.src" [alt]="item.name" class="mr-2">
+        }
+    </div>
+    <ws-new-creditcard-modal [isAccountSettings]="isAccountSettings()" [currentAddress]="selectedCard()?.addressNumber ? selectedCard() : mainCard()"></ws-new-creditcard-modal>
+</div>
+

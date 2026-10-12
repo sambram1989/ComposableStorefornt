@@ -1,0 +1,144 @@
+.ws-product-intro-container {
+
+    padding-bottom: 32px;
+    gap: 10px;
+    align-self: stretch;
+    border-bottom: 1px solid var(--ws-gray-light-200);
+
+    .brand-favaourites {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .brand {
+
+        span {
+            color: var(-ws-gray-light-900);
+            font-size: 16px;
+            font-style: normal;
+            font-weight: 600;
+            line-height: 24px;
+            letter-spacing: 0px;
+        }
+
+        .brand-name {
+            color: var(--ws-brand-700);
+            font-size: 16px;
+            font-style: normal;
+            font-weight: 600;
+            line-height: 24px;
+            letter-spacing: 0px;
+            text-decoration-line: underline;
+            text-decoration-style: solid;
+            text-decoration-skip-ink: none;
+            text-decoration-thickness: auto;
+            text-underline-offset: auto;
+            text-underline-position: from-font;
+            &:focus-visible {
+                outline: 3px solid var(--cx-color-darkest) !important;
+                outline-offset: 2px !important;
+                box-shadow: unset;
+            }
+        }
+
+        @media (max-width:767px){
+            display: flex;
+            gap: 8px;
+        }
+    }
+
+    .favourites {
+        .add-favourites {
+            color: var(--ws-success-900);
+            font-size: 16px;
+            font-style: normal;
+            font-weight: 600;
+            line-height: 24px;
+            letter-spacing: 0px;
+            padding-right: 16px;
+        }        
+
+        .heart-btn {
+            background: none;
+    
+            .fa-heart {
+                color: var(--ws-gray-light-300);
+                font-size: 16px;
+                color: var(--ws-gray-light-300);
+                font-size: 14px;
+                font-style: normal;
+                font-weight: 900;
+                line-height: 20px;
+            }
+    
+            &:hover {
+                background-color: var(--ws-brand-50);
+                transition: all 0.2s;
+            }
+    
+            .fa-active {
+                color: var(--ws-success-700) !important;
+                font-size: 14px;
+                font-style: normal;
+                font-weight: 900;
+                line-height: 20px;
+            }
+        }
+        &:focus-visible {
+            outline: 3px solid var(--cx-color-darkest) !important;
+            outline-offset: 2px !important;
+            box-shadow: unset;
+        }
+    }
+
+    .status-badges {
+        display: flex;
+        align-items: flex-start;
+        gap: 4px;
+        margin-top: 12px;
+
+        .badge-stock {
+            display: flex;
+            padding: 2px 6px;
+            align-items: center;
+            gap: 4px;
+
+            border-radius: 6px;
+            border: 1px solid var(--ws-orange-200);
+            background: var(--ws-orange-50);
+            color: var(--ws-orange-700);
+            .dot {
+                height: 8px;
+                width: 8px;
+                background-color: var(--ws-orange-700);
+                border-radius: 50%;
+                margin-right: 6px;
+                margin-bottom: 2px;
+            }
+        }
+    }
+
+
+
+    .product-name {
+        color: var(--ws-success-900);
+        font-size: 45px;
+        font-style: normal;
+        font-weight: 900;
+        line-height: 49.5px;
+        letter-spacing: -1.08px;
+    }
+
+    .short-description {
+        color: var(--ws-gray-light-600);
+        font-size: 24px;
+        font-style: normal;
+        font-weight: 300;
+        line-height: 32px;
+        letter-spacing: 0px;
+    }
+    .product-desc {
+        font-weight: 300 !important;
+    }
+
+}

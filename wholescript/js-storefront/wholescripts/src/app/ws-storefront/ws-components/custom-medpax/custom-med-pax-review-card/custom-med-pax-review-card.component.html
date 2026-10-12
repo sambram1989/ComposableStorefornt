@@ -1,0 +1,65 @@
+<div class="mp-card" aria-label="MedPax Packet Card">
+    <div class="bolder text-center mt--23">
+        <span class="bg-white fsw">{{cardName|packetTitle}}&nbsp;Packet</span> 
+    </div>
+    <div class="d-flex justify-content-between packet-time mt-4" aria-label="Packet Time Selection"> 
+        @for( data of currentData; track data ; let index = $index){
+        <div class="radio-Selection-Section" (keypress)="onLabelClick(data?.dataSet)" (click)="onLabelClick(data?.dataSet)" tabindex="0" [class.selected-radio]="data?.dataSet == controlName.value" attr.aria-label="Time option {{ data?.dataSet | getData:currentData }}">
+            <input aria-label="dosing options" type="radio" class="d-none" [formControl]="controlName" [value]="data?.dataSet" aria-hidden="true">
+            <label role="button" for="1" class="text-center" 
+             attr.aria-label="Select {{ data?.dataSet | getData:currentData }} time"
+              attr.aria-label="Select {{ data.dataSet | getData:currentData }} time">
+                <span class="time-name">
+                    {{data.dataSet|getData:currentData}}
+                </span>
+                <img [alt]="data?.data" aria-hidden="true" [src]="data?.src">
+            </label>
+        </div>
+        }
+    </div>
+    <div class="mt-3">
+        <div class="packet-preview-top">
+            <img src="/assets/qa/MedPaxPacket_Icons-top.svg" class="img-responsive" alt="design border to">
+        </div>
+        <div class="card-body">
+            <div class="container-fluid p-0">
+                <div class="row">
+                    <div class="col-4 text-left">
+                        <img class="img-responsive packetIcon"
+                         alt="Packet icon" width="60px" [src]="currentSelectedImg()">
+                    </div>
+                    <div class="col-3 text-center">
+                        <img src="/assets/qa/black-barcode.svg" class="img-responsive" alt="Bar code icon">
+                    </div>
+                    <div class="col-5 text-right">
+                        <img src="/assets/qa/MedPaxPacket_Icons-logo.svg" class="img-responsive" alt="MedPax Logo">
+                    </div>
+                </div>
+            </div>
+            <div class="container-fluid p-1">
+                <div class="row">
+                    <div class="col-12 text-right packet-name-shown">
+                        <button class="link-text-ws text-muted bolder small text-primary bg-trans"  (click)="openEditName()" tabindex="0"  aria-label="Edit packet name">
+                            Edit Name
+                        </button>
+                        <h2 class="packet-name-given text-dark bolder mb-0"
+                            aria-label="MedPax.Name">{{medPaxData()?.name }}</h2>
+                    </div>
+                </div>
+                <div class="row">
+                    @for(product of medPaxData()?.packets[currentCardIndex()]?.packetEntries;track product){
+                        <div class="col-12 p-0 mb-1 d-block" >
+                            <span class="btn btn-rounded btn-outline-dark w-100 packet-pill-btn"  attr.aria-label="{{ product?.product?.name }}: Quantity {{ product?.quantity }}" >
+                                <span class="pull-left bold  packet-pill-name-label">{{medPaxData()?.carton?.defaultCarton ? product?.product?.name : product?.product?.genericPLName}} </span>
+                                <span class="float-right bold">Qty: <span>{{product?.quantity}}</span></span>
+                            </span>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="packet-preview-bottom">
+            <img src="/assets/qa/MedPaxPacket_Icons-bottom.svg" class="img-responsive" alt="design border bottom">
+        </div>
+    </div>
+</div>

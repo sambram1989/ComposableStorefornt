@@ -1,0 +1,84 @@
+@if(WebinarDetails$|async; as webinar){
+
+<section class="dots-bg" role="main">
+    <div class="main-div">
+        <section class="content-container">
+            <h1 class="web__title">{{webinar?.title}}</h1>
+            <p class="web__presenter">Presented by <span *ngFor="let presenter of webinar?.presenters; let i = index">
+                    <a [attr.aria-label]="'Presenter: ' + presenter.name" tabindex="0">
+                        {{ presenter.name }}
+                    </a>
+                    <span *ngIf="i < webinar.presenters.length - 1">, </span>
+                </span></p>
+            <article class="web-img w-100">
+                <video class="web-video" 
+                    (contextmenu)="onRightClick($event)" (timeupdate)="onVideoProgress($event)" controls controlslist="nodownload" [poster]="webinar?.videoImage" [attr.aria-label]="'Video about :'+webinar?.title">
+                    <source [src]="webinar?.videoUrl"  type="video/mp4">
+                    <track *ngIf="webinar?.videoCaptionUrl" [src]="webinar?.videoCaptionUrl" kind="subtitles" srclang="en" label="English"default>
+                    Your browser does not support the video tag.
+                </video>
+            </article>
+            <section class="web_details">
+                <section class="wte"></section>
+            </section>
+        </section>
+        <section class="row col-12 justify-content-center">
+            <!-- left side  -->
+            <div class=" col-lg-8">
+                <h2 class="bolder" style="line-height:40px !important; color: rgb(62, 59, 73); margin-bottom:20px;"
+                    [wsFS]="'40'"> What To Expect</h2>
+                <div class="web-description ws-paragraph-fs" title="what-to-expect" aria-label="what-to-expect"  [innerHTML]="webinar?.description">
+                </div>
+            </div>
+            <!-- right side  -->
+            <div class="right-div col-lg-4 web-categories" role="complementary">
+                <div>
+                    <h2 class="">Webinar Categories:</h2>
+                    <div class="d-flex flex-wrap align-items-center web-cat-list" style="gap: 20px;">
+                        @for(webinar of webinar?.webinarCategories;track webinar){
+                        <ws-webinarcategories [categoryName]="webinar.name" [categoryUrl]="webinar.url" [attr.aria-label]="'Category:'+ webinar.name">
+                        </ws-webinarcategories>
+                        }
+                    </div>
+                </div>
+                <div class="sponsoredByImage">
+                    <h3>Sponsored by:</h3>
+                    <img [src]="getMedia(webinar?.sponsorImage)" [alt]="webinar?.sponsorImageAltText">
+
+                </div>
+            </div>
+        </section>
+        <section class="presenter_section">
+            <div class="presenter-section-text text-center">
+                <ws-webinar-title-icon [webinarTitle]="'Meet The Presenters'" [bgColor]="'#fafafa'">
+                </ws-webinar-title-icon>
+            </div>
+            <ws-webinar-presenter [isMtpLink]="true" [presentorDetail]="presentorDetail()">
+            </ws-webinar-presenter>
+        </section>
+    </div>
+</section>
+
+
+<section class="bg-white section-bottom">
+    @if(webinar?.catalogCategories.length){
+    <div class="presenter-section-text text-center">
+        <ws-webinar-title-icon [webinarTitle]="'Product Categories'" [bgColor]="'#ffffff'">
+        </ws-webinar-title-icon>
+    </div>
+    <div class="section-bottom-text">
+        <h3>Interested in products related to this webinar? Check out these categories.</h3>
+    </div>
+    <div class="categoryType">
+        @for(webinar of webinar?.catalogCategories;track webinar){
+        <ws-product-categories [categoryName]="webinar.name" [categoryUrl]="webinar.code" [categoryImage]="webinar?.categoryImage"  [attr.aria-label]="'Product Category:'+ webinar.name">
+        </ws-product-categories>
+        }
+    </div>
+    }
+
+    <ws-webinar-carousel-ui *ngIf="webinar?.relatedWebinars?.length > 0" [isWebinarCard]="true" [webinarData]="webinar?.relatedWebinars"
+        [webinarTitle]="'You Might Also Be Interested In'" class="mt-5"
+        [titleIconColor]="'#ffff'" aria-label="Related webinars"></ws-webinar-carousel-ui>
+</section>
+}

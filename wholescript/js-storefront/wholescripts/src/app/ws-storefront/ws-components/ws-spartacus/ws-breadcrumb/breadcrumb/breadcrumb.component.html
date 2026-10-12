@@ -1,0 +1,24 @@
+
+<nav  [attr.aria-label]="'common.breadcrumbs' | cxTranslate"  *ngIf="crumbs$ | async as crumbs" tabindex="-1">
+    <ol [attr.aria-label]="'common.breadcrumbs' | cxTranslate" [ngClass]="{ 'scrollable': crumbs.length > 2 }">
+      <li *ngFor="let crumb of crumbs$ | async; last as islast;">
+        <ng-container *ngIf="isBackToDashboard">  &nbsp;<span [wsFS]="'14px'" [wsFC]="'--ws-brand-00'" [ngClass]="{'separator-reverse': isBackToDashboard}">></span>&nbsp; </ng-container>
+        <a tabindex="0" class="crumb-route" [wsFC]="'--ws-breadcrumb-text'" [wsFS]="'14px'"
+          [attr.aria-label]="
+            'navigation.navigateTo' | cxTranslate: { nav: crumb.label }
+          "
+          [routerLink]="crumb.link"
+          [innerHTML]="crumb.label"
+        ></a>
+        <ng-container *ngIf="!islast">  &nbsp;<span [wsFS]="'14px'" [wsFC]="'--ws-brand-00'" [ngClass]="{'separator': !islast}">></span>&nbsp; </ng-container>
+      </li>
+    </ol>
+    <ng-container *ngIf="title$ | async as title">
+      &nbsp;<span *ngIf="title && title !== 'Full Catalog'" [wsFS]="'14px'" [wsFC]="'--ws-brand-00'" class="separator">></span>&nbsp;
+      <span *ngIf="title && title !== 'Full Catalog'" [wsFS]="'14px'" [wsFC]="'--ws-brand-700'" class="breadcrumb-truncate">{{ title }}</span>
+      </ng-container>
+  </nav>
+  <!-- Hidden page title for Screen Reader initialized after view to avoid old values -->
+  <span class="cx-visually-hidden" aria-live="polite" aria-atomic="true">
+    {{ lastestTitle$ | async }}
+  </span>

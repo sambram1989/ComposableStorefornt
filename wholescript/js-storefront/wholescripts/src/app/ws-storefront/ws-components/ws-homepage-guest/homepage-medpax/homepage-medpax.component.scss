@@ -1,0 +1,146 @@
+section.medpax {
+	padding: 130px 0;
+}
+
+.container-full {
+    margin: 0 15%;
+	@media screen and (max-width: 992px) { 
+		margin: 0 5rem;
+	}
+	@media screen and (max-width: 576px) { 
+	margin: 0 1rem;
+	}
+}
+
+section.medpax div.left {
+    padding: 0 4rem;
+    width: auto;
+	@media screen and (max-width: 992px) {
+		padding: 0 1rem;
+	}
+}
+
+.pattern-bg2 {
+	background: url("/assets/images/home/dot-pattern-left.svg") top left -5% no-repeat, url("/assets/images/home/dot-pattern-right.svg") bottom right -5% no-repeat;
+	background-size: 400px;
+	background-size: clamp(350px, 25vw, 470px);
+	@media screen and (max-width: 992px) {
+			background-size: 300px;
+	}
+}
+
+.patient-actions {
+	display: flex;
+	align-items: center;
+	@media screen and (max-width: 992px) { 
+		flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+		.btn-primary {
+			margin: 0 1rem !important;
+		}
+	}
+}
+
+div.medpax-box {
+	border-top: solid 35px #584091;
+	border-radius: 20px;
+	background: #fff;
+	overflow: hidden;
+	padding-bottom: 4rem;
+}
+
+div.medpax-box .pills {
+	width: 100%;
+	margin-left: 50%;
+	min-width: 800px;
+	transform: translateX(-50%);
+	img {
+		object-fit: cover;
+	}
+	@media screen and (max-width: 992px) { 
+		min-width: auto;
+	}
+}
+
+div.medpax-box .mp-logo {
+	display: block;
+	margin: auto;
+	width: 10rem;
+	margin-top: 4rem;
+}
+
+div.medpax-box .mp-title {
+	text-align: center;
+	margin: 4rem 15rem 9.375rem 15rem;
+	@media screen and (max-width: 992px) { 
+		margin: 1rem;
+	}
+	h4 {
+		max-width: 600px;
+	}
+}
+
+.mp-info .grid {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+}
+
+.mp-imgs {
+	display: flex;
+	align-items: center;
+	@media screen and (max-width: 992px) {
+		display: none;
+	 }
+}
+
+.mp-imgs img,
+.mp-mobile-img cx-media {
+	width: 100%;
+}
+
+.mp-mobile-img {
+	display: none;
+	@media screen and (max-width: 992px) {
+		display: block;
+	 }
+}
+
+section.get-started {
+	background: #fff;
+}
+
+section.get-started div {
+	text-align: center;
+	padding: 4rem 15rem;
+}
+
+section.get-started div h2 {
+	position: relative;
+	z-index: 1;
+	display: inline-block;
+}
+
+section.get-started div h2 img {
+	position: absolute;
+	left: -0.5rem;
+	top: -0.5rem;
+	z-index: -1;
+}
+
+div.white-space {
+	background: #fff;
+	height: 50px;
+	margin-bottom: -100px;
+}
+
+.mp-mobile-img {
+	@media screen and (max-width: 992px) {
+	margin: 3rem -1rem 3rem 0;
+	}
+}
+
+.bg-clr {
+	background: rgba(0, 0, 0, 0.01);
+  }

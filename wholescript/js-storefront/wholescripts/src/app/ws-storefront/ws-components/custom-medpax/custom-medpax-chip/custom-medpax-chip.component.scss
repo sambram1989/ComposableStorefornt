@@ -1,0 +1,22 @@
+.btn-selected{
+    background-color: var(--ws-brand-500) !important;
+    border: solid 1px var(--cx-color-link-primary) !important;
+    color: var(--cx-color-inverse) !important;
+}
+.btn-h {
+    font-size: 16px;
+    min-height: unset !important;
+    height: 40px !important;
+ }
+ @media(max-width: 1441px) {
+    .btn-h {
+        font-size: 14px;
+    }
+ }
+
+ button:focus {
+    outline: 3px solid var(--cx-color-darkest) !important;
+    outline-offset: 2px !important;
+    box-shadow: unset;
+}
+ 

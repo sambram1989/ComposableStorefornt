@@ -1,0 +1,10 @@
+.animated-card:focus-visible {
+    outline: 3px solid var(--cx-color-darkest) !important;
+    outline-offset: 2px !important;
+    box-shadow: unset;
+}
+.card-description{
+    p{
+    background: rgba(0, 0, 0, 0.01);
+    }
+}

@@ -1,0 +1,78 @@
+.search-page-faqs {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+
+    .search-faqs-wrapper {
+        display: flex;
+        align-items: flex-start;
+        align-content: flex-start;
+        align-self: stretch;
+        flex-wrap: wrap;
+        gap: 2%;
+        width: 100%;
+        row-gap: 16px;
+
+        .faq-card {
+            border-bottom: 1px solid var(--ws-gray-light-alt);
+            padding: 10px 0;
+            width: 49%;
+            @media(max-width:990px) {
+                width: 100%;
+            }
+
+            &:first-of-type {
+                border-top: 1px solid var(--ws-gray-light-alt);
+            }
+
+            .accordion {
+                background-color: unset;
+                border: none;
+                outline: none;
+                cursor: pointer;
+                display: grid;
+                grid-template-columns: 1fr auto;
+                width: 100%;
+                gap: 5px;
+
+                &:focus {
+                    outline: none !important;
+                    box-shadow: none !important;
+                }
+
+                .faq-card-question {
+                    text-align: left;
+                    margin: 0;
+                    color: #101828;
+                    font-size: 18px;
+                    font-weight: 400;
+                    line-height: 28px;
+                }
+
+                .chevron {
+                    margin-left: 10px;
+                    font-size: 18px;
+                    color: var(--ws-base-black) !important;
+                }
+            }
+
+            .panel {
+                transition: max-height 0.2s ease-out;
+
+                p {
+                    font-weight: 500;
+                    font-size: 16px;
+                    line-height: 24px;
+                }
+
+                .faq-card-answer {
+                    padding-top: 20px;
+                    color: var(--ws-gray-light-600);
+                    font-size: 16px;
+                    font-weight: 300;
+                    line-height: 24px;
+                }
+            }
+        }
+    }
+}

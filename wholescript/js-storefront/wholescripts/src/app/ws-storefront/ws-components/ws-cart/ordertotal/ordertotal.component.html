@@ -1,0 +1,123 @@
+<div class="checkout-top">
+    <ws-proceed-to-checkout></ws-proceed-to-checkout>
+</div>
+    @if(cart$ | async ; as cart){
+    <ws-cartboxstyle>
+        <h5 cartHeader class="fw-900">Order total</h5>
+      
+        <div cartBody class="cart-body">
+            <ws-promocode [isUserLoggedOut]="!isUserLoggedIn()"></ws-promocode>
+            @if(!(isCartPage$ | async) ; as isNotCartPage) {
+                <ws-title-body-content *ngIf="cart?.deliveryAddress?.town">
+                    <div cartHeader>
+                        <div class="d-flex justify-content-between">
+                            <p class="text-section-head mb-0">Shipping address:</p>
+                        </div>
+                    </div>
+                    <div cartBody>
+                        <div class="body-container">
+                            <div>
+                                <p class="mb-1">
+                                    {{ cart?.deliveryAddress?.firstName }} {{ cart?.deliveryAddress?.lastName }}
+                                </p>
+                                <p class="mb-0">{{ cart?.deliveryAddress?.formattedAddress }}</p>
+                            </div>
+                            <a class="text-primary bolder"
+                            [routerLink]="{ cxRoute: 'checkoutDeliveryAddress' } | cxUrl">Edit</a>
+                        </div>
+                    </div>
+                </ws-title-body-content>
+    
+                <ws-title-body-content *ngIf=" cart?.deliveryCost?.formattedValue">
+                    <div cartHeader>
+                        <div class="d-flex justify-content-between shipping-method">
+                            <p class="text-section-head mb-0">Shipping method:</p>
+                        </div>
+                    </div>
+                    <div cartBody>
+                        <div class="body-container">
+                            <div>
+                                {{ cart?.deliveryMode?.name }}
+                            </div>
+                            <a class="text-primary bolder" [routerLink]="{ cxRoute: 'checkoutDeliveryMode' } | cxUrl">Edit</a>
+                        </div>
+                    </div>
+                </ws-title-body-content>
+    
+                <ws-title-body-content *ngIf="cart?.paymentInfo?.cardNumber || cart?.paymentType?.displayName ">
+                    <div cartHeader>
+                        <div class="d-flex justify-content-between payment-method">
+                            <p class="text-section-head mb-0">Payment method:</p>       
+                        
+                        </div>
+                    </div>
+                    <div cartBody>
+                        @if(cart?.paymentInfo?.cardNumber){
+                            <div class="body-container">
+                                <div class="card-details">
+                                    <img *ngIf="cart?.paymentInfo" [src]="getCardImage(cart?.paymentInfo)" [alt]="cart?.paymentInfo?.cardType?.name" />
+                                    {{ cart?.paymentInfo?.cardType?.name.toLocaleUpperCase() }} ending in
+                                    {{ cart?.paymentInfo?.cardNumber.slice(-4) }}
+                                    <div>
+                                        Exp. Date: {{ cart?.paymentInfo?.expiryMonth.slice(-1) }}/{{ cart?.paymentInfo?.expiryYear.slice(-2) }}
+                                    </div>
+                                </div>
+                                <a class="text-primary bolder" [routerLink]="{ cxRoute: 'checkoutPaymentDetails' } | cxUrl">Edit</a>
+                            </div>
+                        }@else {
+                            <div class="body-container">
+                                <div>
+                                    <span class="fa fa-phone"></span>
+                                    {{cart?.paymentType?.displayName}}
+                                </div>
+                                <a class="text-primary bolder" [routerLink]="{ cxRoute: 'checkoutPaymentDetails' } | cxUrl">Edit</a>
+                            </div>
+                        }
+                    </div>
+                </ws-title-body-content>
+            }
+        </div>
+        
+        <div cartbottom>
+            <div class="row mb-1" *ngIf="cart?.subTotal?.value || isFriendsFamily">
+                <div class="col-6 text-left bolder">
+                    Subtotal:
+                </div>
+                <div class="col-6 bold text-right ng-binding">
+                    {{cart?.subTotal?.formattedValue}}
+                </div>
+            </div>
+            <div class="row mb-1">
+                <div class="col-6 text-left bolder">
+                    Shipping:
+                </div>
+                <div class="col-6 bold text-right ng-binding">
+                    Calculated during checkout
+                </div>
+            </div>
+            <div class="row mb-1" *ngIf="cart?.totalDiscounts?.value || isFriendsFamily">
+                <div class="col-6 text-left bolder">
+                    Discount:
+                </div>
+                <div class="col-6 bold text-right text-danger">
+                    ({{cart?.totalDiscounts?.formattedValue}})
+                </div>
+            </div>
+            <hr>
+    
+            <div class="row mb-0 estimated-total" *ngIf="cart?.totalPrice?.value || isFriendsFamily">
+                <div class=" bolder col-6 text-left">
+                    Estimated total:
+                </div>
+                <div class="col-6 bolder text-right ng-binding">
+                    ${{cart?.totalPrice?.value - (cart?.totalTax?.value || 0) - (cart?.deliveryCost?.value || 0) | number : "1.2-2"}}
+                </div>
+            </div>
+        </div>
+    </ws-cartboxstyle>
+    }
+    <div class="mt-3 ml-2 ">
+        <cx-page-slot position="SSLParagraphContent">
+        </cx-page-slot>
+    </div>
+    <ng-container *ngIf="isUserLoggedIn$|async"></ng-container>

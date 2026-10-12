@@ -1,0 +1,13 @@
+@charset "utf-8";
+@import "./support/wholescriptsbackofficewidget-variables.scss";
+
+.yw-labelstyle
+{
+	color: $wholescriptsbackoffice-label-text-color;
+}
+
+.wholescriptsbackoffice-container {
+	background: $wholescriptsbackoffice-container-background;
+	font-family: $wholescriptsbackoffice-container-font-family;
+	font-size: $wholescriptsbackoffice-container-font-size;
+}

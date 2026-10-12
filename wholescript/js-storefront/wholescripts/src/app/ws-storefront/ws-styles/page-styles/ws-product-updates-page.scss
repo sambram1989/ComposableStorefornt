@@ -1,0 +1,94 @@
+.ProductUpdatesPageTemplate {
+    .TitleSlot {
+        background-color: #f6f6f6;
+        background-image: url(/assets/icons/common_icons/ws.svg), url(/assets/icons/common_icons/dots40.svg);
+        background-size: 80px, auto 160%;
+        background-repeat: no-repeat, no-repeat;
+        background-position: 96% center, left center;
+        position: relative;
+        height: 164px;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        box-shadow: inset 0px -20px 15px -14px #dddaef;
+        padding: 0 15px;
+
+        @media(min-width: 576px) {
+            height: 200px;
+            background-size: 144px, auto 160%;
+            padding: 0 40px;
+        }
+
+        @media(min-width: 1220px) {
+            height: 256px;
+            background-size: 300px, auto 160%;
+            background-position: 90% center, left center;
+        }
+
+        cx-paragraph {
+
+            div {
+                font-size: 35px;
+                line-height: 42px;
+                font-weight: 900;
+                margin-bottom: .5rem;
+
+                @media(min-width: 576px) {
+                    font-size: 45px;
+                    line-height: 67px;
+                }
+
+                @media(min-width: 1220px) {
+                    font-size: 54px;
+                    line-height: 64px;
+                }
+
+                @media(min-width: 1150px) {
+                    padding-left: calc(15vw - 40px);
+                }
+            }
+
+        }
+    }
+    .DescriptionSlot {
+        max-width: 100%;
+        padding-left: 32px;
+        padding-right: 32px;
+
+        @media(max-width: 991px) {
+            padding-left: 15px;
+            padding-right: 15px;
+        }
+
+        cx-paragraph {
+            div {
+                font-weight: 400;
+                margin-top: 3rem;
+                margin-bottom: 1rem;
+                font-size: 20px;
+            }
+        }
+    }
+    .BodySlot {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 32px;
+        margin-bottom: 100px;
+        max-width: 100%;
+        padding-left: 32px;
+        padding-right: 32px;
+
+        @media(max-width: 991px) {
+            padding-left: 15px;
+            padding-right: 15px;
+        }
+
+        ws-available-supplies-last-products, ws-discontinued-products {
+            flex: 1;
+            min-width: 576px;
+            @media(max-width: 575px) {
+                min-width: 100%;
+            }
+        }
+    }
+}

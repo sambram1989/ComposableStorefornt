@@ -1,0 +1,69 @@
+<div class="patient-protocol-container">
+  <ng-container *ngIf="protocollist()?.protocolsListWsDto?.length" >
+    <div class="protocols-header">
+        <div class="d-flex justify-content-between">
+            <h4 class="bolder m-0"><i class="fa fa-clipboard text-success"></i> &nbsp;Practitioner Protocols </h4>
+            <div class="form-group mb-0">
+              <ws-formcontrol-input 
+                [wsControlName]="sortControl"
+                [isSelectBox]="true"
+                [selectBoxData]="sortArray"
+                [wsLabel]="'Sort By'" 
+                [isShowStart]="false">
+             </ws-formcontrol-input>
+            </div>
+        </div>
+        </div>
+    <div>
+        <cx-page-slot position="PatientProtocolsBannerSlot"></cx-page-slot>
+    </div>
+    <div>
+        @for(protocolList of protocollist()?.protocolsListWsDto;track protocolList ){
+        <ws-protocol-list [protocolList]="protocolList" (emitAddToCartEvent)="showToasterMsg(protocolList?.name)">  </ws-protocol-list>
+        }
+        <div class="pagination-style">
+            <div class="pagination">
+              <ws-pagination-entry-list
+                [endLine]="''"
+                [itemPerPage]="itemPerPage"
+                [totalItems]="totalItems"
+                [currentPage]="currentPage"
+              ></ws-pagination-entry-list>
+            </div>
+            <div class="pagination">
+              <ws-pagination
+                [resetReposition]="true"
+                (currentPageChange)="pageChanged($event)"
+                [itemsPerPage]="itemPerPage"
+                [totalItems]="totalItems"
+                [numberOfPagesNeedTOBeShown]="itemPerPage"
+                aria-label="Pagination controls"
+              ></ws-pagination>
+            </div>
+          </div>
+    </div>
+    </ng-container>
+    
+    <div *ngIf="!protocollist()?.protocolsListWsDto?.length" class="no-results-container">
+        <img src="/assets/qa/accurals-search.svg" />
+        <h2>No results found</h2>
+        <p class="description">
+            There are no shared protocols at this time. Please check back later
+        </p>
+    </div>
+</div>
+
+<ng-template #moreInfoPopUp>
+  <ws-patient-protocol  ></ws-patient-protocol>
+</ng-template>
+
+<div class="toast-wrapper" *ngIf="toastMessage">
+  <div class="toast">
+      <div class="d-flex toast-header">
+          <div class="d-flex toast-header-message-wrapper">
+              <p>{{toastMessage}}</p>
+              <i class="fa fa-close" (click)="toastMessage = ''"></i>
+          </div>
+      </div>
+  </div>
+</div>

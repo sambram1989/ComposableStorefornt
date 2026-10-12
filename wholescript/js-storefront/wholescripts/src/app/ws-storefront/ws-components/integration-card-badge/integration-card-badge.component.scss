@@ -1,0 +1,14 @@
+.integration-badge {
+    background: var(--ws-success-50);
+    font-weight: 900;
+    padding: 10px;
+    border-radius: 3px 0 0 3px;
+    position: absolute;
+    top: 15px;
+    right: 0;
+    color: #082213;
+    font-size: 16px;
+    min-height: 34px;
+    max-height: 34px;
+    width: fit-content;
+}

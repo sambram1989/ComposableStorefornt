@@ -1,0 +1,10 @@
+#product-updates-pagination-wrapper {
+    .pagination {
+        .page-item {
+            cursor: pointer;
+            .page-link {
+                color: #3e3b49 !important;
+            }
+        }
+    }
+}

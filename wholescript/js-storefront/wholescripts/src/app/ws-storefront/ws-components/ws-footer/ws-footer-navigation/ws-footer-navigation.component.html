@@ -1,0 +1,66 @@
+<footer class="footer">
+  <div *ngIf="nodeTab$ | async as node" class="footer-container">
+    <div *ngFor = "let child of node?.children[0].children; index as i" class="footer-section">
+      <h4>{{ linkHeadings[i] }}</h4>
+      <ul>
+        <li *ngFor = "let link of child.children"><a (click)="getLinkNavigation(link.url)" tabindex="0">{{ link.title }}</a></li>
+        <a *ngIf = "i === 3 && isPractitioner" (click)="openDemoCalender()" class="btn" tabindex="0">Schedule a demo</a>
+      </ul> 
+    </div>
+
+    <div class="footer-section contact">
+      @if(this.cmsService.getComponentData('WholescriptfooterLogo')|async ; as getComponentData){
+        <cx-media [container]="$any(getComponentData)?.media"></cx-media>
+      }
+      <address>
+        @for( data of addressSlot; track data){
+          @if(this.cmsService.getComponentData(data.uid)|async ; as getComponentData){
+          <div *ngIf="$any(getComponentData)?.typeCode === 'CMSParagraphComponent'"
+            [innerHTML]="$any(getComponentData)?.content">
+          </div>
+          <p *ngIf="$any(getComponentData)?.typeCode === 'CMSLinkComponent'">
+            @if ($any(getComponentData)?.uid === 'wholescriptsaddressLinkComponent') {
+              <a [href]="$any(getComponentData)?.url" target="_blank" rel="noopener noreferrer" tabindex="0">
+                {{ $any(getComponentData)?.linkName }}
+              </a>
+            }
+            @if ($any(getComponentData)?.uid === 'wholescriptsTimingParaComponent') {
+              <div>{{ $any(getComponentData)?.linkName }}</div>
+            }
+            @if ($any(getComponentData)?.uid === 'wholescriptsPhonenoLinkComponent') {
+              <a [href]="$any(getComponentData)?.url" tabindex="0">
+                {{ $any(getComponentData)?.linkName }}
+              </a>
+            }
+            @if ($any(getComponentData)?.uid === 'wholescriptsEmailLinkComponent') {
+              <a [href]="$any(getComponentData)?.url" tabindex="0">
+                {{ $any(getComponentData)?.linkName }}
+              </a>
+            }
+          </p>
+          }
+        }
+      </address>
+      <div class="social-icons">
+        @for( data of socialIcons; track data){
+          @if(this.cmsService.getComponentData(data.uid)|async ; as getComponentData){
+        <a  target="_blank" [href]="$any(getComponentData)?.urlLink" rel="noopener noreferrer" tabindex="0"><cx-media [container]="$any(getComponentData)?.media" [alt]="$any(getComponentData)?.media?.altText"></cx-media></a>
+      }
+    }
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div>
+    <p> © {{ currentYear }} WholeScripts®. All rights reserved.</p>
+    <p class="font-xs" *ngIf="disclaimer$ | async as disclaimer"> {{ disclaimer.content }}</p>
+    </div>
+    <ul>
+      @for( data of FooterNav; track data){
+        @if(this.cmsService.getComponentData(data.uid)|async ; as getComponentData){
+      <li *ngIf="$any(getComponentData)?.typeCode === 'CMSLinkComponent'"><a [routerLink]="$any(getComponentData)?.url">{{ $any(getComponentData)?.linkName }}</a> <span>|</span></li>
+        }
+      }
+    </ul>
+  </div>
+</footer>

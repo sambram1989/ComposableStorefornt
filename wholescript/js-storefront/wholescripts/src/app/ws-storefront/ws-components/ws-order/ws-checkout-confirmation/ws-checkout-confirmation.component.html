@@ -1,0 +1,219 @@
+<div *ngIf="order$ | async as order" class="container-fluid container-fixed-lg checkout-completed-container"
+    style="margin-bottom:10rem;">
+
+    <div>
+        <div class="container-fluid p-0 m-0">
+            <div class="col-5 pull-right text-right mb-2">
+            </div>
+            <div class="text-center">
+                <div class="bg-success round mt-5 order-complete-success" id="success-check" role="presentation">
+                    <div><i class="fa fa-check text-white"></i></div>
+                </div>
+                <h1 class="text-success page-title pt-2">
+                    <cx-page-slot position="wsThankyouParagraph" title="page-heading-slot" aria-label="page-heading-slot">
+                    </cx-page-slot>
+                </h1>
+                <h6>
+                    Order #{{ order?.code }}
+                </h6>
+                <p>
+                    <cx-page-slot position="wsContactUsParagraph" title="page-contact-us" aria-label="page-contact-us">
+                    </cx-page-slot>
+                </p>
+            </div>
+            <div class="text-center my-3">
+                <cx-page-slot position="wsOrderHistoryTopTextLink" title="page-link" aria-label="page-link">
+                </cx-page-slot>
+            </div>
+            <section class="section-content padding-y pt-3">
+                <div class="row">
+                    <div class="col-md-8">
+                        <cx-promotions [promotions]="(order?.appliedOrderPromotions || []).concat(order?.potentialOrderPromotions || [])"></cx-promotions>
+                        <div class="card">
+                            <div class="card-header bg-gray text-dark pt-3 pb-3">
+                                <div class="card-title v-align-middle">
+                                    Order Summary
+                                </div>
+                            </div>
+                            <div class="card-body p-2">
+                                <div id="products-shopping-cart" class="container-fluid p-2">
+                                    @for(entry of order.entries ; track entry){
+                                        <ws-order-confirmation-product-card
+                                        [cartData]="order"
+                                        [entry]="entry?.isMedPax ? entry.actualDetails : entry"
+                                        [isMedPax]="entry?.isMedPax"
+                                        >
+                                        </ws-order-confirmation-product-card>
+                                        
+                                        <div *ngIf="entry?.isMedPax" class="cx-item-list-row">
+                                            <ws-medpax-entry-cart [medpaxItem]="entry?.subEntries"></ws-medpax-entry-cart>
+                                      </div>
+                                    }
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        <p class="w-100 text-right">
+                            <cx-page-slot position="wsOrderHistoryButtonLink" title="order-history-link" aria-label="order-history-link">
+                            </cx-page-slot>
+                        </p>
+                    </div>
+                    <aside class="col-md-4">
+                        <div class="card" *ngIf="$any(order)?.purchaseOrderNumber">
+                            <div class="card-header bg-gray py-3">
+                                <div class="card-title text-dark v-align-middle">
+                                    Purchase Order
+                                </div>
+                            </div>
+                            <div class="card-body p-4">
+                                <div>
+                                    {{$any(order)?.purchaseOrderNumber}}
+                                </div>
+                                <div class="fs-14 mt-3">
+                                    For your reference only. Not reviewed by customer service.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header bg-gray text-dark pt-3 pb-3">
+                                <div class="card-title v-align-middle">
+                                    Payment Method
+                                </div>
+                            </div>
+                            <div class="card-body p-4">
+                                @if($any(order)?.paymentInfo?.cardNumber){
+                                    <dl class="dlist-align">
+                                        <span class="fa fa-credit-card"></span>
+                                        {{ $any(order)?.paymentInfo?.cardType?.name }} ending in
+                                        {{ cardNumber || $any(order)?.paymentInfo?.cardNumber }} 
+                                        <hr />
+                                        {{ $any(order)?.paymentInfo?.billingAddress?.formattedAddress }}
+                                    </dl>
+                                    }@else {
+                                    <dl class="dlist-align">
+                                        <span class="fa fa-phone"></span>
+                                       {{$any(order)?.paymentType?.displayName}}
+                                    </dl>
+                                    }
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header bg-gray text-dark pt-3 pb-3">
+                                <div class="card-title v-align-middle">
+                                    Shipping Address
+                                </div>
+                            </div>
+                            <div class="card-body p-4 shipping-address">
+                                {{$any(order)?.deliveryAddress?.firstName}}{{$any(order)?.deliveryAddress?.lastName}}<br>
+                                {{ $any(order)?.deliveryAddress?.formattedAddress }}
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header bg-gray text-dark pt-3 pb-3 ">
+                                <div class="card-title v-align-middle">
+                                    Shipping Method
+                                </div>
+                            </div>
+                            <div class="card-body p-4">
+                                <dl class="dlist-align">
+                                    <dd class="float-right">
+                                        {{ $any(order)?.deliveryCost?.formattedValue }}
+                                    </dd>
+                                    <dd>
+                                        <span class="fa fa-truck"></span>
+                                        {{$any(order)?.deliveryMode?.name}}
+                                    </dd>
+                                </dl>
+                            </div>
+                        </div>
+
+                        <div class="card mt-1 ng-scope">
+                            <div class="card-header bg-gray text-dark pt-3 pb-3">
+                                <div class="card-title v-align-middle">
+                                    Order Total
+                                </div>
+                            </div>
+
+                            <div class="loadingSection ng-hide">
+                            </div>
+
+                            <div class="card-body p-4">
+
+                                <div class="row pb-2">
+                                    <div class="col-6 text-left bolder">
+                                        Subtotal:
+                                    </div>
+                                    <div class="col-6 bold text-right ng-binding">
+                                        {{ order?.subTotal?.formattedValue }}
+                                    </div>
+                                </div>
+                                <div class="row pb-2" *ngIf="order?.totalDiscounts?.value > 0 || isFriendsFamily">
+                                    <div class="col-6 text-left bolder">
+                                        Discounts:
+                                    </div>
+                                    <div class="col-6 bold text-right text-danger ng-binding">
+                                        ({{ order?.totalDiscounts?.formattedValue }})
+                                    </div>
+                                </div>
+                                <div class="row" *ngIf="$any(order)?.deliveryCost?.value >= 0 || isFriendsFamily">
+                                    <div class="col-6 text-left bolder">
+                                        Shipping:
+                                    </div>
+                                    <div class="col-6 bold text-right ng-binding">
+                                        {{ $any(order)?.deliveryCost?.formattedValue }}
+                                    </div>
+                                </div>
+                                <div class="row" *ngIf="order?.totalTax?.value > 0 || isFriendsFamily">
+                                    <div class="col-6 text-left bolder">
+                                        Tax:
+                                    </div>
+                                    <div class="col-6 bold text-right ng-binding">
+                                        {{ order?.totalTax?.formattedValue }}
+                                    </div>
+                                </div>
+                                <!-- TODO as of now no promoCode need to do in future -->
+                                <!-- <hr>
+                                <div class="row mb-0 ng-hide">
+                                    <div class="col-6 text-left bolder">Promo Code</div>
+                                    <div class="col-6 bold text-right pl-0">
+                                        <div id="promoOn">
+                                            <div class="bolder"></div>
+                                        </div>
+                                    </div>
+                                </div> -->
+                                <hr>
+                                <div class="row mb-0">
+                                    <div class=" bolder col-6 text-left">
+                                        TOTAL:
+                                    </div>
+                                    <div class="col-6 bolder text-right ng-binding">
+                                        {{ order?.success == false ? '$0.00' : order?.totalPrice?.formattedValue }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="row m-auto p-0">
+                            <div class="col-12 p-0">
+                                <div class="col-12 row align-items-center mb-2"> 
+                                    <img
+                                        src="../../../../../assets/icons/common_icons/shield-text.svg"
+                                        alt="shield-text"
+                                        style="width: 20px"
+                                    />
+                                    <cx-page-slot position="wsSecureCheckoutParagraph"
+                                    title="secure-checkout" aria-label="secure-checkout">
+                                    </cx-page-slot>
+                                </div>
+                            </div>
+                        </div>
+
+                    </aside>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+
+

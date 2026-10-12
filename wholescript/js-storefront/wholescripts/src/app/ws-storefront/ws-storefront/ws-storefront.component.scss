@@ -1,0 +1,146 @@
+header .left-menu-button {
+  display: none;
+}
+
+.freeShippingBannerWrapper {
+  width: 100%;
+  display: block;
+
+  @media screen and (max-width: 768px) {
+    display: none !important;
+  }
+}
+
+.sidebar-menu-sec {
+  padding: 16px !important;
+  padding-bottom: 100px !important;
+  left: 0;
+  z-index: 1;
+  background: var(--cx-color-inverse) !important;
+  bottom: 0;
+  border-right: 1px solid var(--ws-gray-light-200);
+  top: 0;
+
+  
+  @media only screen and (min-width: 992px) {
+    cx-page-slot.TopHeaderSlot {
+      position: fixed;
+      width: 14%; 
+    }
+  }
+}
+
+.main-layout {
+  padding: 0;
+
+  @media only screen and (max-width: 768px) {
+    padding: 0 !important; // For mobile screens, remove parent padding if needed.
+  }
+
+  > .Breadcrumb {
+    padding: 0 !important; // Explicitly override for .Breadcrumb to ensure no padding is applied.
+  }
+}
+
+
+.menu-overlay {
+  margin: 0;
+  padding: 0;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 99999;
+  background: linear-gradient(0deg, #0c111dbd, #0c111d6b);
+  opacity: 1;
+  backdrop-filter: blur(15px);
+  display: none;
+}
+
+.main-outlet {
+  max-width: 100%;
+  overflow: hidden;
+  padding-top: 80px;
+
+  @media only screen and (max-width: 768px) {
+    display: block;
+  }
+}
+
+@media only screen and (max-width: 991px) {
+  header .left-menu-button {
+    display: flex;
+    height: 24px;
+    width: 24px;
+  }
+
+  .sidebar-menu-sec {
+    left: -100% !important;
+    top: 0;
+    z-index: 999999;
+    height: 100vh !important;
+    max-width: 400px !important;
+    width: 100%;
+    position: fixed;
+    overflow: auto;
+    visibility: hidden;
+    transition: all 0.3s ease-in-out;
+    opacity: 0;
+
+    &.is-expanded {
+      visibility: visible;
+      left: 0 !important;
+      opacity: 1;
+    }
+  }
+
+  .menu-overlay {
+    display: none;
+
+    &.is-expanded {
+      display: block;
+    }
+  }
+
+
+
+}
+
+@media only screen and (max-width: 480px) {
+  .sidebar-menu-sec {
+    max-width: 312px !important;
+  }
+
+  .main-layout {
+    padding: 80px 12px 12px 12px !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .ws-left-menu-buttons {
+    padding: 15px 0;
+  }
+}
+
+.b-guest {
+  .Breadcrumb {
+    margin-top: 70px;
+
+    &:empty {
+      margin-top: 0;
+    }
+  }
+}
+
+
+.cart-page-loader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  z-index: 9;
+  left: 40%;
+  top: 10%;
+}
+

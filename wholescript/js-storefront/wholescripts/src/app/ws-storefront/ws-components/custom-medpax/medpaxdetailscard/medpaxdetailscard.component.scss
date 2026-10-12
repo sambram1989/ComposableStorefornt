@@ -1,0 +1,64 @@
+::ng-deep {
+    .alert {
+         position: unset !important;  
+         width: auto; 
+         max-width: unset !important;
+         z-index: unset !important; 
+    }
+}
+.sum-header {
+    font-weight: 700;
+    padding: .5rem 1rem;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+}
+
+@media(min-width: 576px) {
+
+    .sum-body,
+    .sum-header {
+        border: 1px solid var(--ws-custom-border-color);
+    }
+
+    .sum-body {
+        padding: 0 .75rem .75rem .75rem;
+        background: var(--ws-base-white);
+        border-bottom-left-radius: 3px;
+        border-bottom-right-radius: 3px;
+    }
+}
+
+.sum-header {
+    background: #EEF0F1;
+    color: var(--ws-gray-light-700);
+}
+
+.sum-details {
+    background: var(--ws-base-white);
+    div>div{
+        img{
+            width: 20px;
+        }
+    }
+}
+
+.alert-info {
+    background-color: var(--ws-cyan-25);
+    color: var(--ws-gray-light-700);
+    border: 1px solid var(--ws-cyan-700);
+}
+
+.alert {
+    padding: 0.75rem 1.25rem;
+    width: 100%;
+    font-weight: 500;
+    border-radius: 5px !important;
+}
+
+.carton-medpax-img{
+    width: 100%;
+}
+.align-items {
+    justify-content: space-evenly;
+    margin: 1rem 0 1rem 0;
+}

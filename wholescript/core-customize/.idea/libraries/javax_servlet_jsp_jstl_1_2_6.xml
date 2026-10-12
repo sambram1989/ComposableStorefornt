@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="javax.servlet.jsp.jstl-1.2.6">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/hybris/bin/custom/Wholescriptscore/web/webroot/WEB-INF/lib/javax.servlet.jsp.jstl-1.2.5.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

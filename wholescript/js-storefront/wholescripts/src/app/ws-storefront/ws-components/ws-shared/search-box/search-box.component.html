@@ -1,0 +1,26 @@
+<div class="search-container">
+    <div class="input-wrapper">
+      <input 
+        type="text" 
+        [placeholder]="placeholder" 
+        [disabled]="isDisable" 
+        [formControl]="searchControl" 
+        (focus)="isFocused = true" 
+        (blur)="isFocused = false"
+        aria-label="Search"
+        [maxlength]="maxLength ? maxLength : null"
+      />
+      <span 
+        class="input-icons" 
+        role="button" 
+        tabindex="0" 
+        aria-label="Clear Search"
+        [attr.aria-hidden]="searchControl?.value?.length === 0 ? 'true' : 'false'" 
+        aria-live="polite"
+        (keydown)="handleClearSearchKey($event)" 
+      >
+        <i class="fas fa-times" *ngIf="searchControl?.value?.length > 0" (click)="clearSearch()"></i>
+        <i class="fa fa-search" *ngIf="!searchControl.value"></i>
+      </span>
+    </div>
+</div>

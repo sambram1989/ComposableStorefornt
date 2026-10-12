@@ -1,0 +1,271 @@
+<hr class="my-2" >
+<div class="accruals-container">
+  <div class="accruals-header">
+    <h2><b>Accruals</b></h2>
+    <p>
+      See your earnings grow with detailed commission fee reports from patient
+      orders.
+    </p>
+    <div class="info-box d-flex align-items-start">
+      <div>
+        <svg
+          width="32"
+          height="32"
+          viewBox="0 0 32 32"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <mask
+            id="mask0_3316_10231"
+            style="mask-type: alpha"
+            maskUnits="userSpaceOnUse"
+            x="0"
+            y="0"
+            width="32"
+            height="32"
+          >
+            <rect
+              width="32"
+              height="32"
+              fill="url(#paint0_linear_3316_10231)"
+            />
+          </mask>
+          <g mask="url(#mask0_3316_10231)">
+            <path
+              d="M14.25 1.58771C15.3329 0.962498 16.6671 0.962498 17.75 1.58771L27.6064 7.27831C28.6893 7.90353 29.3564 9.05897 29.3564 10.3094V21.6906C29.3564 22.941 28.6893 24.0965 27.6064 24.7217L17.75 30.4123C16.6671 31.0375 15.3329 31.0375 14.25 30.4123L4.39359 24.7217C3.31069 24.0965 2.64359 22.941 2.64359 21.6906V10.3094C2.64359 9.05897 3.31069 7.90353 4.39359 7.27831L14.25 1.58771Z"
+              fill="#ECFDFF"
+              stroke="#0E7090"
+            />
+          </g>
+          <path
+            d="M16.875 10.5V17.5C16.875 17.9922 16.4648 18.375 16 18.375C15.5078 18.375 15.125 17.9922 15.125 17.5V10.5C15.125 10.0352 15.5078 9.625 16 9.625C16.4648 9.625 16.875 10.0352 16.875 10.5ZM16 21.875C15.5898 21.875 15.2344 21.6836 15.043 21.3281C14.8516 21 14.8516 20.5898 15.043 20.2344C15.2344 19.9062 15.5898 19.6875 16 19.6875C16.3828 19.6875 16.7383 19.9062 16.9297 20.2344C17.1211 20.5898 17.1211 21 16.9297 21.3281C16.7383 21.6836 16.3828 21.875 16 21.875Z"
+            fill="#155B75"
+          />
+          <defs>
+            <linearGradient
+              id="paint0_linear_3316_10231"
+              x1="16"
+              y1="0"
+              x2="16"
+              y2="30.5"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop />
+              <stop offset="1" stop-opacity="0" />
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+      <div>
+        <p>
+          Consultation Fees do not include WholeScripts Pharmacy orders,
+          shipping or taxes and are calculated at the item level (percentage
+          given on each eligible product, not on the order total).
+        </p>
+        <p>
+          Patient discounts are subtracted from consultation fees. You must have
+          a minimum accrual of $500 on your account, before payment is issued.
+        </p>
+        <p>Consultation fee checks are mailed out by the end of the following month.</p>
+      </div>
+    </div>
+    <hr>
+  </div>
+
+  <div class="accruals-filters">
+    <div class="col-12 mt-3">
+      <label for="referral">Referral code selected:</label>
+      <select style="width: 30%" id="referral" [(ngModel)]="selectedReferral" (change)="getSelection($event, 'referral')">
+        <option [value]="0">
+          All
+        </option>
+        <option [value]="'Unassigned'">
+          Unassigned
+        </option>
+        <option *ngFor="let referral of referrals; index as i" [value]="referral">
+          {{ referral }}
+        </option>
+      </select>
+    </div>
+    <hr>
+    <div class="mt-3 col-12 {{isMobile ? 'd-block' : 'd-flex'}}">
+      <label for="month">Month</label>
+      <div class="{{isMobile ? 'col-12 p-0 m-0' : 'col-4'}} row selects">
+        <select
+          (change)="getSelection($event, 'month')"
+          id="month"
+          [(ngModel)]="selectedMonth"
+        >
+          <option *ngFor="let month of months; index as i" [value]="i">
+            {{ month }}
+          </option>
+        </select>
+        <select
+          (change)="getSelection($event, 'year')"
+          id="month"
+          [(ngModel)]="selectedYear"
+        >
+          <option *ngFor="let year of years" [value]="year">{{ year }}</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="!loading">
+    <div class="accruals-summary d-flex">
+      <div>
+        <h3>Total accrued consultation  <br> fees</h3>
+        <p>
+          per <b>{{ months[selectedMonth] }}, {{ selectedYear }}</b>
+        </p>
+      </div>
+      <h1>${{totalConsultationFees == 0 ? '0.00' : totalConsultationFees.toFixed(2)}}</h1>
+    </div>
+
+    <hr>
+    <br>
+
+    <div class="accruals-table-controls">
+      <ws-search-box class="ws-search-box" (searchChange)="searchAccurals($event)"
+        aria-label="Search box" [placeholder]="'Search by name, invoice number...'"
+        [attr.aria-placeholder]="'Search by name, invoice number...'" [searchValue]="searchQuery">
+      </ws-search-box>
+      <button
+        class="btn btn-rounded btn-primary exp-tbl"
+        [disabled]="!accuralsData.length"
+        (click)="exportTable()"
+        tabindex="0"
+      >
+        Export table
+      </button>
+    </div>
+    <div  class="accruals-table-container">
+
+    <table *ngIf="updatedAccuralsData.length > 0" class="table">
+      <thead>
+        <tr>
+          <th>
+            Patient name
+            <button (click)="sortByName()" title="Sort by name" aria-label=" Sort by name">
+              <i *ngIf="isAscendingName" class="fa fa-arrow-up ml-1"></i>
+              <i *ngIf="!isAscendingName" class="fa fa-arrow-down ml-1"></i>
+            </button>
+          </th>
+          <th>
+            Invoice
+            <button (click)="sortByInvoiceNumber()" title="Sort by invoice number" aria-label=" Sort by invoice number">
+              <i
+                *ngIf="isAscendingInvoicerNumber"
+                class="fa fa-arrow-up ml-1"
+              ></i>
+              <i
+                *ngIf="!isAscendingInvoicerNumber"
+                class="fa fa-arrow-down ml-1"
+              ></i>
+            </button>
+          </th>
+          <th>
+            Order
+            <button (click)="sortByOrderNumber()" title="Sort by order number" aria-label=" Sort by order number">
+              <i *ngIf="isAscendingOrder" class="fa fa-arrow-up ml-1"></i>
+              <i *ngIf="!isAscendingOrder" class="fa fa-arrow-down ml-1"></i>
+            </button>
+          </th>
+          <th>Invoice total</th>
+          <th>Product total</th>
+          <th>Std consultation</th>
+          <th>Discount</th>
+          <th>Consultation fee</th>
+        </tr>
+      </thead>
+      <tbody
+        *ngFor="
+          let order of updatedAccuralsData
+            | slice
+              : (paginationSignal().currentPage - 1) *
+                  paginationSignal().itemPerPage
+              : paginationSignal().currentPage * paginationSignal().itemPerPage;
+          let i = index
+        "
+      >
+        <tr>
+          <td>
+            {{ order?.address?.items[0]?.name?.split(",")[0] || "Patient" }}<br />
+            <a class="btn-link" [routerLink]="order?.profileId ? ['/practitioner/patientprofile'] : null" [queryParams]="{uid: order?.profileId }">View profile </a>
+          </td>
+          <td>
+            <a class="btn-link" (click)="downloadPdf(order?.invoiceNumber)">#{{ order.invoiceNumber }}</a
+            ><br />
+            {{order?.invoiceDate | date: 'MM/dd/yy'}}
+          </td>
+          <td>
+            @for(item of order.order?.items ;track item){
+              <a class="btn-link" [routerLink]="'/order/details/' + (item?.orderNumber)">#{{ item?.orderNumber || "" }}</a
+              ><br />
+              {{item?.orderDate | date: 'MM/dd/yy'}}
+            }
+            <!-- {{order.order?.items[0]?.orderDate | date: 'MM/dd/yy'}} -->
+          </td>
+          <td>{{ order.total | currency }}</td>
+          <td>{{ order.netPrice | currency }}</td>
+          <td>{{ (order.docCommission + getAbsoluteValue(order?.discount)) | currency }}</td> <!-- as part of ccw-7580 to match qa site data , considering disc as + and doccommssion as it is -->
+          <td>
+            <span *ngIf="order?.discount == 0" class="d-block">$0.00</span>
+            <span *ngIf="order?.discount != 0" class="d-block">({{ getAbsoluteValue(order?.discount) | currency }})</span>  <!-- Match.abs is added to match figma -->
+          <td>{{ ((order.docCommission < 0)  ? 0 : order.docCommission) | currency }}</td>  <!-- to match QA -->
+        </tr>
+      </tbody>
+    </table>
+    
+      <div class="text-center accruals-processing" *ngIf="pdfLoading">
+        <cx-spinner></cx-spinner>
+      </div>
+    </div>
+
+
+    <div *ngIf="updatedAccuralsData.length == 0" class="no-results-container">
+      <img src="/assets/qa/accurals-search.svg" title="Accurals search" aria-label="accurals-search-img"/>
+
+      <h2>No results found</h2>
+      <p *ngIf="searchQuery !== ''" class="description">
+        We couldn’t find any matches for
+        <strong class="bolder">{{ searchQuery }}</strong
+        >. Please try searching with another term.
+      </p>
+      <p *ngIf="searchQuery == ''" class="description">
+        We couldn’t find any results. Please try selecting a different month.
+      </p>
+
+      <button (click)="searchQuery = '';searchAccurals('');" class="clear-search-btn">
+        Clear search
+      </button>
+    </div>
+
+    <!-- Pagination -->
+    <div class="pagination-style">
+      <div class="pagination">
+        <ws-pagination-entry-list
+          [endLine]="''"
+          [itemPerPage]="pagination.itemPerPage"
+          [totalItems]="pagination.totalItems"
+          [currentPage]="pagination.currentPage"
+        >
+        </ws-pagination-entry-list>
+      </div>
+      <div class="pagination">
+        <ws-pagination
+          [resetReposition]="true"
+          (currentPageChange)="pageChanged($event)"
+          [itemsPerPage]="pagination.itemPerPage"
+          [totalItems]="pagination.totalItems"
+          [numberOfPagesNeedTOBeShown]="5"
+          aria-label="Pagination controls"
+        >
+        </ws-pagination>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="loading" class="loader-container d-flex align-items-center justify-content-center">
+    <cx-spinner></cx-spinner>
+  </div>
+</div>

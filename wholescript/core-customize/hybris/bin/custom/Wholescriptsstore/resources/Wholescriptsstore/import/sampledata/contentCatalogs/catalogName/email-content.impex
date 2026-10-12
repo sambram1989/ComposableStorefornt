@@ -1,0 +1,47 @@
+$contentCatalog = wholescriptsContentCatalog
+$contentCV = catalogVersion(CatalogVersion.catalog(Catalog.id[default = $contentCatalog]), CatalogVersion.version[default = Online])[default = $contentCatalog:Online]
+$lang = en
+# Import modulegen config properties into impex macros
+UPDATE GenericItem[processor = de.hybris.platform.commerceservices.impex.impl.ConfigPropertyImportProcessor]; pk[unique = true]
+$emailPackageName=$config-wsEmailContextPackageName
+$emailResourceValue=jar:com.wholescripts.core.constants.WholescriptscoreConstants&/Wholescriptscore/emails
+
+
+
+# Email page Template
+INSERT_UPDATE EmailPageTemplate; $contentCV[unique = true]; uid[unique = true]                 ; name                                           ; active; frontendTemplateName       ; subject(code)                              ; htmlTemplate(code)                      ; restrictedPageTypes(code)
+                               ;                          ; WsShareRecommendationEmailTemplate ; Shared Recommendation   details Email Template ; true  ; WsShareRecommendationEmail ; ws_email_ShareRecommendationDetailsSubject ; ws_email_ShareRecommendationDetailsBody ; EmailPage
+                               ;                          ; AccertifyFraudCheckEmailTemplate   ; Accertify Fraud Check Email Template           ; true  ; AccertifyFraudCheckEmail   ; ws_email_AccertifyFraudCheckEmailSubject   ; ws_email_AccertifyFraudCheckEmailBody   ; EmailPage
+                               ;                          ; ThankYouEmailTemplate              ; Thank You Email Template                       ; true  ; ThankYouEmail              ; ws_email_ThankYouSubject                   ; ws_email_ThankYouBody                   ; EmailPage
+                               ;                          ; ContactUsEmailTemplate             ; Contact Us Email Template                      ; true  ; ContactUsEmail             ; ws_email_ContactUsSubject                  ; ws_email_ContactUsBody                  ; EmailPage
+
+
+# Email Pages
+INSERT_UPDATE EmailPage; $contentCV[unique = true]; uid[unique = true]         ; name                                               ; masterTemplate(uid, $contentCV)    ; defaultPage; approvalStatus(code)[default = 'approved']; fromEmail                 ; fromName
+                       ;                          ; WsShareRecommendationEmail ; WsNotificationSettingsEmailTemplate details  Email ; WsShareRecommendationEmailTemplate ; true       ;                                           ; no-reply@wholescripts.com ; Wholescripts
+                       ;                          ; AccertifyFraudCheckEmail   ; Accertify Fraud Check Email  Page                  ; AccertifyFraudCheckEmailTemplate   ; true       ;                                           ; no-reply@wholescripts.com ; Wholescripts
+                       ;                          ; ThankYouEmail              ; Thank You Email Page                               ; ThankYouEmailTemplate              ; true       ;                                           ; info@wholescripts.com     ; Wholescripts
+                       ;                          ; ContactUsEmail             ; Contact Us Email Page                              ; ContactUsEmailTemplate             ; true       ;                                           ; info@wholescripts.com     ; Wholescripts
+
+
+# Email velocity templates
+INSERT_UPDATE RendererTemplate; code[unique = true]                        ; contextClass                                        ; rendererType(code)[default = 'velocity']
+                              ; ws_email_ShareRecommendationDetailsSubject ; $emailPackageName.WsShareRecommendationEmailContext ;
+                              ; ws_email_ShareRecommendationDetailsBody    ; $emailPackageName.WsShareRecommendationEmailContext ;
+                              ; ws_email_AccertifyFraudCheckEmailSubject   ; $emailPackageName.AccertifyFraudCheckEmailContext   ;
+                              ; ws_email_AccertifyFraudCheckEmailBody      ; $emailPackageName.AccertifyFraudCheckEmailContext   ;
+                              ; ws_email_ThankYouSubject                   ; $emailPackageName.ThankYouEmailContext              ;
+                              ; ws_email_ThankYouBody                      ; $emailPackageName.ThankYouEmailContext              ;
+                              ; ws_email_ContactUsSubject                  ; $emailPackageName.ContactUsEmailContext             ;
+                              ; ws_email_ContactUsBody                     ; $emailPackageName.ContactUsEmailContext             ;
+
+
+UPDATE RendererTemplate; code[unique = true]                        ; description[lang = $lang]              ; templateScript[lang = $lang, translator = de.hybris.platform.commerceservices.impex.impl.FileLoaderValueTranslator]
+                       ; ws_email_ShareRecommendationDetailsSubject ; "Customer Registration Email Body"     ; $emailResourceValue/ws_email_ShareRecommendationDetailsSubject.vm
+                       ; ws_email_ShareRecommendationDetailsBody    ; "Customer Registration Email Subject"  ; $emailResourceValue/ws_email_ShareRecommendationDetailsBody.vm
+                       ; ws_email_AccertifyFraudCheckEmailSubject   ; "Accertify Fraud check Email Body"     ; $emailResourceValue/ws_email_AccertifyFraudCheckEmailSubject.vm
+                       ; ws_email_AccertifyFraudCheckEmailBody      ; "Accertify Fraud check  Email Subject" ; $emailResourceValue/ws_email_AccertifyFraudCheckEmailBody.vm
+                       ; ws_email_ThankYouSubject                   ; "Thank You Email Subject"              ; $emailResourceValue/ws_email_ThankYouSubject.vm
+                       ; ws_email_ThankYouBody                      ; "Thank You Email Body"                 ; $emailResourceValue/ws_email_ThankYouBody.vm
+                       ; ws_email_ContactUsSubject                  ; "Contact Us Email Subject"             ; $emailResourceValue/ws_email_ContactUsSubject.vm
+                       ; ws_email_ContactUsBody                     ; "Contact Us Email Body"                ; $emailResourceValue/ws_email_ContactUsBody.vm

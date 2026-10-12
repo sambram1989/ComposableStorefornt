@@ -1,0 +1,975 @@
+<div *ngFor="let alert of alertsSignal()">
+    <alert [type]="alert.type" [dismissOnTimeout]="alert.timeout" (onClosed)="onClosed(alert)">{{ getAlertMessage(alert.msg) }}</alert>
+</div>
+<div class="content mt-5">
+    <div class="container-fluid container-fixed-lg">
+        <section>
+            <div class="subtitle-row">
+                <div>
+                    <div class="edit-heading" *ngIf="editProtocolTitle$ | async as title" [innerHTML]="title?.content"></div>
+                    <i class="fas fa-archive text-primary pl-1 fs-30 " aria-hidden="true"></i>
+                    <span class="template-name-given h2 text-primary bolder">{{selectedProduct()?.name}}</span>
+                    <button class="ml-2 v-align-middle edit-template-name-btn text-link bolder"
+                        (click)="editProtocolName('EDIT PROTOCOL NAME', selectedProduct()?.name, selectedProduct()?.description)"
+                        aria-label="Edit Name and Description">
+                        Edit Name and Description
+                    </button> <br>
+                    <div class="protocol-description d-flex pl-1 pb-3">
+                        <span class="pr-1 pt-1 name"> Description: </span>
+                        <span class="pt-1"> {{selectedProduct()?.description}} </span>
+                    </div>
+                    <button type="button" class="btn-link bolder text-danger" (click)="deletePopup()"
+                        aria-label="Delete Protocol">
+                        Delete Protocol
+                    </button>
+                </div>
+            </div>
+
+            <div class="subtitle-row">
+                <p class="description mt-3 mb-0" aria-live="polite">
+                    Edit your protocol by searching and adding products below.
+                </p>
+            </div>
+
+            <div class="the-grid">
+                <div class="left-side">
+                    <div class="searchArea">
+                        <h6 class="bolder">Search Products:</h6>
+                        <div class="actions-container align-fs">
+                            <div class="search-filters-container">
+                                <ws-search-box  (searchChange)="searchSubject.next($event)"
+                                    aria-label="Search box"
+                                    [attr.aria-placeholder]="'Search for patients or other criteria'" [placeholder]="'Search Products'">
+                                </ws-search-box>
+
+                                <div class="filter-button ml-2">
+                                    <button class="filter-btn mb-3 filters" (click)="filterPopup()">
+                                        <svg width="13" height="20" viewBox="0 0 13 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M0 5.375C0 4.91016 0.382812 4.5 0.875 4.5H11.375C11.8398 4.5 12.25 4.91016 12.25 5.375C12.25 5.86719 11.8398 6.25 11.375 6.25H0.875C0.382812 6.25 0 5.86719 0 5.375ZM1.75 9.75C1.75 9.28516 2.13281 8.875 2.625 8.875H9.625C10.0898 8.875 10.5 9.28516 10.5 9.75C10.5 10.2422 10.0898 10.625 9.625 10.625H2.625C2.13281 10.625 1.75 10.2422 1.75 9.75ZM7.875 14.125C7.875 14.6172 7.46484 15 7 15H5.25C4.75781 15 4.375 14.6172 4.375 14.125C4.375 13.6602 4.75781 13.25 5.25 13.25H7C7.46484 13.25 7.875 13.6602 7.875 14.125Z"
+                                                fill="#101828" />
+                                        </svg>Filters <span class="d-lg-none">({{selectedFilters?.length}})</span>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="filter-btn po-rel mt-1" [ngClass]="screen.extraLargeWidth() ? 'remove-btn': 'show-btn' ">
+                                <ws-formcontrol-input 
+                                    [wsControlName]="sortControl"
+                                    [isSelectBox]="true"
+                                    [selectBoxData]="products()?.sorts"
+                                    [wsLabel]="' Sort By'" 
+                                    [isShowStart]="false">
+                                </ws-formcontrol-input>
+                            </div>
+                            <section [ngClass]="!screen.extraLargeWidth() ? 'remove-btn': 'show-btn' ">
+                                <section class="mobile-filters">
+                                    <div class="mobile-btns-inner p-0">
+                                        <button class="mobile-btns" (click)="sortByPopup()" aria-label="Sort Products">
+                                            Sort By
+                                        </button>
+                                        <button class="mobile-btns" (click)="filterPopup()" aria-label="Filter Products">
+                                            Filter
+                                        </button>
+                                        <button class="mobile-btns" aria-label="Status Filter">
+                                            Status
+                                        </button>
+                                        <button class="mobile-btns" aria-label="Alphabetical Filter">
+                                            Alphabet
+                                        </button>
+                                        <button class="mobile-btns" aria-label="Category Filter">
+                                            Category
+                                        </button>
+                                        <button class="mobile-btns" aria-label="Delivery Form Filter">
+                                            Delivery Form
+                                        </button>
+                                        <button class="mobile-btns" aria-label="Brand Filter">
+                                            Brand
+                                        </button>
+                                    </div>
+                                </section>
+                            </section>
+                        </div>
+                    </div>
+                    <ws-active-facets [isListPage]="true"></ws-active-facets>
+                    <ng-container>
+                        <tabset #tabset class="tab-container">
+                            <tab heading="Products" class="all">
+                                <div class="col-12 p-0 rec-table" id="searchTabsContent">
+                                    <div class="w-100 tab-pane">
+                                        <div class="the-table">
+                                            <div class="col-12 p-0 rec-table tab-content" id="searchTabsContent" *ngIf="!loader">
+                                                <div class="w-100 tab-pane">
+                                                    <table class="table mt-0" role="table" aria-label="Product List">
+                                                        <thead>
+                                                            <tr role="row">
+                                                                <th class="fav-btn" aria-label="favorite" role="columnheader" scope="col">
+                                                                    <i class="fa-regular fa-heart fav-btn__icon"></i>
+                                                                </th>
+                                                                <th role="columnheader" scope="col">Product Name</th>
+                                                                <!-- <th>&nbsp;</th> -->
+                                                                <th role="columnheader" scope="col">Price</th>
+                                                                <th class="text-right" role="columnheader" scope="col">
+                                                                    Actions</th>
+                                                            </tr>
+                                                        </thead>
+    
+                                                        <tbody>
+                                                            @for(product of products().products |sortFavorites:this.favoriteList ; track product){
+                                                            <tr class="rec-table__row" role="row" [ngClass]="{'product-added-row': addOrRemove(product?.code)}">
+                                                                <td class="v-align-middle"
+                                                                    (click)="updateFavorites(product, product.isFavorite)" (keypress)="updateFavorites(product, product.isFavorite)" tabindex="0">
+                                                                    <div class="code-tooltip">
+                                                                        <div class="copy-code"><span
+                                                                                class="code-tooltiptext">{{
+                                                                                product.isFavorite ? 'Remove from Favorites' : 'Add to Favorites'}}</span> <i
+                                                                                class="fa-heart fav-btn__icon fa"
+                                                                                [ngClass]="product.isFavorite ? 'fav-btn__icon--active' : 'fa-regular'"></i>
+                                                                        </div>
+                                                                    </div>
+                                                                </td>
+                                                                <td class="v-align-middle product-name rec-table__name">
+                                                                    <div *ngIf="product?.stock?.stockLevelStatus === 'outOfStock'">
+                                                                        <ws-product-status *ngIf="product" [product]="product"></ws-product-status>
+                                                                    </div>
+                                                                    <button class="text-link bolder" [innerHTML]="product.name" (click)="openProductDetailPopup(product?.code)"
+                                                                        aria-label="View details"></button><br>
+                                                                    <span>
+                                                                        <ng-container *ngIf="getCustomDosingOnProductLevel(product.code)|async as dosingData">
+                                                                            @if(selectedProductCodes()?.includes(product.code)){
+                                                                            {{selectedProduct() |getDosingOnEntryLevel:product.code:'protocol'|slice:0:4|dosingPipe}}
+                                                                            }@else if($any(dosingData)?.dosingList?.length){
+                                                                            {{$any(dosingData)?.dosingList|slice:0:4|dosingPipe}}
+                                                                            }
+                                                                            @else {
+                                                                            {{ +product?.inAM ? product.inAM + ' in AM' : '' }}
+                                                                            {{((+product?.inAM)&&(+product?.inPM)) ? ' | ' : '' }}
+                                                                            {{ +product?.inPM ? product.inPM + ' in PM' : '' }}
+                                                                            {{((+product?.inPM)&&(+product?.inDaily)) ? ' | ' : '' }}
+                                                                            {{ +product?.inDaily ? product.inDaily + ' in Daily' : '' }}
+                                                                            {{((+product?.inDaily)&&(+product?.inBedtime)) ? ' | ' : '' }}
+                                                                            {{ +product?.inBedtime ? product.inBedtime + ' in Bedtime' : '' }}
+                                                                            }
+                                                                        </ng-container>
+                                                                      </span> 
+                                                            </td>
+                                                            <!-- <td class="v-align-middle text-center text-lg-left rec-table__mp"></td> -->
+                                                            <td class="v-align-middle rec-table__price">
+                                                                <span class="bolder">{{product?.wholeSalePrice?.formattedValue}}</span><br>
+                                                                <span>MSRP: {{product?.retailPrice?.formattedValue}}</span>
+                                                            </td>
+                                                            <td class="text-right">
+                                                                <button type="button"
+                                                                    tabindex="0"
+                                                                    (keypress)="openEditDosingPopup(addOrRemove(product?.code) ? 'Remove' : 'Add',product)"
+                                                                    class="btn btn-outline-primary btn-rounded my-1 btn-h"
+                                                                    [disabled]="getAddToCartDisableFlag(product)"
+                                                                    (click)="openEditDosingPopup(addOrRemove(product?.code) ? 'Remove' : 'Add',product)"
+                                                                    aria-label="Edit Dosing for">Edit
+                                                                    Dosing </button>
+                                                                <button type="button" class="btn  btn-rounded my-1 ml-2 btn-h "
+                                                                    [disabled]="getAddToCartDisableFlag(product)"
+                                                                    (click)="addAndRemove(addOrRemove(product?.code),getEntryNumber(product?.code),product)"
+                                                                    [ngClass]="addOrRemove(product?.code) ? 'btn-outline-danger':'btn-add'"
+                                                                    aria-label="protocol">
+                                                                    {{ product?.code|addOrRemove:selectedProductCodes() }}</button>
+                                                            </td>
+                                                        </tr>
+                                                        }
+                
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <div class="pagination-style">
+                                                <div class="pagination">
+                                                    <ws-pagination-entry-list [endLine]="''" [itemPerPage]="pagination.pageSize"
+                                                        [totalItems]="pagination.totalResults" [currentPage]="pagination.currentPage"></ws-pagination-entry-list>
+                                                </div>
+                                                <div class="pagination">
+                                                    <ws-pagination [resetReposition]="true" (currentPageChange)="pageChanged($event)" [itemsPerPage]="pagination.pageSize"
+                                                        [totalItems]="pagination.totalResults" [numberOfPagesNeedTOBeShown]="5"
+                                                        aria-label="Pagination controls"></ws-pagination>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div *ngIf="loader" class="d-flex align-items-center justify-content-center">
+                                            <cx-spinner></cx-spinner>
+                                        </div>
+                                    </div>
+                                  </div>
+                               </div>
+                            </tab>
+                            <tab *ngIf="!hideMedpaxPage" heading="Medpax Products" (selectTab)="callLoadProductOnMedPaxTabSelection(true)"
+                                (deselect)="callLoadProductOnMedPaxTabSelection(false)" class="all">
+                                    <ws-medpax-products-table  [products]="medPaxTableProducts()?.products || []"
+                                    [selectedProductCodes]="selectedMedPaxProductCodes()"
+                                    [medPaxData]="medPaxProducts()" *ngIf="!loader"
+                                    [entryNumberList]="entryMedPaxNumberList">
+                                </ws-medpax-products-table>
+                                <div class="pagination-style" *ngIf="!loader">
+                                    <div class="pagination">
+                                        <ws-pagination-entry-list [endLine]="''" [itemPerPage]="medPaxPagination.pageSize"
+                                            [totalItems]="medPaxPagination.totalResults" [currentPage]="medPaxPagination.currentPage"></ws-pagination-entry-list>
+                                    </div>
+                                    <div class="pagination">
+                                        <ws-pagination   [resetReposition]="true" (currentPageChange)="pageChanged($event)" [itemsPerPage]="medPaxPagination.pageSize"
+                                            [totalItems]="medPaxPagination.totalResults" [numberOfPagesNeedTOBeShown]="5"
+                                            aria-label="Pagination controls"></ws-pagination>
+                                    </div>
+                                </div>
+                                <div *ngIf="loader" class="d-flex align-items-center justify-content-center">
+                                    <cx-spinner></cx-spinner>
+                                </div>
+                            </tab>
+                        </tabset>
+    
+                    </ng-container>
+                </div>
+
+                <div class="right-side">
+                    <div class="p-0 pl-lg-4 the-rec">
+                        <div class="col-12 p-0 your-rec text-black sticky">
+                            <div class="row your-rec-header m-0 ">
+                                <div class="col-12 col-lg-6 p-0 your-rec__title">Your Protocol:</div>
+                                <div class="col-12 col-lg-6 p-0 text-lg-right">
+                                    {{ (selectedProduct()?.protocolEntries?.length || 0) + (medPaxProducts()?.medpaxEntry?.length || 0) }} 
+                                    {{ ((selectedProduct()?.protocolEntries?.length || 0) + (medPaxProducts()?.medpaxEntry?.length || 0)) === 1 ? 'Product' : 'Products' }}
+                                </div>
+                            </div>
+                            <ng-container>
+                                <div class="your-rec-body w-100">
+                                    <section>
+                                        @for(selectedProduct of selectedProduct()?.protocolEntries;
+                                        track selectedProduct ;
+                                        let id = $index){
+                                        <div class="row p-3" role="row">
+                                            <div class="col-3 px-1 edit-protocol-img">
+                                                <cx-media
+                                                    [container]=" (selectedProduct?.product?.images && selectedProduct?.product?.images?.length) ? selectedProduct?.product?.images[1] : null"
+                                                    [alt]="selectedProduct?.product?.name"></cx-media>
+                                            </div>
+                                            <div class="col-6">
+                                                <ng-container *ngIf="selectedProduct?.product?.stock?.stockLevelStatus === 'outOfStock'">
+                                                    <ws-product-status [product]="selectedProduct?.product"></ws-product-status>
+                                                </ng-container>
+                                                <button
+                                                (click)="openProductDetailPopup(selectedProduct?.product?.code)" class="text-link bolder product-name">{{selectedProduct?.product?.name}}</button>
+                                                <div>Dosing:{{selectedProduct?.dosing|slice:0:4|dosingPipe}}</div>
+                                                <div>Duration: {{weekMapItems.get(selectedProduct?.itemDuration) | capitalCase  }}, {{selectedProduct?.quantity}} Unit@if((+selectedProduct?.quantity)>1){(s)}</div>
+                                                <div class="bolder">{{selectedProduct?.totalPrice?.formattedValue}}</div>
+                                                <div> MSRP: {{selectedProduct?.msrpTotalPrice?.formattedValue}}</div>
+                                            </div>
+                                            <div class="col-3 text-right">
+                                                <a class="bolder text-link"
+                                                    tabindex="0"
+                                                    (keypress)="openEditDosingPopup('Remove',selectedProduct,true)"
+                                                    (click)="openEditDosingPopup('Remove',selectedProduct,true)"
+                                                    aria-label="Edit dosing for">Edit</a>
+                                                <a class="bolder text-danger del ml-4 ml-lg-2 cursor-pointer"
+                                                    tabindex="0"
+                                                    (click)="removeProduct(selectedProduct)"
+                                                    (keypress)="removeProduct(selectedProduct)"
+                                                    aria-label="Remove from protocol"> x </a>
+                                            </div>
+    
+                                            <div class="col-12" *ngIf="selectedProduct?.notes" >
+                                                <p class="row col-12 bolder mb-0">Note:</p>
+                                                <input tabindex="0" aria-label="notes" title="notes" class="col-12 form-control input-style disabler" type="text"
+                                                    [value]="selectedProduct?.notes" disabled>
+                                            </div>
+                                        </div>
+                                        @if( id !== selectedProduct.length){
+                                            <hr class="w-100 mx-3">
+                                        }
+                                        }
+                                        @empty {
+                                        @if(!isMedPax() ){
+                                        <div class="your-rec-body empty-state" role="alert" aria-live="polite">
+                                            <div>
+                                                <h6 class="mt-0 bolder">No products have been added</h6>
+                                                <p>Add a product to get started.</p>
+                                            </div>
+                                        </div>
+                                        }
+                                        }
+                                    </section>
+                                    @if(isMedPax()){
+                                    <div class="ws-medpax-products">
+                                        <ws-med-pax-products-right-section 
+                                        [products]="medPaxProducts()"
+                                        [isPlUser]="checkRoleExist('pluser') | async"
+                                        [medPaxId]="medPaxProducts().code"
+                                        [medPaxNotes]="medPaxProducts()?.notes?.trim()"></ws-med-pax-products-right-section>
+                                    </div>
+                                    }
+                                </div>
+                            </ng-container>
+    
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+
+<ws-floating-footer>
+    <div class="floot-footer">
+        <div class="show-proto-sm">
+            <div class="show-proto" *ngIf="selectedProduct()?.protocolEntries?.length || medPaxProducts()?.medpaxEntry.length" (click)="productPopUp()">
+                <button class="bottom-nav__mobile">
+                    <span class="bottom-nav__mobile-label">
+                        Your protocol:
+                    </span>
+                    <div class="icon-section">
+                     <div class="icon-product-header"*ngIf="selectedProduct()?.protocolEntries?.length">
+                        <div class="icon-container">
+                            <svg class="items-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10.4 12.39"
+                                style="enable-background:new 0 0 29.5 37.9; height:20px;" xml:space="preserve"
+                                preserveAspectRatio="none">
+                                <path class="sidebar-icon"
+                                    d="M9.66,3.68l-.78-.36c-.35-.17-.74-.25-1.12-.25h-2.89c-.39,0-.77,.08-1.12,.25l-.78,.36c-.28,.13-.49,.35-.61,.61,1.2,0,2.18,.94,2.24,2.14v4.59c.01,.52-.16,.99-.45,1.37h4.72c.84,0,1.53-.69,1.53-1.53V4.85c0-.5-.32-.96-.74-1.17Zm-1.21-3.68H4.18c-.71,0-1.28,.35-1.28,.77v1.28h6.83V.77c0-.42-.57-.77-1.28-.77ZM3.3,7.34c-.04-.87-.76-1.57-1.65-1.57s-1.65,.74-1.65,1.65v3.31c0,.92,.74,1.66,1.65,1.66s1.66-.74,1.66-1.66v-3.39Zm-.95,1.74H.94v-1.66c0-.39,.32-.71,.71-.71s.71,.32,.71,.71v1.66Z">
+                                </path>
+                            </svg>
+                            <span class="icon-badge badge-danger product-count">{{selectedProduct()?.protocolEntries?.length || 0}}</span>
+                        </div>
+                        <span class="icon-product">Products</span>
+                    </div>
+                    <div class="icon-product-header" *ngIf="medPaxProducts()?.medpaxEntry.length">
+                        <div class="icon-container-medpax">
+                           <img class="medpax-items-icon" src="../../../../../assets/images/home/MedPax-icon.svg"
+                        alt="medpax item icon" aria-hidden="true" />
+                            <span class="icon-badge badge-danger product-count">{{ medPaxProducts()?.medpaxEntry.length }}</span>
+                        </div>
+                        <span class="icon-product">
+                            {{
+                              medPaxProducts()?.medpaxEntry.length === 1
+                                ? '2 more MedPax items needed'
+                                : medPaxProducts()?.medpaxEntry.length === 2
+                                ? '1 more MedPax item needed'
+                                : 'MedPax items'
+                            }}
+                          </span>
+                          
+                    </div>
+                    </div>
+                </button>
+            </div>
+            <div *ngIf="!selectedProduct()?.protocolEntries?.length && !medPaxProducts()?.medpaxEntry.length">
+                No products have been added
+            </div>
+            <div class="show-totals-area">
+                <div class="mr-3">
+                    <div class="bolder">
+                        Total: {{totalPrice() || 0.00}}
+                    </div>
+                    <div>
+                        MSRP: {{totalMsrpPrice() || 0.00}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="p-3 f-grow">
+            <div class="bottom-nav__right d-flex align-items-center justify-content-end mx-0">
+                <div class="totals-area">
+                    <div class="mr-3">
+                        <div class="bolder">
+                            Total: {{totalPrice() || 0.00}}
+                        </div>
+                        <div>
+                            MSRP: {{totalMsrpPrice()|| 0.00}}
+                        </div>
+                    </div>
+                </div>
+                <a class="btn btn-outline-primary btn-rounded pull-right next-btn mr-2 btn-h btn-w"
+                    [routerLink]="'/protocol/list'">Back</a>
+                @if(isMedPax()){
+                    @if(currentState$| async ; as current){
+                        <a class="btn btn-primary btn-rounded pull-right next-btn btn-h btn-w" [class.disabler]=" medPaxProducts()?.medpaxEntry?.length < 3" *ngIf="checkRoleExist('pluser') | async"
+                        [routerLink]="'/protocol/edit/carton/'| parseUrl:[protocolId]" (keydown)="medPaxProducts()?.medpaxEntry?.length < 3 ? $event.preventDefault() : null"> {{'Select Medpax Carton'}} </a>
+                        <a class="btn btn-primary btn-rounded pull-right next-btn btn-h btn-w" [class.disabler]=" medPaxProducts()?.medpaxEntry?.length < 3" *ngIf="!(checkRoleExist('pluser') | async)"
+                        [routerLink]="'/protocol/edit/medpax/review/'| parseUrl:[protocolId]"> {{'Review MedPax'}} </a>
+                    }
+                }
+                @if(!isMedPax()){
+                @if((selectedProductCodes()?.length <=0) ){ <a
+                    class="btn btn-primary btn-rounded pull-right next-btn btn-h btn-w disabler"
+                    [routerLink]="'/protocol/edit/'| parseUrl:[protocolId]"> Review Protocol</a>
+                    }@else{
+                    <a class="btn btn-primary btn-rounded pull-right next-btn btn-h btn-w"
+                        [routerLink]="'/protocol/edit/review/'| parseUrl:[protocolId]"> Review Protocol</a>
+
+                    }
+                    }
+            </div>
+        </div>
+    </div>
+</ws-floating-footer>
+
+<!-----Edit Dosing POPUP-->
+<ng-template #editDosing>
+    <div *ngFor="let alert of alertsSignal()">
+        <alert [type]="alert.type" [dismissOnTimeout]="alert.timeout" (onClosed)="onClosed(alert)">{{ alert.msg }}</alert>
+      </div>
+    @if(isMedPaxProductsClicked()) {
+    <div class="p-3">
+        <ws-edit-dosingdetailspopup [wrapperForm]="wrapperForm" [currentProduct]="currentProduct || currentProduct?.prod" [savedAsCustomSignal]="savedAsCustomSignal()"
+            [currentMedPaxProduct]="currentMedPaxProduct()" [productCode]="currentProduct?.code || currentProduct?.prod?.code">
+            <div topSection class="topsection">
+                <h4 class="bolder mx-auto my-0">EDIT DOSING</h4>
+                <p class="mx-auto mb-0 text-black">
+                    <img class="w-1-25rem" src="../../../../../assets/images/home/MedPax-icon.svg"
+                    alt="medpax item icon" aria-hidden="true" />
+                    MEDPAX ITEM
+                </p>
+                <button class="close-btn" (click)="closePopup()">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+
+            <div bottomSection class="b-top">
+                <div class="row mt-3">
+                    <div class="col-5">
+                        <span class="bolder text-primary fs-unset">Per {{getProductMaterialFromName()}}:
+                            {{currentProduct?.prod?.wholeSalePrice?.formattedValue || currentProduct?.wholeSalePrice?.formattedValue}}</span><br>
+                        <em class="text-nowrap ">30 day supply: $ {{ currentProduct | thirtyDaySupply: getQuantity() | number:'1.2-2' }}</em>
+                    </div>
+                    <div class="col-7 d-flex justify-content-end">
+                        <button class="btn btn-outline-primary btn-rounded mr-2 bolder px-3" aria-label="Close"
+                            tabindex="0" (click)="closePopup()">
+                            Cancel
+                        </button>
+                        <button type="button"
+                            class="btn btn-primary btn-rounded add-to-packet-btn mt-1 mt-sm-0 bolder px-3" tabindex="0"
+                            (click)="saveMedpaxDetails(saveButton)" #saveButton
+                            [disabled]="!wrapperForm.valid">
+                            {{(currentProduct?.code || currentProduct?.prod?.code)|addOrRemove:selectedMedPaxProductCodes():'save'}}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </ws-edit-dosingdetailspopup>
+    </div>
+    }
+    @else{
+        <div class="modal-content p-3 border-unset ">
+            <div class="modal-header p-0 border-unset-b">
+                <br>
+                <h3 class="modal-title mx-auto fs-24 fw-900">EDIT DOSING</h3>
+                <button type="button" class="close" (click)="closePopup()">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            @if((fetchImages$|async) && customDosingList()?.dosingList){
+            <!-- MODAL BODY -->
+            <div class="modal-body text-black p-0">
+                <hr>
+                <div class="row mx-0 justify-content-center">
+                    <div class="col-3 edit-protocol-img">
+                        <cx-media
+                            [container]=" (currentProduct.images && currentProduct?.images?.length) ? currentProduct?.images[1]: (currentProduct.product && currentProduct?.product?.images?.length) ? currentProduct?.product?.images[1] : null "></cx-media>
+                    </div>
+                    <div class="col-9">
+                        <span class="bolder" [innerHTML]="currentProduct?.name || currentProduct?.product?.name"></span>
+                        <br>
+                        <span class="">Label Dosing:{{ +currentProduct?.inAM ? currentProduct.inAM + ' in AM' : '' }}
+                            {{((+currentProduct?.inAM)&&(+currentProduct?.inPM)) ? ' | ' : ''
+                            }}
+                            {{ +currentProduct?.inPM ? currentProduct.inPM + ' in PM' : '' }}
+                            {{((+currentProduct?.inPM)&&(+currentProduct?.inDaily)) ? ' | ' :
+                            '' }}
+                            {{ +currentProduct?.inDaily ? currentProduct.inDaily + ' in Daily'
+                            : '' }}
+                            {{((+currentProduct?.inDaily)&&(+currentProduct?.inBedtime)) ? ' | ' : '' }}
+                            {{ +currentProduct?.inBedtime ? currentProduct.inBedtime + ' in Bedtime' : '' }}
+                        </span>
+                        <br>
+                        <span>@if(customDosingList()?.dosingList?.length) {Custom Dosing: 
+                            {{  customDosingList()?.dosingList|slice:0:4|dosingPipe}}
+                        }</span><br>
+                        <span tabindex="0" class="span-btn bolder text-danger btn-link fs-16" (click)="updateLabelDosing(currentProduct)" (keypress)="updateLabelDosing(currentProduct)">Reset to Label</span>
+                        <span *ngIf="customDosingList()?.dosingList?.length">&nbsp;|&nbsp;</span>
+                        <span tabindex="0" *ngIf="customDosingList()?.dosingList?.length" class="span-btn bolder text-danger btn-link fs-16" (click)="resetToCustom()" (keypress)="resetToCustom()">
+                            @if(customDosingList()?.dosingList?.length){
+                            Reset to Custom
+                            }
+                        </span>
+                    </div>
+                </div>
+                <div class="row my-3 mx-0 justify-content-center ">
+                    <div class="col-12">
+                        <span class="bolder">Dosing</span>
+                    </div>
+                    <ng-container [formGroup]="wrapperForm">
+                        <ng-container formArrayName="hobbiesArray">
+                            <ng-container *ngFor="let auxInfo of hobbies.controls; index as idx; last as isLast">
+                                <ng-container [formGroupName]="idx">
+                                    <div class="mt-3">
+                                        <div class="row justify-content-center align-items-center ">
+                                            <div class="col-4 qty" id="unitsQtyDiv">
+                                                <label for="qty-{{idx}}" class="mb-0" id="unitsLabel">QTY</label>
+                                                <div class="nice-number">
+                                                    <button type="button" class="min"
+                                                        (click)="decrementQty(idx)">-</button>
+                                                    <input tabindex="0" aria-label="Quantity" id="qty-{{idx}}" type="text" formControlName="qty"
+                                                        class="text-center in-h">
+                                                    <button type="button" class="max"
+                                                        (click)="incrementQty(idx)">+</button>
+                                                </div>
+                                            </div>
+                                            <div class="col-7 row justify-content-between align-items-center dosing">
+                                                <!-- @for(time of DisplayItemTimes; track time){
+                                                <div class="col-3 text-center"
+                                                    [class.disabled-radio]="!isRadioEnabled(idx, time.code)">
+                                                    <input type="radio" [value]="time.code" class="ws-radio"
+                                                        formControlName="radio" (change)="onRadioChange(idx)"
+                                                        [class.disabled]="!isRadioEnabled(idx, time.code)" (keypress)="onRadioChange(idx)" aria-label="radio">
+                                                    <label for="{{time.code}}-{{idx}}">
+                                                        <span class="fs-8">{{time.code}}</span>
+                                                        <img [class.border-ws]="getSelectedRadio(idx) == time.code" tabindex="0" (keypress)="onRadioChange(idx)"
+                                                            [src]="time.src" alt="{{time.alt}}" class="img-icon">
+                                                    </label>
+                                                </div>
+                                                } -->
+                                                @for(time of DisplayItemTimes; track time){
+                                                    <div class="col-3 text-center radio-container">
+                                                        <!-- <input role="button" tabindex="0" [value]="time.code" class="ws-radio" formControlName="radio"
+                                                        (click)="onRadioChange(idx)" (keypress)="onRadioChange(idx)"
+                                                            [class.disabled]="!isRadioEnabled(idx, time.code)"> -->
+                                                        <div>
+                                                            <span style="font-size:18px;">{{time.code}}</span>
+                                                            <img role="button" tabindex="0" (click)="onRadioChange(idx, time)" (keypress)="onRadioChange(idx, time)" [class.border-ws]="getSelectedRadio(idx) == time.code" [src]="time.src"
+                                                                alt="{{time.alt}}" class="img-icon">
+                                                        </div>
+                                                    </div>
+                                                    }
+                                            </div>
+                                            <div class="col-1 text-right">
+                                            </div>
+                                            <a class="text-danger bolder edit-dose-del del cursor-pointer"
+                                                *ngIf="hobbies.length > 1" (click)="removeInputControl(idx)" tabindex="0" (keypress)="removeInputControl(idx)">×</a>
+                                        </div>
+                                        <div class="row d-flex align-items-center">
+                                            <div class="col-6 mt-4 pl-4">
+                                                @if(isLast && (idx < 3)){ <a
+                                                    class="btn btn-outline-primary btn-rounded btn-h" tabindex="0"
+                                                    (click)="addInputControl()" (keypress)="addInputControl()">
+                                                    + More dosing times</a>
+                                                    }
+                                            </div>
+                                            <div class="col-6 text-right mt-3 pr-4" [class.disable-anchor]="!wrapperForm.valid" >
+                                                @if(isLast){
+                                                <a class="text-link bolder" tabindex="0" (click)="saveEditDosing()" (keypress)="saveEditDosing()" >
+                                                    <i [ngClass]=" savedAsCustomSignal() ?'fa fa-check':'fa fa-download'"></i>
+                                                    Save as custom
+                                                </a>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </ng-container>
+                            </ng-container>
+                        </ng-container>
+                    </ng-container>
+
+                </div>
+                <form [formGroup]="editDosingField" (ngSubmit)="postEditDosingData()">
+                    <div class="b-top">
+                        <div class="mt-3 mb-0 bolder">Duration</div>
+                        <div class="text-danger fs-13">
+                            <!-- Please enter a note no longer than 4000 characters. -->
+                        </div>
+                        <div class="row unit-section d-flex align-items-center">
+                            <div class="col-5">
+                                <select id="ddlEditDuration" class="w-100 form-control select-form" class="mx-width" tabindex="0"
+                                    formControlName="duration">
+                                    @for(opt of durationOptions;track opt){
+                                    <option [value]="opt.key" [label]="opt.value">{{opt.value}}</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="col-7 qty text-right d-flex align-items-end" id="unitsQtyDiv">
+                                <label class="label1 mb-0" id="unitsLabel">UNIT(S)</label>
+                                <div class="nice-number text-right">
+                                    <button type="button" class="min" (click)="decrement()">-</button>
+                                    <input type="number" tabindex="0" formControlName="units" aria-label="Units" class="text-center in-h">
+                                    <button type="button" class="max" (click)="increment()">+</button>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <p class="bolder mb-0">Notes:</p>
+                        <textarea rows="4" class="notes" aria-label="Edit Dosing Notes" placeholder="Type your notes here"
+                            formControlName="notes" maxlength="2000"></textarea>
+                        @if(editDosingField.controls.notes.invalid && editDosingField.controls.notes.touched){
+                        <div class="text-danger fs-13">
+                            Please enter a note no longer than 4000 characters.
+                        </div>
+                        }
+                        <div class="row mt-3">
+                            <div class="col-sm-5">
+                                <h6 class="bolder">$ {{((currentProduct?.wholeSalePrice?.value) || (currentProduct?.totalPrice?.value)) * (editDosingField.controls.units.value) | number:'1.2-2' }}</h6><br>
+                                <h6 class="">MSRP: $ {{((currentProduct?.retailPrice?.value) || (currentProduct?.msrpTotalPrice?.value)) * (editDosingField.controls.units.value)| number:'1.2-2'}}</h6>
+                            </div>
+                            <div class="col-sm-7 modal-btns">
+                                <a class="btn btn-outline-primary btn-rounded btn-h" (keydown)="onKeyDown($event)" (click)="closePopup()" tabindex="0" >
+                                    Cancel
+                                </a>
+                                <button type="submit" class="btn btn-primary btn-rounded btn-h"
+                                [disabled]="!wrapperForm.valid">
+                                    @if(currentEditDosingType.toLowerCase() == 'add'){
+                                    Add +
+                                    }@else {
+                                    Save
+                                    }
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        }
+        </div>
+    }
+</ng-template>
+
+
+<!-- Delete Protocol -->
+<ng-template #deleteProtocol>
+    <div class="modal-content p-4 unset-border-all">
+        <div class="modal-header p-0 unset-border-b">
+            <div class="d-flex justify-content-end mb-3">
+                <button type="button" class="close" aria-label="Close" (click)="closePopup()" (keydown)="onKeyDown($event)">
+                    <span aria-hidden="true" class="close-icon">×</span>
+                </button>
+            </div>
+            <h3 class="modal-title mx-auto bolder ">DELETE PROTOCOL</h3>
+        </div>
+        <hr class="grey-line">
+        <div class="modal-body p-0 text-center d-flex justify-content-center flex-column ">
+            <h3 class="popup-title-edit">
+                <i class="fas fa-archive"></i>
+                {{selectedProduct().name}}
+            </h3>
+            <div class="shared-info mb-4">
+                <div class="shared-info-status  ">
+                    <span class="bolder">Share Status: </span>
+                    <i class="fas text-success fa-share"></i>&nbsp;
+                    <span class="">@if(selectedProduct().protocolSharedStatus == 'SHARED_WITH_ALL' ){
+                        Shared With All
+                        }
+                        @if(selectedProduct().protocolSharedStatus == 'NOT_SHARED' ){
+                        Not Shared
+                        }
+                        @if(selectedProduct().protocolSharedStatus == 'SHARED_WITH_SELECTED'){
+                        Shared with 1 Patient
+                        }</span>
+                </div>
+            </div>
+            <section>
+                <p>
+                    You are currently sharing this protocol. Changes made to this protocol will be visible to all
+                    shared
+                    patients.
+                </p>
+                @if(false){
+                <p>This Protocol is currently being shared with patients. Deleting this protocol will also stop
+                    sharing
+                    it with them.</p>
+                }
+            </section>
+            <hr>
+            <p class="bolder mt-3">Would you like to edit this protocol?</p>
+            @if(false){
+            <p class="text-center bolder ">
+                Are you sure you want to delete this Protocol?
+            </p>
+            }
+        </div>
+        <div class="d-flex justify-content-end  column-gap">
+            <button class="btn btn-outline-primary btn-rounded bolder btn-h" (click)="closePopup()" (keydown)="onKeyDown($event)">CANCEL</button>
+            <a class="btn btn-rounded btn-outline-danger bolder btn-h btn-cancel" tabindex="0" (keypress)="deleteProtocolApi()" (click)="deleteProtocolApi()">Yes,
+                Delete</a>
+        </div>
+    </div>
+</ng-template>
+
+<!-- product PopUp -->
+<ng-template #productPopup>
+    <div class="p-0 pop-header mt-4">
+        <button type="button" class="ws-close close" (click)="closePopup()" (keydown)="onKeyDown($event)">
+            x
+        </button>
+        <div class="d-flex justify-content-center flex-column align-items-center ">
+            <div class="modal-title header-title">Your Protocol:</div>
+            <div class="">{{ (selectedProduct()?.protocolEntries?.length || 0) + (medPaxProducts()?.medpaxEntry?.length || 0) }} 
+                {{ ((selectedProduct()?.protocolEntries?.length || 0) + (medPaxProducts()?.medpaxEntry?.length || 0)) === 1 ? 'Product' : 'Products' }}</div>
+        </div>
+        <hr class="w-100">
+        <div class="col-12 p-0 your-rec text-black sticky">
+            <ng-container>
+                <div class="your-rec-body w-100 bottom-border-unset">
+                    <section>
+                        @for(selectedProduct of selectedProduct()?.protocolEntries;
+                        track selectedProduct ;
+                        let id = $index){
+                        <div class="row p-3">
+                            <div class="col-2 px-1 edit-protocol-img">
+                                <cx-media
+                                    [container]=" (selectedProduct?.product?.images && selectedProduct?.product?.images?.length) ? selectedProduct?.product?.images[1] : null"
+                                    [alt]="selectedProduct?.product?.name"></cx-media>
+                            </div>
+                            <div class="col-7">
+                                <ws-product-status *ngIf="selectedProduct?.product" [product]="selectedProduct?.product"></ws-product-status>
+                                <a class="text-link bolder">{{selectedProduct?.product?.name}}</a>
+                                <div>Dosing:
+                                    <span>{{selectedProduct?.dosing|slice:0:4|dosingPipe}}</span>
+                                </div>
+                                <div>Duration: Ongoing, 1 Unit(s)</div>
+                                <div class="bolder"> {{selectedProduct?.basePrice?.formattedValue}}</div>
+                                <div> MSRP: {{selectedProduct?.msrpBasePrice?.formattedValue}}</div>
+                            </div>
+
+                            <div class="col-3 text-right">
+                                <a class="bolder text-link"
+                                    (click)="openEditDosingPopup('Remove',selectedProduct,true)">Edit</a>
+                                <a class="bolder text-danger del ml-4 ml-lg-2 cursor-pointer "
+                                    (click)="removeProduct(selectedProduct)">x</a>
+                            </div>
+                            <div class="col-12" ngClass="{{selectedProduct?.notes ? 'd-block':'d-none'}}">
+                                <p class="row col-12 bolder mb-0">Note:</p>
+                                <input tabindex="0" class="col-12 form-control input-style" type="text"
+                                    value="{{selectedProduct?.notes}}">
+                            </div>
+                        </div>
+                        @if( id !== selectedProduct.length){
+                        <hr class="w-100 mx-3">
+                        }
+                        }
+                        @empty {
+                        <div class="your-rec-body empty-state">
+                            <div>
+                                <h6 class="mt-0 bolder">No products have been added</h6>
+                                <p>Add a product to get started.</p>
+                            </div>
+                        </div>
+                        }
+                    </section>
+                    @if(isMedPax()){
+                        <div class="ws-medpax-products">
+                            <ws-med-pax-products-right-section 
+                            [products]="medPaxProducts()"
+                            [isPlUser]="checkRoleExist('pluser') | async"
+                            [medPaxId]="medPaxProducts().code"
+                            [medPaxNotes]="medPaxProducts()?.notes?.trim()"></ws-med-pax-products-right-section>
+                        </div>
+                    }
+                </div>
+            </ng-container>
+        </div>
+        <div class="text-right btn-end">
+            <button class="btn btn-primary btn-rounded cursor-pointer " (click)="closePopup()" (keydown)="onKeyDown($event)">
+                Close
+            </button>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #filterPopUp>
+    <div class="pop-header mt-5">
+        <button type="button" class="close d-block c-icon " (click)="closePopup()" (keydown)="onKeyDown($event)">
+            x
+        </button>
+        <div class="d-flex justify-content-center flex-column align-items-center ">
+            <div class="modal-title header-title fs-30 fw-900">FILTERS</div>
+        </div>
+    </div>
+    <ws-product-facet-navigation></ws-product-facet-navigation>
+    <div class="text-right btn-end">
+        <a class="btn btn-outline-primary btn-rounded btn-h" tabindex="0" (click)="closePopup()" (keydown)="onKeyDown($event)" data-dismiss="modal">
+            Close
+        </a>
+    </div>
+</ng-template>
+
+<ng-template #sortBy>
+    <div class="pop-header mt-5">
+        <button type="button" class="close d-block c-icon " (click)="closePopup()" (keydown)="onKeyDown($event)">
+            x
+        </button>
+        <div class="d-flex justify-content-center flex-column align-items-center ">
+            <div class="modal-title header-title fs-30 fw-900">SORT BY</div>
+        </div>
+    </div>
+    <hr class="mx-2">
+    <div class="modal-body p-0 ml-50">
+        @for(sort of products().sorts;track sort){
+        <div class="mb-2">
+            <input type="radio" class="ws-sort-radio" (change)="sortList(select?.value)" #select [value]="sort?.code" tabindex="0"
+                [name]="sort?.name">
+            <label for="az-asc">
+                {{sort?.name}}
+            </label>
+        </div>
+        }
+    </div>
+    <div class="text-right btn-end">
+        <a class="btn btn-outline-primary btn-rounded btn-h" tabindex="0" (keydown)="onKeyDown($event)" (click)="closePopup()" data-dismiss="modal">
+            Close
+        </a>
+    </div>
+</ng-template>
+
+<ng-template #removeProductPopUp>
+    <div class="p-4">
+        <div class="text-right ">
+            <button aria-label="Close modal bg-transp" (click)="closePopup()" (keydown)="onKeyDown($event)" tabindex="0">
+                <span aria-hidden="true" class="fw-900">×</span>
+            </button>
+        </div>
+        <div class="d-flex justify-content-center mb-3" role="banner">
+            <h3 class="bolder mb-0" id="filtersTitle">REMOVE PRODUCT</h3>
+        </div>
+        <div class="body" aria-labelledby="filtersTitle">
+            <ws-product [product]="currentProduct"></ws-product>
+        </div>
+        <div class="text-center fs-18 my-4 bolder">
+            Are you sure you want to remove this product from your protocol?
+        </div>
+        <div class="right-buttons d-flex flex-wrap justify-content-md-end justify-content-sm-center  mt-30 gap">
+            <div>
+                <button class="btn btn-outline-primary btn-rounded btn-h copy" tabindex="0" (click)="closePopup()" (keydown)="onKeyDown($event)">
+                    Cancel
+                </button>
+            </div>
+            <div>
+                <button class="btn btn-outline-danger btn-rounded btn-h copy fw-900 b-width"
+                    (click)="removeProtocolItem(currentProduct)" tabindex="0" (keypress)="removeProtocolItem(currentProduct)">
+                    Yes, Remove
+                </button>
+            </div>
+        </div>
+
+    </div>
+</ng-template>
+
+<ng-template #removeMedPaxProductPopup>
+    <div class="modal-content p-3">
+        <div class="topsection">
+            <h3 class="bolder mx-auto my-0">REMOVE MEDPAX PRODUCT</h3>
+            <p class="mx-auto mb-0 mt-3 text-black">
+                <img class="w-1-25rem" src="../../../../../assets/images/home/MedPax-icon.svg"
+                alt="medpax item icon" aria-hidden="true" />
+                MEDPAX ITEM
+            </p>
+            <button class="close-btn" (click)="closePopup()" (keydown)="onKeyDown($event)">
+                <span aria-hidden="true">×</span>
+            </button>
+        </div>
+        <hr>
+        <!-- <pre> {{ removeMedPaxProduct | json }} </pre> -->
+        <div class="text-start body-section">
+            <div class="row">
+                <div class="col-2 image">
+                    <img src="/assets/images/home/capsules.svg" alt="capsules" class="w-30px">
+                </div>
+                <div class="col content">
+                    <div class="name-desc-container">
+                        <span class="bolder" [innerHTML]="removeMedPaxProduct?.name"></span>
+                        @if(removeMedPaxProduct?.description){
+                            <h6> {{removeMedPaxProduct?.description}} </h6>
+                        }
+                        @if(currentUser() == 'pluser') {
+                            <ws-private-label-tag [class.d-none]="!removeMedPaxProduct?.genericPLName" [labelName]="removeMedPaxProduct?.genericPLName" ></ws-private-label-tag>
+                        }
+                    </div>
+                    <ng-container *ngIf="getCustomDosingOnProductLevel(removeMedPaxProduct?.code)|async as dosingData">
+                        <div class="m-0 ">
+                            Dosing:
+                            @if(selectedMedPaxProductCodes()?.includes(removeMedPaxProduct?.code)){
+                            {{medPaxProducts() |getDosingOnEntryLevel:removeMedPaxProduct?.code:'medpax'|slice:0:4|dosingPipe}}
+                            }@else if($any(dosingData)?.dosingList?.length){
+                            {{$any(dosingData)?.dosingList|slice:0:4|dosingPipe}}
+                            }
+                            @else {
+                            {{ +removeMedPaxProduct?.inAM ? removeMedPaxProduct.inAM + ' in AM' : '' }}
+                            {{((+removeMedPaxProduct?.inAM)&&(+removeMedPaxProduct?.inPM)) ? ' | ' : '' }}
+                            {{ +removeMedPaxProduct?.inPM ? removeMedPaxProduct.inPM + ' in PM' : '' }}
+                            {{((+removeMedPaxProduct?.inPM)&&(+removeMedPaxProduct?.inDaily)) ? ' | ' : '' }}
+                            {{ +removeMedPaxProduct?.inDaily ? removeMedPaxProduct.inDaily + ' in Daily' : '' }}
+                            {{((+removeMedPaxProduct?.inDaily)&&(+removeMedPaxProduct?.inBedtime)) ? ' | ' : '' }}
+                            {{ +removeMedPaxProduct?.inBedtime ? removeMedPaxProduct.inBedtime + ' in Bedtime' : '' }}
+                            }
+                        </div>
+                        <section>
+                            <span class="bolder ">Per 
+                              
+                                    <span *ngIf="removeMedPaxProduct?.materialProductForm === 'Tablets'" class="bolder">
+                                      tablet
+                                  </span>
+                                  <span *ngIf="removeMedPaxProduct?.materialProductForm === 'Softgels'" class="bolder">
+                                      softgel
+                                  </span>
+                                  <span *ngIf="removeMedPaxProduct?.materialProductForm === 'Capsules'" class="bolder">
+                                      capsule
+                                  </span>
+                                : ${{removeMedPaxProduct?.wholeSalePrice?.value}}</span><br>
+                            <em class="text-nowrap ">30 day supply:
+                                @if(selectedMedPaxProductCodes()?.includes(removeMedPaxProduct.code)){
+                                ${{removeMedPaxProduct?.wholeSalePrice?.value|calculateQuantity:medPaxProducts():removeMedPaxProduct?.code:false|
+                                number:'1.2-2'}}
+                                }@else if($any(dosingData)?.dosingList?.length){
+                                ${{removeMedPaxProduct?.wholeSalePrice?.value|calculateQuantity:$any(dosingData):removeMedPaxProduct?.code:true|
+                                number:'1.2-2'}}
+                                }
+                                @else {
+                                ${{(((30)+((+removeMedPaxProduct?.inAM || 0)+(+removeMedPaxProduct?.inPM ||
+                                0)+(+removeMedPaxProduct?.inDaily || 0)+(+removeMedPaxProduct?.inBedtime|| 0))) *
+                                (removeMedPaxProduct?.wholeSalePrice?.value || 0)) | number:'1.2-2'}}
+                                }
+                            </em>
+                        </section>
+                    </ng-container>
+                </div>
+            </div>
+            <hr>
+            <div class="bolder text-center my-4 fs-16 ">
+                Are you sure you want to remove this product from your MedPax?
+            </div>
+            <div class="row">
+                <div class="col-12 text-right">
+                    <button class="btn btn-outline-primary btn-rounded bolder" (click)="closePopup()" (keydown)="onKeyDown($event)">cancel</button>
+                    <button class="btn btn-outline-danger btn-rounded bolder mt-3 mt-sm-0 ml-sm-2 b-3-red"
+                        (click)="deleteMedPax()">Yes, Remove</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #removeMedPax>
+    <div class="topsection rm-mtpax">
+        <h3 class="mb-0 mt-3 bolder">REMOVE MEDPAX PRODUCT</h3>
+        <p class="mx-auto mb-0 mt-3 text-black bolder">
+            <img src="/assets/qa/medpax-icon-dark.svg" style="height:1rem;" alt="medpax item icon" aria-hidden="true">
+            MedPax item
+        </p>
+        <div class="close-btn mr-2 mt-2" (click)="closePopup()" tabindex="0" (keydown)="onKeyDown($event)">x</div>
+    </div>
+    <hr>
+    <div class="col-8">
+        <ws-medpax-card [medPaxData]="medPaxProducts()" [removalCard]="true" ></ws-medpax-card>
+    </div>
+    <hr>
+       <ws-protocol-medpax-right-table [products]="medPaxProducts()"  [hideActions]="true" ></ws-protocol-medpax-right-table>
+    <hr>
+    <div class="row mx-0">
+        <h6 class="bolder text-center my-4">
+            Are you sure you want to remove this MedPax from your protocol?
+        </h6>
+        <div class="col-12 text-right">
+            <button class="btn btn-outline-primary btn-rounded bolder" (click)="closePopup()" (keydown)="onKeyDown($event)">cancel</button>
+            <button class="btn btn-outline-danger btn-rounded bolder mt-3 mt-sm-0 ml-sm-2 b-3-red"
+                (click)="deleteExistingMedPax()">Yes, Remove</button>
+        </div>
+    </div>
+</ng-template>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+ Copyright (c) 2021 SAP SE or an SAP affiliate company. All rights reserved.
+--><extensioninfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="extensioninfo.xsd">
+           
+    
+    <extension abstractclassprefix="Generated" classprefix="Wholescriptscore" jaloLogicFree="true" managername="WholescriptscoreManager" managersuperclass="de.hybris.platform.jalo.extension.Extension" name="Wholescriptscore" usemaven="false">
+                  
+      
+        
+        <!-- for more information on maven managed libraries please consult https://wiki.hybris.com/x/Nq8sDQ -->
+                               
+      
+        
+        <!-- you should add all required extensions to this list, except platform extensions which are automatically required -->
+                         
+      
+        
+        <!-- <requires-extension name="cms"/> -->
+
+        <requires-extension name="sapmodel"/>
+        <requires-extension name="b2bcommercefacades"/>
+        <requires-extension name="cms2lib"/>
+        <requires-extension name="cms2"/>
+        <requires-extension name="commercewebservices"/>
+        <requires-extension name="integrationservices"/>
+        <requires-extension name="outboundservices"/>
+        <requires-extension name="solrfacetsearch"/>
+        <requires-extension name="commerceservices"/>
+        <requires-extension name="commercefacades"/>
+        <requires-extension name="wishlist"/>
+        <requires-extension name="cmsfacades"/>
+        <requires-extension name="b2bacceleratorfacades"/>
+        <requires-extension name="gigyab2bfacades"/>
+        <requires-extension name="paymetric"/>
+        <requires-extension name="mediaconversion"/>
+         <requires-extension name="promotionengineservices"/>
+
+
+
+        <coremodule generated="true" manager="com.wholescripts.core.jalo.WholescriptscoreManager" packageroot="com.wholescripts.core"/>
+                      
+        
+        <webmodule jspcompile="false" webroot="/Wholescriptscore"/>
+
+
+           
+    
+    </extension>
+              
+
+
+</extensioninfo>

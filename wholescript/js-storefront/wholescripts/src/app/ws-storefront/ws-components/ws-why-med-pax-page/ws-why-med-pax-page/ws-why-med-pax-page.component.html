@@ -1,0 +1,185 @@
+<section id="why-med-pax-page-content">
+
+    <section class="mp-header">
+        <cx-page-slot position="medpaxSection1"></cx-page-slot>
+    </section>
+
+    <section class="csm-content-container">
+        <cx-page-slot position="medpaxSection2"></cx-page-slot>
+    </section>
+
+    <section class="medpax dots-bg">
+        <div class="medpax-content-container box-shadow">
+            <div class="mp-imgs">
+                <div>
+                    <h3 class="mp__title" [outerHTML]="medpaxSpecificContent['section3ParaComponent1']?.content">
+                    </h3>
+                    <div class="mp__subtitle" [outerHTML]="medpaxSpecificContent['section3ParaComponent2']?.content">
+                    </div>
+                </div>
+                <div id="mp-image">
+                    <cx-media
+                        [container]="wsPageService.getImage(medpaxSpecificContent['medpexboxBannerComponent'])"></cx-media>
+                </div>
+            </div>
+            <div class="green-line d-none"></div>
+            <div class="mp-features">
+                <div class="mp-feature">
+                    <cx-media
+                        [container]="wsPageService.getImage(medpaxSpecificContent['medpexFindSupplementsBannerComponent'])"></cx-media>
+
+                    <div>
+                        <h5 class="bolder"
+                            [outerHTML]="medpaxSpecificContent['medpexFindSupplementsBannerComponent']?.headline">
+                        </h5>
+                        <div>
+                            {{medpaxSpecificContent['medpexFindSupplementsBannerComponent']?.content}}
+                        </div>
+                    </div>
+                </div>
+                <div class="mp-feature">
+                    <cx-media
+                        [container]="wsPageService.getImage(medpaxSpecificContent['medpexAddSupplementsBannerComponent'])"></cx-media>
+
+                    <div>
+                        <h5 class="bolder"
+                            [outerHTML]="medpaxSpecificContent['medpexAddSupplementsBannerComponent']?.headline">
+
+                        </h5>
+                        <div>
+                            {{medpaxSpecificContent['medpexAddSupplementsBannerComponent']?.content}}
+                        </div>
+                    </div>
+                </div>
+                <div class="mp-feature">
+                    <cx-media
+                        [container]="wsPageService.getImage(medpaxSpecificContent['medpexReviewBannerComponent'])"></cx-media>
+                    <div>
+                        <h5 class="bolder" [outerHTML]="medpaxSpecificContent['medpexReviewBannerComponent']?.headline">
+                        </h5>
+                        <div>
+                            {{medpaxSpecificContent['medpexReviewBannerComponent']?.content}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center px-3 medpax-its-simple-wrapper">
+                <h4 [outerHTML]="medpaxSpecificContent['section3ParaComponent3']?.content"></h4>
+                <div class="d-sm-flex align-items-center justify-content-center mt-4">
+                    <a *ngIf="medpaxSpecificContent['exploreMedpaxLink']?.url" class="text-link mr-sm-3 fs-16" [href]="medpaxSpecificContent['exploreMedpaxLink']?.url">
+                        {{medpaxSpecificContent['exploreMedpaxLink']?.linkName }}
+                    </a>
+                    <a *ngIf="medpaxSpecificContent['practitionerExploreMedpaxLink']?.url" class="text-link mr-sm-3 fs-16" [href]="medpaxSpecificContent['practitionerExploreMedpaxLink']?.url">
+                        {{medpaxSpecificContent['practitionerExploreMedpaxLink']?.linkName }}
+                    </a>
+                    <a *ngIf="medpaxSpecificContent['guestexploreMedpaxLink']?.url" class="text-link mr-sm-3 fs-16" [href]="medpaxSpecificContent['guestexploreMedpaxLink']?.url">
+                        {{medpaxSpecificContent['guestexploreMedpaxLink']?.linkName}}
+                    </a>
+                    <a *ngIf="!isLoggedIn" class="ws-button ws-button--fit ws-button--no-underline primary mt-3 mt-sm-0 --hide-logged-in"
+                        [href]="medpaxSpecificContent['PatientHomeRegisterLink']?.url">
+                        {{medpaxSpecificContent['PatientHomeRegisterLink']?.linkName}}
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="why-medpax wave">
+        <div class="why-medpax__inner">
+            <h2 class="why-medpax__title">
+                {{medpaxSpecificContent['medpaxSection4CarouselComponent1']?.headline}}
+            </h2>
+            <article class="container why-medpax__step why-medpax__step1"
+                [ngClass]="activeWhyMedpaxCarousel === 1 ? 'why-medpax__step--visible' : ''">
+                <h3 class="why-medpax__h3" *ngIf="medpaxSpecificContent['csmSection4ParaComponent1']?.content"
+                    [outerHTML]="medpaxSpecificContent['csmSection4ParaComponent1']?.content"></h3>
+
+                <div class="why-medpax__card">
+                    <cx-media
+                        [container]="wsPageService.getImage(medpaxSpecificContent['medpaxSmallPacketComp'])"></cx-media>
+                    <div class="why-medpax__card-text" *ngIf="medpaxSpecificContent['medpaxSmallPacketComp']?.content"
+                        [outerHTML]="medpaxSpecificContent['medpaxSmallPacketComp']?.content">
+                    </div>
+                </div>
+                <div class="why-medpax__img">
+                    <cx-media
+                        [container]="wsPageService.getImage(medpaxSpecificContent['medpaxPacketSoloComp'])"></cx-media>
+                </div>
+            </article>
+            <article class="container why-medpax__step why-medpax__step2"
+                [ngClass]="activeWhyMedpaxCarousel === 2 ? 'why-medpax__step--visible' : ''">
+                <h3 class="why-medpax__h3" *ngIf="medpaxSpecificContent['csmSection4ParaComponent2']?.content"
+                    [outerHTML]="medpaxSpecificContent['csmSection4ParaComponent2']?.content">
+                </h3>
+                <div class="why-medpax__card">
+                    <cx-media
+                        [container]="wsPageService.getImage(medpaxSpecificContent['medpaxEcoIconComp'])"></cx-media>
+                    <div class="why-medpax__card-text" *ngIf="medpaxSpecificContent['medpaxEcoIconComp']?.content"
+                        [outerHTML]="medpaxSpecificContent['medpaxEcoIconComp']?.content">
+                    </div>
+                </div>
+                <div class="why-medpax__img">
+                    <cx-media
+                        [container]="wsPageService.getImage(medpaxSpecificContent['medpaxImageSolo2Comp'])"></cx-media>
+                </div>
+            </article>
+
+            <article class="container why-medpax__step why-medpax__step3"
+                [ngClass]="activeWhyMedpaxCarousel === 3 ? 'why-medpax__step--visible' : ''">
+                <h3 class="why-medpax__h3" *ngIf="medpaxSpecificContent['csmSection4ParaComponent3']?.content"
+                    [outerHTML]="medpaxSpecificContent['csmSection4ParaComponent3']?.content"></h3>
+                <div class="why-medpax__card">
+                    <cx-media
+                        [container]="wsPageService.getImage(medpaxSpecificContent['medpaxAutoShipComp'])"></cx-media>
+                    <div class="why-medpax__card-text" *ngIf="medpaxSpecificContent['medpaxAutoShipComp']?.content"
+                        [outerHTML]="medpaxSpecificContent['medpaxAutoShipComp']?.content">
+                    </div>
+                </div>
+                <div class="why-medpax__img">
+                    <cx-media
+                        [container]="wsPageService.getImage(medpaxSpecificContent['medpaxCalenderComp'])"></cx-media>
+                </div>
+            </article>
+
+            <div class="why-medpax__scroll">
+                <svg style="display: block;" id="mp-desktopScrollIcon" class="why-medpax__scroll-icon"
+                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
+                    <path
+                        d="M224 0h-64C71.62 0 0 71.63 0 160v192c0 88.38 71.63 160 160 160h64c88.38 0 160-71.63 160-160V160C384 71.62 312.4 0 224 0zm128 352c-.125 70.63-57.38 127.9-128 128h-64c-70.63-.125-127.9-57.38-128-128V160c.125-70.63 57.38-127.9 128-128h64c70.63.125 127.9 57.38 128 128v192zM192 95.1c-8.844 0-16 7.156-16 16v64c0 9.7 7.2 16.9 16 16.9s16-7.156 16-16v-64c0-8.8-7.2-16.9-16-16.9z"
+                        style="fill:rgb(255,255,255);"></path>
+                </svg>
+                <svg style="display:none;" id="mp-mobileScrollIcon" class="why-medpax__scroll-icon"
+                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                    <path
+                        d="M448 285v91c0 74.98-60.19 136-134.2 136H196.2c-22.31 0-44.47-5.703-64.09-16.52L71.23 461.9C47 448.6 32 423 32 395.2v-50.33c0-23.16 10.22-44.75 28.28-59.42L96 257.4v40.67L80.25 310.4C69.94 318.8 64 331.3 64 344.8v50.33c0 16.2 8.656 31.03 22.62 38.72l60.88 33.58c14.9 8.27 31.7 12.57 48.7 12.57h117.7c56.3 0 102.1-46.7 102.1-104v-91c0-16-12.7-29-28.3-29 0 0-16.87.256-17 .256C350 256.3 357.4 224 328.6 224h-14.78c-10.99 0-13.6 5.012-21.72 5.012C275.5 229 278.6 208 254.8 208h-17.25c-16.82 0-17.63 11.69-29.56 11.69-8.69.01-15.99-7.09-15.99-15.99V56c0-13.25-10.7-24-24-24s-24 10.75-24 24l-.9 280c0 8.836-7.164 16-16 16s-16.01-7.167-16.01-16L112 56c0-34.72 31.76-62.16 67.76-54.8C205.9 6.561 224 30.88 224 57.6v119.1c4.4-.2 8.9-.7 13.5-.7h17.25c16.03 0 31.06 6.375 42.19 17.53 5.56-1.73 11.16-1.53 16.86-1.53h14.78c21.47 0 41.03 13.67 51.72 32h7.344C420.9 224 448 251.4 448 285z"
+                        style="fill:rgb(255,255,255);"></path>
+                </svg>
+                <div class="why-medpax__scroll-line">
+                </div>
+            </div>
+
+            <ul class="why-medpax__indicators">
+                <li id="wmpi1" class="wmpi1 why-medpax__indicator"
+                    [ngClass]="activeWhyMedpaxCarousel === 1 ? 'why-medpax__indicator--active' : ''"
+                    (click)="whyMPIndicator(1)">
+                    <button class="why-medpax__ind-btn">1</button>
+                </li>
+                <li id="wmpi2" class="wmpi2 why-medpax__indicator" (click)="whyMPIndicator(2)"
+                    [ngClass]="activeWhyMedpaxCarousel === 2 ? 'why-medpax__indicator--active' : ''">
+                    <button class="why-medpax__ind-btn">2</button>
+                </li>
+                <li id="wmpi3" class="wmpi3 why-medpax__indicator" (click)="whyMPIndicator(3)"
+                    [ngClass]="activeWhyMedpaxCarousel === 3 ? 'why-medpax__indicator--active' : ''">
+                    <button class="why-medpax__ind-btn">3</button>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <section class="dots-bg mp-end-section">
+        <article class="container mp-end-section__content">
+            <cx-page-slot position="medpaxSection5"></cx-page-slot>
+        </article>
+    </section>
+
+</section>

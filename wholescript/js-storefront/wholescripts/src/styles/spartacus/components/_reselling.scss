@@ -1,0 +1,175 @@
+cx-page-layout.ResellingPageTemplate {
+  padding: 4rem 8rem;
+
+  @include media-breakpoint-down(md) {
+    padding: 0;
+  }
+
+  cx-page-slot.TopBannerSlot {
+    @include media-breakpoint-down(sm) {
+      margin-top: 6rem;
+    }
+
+    cx-banner {
+      div {
+        p.headline {
+          text-align: end;
+          padding: 5vw 1vw;
+        }
+      }
+    }
+
+    cx-paragraph:nth-child(2) {
+      display: none;
+    }
+  }
+
+  cx-page-slot.ResellCardsSlot {
+    justify-content: space-between;
+
+    @include media-breakpoint-down(sm) {
+      flex-direction: column;
+    }
+
+    cx-paragraph {
+      @include media-breakpoint-down(sm) {
+        max-width: 100%;
+      }
+
+      max-width: 31%;
+      min-width: 25%;
+      border-bottom: 0.25rem var(--cx-color-primary) solid;
+      background-color: var(--ws-gray-light-200);
+      border-radius: 0.5rem;
+      margin: 1rem 0;
+
+      div {
+        padding: 1rem;
+
+        h2 {
+          font-weight: 900 !important;
+          font-size: 1.875rem !important;
+        }
+      }
+    }
+  }
+
+  cx-page-slot.ResellAvalaraSlot {
+    text-align: center;
+    margin: 4rem auto;
+    gap: 2rem;
+
+    app-avalara:nth-child(3) {
+      margin: 2rem auto;
+      text-align: center;
+
+      a.avalara-btn-link {
+        min-width: 27%;
+        border-radius: 2rem;
+        padding: 1rem 2rem;
+        background: var(--cx-color-primary);
+
+        @include media-breakpoint-down(sm) {
+          border-radius: 2rem;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          border-radius: 2rem;
+          background: var(--cx-color-primary);
+        }
+
+        text-decoration: none;
+        font-size: 1rem;
+        font-weight: 900;
+        color: var(--ws-base-white);
+
+
+
+      }
+    }
+
+    cx-paragraph:nth-child(4) {
+      @include media-breakpoint-down(sm) {
+        max-width: 100%;
+      }
+
+      max-width: 46%;
+      min-width: 30%;
+      border: 2px solid var(--ws-cyan-800);
+      background-color: var(--ws-cyan-50);
+      border-radius: 0.5rem;
+      padding: 0.4rem;
+      color: var(--ws-cyan-800);
+    }
+  }
+
+  cx-page-slot.ResellProcessSlot {
+    margin: 4rem auto;
+
+    cx-paragraph:nth-child(1) {
+      text-align: center;
+      margin: 4rem auto;
+
+      div {
+        font-size: 3rem;
+        font-weight: 900;
+        padding: 0 0 4rem;
+      }
+    }
+
+    cx-banner:nth-child(2),
+    cx-banner:nth-child(3),
+    cx-banner:nth-child(4) {
+      @include media-breakpoint-down(sm) {
+        max-width: 100%;
+      }
+
+      max-width: 30%;
+
+      div {
+        p.headline {
+          text-align: center;
+          padding: 0;
+          font-size: 1rem;
+          color: black;
+          text-shadow: none;
+          bottom: 0;
+          line-height: 1.5;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding-top: 10rem;
+          background: #fff;
+          z-index: 0;
+          height: 16rem;
+        }
+
+        cx-media {
+          img {
+            position: relative;
+            bottom: 4rem;
+          }
+        }
+      }
+    }
+
+    cx-banner:nth-child(3) {
+      @include media-breakpoint-down(sm) {
+        margin: 1rem auto;
+      }
+    }
+
+    cx-banner:nth-child(4) {
+      @include media-breakpoint-down(sm) {
+        padding-top: 1rem;
+      }
+    }
+
+    cx-paragraph:nth-child(5),
+    cx-paragraph:nth-child(6),
+    cx-paragraph:nth-child(7) {
+      display: none;
+    }
+  }
+
+}

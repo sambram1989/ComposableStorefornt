@@ -1,0 +1,85 @@
+#age-verification-section {
+
+    #change-address-button {
+        &:hover {
+            background: none !important;
+        }
+    }
+    #id-verification {
+        background-color: var(--ws-gray-dark-alt);
+        border: none;
+        margin-block-end: 1rem;
+        margin-top: 1rem;
+        .ws-card__body {
+            background-color: var(--ws-gray-dark-alt);
+        }
+    }
+
+    .ws-card {
+        background-color: var(--ws-base-white);
+        border: 1px solid var(--ws-gray-light-200);
+        border-radius: 5px;
+        padding: 0;
+        margin-block-end: 2rem;
+        .restricted-items-header {
+            display: flex;
+                gap: 0.5rem;
+                padding: 1rem;
+                align-items: center;
+                background-color: var(--cx-color-background-alt);
+                justify-content: space-between;
+                button {
+                    font-weight: 900;
+                }
+        }
+        .ws-card__body {
+            padding: 1rem;
+            .restricted-item__container {
+                padding-block: 0.5rem;
+                .restricted-item {
+                    display: grid;
+                        grid-template-columns: 60px 1fr auto auto auto auto;
+                        gap: 2rem;
+                        align-items: center;
+                        margin-bottom: 10px;
+                        .restricted-item__image {
+                            width: 60px;
+                            aspect-ratio: 1;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            ::ng-deep {
+                                cx-media {
+                                    height: 60px;
+                                    img {
+                                        width: 100%;
+                                        object-fit: contain;
+                                        align-self: center;
+                                        max-height: 60px;
+                                    }
+                                }
+                            }
+                        }
+                        .restricted-item__name {
+                            p {
+                                margin: 0;
+                                font-weight: 700;
+                            }
+                        }
+                        .restricted-item__info {
+                            display: contents;
+                            .restricted-item__quantity {
+                                text-align: center;
+                            }
+                            .restricted-item__totals {
+                                text-align: right;
+                                .unit-price {
+                                    white-space: nowrap;
+                                }
+                            }
+                        }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,13 @@
+<ws-success-protocol-landing [protocolId]="protocolId" [selectedProduct]="selectedProduct$|async">
+    <div class="d-flex flex-column justify-content-center align-items-center ">
+        <p class="bolder" role="heading" aria-level="2"> Use the link below to share this protocol with your patients.
+        </p>
+        <div class="input-group col-12 mb-3">
+            <input id="shareTemplateLink" aria-label="Share link input" type="text" class="form-control input-style " style="color:black; cursor:auto"
+                aria-label="Protocol sharing link" [value]="url + '/customer/protocol/' + protocolId"
+                #inputBox>
+            <button class="btn btn-primary fz-16 h-42 " type="button" aria-label="Copy the sharing link"
+                [cdkCopyToClipboard]="inputBox.value">Copy</button>
+        </div>
+    </div>
+</ws-success-protocol-landing>

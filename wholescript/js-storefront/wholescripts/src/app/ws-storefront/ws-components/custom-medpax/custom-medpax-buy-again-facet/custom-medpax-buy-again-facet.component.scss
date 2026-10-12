@@ -1,0 +1,80 @@
+.buy-again-active-facet-container {
+    .activeFacetHeader {
+        font-size: 18px;
+        font-weight: 400;
+
+        button {
+            padding: 0 0 10px;
+            color: #dc3545 !important;
+            font-size: 18px;
+            cursor: pointer;
+        }
+    }
+
+    .activeFacetContent {
+        padding: 10px;
+        a {
+            font-size: var(--cx-font-size, .92rem);
+            color: var(--cx-color-text);
+            text-decoration: none;
+            background: #f4f4f4;
+            border-radius: 4px;
+            display: inline-block;
+            width: auto;
+            padding-left: 10px;
+            margin-right: 10px;
+            margin-bottom: 10px;
+
+
+            cx-icon {
+                font-size: 1rem;
+                padding: 10px;
+            }
+        }
+    }
+}
+
+.buy-again-facet-container {
+    .buy-again-facet-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin: .4rem 0;
+        padding: .4rem;
+        width: 100%;
+        border-bottom: 1px solid var(--cx-color-light);
+        cursor: pointer;
+        font-weight: var(--cx-font-weight-semi);
+    }
+    .buy-again-facet-values {
+        a {
+            display: flex;
+            align-items: baseline;
+            padding: .4rem;
+            cursor: pointer;
+            color: var(--cx-color-text);
+
+            &:before {
+                content: "\2713";
+                color: transparent;
+                flex-shrink: 0;
+                font-size: 1rem;
+                font-weight: 700;
+                width: 1.3rem;
+                height: 1.35rem;
+                border-radius: .2rem;
+                border: solid 1px var(--cx-color-light);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin-inline-end: .5rem;
+            }
+
+            &.value.selected:before {
+                background-color: var(--cx-color-primary);
+                border-color: var(--cx-color-primary);
+                color: var(--cx-color-inverse);
+            }
+        }
+    }
+}

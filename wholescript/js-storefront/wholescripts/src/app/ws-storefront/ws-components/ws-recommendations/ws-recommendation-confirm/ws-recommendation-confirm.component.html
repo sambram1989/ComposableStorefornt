@@ -1,0 +1,110 @@
+<div class="rec-sucessfull-sec" *ngIf="recommendations$ | async as recommendations">
+  <div class="row justify-content-center">
+    <div class="col-12 col-lg-8">
+      <ws-recommendation-confirm-header [recommendationId]="reviewId"></ws-recommendation-confirm-header>
+      <div class="rec-table-sec d-flex flex-column">
+        <div class="rec-table-header position-relative d-flex align-items-center justify-content-between">
+          <div class="rec-table-title">Recommendation Summary</div>
+          <button tabindex="0" role="button" (click)="cloneRcommendation()" type="button" class="save-as-p-btn position-relative d-flex">Save as Protocol</button>
+        </div>
+        <div class="rec-table-body">
+          <table class="table">
+            <tbody>
+              <tr *ngFor="let entries of recommendations.recommendationEntries">
+                <td class="product-image-and-name-wrapper">
+                  <div class="rec-t-product-title d-flex position-relative">
+                    <div class="rec-t-product-img d-flex align-items-center justify-content-center">
+                        <cx-media
+                          [container]="entries?.product?.images"
+                          format="product"
+                          [alt]="entries.product?.name ?? ''"
+                        ></cx-media>
+                    </div>
+                    <div class="rec-t-product-text">{{entries.product.name}}</div>
+                  </div>
+                  <div class="rec-t-product-sub-title dosing-desktop-v">
+                    <strong>Dosing: </strong><span>{{entries?.dosing|slice:0:4|dosingPipe}}</span>
+                  </div>
+                  <div *ngIf="entries?.notes && entries.notes.trim().length > 0" class="rec-t-product-sub-title dosing-desktop-v pt-2">
+                    <strong>Note: </strong><span>{{entries?.notes}}</span>
+                  </div>
+                </td>
+                <td>
+                  <div class="rec-t-product-title m-0 d-flex position-relative">
+                    <div class="rec-t-product-text">Duration: <span>{{weekMapItems.get(entries?.itemDuration) | capitalCase}}</span></div>
+                  </div>
+                </td>
+                <td>
+                  <div class="rec-t-product-title m-0 d-flex position-relative">
+                    <div class="rec-t-product-text">Qty: <span>{{entries.quantity}}</span></div>
+                  </div>
+                </td>
+                <td>
+                  <div class="rec-t-product-title m-0 d-flex position-relative justify-content-end">
+                    <div class="rec-t-product-text">MSRP: {{ entries.msrpTotalPrice?.formattedValue }}</div>
+                  </div>
+                  <div class="rec-t-product-sub-title dosing-mobile-v">
+                    <span>Dosing:{{entries?.dosing|slice:0:4|dosingPipe}}</span>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="5">
+                  <ws-medpax-protocol-review-card [protocolId]="reviewId" ></ws-medpax-protocol-review-card>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="rec-table-footer position-relative d-flex align-items-center justify-content-end">
+            <h3>Total MSRP: <span>{{recommendations?.msrpSubTotalPrice?.formattedValue}}</span></h3>
+          </div>
+        </div>
+      </div>
+      <div class="rec-table-sec d-flex flex-column mt-4">
+        <div class="rec-table-header position-relative d-flex align-items-center justify-content-between">
+          <div class="rec-table-title">Recommendation message to patient(s)</div>
+        </div>
+        <div class="rec-table-body">
+          <div class="container-fluid p-2">
+            <p class="border-1 rounded p-2">
+              {{ recommendations?.notes }}
+            </p>
+        </div>
+        </div>
+        </div>
+
+    </div>
+  </div>
+</div>
+<ng-template #cloneRecommendation>
+  <div class="modal-header">
+    <h3 class="modal-title mx-auto">
+      <span class="bolder">CREATE NEW PROTOCOL</span>
+    </h3>
+    <button type="button" class="close" (click)="closeFilterModal()" aria-label="Close modal">
+      x
+    </button>
+  </div>
+  <hr>
+  <form [formGroup]="createProtocol" (ngSubmit)="onSubmit()" aria-label="protocol-form-title">
+    <div class="modal-body p-0">
+      <p class="bolder text-center">Please provide the name of this Protocol:</p>
+      <input type="text" class="form-control text-center w-75 mx-auto" maxlength="50" aria-label="Protocol Name" placeholder="ENTER PROTOCOL NAME"
+        formControlName="name" aria-required="true" />
+      @if(createProtocol.invalid && createProtocol.touched){
+      <div class="text-center text-danger" role="alert"> Please enter a name for your Protocol</div>
+      }
+      <div class="text-muted text-center fs-13 mt-1 mb-4">Limit of 50 characters</div>
+
+      <div class="row pt-4 mx-3">
+        <div style="column-gap: 10px;" class="col-12 d-flex align-items-center justify-content-end">
+          <button type="button" class="btn btn-outline-primary btn-rounded" (click)="closeFilterModal()">Cancel</button>
+          <button type="submit"
+            [disabled]="!createProtocol.controls.name.value"
+            (click)="onSubmit()"
+            class="btn btn-primary btn-rounded saveGroupName-btn">Save</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</ng-template>

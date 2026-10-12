@@ -1,0 +1,17 @@
+:host{
+    background-color: var(--ws-base-white) !important;
+}
+.search-results{
+    max-height:400px;
+    overflow-y: scroll;
+    .content-address{
+        &:hover{
+            background-color: #F4F1F8;
+        }
+        &:focus{
+            outline: 3px solid var(--cx-color-darkest) !important;
+            outline-offset: 2px !important;
+            box-shadow: unset;
+        }
+    }
+}

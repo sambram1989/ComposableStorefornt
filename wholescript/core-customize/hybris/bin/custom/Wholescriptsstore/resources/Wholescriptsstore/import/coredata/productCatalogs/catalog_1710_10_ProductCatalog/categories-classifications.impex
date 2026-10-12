@@ -1,0 +1,84 @@
+$productCatalog = Default
+$catalogVersion = catalogversion(catalog(id[default = $productCatalog]), version[default = 'Staged'])[unique = true, default = $productCatalog:Staged]
+$classCatalogVersion = catalogversion(catalog(id[default = 'PIMClassification']), version[default = '1.0'])[unique = true, default = 'PIMClassification:1.0']
+$classSystemVersion = systemVersion(catalog(id[default = 'PIMClassification']), version[default = '1.0'])[unique = true]
+$class = classificationClass(ClassificationClass.code, $classCatalogVersion)[unique = true]
+$supercategories = source(code, $classCatalogVersion)[unique = true]
+$categories = target(code, $catalogVersion)[unique = true]
+$attribute = classificationAttribute(code, $classSystemVersion)[unique = true]
+$unit = unit(code, $classSystemVersion)
+$classificationCatalog = PIMClassification
+$classificationCatalogName = PIM Classification
+
+# Classification catalog
+INSERT_UPDATE ClassificationSystem; id[unique = true]      ;name
+                                  ; $classificationCatalog ; $classificationCatalogName
+# Insert Classifications System Version
+INSERT_UPDATE ClassificationSystemVersion; catalog(id)[unique = true]; version[unique = true]; active; inclPacking[virtual = true, default = true]; inclDuty[virtual = true, default = true]; inclFreight[virtual = true, default = true]; inclAssurance[virtual = true, default = true]
+                                         ; $classificationCatalog    ; 1.0                   ; true
+
+# Insert Classifications
+INSERT_UPDATE ClassificationClass; $classCatalogVersion; code[unique = true]            ; allowedPrincipals(uid)[default = 'customergroup']; name[lang = en]                 ;
+                                 ;                     ; pimClassificationDataClass     ;                                                  ; "PIM Classifications Data"      ;
+                                 ;                     ; seoMetaClassificationDataClass ;                                                  ; "SEO META Classifications Data" ;
+
+# Insert Classification Attributes
+INSERT_UPDATE ClassificationAttribute; $classSystemVersion; code[unique = true]  ; name[lang = en];;;;;
+                                     ;                    ; productName          ; Product Name
+                                     ;                    ; shortDescription     ; Short Description
+                                     ;                    ; longDescription      ; Long Description
+                                     ;                    ; directions           ; Directions
+                                     ;                    ; storage              ; Storage
+                                     ;                    ; doesNotContain       ; Does Not Contain
+                                     ;                    ; clinicalApplications ; Clinical Applications
+                                     ;                    ; masterVariant        ; Master Variant
+                                     ;                    ; otherIngredients     ; Other Ingredients
+                                     ;                    ; contains             ; Contains
+                                     ;                    ; trademarks           ; Trademarks
+                                     ;                    ; formulatedToExclude  ; Formulated To Exclude
+                                     ;                    ; suggestedUse         ; Suggested Use
+                                     ;                    ; warning              ; Warning
+                                     ;                    ; caution              ; Caution
+                                     ;                    ; activeIngredients    ; Active Ingredients
+                                     ;                    ; inactiveIngredients  ; Inactive Ingredients
+                                     ;                    ; ingredients          ; Ingredients
+                                     ;                    ; doctorReferenceSheet ; Doctor Reference Sheet
+                                     ;                    ;supplementFacts        ;Supplement Facts
+#SEO Attributes
+                                     ;                    ; seoMetaKeywords      ; SEO Meta Keywords
+                                     ;                    ; seoMetaDescription   ; SEO Meta Description
+                                     ;                    ; seoMetaTitle         ; SEO Meta Title
+                                     ;                    ; seofriendlyPageName  ; Search engine friendly page name
+
+# Links ClassificationClasses to Categories
+INSERT_UPDATE CategoryCategoryRelation ; $categories ; $supercategories ;  ;  ;  ;  ;  ;
+                                       ; catalog        ; pimClassificationDataClass             ;  ;  ;  ;  ;  ;
+                                       ; catalog        ; seoMetaClassificationDataClass             ;  ;  ;  ;  ;  ;
+
+INSERT_UPDATE ClassAttributeAssignment; $class[default = pimClassificationDataClass]; $attribute           ; position; attributeType(code[default = string]); multiValued[default = false]; range[default = false]; localized[default = true];referenceType(code)[unique = true]
+                                      ;                                             ; productName          ; 0       ;                                      ;                             ;                       ;
+                                      ;                                             ; shortDescription     ; 1       ;                                      ;                             ;                       ;
+                                      ;                                             ; longDescription      ; 2       ;                                      ;                             ;                       ;
+                                      ;                                             ; directions           ; 3       ;                                      ;                             ;                       ;
+                                      ;                                             ; storage              ; 5       ;                                      ;                             ;                       ;
+                                      ;                                             ; doesNotContain       ; 6       ;                                      ;                             ;                       ;
+                                      ;                                             ; clinicalApplications ; 7       ;                                      ;                             ;                       ;
+                                      ;                                             ; masterVariant        ; 8       ;                                      ;                             ;                       ;
+                                      ;                                             ; otherIngredients     ; 9       ;                                      ;                             ;                       ;
+                                      ;                                             ; contains             ; 10      ;                                      ;                             ;                       ;
+                                      ;                                             ; trademarks           ; 11      ;                                      ;                             ;                       ;
+                                      ;                                             ; formulatedToExclude  ; 12      ;                                      ;                             ;                       ;
+                                      ;                                             ; suggestedUse         ; 13      ;                                      ;                             ;                       ;
+                                      ;                                             ; warning              ; 14      ;                                      ;                             ;                       ;
+                                      ;                                             ; caution              ; 15      ;                                      ;                             ;                       ;
+                                      ;                                             ; activeIngredients    ; 16      ;                                      ;                             ;                       ;
+                                      ;                                             ; inactiveIngredients  ; 17      ;                                      ;                             ;                       ;
+                                      ;                                             ; ingredients          ; 18      ;                                      ;                             ;                       ;
+                                      ;                                             ;doctorReferenceSheet  ; 19      ;reference                             ;                             ;                       ;;Media
+                                      ;                                             ;supplementFacts        ;20      ; reference                            ;                             ;                       ;;Media
+                                      ; seoMetaClassificationDataClass              ; seoMetaKeywords      ; 1       ;                                      ;                             ;                       ;
+                                      ; seoMetaClassificationDataClass              ; seoMetaDescription   ; 2       ;                                      ;                             ;                       ;
+                                      ; seoMetaClassificationDataClass              ; seoMetaTitle         ; 3       ;                                      ;                             ;                       ;
+                                      ; seoMetaClassificationDataClass              ; seofriendlyPageName  ; 4       ;                                      ;                             ;                       ;
+
+

@@ -1,0 +1,107 @@
+<div *ngFor="let alert of alerts">
+    <alert [type]="alert.type" [dismissOnTimeout]="alert.timeout" (onClosed)="onClosed(alert)">{{ alert.msg }}</alert>
+  </div>
+  <section [ngClass]="isLoggedIn ? 'loggedin-menu' : ''" class="main-content row">
+    <div id = "menu" class="sticky-container col-xl-3" [ngClass]="setShadow && 'sticky-shadow'">
+    <ws-advertising-links></ws-advertising-links>
+    </div>
+    <section class="api-content col float-right">
+  
+        <div *ngIf = "heading$ | async as heading" class="api-main-title" [innerHTML] = "heading?.content"></div>
+        <div *ngIf = "latestUpdate$ | async as latestUpdate" class="last-updated" [innerHTML] = "latestUpdate.content"></div>
+  
+        <div *ngIf = "subText$ | async as subText" class="api-main-description" [innerHTML] = "subText.content">
+        </div>
+
+        <hr class="separator">
+        <ng-container *ngFor = "let specs of pageContent; index as i">
+        <div *ngIf="specs" class = "entry-section" [id]="i">
+            <h3 class="api-entry">{{ specs.headline?.entry[0]?.value }}</h3>
+            <div class = "advertising-entry" [innerHTML]="specs.mainContent"></div>
+            <!-- Authorization -->
+            <h2 *ngIf = "specs.authorization?.entry[0]?.key === 'name'" class="api-entry-subtitle">{{ specs.authorization?.entry[0]?.value }}</h2>
+            <p class = "advertising-entry" [innerHTML]="specs.authorization?.entry[1]?.value"></p>
+            <!-- Request Values  -->
+            <div *ngIf = "specs.requestValues && specs.requestValues.entry">
+                <h2 class="api-entry-subtitle">{{ getTableHeading(specs.requestValues?.entry, 'name', 'Request Values') }}</h2>
+                <table class="api-table">
+                    <tbody><tr *ngFor = "let item of formatTableResponse(specs.requestValues.entry)">
+                        <td style="font-weight: 700;">{{ item.key }}</td>
+                        <td [innerHTML]="item.value"></td>
+                    </tr>
+                </tbody></table>
+            </div>
+            <!-- Request URL -->
+            <h2 *ngIf = " specs.requestURL?.entry" class="api-entry-subtitle">{{ getTableHeading(specs.requestURL?.entry, 'name', 'Request URL') }}</h2>
+            <ng-container *ngFor = "let item of formatRequestUrl(specs.requestURL?.entry); index as i">
+            <div class="api-code">
+                <div class="code-tooltip">
+                    <div class="copy-code" (click) = "copyToClipboard(item.value)"><span class="code-tooltiptext">Copy to clipboard</span><i class="fas fa-copy"></i></div>
+                </div>
+                <pre><code class="language-text">{{ item.value }}</code></pre>
+                </div>
+                <span class="div-section" *ngIf = "i < 1 && formatRequestUrl(specs.requestURL?.entry).length > 1">or</span>
+            </ng-container>
+               <!-- Authorization URL -->
+               <h2 *ngIf = " specs.authorizationURL?.entry && specs.authorizationURL?.entry[0]?.key === 'name'" class="api-entry-subtitle">{{ specs.authorizationURL?.entry[0]?.value }}</h2>
+               <div *ngIf = " specs.authorizationURL?.entry" class="api-code">
+                   <div class="code-tooltip">
+                       <div class="copy-code" (click) = "copyToClipboard(specs.authorizationURL?.entry[1]?.value)"><span class="code-tooltiptext">Copy to clipboard</span><i class="fas fa-copy"></i></div>
+                   </div>
+                   <pre><code class="language-text">{{ specs.authorizationURL?.entry[1]?.value }}</code></pre>
+               </div>
+            <!-- Request Example -->
+            <h2 *ngIf = " specs.requestBody?.entry && specs.requestBody?.entry[0]?.key === 'name' && getJSONResponse(specs.requestBody?.entry[1]?.value)" class="api-entry-subtitle">{{ specs.requestBody?.entry[0]?.value }}</h2>
+            <div *ngIf = "specs.requestBody?.entry && getJSONResponse(specs.requestBody?.entry[1]?.value) && specs.code !== 'privateLabelProducts'" class="api-code">
+                <div class="code-tooltip">
+                    <div class="copy-code" (click) = "copyToClipboard(specs.requestBody?.entry[1]?.value)"><span class="code-tooltiptext">Copy to clipboard</span><i class="fas fa-copy"></i></div>
+                </div>
+                <pre [innerHTML]="getJSONResponse(specs.requestBody?.entry[1]?.value)"></pre>
+            </div>
+             <!-- Response Values  -->
+             <div *ngIf = "specs.responseValues && specs.responseValues.entry">
+                <h2 class="api-entry-subtitle">{{ getTableHeading(specs.responseValues?.entry, 'name', 'Response Values') }}</h2>
+                <p *ngIf = "specs.code === 'recommendation_get'" class = "advertising-entry">
+                    Same response as <a class="scroll-link" (click)="toView(13)">Recommendations (GET)</a>, but will only return one recommendation that matches the passed Id.
+                </p>
+                <table *ngIf="formatTableResponse(specs.responseValues.entry)?.length" class="api-table">
+                    <tbody><tr *ngFor = "let item of formatTableResponse(specs.responseValues.entry)">
+                        <td style="font-weight: 700;">{{ item.key }}</td>
+                        <td [innerHTML]="item.value"></td>
+                    </tr>
+                </tbody></table>
+            </div>
+               <!-- Response Examples -->
+               <h2 *ngIf = "specs.response?.entry && getJSONResponse(specs.response?.entry[1]?.value)" class="api-entry-subtitle">{{ getTableHeading(specs.response?.entry, 'name', 'Response Example') }}</h2>
+               <ng-container *ngIf = "specs.code !== 'product'">
+                <div *ngFor = "let item of specs.response?.entry; index as i">
+                    <span class = "item-key" *ngIf = "item.key !== 'name' && item.key !== 'text' && getJSONResponse(item.value)">{{ item.key }}</span>
+               <div *ngIf = "item.key !== 'name' && getJSONResponse(item.value)" class="api-code">
+                   <div class="code-tooltip">
+                       <div class="copy-code" (click) = "copyToClipboard(item.value)"><span class="code-tooltiptext">Copy to clipboard</span><i class="fas fa-copy"></i></div>
+                   </div>
+                   <pre [innerHTML]="getJSONResponse(item.value)"></pre>
+               </div>
+               </div>
+               </ng-container>
+               <p *ngIf = "specs.code === 'product'" class = "advertising-entry">
+                See <a class="scroll-link" (click)="toView(5)">Product List</a>
+            </p>
+            
+            <div class="banner-imgs" *ngFor = "let img of specs?.images">
+                <span *ngIf = "isPromoBanner">{{ img.altText }}</span>
+                <cx-media
+                [container]="img"
+              ></cx-media>
+              </div>
+              <hr *ngIf = "i < pageContent.length - 1" class="separator">
+        </div>
+    </ng-container>
+    </section>
+
+<!-- Right content slot -->
+    <section class="api-right-links"> 
+        <h4>Endpoints:</h4>
+        <a *ngFor = "let item of sections" (click)="toView(item.id)" [ngClass]="activeLink == item.id && 'active'">{{ item.name }}</a>
+    </section>
+  </section>

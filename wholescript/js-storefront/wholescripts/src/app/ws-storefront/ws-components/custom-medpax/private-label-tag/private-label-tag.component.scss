@@ -1,0 +1,11 @@
+.cur-point{
+    cursor: pointer;
+    &:hover{
+        text-decoration: underline;
+    }
+}
+span:focus-visible {
+    outline: 3px solid var(--cx-color-darkest) !important;
+    outline-offset: 2px !important;
+    box-shadow: unset;
+}

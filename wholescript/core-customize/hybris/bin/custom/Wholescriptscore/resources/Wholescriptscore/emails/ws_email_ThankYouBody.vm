@@ -1,0 +1,43 @@
+<html>
+<head>
+    <style>
+        body { font-family: Arial, sans-serif; color: #333; }
+        .bold { font-weight: bold; }
+        .red { color: red; font-weight: bold; }
+        .blue { color: blue; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+<p>Hello,</p>
+
+<p>Thank you for your email! We appreciate our customers and do our best to assist each and every concern. Please note that this email inbox is not monitored on a daily basis.</p>
+
+<p>All inquiries will be responded to in the order they are received.</p>
+
+<p class="bold">If your inquiry requires immediate attention (such as changing or cancelling a web order, etc.), please call our customer service team at (800)-647-6100.</p>
+
+<p class="red">***Please do not send orders to this e-mail address ***</p>
+
+<p>You may place an order any of the following ways:</p>
+<ol>
+    <li>Call our customer service center <span class="bold">(800-647-6100)</span></li>
+    <li>Fax your order <span class="bold">(407-445-0204)</span></li>
+    <li>Email your order (<a href="mailto:orders@wholescripts.com">orders@wholescripts.com</a>)</li>
+</ol>
+
+<p>We are open <span class="bold">Monday-Friday from 9 a.m. - 6 p.m. EST</span> and we would be happy to assist you.</p>
+
+<p>Thank you for choosing WholeScripts!</p>
+
+<p>
+    <strong>Info@Wholescripts.com</strong><br>
+    Customer Service <br>
+    <span class="blue"><strong>WholeScripts®</strong></span> <br>
+    Phone: <span class="bold">800-647-6100</span>  |  Fax: <span class="bold">407-445-0204</span> <br>
+    6800 Kingspointe Pkwy.  |  Orlando, FL 32819  |  
+    <a href="https://www.wholescripts.com">www.wholescripts.com</a>
+</p>
+
+</body>
+</html>

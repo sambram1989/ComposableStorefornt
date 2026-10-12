@@ -1,0 +1,64 @@
+.bt-unset {
+    border-top: unset;
+
+    &:last-child {
+        border-bottom: unset;
+    }
+}
+
+.mdpax-class-header {
+    background-color: #EEF0F1 !important;
+    padding: 20px 20px 7px 20px;
+}
+
+.md-body {
+    justify-content: space-between;
+    align-items: center;
+}
+
+.select-style,
+.input-style {
+    height: 45px;
+    width: 150px;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+.input-style {
+    width: 70px;
+}
+
+.select-style-root,
+.input-style-root {
+    position: relative;
+}
+
+.label2,
+.label1 {
+    font-size: 10.5px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    font-weight: 500;
+    background-color: #ffffff;
+
+    position: absolute;
+    left: 10px;
+    top: -5px;
+}
+
+.border-bottom-unset {
+    border-bottom: unset;
+}
+
+.text-link {
+    border: none;
+    color: #584091 !important;
+    cursor: pointer !important;
+    text-decoration: none;
+    padding: 0;
+    text-align: initial;
+    background: none;
+
+    &:hover {
+        text-decoration: underline;
+    }
+}

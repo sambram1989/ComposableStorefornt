@@ -1,0 +1,40 @@
+<htmlSection class="merchant_paycontent" xmlns="Paymetric:XiIntercept:MerchantHtmlPacketModel">
+  <xiProperties error-class="xiInputError">
+    <errorTooltip class="errorTooltip" show-effect="fadeIn" show-duration="5000" hide-effect="fadeOut" hide-duration="5000" />
+  </xiProperties>
+  <cardDropdownSection>
+    <tag name="div" class="form-group">
+      <label class="label1" for="cardType" text="card type"/>
+      <ddlCardType id="cd" class="form-control">
+        <items>
+          <item for="mastercard"/>
+          <item for="visa"/>
+          <item for="american express"/>
+          <item for="discover"/>
+        </items>
+      </ddlCardType>
+    </tag>
+    <tag name='div' class='form-group'>
+      <label class='label1' for='cardNumber' text='card number'/>
+      <tboxCardNumber class='form-control' tokenize='true'/>
+      <validationMsg for='cardNumber' class='valmsg'/>
+    </tag>
+    <tag name='div' class='form-group'>
+      <label class='label1' for='cardholderName' text='name on card'/>
+      <tboxCardHolderName class='form-control'/>
+      <validationMsg for='cardholderName' class='valmsg'/>
+    </tag>
+    <tag name='div' class='form-group'>
+      <label class='label1' for='expDate' text='Expiration Date'/>
+      <ddlExpMonth default-text="month" class='form-control date_combos' required='false'/>
+      <ddlExpYear default-text="year" class='form-control date_combos' years-to-display='10' required='false' exp-date='true'/>
+      <validationMsg for='expYear' class='valmsg'/>
+    </tag>
+    <tag name='div' class='form-group'>
+      <label class='label1' for="cvv" text="card cvv"/>
+      <tboxCvv class="form-control"/>
+      <validationMsg for='cvv' class='valmsg'/>
+      <htmlCvvHelp name='div' raise-click='1'></htmlCvvHelp>
+    </tag>
+  </cardDropdownSection>
+</htmlSection>

@@ -1,0 +1,212 @@
+<div class="pharmacy-container">
+  <section class="home-hero">
+    <div class="home-hero__text">
+      <img class="home-hero__logo"
+        src="https://webs-courteous-wombat.euwest01.umbraco.io/media/2mcbmds5/wsp-logo-h2.svg"
+        alt="WholeScripts Pharmacy" >
+      <h1 class="home-hero__h1" tabindex="0">
+        Integrated Health,<br>
+        Just For You
+      </h1>
+      <h2 class="home-hero__h2" tabindex="0">
+        This integrative partnership means your WholeScripts nutritional supplement and prescription
+        medication orders can ship together in one box.
+      </h2>
+      <a class="ws-button ws-button--fit primary ws-button--no-underline" href="https://wholescriptsrx.com/"
+        target="_blank"  aria-label="Visit WholeScripts Pharmacy">
+        Visit WholeScripts Pharmacy
+      </a>
+    </div>
+  </section>
+  <div class="angle-inverse" aria-hidden="true">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 97.7" preserveAspectRatio="none">
+      <path fill="#070606" d="M1920 0l-895.4 81c-35.5 3.2-93.8 3.2-129.4 0L0 0v97.7h1920V0z"></path>
+    </svg>
+  </div>
+  <section class="how-it-works" aria-labelledby="how-it-works-title">
+    <div class="hex-title">
+      <h2 class="hex-title__h">How It Works</h2>
+      <img class="hex-title__img" src="https://webs-courteous-wombat.euwest01.umbraco.io/media/vr2p3m2k/grey-hex.svg"
+        alt="">
+    </div>
+    <section class="how-it-works__steps">
+      <div class="how-step">
+        <img class="how-step__img"
+          src="https://webs-courteous-wombat.euwest01.umbraco.io/media/bzmdsoys/ws-pharm-step-1.svg"
+          alt="A prescription on a doctor's clipboard">
+        <div class="how-step__title" tabindex="0">
+          Step 1
+        </div>
+        <div>
+          Send your prescription to WholeScripts Pharmacy.
+        </div>
+      </div>
+
+      <div class="how-step">
+        <img class="how-step__img"
+          src="https://webs-courteous-wombat.euwest01.umbraco.io/media/q51be5pa/ws-pharm-step-2.svg"
+          alt="A shopping cart">
+        <div class="how-step__title">
+          Step 2
+        </div>
+        <div tabindex="0">
+          Select to have your order shipped with your WholeScripts Pharmacy prescription.
+        </div>
+      </div>
+
+      <div class="how-step" tabindex="0">
+        <img class="how-step__img"
+          src="https://webs-courteous-wombat.euwest01.umbraco.io/media/oehdencl/ws-pharm-step-3.svg"
+          alt="A telephone receiver">
+        <div class="how-step__title" tabindex="0">
+          Step 3
+        </div>
+        <div>
+          WholeScripts Pharmacy will contact you to confirm your prescription details.
+        </div>
+      </div>
+
+      <div class="how-step" tabindex="0">
+        <img class="how-step__img"
+          src="https://webs-courteous-wombat.euwest01.umbraco.io/media/51vprtnz/ws-pharm-step-4.svg"
+          alt="An open box containing supplements and a MedPax carton">
+        <div class="how-step__title">
+          Step 4
+        </div>
+        <div>
+          Receive your prescriptions and supplements in one order.
+        </div>
+      </div>
+    </section>
+  </section>
+  <div class="hex-title">
+    <h2 class="hex-title__h">How To Get Started</h2>
+    <img class="hex-title__img" src="https://webs-courteous-wombat.euwest01.umbraco.io/media/vr2p3m2k/grey-hex.svg"
+      alt="">
+  </div>
+  <section id="getstarted" class="get-started container" aria-labelledby="get-started-title">
+    <div>
+      @if(isPatient){
+      <picture id="patientImg" class="get-started__img-area">
+        <source srcset="https://media.umbraco.io/webs-courteous-wombat/fmnpki5s/patient-smile.webp" type="image/webp">
+        <source srcset="https://media.umbraco.io/webs-courteous-wombat/oekfzac2/patient-smile.jpg" type="image/jpeg">
+        <img class="get-started__img" src="https://media.umbraco.io/webs-courteous-wombat/oekfzac2/patient-smile.jpg"
+          alt="A smiling patient">
+      </picture>
+      }@else{
+      <picture id="practitionerImg" class="get-started__img-area --hide">
+        <source srcset="https://media.umbraco.io/webs-courteous-wombat/xn4lb1dy/doctor-smile.webp" type="image/webp">
+        <source srcset="https://media.umbraco.io/webs-courteous-wombat/dn2bcjyv/doctor-smile.jpg" type="image/jpeg">
+        <img class="get-started__img" src="https://media.umbraco.io/webs-courteous-wombat/dn2bcjyv/doctor-smile.jpg"
+          alt="A smiling doctor">
+      </picture>
+      }
+    </div>
+    <div>
+      <div class="get-started__btns" role="tablist">
+        <button id="patientToggle" [ngClass]="{ '--active': isPatient }" class="get-started__toggle" (click)="changePatient()"
+          aria-label="View patient related information" aria-selected="true" role="tab">
+          I'm a patient
+        </button>
+        <button id="practitionerToggle" [ngClass]="{ '--active': !isPatient }" class="get-started__toggle" (click)="changePractitioner()" aria-label="View practitioner related information"
+          aria-selected="false" role="tab">
+          I'm a practitioner
+        </button>
+      </div>
+      @if(isPatient){
+      <div id="patientText" class="get-started__text" role="tabpanel" aria-labelledby="patientToggle">
+        <ul class="get-started__list">
+          <li>
+            Ask your practitioner to have your prescription sent to WholeScripts Pharmacy, or
+          </li>
+          <li>
+            Call WholeScripts Pharmacy at <a class="bolder" href="tel:+18334633729">(833) 463-3729</a> to have
+            your prescription transferred, or
+          </li>
+          <li>
+            Fill out the form at <a class="bolder" href="https://wholescriptsrx.com/transfer/"
+              target="_blank">WholeScriptsRX.com/transfer</a> to transfer a prescription online
+          </li>
+        </ul>
+        <a class="ws-button ws-button--fit secondary ws-button--no-underline"
+          href="https://wholescriptsrx.com/transfer/" target="_blank">
+          Transfer My Prescription to WholeScripts Pharmacy
+        </a>
+      </div>
+      }
+      @else{
+      <div id="practitionerText" class="get-started__text --hide" role="tabpanel" aria-labelledby="practitionerToggle">
+        <ul class="get-started__list">
+          <li>
+            Find WholeScripts Pharmacy in your EMR (Electronic Medical Record) platform to e-prescribe, or
+          </li>
+          <li>
+            Fax your patients' prescriptions to <a class="bolder" href="tel:+18776337298">(877) 633-7298</a>, or
+          </li>
+          <li>
+            Call WholeScripts Pharmacy at <a class="bolder" href="tel:+18334633729">(833) 463-3729</a> and we'll
+            process your prescription over the phone
+          </li>
+        </ul>
+        <div>
+          NCPDP/NAP #: 5744847
+        </div>
+        <div>
+          NPI #: 1821614983
+        </div>
+      </div>
+      }
+    </div>
+  </section>
+  <section class="map inner-container">
+    <img class="map__img" src="https://media.umbraco.io/webs-courteous-wombat/apiottvr/us-map-010424-v2.webp"
+      alt="A map of the US with all states that WholeScripts Pharmacy is licensed in">
+    <div>
+      <h2 class="h map__h">
+        Pharmacy Licensing
+      </h2>
+      <div class="map__text --mb">
+        WholeScripts Pharmacy is a full-service integrated pharmacy. We are licensed to fill prescription
+        medications in Florida and many others, with a number of upcoming states in 2023.
+      </div>
+      <div class="map__text">
+        <div class="map__sh">
+          <strong>
+            Current Licensed States
+          </strong>
+          <div class="green-gradient">
+          </div>
+        </div>
+        <div>
+          Alabama, Alaska, Arizona, Colorado, Connecticut, Delaware, Florida, Georgia, Hawaii, Idaho, Illinois,
+          Indiana, Iowa, Kansas, Kentucky, Louisiana, Maine, Maryland, Michigan, Minnesota, Mississippi, Missouri,
+          Montana, Nebraska, Nevada, New Hampshire, New Jersey, New Mexico, New York, North Carolina, North Dakota,
+          Ohio, Oklahoma, Oregon, Pennsylvania, Rhode Island, South Carolina, South Dakota, Tennessee, Texas, Utah,
+          Vermont, Virginia, Washington, West Virginia, Wisconsin, Wyoming
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="start inner-container">
+    <div>
+      I want to start using WholeScripts Pharmacy
+    </div>
+    <a href="https://portal.digitalpharmacist.com/login?pharmacy_id=5c9e09f5-75c2-40d8-b730-57c54892a8fd"
+      class="ws-button ws-button--fit primary ws-button--no-underline" target="_blank">Refill Now</a>
+  </section>
+  <section class="whole pb-5 hide--logged-in">
+    <div>
+      <h2 class="bolder">
+        Whole Health Care <br class="d-block d-sm-none">A Whole Lot Easier
+        <img src="https://webs-courteous-wombat.euwest01.umbraco.io/media/p0inv0lu/green-hex-dark.svg" alt="">
+      </h2>
+      <h4 class="my-5 fw-500">
+        High-quality professional, nutritional and herbal supplements all in one place. It’s just one way we make
+        whole healthcare a whole lot easier.
+      </h4>
+      <a class="ws-button ws-button--fit primary ws-button--no-underline my-4 mx-auto" href="/sign-up">
+        Get Started
+      </a>
+    </div>
+  </section>
+</div>

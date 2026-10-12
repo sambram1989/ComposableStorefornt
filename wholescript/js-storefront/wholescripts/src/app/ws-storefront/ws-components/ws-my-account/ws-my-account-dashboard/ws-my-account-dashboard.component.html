@@ -1,0 +1,119 @@
+<div class="col-lg-12 mb-4 mt-5 p-0">
+    <h1 class="acc-head">Shared Rewards</h1>
+</div>
+    <div class="account-balance">
+        <div class="d-flex m-0 card-block p-0 flex-wrap gap-r-20 mt-2" id="levels">
+            <div class="col-md-12 col-lg-4 pl-lg-0 p-0">
+                <div>
+                    <div class="card-standard h-100">
+                        <div class="rewards-card__header">
+                            <div>
+                                <i class="text-primary fa fa-circle fs-24" data-toggle="tooltip" data-placement="right"
+                                    title="Standard Pricing" data-original-title="Standard Pricing"></i>
+                                <span class="h3 ml-2">{{ loadRewardLevel(sharedRewards?.shareReward?.curSrewards) }}</span>
+                            </div>
+                            <div>
+                                <h5 class="fw-900 mb-0">{{ currentQuarter?.quarter }} {{ today | date: 'yyyy' }} ({{ currentQuarter?.band}})</h5>
+                            </div>
+                        </div>
+                        <div class="alert-info mt-2 mb-0 alert-msg">
+                            <p class="mb-0 text-left">$0-$12,499.99 per quarter or $0-$4,166.66 per month</p>
+                        </div>
+                    </div>
+        
+                </div> <br/>
+                <div class="card card-default">
+                    <div class="card-header">
+                        <div class="card-title d-inline "> SharedReward Status </div>
+                        <div class="card-title d-inline "> My Sales from this Quarter </div>
+                        <div class="card-body shared-container px-0" style="line-height: 25px;">
+                            <table class="mb-3 fs-12 w-100">
+                                <thead></thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="bold border-0 p-0"> As of Today </td>
+                                        <td class="text-right border-0">{{ today | date: 'MM/dd/yyyy'}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="bold border-0 p-0"> Your Purchases </td>
+                                        <td class="text-right border-0">${{ sharedRewards?.SharedReward?.prSales || '0.00' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="bold border-0 p-0"> Your Patient Purchases </td>
+                                        <td class="text-right border-0">${{ sharedRewards?.SharedReward?.patValues || '0.00' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="bold border-0 p-0 h6 fw-700"> Total* </td>
+                                        <td class="text-right border-0">${{ sharedRewards?.SharedReward?.transValue || '0.00' }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="card-footer total-savings-amount pl-0 pr-0 bg-white border-b-unset"> Your Total Savings <span
+                                class="float-right">${{ sharedRewards?.SharedReward?.totSavings || '0.00' }}</span></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 col-lg-8 pr-0 reward-level">
+                <div class="card card-default">
+                    <div class="card-header">
+                        <div class="card-title"> My SharedRewards </div>
+                        <div class="card-body pb-3">
+                            <h4 class="fw-900"> My Reward Level: {{ loadRewardLevel(sharedRewards?.shareReward?.curSrewards) }}</h4>
+                            <div class="progress progress-border-0" style="height: 35px;">
+                                <div class="progress-bar progress-bar-success" role="progressbar"
+                                    style="height: 35px;" [ngClass] = "sharedRewards?.shareReward?.curSrewards ? 'item' + sharedRewards?.shareReward?.curSrewards + '-level' : 'default-level'"></div>
+                            </div>
+                            <div class="reward-level-text-container d-flex text-right">
+                                <div *ngFor = "let reward of sharedRewards?.rewardsLevel?.item" class="reward-level w-25"> {{ loadRewardLevel(reward?.konda) }}<br> ${{ reward?.zrewardsValue }}</div>
+                            </div>
+                        </div>
+                        <div class="card-footer bg-white pl-0 pr-0">
+                            <p><strong>Estimated {{ currentQuarter?.quarter }} tier: </strong> {{ loadRewardLevel(sharedRewards?.shareReward?.curSrewards) }}* </p>
+                            <p class="mb-5"><strong> Amount needed to reach {{ loadRewardLevel(nextLevel?.konda) }} tier: </strong> ${{ getPriceDifference(sharedRewards?.shareReward?.transValue, nextLevel?.zrewardsValue) }}</p>
+                            <cx-page-slot position="Section3B"></cx-page-slot>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="d-flex mt-4 flex-wrap gap-r-20 shared-reward-plans">
+            <cx-page-slot position="Section3C"></cx-page-slot>
+        </div>
+        <div class="m-0 row card-block p-0 mt-4 flex-wrap">
+            <div class="col-md-12 p-0">
+                <div class="card w-100">
+                    <div class="card-body pt-4 pr-4 pl-4 pb-3">
+                        <div class="row">
+                            <div class="col-md-12 col-lg-6">
+                                <table class="w-100 table table-condensed">
+                                    <thead>
+                                        <tr>
+                                            <th aria-label="Quater">&nbsp;</th>
+                                            <th>Calendar QTR</th>
+                                            <th class="text-right">Benefit QTR</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>&nbsp;</td>
+                                            <td>Total Purchases</td>
+                                            <td class="text-right">Your Tier Benefits</td>
+                                        </tr>
+                                        <tr *ngFor = "let qtr of quarters; index as i">
+                                            <td>QTR {{ i + 1 }}</td>
+                                            <td>{{ qtr }}</td>
+                                            <td class="text-right">{{ i == quarters.length - 1 ? quarters[0] : quarters[i + 1] }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-md-12 col-lg-6">
+                                    <cx-page-slot position="Section4"></cx-page-slot>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

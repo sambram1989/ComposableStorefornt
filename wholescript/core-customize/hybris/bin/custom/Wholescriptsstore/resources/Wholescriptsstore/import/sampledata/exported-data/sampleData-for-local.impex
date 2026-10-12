@@ -1,0 +1,21 @@
+# Vendor
+INSERT_UPDATE Vendor ; code[unique=true] ; name
+                     ; 1710           ; Default Vendor
+
+# Warehouse
+INSERT_UPDATE Warehouse ; code[unique=true] ; name              ; vendor(code)[default=1710] ; default[default=true]
+                        ; 1710           ;    Wholescripts Sample Warehouse                 ;   1710;
+
+
+INSERT_UPDATE Unit;unitType[unique=true];code[unique=true];name[lang=en];conversion;;;
+                  ;CS;CS;CS;1
+                  
+INSERT_UPDATE WholescriptsBrand;code[unique=true];name;brandUrl
+                               ;Z_MM_BRANDS_01;XYMOGEN®;/catalog/brand/XYMOGEN
+                               ;Z_MM_BRANDS_101;Enzyme Science™;/catalog/brand/Enzyme-Science
+                               ;Z_MM_BRANDS_91;Allergy Research Group;/catalog/brand/Allergy-Research-Group
+                               ;Z_MM_BRANDS_66;Biocidin;/catalog/brand/Biocidin
+                               ;Z_MM_BRANDS_49;Carlson Labs;/catalog/brand/Carlson-Labs
+                               ;Z_MM_BRANDS_47;Trace Minerals;/catalog/brand/Trace-Minerals
+
+

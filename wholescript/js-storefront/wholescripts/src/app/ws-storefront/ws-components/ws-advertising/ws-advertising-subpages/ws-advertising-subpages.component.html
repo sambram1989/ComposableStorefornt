@@ -1,0 +1,47 @@
+<section [ngClass]="isLoggedIn? 'loggedin-main' : ''" class="main-content row">
+    <div id="menu" class="sticky-container col-xl-3" [ngClass]="setShadow && 'sticky-shadow'">
+        <ws-advertising-links></ws-advertising-links>
+    </div>
+    <section class="api-content col float-right">
+
+        <h1 class="api-main-title">{{ bestBrands.newBrands }}</h1>
+        <p class="last-updated">{{ bestBrands.update }}</p>
+
+        <div class="api-main-description">
+            {{ bestBrands.subHeading }}
+        </div>
+
+        <hr class="separator">
+
+        <div class="entry-section" [id]="specs.code" *ngFor="let specs of pageContent">
+            <h3 class="api-entry">{{ specs.headline?.entry[0]?.value }}</h3>
+            <div class="advertising-entry" [innerHTML]="specs.mainContent"></div>
+
+            <!-- Specifications  -->
+            <div *ngIf="specs.specs && specs.specs?.entry">
+                <h2 class="api-entry">Specifications</h2>
+                <table class="api-table">
+                    <tbody>
+                        <tr *ngFor="let item of specs.specs.entry">
+                            <td *ngIf="item.key !== 'name'">{{ item.key }}</td>
+                            <td *ngIf="item.key !== 'name'" [innerHTML]="item.value"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="banner-imgs" *ngFor="let img of specs?.images">
+                <span *ngIf="isPromoBanner">{{ img.altText }}</span>
+                <cx-media [container]="img"></cx-media>
+            </div>
+            <hr *ngIf="specs.code !== sections[2].id" class="separator">
+        </div>
+    </section>
+
+    <!-- Right content slot -->
+    <section class="api-right-links">
+        <h4>Contents:</h4>
+        <a *ngFor="let item of sections" (click)="toView(item.id)" [ngClass]="activeLink === item.id && 'active'">{{
+            item.name }}</a>
+    </section>
+</section>

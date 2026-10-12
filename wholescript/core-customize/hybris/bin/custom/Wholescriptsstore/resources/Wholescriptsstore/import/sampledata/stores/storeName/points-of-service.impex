@@ -1,0 +1,32 @@
+# -----------------------------------------------------------------------
+# Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+# -----------------------------------------------------------------------
+# ImpEx for Points of Service
+
+# Macros / Replacement Parameter definitions
+#$storeUid=__STORE_UID__
+#$productCatalog=__PRODUCT_CATALOG_NAME__
+#
+#$catalogVersion=catalogversion(catalog(id[default=$productCatalog]),version[default='Staged'])[unique=true,default=$productCatalog:Staged]
+#$storeImage=storeImage(qualifier, $catalogVersion)
+#
+INSERT_UPDATE OpeningSchedule;code[unique=true];
+
+INSERT_UPDATE WeekdayOpeningDay;openingSchedule(code)[unique=true];dayOfWeek(code)[unique=true];openingTime[dateformat=hh:mm];closingTime[dateformat=hh:mm];
+
+INSERT_UPDATE SpecialOpeningDay;openingSchedule(code)[unique=true];date[unique=true,dateformat=dd.MM.yyyy];closed;openingTime[dateformat=hh:mm];closingTime[dateformat=hh:mm]
+
+INSERT_UPDATE Address;&addrID;streetname;streetnumber;postalcode[unique=true];town[unique=true];country(isocode);region(isocode);phone1;owner(PointOfService.name)[unique=true]
+
+INSERT_UPDATE StoreLocatorFeature;code[unique=true]
+
+INSERT_UPDATE PointOfService;name[unique=true];type(code);address(&addrID);latitude;longitude;geocodeTimestamp[dateformat=dd-MM-yyyy];$storeImage;openingSchedule(code);basestore(uid)[default=$storeUid];features(code)
+
+UPDATE PointOfService;name[unique=true];features(code);
+
+INSERT_UPDATE PoS2WarehouseRel;source(name)[unique=true];target(code)[unique=true]
+                              ;wholescritsPOS ;          1710
+INSERT_UPDATE PointOfService;name[unique=true];type(code);address(&addrID);latitude;longitude;geocodeTimestamp[dateformat=dd-MM-yyyy];basestore(uid)
+                            ;wholescritsPOS  ;WAREHOUSE  ;addr1;36,08383;-95,86570;01-10-2011;wholescripts
+INSERT_UPDATE Address;&addrID;streetnumber[unique=true];streetname      ;town    ;region(country(isocode),isocode);country(isocode);postalcode[unique=true];phone1;owner(PointOfService.name)[unique=true]
+                     ;addr1  ;6800                     ;6800 Kingspointe Parkway ;Orlando ;US:US-FL                        ;US              ;32819                  ;1-800-331-3333 (Customer Service);wholescritsPOS

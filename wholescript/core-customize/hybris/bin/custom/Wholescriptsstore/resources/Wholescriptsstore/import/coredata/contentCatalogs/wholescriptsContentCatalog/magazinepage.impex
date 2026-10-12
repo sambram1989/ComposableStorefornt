@@ -1,0 +1,345 @@
+    $contentCatalog = wholescriptsContentCatalog
+    $contentCV = catalogVersion(CatalogVersion.catalog(Catalog.id[default = $contentCatalog]), CatalogVersion.version[default = Staged])[default = $contentCatalog:Staged]
+$lang = en
+$siteMagazinePage = jar:com.wholescripts.constants.WholescriptsstoreConstants&/Wholescriptsstore/import/coredata/images/magazinePage
+$siteResourceMagazinePagePdfDocuments = jar:com.wholescripts.constants.WholescriptsstoreConstants&/Wholescriptsstore/import/coredata/PdfDocuments
+
+INSERT_UPDATE CMSParagraphComponent; $contentCV[unique = true]; uid[unique = true]                         ; &componentRef                              ; name                                           ; content
+                                   ;                          ; wsMagazineHeadingSection1ParaComponent ; wsMagazineHeadingSection1ParaComponent ; WsMagazine Heading Section1ParaComponent      ; <h2>Wholescripts Magazine</h2>
+
+INSERT_UPDATE ContentSlotName; name[unique = true]          ; template(uid, $contentCV)[unique = true][default = 'WholeScriptsMagazineTemplate']; validComponentTypes(code); compTypeGroup(code)
+                             ; WholeScriptsMagazineHeadingSection1 ;                                                                              ;                          ; wide
+
+INSERT_UPDATE ContentSlotForPage; $contentCV[unique = true]; uid[unique = true]                            ; position[unique = true]        ; page(uid, $contentCV)[unique = true][default = 'WholeScriptsMagazinePage']; contentSlot(uid, $contentCV)[unique = true]
+                                ;                          ; WholeScriptsMagazineHeadingSection1-magazinePage ; WholeScriptsMagazineHeadingSection1  ;                                                                  ; WholeScriptsMagazineHeadingSection1Slot
+
+INSERT_UPDATE ContentSlot; $contentCV[unique = true]; uid[unique = true]                ; name                                 ; active; cmsComponents(uid, $contentCV)
+                         ;                          ; WholeScriptsMagazineHeadingSection1Slot ; WholeScripts Magazine Heading Section1Slot ; true  ; wsMagazineHeadingSection1ParaComponent
+##
+
+INSERT_UPDATE CMSParagraphComponent; $contentCV[unique = true]; uid[unique = true]                         ; &componentRef                              ; name                                           ; content
+                                   ;                          ; wsMagazineContentSection1ParaComponent     ; wsMagazineContentSection1ParaComponent     ; WS Magazine ContentSection1 ParaComponent      ; <h2>Educate Yourself with WholeScripts Magazine</h2><p> WholeScripts Magazine provides information on health and wellness issues that are important to you, and answers your questions on how to get the most out of the food you eat, what supplements can help, and how to get and stay happy, healthy, and whole. </p><p> If you have questions, please contact one of our Customer Service Representatives at <a href="tel:8006476100" class="phonelink">800-647-6100</a> or email us at <a href="mailto:info@xymogen.com">info@xymogen.com.</a></p>
+
+INSERT_UPDATE ContentSlotName; name[unique = true]          ; template(uid, $contentCV)[unique = true][default = 'WholeScriptsMagazineTemplate']; validComponentTypes(code); compTypeGroup(code)
+                             ; WholeScriptsMagazineContentSection1 ;                                                                              ;                          ; wide
+
+INSERT_UPDATE ContentSlotForPage; $contentCV[unique = true]; uid[unique = true]                            ; position[unique = true]        ; page(uid, $contentCV)[unique = true][default = 'WholeScriptsMagazinePage']; contentSlot(uid, $contentCV)[unique = true]
+                                ;                          ; WholeScriptsMagazineContentSection1-magazinePage ; WholeScriptsMagazineContentSection1  ;                                                                  ; WholeScriptsMagazineContentSection1Slot
+
+INSERT_UPDATE ContentSlot; $contentCV[unique = true]; uid[unique = true]                ; name                                 ; active; cmsComponents(uid, $contentCV)
+                         ;                          ; WholeScriptsMagazineContentSection1Slot ; WholeScripts Magazine ContentSection1 Slot ; true  ; wsMagazineContentSection1ParaComponent
+
+##
+INSERT_UPDATE CMSParagraphComponent; $contentCV[unique = true]; uid[unique = true]                        ; &componentRef                              ; name                                          ; content
+                                   ;                          ; wsMagazinevolume4Issue4ParagraphComponent ; wsMagazinevolume4Issue4ParagraphComponent ; ws Magazine volume4Issue4 Paragraph Component  ; <h2>Current Issue</h2>
+
+INSERT_UPDATE Media; code[unique = true]     ; @media[translator = de.hybris.platform.impex.jalo.media.MediaDataTranslator]; mime[default = 'image/jpeg']; $contentCV[unique = true]; folder(qualifier)[default = images]
+                   ; volume4Issue4Image      ; $siteMagazinePage/volume-4-issue-4.png                               ;                             ;                          ;
+
+
+INSERT_UPDATE BannerComponent; $contentCV[unique = true]; uid[unique = true]                        ; name                                          ; &componentRef                             ; urlLink ; media(code, $contentCV); headline[lang = $lang]                         ; content[lang = $lang]
+                             ;                          ; wsMagazineVolume4Issue4BannerComponent    ; WS Magazine Volume4Issue4 BannerComponent     ; wsMagazineVolume4Issue4BannerComponent    ;         ; volume4Issue4Image     ; <p id="headline">Volume 4 Issue 4</p>    ; <hr><div id="content"><p id="current-issue-headlines">This issue is sure to offer info you to help you on your health and wellness journey. In this issue: Dealing with arthritis, the potential health benefits and dangers of cold-water immersion therapy, and support for PMS symptoms.</p></div>
+
+
+INSERT_UPDATE Media; $contentCV[unique = true]; code[unique = true]	        ; mime[default = 'image/jpg']	; realfilename   					; @media[translator = de.hybris.platform.impex.jalo.media.MediaDataTranslator]
+                   ;                          ; wsMagazineVolume4Issue4PDF  ; pdf                 			; volume-4-issue-4.pdf 	; $siteResourceMagazinePagePdfDocuments/volume-4-issue-4.pdf
+
+INSERT_UPDATE CMSLinkComponent; $contentCV[unique = true]; uid[unique = true]                    ; name                                   ; url; &linkRef        ; &componentRef; target(code)[default = 'sameWindow'];linkName
+                              ;                          ; wsMagazineVolume4Issue4PDFMediaLink   ; WS Magazine Volume4Issue4 PDFMediaLink ;/medias/volume-4-issue-4.pdf?context=bWFzdGVyfHJvb3R8NjMyOTk0N3xhcHBsaWNhdGlvbi9wZGZ8YUdFNEwyaGlNUzg0T1RBM01qSTVNVFkzTmpRMkwzWnZiSFZ0WlMwMExXbHpjM1ZsTFRRdWNHUm18MDNjZWMzY2JkZjc3ZWQ2YmY5NTM5ODBiMDFiZjY3MTJhOGVkODlkOWZiYzBkOGQyZDgyODFiZDU2MWMxMzM5NA   ; wsMagazineVolume4Issue4PDFMediaLink ; wsMagazineVolume4Issue4PDFMediaLink;;Free PDF Download
+
+INSERT_UPDATE ContentSlotName; name[unique = true]          ; template(uid, $contentCV)[unique = true][default = 'WholeScriptsMagazineTemplate']; validComponentTypes(code); compTypeGroup(code)
+                             ; WholeScriptsMagazineContentSection2 ;                                                                              ;                          ; wide
+
+INSERT_UPDATE ContentSlotForPage; $contentCV[unique = true]; uid[unique = true]                            ; position[unique = true]        ; page(uid, $contentCV)[unique = true][default = 'WholeScriptsMagazinePage']; contentSlot(uid, $contentCV)[unique = true]
+                                ;                          ; WholeScriptsMagazineContentSection2-magazinePage ; WholeScriptsMagazineContentSection2  ;                                                                  ; WholeScriptsMagazineContentSection2Slot
+
+INSERT_UPDATE ContentSlot; $contentCV[unique = true]; uid[unique = true]                ; name                                 ; active; cmsComponents(uid, $contentCV)
+                         ;                          ; WholeScriptsMagazineContentSection2Slot ; WholeScripts Magazine ContentSection2 Slot ; true  ; wsMagazinevolume4Issue4ParagraphComponent,wsMagazineVolume4Issue4BannerComponent,wsMagazineVolume4Issue4PDFMediaLink
+##
+INSERT_UPDATE CMSParagraphComponent; $contentCV[unique = true]; uid[unique = true]                        ; &componentRef                              ; name                                          ; content
+                                   ;                          ; wsMagazinePastIssuesParagraphComponent ; wsMagazinePastIssuesParagraphComponent ; ws Magazine PastIssues ParagraphComponent  ; <h3>Past Issues</h3>
+
+
+INSERT_UPDATE ContentSlotName; name[unique = true]          ; template(uid, $contentCV)[unique = true][default = 'WholeScriptsMagazineTemplate']; validComponentTypes(code); compTypeGroup(code)
+                             ; wsMagazinePastIssuesContentSection ;                                                                              ;                          ; wide
+
+INSERT_UPDATE ContentSlotForPage; $contentCV[unique = true]; uid[unique = true]                            ; position[unique = true]        ; page(uid, $contentCV)[unique = true][default = 'WholeScriptsMagazinePage']; contentSlot(uid, $contentCV)[unique = true]
+                                ;                          ; wsMagazinePastIssuesContentSection-magazinePage ; wsMagazinePastIssuesContentSection  ;                                                                  ; WholeScriptsMagazinePastIssuesContentSectionSlot
+
+INSERT_UPDATE ContentSlot; $contentCV[unique = true]; uid[unique = true]                ; name                                 ; active; cmsComponents(uid, $contentCV)
+                         ;                          ; WholeScriptsMagazinePastIssuesContentSectionSlot ; WholeScripts Magazine PastIssues ContentSection Slot ; true  ; wsMagazinePastIssuesParagraphComponent
+###
+INSERT_UPDATE Media; code[unique = true]     ; @media[translator = de.hybris.platform.impex.jalo.media.MediaDataTranslator]; mime[default = 'image/jpeg']; $contentCV[unique = true]; folder(qualifier)[default = images]
+                   ; volume4Issue3Image      ; $siteMagazinePage/volume-4-issue-3.png                               ;                             ;                          ;
+
+INSERT_UPDATE BannerComponent; $contentCV[unique = true]; uid[unique = true]                        ; name                                          ; &componentRef                             ; urlLink; media(code, $contentCV); headline[lang = $lang]       ; content[lang = $lang]
+                             ;                          ; wsMagazineVolume4Issue3BannerComponent    ; WS Magazine Volume4Issue3 BannerComponent     ; wsMagazineVolume4Issue3BannerComponent    ;        ; volume4Issue3Image; <h3>Volume 4 Issue 3</h3>   ;<div class="past-issue-info"><p>Get health and wellness news you can use. In this issue: Managing type 2 diabetes with diet, supplement support after surgery, and ways to deal with migraine symptoms you may not know about.</p></div>
+
+INSERT_UPDATE Media; $contentCV[unique = true]; code[unique = true]	        ; mime[default = 'image/jpg']	; realfilename   					; @media[translator = de.hybris.platform.impex.jalo.media.MediaDataTranslator]
+                   ;                          ; wsMagazineVolume4Issue3PDF  ; pdf                 			; volume-4-issue-3.pdf 	; $siteResourceMagazinePagePdfDocuments/volume-4-issue-3.pdf
+
+INSERT_UPDATE CMSLinkComponent; $contentCV[unique = true]; uid[unique = true]; name               ; url; &linkRef        ; &componentRef; target(code)[default = 'sameWindow'];linkName
+                              ;                          ; wsMagazineVolume4Issue3PDFMediaLink   ; Home Page Nav Link ; /medias/volume-4-issue-3.pdf?context=bWFzdGVyfHJvb3R8NTgzMTAxNnxhcHBsaWNhdGlvbi9wZGZ8YUdVM0wyaGpaaTg0T1RBM05EQTJOVFF3T0RNd0wzWnZiSFZ0WlMwMExXbHpjM1ZsTFRNdWNHUm18OWVlZjU1OTJlMDMzZWY2MGQyOTRlN2NhN2UyNTI5YTE1ODIxNjUxMzUyMDk4MmU3ZDkyNGQ4NmNiMWRkOWQ5Nw  ; wsMagazineVolume4Issue3PDFMediaLink ; wsMagazineVolume4Issue3PDFMediaLink;;Free PDF Download
+
+INSERT_UPDATE ContentSlotName; name[unique = true]          ; template(uid, $contentCV)[unique = true][default = 'WholeScriptsMagazineTemplate']; validComponentTypes(code); compTypeGroup(code)
+                             ; WholeScriptsMagazineVolume4Issue3Section ;                                                                              ;                          ; wide
+
+INSERT_UPDATE ContentSlotForPage; $contentCV[unique = true]; uid[unique = true]                            ; position[unique = true]        ; page(uid, $contentCV)[unique = true][default = 'WholeScriptsMagazinePage']; contentSlot(uid, $contentCV)[unique = true]
+                                ;                          ; WholeScriptsMagazineVolume4Issue3Section-magazinePage ; WholeScriptsMagazineVolume4Issue3Section  ;                                                                  ; WholeScriptsMagazineVolume4Issue3Slot
+
+INSERT_UPDATE ContentSlot; $contentCV[unique = true]; uid[unique = true]                ; name                                 ; active; cmsComponents(uid, $contentCV)
+                         ;                          ; WholeScriptsMagazineVolume4Issue3Slot ; WholeScripts Magazine Volume4Issue3 Slot ; true  ; wsMagazineVolume4Issue3BannerComponent,,wsMagazineVolume4Issue3PDFMediaLink
+##
+INSERT_UPDATE Media; code[unique = true]     ; @media[translator = de.hybris.platform.impex.jalo.media.MediaDataTranslator]; mime[default = 'image/jpeg']; $contentCV[unique = true]; folder(qualifier)[default = images]
+                   ; Volume4Issue2Image      ; $siteMagazinePage/volume-4-issue-2.png                               ;                             ;                          ;
+
+INSERT_UPDATE BannerComponent; $contentCV[unique = true]; uid[unique = true]                        ; name                                          ; &componentRef                             ; urlLink; media(code, $contentCV)  ; headline[lang = $lang]   ; content[lang = $lang]
+                             ;                          ; wsMagazineVolume4Issue2BannerComponent    ; WS Magazine Volume4Issue2 BannerComponent     ; wsMagazineVolume4Issue2BannerComponent    ;        ; Volume4Issue2Image ;<h3>Volume 4 Issue 2</h3> ; <div class="past-issue-info"><p>Enjoy stories that educate and support your health and wellness. This issue’s cover story includes learning about the pillars of self-care.</p></div>
+
+
+INSERT_UPDATE Media; $contentCV[unique = true]; code[unique = true]	        ; mime[default = 'image/jpg']	; realfilename   					; @media[translator = de.hybris.platform.impex.jalo.media.MediaDataTranslator]
+                   ;                          ; wsMagazineVolume4Issue2PDF  ; pdf                 			; volume-4-issue-2.pdf 	; $siteResourceMagazinePagePdfDocuments/volume-4-issue-2.pdf
+
+INSERT_UPDATE CMSLinkComponent; $contentCV[unique = true]; uid[unique = true]; name               ; url; &linkRef        ; &componentRef; target(code)[default = 'sameWindow'];linkName
+                              ;                          ; wsMagazineVolume4Issue2PDFMediaLink   ; ws Magazine Volume4Issue2 PDFMediaLink ;/medias/volume-4-issue-2.pdf?context=bWFzdGVyfHJvb3R8NjE4MzI1MHxhcHBsaWNhdGlvbi9wZGZ8YURka0wyaGtaUzg0T1RBM01qRXdPRGd6TVRBeUwzWnZiSFZ0WlMwMExXbHpjM1ZsTFRJdWNHUm18NjJhYWViZDljMzUyZThjNDIwNzBmODYzYmU4ZDEyYzAzNDU4N2VkYmI1NzY2NjY4ZmUxNjJlZjA0ZWYwZTBkNA  ; wsMagazineVolume4Issue2PDFMediaLink ; wsMagazineVolume4Issue2PDFMediaLink ;;Free PDF Download
+
+INSERT_UPDATE ContentSlotName; name[unique = true]          ; template(uid, $contentCV)[unique = true][default = 'WholeScriptsMagazineTemplate']; validComponentTypes(code); compTypeGroup(code)
+                             ; WholeScriptsMagazineVolume4Issue2Section ;                                                                              ;                          ; wide
+
+INSERT_UPDATE ContentSlotForPage; $contentCV[unique = true]; uid[unique = true]                            ; position[unique = true]        ; page(uid, $contentCV)[unique = true][default = 'WholeScriptsMagazinePage']; contentSlot(uid, $contentCV)[unique = true]
+                                ;                          ; WholeScriptsMagazineVolume4Issue2Section-magazinePage ; WholeScriptsMagazineVolume4Issue2Section  ;                                                                  ; WholeScriptsMagazineVolume4Issue2Slot
+
+INSERT_UPDATE ContentSlot; $contentCV[unique = true]; uid[unique = true]                ; name                                 ; active; cmsComponents(uid, $contentCV)
+                         ;                          ; WholeScriptsMagazineVolume4Issue2Slot ; WholeScripts Magazine Volume4Issue2 Slot ; true  ; wsMagazineVolume4Issue2BannerComponent,wsMagazineVolume4Issue2PDFMediaLink
+##
+INSERT_UPDATE Media; code[unique = true]     ; @media[translator = de.hybris.platform.impex.jalo.media.MediaDataTranslator]; mime[default = 'image/jpeg']; $contentCV[unique = true]; folder(qualifier)[default = images]
+                   ; Volume3Issue3Image      ; $siteMagazinePage/volume-3-issue-3.png                               ;                             ;                          ;
+
+INSERT_UPDATE BannerComponent; $contentCV[unique = true]; uid[unique = true]                        ; name                                          ; &componentRef                             ; urlLink; media(code, $contentCV); headline[lang = $lang]       ; content[lang = $lang]
+                             ;                          ; wsMagazineVolume3Issue3BannerComponent    ; WS Magazine Volume3Issue3 BannerComponent     ; wsMagazineVolume3Issue3BannerComponent    ;        ; Volume3Issue3Image;<h3>Volume 3 Issue 3</h3> ; <div class="past-issue-info"><p>Learn about antiaging research and what you can do to help slow the aging process.</p></div>
+
+
+INSERT_UPDATE Media; $contentCV[unique = true]; code[unique = true]	        ; mime[default = 'image/jpg']	; realfilename   					; @media[translator = de.hybris.platform.impex.jalo.media.MediaDataTranslator]
+                   ;                          ; wsMagazineVolume3Issue3PDF  ; pdf                 			; volume-3-issue-3.pdf 	; $siteResourceMagazinePagePdfDocuments/volume-3-issue-3.pdf
+
+INSERT_UPDATE CMSLinkComponent; $contentCV[unique = true]; uid[unique = true]; name               ; url; &linkRef        ; &componentRef; target(code)[default = 'sameWindow'];linkName
+                              ;                          ; wsMagazineVolume3Issue3PDFMediaLink   ; wsMagazine Volume3Issue3 PDFMediaLink ;/medias/volume-3-issue-3.pdf?context=bWFzdGVyfHJvb3R8OTkzMDU3MXxhcHBsaWNhdGlvbi9wZGZ8YUdNM0wyaGtNeTg0T1RBM01qRXhNREUwTVRjMEwzWnZiSFZ0WlMwekxXbHpjM1ZsTFRNdWNHUm18MzFiNTZmMTJjYzFjZDFkNTM5YjI2NWQ0ZTAwYmU3NGYzMzQxYzRlZjI3ZTlmZTk2OTJjNmQ4Mzg2ZmU0YjcyYw  ; wsMagazineVolume3Issue3PDFMediaLink ; wsMagazineVolume3Issue3PDFMediaLink ;;Free PDF Download
+
+INSERT_UPDATE ContentSlotName; name[unique = true]          ; template(uid, $contentCV)[unique = true][default = 'WholeScriptsMagazineTemplate']; validComponentTypes(code); compTypeGroup(code)
+                             ; WholeScriptsMagazineVolume3Issue3Section ;                                                                              ;                          ; wide
+
+INSERT_UPDATE ContentSlotForPage; $contentCV[unique = true]; uid[unique = true]                            ; position[unique = true]        ; page(uid, $contentCV)[unique = true][default = 'WholeScriptsMagazinePage']; contentSlot(uid, $contentCV)[unique = true]
+                                ;                          ; WholeScriptsMagazineVolume3Issue3Section-magazinePage ; WholeScriptsMagazineVolume3Issue3Section  ;                                                                  ; WholeScriptsMagazineVolume3Issue3Slot
+
+INSERT_UPDATE ContentSlot; $contentCV[unique = true]; uid[unique = true]                ; name                                 ; active; cmsComponents(uid, $contentCV)
+                         ;                          ; WholeScriptsMagazineVolume3Issue3Slot ; WholeScripts Magazine Volume3Issue3 Slot ; true  ; wsMagazineVolume3Issue3BannerComponent,wsMagazineVolume3Issue3PDFMediaLink
+##
+INSERT_UPDATE Media; code[unique = true]     ; @media[translator = de.hybris.platform.impex.jalo.media.MediaDataTranslator]; mime[default = 'image/jpeg']; $contentCV[unique = true]; folder(qualifier)[default = images]
+                   ; Volume3Issue2Image      ; $siteMagazinePage/volume-3-issue-2.png                               ;                             ;                          ;
+
+
+INSERT_UPDATE BannerComponent; $contentCV[unique = true]; uid[unique = true]                        ; name                                          ; &componentRef                             ; urlLink; media(code, $contentCV); headline[lang = $lang]       ; content[lang = $lang]
+                             ;                          ; wsMagazineVolume3Issue2BannerComponent    ; WS Magazine Volume3Issue2 BannerComponent     ; wsMagazineVolume3Issue2BannerComponent    ;        ; Volume3Issue2Image; <h3>Volume 3 Issue 2</h3>; <div class="past-issue-info"><p>Be positive, accepting your body as it is.</p></div>
+
+
+INSERT_UPDATE Media; $contentCV[unique = true]; code[unique = true]	        ; mime[default = 'image/jpg']	; realfilename   					; @media[translator = de.hybris.platform.impex.jalo.media.MediaDataTranslator]
+                   ;                          ; wsMagazineVolume3Issue2PDF  ; pdf                 			; volume-3-issue-2.pdf 	; $siteResourceMagazinePagePdfDocuments/volume-3-issue-2.pdf
+
+INSERT_UPDATE CMSLinkComponent; $contentCV[unique = true]; uid[unique = true]; name               ; url; &linkRef        ; &componentRef; target(code)[default = 'sameWindow'];linkName
+                              ;                          ; wsMagazineVolume3Issue2PDFMediaLink   ; Home Page Nav Link ;/medias/volume-3-issue-2.pdf?context=bWFzdGVyfHJvb3R8OTM4ODAyOHxhcHBsaWNhdGlvbi9wZGZ8YURBNEwyaGtNQzg0T1RBM01qRXhNVFExTWpRMkwzWnZiSFZ0WlMwekxXbHpjM1ZsTFRJdWNHUm18ZTk1MjRlMTg0N2FmNDZjM2IzNjFkM2RkZTAzNjcyNWYzOTA5NWQ3NWIxZDIwZjEwNWEzODM1ODQ4YTg0M2VlYQ  ; wsMagazineVolume3Issue2PDFMediaLink ; wsMagazineVolume3Issue2PDFMediaLink ;;Free PDF Download
+
+INSERT_UPDATE ContentSlotName; name[unique = true]          ; template(uid, $contentCV)[unique = true][default = 'WholeScriptsMagazineTemplate']; validComponentTypes(code); compTypeGroup(code)
+                             ; WholeScriptsMagazineVolume3Issue2Section ;                                                                              ;                          ; wide
+
+INSERT_UPDATE ContentSlotForPage; $contentCV[unique = true]; uid[unique = true]                            ; position[unique = true]        ; page(uid, $contentCV)[unique = true][default = 'WholeScriptsMagazinePage']; contentSlot(uid, $contentCV)[unique = true]
+                                ;                          ; WholeScriptsMagazineVolume3Issue2Section-magazinePage ; WholeScriptsMagazineVolume3Issue2Section  ;                                                                  ; WholeScriptsMagazineVolume3Issue2Slot
+
+INSERT_UPDATE ContentSlot; $contentCV[unique = true]; uid[unique = true]                ; name                                 ; active; cmsComponents(uid, $contentCV)
+                         ;                          ; WholeScriptsMagazineVolume3Issue2Slot ; WholeScripts Magazine Volume3Issue2 Slot ; true  ; wsMagazineVolume3Issue2BannerComponent,wsMagazineVolume3Issue2PDFMediaLink
+##
+INSERT_UPDATE Media; code[unique = true]     ; @media[translator = de.hybris.platform.impex.jalo.media.MediaDataTranslator]; mime[default = 'image/jpeg']; $contentCV[unique = true]; folder(qualifier)[default = images]
+                   ; Volume3Issue1Image      ; $siteMagazinePage/volume-3-issue-1.png                               ;                             ;                          ;
+
+INSERT_UPDATE BannerComponent; $contentCV[unique = true]; uid[unique = true]                        ; name                                          ; &componentRef                             ; urlLink; media(code, $contentCV)  ; headline[lang = $lang]       ; content[lang = $lang]
+                             ;                          ; wsMagazineVolume3Issue1BannerComponent    ; WS Magazine Volume3Issue1 BannerComponent     ; wsMagazineVolume3Issue1BannerComponent    ;        ; Volume3Issue1Image;<h3>Volume 3 Issue 1</h3>      ;<div class="past-issue-info"><p>Don’t Light Up the Night, Keeping healthy by limiting blue light.</p></div>
+
+INSERT_UPDATE Media; $contentCV[unique = true]; code[unique = true]	        ; mime[default = 'image/jpg']	; realfilename   					; @media[translator = de.hybris.platform.impex.jalo.media.MediaDataTranslator]
+                   ;                          ; wsMagazineVolume3Issue1PDF  ; pdf                 			; volume-3-issue-1.pdf 	; $siteResourceMagazinePagePdfDocuments/volume-3-issue-1.pdf
+
+INSERT_UPDATE CMSLinkComponent; $contentCV[unique = true]; uid[unique = true]; name               ; url; &linkRef        ; &componentRef; target(code)[default = 'sameWindow'];linkName
+                              ;                          ; wsMagazineVolume3Issue1PDFMediaLink   ; ws Magazine Volume3Issue1 PDFMediaLink ;/medias/volume-3-issue-1.pdf?context=bWFzdGVyfHJvb3R8MjYwMDc0MzZ8YXBwbGljYXRpb24vcGRmfGFEUTVMMmhqWXk4NE9UQTNNakV4TWpjMk16RTRMM1p2YkhWdFpTMHpMV2x6YzNWbExURXVjR1JtfDY5MTZmMDMwMzA5NDMzM2YwZmFhOGFiNjIwOGJjOWI0Njg3MWM5MDdiMjMyY2ZmNGQ2N2UxMmQzN2E0YzQxZWI  ; wsMagazineVolume3Issue1PDFMediaLink ; wsMagazineVolume3Issue1PDFMediaLink ;;Free PDF Download
+
+INSERT_UPDATE ContentSlotName; name[unique = true]          ; template(uid, $contentCV)[unique = true][default = 'WholeScriptsMagazineTemplate']; validComponentTypes(code); compTypeGroup(code)
+                             ; WholeScriptsMagazineVolume3Issue1Section ;                                                                              ;                          ; wide
+
+INSERT_UPDATE ContentSlotForPage; $contentCV[unique = true]; uid[unique = true]                            ; position[unique = true]        ; page(uid, $contentCV)[unique = true][default = 'WholeScriptsMagazinePage']; contentSlot(uid, $contentCV)[unique = true]
+                                ;                          ; WholeScriptsMagazineVolume3Issue1Section-magazinePage ; WholeScriptsMagazineVolume3Issue1Section  ;                                                                  ; WholeScriptsMagazineVolume3Issue1Slot
+
+INSERT_UPDATE ContentSlot; $contentCV[unique = true]; uid[unique = true]                ; name                                 ; active; cmsComponents(uid, $contentCV)
+                         ;                          ; WholeScriptsMagazineVolume3Issue1Slot ; WholeScripts Magazine Volume3Issue1 Slot ; true  ; wsMagazineVolume3Issue1BannerComponent,wsMagazineVolume3Issue1PDFMediaLink
+##
+INSERT_UPDATE Media; code[unique = true]     ; @media[translator = de.hybris.platform.impex.jalo.media.MediaDataTranslator]; mime[default = 'image/jpeg']; $contentCV[unique = true]; folder(qualifier)[default = images]
+                   ; Volume2Issue4Image      ; $siteMagazinePage/volume-2-issue-4.png                               ;                             ;                          ;
+
+
+INSERT_UPDATE BannerComponent; $contentCV[unique = true]; uid[unique = true]                        ; name                                          ; &componentRef                             ; urlLink; media(code, $contentCV)  ; headline[lang = $lang]       ; content[lang = $lang]
+                             ;                          ; wsMagazineVolume2Issue4BannerComponent    ; WS Magazine Volume2Issue4 BannerComponent     ; wsMagazineVolume2Issue4BannerComponent    ;        ; Volume2Issue4Image ;<h3>Volume 2 Issue 4</h3>     ;<div class="past-issue-info"><p>Got GERD?, Tips to put out the fire.</p></div>
+
+
+INSERT_UPDATE CMSParagraphComponent; $contentCV[unique = true]; uid[unique = true]                    ; &componentRef                              ; name                           ; content
+                                   ;                          ; wsMagazineVolume2Issue4Component      ; wsMagazineVolume2Issue4Component ; ws Magazine Volume2Issue4 Component      ;
+
+
+INSERT_UPDATE Media; $contentCV[unique = true]; code[unique = true]	        ; mime[default = 'image/jpg']	; realfilename   					; @media[translator = de.hybris.platform.impex.jalo.media.MediaDataTranslator]
+                   ;                          ; wsMagazineVolume2Issue4PDF  ; pdf                 			; volume-2-issue-4.pdf 	; $siteResourceMagazinePagePdfDocuments/volume-2-issue-4.pdf
+
+INSERT_UPDATE CMSLinkComponent; $contentCV[unique = true]; uid[unique = true]; name               ; url; &linkRef        ; &componentRef; target(code)[default = 'sameWindow'];linkName
+                              ;                          ; wsMagazineVolume2Issue4PDFMediaLink   ; ws Magazine Volume2Issue4 PDFMediaLink ;/medias/volume-2-issue-4.pdf?context=bWFzdGVyfHJvb3R8MjAxMjc5MTR8YXBwbGljYXRpb24vcGRmfGFETmhMMmhqTmk4NE9UQTNNakV4TkRBM016a3dMM1p2YkhWdFpTMHlMV2x6YzNWbExUUXVjR1JtfDYxZjYxNjYxYTM0YmU5ZGUxM2MxYzU4NmZhYWRlNDljMzAxZjU5MDJiYTk1ZTM1YzNhZWJhOTE5MWZmYzZmYTE  ; wsMagazineVolume2Issue4PDFMediaLink ; wsMagazineVolume2Issue4PDFMediaLink ;;Free PDF Download
+
+INSERT_UPDATE ContentSlotName; name[unique = true]          ; template(uid, $contentCV)[unique = true][default = 'WholeScriptsMagazineTemplate']; validComponentTypes(code); compTypeGroup(code)
+                             ; WholeScriptsMagazineVolume2Issue4Section ;                                                                              ;                          ; wide
+
+INSERT_UPDATE ContentSlotForPage; $contentCV[unique = true]; uid[unique = true]                            ; position[unique = true]        ; page(uid, $contentCV)[unique = true][default = 'WholeScriptsMagazinePage']; contentSlot(uid, $contentCV)[unique = true]
+                                ;                          ; WholeScriptsMagazineVolume2Issue4Section-magazinePage ; WholeScriptsMagazineVolume2Issue4Section  ;                                                                  ; WholeScriptsMagazineVolume2Issue4Slot
+
+INSERT_UPDATE ContentSlot; $contentCV[unique = true]; uid[unique = true]                ; name                                 ; active; cmsComponents(uid, $contentCV)
+                         ;                          ; WholeScriptsMagazineVolume2Issue4Slot ; WholeScripts Magazine Volume2Issue4 Slot ; true  ; wsMagazineVolume2Issue4BannerComponent,wsMagazineVolume2Issue4Component,wsMagazineVolume2Issue4PDFMediaLink
+
+##
+INSERT_UPDATE Media; code[unique = true]     ; @media[translator = de.hybris.platform.impex.jalo.media.MediaDataTranslator]; mime[default = 'image/jpeg']; $contentCV[unique = true]; folder(qualifier)[default = images]
+                   ; Volume2Issue3Image      ; $siteMagazinePage/volume-2-issue-3.png                               ;                             ;                          ;
+
+INSERT_UPDATE BannerComponent; $contentCV[unique = true]; uid[unique = true]                        ; name                                          ; &componentRef                             ; urlLink; media(code, $contentCV); headline[lang = $lang]       ; content[lang = $lang]
+                             ;                          ; wsMagazineVolume2Issue3BannerComponent    ; WS Magazine Volume2Issue3 BannerComponent     ; wsMagazineVolume2Issue3BannerComponent    ;        ; Volume2Issue3Image; <h3>Volume 2 Issue 4</h3>; <div class="past-issue-info"><p>Got GERD?, Tips to put out the fire.</p></div>
+
+INSERT_UPDATE Media; $contentCV[unique = true]; code[unique = true]	        ; mime[default = 'image/jpg']	; realfilename   					; @media[translator = de.hybris.platform.impex.jalo.media.MediaDataTranslator]
+                   ;                          ; wsMagazineVolume2Issue3PDF  ; pdf                 			; volume-2-issue-3.pdf 	; $siteResourceMagazinePagePdfDocuments/volume-2-issue-3.pdf
+
+INSERT_UPDATE CMSLinkComponent; $contentCV[unique = true]; uid[unique = true]; name               ; url; &linkRef        ; &componentRef; target(code)[default = 'sameWindow'];linkName
+                              ;                          ; wsMagazineVolume2Issue3PDFMediaLink   ; Home Page Nav Link ;/medias/volume-2-issue-3.pdf?context=bWFzdGVyfHJvb3R8ODA3OTAzM3xhcHBsaWNhdGlvbi9wZGZ8YURkaUwyaGpNaTg0T1RBM01qRXhOVE00TkRZeUwzWnZiSFZ0WlMweUxXbHpjM1ZsTFRNdWNHUm18MDE4MzEzZjRiMzk0YWQyM2E1YTI5MzEyODYxZjU5NDcyMDliMjhkOWMzZjYxZTljNWY2OTBlMWM0M2Q3NjUyMg  ; wsMagazineVolume2Issue3PDFMediaLink ; wsMagazineVolume2Issue3PDFMediaLink ;;Free PDF Download
+
+INSERT_UPDATE ContentSlotName; name[unique = true]          ; template(uid, $contentCV)[unique = true][default = 'WholeScriptsMagazineTemplate']; validComponentTypes(code); compTypeGroup(code)
+                             ; WholeScriptsMagazineVolume2Issue3Section ;                                                                              ;                          ; wide
+
+INSERT_UPDATE ContentSlotForPage; $contentCV[unique = true]; uid[unique = true]                            ; position[unique = true]        ; page(uid, $contentCV)[unique = true][default = 'WholeScriptsMagazinePage']; contentSlot(uid, $contentCV)[unique = true]
+                                ;                          ; WholeScriptsMagazineVolume2Issue3Section-magazinePage ; WholeScriptsMagazineVolume2Issue3Section  ;                                                                  ; WholeScriptsMagazineVolume2Issue3Slot
+
+INSERT_UPDATE ContentSlot; $contentCV[unique = true]; uid[unique = true]                ; name                                 ; active; cmsComponents(uid, $contentCV)
+                         ;                          ; WholeScriptsMagazineVolume2Issue3Slot ; WholeScripts Magazine Volume2Issue3 Slot ; true  ; wsMagazineVolume2Issue3BannerComponent,wsMagazineVolume2Issue3PDFMediaLink
+##
+INSERT_UPDATE Media; code[unique = true]     ; @media[translator = de.hybris.platform.impex.jalo.media.MediaDataTranslator]; mime[default = 'image/jpeg']; $contentCV[unique = true]; folder(qualifier)[default = images]
+                   ; Volume2Issue2Image      ; $siteMagazinePage/volume-2-issue-2.png                               ;                             ;                          ;
+
+
+INSERT_UPDATE BannerComponent; $contentCV[unique = true]; uid[unique = true]                        ; name                                          ; &componentRef                             ; urlLink; media(code, $contentCV)  ; headline[lang = $lang]       ; content[lang = $lang]
+                             ;                          ; wsMagazineVolume2Issue2BannerComponent    ; WS Magazine Volume2Issue2 BannerComponent     ; wsMagazineVolume2Issue2BannerComponent    ;        ; Volume2Issue2Image ;<h3>Volume 2 Issue 3</h3>     ;<div class="past-issue-info"><p>Healthcare Deserts, The barriers to access.</p></div>
+
+
+INSERT_UPDATE Media; $contentCV[unique = true]; code[unique = true]	        ; mime[default = 'image/jpg']	; realfilename   					; @media[translator = de.hybris.platform.impex.jalo.media.MediaDataTranslator]
+                   ;                          ; wsMagazineVolume2Issue2PDF  ; pdf                 			; volume-2-issue-2.pdf 	; $siteResourceMagazinePagePdfDocuments/volume-2-issue-2.pdf
+
+INSERT_UPDATE CMSLinkComponent; $contentCV[unique = true]; uid[unique = true]; name               ; url; &linkRef        ; &componentRef; target(code)[default = 'sameWindow'];linkName
+                              ;                          ; wsMagazineVolume2Issue2PDFMediaLink   ; ws Magazine Volume2Issue2 PDFMediaLink ;/medias/volume-2-issue-2.pdf?context=bWFzdGVyfHJvb3R8NjA2MjY1OXxhcHBsaWNhdGlvbi9wZGZ8YUdKaUwyaGlaUzg0T1RBM01qRXhOalk1TlRNMEwzWnZiSFZ0WlMweUxXbHpjM1ZsTFRJdWNHUm18MDVmOWExM2M0Y2JjNDBmZThmY2JiNmM5OTVjM2I3NTUwMDRhNWE4NmZlNWY2Y2EzNDVkN2MyYTZlYjAyOWE1ZA  ; wsMagazineVolume2Issue2PDFMediaLink ; wsMagazineVolume2Issue2PDFMediaLink ;;Free PDF Download
+
+INSERT_UPDATE ContentSlotName; name[unique = true]          ; template(uid, $contentCV)[unique = true][default = 'WholeScriptsMagazineTemplate']; validComponentTypes(code); compTypeGroup(code)
+                             ; WholeScriptsMagazineVolume2Issue2Section ;                                                                              ;                          ; wide
+
+INSERT_UPDATE ContentSlotForPage; $contentCV[unique = true]; uid[unique = true]                            ; position[unique = true]        ; page(uid, $contentCV)[unique = true][default = 'WholeScriptsMagazinePage']; contentSlot(uid, $contentCV)[unique = true]
+                                ;                          ; WholeScriptsMagazineVolume2Issue2Section-magazinePage ; WholeScriptsMagazineVolume2Issue2Section  ;                                                                  ; WholeScriptsMagazineVolume2Issue2Slot
+
+INSERT_UPDATE ContentSlot; $contentCV[unique = true]; uid[unique = true]                ; name                                 ; active; cmsComponents(uid, $contentCV)
+                         ;                          ; WholeScriptsMagazineVolume2Issue2Slot ; WholeScripts Magazine Volume2Issue2 Slot ; true  ; wsMagazineVolume2Issue2BannerComponent,wsMagazineVolume2Issue2PDFMediaLink
+##
+
+INSERT_UPDATE Media; code[unique = true]     ; @media[translator = de.hybris.platform.impex.jalo.media.MediaDataTranslator]; mime[default = 'image/jpeg']; $contentCV[unique = true]; folder(qualifier)[default = images]
+                   ; Volume2Issue1Image      ; $siteMagazinePage/volume-2-issue-1.png                               ;                             ;                          ;
+
+INSERT_UPDATE BannerComponent; $contentCV[unique = true]; uid[unique = true]                        ; name                                          ; &componentRef                             ; urlLink; media(code, $contentCV); headline[lang = $lang]       ; content[lang = $lang]
+                             ;                          ; wsMagazineVolume2Issue1BannerComponent    ; WS Magazine Volume2Issue1 BannerComponent     ; wsMagazineVolume2Issue1BannerComponent    ;        ; Volume2Issue1Image;<h3>Volume 2 Issue 1</h3>;<div class="past-issue-info"><p>Self-Compassion and Chronic Illness, Compassion for yourself can play an important role in your treatment.</p></div>
+
+INSERT_UPDATE Media; $contentCV[unique = true]; code[unique = true]	        ; mime[default = 'image/jpg']	; realfilename   					; @media[translator = de.hybris.platform.impex.jalo.media.MediaDataTranslator]
+                   ;                          ; wsMagazineVolume2Issue1PDF  ; pdf                 			; volume-2-issue-1.pdf 	; $siteResourceMagazinePagePdfDocuments/volume-2-issue-1.pdf
+
+INSERT_UPDATE CMSLinkComponent; $contentCV[unique = true]; uid[unique = true]; name               ; url; &linkRef        ; &componentRef; target(code)[default = 'sameWindow'];linkName
+                              ;                          ; wsMagazineVolume2Issue1PDFMediaLink   ; wsMagazineVolume2Issue1PDFMediaLink ;/medias/volume-2-issue-1.pdf?context=bWFzdGVyfHJvb3R8MTExNDgxNjd8YXBwbGljYXRpb24vcGRmfGFHUmhMMmhpTkM4NE9UQTNNakV4T1RNeE5qYzRMM1p2YkhWdFpTMHlMV2x6YzNWbExURXVjR1JtfDI4MmJiNjY0ZmJhYmY0NmMyNmY0ZDc4NmY1MWQyMGFlMTU3YTBhNTA2ZWNlMDdiZGU1ODBlNDRkOGE0NjE0YTQ  ; wsMagazineVolume2Issue1PDFMediaLink ; wsMagazineVolume2Issue1PDFMediaLink ;;Free PDF Download
+
+INSERT_UPDATE ContentSlotName; name[unique = true]          ; template(uid, $contentCV)[unique = true][default = 'WholeScriptsMagazineTemplate']; validComponentTypes(code); compTypeGroup(code)
+                             ; WholeScriptsMagazineVolume2Issue1Section ;                                                                              ;                          ; wide
+
+INSERT_UPDATE ContentSlotForPage; $contentCV[unique = true]; uid[unique = true]                            ; position[unique = true]        ; page(uid, $contentCV)[unique = true][default = 'WholeScriptsMagazinePage']; contentSlot(uid, $contentCV)[unique = true]
+                                ;                          ; WholeScriptsMagazineVolume2Issue1Section-magazinePage ; WholeScriptsMagazineVolume2Issue1Section  ;                                                                  ; WholeScriptsMagazineVolume2Issue1Slot
+
+INSERT_UPDATE ContentSlot; $contentCV[unique = true]; uid[unique = true]                ; name                                 ; active; cmsComponents(uid, $contentCV)
+                         ;                          ; WholeScriptsMagazineVolume2Issue1Slot ; WholeScripts Magazine Volume2Issue1 Slot ; true  ; wsMagazineVolume2Issue1BannerComponent,wsMagazineVolume2Issue1PDFMediaLink
+
+##
+INSERT_UPDATE Media; code[unique = true]     ; @media[translator = de.hybris.platform.impex.jalo.media.MediaDataTranslator]; mime[default = 'image/jpeg']; $contentCV[unique = true]; folder(qualifier)[default = images]
+                   ; Volume1Issue1Image      ; $siteMagazinePage/volume-1-issue-1.png                               ;                             ;                          ;
+
+
+INSERT_UPDATE BannerComponent; $contentCV[unique = true]; uid[unique = true]                        ; name                                          ; &componentRef                             ; urlLink; media(code, $contentCV); headline[lang = $lang]       ; content[lang = $lang]
+                             ;                          ; wsMagazineVolume1Issue1BannerComponent    ; WS Magazine Volume1Issue1 BannerComponent     ; wsMagazineVolume1Issue1BannerComponent    ;        ; Volume1Issue1Image ;<h3>Volume 1 Issue 1</h3> ; <div class="past-issue-info"><p>Feeling Good and Pain Free, Non-pharmacological options for treating chronic pain.</p></div>
+
+
+INSERT_UPDATE CMSParagraphComponent; $contentCV[unique = true]; uid[unique = true]                    ; &componentRef                              ; name                           ; content
+                                   ;                          ; wsMagazineVolume1Issue1Component      ; wsMagazineVolume1Issue1Component ; ws Magazine Volume1Issue1 Component      ;
+
+
+INSERT_UPDATE Media; $contentCV[unique = true]; code[unique = true]	        ; mime[default = 'image/jpg']	; realfilename   					; @media[translator = de.hybris.platform.impex.jalo.media.MediaDataTranslator]
+                   ;                          ; wsMagazineVolume1Issue1PDF  ; pdf                 			; volume-1-issue-1.pdf 	; $siteResourceMagazinePagePdfDocuments/volume-1-issue-1.pdf
+
+INSERT_UPDATE CMSLinkComponent; $contentCV[unique = true]; uid[unique = true]; name               ; url; &linkRef        ; &componentRef; target(code)[default = 'sameWindow'];linkName
+                              ;                          ; wsMagazineVolume1Issue1PDFMediaLink   ; wsMagazineVolume1Issue1PDFMediaLink ;/medias/volume-1-issue-1.pdf?context=bWFzdGVyfHJvb3R8NzA3MTkzNnxhcHBsaWNhdGlvbi9wZGZ8YURrNUwyaGlPQzg0T1RBM01qRXhPREF3TmpBMkwzWnZiSFZ0WlMweExXbHpjM1ZsTFRFdWNHUm18NjBkNThmNzZkNjU4NzQ0MGI5NmIxM2MwZDY0ZjdhN2UwYWM4NzM0ZmFkMjcwM2RiZDE2ZmYwNjA5NTRlYWM3MQ  ; wsMagazineVolume1Issue1PDFMediaLink ; wsMagazineVolume1Issue1PDFMediaLink ;;Free PDF Download
+
+INSERT_UPDATE ContentSlotName; name[unique = true]          ; template(uid, $contentCV)[unique = true][default = 'WholeScriptsMagazineTemplate']; validComponentTypes(code); compTypeGroup(code)
+                             ; WholeScriptsMagazineVolume1Issue1Section ;                                                                              ;                          ; wide
+
+INSERT_UPDATE ContentSlotForPage; $contentCV[unique = true]; uid[unique = true]                            ; position[unique = true]        ; page(uid, $contentCV)[unique = true][default = 'WholeScriptsMagazinePage']; contentSlot(uid, $contentCV)[unique = true]
+                                ;                          ; WholeScriptsMagazineVolume1Issue1Section-magazinePage ; WholeScriptsMagazineVolume1Issue1Section  ;                                                                  ; WholeScriptsMagazineVolume1Issue1Slot
+
+INSERT_UPDATE ContentSlot; $contentCV[unique = true]; uid[unique = true]                ; name                                 ; active; cmsComponents(uid, $contentCV)
+                         ;                          ; WholeScriptsMagazineVolume1Issue1Slot ; WholeScripts Magazine Volume1Issue1 Slot ; true  ; wsMagazineVolume1Issue1BannerComponent,wsMagazineVolume1Issue1Component,wsMagazineVolume1Issue1PDFMediaLink
+
+###
+INSERT_UPDATE CMSParagraphComponent; $contentCV[unique = true]; uid[unique = true]                         ; &componentRef                              ; name                                           ; content
+                                   ;                          ; wsMagazineLotEasierContentParaComponent    ; wsMagazineLotEasierContentParaComponent     ; WS Magazine Lot Easier Content ParaComponent  ; <div id="action-container"><div id="action-title">Whole Health Care A Whole Lot Easier</div><div id="action-text"> High-quality professional, nutritional and herbal supplements all in one place. It’s just one way we make whole healthcare a whole lot easier. </div><a href="/sign-up" class="ws-button ws-button--fit ws-button--no-underline primary">Get Started</a></div>
+
+INSERT_UPDATE ContentSlotName; name[unique = true]          ; template(uid, $contentCV)[unique = true][default = 'WholeScriptsMagazineTemplate']; validComponentTypes(code); compTypeGroup(code)
+                             ; WholeScriptsMagazineLotEasierContentSection ;                                                                              ;                          ; wide
+
+INSERT_UPDATE ContentSlotForPage; $contentCV[unique = true]; uid[unique = true]                                       ; position[unique = true]        ; page(uid, $contentCV)[unique = true][default = 'WholeScriptsMagazinePage']; contentSlot(uid, $contentCV)[unique = true]
+                                ;                          ; WholeScriptsMagazineLotEasierContentSection-magazinePage ; WholeScriptsMagazineLotEasierContentSection  ;                                                                  ; WholeScriptsMagazineLotEasierContentSectionSlot
+
+INSERT_UPDATE ContentSlot; $contentCV[unique = true]; uid[unique = true]                ; name                                 ; active; cmsComponents(uid, $contentCV)
+                         ;                          ; WholeScriptsMagazineLotEasierContentSectionSlot ; WholeScripts Magazine Lot Easier Content SectionSlot ; true  ; wsMagazineLotEasierContentParaComponent
+
+##D1##
+    UPDATE CMSLinkComponent; $contentCV[unique = true]; uid[unique = true]                    ; name                                   ; url; &linkRef        ; &componentRef; target(code)[default = 'sameWindow'];linkName
+                           ;                          ; wsMagazineVolume4Issue4PDFMediaLink   ; WS Magazine Volume4Issue4 PDFMediaLink ;/medias/volume-4-issue-4.pdf?context=bWFzdGVyfHJvb3R8NjMyOTk0N3xhcHBsaWNhdGlvbi9wZGZ8YURnMkwyZzBZeTg0T1RBNE5EVTFNRFV4TWprMEwzWnZiSFZ0WlMwMExXbHpjM1ZsTFRRdWNHUm18ZjQ4NTc1Y2I0YmUzZmIzOWU2NmViYWEzYjU3NzRkYjg2NWIxY2U0MDU5NDAzYzQ3NWU1ZGI3NzE4MDEzYjY1NA  ; wsMagazineVolume4Issue4PDFMediaLink ; wsMagazineVolume4Issue4PDFMediaLink;;Free PDF Download
+                           ;                          ; wsMagazineVolume4Issue3PDFMediaLink   ; Home Page Nav Link ; /medias/volume-4-issue-3.pdf?context=bWFzdGVyfHJvb3R8NTgzMTAxNnxhcHBsaWNhdGlvbi9wZGZ8YUdNeUwyaGpNaTg0T1RBM05EQTNOalUwT1RReUwzWnZiSFZ0WlMwMExXbHpjM1ZsTFRNdWNHUm18ZWQ0MzNlNTU4OTUwZGZmYjBjODMzNzNlYjFiMTQ1MjU3OGI5MTU4OTc1ZmIxZWYxNTA5YWEyYTFlMGRiOTVjMA  ; wsMagazineVolume4Issue3PDFMediaLink ; wsMagazineVolume4Issue3PDFMediaLink;;Free PDF Download
+                           ;                          ; wsMagazineVolume4Issue2PDFMediaLink   ; ws Magazine Volume4Issue2 PDFMediaLink ;/medias/volume-4-issue-2.pdf?context=bWFzdGVyfHJvb3R8NjE4MzI1MHxhcHBsaWNhdGlvbi9wZGZ8YUdSbEwyZ3dNeTg0T1RBM05EQTVNRE14TVRrNEwzWnZiSFZ0WlMwMExXbHpjM1ZsTFRJdWNHUm18MTM1Y2M5NzVkODk1ZGE5MDk4Njc2ZGQ5MWM4NDg3ODRlYmRhZTFhYTQwZWExZDU5ZmE3YWFlODEzYjBlNmMyMw  ; wsMagazineVolume4Issue2PDFMediaLink ; wsMagazineVolume4Issue2PDFMediaLink ;;Free PDF Download
+                           ;                          ; wsMagazineVolume3Issue3PDFMediaLink   ; wsMagazine Volume3Issue3 PDFMediaLink ;/medias/volume-3-issue-3.pdf?context=bWFzdGVyfHJvb3R8OTkzMDU3MXxhcHBsaWNhdGlvbi9wZGZ8YURWakwyZ3dZUzg0T1RBM05EQTVORGc1T1RVd0wzWnZiSFZ0WlMwekxXbHpjM1ZsTFRNdWNHUm18NmQ3MGJjNjc5NDc1OWQzYjMxM2ExMjJkNTMzNDAyNzFlM2FmZmI3MzJkOTJhMzUyODUxZDYyZTNjYjNiNjQxZg  ; wsMagazineVolume3Issue3PDFMediaLink ; wsMagazineVolume3Issue3PDFMediaLink ;;Free PDF Download
+                           ;                          ; wsMagazineVolume3Issue2PDFMediaLink   ; Home Page Nav Link ;/medias/volume-3-issue-3.pdf?context=bWFzdGVyfHJvb3R8OTkzMDU3MXxhcHBsaWNhdGlvbi9wZGZ8YURWakwyZ3dZUzg0T1RBM05EQTVORGc1T1RVd0wzWnZiSFZ0WlMwekxXbHpjM1ZsTFRNdWNHUm18NmQ3MGJjNjc5NDc1OWQzYjMxM2ExMjJkNTMzNDAyNzFlM2FmZmI3MzJkOTJhMzUyODUxZDYyZTNjYjNiNjQxZg  ; wsMagazineVolume3Issue2PDFMediaLink ; wsMagazineVolume3Issue2PDFMediaLink ;;Free PDF Download
+                           ;                          ; wsMagazineVolume3Issue1PDFMediaLink   ; ws Magazine Volume3Issue1 PDFMediaLink ;/medias/volume-3-issue-1.pdf?context=bWFzdGVyfHJvb3R8MjYwMDc0MzZ8YXBwbGljYXRpb24vcGRmfGFHWTBMMmhrWlM4NE9UQTNOREV3TkRBM05EVTBMM1p2YkhWdFpTMHpMV2x6YzNWbExURXVjR1JtfGEwYzFlYWQzMzk5MDY1MWNlZTllMjM4YjI4NmM1ODlkM2IyZTc1N2JkZjg0YmZkZDQ1ODUzYjlhN2E5N2YzNmI  ; wsMagazineVolume3Issue1PDFMediaLink ; wsMagazineVolume3Issue1PDFMediaLink ;;Free PDF Download
+                           ;                          ; wsMagazineVolume2Issue4PDFMediaLink   ; ws Magazine Volume2Issue4 PDFMediaLink ;/medias/volume-2-issue-4.pdf?context=bWFzdGVyfHJvb3R8MjAxMjc5MTR8YXBwbGljYXRpb24vcGRmfGFHTXlMMmczWlM4NE9UQTNOREV4TVRZeE1URTRMM1p2YkhWdFpTMHlMV2x6YzNWbExUUXVjR1JtfDcwZTQyOTU5Yzc4NTNhNGY3MmUxM2JjOWU3Yzk2YTUzOGNhMmM4NzYyYjIyMjVhMmUxNjQwYTljMGE0YjUyMzQ  ; wsMagazineVolume2Issue4PDFMediaLink ; wsMagazineVolume2Issue4PDFMediaLink ;;Free PDF Download
+                           ;                          ; wsMagazineVolume2Issue3PDFMediaLink   ; Home Page Nav Link ;/medias/volume-2-issue-3.pdf?context=bWFzdGVyfHJvb3R8ODA3OTAzM3xhcHBsaWNhdGlvbi9wZGZ8YURNM0wyZzJaUzg0T1RBM05ERXhOakU1T0Rjd0wzWnZiSFZ0WlMweUxXbHpjM1ZsTFRNdWNHUm18ODBkMzlhNzkzMmU2MmU0M2IwMWM5ZWExOGVhZWE2MTAyMDgxNjU4Y2NhZWJiODg3YmQ4ODU4ZTFmYjE5MDcyMQ  ; wsMagazineVolume2Issue3PDFMediaLink ; wsMagazineVolume2Issue3PDFMediaLink ;;Free PDF Download
+                           ;                          ; wsMagazineVolume2Issue2PDFMediaLink   ; ws Magazine Volume2Issue2 PDFMediaLink ;/medias/volume-2-issue-2.pdf?context=bWFzdGVyfHJvb3R8NjA2MjY1OXxhcHBsaWNhdGlvbi9wZGZ8YUROakwyZ3hPQzg0T1RBM05ERXlNRGM0TmpJeUwzWnZiSFZ0WlMweUxXbHpjM1ZsTFRJdWNHUm18NmZhMGQ5OTQ3NzFmNmRmZmZmMTRjOTBiNTdlNGZkYmUyZjBmOWRlNzRmMzliYWZjNDQxYzliNWMxZDA2NTNlNg  ; wsMagazineVolume2Issue2PDFMediaLink ; wsMagazineVolume2Issue2PDFMediaLink ;;Free PDF Download
+                           ;                          ; wsMagazineVolume2Issue1PDFMediaLink   ; wsMagazineVolume2Issue1PDFMediaLink ;/medias/volume-2-issue-1.pdf?context=bWFzdGVyfHJvb3R8MTExNDgxNjd8YXBwbGljYXRpb24vcGRmfGFHWmhMMmcxWlM4NE9UQTNOREV6TkRVME9EYzRMM1p2YkhWdFpTMHlMV2x6YzNWbExURXVjR1JtfGMzNTc2NmI0NGNkZDQzZjI2ZjBhMTkzMDAzYWY2MWQ3ZGI0ZjBhNzNkMTkxZjU4NzRkMGE0NTAyOWE5ZWI2ZjQ  ; wsMagazineVolume2Issue1PDFMediaLink ; wsMagazineVolume2Issue1PDFMediaLink ;;Free PDF Download
+                           ;                          ; wsMagazineVolume1Issue1PDFMediaLink   ; wsMagazineVolume1Issue1PDFMediaLink ;/medias/volume-1-issue-1.pdf?context=bWFzdGVyfHJvb3R8NzA3MTkzNnxhcHBsaWNhdGlvbi9wZGZ8YURsa0wyZ3dOeTg0T1RBM05ERXlOVE0zTXpjMEwzWnZiSFZ0WlMweExXbHpjM1ZsTFRFdWNHUm18MWU2MjdmY2VlMTI2Y2ExZWNkYjBiYzlhYTJhYTcyZTc5YThkYTA1ODY2MjM0ZjZjNTk0MTU3ZWFlNzVmYjVkYw  ; wsMagazineVolume1Issue1PDFMediaLink ; wsMagazineVolume1Issue1PDFMediaLink ;;Free PDF Download
+
+##S1##
+    UPDATE CMSLinkComponent; $contentCV[unique = true]; uid[unique = true]                    ; name                                   ; url; &linkRef        ; &componentRef; target(code)[default = 'sameWindow'];linkName
+                           ;                          ; wsMagazineVolume4Issue4PDFMediaLink   ; WS Magazine Volume4Issue4 PDFMediaLink ;/medias/volume-4-issue-4.pdf?context=bWFzdGVyfHJvb3R8NjMyOTk0N3xhcHBsaWNhdGlvbi9wZGZ8YURrMEwyaGlZUzg0T1RBNU56UXhORFUzTkRNNEwzWnZiSFZ0WlMwMExXbHpjM1ZsTFRRdWNHUm18YTRjNDdlNmU5MGZlYzUzMDk2NGJjODJjZjc4NDYxOTVmMTUwMmNiY2IxMTViOTQ1OWE3Mjc2MWYyYWY0OGQyZg  ; wsMagazineVolume4Issue4PDFMediaLink ; wsMagazineVolume4Issue4PDFMediaLink;;Free PDF Download
+                           ;                          ; wsMagazineVolume4Issue3PDFMediaLink   ; Home Page Nav Link ; /medias/volume-4-issue-3.pdf?context=bWFzdGVyfHJvb3R8NTgzMTAxNnxhcHBsaWNhdGlvbi9wZGZ8YURnekwyaGlOeTg0T1RBNU56UXhOVEl5T1RjMEwzWnZiSFZ0WlMwMExXbHpjM1ZsTFRNdWNHUm18MzU5Y2U1OWUzMzJjZjQwZjEzMzgzY2JmNzM3NzYyODhlZWY4ZTQ3ZGZlNjEyYjdhODk1OWFmOTI5NThkNTQ5NA  ; wsMagazineVolume4Issue3PDFMediaLink ; wsMagazineVolume4Issue3PDFMediaLink;;Free PDF Download
+                           ;                          ; wsMagazineVolume4Issue2PDFMediaLink   ; ws Magazine Volume4Issue2 PDFMediaLink ;/medias/volume-4-issue-2.pdf?context=bWFzdGVyfHJvb3R8NjE4MzI1MHxhcHBsaWNhdGlvbi9wZGZ8YUdRMUwyaGlOaTg0T1RBNU56UXhOVGc0TlRFd0wzWnZiSFZ0WlMwMExXbHpjM1ZsTFRJdWNHUm18ODZhN2NiMzkzMGUzZTcwYzkyOWE3NjlhNDI3ODE0MDlmNWJlZmU2YzdjNDIxY2IwYzkzYjczM2Y2MzFhMTk4Yg  ; wsMagazineVolume4Issue2PDFMediaLink ; wsMagazineVolume4Issue2PDFMediaLink ;;Free PDF Download
+                           ;                          ; wsMagazineVolume3Issue3PDFMediaLink   ; wsMagazine Volume3Issue3 PDFMediaLink ;/medias/volume-3-issue-3.pdf?context=bWFzdGVyfHJvb3R8OTkzMDU3MXxhcHBsaWNhdGlvbi9wZGZ8YUdNekwyaGlNeTg0T1RBNU56UXhOalUwTURRMkwzWnZiSFZ0WlMwekxXbHpjM1ZsTFRNdWNHUm18MGQzY2VhZjc2ODBmZDUyMTc5OWRlMWRiMDRjYmFmNDIwZGVhMDY5YzhiMzcwY2Q2NWVjZDU2OTNkYTUwZjUwYg  ; wsMagazineVolume3Issue3PDFMediaLink ; wsMagazineVolume3Issue3PDFMediaLink ;;Free PDF Download
+                           ;                          ; wsMagazineVolume3Issue2PDFMediaLink   ; Home Page Nav Link ;/medias/volume-3-issue-2.pdf?context=bWFzdGVyfHJvb3R8OTM4ODAyOHxhcHBsaWNhdGlvbi9wZGZ8YUdNMUwyaGlNQzg0T1RBNU56UXhOekU1TlRneUwzWnZiSFZ0WlMwekxXbHpjM1ZsTFRJdWNHUm18OWRiZWJkMmViMjkyZjg4MDAzNTczNDAyZjI4NGUyOGE5MjA1N2RmMDU0ZTU4OTgxOWQ5ZmYxM2FiMWNmMWQ5MA  ; wsMagazineVolume3Issue2PDFMediaLink ; wsMagazineVolume3Issue2PDFMediaLink ;;Free PDF Download
+                           ;                          ; wsMagazineVolume3Issue1PDFMediaLink   ; ws Magazine Volume3Issue1 PDFMediaLink ;/medias/volume-3-issue-1.pdf?context=bWFzdGVyfHJvb3R8MjYwMDc0MzZ8YXBwbGljYXRpb24vcGRmfGFEQTBMMmhpTUM4NE9UQTVOelF4TnpnMU1URTRMM1p2YkhWdFpTMHpMV2x6YzNWbExURXVjR1JtfDI5NmRkMGY2ZWIzYjc0ZmM2MmRmNjIxYTRkMDIwZWZkM2Q4NmY2MTc5OTYyYzAwMjM0NWJkYjY3N2NlMmY5ZDY  ; wsMagazineVolume3Issue1PDFMediaLink ; wsMagazineVolume3Issue1PDFMediaLink ;;Free PDF Download
+                           ;                          ; wsMagazineVolume2Issue4PDFMediaLink   ; ws Magazine Volume2Issue4 PDFMediaLink ;/medias/volume-2-issue-4.pdf?context=bWFzdGVyfHJvb3R8MjAxMjc5MTR8YXBwbGljYXRpb24vcGRmfGFHWXpMMmhoWXk4NE9UQTVOelF4T0RVd05qVTBMM1p2YkhWdFpTMHlMV2x6YzNWbExUUXVjR1JtfDZlZDliNDY4YmNiZGMzY2U4YmNiODg4MGMzYmI5NThkNjM3ZjJjODkyY2UzNmM1ZmE0NDI1MzZlMTBmZWRjYTU  ; wsMagazineVolume2Issue4PDFMediaLink ; wsMagazineVolume2Issue4PDFMediaLink ;;Free PDF Download
+                           ;                          ; wsMagazineVolume2Issue3PDFMediaLink   ; Home Page Nav Link ;/medias/volume-2-issue-3.pdf?context=bWFzdGVyfHJvb3R8ODA3OTAzM3xhcHBsaWNhdGlvbi9wZGZ8YUdZMUwyaGhPUzg0T1RBNU56UXhPVEUyTVRrd0wzWnZiSFZ0WlMweUxXbHpjM1ZsTFRNdWNHUm18ZDBkYWI2YTAxYjhkZTg3MmRlMGVhZWY4MjRiNmNmMTBhMjVjMTk2MDI2ZWRmY2EyNTdlZmE2MzhkZjhmNzYyMA  ; wsMagazineVolume2Issue3PDFMediaLink ; wsMagazineVolume2Issue3PDFMediaLink ;;Free PDF Download
+                           ;                          ; wsMagazineVolume2Issue2PDFMediaLink   ; ws Magazine Volume2Issue2 PDFMediaLink ;/medias/volume-2-issue-2.pdf?context=bWFzdGVyfHJvb3R8NjA2MjY1OXxhcHBsaWNhdGlvbi9wZGZ8YURNMEwyaGhPUzg0T1RBNU56UXhPVGd4TnpJMkwzWnZiSFZ0WlMweUxXbHpjM1ZsTFRJdWNHUm18MmZkYTdiYzY5NDkwOTQ3NzQ0MDliZmYxOTZjNjMzZDA3ZDFlMTMyNjc1NDk4ZTU3ZTQ3OWVlZWNlN2M3Y2Y4Yw  ; wsMagazineVolume2Issue2PDFMediaLink ; wsMagazineVolume2Issue2PDFMediaLink ;;Free PDF Download
+                           ;                          ; wsMagazineVolume2Issue1PDFMediaLink   ; wsMagazineVolume2Issue1PDFMediaLink ;/medias/volume-2-issue-1.pdf?context=bWFzdGVyfHJvb3R8MTExNDgxNjd8YXBwbGljYXRpb24vcGRmfGFEaGhMMmcxWlM4NE9UQTVOelF5TURRM01qWXlMM1p2YkhWdFpTMHlMV2x6YzNWbExURXVjR1JtfDA3M2NjMGE2MjE4Mzg0N2RlZTBmMWRkMzE4ODk2MDY5MWFmOGFjZTEzNWViYjZkMmEwZTE1MTEzODMyYjM3MWQ  ; wsMagazineVolume2Issue1PDFMediaLink ; wsMagazineVolume2Issue1PDFMediaLink ;;Free PDF Download
+                           ;                          ; wsMagazineVolume1Issue1PDFMediaLink   ; wsMagazineVolume1Issue1PDFMediaLink ;/medias/volume-1-issue-1.pdf?context=bWFzdGVyfHJvb3R8NzA3MTkzNnxhcHBsaWNhdGlvbi9wZGZ8YURjNUwyZzFZaTg0T1RBNU56UXlNVEV5TnprNEwzWnZiSFZ0WlMweExXbHpjM1ZsTFRFdWNHUm18ZWI1ZjQwMzc4NjM5MzlkY2EwNzg0NDQzMDZhNWU2YzEwMWRlNDJlNGFkNjI3ZjBhYTljZmQ2ZGEzNjgwM2E4NQ  ; wsMagazineVolume1Issue1PDFMediaLink ; wsMagazineVolume1Issue1PDFMediaLink ;;Free PDF Download
+
+
+

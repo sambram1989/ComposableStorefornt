@@ -1,0 +1,116 @@
+.shipping-box {
+    border: 1px solid #0E7090;
+    padding: 15px;
+    border-radius: 10px;
+}
+
+.estimate-style {
+    margin: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.text-danger{
+  color: var(--ws-error-800) !important;
+}
+
+::ng-deep{
+    .SSLParagraphContent {
+        p {
+          &:first-child {
+            &::before {
+              content: '';
+              background-image: url('/assets/icons/common_icons/shield-text.svg');
+              display: inline-block;
+              width: 20px; 
+              height: 20px; 
+              background-size: contain; 
+              background-repeat: no-repeat; 
+              margin-right: 8px; 
+            }
+            font-weight: 700;
+            margin-bottom: 8px;
+          }
+        }
+      }
+      ws-cartboxstyle {
+        .card {
+          background: var(--ws-gray-dark-50);  
+          .card-header {
+            background: var(--ws-gray-dark-50) !important;
+            border-bottom: 0 !important;  
+            h5 {
+              font-size: 23px !important;
+              margin: 0;
+            }
+          }
+          .card-body {
+            padding-top: 0 !important;
+            .cart-body {
+              display: flex;
+              flex-direction: column;
+              gap: 16px;
+            }
+
+            .body-container {
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+
+              .card-details {
+                div {
+                  padding-top: 8px;
+                }
+              }
+
+              div {
+                color: var( --ws-gray-light-600);
+                font-size: 14px;
+                font-style: normal;
+                font-weight: 300;
+                line-height: 20px;
+              }
+
+              a {
+                font-size: 14px;
+                font-weight: 600;
+                line-height: 20px;
+                text-decoration-line: underline;
+                text-decoration-style: solid;
+                text-decoration-skip-ink: none;
+                text-decoration-thickness: auto;
+                text-underline-offset: auto;
+                text-underline-position: from-font;
+              }
+            }
+          }
+        }
+        ws-promocode {
+          padding-bottom: 16px;
+          border-bottom: 1px solid var(--ws-gray-light-200);
+          .card {
+            border: 0 !important;
+            .card-header {
+              padding: 0;
+              border: 0;
+            }
+            .card-title {
+              padding-top: 16px;
+              border-top: 1px solid var(--ws-gray-light-200);
+            }
+          }
+        }
+        ws-title-body-content {
+          .card {
+            border: 0;
+            gap: 16px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--ws-gray-light-200);
+          }
+          .card-header,
+          .card-body {
+            padding: 0 !important;
+          }
+        }
+      }
+  }

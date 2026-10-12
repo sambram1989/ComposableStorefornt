@@ -1,0 +1,218 @@
+$oAuthUrl = https://cpiqa-dxz2p48f.authentication.us21.hana.ondemand.com/oauth/token
+$clientId = sb-1e88f653-afbc-407f-ac10-a7814b6eabc9!b28450|it-rt-cpiqa-dxz2p48f!b46
+$clientSecret = 6d2c7119-adc7-45d4-befc-692b92c015ca$ypVNvDDeOI73t2zSbfczmxYqMviPpT0LJjvDNE_jHhU=
+$cmirURL = https://cpiqa-dxz2p48f.it-cpi013-rt.cfapps.us21.hana.ondemand.com/gw/odata/SAP/CUSTOMERMATERIAL_INFORMATIONRECORD
+$mrURL = https://cpiqa-dxz2p48f.it-cpi013-rt.cfapps.us21.hana.ondemand.com/gw/odata/SAP/MATERIAL_EXCLUSION
+$cmirVersion=v=1
+$inventoryURL = https://cpiqa-dxz2p48f.it-cpi013-rt.cfapps.us21.hana.ondemand.com/gw/odata/SAP/WHOLESCRIPTS_ZPRODUCT_GET_INVENTORY_QA
+$ageRestrictionURL = https://cpiqa-dxz2p48f.it-cpi013-rt.cfapps.us21.hana.ondemand.com/gw/odata/SAP/WHOLESCRIPTS_ZSD_F_GET_CONTROL_MAT_QA
+$swapRestrictionURL = https://cpiqa-dxz2p48f.it-cpi013-rt.cfapps.us21.hana.ondemand.com/gw/odata/SAP/WHOLESCRIPTS_ZCALI_SWAP_QA
+$version=v=1
+
+#common Consumed Oauth credentials ###############
+INSERT_UPDATE ConsumedOAuthCredential; Id[unique = true]     ; clientId  ; clientSecret  ; oAuthUrl
+                                     ; scpiWSOauthCredential ; $clientId ; $clientSecret ; $oAuthUrl
+
+INSERT_UPDATE DestinationTarget; id[unique = true]
+                               ; scpiDestinationTarget
+# Common end ##############################                              
+
+##############CMIR DESTINATION DETAILS #####################
+INSERT_UPDATE Endpoint; id[unique = true]; version[unique = true]; specUrl                 ; name
+                      ; scpiCMIREndpoint ; unknown               ; "$cmirURL;$cmirVersion" ; scpiCMIREndpoint
+
+INSERT_UPDATE ConsumedDestination; id[unique = true]   ; url                                                         ; endpoint(id, version)    ; credential(id)        ; additionalProperties(key, value)[map-delimiter = |]; destinationTarget(id)[default = scpiDestinationTarget]
+                                 ; scpiCMIRDestination ; "$cmirURL;$cmirVersion/CustomerMaterialInformationRequests" ; scpiCMIREndpoint:unknown ; scpiWSOauthCredential ; "csrfURL->$cmirURL;$cmirVersion/"                  ;
+##############CMIR DESTINATION END #####################
+####MIR destination ###
+INSERT_UPDATE Endpoint; id[unique = true]; version[unique = true]; specUrl               ; name
+                      ; scpiMREndpoint   ; unknown               ; "$mrURL;$cmirVersion" ; scpiMREndpoint
+
+INSERT_UPDATE ConsumedDestination; id[unique = true] ; url                                               ; endpoint(id, version)  ; credential(id)        ; additionalProperties(key, value)[map-delimiter = |]; destinationTarget(id)[default = scpiDestinationTarget]
+                                 ; scpiMRDestination ; "$mrURL;$cmirVersion/MaterialRestrictionRequests" ; scpiMREndpoint:unknown ; scpiWSOauthCredential ; "csrfURL->$mrURL;$cmirVersion/"                    ;
+###MIR destination
+####CMIR CRON JOB################
+INSERT_UPDATE WholescriptsOutboundSyncJob; code[unique = true]  ; springId            ; wholescriptsOutboundRequest(code)
+                                         ; wholescriptsCMIRJobs ; wholescriptsCMIRJob ; cmir
+
+INSERT_UPDATE WholescriptsOutboundCronjob; code[unique = true]     ; job(code)[default = wholescriptsCMIRJobs]; sessionLanguage(isoCode)[default = en]
+                                         ; wholescriptsCMIRCronJob ;                                          ;
+
+INSERT_UPDATE CustomerMaterialInformationRequest; code[unique = true]; account; salesOrg(salesOrganization)
+                                                ; cmir               ;        ; 1710
+
+INSERT_UPDATE SAPSalesOrganization; salesOrganization[unique = true]; distributionChannel; division
+                                  ; 1710                            ; 10                 ; 10
+####CMIR CRON JOB END################
+##############REGION AGE RESTRICTION DESTINATION DETAILS #####################
+INSERT_UPDATE Endpoint; id[unique = true]                ; version[unique = true]; specUrl                       ; name
+                      ; scpiRegionAgeRestrictionEndpoint ; unknown               ; "$ageRestrictionURL;$version" ; scpiRegionAgeRestrictionEndpoint
+
+INSERT_UPDATE ConsumedDestination; id[unique = true]                   ; url                                                                       ; endpoint(id, version)                    ; credential(id)        ; additionalProperties(key, value)[map-delimiter = |]; destinationTarget(id)[default = scpiDestinationTarget]
+                                 ; scpiRegionAgeRestrictionDestination ; "$ageRestrictionURL;$version/RegionProductAgeRestrictionOutboundRequests" ; scpiRegionAgeRestrictionEndpoint:unknown ; scpiWSOauthCredential ; "csrfURL->$ageRestrictionURL;$version/"            ;
+##############REGION AGE RESTRICTION DESTINATION END #####################
+
+##############REGION SWAP RESTRICTION DESTINATION DETAILS #####################
+INSERT_UPDATE Endpoint; id[unique = true]                 ; version[unique = true]; specUrl                        ; name
+                      ; scpiRegionSwapRestrictionEndpoint ; unknown               ; "$swapRestrictionURL;$version" ; scpiRegionSwapRestrictionEndpoint
+
+INSERT_UPDATE ConsumedDestination; id[unique = true]                    ; url                                                                         ; endpoint(id, version)                     ; credential(id)        ; additionalProperties(key, value)[map-delimiter = |]; destinationTarget(id)[default = scpiDestinationTarget]
+                                 ; scpiRegionSwapRestrictionDestination ; "$swapRestrictionURL;$version/RegionProductSwapRestrictionOutboundRequests" ; scpiRegionSwapRestrictionEndpoint:unknown ; scpiWSOauthCredential ; "csrfURL->$swapRestrictionURL;$version/"           ;
+##############REGION SWAP RESTRICTION DESTINATION END #####################
+
+
+####AGE RESTRICTION  CRON JOB################
+INSERT_UPDATE WholescriptsOutboundSyncJob; code[unique = true]            ; springId                         ; wholescriptsOutboundRequest(code)
+                                         ; wholescriptsAgeRestrictionJobs ; wsRegionProductAgeRestrictionJob ; ageRestriction
+
+INSERT_UPDATE WholescriptsOutboundCronjob; code[unique = true]               ; job(code)[default = wholescriptsAgeRestrictionJobs]; sessionLanguage(isoCode)[default = en]
+                                         ; wholescriptsAgeRestrictionCronJob ;                                                    ;
+
+INSERT_UPDATE RegionProductAgeRestrictionOutboundRequest; code[unique = true]; createdDate; inactiveReg
+                                                        ; ageRestriction     ;            ;
+
+####AGE RESTRICTION CRON JOB END################
+
+####SWAP RESTRICTION  CRON JOB################
+INSERT_UPDATE WholescriptsOutboundSyncJob; code[unique = true]             ; springId                          ; wholescriptsOutboundRequest(code)
+                                         ; wholescriptsSwapRestrictionJobs ; wsRegionProductSwapRestrictionJob ; ZSCA
+
+INSERT_UPDATE WholescriptsOutboundCronjob; code[unique = true]                 ; job(code)[default = wholescriptsSwapRestrictionJobs]; sessionLanguage(isoCode)[default = en]
+                                         ; wholescriptsASwapRestrictionCronJob ;                                                     ;
+
+INSERT_UPDATE RegionProductSwapRestrictionOutboundRequest; code[unique = true]
+                                                         ; ZSCA
+
+####SWAP RESTRICTION CRON JOB END################
+
+###MR cronjob##
+INSERT_UPDATE WholescriptsOutboundSyncJob; code[unique = true]; springId          ; wholescriptsOutboundRequest(code)
+                                         ; wholescriptsMRJobs ; wholescriptsMRJob ; test
+
+INSERT_UPDATE WholescriptsOutboundCronjob; code[unique = true]                 ; job(code)[default = wholescriptsMRJobs]; sessionLanguage(isoCode)[default = en]
+                                         ; wholescriptsProductExclusionCronJob ;                                        ;
+
+INSERT_UPDATE MaterialRestrictionRequest; code[unique = true]; exclusion; inclusion
+                                        ; test               ; B001     ;
+
+##############END MR  CRONJOB ##################
+
+############## INVENTORY Destination ##################
+INSERT_UPDATE Endpoint; id[unique = true]     ; version[unique = true]; specUrl                  ; name
+                      ; scpiInventoryEndpoint ; unknown               ; "$inventoryURL;$version" ; scpiInventoryEndpoint
+
+INSERT_UPDATE ConsumedDestination; id[unique = true]        ; url                                                ; endpoint(id, version)         ; credential(id)        ; additionalProperties(key, value)[map-delimiter = |]; destinationTarget(id)[default = scpiDestinationTarget]
+                                 ; scpiInventoryDestination ; "$inventoryURL;$version/InventoryOutboundRequests" ; scpiInventoryEndpoint:unknown ; scpiWSOauthCredential ; "csrfURL->$inventoryURL;$version/"                 ;
+
+INSERT_UPDATE WholescriptsOutboundSyncJob; code[unique = true]      ; springId                ; wholescriptsOutboundRequest(code)
+                                         ; wholescriptsInventoryJob ; wholescriptsInvetoryJob ; inventoryRequest
+
+INSERT_UPDATE WholescriptsOutboundCronjob; code[unique = true]          ; job(code)[default = wholescriptsInventoryJob]; sessionLanguage(isoCode)[default = en]
+                                         ; wholescriptsInventoryCronjob ;                                              ;
+
+INSERT_UPDATE InventoryOutboundRequest; code[unique = true]; plant
+                                      ; inventoryRequest   ; 1710
+############## INVENTORY Destination END ##############                                         
+
+##################Http destination for RFC##########
+INSERT_UPDATE SAPHTTPDestination; httpdestinationname[unique = true]; targeturl
+                                ; scpiAccuralsPDf                   ; https://cpiqa-dxz2p48f.it-cpi013-rt.cfapps.us21.hana.ondemand.com/http/zinvoiceget
+                                ; scpiAccuralsInvoice               ; https://cpiqa-dxz2p48f.it-cpi013-rt.cfapps.us21.hana.ondemand.com/http/zinvoicelist
+                                ; scpireferralCodesAdd              ; https://cpiqa-dxz2p48f.it-cpi013-rt.cfapps.us21.hana.ondemand.com/http/ZaccountRefAdd
+                                ; scpireferralCodesChange           ; https://cpiqa-dxz2p48f.it-cpi013-rt.cfapps.us21.hana.ondemand.com/http/ZaccountRefChange
+                                ; scpiEmailVerificaton              ; https://cpiqa-dxz2p48f.it-cpi013-rt.cfapps.us21.hana.ondemand.com/http/ZaccountGet
+                                ; scpireferralVerification          ; https://cpiqa-dxz2p48f.it-cpi013-rt.cfapps.us21.hana.ondemand.com/http/ZCheckRefCode
+                                ; scpiCreatePatient                 ; https://cpiqa-dxz2p48f.it-cpi013-rt.cfapps.us21.hana.ondemand.com/http/ZaccountCreateNew
+                                ; upsAddressVerification            ; https://onlinetools.ups.com/api/addressvalidation/v1/3?regionalrequestindicator=false&maximumcandidatelistsize=5
+                                ; uspsAddressVerification           ; https://secure.shippingapis.com/ShippingAPI.dll
+                                ; scpiOrderHistoryForPatient        ; https://cpiqa-dxz2p48f.it-cpi013-rt.cfapps.us21.hana.ondemand.com/http/ZOrderHistory
+                                ; scpiOrderHistoryForPractitioner   ; https://cpiqa-dxz2p48f.it-cpi013-rt.cfapps.us21.hana.ondemand.com/http/ZOrderHistoryPR
+                                ; scpiOrderHistoryByPatientID       ; https://cpiqa-dxz2p48f.it-cpi013-rt.cfapps.us21.hana.ondemand.com/http/ZOrderHistoryPR
+                                ; scpiOrderDetails                  ; https://cpiqa-dxz2p48f.it-cpi013-rt.cfapps.us21.hana.ondemand.com/http/ZOrderHistory
+                                ;scpiOrderDetailsEco                ; https://cpiqa-dxz2p48f.it-cpi013-rt.cfapps.us21.hana.ondemand.com/http/ZOrderHistoryEco
+                                ; scpiCreateAddress                 ; https://cpiqa-dxz2p48f.it-cpi013-rt.cfapps.us21.hana.ondemand.com/http/ZAccountCreateAddress
+                                ; orderSimulateDest                 ; https://cpiqa-dxz2p48f.it-cpi013-rt.cfapps.us21.hana.ondemand.com/http/ZOrderSimulate
+                                ; scpiCreateOrder                   ; https://cpiqa-dxz2p48f.it-cpi013-rt.cfapps.us21.hana.ondemand.com/http/ZOrderCreate
+                                ; paymetricAuthorizationForCard     ; http://pqa-services.wholescripts.com/api/paymetric/authorize
+                                ; scpiOrdersChangeAutoShip          ; https://cpiqa-dxz2p48f.it-cpi013-rt.cfapps.us21.hana.ondemand.com/http/ZOrderschangeAutoship
+                                ; scpiAutoShip                      ; https://cpiqa-dxz2p48f.it-cpi013-rt.cfapps.us21.hana.ondemand.com/http/ZOrdersGetAutoship
+                                ; removeOrderDestName               ; https://cpiqa-dxz2p48f.it-cpi013-rt.cfapps.us21.hana.ondemand.com/http/ZOrdersDelete
+                                ; scpiAging                         ; https://cpiqa-dxz2p48f.it-cpi013-rt.cfapps.us21.hana.ondemand.com/http/ZAccountGetAging
+                                ; scpiSharedRewards                 ; https://cpiqa-dxz2p48f.it-cpi013-rt.cfapps.us21.hana.ondemand.com/http/ZAccountGetSrewards
+                                ; ageValidationDestName             ; https://cpiqa-dxz2p48f.it-cpi013-rt.cfapps.us21.hana.ondemand.com/http/ZSDFAgevalidBP
+                                ; scpiGetCreditCardDetails          ; https://cpiqa-dxz2p48f.it-cpi013-rt.cfapps.us21.hana.ondemand.com/http/ZaccountGetCCards
+                                ; scpiAddCreditCard                 ; https://cpiqa-dxz2p48f.it-cpi013-rt.cfapps.us21.hana.ondemand.com/http/ZaccountAddCCard
+                                ; scpiAccountUpdate                 ; https://cpiqa-dxz2p48f.it-cpi013-rt.cfapps.us21.hana.ondemand.com/http/ZaccountChange
+                                ; scpiRemoveCard                    ; https://cpiqa-dxz2p48f.it-cpi013-rt.cfapps.us21.hana.ondemand.com/http/ZaccountRemoveCcard
+                                ; practitionerAmendment             ; http://pqa-nopapi.wholescripts.com/api/Customer/SendPractitionerAmendment
+                                ; estoreExternalStores              ; http://pqa-nopapi.wholescripts.com/api/Orders/Settings/
+                                ; practitionerAmendmentDetails      ; http://pqa-nopapi.wholescripts.com/api/Customer/PractitionerAmendment/
+                                ; addEstoreCredential               ; http://pqa-nopapi.wholescripts.com/api/Orders/AddCredentials
+                                ; deleteEstoreCredential            ; http://pqa-nopapi.wholescripts.com/api/Orders/DeleteCredentials
+                                ; changeEstoreCredential            ; http://pqa-nopapi.wholescripts.com/api/Orders/ChangeCredentials
+                                ; pendingEstoreOrder                ; http://pqa-nopapi.wholescripts.com/api/Orders/PendingOrders/
+                                ; getShopifyStatus                  ; http://pqa-nopapi.wholescripts.com/Shopify/Status/
+                                ; getShopifyProducts                ; http://pqa-nopapi.wholescripts.com/Shopify/ProductQueue/
+                                ; addShopifyProducts                ; http://pqa-nopapi.wholescripts.com/Shopify/ProductQueue/
+                                ; deleteShopifyProducts             ; http://pqa-nopapi.wholescripts.com/Shopify/ProductQueue/
+                                ; estoreShippingConfirmation        ; http://pqa-nopapi.wholescripts.com/api/Orders/ShippingConfirmations
+                                ; estoreOrderHistory                ; http://pqa-nopapi.wholescripts.com/api/Orders/History
+                                ; failedAccertifyFlag               ; https://accounts.us1.gigya.com/accounts.setAccountInfo
+                                ; upsShipingCost                    ; https://onlinetools.ups.com/api/rating/v1/Shop
+                                ; uspsShipingCost                   ; https://secure.shippingapis.com/ShippingAPI.dll
+                                ; sendW9form                        ; http://pqa-nopapi.wholescripts.com/api/Customer/SendPractitionerRegistrationW9
+                                ; downloadW9form                    ; http://pqa-nopapi.wholescripts.com/api/Customer/GetPractitionerRegistrationW9/
+                                ; showW9form                        ; http://pqa-nopapi.wholescripts.com/api/Customer/GetPractitionerRegistration/
+                                ; addressUpdateDestName             ; https://cpiqa-dxz2p48f.it-cpi013-rt.cfapps.us21.hana.ondemand.com/http/ZaccountChangeAddress
+                                ; removeAddressDestNames            ; https://cpiqa-dxz2p48f.it-cpi013-rt.cfapps.us21.hana.ondemand.com/http/ZaccountDeleteAddress
+                                ; scpiSimulateCreateOrder           ; https://cpiqa-dxz2p48f.it-cpi013-rt.cfapps.us21.hana.ondemand.com/http/ZOrderCreateEco
+                                ; orderHistoryWebErrors             ; https://cpiqa-dxz2p48f.it-cpi013-rt.cfapps.us21.hana.ondemand.com/http/ZOrderWebError
+                                ;scpiGetDashboard                   ;https://cpiqa-dxz2p48f.it-cpi013-rt.cfapps.us21.hana.ondemand.com/http/ZAccountDashboardEco
+                                ;cdcLoginValidation                 ; https://accounts.us1.gigya.com/accounts.login
+                                ;cvvCardDetails                     ; https://cert-xiecomm.worldpay.com/DIeComm/ResponsePacket?
+
+#################end #######################	
+################# UPS token CONSUMED DESTINATION ##########
+INSERT_UPDATE BasicCredential; id[unique = true]  ; username                                         ; password
+                             ; upsBasicCredential ; NfGnudTblGZJAblQ4vF5AaSpRcyog3eermCnPvpse4erTwNz ; xVfQQ6bCbXXapUHGYGRKR49L9LIC8PA7FZYeqt3uW9L2FR2vuvP5ADPz1R3y7dAC
+
+INSERT_UPDATE DestinationTarget; id[unique = true]
+                               ; upsDestinationTarget
+INSERT_UPDATE ConsumedDestination; id[unique = true]      ; url                                                 ; endpoint(id, version); credential(id); destinationTarget(id)[default = upsDestinationTarget]
+                                 ; upsConsumedDestination ; https://onlinetools.ups.com/security/v1/oauth/token ;                      ; upsBasicCredential
+################# END UPS CONSUMED DESTINATION ##########
+
+##########SCPI token consumed Destination################
+INSERT_UPDATE ConsumedOAuthCredential; Id[unique = true]        ; clientId  ; clientSecret  ; oAuthUrl
+                                     ; scpiTokenOauthCredential ; $clientId ; $clientSecret ; $oAuthUrl
+
+INSERT_UPDATE DestinationTarget; id[unique = true]
+                               ; scpiTokenDestinationTarget
+
+INSERT_UPDATE ConsumedDestination; id[unique = true]            ; url                                                               ; endpoint(id, version); credential(id); destinationTarget(id)[default = scpiTokenDestinationTarget]
+                                 ; scpiTokenConsumedDestination ; https://localhost:9002/odata2webservices/OutboundProduct/Products ;                      ; scpiTokenOauthCredential
+
+############End SCPI token consumed Destination ##########
+
+################# Accertify CONSUMED DESTINATION ##########
+INSERT_UPDATE BasicCredential; id[unique = true]        ; username                             ; password
+                             ; accertifyBasicCredential ; Xymogen_test_account_protection_user ; !$GDygJ6$859Z7mhTyLx
+
+INSERT_UPDATE DestinationTarget; id[unique = true]
+                               ; accertifyDestinationTarget
+INSERT_UPDATE ConsumedDestination; id[unique = true]                         ; url                                                     ; endpoint(id, version); credential(id)           ; destinationTarget(id)[default = accertifyDestinationTarget]
+                                 ; accertifyLoginConsumedDestination         ; https://adi.accertify.net/api/identity/v1/login         ;                      ; accertifyBasicCredential
+                                 ; accertifyCreateAccountConsumedDestination ; https://adi.accertify.net/api/identity/v1/accountCreate ;                      ; accertifyBasicCredential ;
+                                 ; accertifyUpdateAccountConsumedDestination ; https://adi.accertify.net/api/identity/v1/accountUpdate ;                      ; accertifyBasicCredential ;
+
+################# END Accertify CONSUMED DESTINATION ##########
+
+################# PERSONA CONSUMED DESTINATION ##########
+INSERT_UPDATE BasicCredential; id[unique = true]      ; username; password
+                             ; personaBasicCredential ; persona ; persona_sandbox_5530b704-20fc-4f18-9d09-a2c7d921bc9b
+
+INSERT_UPDATE DestinationTarget; id[unique = true]
+                               ; personaDestinationTarget
+INSERT_UPDATE ConsumedDestination; id[unique = true]             ; url                                           ; endpoint(id, version); credential(id); destinationTarget(id)[default = personaDestinationTarget]
+                                 ; personaAgeConsumedDestination ; https://api.withpersona.com/api/v1/inquiries/ ;                      ; personaBasicCredential
+################# END Accertify CONSUMED DESTINATION ##########

@@ -1,0 +1,286 @@
+.order-invoice {
+    .invoice-heading-conatiner {
+      display: flex;
+      justify-content: space-between;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--ws-gray-light-200);
+
+      div {
+        div {
+          max-width: 640px;
+          padding-right: 24px;
+
+          @media (max-width: 575px) {
+            padding-right: 0;
+          }
+        }
+      }
+      .export-table {
+          button {
+              cursor: pointer;
+              color: var(--ws-brand-700);
+              font-size: 14px;
+              font-style: normal;
+              font-weight: 600;
+              line-height: 20px;
+              letter-spacing: 0px; 
+
+              &::before {
+                content: url("../../../../../assets/icons/common_icons/CSV.png");
+            }
+          }
+      }
+      .export:hover {
+        padding: 5px 10px;
+        font-weight: 1200;
+        border-radius: 9999px;
+        background-color: var(--ws-brand-200);
+      }
+    }
+  }
+
+
+    .ws-search-box-container {
+      display: flex;
+      justify-content: space-between;
+      padding-top: 5px;
+
+      @media (max-width: 575px) {
+        display: flex;
+        flex-direction: column;
+
+        #datepicker-range {
+          padding: 0;
+          margin-top: 28px;
+        }
+
+        ws-search-box {
+          width: unset;
+          min-width: unset;
+          max-width: unset;
+        }
+      }
+    }
+
+    ::ng-deep {
+      span.keyboard-focus {
+        outline: 2px solid var(--cx-color-darkest) ;
+        border-radius: 4px;
+        background-color: var(--ws-brand-500) !important;
+        color: var(--cx-color-inverse) !important;
+      }
+    }
+
+    #datepicker-range {
+      padding-right: 0;
+      justify-content: end;
+
+      span {
+        color: var(--ws-gray-light-900) !important;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 300 !important;
+        line-height: 24px;
+        letter-spacing: 0px;
+      }
+
+      .form-control[type="text"]:focus {
+        border-radius: 9999px;
+        border: 1px solid var(--ws-gray-light-300);
+        box-shadow: 0px 0px 0px 1px rgba(16, 24, 40, 0.18) inset,
+          0px -2px 0px 0px rgba(16, 24, 40, 0.05) inset,
+          0px 1px 2px 0px rgba(16, 24, 40, 0.05),
+          0px 0px 0px 2px var(--ws-gray-dark-25),
+          0px 0px 0px 4px var(--ws-brand-900);
+      }
+
+      .select-date {
+        border-radius: 9999px;
+        border: 1px solid var(--ws-gray-light-300);
+        background: var(--cx-color-transparent);
+        color: var(--cx-color-secondary);
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 20px;
+        letter-spacing: 0px;
+
+        @media (max-width: 575px) {
+          span {
+            display: none;
+          }
+        }
+      }
+      .select-date:hover {
+        background-color: var(--ws-gray-light-200);
+      }
+    }
+
+    a:focus {
+      outline: 1px solid var(--cx-color-secondary) !important;
+    }
+    button:focus {
+      outline: 1px solid var(--cx-color-secondary) !important;
+    }
+
+.cx-order-invoice-body {
+    #order-invoice-table {
+        border-radius: 8px;
+        border: 1px solid var(--ws-gray-light-200);
+        background: var(--ws-base-white);
+        margin-top: 40px;
+        // box-shadow: 0px 1px 2px 0px var(--ws-gray-light-900);
+
+        .cx-order-invoice-thead-mobile {
+            background: var(--ws-gray-dark-50) !important;
+            border-bottom: 1px solid var(--ws-gray-light-200);
+
+            th {
+                height: 44px;
+                padding: 12px 24px;
+                color: var(--ws-gray-light-600);
+                font-size: 12px;
+                font-style: normal;
+                font-weight: 400;
+                line-height: 18px;
+                letter-spacing: 0px;
+                text-transform: capitalize;
+
+                button {
+                    background: none;
+                }
+            }
+        }
+
+        tbody {
+            tr {
+                td {
+                    height: 72px;
+                    padding: 16px 24px;
+
+                    .cx-order-invoice-label-mobile {
+                        display: none;
+                    }
+
+                    .cx-order-invoice-value {
+                        color: var(--ws-gray-light-900);
+                        font-size: 14px;
+                        font-style: normal;
+                        font-weight: 300;
+                        line-height: 20px;
+                        letter-spacing: 0px;
+                    }
+
+                    .number {
+                        cursor: pointer;
+                        color: var(--ws-brand-950);
+                        font-size: 14px;
+                        font-style: normal;
+                        font-weight: 600;
+                        line-height: 20px;
+                        letter-spacing: 0px;
+                        text-decoration-line: underline;
+                        text-decoration-style: solid;
+                        text-decoration-skip-ink: none;
+                        text-decoration-thickness: auto;
+                        text-underline-offset: auto;
+                        text-underline-position: from-font;
+                    }
+                    .invoiceNumber {
+                        cursor: pointer;
+                        color: var(--ws-brand-950);
+                        font-size: 14px;
+                        font-style: normal;
+                        font-weight: 600;
+                        line-height: 20px;
+                        letter-spacing: 0px;
+                        text-decoration-line: underline;
+                        text-decoration-style: solid;
+                        text-decoration-skip-ink: none;
+                        text-decoration-thickness: auto;
+                        text-underline-offset: auto;
+                        text-underline-position: from-font;
+                        padding-left: 6px;
+                    }
+                }
+
+                &:hover {
+                    border-bottom: 1px solid var(--ws-gray-light-200);
+                    background: var(--ws-gray-dark-alt);
+                }
+            }
+
+            .cancelled-status {
+                border-radius: 6px;
+                border: 1px solid var(--ws-error-200);
+                background: var(--ws-error-50);
+                padding: var(--spacing-xxs, 2px) var(--spacing-sm, 6px);
+                color: var(--cx-color-danger);
+                text-align: center;
+                font-size: 12px;
+                font-style: normal;
+                font-weight: 400;
+                line-height: 18px;
+                letter-spacing: 0px;
+            }
+
+            .shipped-status {
+                padding: 2px 6px;
+                border-radius: 6px;
+                border: 1px solid var(--ws-error-200);
+                background: var(--ws-error-50);
+                padding: var(--spacing-xxs, 2px) var(--spacing-sm, 6px);
+                color: var(--cx-color-danger);
+                text-align: center;
+                font-size: 12px;
+                font-style: normal;
+                font-weight: 400;
+                line-height: 18px;
+                letter-spacing: 0px;
+            }
+        }
+    }
+
+    @media (max-width: 575px) {
+        .table {
+            thead {
+                display: none;
+            }
+
+            tbody {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 16px;
+                align-self: stretch;
+
+                tr {
+                    td {
+                        display: flex;
+                        justify-content: space-between;
+
+                        .cx-order-invoice-label-mobile {
+                            display: block !important;
+                            color: var(--ws-gray-light-600);
+                            font-size: 12px;
+                            font-style: normal;
+                            font-weight: 400;
+                            line-height: 18px;
+                            letter-spacing: 0px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+.newDatePicker {
+  width: 135px;
+  height: 35px;
+  padding-left: 15px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 16px;
+  color: black;
+}

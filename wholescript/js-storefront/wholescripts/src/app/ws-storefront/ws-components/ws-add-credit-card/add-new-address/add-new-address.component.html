@@ -1,0 +1,114 @@
+<form [formGroup]="addCardForm" (ngSubmit)="closeApi()" class="p-3">
+    <div class="form-group col-12">
+        <ws-formcontrol-input [wsLabel]="'Address'" [FixedLabel]="true" [wsControlName]="addCardForm.controls.address" [wswidth]="'100%'"
+            [top]="'15px'" [wsheight]="'44px'" [isSelectBox]="false" [isShowStart]="true" aria-required="false">
+        </ws-formcontrol-input>
+    </div>
+    <div class="form-group row mx-0 col-12 px-0">
+        <div class="col-lg-6 col-xs-12">
+            <ws-formcontrol-input [wsLabel]="'First Name'" [FixedLabel]="true" [wsControlName]="addCardForm.controls.firstName"
+                [wswidth]="'100%'" [wsheight]="'44px'" [isSelectBox]="false" [isShowStart]="true" [top]="'15px'"
+                aria-required="false">
+            </ws-formcontrol-input>
+        </div>
+        <div class="col-lg-6 col-xs-12">
+            <ws-formcontrol-input [wsLabel]="'Last Name'" [FixedLabel]="true" [wsControlName]="addCardForm.controls.lastName"
+                [wswidth]="'100%'" [wsheight]="'44px'" [isSelectBox]="false" [isShowStart]="true" [top]="'15px'"
+                aria-required="false">
+            </ws-formcontrol-input>
+        </div>
+    </div>
+    <div class="form-group col-12">
+        <ws-formcontrol-input [wsLabel]="'Email'" [FixedLabel]="true" [wsControlName]="addCardForm.controls.email" [wswidth]="'100%'"
+            [wsheight]="'44px'" [isSelectBox]="false" [isShowStart]="false" aria-required="false">
+        </ws-formcontrol-input>
+    </div>
+    <div class="form-group col-12">
+        <ws-formcontrol-input [wsLabel]="'Street Address'" [FixedLabel]="true" [wsControlName]="addCardForm.controls.streetAddress" [top]="'15px'"
+            [wswidth]="'100%'" [wsheight]="'44px'" [isSelectBox]="false" [isShowStart]="true" aria-required="false">
+        </ws-formcontrol-input>
+    </div>
+    <div class="form-group col-12">
+        <ws-formcontrol-input [wsLabel]="'Suite,APt,ETC'" [FixedLabel]="true" [wsControlName]="addCardForm.controls.apartment"
+            [wswidth]="'100%'" [wsheight]="'44px'" [isSelectBox]="false" [isShowStart]="false" aria-required="false">
+        </ws-formcontrol-input>
+    </div>
+    <div class="form-group col-12">
+        <ws-formcontrol-input [wsLabel]="'City'" [FixedLabel]="true" [wsControlName]="addCardForm.controls.city" [wswidth]="'100%'"
+            [wsheight]="'44px'" [isSelectBox]="false" [isShowStart]="true" [top]="'15px'"  aria-required="false">
+        </ws-formcontrol-input>
+    </div>
+    <div class="form-group col-12">
+        <ws-formcontrol-input [wsLabel]="'Country'" [FixedLabel]="true" [wsControlName]="addCardForm.controls.country" [selectBoxData]="countries" [wswidth]="'100%'"
+            [wsheight]="'44px'" [isSelectBox]="true" [isShowStart]="true" [top]="'15px'"  aria-required="false">
+        </ws-formcontrol-input>
+    </div>
+    @if(regions$| async ; as regions){
+    <div class="form-group col-12">
+        <ws-formcontrol-input [wsLabel]="'State'" [wsControlName]="addCardForm.controls.state" [selectBoxData]="regions" [wswidth]="'100%'"
+         [wsheight]="'44px'" [isSelectBox]="true" [isShowStart]="true" [top]="'15px'"  aria-required="false" [placeholder]="'Select State'">
+        </ws-formcontrol-input>
+    </div>
+}
+        <div class="form-group col-12">
+            <ws-formcontrol-input [wsLabel]="'Postal Code'" [FixedLabel]="true" [wsControlName]="addCardForm.controls.postalCode" 
+                [wswidth]="'100%'" [wsheight]="'44px'" [isSelectBox]="false" [isShowStart]="true" [top]="'15px'"  aria-required="false">
+            </ws-formcontrol-input>
+        </div>
+    
+    <div class="form-group col-12">
+        <ws-formcontrol-input [wsLabel]="'Phone Number'" [FixedLabel]="true" [wsControlName]="addCardForm.controls.phoneNo"
+            [maskValue]="'(000) 000-0000'" [isShowMaskTyped]="true" [isMasked]="true" [wswidth]="'100%'" [wsheight]="'44px'"
+            [isSelectBox]="false" [isShowStart]="false" aria-required="false">
+        </ws-formcontrol-input>
+    </div>
+    <div id="message">
+        <div class="cdna-alert cdna-alert-danger" role="alert" *ngIf="addNewAddressError()">
+            Oops! We encountered an issue. Please try again or call customer service at (800)
+            647-6100 for assistance.
+        </div>
+        <div class="cdna-alert cdna-alert-danger" *ngIf="submitted() && (
+            !addCardForm?.value?.address ||
+            !addCardForm?.value?.firstName ||
+            !addCardForm?.value?.lastName ||
+            !addCardForm?.value?.streetAddress ||
+            !addCardForm?.value?.city ||
+            !addCardForm?.value?.country ||
+            !addCardForm?.value?.postalCode ||
+            !addCardForm?.value?.state
+        )">
+            <div>
+                <p class="block-error" *ngIf="!addCardForm?.value?.address">
+                    Address Description is required.
+                </p>
+                <p class="block-error" *ngIf="!addCardForm?.value?.firstName">
+                    First Name is required.
+                </p>
+                <p class="block-error" *ngIf="!addCardForm?.value?.lastName">
+                    Last Name is required.
+                </p>
+                <p class="block-error" *ngIf="!addCardForm?.value?.streetAddress">
+                    Street Address is required.
+                </p>
+                <p class="block-error" *ngIf="!addCardForm?.value?.city">
+                    City is required.
+                </p>
+                <p class="block-error" *ngIf="!addCardForm?.value?.state">
+                    State is required.
+                </p>
+                <p class="block-error" *ngIf="!addCardForm?.value?.country">
+                    Country is required.
+                </p>
+                <p class="block-error" *ngIf="!addCardForm?.value?.postalCode">
+                    Zip / Postal Code is required.
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="mb-3 addNewBtn"  [ngClass]="isAccountSettings() ? 'd-flex justify-content-lg-end justify-content-sm-center pr-lg-2' : 'col-2 float-right'">
+        @if(isAccountSettings()){
+            <button type="reset" class=" btn btn-outline-primary btn-rounded px-4 py-1 mr-2" (click)="closeMe()" >Cancel</button>            
+        }
+        <button type="submit" class=" btn btn-primary btn-rounded px-4 py-1">{{ isAccountSettings() ? 'Add New Address' : 'Add Address'}}</button>
+    </div>
+</form>

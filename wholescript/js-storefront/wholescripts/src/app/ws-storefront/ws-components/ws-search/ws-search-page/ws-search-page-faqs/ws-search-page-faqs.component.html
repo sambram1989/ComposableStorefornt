@@ -1,0 +1,34 @@
+<div class="search-page-faqs" *ngIf="searchData?.results?.length > 0">
+    <ws-search-page-common-heading [heading]="'Frequently asked questions'"
+        [totalResultsCount]="searchData?.pagination?.totalResults || 0" [viewAllFlag]="viewAllFlag"
+        (showNumberOfResults)="showNumberOfResults($event)" (viewAll)="viewAllEmit()"></ws-search-page-common-heading>
+    <div class="search-faqs-wrapper">
+        <div class="faq-card" *ngFor="let faq of searchData.results" [ngClass]="[toggleAnswer[faq?.uid] ? 'highlighted' : '']">
+            <button class="accordion" aria-expanded="false" (click)="toggleQuestion(faq)">
+                <p class="faq-card-question">
+                    {{faq?.question}}
+                </p>
+                <div class="chevron">
+                    <i class="fas fa-chevron-down" aria-hidden="true" *ngIf="!toggleAnswer[faq?.uid]"></i>
+                    <i class="fas fa-chevron-up" aria-hidden="false" *ngIf="toggleAnswer[faq?.uid]"></i>
+                </div>
+            </button>
+
+            <div class="panel" id="{{faq?.uid}}" *ngIf="toggleAnswer[faq?.uid]">
+                <p class="faq-card-answer" [innerHTML]="faq?.answer">              
+                </p>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <ws-search-page-common-pagination [currentPage]="currentPage" *ngIf="searchData?.pagination?.totalPages > 1"
+        [totalPageCount]="searchData?.pagination?.totalPages || 0"
+        (setCurrentPage)="setCurrentPage($event)"></ws-search-page-common-pagination>
+</div>
+<div class="table-empty" *ngIf="searchData?.results?.length == 0 && viewAllFlag">
+   <div>
+      <h4 class="table-empty__h">No results found</h4>
+      <div>We couldn't find any matches for <span style="font-weight:900">{{searchTerm}}</span></div>
+      <div>Please try reducing your filters or searching with another term</div>
+   </div>
+</div>  

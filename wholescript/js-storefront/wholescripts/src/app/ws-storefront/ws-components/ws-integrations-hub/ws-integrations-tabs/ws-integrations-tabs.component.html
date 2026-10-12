@@ -1,0 +1,42 @@
+<div class="row" id="account-settings-container">
+    <div class="col-12 account-settings-header">
+        <div>
+            <section class="as-heading">
+                <cx-page-slot position="IntegrationsHubHeader"></cx-page-slot>
+            </section>
+            <section class="as-heading-links">
+                <div class="as-header-links-desktop-wrapper">
+                    <ul class="heading-links-body">
+                        @for( data of componentListArray; track data){
+                        @if(this.cmsService.getComponentData(data)|async ; as getComponentData){
+                        <li class="practitioner-settings-item">
+                            <a [routerLink]="$any(getComponentData)?.url" class="practitioner-settings-link"
+                                [ngClass]="getActiveClass(getComponentData) && 'active'">
+                                {{ $any(getComponentData)?.linkName }}
+                            </a>
+                        </li>
+                        }
+                        }
+                    </ul>
+                </div>
+                <div class="as-header-links-mobile-wrapper">
+                    <div class="form-group">
+                        <select class="form-control input-lg form-control-inquiry py-0" (change)="navigateTo($event)">
+                            @for( data of componentListArray; track data){
+                            @if(this.cmsService.getComponentData(data)|async ; as getComponentData){
+                            <option [value]="$any(getComponentData)?.url">
+                                <a class="practitioner-settings-link">
+                                    {{ $any(getComponentData)?.linkName }}
+                                </a>
+                            </option>
+                            }}
+                        </select>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+    <div class="col-12">
+        <router-outlet></router-outlet>
+    </div>
+</div>

@@ -1,0 +1,19 @@
+@if (categories$ | async; as categories) {
+  <div class="carousel-container">
+    <div class="carousel-categories">
+      @for (category of categories?.popularByCategory; track category.code) {
+      <button (click)="goToCategory(category)" [ngClass]="{ 'active': category.code === selectedCategoryCode }" tabindex="0" (keydown.enter)="goToCategory(category)" (keydown.space)="goToCategory(category)" [attr.aria-label]="'Select category ' + category.name">
+        <div class="category-image">
+          <img *ngIf="category.categoryImage" [src]="getMedia(category)" [alt]="category.name" />          
+        </div>
+        <span class="category-name">
+            {{ category.name }}
+          </span>
+      </button>
+      }
+    </div>
+    <div class="carousel-items" *ngIf="items?.length">
+      <ws-shop-category-carousel [items]="items"></ws-shop-category-carousel>
+    </div>
+  </div>
+  }

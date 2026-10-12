@@ -1,0 +1,79 @@
+<div id="find-practioner-container">
+    <section class="find-practioner-near-you-section">
+        <!-- <cx-page-slot position="Section1"></cx-page-slot> -->
+        @if(this.cmsService.getComponentData('FindPractitionerForPatientComponent')|async ; as getComponentData){
+        <div class="row">
+            <div class="col-6 near-you-section-left-content">
+                <h1 [outerHTML]="$any(getComponentData)?.headline"></h1>
+                <p [outerHTML]="$any(getComponentData)?.content"></p>
+            </div>
+            <div class="col-6 near-you-section-right-content">
+                <cx-media [container]="$any(getComponentData)?.media"></cx-media>
+            </div>
+        </div>
+        }
+    </section>
+    <section class="find-practioner-search-map-section">
+        <cx-page-slot position="Section2"></cx-page-slot>
+    </section>
+    <section class="row find-practioner-register-now-section">
+        <div class="col-6 find-practioner-register-now-left-content">
+            <ng-container *ngIf="healthCareParagraph1$ | async as healthCareParagraph1">
+                <div [outerHTML]="healthCareParagraph1['content']"></div>
+            </ng-container>
+            <ng-container *ngIf="healthCareFindPractitioner$ | async as healthCareFindPractitioner">
+                <a class="btn btn-primary btn-rounded mx-auto" tabindex="0" [attr.aria-label]="healthCareFindPractitioner.linkName" [href]="healthCareFindPractitioner.url"
+                    [innerText]="healthCareFindPractitioner['linkName']"></a>
+            </ng-container>
+        </div>
+        <div class="col-6 find-practioner-register-now-right-content">
+            <div class="notification-wrapper">
+                <div class="notification-item">
+                    <ng-container *ngIf="healthCareLatestRecommendation$ | async as healthCareLatestRecommendation">
+                        <cx-media [container]="healthCareLatestRecommendation['media']"
+                            [alt]="healthCareLatestRecommendation['headline']"></cx-media>
+                        <div>
+                            <div class="heading">
+                                <p [outerHTML]="healthCareLatestRecommendation['headline']"></p>
+                            </div>
+                            <div class="content">
+                                <p [outerHTML]="healthCareLatestRecommendation['content']"></p>
+                            </div>
+                        </div>
+                        <ng-container
+                            *ngIf="healthCareLatestRecommendationLink$ | async as healthCareLatestRecommendationLink">
+                            <a [href]="healthCareLatestRecommendationLink.url"
+                                [innerText]="healthCareLatestRecommendationLink['linkName']"></a>
+                        </ng-container>
+                    </ng-container>
+                </div>
+
+                <div class="notification-item">
+                    <ng-container *ngIf="healthCarePractionerProtocol$ | async as healthCarePractionerProtocol">
+                        <cx-media [container]="healthCarePractionerProtocol['media']"
+                            [alt]="healthCarePractionerProtocol['headline']"></cx-media>
+                        <div>
+                            <div class="heading">
+                                <p [outerHTML]="healthCarePractionerProtocol['headline']"></p>
+                            </div>
+                            <div class="content">
+                                <p [outerHTML]="healthCarePractionerProtocol['content']"></p>
+                            </div>
+                        </div>
+                        <ng-container
+                            *ngIf="healthCarePractitionerProtocolsLink$ | async as healthCarePractitionerProtocolsLink">
+                            <a [href]="healthCarePractitionerProtocolsLink.url"
+                                [innerText]="healthCarePractitionerProtocolsLink['linkName']"></a>
+                        </ng-container>
+                    </ng-container>
+                </div>
+            </div>
+            <div class="iphone-mock-wrapper">
+                <ng-container *ngIf="healthCareIphoneMock$ | async as healthCareIphoneMock">
+                    <cx-media [container]="healthCareIphoneMock['media']"
+                        [alt]="healthCareIphoneMock['headline']"></cx-media>
+                </ng-container>
+            </div>
+        </div>
+    </section>
+</div>

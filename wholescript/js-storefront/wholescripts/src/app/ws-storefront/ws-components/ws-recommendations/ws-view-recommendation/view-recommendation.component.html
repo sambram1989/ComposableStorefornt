@@ -1,0 +1,155 @@
+<div *ngIf="showAlert">
+  <alert type="info" dismissOnTimeout="2000" (onClosed)="onClosed()">Products added to cart</alert>
+</div>
+<div *ngIf="deleteRecommendationAlert">
+  <alert type="success" dismissOnTimeout="2000" (onClosed)="onClosed()">Recommendation Deleted</alert>
+</div>
+<div class="view-recommendation-contaner">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card card-default">
+        <div class="row">
+          <div class="col-12">
+            <div class="card-title p-2">
+              <h3><i class="fa fa-pills"></i> Recommendations</h3>
+            </div>
+          </div>
+        </div>
+
+        <ng-container *ngIf="!patientRecommendations?.length">
+          <div class="no-rec">
+            <h4 class="text-center mt-5">No recommendations to display</h4>
+          </div>
+        </ng-container>
+        <div>
+          <ng-container *ngFor="let rec of patientRecommendations; index as i">
+            <div role="button" tabindex="0" (keypress)="accordianView(i,rec)" (click)="accordianView(i,rec)" class="recommendation-container">
+              <div class="recommendation-header d-flex rec-btn">
+                <h3>
+                  <label class="label label-success label-new mb-0" *ngIf="rec.status === 'SENT'">New</label>
+                  {{ rec.creationDate | date: 'fullDate' }}
+                </h3>
+                <i class="fa {{activeIndex === i ? 'fa-chevron-up' : 'fa-chevron-down'}} float-right"></i>
+              </div>
+            </div>
+
+            <div [ngClass]="rec.isSelected && 'product-expand'" class="recommendation-body">
+              <div *ngIf="isOutOfStock" class="d-none alert alert-danger mt-3">
+                One or more items in this Recommendation may not currently be available. Out-of-stock items can be
+                purchased, but will ship at a later date.
+              </div>
+              <div class="rec-btn col-12 d-flex mb-3 pr-0 items-header">
+                <p class="m-0">{{rec.totalUnitCount}}
+                  Items Recommended</p>
+                <button (keypress)="addToCart(rec)" (click)="addToCart(rec)" class="add-to-cart-btn btn btn-primary btn-rounded">
+                  Add to Cart
+                  <i class="fa fa-shopping-cart fs-12 text-success pl-1"></i>
+                </button>
+              </div>
+              <!-- Medpax products -->
+              <ng-container *ngIf="rec.isMedpax">
+                <div class="medpax-notes">
+                  <span class="bolder">Please note:</span>
+                  It is recommended that MedPax be used within 60 days of the dispensing/fulfillment date as shown on
+                  package.
+                </div>
+                <div class="item">
+                  <img [src]="getMedPaxCartonImageUrl(rec?.medpax?.carton)" class="item-image" alt="carton image" />
+                  <div class="item-details col-md-9">
+                    <span class="bolder">Custom MedPax:</span>
+                    <h4 *ngIf="rec?.medpax.name">{{ rec?.medpax.name }}</h4>
+                    <p class="price">$ {{ rec.medpax.msrpTotalPrice | number:'1.2-3' }}</p>
+                    <p class="d">Duration: 4 Weeks</p>
+                    <p class="s">Qty: 1</p>
+                    <p *ngIf="rec.notes" class="notes">Notes: {{ rec.medpax.notes}}</p>
+                  </div>
+                </div>
+                <div class="card p-3 col-12">
+                  <table class="table table-responsive-inline-block w-100 d-inline-table dosingDetails mt-0">
+                    <thead>
+                      <tr>
+                        <th class="text-left pt-0">
+                          Formula
+                        </th>
+                        <th class="text-right pt-0">
+                          Dosing &amp; Time
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let item of rec.medpax?.medpaxEntry">
+                        <td class="border-0 item-name">
+                          {{rec?.medpax?.carton?.defaultCarton ? item?.product?.name : item?.product?.genericPLName}}
+                        </td>
+                        <td class="border-0 text-right">
+                          {{item?.dosing|slice:0:4|dosingPipe}}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </ng-container>
+              <ng-container>
+                <div class="item" *ngFor="let item of rec.recommendationEntries">
+                  <img *ngIf="!item.product.images" src="/assets/images/recomendation/default-image.png"
+                    alt="ProbioMax Daily DF 30 Capsules" class="item-image" />
+                  <cx-media *ngIf="item.product.images" [container]="item.product.images" format="product"
+                    [alt]="item.product.name ?? ''" aria-hidden="true" class="item-image"></cx-media>
+                  <div class="item-details col-md-9">
+                    <h4>{{ item.product?.name}} 
+                      <ws-product-status *ngIf="item?.product" [product]="item?.product"></ws-product-status>
+                    </h4>
+                    <p class="price">{{ item.msrpBasePrice.formattedValue}}</p>
+                    <p>Duration: {{ item.itemDuration === 'ON_GOING' ? 'Ongoing' : '' }}</p>
+                    <p>Qty: {{ item.quantity }}</p>
+                    <p *ngIf="item?.dosing">Dosing: <span> {{item?.dosing|slice:0:4|dosingPipe}} </span></p>
+                    <p *ngIf="item?.notes">Notes: <span> {{item?.notes}} </span></p>
+                  </div>
+                </div>
+              </ng-container>
+              <div *ngIf="rec?.notes" class="message mt-5"><strong>Message:</strong> {{rec?.notes}} </div>
+              <div class="delete rec-btn d-flex mt-4">
+                <a role="button" tabindex="0" (keypress)="openDeletePopup(rec)" (click)="openDeletePopup(rec)" class="delete-link">Delete Recommendation</a>
+              </div>
+              <p class="total text-right m-0">Total: {{ rec?.isMedpax ? rec?.msrpSubTotalPrice?.formattedValue :
+                rec.subTotal?.formattedValue}}</p>
+              <div class="total-section">
+                <button role="button" (click)="addToCart(rec)" class="add-to-cart-btn btn btn-primary btn-rounded">
+                  Add to Cart
+                  <i class="fa fa-shopping-cart fs-12 text-success pl-1"></i>
+                </button>
+              </div>
+            </div>
+          </ng-container>
+          <ng-template #deleteRecommendationModal>
+            <div class="recommendation-delete-header modal-header bg-ws-blue">
+              <h3 class="modal-title bolder text-white">DELETE RECOMMENDATION?</h3>
+              <button type="button" class="close text-white" (click)="closePopup()">&times;</button>
+            </div>
+
+            <div class="recommendation-delete-body modal-body">
+              <p>Only your practitioner can send you another recommendation. This permanently deletes this
+                recommendation.</p>
+              <strong>Items in this Recommendation:</strong>
+              <ul>
+                @for(current of currentRecommendation?.recommendationEntries;track current){
+                <li>{{current?.product?.name}}</li>
+                }
+                @if(currentRecommendation?.isMedpax){
+                <li>MedPax: {{currentRecommendation?.medpax.name}}</li>
+                }
+              </ul>
+            </div>
+
+            <div class="modal-footer">
+              <button class="btn btn-rounded btn-outline-primary" (click)="closePopup()">Keep Recommendation</button>
+              <button class="btn btn-rounded btn-primary"
+                (click)="deleteRecommendation(currentRecommendation?.id)">Delete</button>
+            </div>
+          </ng-template>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

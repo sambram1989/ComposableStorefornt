@@ -1,0 +1,48 @@
+# -----------------------------------------------------------------------
+# Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+# -----------------------------------------------------------------------
+# ImpEx for Promotions
+
+# Macros / Replacement Parameter definitions
+#$productCatalog=__PRODUCT_CATALOG_NAME__
+#$defaultPromoGrp=__DEFAULT_PROMO_GRP__
+#
+#$favCustomers=favoriteCustomers
+#$bigSpenders=bigSpenders
+#$catalogVersion=catalogVersion(CatalogVersion.catalog(Catalog.id[default=$productCatalog]),CatalogVersion.version[default=Online])[default=$productCatalog:Online]
+#
+INSERT PromotionPriceRow;&tresholdId;Currency(isocode);price
+
+INSERT PromotionPriceRow;&priceId;Currency(isocode);price
+
+INSERT_UPDATE OrderThresholdDiscountPromotion;PromotionGroup(Identifier[default=$defaultPromoGrp]);enabled[default=true,unique=true];code[unique=true];title;description;messageFired[lang=en];messageFired[lang=de];messageFired[lang=ja];messageFired[lang=zh];priority;thresholdTotals(&tresholdId);discountPrices(&priceId)
+
+INSERT_UPDATE PromotionUserRestriction;positive;promotion(code)[unique=true];users(uid)
+
+INSERT PromotionPriceRow;&tresholdId;Currency(isocode);price
+
+INSERT_UPDATE ProductPercentageDiscountPromotion;PromotionGroup(Identifier[default=$defaultPromoGrp]);enabled[default=true][unique=true];code[unique=true];title;description;percentageDiscount;priority;products(code,$catalogVersion)
+
+INSERT PromotionPriceRow;&priceId;Currency(isocode);price
+
+INSERT_UPDATE AcceleratorProductMultiBuyPromotion;PromotionGroup(Identifier[default=$defaultPromoGrp]);enabled[default=true][unique=true];code[unique=true];title;description;priority;categories(code,$catalogVersion);qualifyingCount;bundlePrices(&priceId)
+
+INSERT_UPDATE AcceleratorProductBOGOFPromotion;PromotionGroup(Identifier[default=$defaultPromoGrp]);enabled[default=true][unique=true];code[unique=true];title;description;priority;categories(code,$catalogVersion);qualifyingCount;freeCount
+
+INSERT PromotionPriceRow;&priceId;Currency(isocode);price
+
+INSERT_UPDATE ProductPerfectPartnerPromotion;PromotionGroup(Identifier[default=$defaultPromoGrp]);enabled[default=true][unique=true];code[unique=true];title;description;priority;products(code,$catalogVersion);partnerProducts(code,$catalogVersion);partnerPrices(&priceId)
+
+INSERT PromotionPriceRow;&priceId;Currency(isocode);price
+
+INSERT_UPDATE ProductBundlePromotion;PromotionGroup(Identifier[default=$defaultPromoGrp]);enabled[default=true,unique=true];code[unique=true];title;description;priority;products(code,$catalogVersion);bundlePrices(&priceId)
+
+#OOTB promotion created##					  
+INSERT_UPDATE PromotionSourceRule;code[unique=true];name[lang=en];description[lang=en];actions;conditions;priority[allownull=true];ruleGroup(code);website(Identifier)
+;thresholdDiscountPromo;$20 discount on all product price above $100;Discount for orders over a certain amount;"[{"definitionId":"y_cart_total","parameters":{"value":{"uuid":"8f06c749-b73e-4599-bbae-8e6e0e3db13a","type":"Map(ItemType(Currency),java.math.BigDecimal)","value":{"USD":100}},"operator":{"uuid":"de00eb5b-43b7-4d91-a846-7102578c895b","type":"Enum(de.hybris.platform.ruledefinitions.AmountOperator)","value":"GREATER_THAN"}},"children":[]}]";"[{"definitionId":"y_order_percentage_discount","parameters":{"value":{"uuid":"2b588054-00f9-4b2b-9b4e-5796e64b7e7b","type":"java.math.BigDecimal","value":20}}}]";100;orderPromotionRuleGroup;wholescriptsPromoGroup
+
+INSERT_UPDATE PromotionSourceRule;code[unique=true];name[lang=en];description[lang=en];actions;conditions;priority[allownull=true];ruleGroup(code);website(Identifier)
+;productpercentagediscountpromotion;10% Discount Cameras;10% off on cameras;"[{"definitionId":"y_order_entry_percentage_discount","parameters":{"value":{"uuid":"bba3bdc7-89a9-47a2-acd7-11fa8bce9870","type":"java.math.BigDecimal","value":25}}}]";"[{"definitionId":"y_qualifying_products","parameters":{"products_operator":{"uuid":"5614acfa-c41b-4c21-b21a-a7402ce19dfd","type":"Enum(de.hybris.platform.ruledefinitions.CollectionOperator)","value":"CONTAINS_ANY"},"quantity":{"uuid":"7028992c-20e8-4e45-889b-d8da3ee27b04","type":"java.lang.Integer","value":1},"catalog":{"uuid":"63b24400-79b6-4631-b6b5-ce8eaa3914f2","type":"ItemType(Catalog)","value":"Catalog_1710_10"},"operator":{"uuid":"18504068-9878-4479-8ebd-3f10fa6c191c","type":"Enum(de.hybris.platform.ruledefinitions.AmountOperator)","value":"GREATER_THAN_OR_EQUAL"},"products":{"uuid":"a186ffed-5eaa-42ab-b615-3b2e5cc9213e","type":"List(ItemType(Product))","value":["500000030::Catalog_1710_10"]}},"children":[]}]";100;productPromotionRuleGroup;wholescriptsPromoGroup
+
+INSERT_UPDATE PromotionSourceRule;code[unique=true];name[lang=en];description[lang=en];actions;conditions;priority[allownull=true];ruleGroup(code);website(Identifier)
+;Buy1Getfreepromotion;Buy 1 get1 Free, Get 1 Free;Buy 1 get1 Free, Get 1 Free;"[{"definitionId":"y_free_gift","parameters":{"product":{"uuid":"8bec1b62-debb-4f5d-9235-c90bf6a3b691","type":"ItemType(Product)"},"quantity":{"uuid":"cf1b43b7-a9fc-4cbf-a018-df604f77d597","type":"java.lang.Integer","value":1},"catalog":{"uuid":"87d35be5-de25-4e05-9638-8f9428ab180e","type":"ItemType(Catalog)","value":"Catalog_1710_10"},"qualifying_containers":{"uuid":"5454b749-f07f-495a-a315-504d494c3b73","type":"Map(java.lang.String,java.lang.Integer)"}}}]";"[{"definitionId":"y_qualifying_products","parameters":{"products_operator":{"uuid":"514931a4-4541-4420-ada5-83a94b9990eb","type":"Enum(de.hybris.platform.ruledefinitions.CollectionOperator)","value":"CONTAINS_ANY"},"quantity":{"uuid":"2de9b11f-41d1-4282-b9e5-7bc39f811982","type":"java.lang.Integer","value":1},"catalog":{"uuid":"1956bd69-e1ce-444a-b0a3-de16b6859b8b","type":"ItemType(Catalog)","value":"Catalog_1710_10"},"operator":{"uuid":"43938674-f414-476d-abe9-37cde1bdccf3","type":"Enum(de.hybris.platform.ruledefinitions.AmountOperator)","value":"EQUAL"},"products":{"uuid":"47f9d56d-1b3e-4668-a5a9-a60dcfb4053e","type":"List(ItemType(Product))","value":[]}},"children":[]}]";100;productPromotionRuleGroup;wholescriptsPromoGroup

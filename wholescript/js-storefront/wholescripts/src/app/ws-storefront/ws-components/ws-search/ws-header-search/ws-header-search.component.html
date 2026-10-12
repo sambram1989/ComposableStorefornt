@@ -1,0 +1,222 @@
+<div id="ws-header-search-wrapper" #searchElement>
+    <label class="searchbox" [class.dirty]="!!searchInput.value" for="searchInput">
+        <span class="sr-only">Search</span>
+        <span class="back-icon" (click)="close($event, true)"><i class="fa fa-arrow-left" aria-hidden="true" tabindex="0"></i></span>
+        <p id="initialDescription" class="sr-only">
+            Start typing to search. Use arrow keys to navigate results.
+        </p>
+        <input #searchInput placeholder="Search" autocomplete="off"
+            aria-describedby="initialDescription" aria-controls="results" [maxLength]="100"
+            [attr.aria-label]="'common.search' | cxTranslate" (focus)="onFocus()" (click)="open()" tabindex="0"
+            (input)="search(searchInput.value)" (keydown.escape)="close($event)" (keydown.enter)="
+        close($event, true);
+        launchSearchResult($event, searchInput.value);
+        updateChosenWord(searchInput.value)
+      " (keydown.arrowup)="focusPreviousChild($event)" (keydown.arrowdown)="focusNextChild($event)"
+            value="{{ chosenWord }}" />
+
+        <button [attr.aria-label]="'common.reset' | cxTranslate" (mousedown)="clear(searchInput)"
+            (keydown.enter)="clear(searchInput)" class="reset" tabindex="0">
+            <i class="fa fa-times" aria-hidden="true" [title]="'common.reset' | cxTranslate"></i>
+        </button>
+
+        <div role="presentation" class="search-icon" [attr.mousedown]="isFocused ? '' : null" 
+            (mousedown)="isFocused && 
+                close($event, true);
+                launchSearchResult($event, searchInput.value);
+                updateChosenWord(searchInput.value)"
+            (keydown.enter)="isFocused && close($event, true); launchSearchResult($event, searchInput.value); updateChosenWord(searchInput.value)"
+            tabindex="0"
+        >
+            <cx-icon [type]="iconTypes.SEARCH"></cx-icon>
+        </div>
+
+        <button [attr.aria-label]="'common.search' | cxTranslate" class="search" (click)="open()" tabindex="0">
+           <cx-icon [type]="iconTypes.SEARCH" [title]="'common.search' | cxTranslate"></cx-icon>
+        </button>
+    </label>
+    <div *ngIf="results$ | async as result" class="results" id="results" role="listbox">
+        <div class="tabs-wrapper">
+            <ul class="nav-tabs-heading" role="tablist">
+                @for( data of componentListArray; track data) {
+                @if(this.cmsService.getComponentData(data)|async ; as getComponentData) {
+                <li class="" (click)="setActiveTab($any(getComponentData)?.uid)"
+                    (keydown.enter)="setActiveTab($any(getComponentData)?.uid)"
+                    [ngClass]="activeTabId == $any(getComponentData)?.uid && 'active'"
+                    [innerHTML]="$any(getComponentData)?.content" tabindex="0">
+                </li>
+                }
+                }
+            </ul>
+            <div class="tab-content">
+                <div *ngIf="activeTabId === 'wsGlobalSearchProductParagraph'">
+                    <p class="results-found" *ngIf="result.products?.length > 0">{{result.products?.length}} results in
+                        Products</p>
+                    <ul class="products" *ngIf="result.products?.length > 0"
+                        attr.aria-label="{{ 'searchBox.ariaLabelProducts' | cxTranslate }}">
+                        <ng-template ngFor let-product [ngForOf]="result.products" let-index="index">
+                            <li (click)="close($event, true)" *ngIf="index < 5">
+                                <a [routerLink]="{cxRoute: 'product',params: product} | cxUrl"
+                                    [class.has-media]="config.displayProductImages"
+                                    (click)="dispatchProductEvent({freeText: searchInput.value,productCode: product.code})"
+                                    tabindex="0">
+                                    <div class="product-details-wrapper">
+                                        <div class="name" [innerHTML]="product.name | cxHighlight: searchInput.value: false"></div>
+                                        <div class="label" *ngIf="product?.isMedPax">MedPax</div>
+                                    </div>
+                                </a>
+                            </li>
+                        </ng-template>
+                    </ul>
+                    <div *ngIf="result.products?.length === 0" class="no-results-wrapper">
+                        <div>
+                            <img width="48" height="48" src="/assets/icons/common_icons/featured-no-search.svg" />
+                            <div class="no-results-messages">
+                                <p>
+                                    No results found
+                                </p>
+                                <div>
+                                    We couldn't find any matches for <span>{{searchInput.value}}</span>. Please try
+                                    searching with another term
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="activeTabId === 'wsGlobalSearchCategoryParagraph' && searchResults?.length > 0">
+                    <p class="results-found" *ngIf="searchResults?.length > 0">{{searchResults?.length}} results in
+                        Categories</p>
+                    <ul class="categories">
+                        <ng-template ngFor let-category [ngForOf]="searchResults" let-index="index">
+                            <li (click)="goToUrl($event, category?.catgeoryPath)" *ngIf="index < 5" tabindex="0" (keydown.enter)="goToUrl($event, category?.catgeoryPath)">
+                                <a>
+                                    <div class="category-details-wrapper">
+                                        <div class="name">
+                                            {{category?.name}}
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                        </ng-template>
+                    </ul>
+                </div>
+                <div *ngIf="activeTabId === 'wsGlobalSearchBrandParagraph' && searchResults?.length > 0">
+                    <p class="results-found" *ngIf="searchResults?.length > 0">{{searchResults?.length}} results in
+                        Brands</p>
+                    <ul class="brands">
+                        <ng-template ngFor let-brand [ngForOf]="searchResults" let-index="index">
+                            <li (click)="goToUrl($event, brand?.brandURL)" *ngIf="index < 5" tabindex="0" (keydown.enter)="goToUrl($event, brand?.brandURL)">
+                                <a>
+                                    <div class="brand-details-wrapper">
+                                        <div class="name">
+                                            {{brand?.brandName}}
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                        </ng-template>
+                    </ul>
+                </div>
+                <div *ngIf="activeTabId === 'wsGlobalSearchFAQParagraph' && searchResults?.length > 0">
+                    <p class="results-found" *ngIf="searchResults?.length > 0">{{searchResults?.length}} results in
+                        FAQ</p>
+                    <ul class="faqs">
+                        <ng-template ngFor let-faq [ngForOf]="searchResults" let-index="index">
+                            <li *ngIf="index < 5" (click)="close($event, true)">
+                                <a [routerLink]="{cxRoute: 'search',params: { query: searchInput.value }} | cxUrl"
+                                    [queryParams]="{type:activeTabId}">
+                                    <div class="faq-details-wrapper">
+                                        <div class="name">
+                                            {{faq?.question}}
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                        </ng-template>
+                    </ul>
+                </div>
+                <div *ngIf="activeTabId === 'wsGlobalSearchIntegrationParagraph' && searchResults?.length > 0">
+                    <p class="results-found" *ngIf="searchResults?.length > 0">{{searchResults?.length}} results in
+                        Integrations</p>
+                    <ul class="integrations">
+                        <ng-template ngFor let-integration [ngForOf]="searchResults" let-index="index">
+                            <li (click)="close($event, true)" *ngIf="index < 5">
+                                <a [href]="integration?.url">
+                                    <div class="integration-details-wrapper">
+                                        <div class="name">
+                                            {{integration?.cmsContent}}
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                        </ng-template>
+                    </ul>
+                </div>
+                <div *ngIf="activeTabId === 'wsGlobalSearchPrivateLabelParagraph' && searchPrivateLabel?.length > 0">
+                    <p class="results-found" *ngIf="searchPrivateLabel?.length > 0">{{searchPrivateLabel?.length}} results in
+                        Private Label</p>
+                    <ul class="private-label" attr.aria-label="{{ 'searchBox.ariaLabelProducts' | cxTranslate }}"
+                        >
+                        <ng-template ngFor let-privateLable [ngForOf]="searchPrivateLabel" let-index="index">
+                            <li (click)="close($event, true)" *ngIf="index < 5">
+                                <a tabindex="0" [routerLink]="'privatelabel'" >
+                                    <div class="private-label-details-wrapper">
+                                        <div class="name" [innerHTML]="privateLable?.productDescription"></div>
+                                    </div>
+                                </a>
+                            </li>
+                        </ng-template>
+                    </ul>
+                </div>
+                <div *ngIf="activeTabId === 'wsGlobalSearchWebinarsParagraph' && searchResultsWebinar?.length > 0">
+                    <p class="results-found" *ngIf="searchResultsWebinar?.length > 0">{{searchResultsWebinar?.length}} results in
+                        Webinars</p>
+                    <ul class="webinar">
+                        <ng-template ngFor let-webinar [ngForOf]="searchResultsWebinar" let-index="index">
+                            <li *ngIf="index < 5" (click)="close($event, true)">
+                                <a [routerLink]="'/webinars'|parseUrl:[webinar?.code]">
+                                    <div class="webinar-details-wrapper">
+                                        <div class="name">
+                                            <!-- <a> -->
+                                                {{webinar?.title}}
+                                            <!-- </a> -->
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                        </ng-template>
+                    </ul>
+                </div>
+                <div *ngIf="!isSearchLoading &&  (((activeTabId === 'wsGlobalSearchCategoryParagraph' || activeTabId === 'wsGlobalSearchBrandParagraph'
+                || activeTabId === 'wsGlobalSearchFAQParagraph' || activeTabId === 'wsGlobalSearchIntegrationParagraph') && searchResults?.length === 0) || (activeTabId === 'wsGlobalSearchPrivateLabelParagraph' && searchPrivateLabel?.length === 0) || (activeTabId === 'wsGlobalSearchWebinarsParagraph' && searchResultsWebinar?.length === 0) ) "
+                    class="no-results-wrapper">
+                    <div>
+                        <img width="48" height="48" src="/assets/icons/common_icons/featured-no-search.svg" />
+                        <div class="no-results-messages">
+                            <p>
+                                No results found
+                            </p>
+                            <div>
+                                We couldn't find any matches for <span>{{searchInput.value}}</span>. Please try
+                                searching with another term
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="view-results-wrapper" (click)="close($event, true)">
+            <a class="view-results-inner"
+                [routerLink]="{cxRoute: 'search',params: { query: searchInput.value }} | cxUrl"
+                [queryParams]="{type:activeTabId}"
+                tabindex="0" 
+                >
+                <p>
+                    View all results
+                </p>
+                <i class="fa-solid fa-chevron-right"></i>
+            </a>
+        </div>
+    </div>
+</div>

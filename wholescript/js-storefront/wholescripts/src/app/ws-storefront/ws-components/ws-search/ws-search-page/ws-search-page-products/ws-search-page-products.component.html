@@ -1,0 +1,39 @@
+<div class="search-page-products" *ngIf="results$ | async as result; else loading">
+    <div *ngIf="result?.products?.length > 0">
+        <ws-search-page-common-heading [totalResultsCount]="result?.pagination?.totalResults || 0"
+            [heading]="'Products'" [viewAllFlag]="viewAllFlag" (showNumberOfResults)="showNumberOfResults($event)"
+            (viewAll)="viewAllEmit()"></ws-search-page-common-heading>
+        <div class="search-products-wrapper">
+            <div class="search-each-product" *ngFor="let product of result?.products">
+                <div class="product-image" (click)="gotToPDP(product.url)">
+                    <cx-media [container]="product?.images?.PRIMARY?.product ? product?.images?.PRIMARY?.product : ''" [alt]="product?.name ?? ''"></cx-media>
+                </div>
+                <div class="product-details-section">
+                    <a [routerLink]="product.url" class="product-name" [innerHTML]="product?.name | cxHighlight: searchTerm: false" >
+                    </a>
+                    <p class="product-sku">SKU: {{product?.code}}</p>
+                    <div class="product-description" [innerHTML]="product?.shortDescription" [title]="product?.shortDescription">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <ws-search-page-common-pagination [currentPage]="currentPage" *ngIf="result?.pagination?.totalPages > 1"
+            [totalPageCount]="result?.pagination?.totalPages || 0"
+            (setCurrentPage)="setCurrentPage($event)"></ws-search-page-common-pagination>
+
+    </div>
+    <div class="table-empty" *ngIf="result?.products?.length == 0 && viewAllFlag">
+       <div>
+          <h4 class="table-empty__h">No results found</h4>
+          <div>We couldn't find any matches for <span style="font-weight:900">{{searchTerm}}</span></div>
+          <div>Please try reducing your filters or searching with another term</div>
+       </div>
+    </div>  
+</div>
+
+<ng-template #loading>
+    <div class="d-flex align-items-center justify-content-center">
+        <cx-spinner></cx-spinner>
+    </div>
+  </ng-template>

@@ -1,0 +1,33 @@
+.badge-stock {
+    display: inline-flex;
+    align-items: center;
+    border-radius: 6px;
+    padding: 2px 6px 0;
+    font-size: 12px;
+    font-weight: 400;
+    justify-content: center;
+    float: left;
+    .dot {
+        height: 8px;
+        width: 8px;
+        border-radius: 50%;
+        margin-right: 6px;
+        margin-bottom: 2px;
+    }
+    .out-of-stock-dot{
+        background-color: var(--ws-orange-700);
+    }
+    .unavailable-dot{
+        background-color: var(--ws-error-700);
+    }
+}
+.out-of-stock{
+    background-color: var(--ws-orange-50);
+    color: var(--ws-orange-700);
+    border: 1px solid var(--ws-orange-200);
+}
+.unavailable{
+    background-color: var(--ws-error-50);
+    color: var(--ws-error-700);
+    border: 1px solid var(--ws-error-200);
+}

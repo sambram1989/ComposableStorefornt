@@ -1,0 +1,27 @@
+@if(product$ | async; as product){
+<div class="add-to-cart-wrapper">
+  <alert [type]="alert.type" *ngIf="alert?.msg" [dismissOnTimeout]="alert.timeout" (onClosed)="onClosed()">{{ alert.msg }}</alert>
+  <div class="cart-controls">
+    <a (click)="removeQuantity()" class="qty-btn minus" tabindex="0" (keydown.enter)="removeQuantity()">
+      <svg style="padding-bottom: 2px;" width="10" height="18" viewBox="0 0 10 18" fill="none"
+        xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="M8.9375 9.25C8.9375 9.60156 8.64453 9.875 8.3125 9.875H1.4375C1.08594 9.875 0.8125 9.60156 0.8125 9.25C0.8125 8.91797 1.08594 8.625 1.4375 8.625H8.3125C8.64453 8.625 8.9375 8.91797 8.9375 9.25Z"
+          fill="#3E3B49" />
+      </svg>
+
+    </a>
+    <input type="number" aria-label="Quantity" [value]="quantity" maxlength="4" (input)="setQuantity($event)" tabindex="0" (focusout)="setQuantityLimit($event)">
+    <a (click)="addQuantity()" class="qty-btn" tabindex="0" (keydown.enter)="addQuantity()"><i class="fa-regular fa-plus" style="margin-top: 3px;" ></i></a>
+  </div>
+
+  <div class="action-buttons">
+    <button [disabled]="(cartIsLoading$ | async) || getAddToCartDisableFlag(product)" (click)="addProductToCart(product)"
+      class="btn btn-primary btn-rounded" tabindex="0">Add to cart</button>
+  </div>
+</div>
+
+@if(product?.regionSwapDescription){
+  <p class="shipping-warning-error-msg mt-3">{{product?.regionSwapDescription}}</p>
+}
+}

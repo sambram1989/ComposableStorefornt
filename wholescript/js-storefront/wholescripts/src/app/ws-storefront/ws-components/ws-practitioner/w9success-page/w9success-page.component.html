@@ -1,0 +1,41 @@
+<div *ngFor="let alert of alertSignal()">
+    <alert [type]="alert.type" 
+    [dismissOnTimeout]="alert.timeout" 
+    (onClosed)="onClosed(alert)">{{ alert.msg }}</alert>
+  </div>
+<cx-page-slot position="TopBannerSlot" role="banner" aria-label="Top Banner Slot"></cx-page-slot>
+
+<section class="pd-ctr" aria-labelledby="thank-you-heading">
+    <article class="pdintro" role="document">
+        <i class="fas fa-check-circle succes" style="font-size:120px;" aria-hidden="true"></i>
+        <h2 class="bolder succes mb-30">Thank you for signing up!</h2>
+        <div role="alert">
+            Referral code:
+            <span *ngIf="getreferralCodes$|async as ref_code" class="bolder">{{ ref_code.toUpperCase() }}</span>
+        </div>
+    </article>
+
+    <div class="bolder fs-18 mb-4 text-center" aria-live="polite">
+        Please review your patient-direct settings below
+    </div>
+
+    <section class="text-center align-bottom" *ngIf="canDownload$|async as canDownload">
+        @if(W9FormData?.success !== 'false'){
+        <div *ngIf="isw9ConsultationFormFilled" class="mt-30 mb-40"  [class.cursor-not-allowed]="canDownload?.success" role="region" aria-labelledby="w9-download-link" >
+            <a (click)="downloadW9Form()" class="text-primary bolder w9 cursor-pointer " 
+            [class.disabler]="!canDownload?.success"
+                aria-label="Download your W-9 form">
+                <i class="fas fa-download" aria-hidden="true"></i>
+                Download your W-9 form  
+            </a>
+        </div>
+           }
+        <div class="bolder">
+            Set up your dispensary now and let your patients learn more about your practice.
+        </div>
+        <a class="btn btn-primary btn-rounded my-3" [routerLink]="'/patient-direct-hub/Referral-code'"
+            aria-label="Patient Direct Hub">
+           Go To Patient Direct Hub
+        </a>
+    </section>
+</section>

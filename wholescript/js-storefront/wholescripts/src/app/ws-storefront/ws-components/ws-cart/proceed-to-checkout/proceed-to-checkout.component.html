@@ -1,0 +1,27 @@
+
+@if(authService.isUserLoggedIn()|async){
+  <div class="d-flex justify-content-end btn-container">
+  <button class="btn btn-rounded btn-outline-primary col-4 mr-2 continue-shopping" routerLink="/catalog">Keep Shopping</button>
+<cx-progress-button (clickEvent)="disableButtonWhileNavigation()"
+  [class]="'btn btn-primary btn-rounded w-100 text-center justify-content-center continue-checkout'" [disabled]="cartValidationInProgress"
+  [loading]="cartValidationInProgress" tabindex="-1">
+  {{
+  (cartValidationInProgress
+  ? 'In Progress'
+  : 'Continue to checkout'
+  )
+  }}
+</cx-progress-button>
+</div>
+
+}@else {
+<cx-progress-button (clickEvent)="disableButtonWhileNavigation()"
+  [class]="'btn btn-primary btn-rounded w-100 text-center justify-content-center'"
+  [routerLink]="{ cxRoute: 'login' } | cxUrl" tabindex="-1">
+  Log in to checkout
+</cx-progress-button>
+}
+
+<div *ngIf="showCartItemsRemovalProducts">
+  <ws-cart-items-removal-modal [medPaxProdcuts]="medPaxProdcuts" [normalProductsWithOOS]="normalProductsWithOOS" [medPaxFormulas]="medPaxFormulas" [cartData]="cartData" (hideRemoveItemsModal)="hideRemoveItemsModal()" (verifyBrand)="verifyBrand()" [allUnavailableProducts]="allUnavailableProducts"></ws-cart-items-removal-modal>
+</div>

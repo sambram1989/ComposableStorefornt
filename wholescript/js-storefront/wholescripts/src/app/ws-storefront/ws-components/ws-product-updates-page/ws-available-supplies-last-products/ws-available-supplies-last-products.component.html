@@ -1,0 +1,30 @@
+<div class="pu--show-onmbl">
+    <div class="mb-1"><a class="text-link" (click)="goToTable('awsl')"> Available while supplies last </a></div>
+    <div><a class="text-link" (click)="goToTable('dp')"> Discontinued products </a></div>
+</div>
+<div class="pu-table-container__item">
+    <h4 id="awsl" class="mt-5">Available While Supplies Last</h4>
+    <div class="ws-table-container">
+        <div class="ws-table-content pu-tbl">
+            <div class="ws-table-header">
+                <div class="ws-table-header__cell">PRODUCT</div>
+                <div class="ws-table-header__cell">SKU#</div>
+                <div class="ws-table-header__cell"></div>
+            </div>
+            <div class="ws-table-row" *ngFor="let product of products">
+                <div class="ws-table-body__cell">
+                    <div class="product-card-brand" [innerHTML]="product?.manufacturer"></div>
+                    <div class="product-card-name --pu-tbl" [innerHTML]="product?.name"></div>
+                </div>
+                <div class="ws-table-body__cell"><span class="pu--show-onmbl">SKU#:&nbsp;</span>{{product?.code}}</div>
+                <div class="ws-table-body__cell"><a class="btn btn-rounded btn-primary" [routerLink]="product?.url">
+                        Order now
+                    </a></div>
+            </div>
+        </div>
+        <div>
+            <ws-product-updates-pagination [currentPage]="currentPage" [totalPageCount]="totalPageCount"
+                (setCurrentPage)="setCurrentPage($event)"></ws-product-updates-pagination>
+        </div>
+    </div>
+</div>

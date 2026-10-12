@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright (c) 2020 SAP SE or an SAP affiliate company. All rights reserved.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:security="http://www.springframework.org/schema/security"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/security 
+		http://www.springframework.org/schema/security/spring-security.xsd
+        http://www.springframework.org/schema/util
+		http://www.springframework.org/schema/util/spring-util.xsd">
+
+
+    <bean id="webSecurityAccessDecisionManager" class="org.springframework.security.access.vote.AffirmativeBased">
+        <constructor-arg name="decisionVoters">
+            <list>
+                <bean class="com.wholescritps.external.webservices.oauth2.OAuthClientVoter"/>
+                <bean id="roleVoter" class="org.springframework.security.access.vote.RoleVoter"/>
+                <bean id="authenticatedVoter" class="org.springframework.security.access.vote.AuthenticatedVoter"/>
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <!-- Commons security imports -->
+    <import resource="classpath:webservicescommons/commons-security-spring.xml"/>
+
+    <security:http pattern="/**/api-docs/**" security="none"/>
+    <security:http pattern="/swagger-ui*" security="none"/>
+    <security:http pattern="/swagger-ui/**" security="none"/>
+    <security:http pattern="/**/api-docs*" security="none"/>
+
+    <!-- Security configuration for swagger resources -->
+    <!-- configured in classpath:webservicescommons/commons-security-spring.xml since 2211 -->
+
+    <!-- Security configuration for resources -->
+    <!--<http pattern="/**" entry-point-ref="oauthAuthenticationEntryPoint" use-expressions="true" xmlns="http://www.springframework.org/schema/security">
+
+        <session-management session-authentication-strategy-ref="fixation" />
+
+        &lt;!&ndash; for PRODUCTION make sure that webservicescommons.required.channel=https &ndash;&gt;
+        <intercept-url pattern="/sample/users/{id}" access="hasRole('ROLE_CLIENT')" requires-channel="#{configurationService.configuration.getString('webservicescommons.required.channel', 'https')}" />
+        <intercept-url pattern="/**" access="isAuthenticated()" requires-channel="#{configurationService.configuration.getString('webservicescommons.required.channel', 'https')}" />
+
+        <port-mappings>
+            <port-mapping http="#{configurationService.configuration.getProperty('tomcat.http.port')}" https="#{configurationService.configuration.getProperty('tomcat.ssl.port')}" />
+            <port-mapping http="#{configurationService.configuration.getProperty('embeddedserver.http.port')}" https="#{configurationService.configuration.getProperty('embeddedserver.ssl.port')}" />
+        </port-mappings>
+
+        <custom-filter ref="resourceServerFilter" before="PRE_AUTH_FILTER" />
+        <custom-filter ref="hybrisUserFilter" after="LAST" />
+        <access-denied-handler ref="oauthAccessDeniedHandler" />
+
+        <headers>
+            <content-type-options />
+            <hsts include-subdomains="true" max-age-seconds="16070400" />
+            <xss-protection />
+            <frame-options policy="SAMEORIGIN" />
+        </headers>
+        <csrf disabled="true"/>
+    </http>-->
+    <!-- Commerce Webservices V2-->
+    <http pattern="/**" entry-point-ref="oauthAuthenticationEntryPointV2"
+          access-decision-manager-ref="webSecurityAccessDecisionManager"
+          xmlns="http://www.springframework.org/schema/security" create-session="stateless">
+
+        <!--<session-management session-authentication-strategy-ref="fixation"/>-->
+
+        <intercept-url pattern="/**" requires-channel="https"/>
+
+        <port-mappings>
+            <port-mapping http="#{configurationService.configuration.getProperty('tomcat.http.port')}"
+                          https="#{configurationService.configuration.getProperty('tomcat.ssl.port')}"/>
+            <port-mapping http="#{configurationService.configuration.getProperty('embeddedserver.http.port')}"
+                          https="#{configurationService.configuration.getProperty('embeddedserver.ssl.port')}"/>
+        </port-mappings>
+
+        <custom-filter ref="resourceServerFilter" before="PRE_AUTH_FILTER"/>
+        <access-denied-handler ref="oauthAccessDeniedHandlerV2"/>
+
+        <headers>
+            <content-type-options/>
+            <hsts include-subdomains="true" max-age-seconds="16070400"/>
+            <xss-protection/>
+            <security:frame-options policy="SAMEORIGIN"/>
+        </headers>
+        <security:csrf disabled="true"/>
+    </http>
+    <!--JAXB Convertor-->
+    <util:list id="messageConvertersV2">
+        <ref bean="customJsonHttpMessageConverter"/>
+        <ref bean="customXmlHttpMessageConverter"/>
+        <ref bean="byteArrayHttpMessageConverter"/>
+    </util:list>
+
+    <bean id="byteArrayHttpMessageConverter" class="org.springframework.http.converter.ByteArrayHttpMessageConverter">
+        <property name="supportedMediaTypes">
+            <list>
+                <value>application/octet-stream</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="customJsonHttpMessageConverter" parent="jsonHttpMessageConverter">
+        <property name="jaxbContextFactory" ref="customJaxbContextFactory"/>
+    </bean>
+
+    <bean id="customXmlHttpMessageConverter" parent="xmlHttpMessageConverter">
+        <property name="jaxbContextFactory" ref="customJaxbContextFactory"/>
+    </bean>
+
+    <bean id="customJaxbContextFactory" parent="jaxbContextFactory">
+        <property name="metadataSourceFactory" ref="customMetadataSourceFactory"/>
+        <property name="typeAdapters">
+            <list>
+                <value>de.hybris.platform.webservicescommons.jaxb.adapters.DateAdapter</value>
+                <value>de.hybris.platform.webservicescommons.jaxb.adapters.StringMapAdapter</value>
+                <value>de.hybris.platform.webservicescommons.jaxb.adapters.XSSStringAdapter</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="customMetadataSourceFactory" parent="metadataSourceFactory">
+        <property name="nameProvider" ref="customMetadataNameProvider"/>
+    </bean>
+
+    <bean id="customMetadataNameProvider" parent="metadataNameProvider"></bean>
+
+    <bean id="oauthAuthenticationEntryPointV2" parent="oauthAuthenticationEntryPoint">
+        <property name="exceptionRenderer" ref="oAuth2ExceptionRendererV2"/>
+    </bean>
+
+    <bean id="oauthAccessDeniedHandlerV2" parent="oauthAccessDeniedHandler">
+        <property name="exceptionRenderer" ref="oAuth2ExceptionRendererV2"/>
+    </bean>
+
+    <bean id="oAuth2ExceptionRendererV2" parent="oAuth2ExceptionRenderer">
+        <property name="messageConverters" ref="messageConvertersV2"/>
+    </bean>
+
+
+
+
+</beans>

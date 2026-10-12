@@ -1,0 +1,297 @@
+ws-w9-landing-page {
+   .TopBannerSlot {
+      margin-top: 40px;
+      margin-bottom: 40px;
+
+      cx-paragraph {
+         div {
+            text-transform: uppercase;
+            position: absolute;
+            left: 17%;
+            top: 10%;
+            z-index: 1;
+            transform: translateY(-50%);
+            margin: 0;
+            font-weight: 900 !important;
+            color: #fff !important;
+            font-size: clamp(16px, 2.5vw, 40px);
+
+            @media (min-width:767px) and (max-width:921px) {
+                  top: 15rem;
+               }
+               @media (max-width:767px) {
+                  left: 8%;
+                  z-index: 9999;
+                  margin-top: 8rem;
+            }
+         }
+      }
+   }
+
+   .PatientDirectCardsSlot {
+      padding: 20px;
+      background-color: #EFEFF4;
+      border-bottom: 4px solid #584091;
+      border-radius: 4px;
+      padding: 20px;
+      max-width: 495px;
+      position: relative;
+      width: 100%;
+      margin: 0 auto;
+      margin-bottom: 120px;
+
+      cx-paragraph:nth-child(1) {
+         div {
+            font-size: 24px;
+            line-height: 32px;
+            font-weight: 900;
+            margin-bottom: 30px;
+            color: var(--cx-color-secondary);
+         }
+      }
+
+      cx-paragraph:nth-child(2) {
+         div {
+            color: #3E3B49;
+            font-size: 16px;
+            font-weight: normal;
+         }
+      }
+
+      @media (max-width:991px) {
+         max-width: 100%;
+         border-bottom: unset;
+         margin-bottom: 60px;
+      }
+
+   }
+
+   div {
+      div:nth-child(1) {
+         text-align: center;
+         font-size: 24px;
+         font-weight: 900;
+         color: var(--cx-color-secondary);
+      }
+
+      div:nth-child(2) {
+         section {
+            flex-direction: row !important;
+            justify-content: space-between !important;
+            gap: 0 !important;
+            flex-wrap: wrap;
+         }
+
+         div {
+            input {
+               width: 17px;
+               margin-left: -25px;
+               margin-top: 1px;
+               accent-color: #584091;
+
+               &:focus {
+                  outline: none;
+               }
+            }
+         }
+
+         a {
+            margin-top: 20px;
+
+            &:hover,
+            &:focus {
+               outline: none !important;
+               background-color: #433372 !important;
+               color: #fff !important;
+
+               border: 3px solid #433372 !important;
+               box-shadow: 0px 3px 10px rgba(88, 64, 145, .32) !important;
+            }
+         }
+
+      }
+   }
+}
+
+ws-w9form {
+   .TopBannerSlot {
+      margin: 50px 100px;
+
+      cx-paragraph {
+         div {
+            text-transform: uppercase;
+            position: absolute;
+            left: 13%;
+            top: 7%;
+            z-index: 1;
+            transform: translateY(-50%);
+            margin: 0;
+            font-weight: 900 !important;
+            color: #fff !important;
+            font-size: clamp(16px, 2.5vw, 40px);
+
+            @media (max-width:1200px) {
+               top: 6%;
+            }
+
+            @media (max-width:994px) {
+               left: 16%;
+               top: 4%;
+            }
+
+            @media (max-width:800px) {
+               left: 16%;
+               top: 100px;
+            }
+
+            @media (max-width:680px) {
+               left: 20%;
+               top: 100px;
+            }
+         }
+      }
+   }
+
+   div {
+      section {
+         .pdintro {
+            margin-bottom: 40px;
+
+            div:nth-child(1) {
+               font-weight: 900 !important;
+               font-size: 18px !important;
+               text-align: center;
+               color: #3E3B49;
+            }
+
+            div:nth-child(2) {
+               text-align: center;
+               color: #3E3B49;
+               font-size: 16px;
+               font-weight: normal;
+            }
+         }
+      }
+   }
+}
+
+ws-w9success-page {
+   .TopBannerSlot {
+      margin: 50px 100px;
+
+      cx-paragraph {
+         div {
+            text-transform: uppercase;
+            position: absolute;
+            left: 14%;
+            top: 25%;
+            z-index: 1;
+            transform: translateY(-50%);
+            margin: 0;
+            font-weight: 900 !important;
+            color: #fff !important;
+            font-size: clamp(16px, 2.5vw, 40px);
+
+            @media (max-width:1200px) {
+               top: 13%;
+            }
+
+            @media (max-width:994px) {
+               left: 16%;
+               top: 12%;
+            }
+
+            @media (max-width:800px) {
+               left: 16%;
+               top: 100px;
+            }
+
+            @media (max-width:680px) {
+               left: 20%;
+               top: 100px;
+            }
+         }
+      }
+   }
+}
+
+ws-w9referralcodeform {
+   .TopBannerSlot {
+      margin: 50px 100px;
+
+      cx-paragraph {
+         div {
+            text-transform: uppercase;
+            position: absolute;
+            left: 14%;
+            top: 16%;
+            z-index: 1;
+            transform: translateY(-50%);
+            margin: 0;
+            font-weight: 900 !important;
+            color: #fff !important;
+            font-size: clamp(16px, 2.5vw, 40px);
+
+            @media (max-width:1200px) {
+               top: 13%;
+            }
+
+            @media (max-width:994px) {
+               left: 16%;
+               top: 12%;
+            }
+
+            @media (max-width:800px) {
+               left: 16%;
+               top: 100px;
+            }
+
+            @media (max-width:680px) {
+               left: 20%;
+               top: 100px;
+            }
+         }
+      }
+   }
+}
+
+.myProtocolPageTemplate {
+   .shareProtocolPageBody {
+      ws-protocol-share-list {
+         .pageHeader {
+            div {
+               .shareProtocolPageTitle {
+                  cx-paragraph {
+                     div {
+                        div {
+                           h1 {
+                              font-weight: 900 !important;
+                              color: #3E3B49;
+                              font-size: 3rem;
+                           }
+
+                           h4 {
+                              font-size: 24px;
+                              line-height: 32px;
+                              color: #3E3B49;
+                              font-weight: 700;
+                           }
+
+                        }
+
+                        div {
+                           p {
+                              font-size: 1.125rem !important;
+                              color: #3e3b49 !important;
+                              padding-right: 15px;
+                              padding-left: 15px;
+                           }
+                        }
+                     }
+                  }
+               }
+            }
+         }
+      }
+   }
+}

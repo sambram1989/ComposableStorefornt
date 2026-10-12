@@ -1,0 +1,29 @@
+<section>
+    <div class="wd__mtp px-2 pt-4">
+        <article class="wd__mtp-text">
+            <div class="wd__mtp-name mb-5 d-none d-lg-block"  [attr.aria-label]="'Presenter Name: ' + presentorDetail()?.name">{{presentorDetail()?.name}}</div>
+            <div class="wd__mtp-bio ws-paragraph-fs my-3" [attr.aria-label]="'Presenter Biography: ' + presentorDetail()?.biography" [innerHTML]="presentorDetail()?.biography"></div>
+            <div class="wp__web" *ngIf="presentorDetail()?.websiteUrl">
+                <div class="bolder my-2"> Website: </div>
+                <a [href]="presentorDetail()?.websiteUrl" class="bolder" tabindex="0"
+                    [attr.aria-label]="'Go To ' + presentorDetail()?.websiteUrl">
+                    {{presentorDetail()?.websiteUrl}}
+                </a>
+            </div>
+            @if(isMtpLink()){
+            <a class="d-none d-sm-block wd__mtp-link" [attr.aria-label]="'View full profile for ' + presentorDetail()?.name"
+                [routerLink]="'/presenters'|parseUrl:[presentorDetail()?.code]" tabindex="0"> See Profile Page 
+            </a>
+        }
+            <!-- <div class="wd__mtp-read-more" style="display: block;"><a class="btn btn-link text-dark"
+                [routerLink]="'/presenters'|parseUrl:[presentorDetail()?.code]" tabindex="0"  [attr.aria-label]="'Read more about ' + presentorDetail()?.name"> Read more </a>
+            </div> -->
+        </article>
+        <article class="wd__mtp-imgc">
+            <div class="wd__mtp-name mb-5 d-block d-lg-none"  [attr.aria-label]="'Presenter Name: ' + presentorDetail()?.name">{{presentorDetail()?.name}}</div>
+            <img class="wd__mtp-img" [src]="presentorDetail()?.image?.url"
+                [alt]="presentorDetail()?.name" [attr.aria-label]="'Image of ' + presentorDetail()?.name">
+        </article>
+    </div>
+    <hr class="wd__mtp-hr" aria-hidden="true">
+</section>

@@ -1,0 +1,1 @@
+<?xml version="1.0" encoding="utf-8"?><testclasses><paymetric><testclass>de.hybris.platform.paymetric.service.impl.PaymetricIntegrationTest</testclass><testclass>de.hybris.platform.paymetric.service.impl.DefaultPaymetricServiceUnitTest</testclass><testclass>de.hybris.platform.paymetric.service.impl.DefaultPaymetricServiceIntegrationTest</testclass></paymetric></testclasses>

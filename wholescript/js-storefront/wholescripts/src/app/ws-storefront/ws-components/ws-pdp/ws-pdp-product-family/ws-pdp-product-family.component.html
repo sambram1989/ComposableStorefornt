@@ -1,0 +1,143 @@
+<div *ngFor="let alert of alerts">
+  <alert
+    [type]="alert.type"
+    [dismissOnTimeout]="alert.timeout"
+    (onClosed)="onClosed(alert)"
+    >{{ alert.msg }}</alert
+  >
+</div>
+<div class="main-heading" *ngIf="productFamily?.length > 0">Product Family</div>
+<div class="carousel-items">
+  @if (productFamily&& productFamily?.length) {
+  <ngx-slick-carousel
+  class="carousel"
+  #slickModal="slick-carousel"
+  [config]="slickConfig"
+  >
+    @for (item of productFamily; track item?.sku) {
+      <div ngxSlickItem class="slide" tabindex="0">
+        <div class="slide-content">
+          <div class="top-content">
+            @if(item?.BadgeText){
+            <div class="best-seller">
+              <p>{{ item?.BadgeText }}</p>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25.825 32">
+                <path
+                  id="angle"
+                  d="M0,32a11.856,11.856,0,0,0,8.629-4.4L25.013,4.4c1.711-2.422.628-4.4-2.407-4.4H0Z"
+                  fill="#64dba8"
+                ></path>
+              </svg>
+            </div>
+            }
+            <div class="product-img" (click)="gotToPDP(item?.productUrl)">
+              <cx-media tabindex="0" (keydown)="onKeyDown($event,'gotToPDP', item?.productUrl)"
+                *ngIf="item?.image"
+                [container]="item?.image"
+                format="product"
+                [alt]="item?.productName ?? ''"
+              ></cx-media>
+              <img
+                *ngIf="!item?.image"
+                src="assets/images/recomendation/default-image.png"
+                [alt]="item?.productName"
+              />
+            </div>
+            <div *ngIf="isLoggedIn" class="favourites">
+              <button
+                (click)="updateFavorites(item, isFavorite(item))"
+                class="heart-btn" tabindex="0"
+                title="Favourite button"
+                aria-label="Favourite button"
+                (keydown)="onKeyDown($event, 'updateFavorites', item)"
+              >
+                <i
+                  class="fa-solid fa-heart"
+                  [ngClass]="isFavorite(item) && 'fa-active'"
+                ></i>
+              </button>
+            </div>
+          </div>
+          <div class="card-content">
+            <div class="product-content">
+              <div class="header-content">
+                <div class="brand-and-name">
+                  <div class="brand-name">
+                    <a [routerLink]="item?.brandUrl" tabindex="0" (keydown)="onKeyDown($event,'brandUrl', item?.brandUrl)">
+                      {{ item?.brandName }}
+                    </a>
+                  </div>
+                  <div class="product-name">
+                    <a [routerLink]="item?.productUrl" tabindex="0" (keydown)="onKeyDown($event,'productUrl', item?.productUrl)">
+                      {{ item?.productName }}
+                    </a>
+                  </div>
+                </div>
+                <div class="product-desc" [innerHTML]="item?.description"></div>
+              </div>
+              <div class="price-and-qty">
+                <div *ngIf="!isLoggedIn" class="price">
+                  {{ item?.mapPrice | currency }}
+                </div>
+                <div *ngIf="isLoggedIn" class="price">
+                  {{ item?.yourPrice | currency }}
+                </div>
+                <div class="cart-controls">
+                  <a (click)="removeQuantity(item)" class="qty-btn minus" tabindex="0" (keydown)="onKeyDown($event,'removeQuantity', item)">
+                    <svg
+                      style="padding-bottom: 2px"
+                      width="10"
+                      height="18"
+                      viewBox="0 0 10 18"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M8.9375 9.25C8.9375 9.60156 8.64453 9.875 8.3125 9.875H1.4375C1.08594 9.875 0.8125 9.60156 0.8125 9.25C0.8125 8.91797 1.08594 8.625 1.4375 8.625H8.3125C8.64453 8.625 8.9375 8.91797 8.9375 9.25Z"
+                        fill="#3E3B49"
+                      />
+                    </svg>
+                  </a>
+                  <input
+                    type="number"
+                    [value]="item.quantity || 1"
+                    maxlength="4"
+                    (change)="setQuantity(item, $event)"
+                    tabindex="0"
+                    title="Quantity input"
+                    aria-label="Quantity input"
+                  />
+                  <a (click)="addQuantity(item)" class="qty-btn" tabindex="0" (keydown)="onKeyDown($event,'addQuantity', item)"
+                    ><i class="fa-regular fa-plus" style="margin-top: 3px"></i
+                  ></a>
+                </div>
+              </div>
+            </div>
+            <div class="btns-container">
+              @if(isLoggedIn && item?.otherAvailableProducts?.length) {
+              @for(medpax of item?.otherAvailableProducts; track medpax) {
+              <button
+              (click)="goToMedPax(medpax)" 
+              (keydown)="onKeyDown($event,'goToMedPax', medpax)"
+                class="medpax" tabindex="0"
+              >
+                {{ medpax?.productDisplyName }}
+                <img
+                  class="w-1-25rem mr-8"
+                  src="../../../../../assets/images/home/MedPax-icon.svg"
+                  alt="medpax item icon"
+                  aria-hidden="true"
+                />
+              </button>
+              } }
+              <button (click)="addProductToCart(item)" (keydown)="onKeyDown($event,'addProductToCart', item)" class="add-to-cart" tabindex="0" [disabled]="(cartIsLoading$ | async)">
+                Add to cart
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+    </ngx-slick-carousel>
+  }
+</div>

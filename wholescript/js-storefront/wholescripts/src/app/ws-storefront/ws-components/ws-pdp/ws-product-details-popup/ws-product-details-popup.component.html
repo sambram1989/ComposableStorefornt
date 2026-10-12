@@ -1,0 +1,111 @@
+<div class="p-4">
+  <div *ngIf="loading" class="d-flex align-center justify-content-center">
+    <cx-spinner></cx-spinner>
+  </div>
+
+  <div *ngIf="!loading" class="modal-container">
+    <div class="modal-header p-0">
+      <h3 class="modal-title bolder" aria-label="Product title">{{ $any(productData)?.name }}</h3>
+      <button
+        role="button"
+        class="close"
+        #firstFocusable
+        (click)="bsModalRef?.hide()"
+        aria-label="Close"
+        tabindex="0"
+      >
+      ×
+      </button>
+    </div>
+    <div class="modal-content-section">
+      <section>
+        <hr class="mb-4" />
+        <div class="modal-body text-black px-0">
+          <div class="row">
+            <div class="image-container col-3">
+              <div class="overlay-container">
+                @if($any(productData)?.privateLabelImage){
+                  <cx-media
+                  [container]="$any(productData)?.privateLabelImage"
+                  format="product"
+                  [alt]="$any(productData)?.name || ''"
+                  ></cx-media>
+                  <p class="overlay-text">PL</p>
+                }
+                @if(!$any(productData)?.privateLabelImage && $any(productData)?.images){
+                  <cx-media
+                  [container]="$any(productData)?.images"
+                  format="product"
+                  [alt]="$any(productData)?.name || ''"
+                ></cx-media>
+                }
+              </div>
+            </div>
+            <div class="col-9 product-summary">
+              <h5 *ngIf="$any(productData)?.summary" class="bolder">
+                {{ $any(productData)?.summary }}
+              </h5>
+              <span class="clinical-applications">
+                <ul
+                  class="m-0"
+                  *ngFor="let clinicalApplication of clinicalApplications"
+                  [outerHTML]="clinicalApplication"
+                >
+                  <li>
+                    {{ clinicalApplication }}
+                  </li>
+                </ul>
+              </span>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12 my-4">
+              <p></p>
+              <div *ngFor="let description of longDescription">
+                <p [innerHTML]="description?.featureValues[0]?.value"></p>
+              </div>
+            </div>
+          </div>
+          <ng-container>
+            <tabset #tabset class="tab-container">
+              <tab role="button" tabindex="0" aria-label="tab1"  heading="Supplement Facts" class="all">
+                <div class="image-container tab-content">
+                  <img class="pl-3 pr-3 w-100" [src]="supplementFactsUrl" alt="supplements" />
+                </div>
+              </tab>
+              <tab role="button" tabindex="0" aria-label="tab2" heading="Directions" class="all">
+                <div class="tab-content" *ngFor="let item of directions">
+                  <p class="pr-3 pl-3" [innerHTML]="item?.featureValues[0]?.value"></p>
+                </div>
+              </tab>
+              <tab role="button" tabindex="0" aria-label="tab3" heading="Other Ingredients" class="all">
+                <div class="tab-content" *ngFor="let item of otheringredients">
+                  <p class="pl-3 pr -3" [innerHTML]="item?.featureValues[0]?.value"></p>
+                </div>
+              </tab>
+            </tabset>
+          </ng-container>
+          <div class="modal-btns">
+            <button
+              [routerLink]="$any(productData)?.url"
+              (click)="bsModalRef?.hide()"
+              tabindex="0"
+              aria-label="More details"
+              class="btn btn-outline-primary btn-rounded"
+            >
+              More Details
+            </button>
+            <button
+              class="btn btn-primary btn-rounded"
+              aria-label="Close"
+              tabindex="0"
+              (click)="bsModalRef?.hide()"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>

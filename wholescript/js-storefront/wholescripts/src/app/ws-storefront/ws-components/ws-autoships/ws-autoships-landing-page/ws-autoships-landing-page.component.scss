@@ -1,0 +1,329 @@
+::ng-deep {
+    #autoships-landing-page {
+        max-width: 1440px;
+
+        .autoships-landing-page-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 48px;
+            align-self: stretch;
+            
+            @media(max-width: 578px) {
+                gap: 0;
+            }
+            .autoships-landing-page-header-section {
+                    margin-top: 48px;
+            
+                    .header-wrapper {
+                        border-radius: 16px;
+                        margin-left: 16px;
+                        margin-right: 16px;
+                        position: relative;
+            
+                        .header-wrapper-content {
+                            position: absolute;
+                            top: 40px;
+                            width: 60%;
+                            left: 40px;
+                            max-width: 70%;
+                            display: flex;
+                            flex-direction: column;
+                            justify-content: center;
+                            align-items: flex-start;
+                            gap: 8px;
+                            align-self: stretch;
+                            @media(max-width: 768px) {
+                                top: 32px;
+                                left: 32px;
+                                width: 100%;
+                                margin-right: 32px;
+                                gap: 0;
+                                max-width: 100%;
+                                padding-right: 64px;
+                            }
+                            h3 {
+                                color: var(--ws-base-white);
+                                font-size: 45px;
+                                font-weight: 700;
+                                line-height: 49.5px !important;
+                                letter-spacing: -1.08px;
+                                margin: 0;
+                                @media(max-width: 768px) {
+                                    font-size: 30px;
+                                    line-height: 33px;
+                                }
+                            }
+            
+                            p {
+                                color: var(--ws-base-white);
+                                font-size: 24px;
+                                font-weight: 300;
+                                line-height: 32px;
+                                @media(max-width: 768px) {
+                                    font-size: 20px;
+                                    line-height: 30px;
+                                }
+                            }
+                        }
+            
+                        cx-media {
+                            @media(max-width: 578px) {
+                                overflow: hidden;
+                                border-radius: 16px;
+                            }
+
+                            img {
+                                min-height: 200px;
+                                border-radius: 16px;
+
+                                @media(max-width: 578px) {
+                                    min-height: 315px;
+                                    transform: scale(4);
+                                    transform-origin: top right;
+                                    overflow: hidden;
+                                    border-radius: 0;
+                                }
+                            }
+                        }
+            
+                    }
+                }
+
+            .autoships-landing-page-content-section {
+                .autoships-landing-page-content-section-wrapper {
+                    display: flex;
+                    max-width: 1072px;
+                    flex-direction: column;
+                    align-items: center;
+                    gap: 32px;
+                    h4 {
+                        color: var(--ws-success-900);
+                        text-align: center;
+                        font-size: 24px;
+                        font-weight: 600;
+                        line-height: 32px;
+                    }
+    
+                    .steps {
+                        display: flex;
+                        justify-content: center;
+                        gap: 32px;
+                        align-self: stretch;
+                        margin-left: 16px;
+                        margin-right: 16px;
+                        margin-top: 85px;
+                        @media(max-width: 768px) {
+                            gap: 100px;
+                        }
+                        .each-step {
+                            display: flex;
+                            flex-direction: column;
+                            justify-content: flex-end;
+                            align-items: center;
+                            gap: 8px;
+                            border-radius: 12px;
+                            border: 1px solid var(--ws-gray-light-200);
+                            background:var(--ws-base-white);
+                            box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
+                            padding: 16px !important;
+                            position: relative;
+                            @media(max-width: 578px) {
+                                width: 100% !important;
+                            }
+                            cx-media {
+                                position: absolute;
+                                top: -85px;
+                                img {
+                                    width: 336px;
+                                    height: 185px;
+                                    flex-shrink: 0;
+                                }
+                            }
+    
+                            .each-step-content-wrapper {
+                                display: flex;
+                                padding: 24px;
+                                flex-direction: column;
+                                align-items: center;
+                                flex-shrink: 0;
+                                align-self: stretch;
+                                margin-top: 15px;
+                                @media(max-width: 768px) {
+                                    margin-top: 100px;
+                                }
+                                .each-step-content-heading {
+                                    color: var(--ws-success-900);
+                                    text-align: center;
+                                    font-size:16px;
+                                    font-style: normal;
+                                    font-weight: 300;
+                                    line-height: 24px;
+                                    margin-bottom: 2px;
+                                }
+    
+                                p:nth-of-type(2) {
+                                    color: var(--ws-gray-light-600);
+                                    text-align: center;
+                                    font-size: 14px;
+                                    font-weight: 300;
+                                    line-height: 20px;
+                                    margin: 0;
+                                }
+                            }
+                        }
+                    }
+    
+                    .go-to-catalog-btn {
+                        min-height: 40px;
+                    }
+                }
+            }
+
+            .faq-section {
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            max-width: 768px;
+            margin-top: 160px;
+            margin-bottom: 64px;
+            position: relative;
+            @media(max-width: 578px) {
+                margin-top: 80px;
+            }
+            .faq-hexagon-image-wrapper {
+                position: absolute;
+                top: -31px;
+                left: 40%;
+            }
+            .faq-heading {
+                color: var(--ws-gray-light-900);
+                text-align: center;
+                font-size: 30px;
+                font-weight: 700;
+                margin-bottom: 20px;
+                z-index: 1;
+                @media(max-width: 768px) {
+                    font-size: 20px;
+                }
+            }
+            .faq-sub-heading {
+                color: var(--ws-gray-light-600);
+                text-align: center;
+                font-size: 24px;
+                font-weight: 300;
+                line-height: 32px;
+                margin-bottom: 64px;
+                z-index: 1;
+                @media(max-width: 768px) {
+                    font-size: 20px;
+                    margin-bottom: 48px;
+                }
+            }
+            .faq-card {
+                display: flex;
+                padding: 32px;
+                flex-direction: column;
+                align-items: flex-start;
+                align-self: stretch;
+                margin-bottom: 16px;
+                &.highlighted {
+                    border-radius: 16px;
+                    background: var(--ws-gray-dark-50);
+                }
+                .accordion {
+                    display: flex;
+                    justify-content: space-between;
+                    width: 100%;
+                    &:focus {
+                        box-shadow: none;
+                    }
+                    .faq-card-question {
+                        margin: 0;
+                        color: var(--ws-success-900);
+                        font-size: 18px;
+                        font-weight: 400;
+                        line-height: 28px;
+                        text-align: left;
+                    }
+                }
+                
+                .faq-card-answer {
+                    padding-top: 8px;
+                    color: var(--ws-gray-light-600);
+                    font-size: 16px;
+                    font-weight: 300;
+                    line-height: 24px;
+                    margin: 0;
+                }
+            }
+        }
+
+            .autoships-landing-page-footer-section {
+                width: 100%;
+                .contact-us-wrapper {
+                    display: flex;
+                    padding: 32px 32px 40px 32px;
+                    flex-direction: column;
+                    align-items: center;
+                    gap: 32px;
+                    align-self: stretch;
+                    border-radius: 16px;
+                    margin-left: 16px;
+                    margin-right: 16px;
+                    background: linear-gradient(325deg, var(--cx-color-primary-light) 40.8%, var(--cx-color-link-primary) 109.58%);
+                    position: relative;
+
+                    .contact-us-image-wrapper {
+                        position: absolute;
+                        top: 0;
+                        opacity: 0.15;
+                    }
+                    .content-wrapper {
+                        display: flex;
+                        max-width: 480px;
+                        flex-direction: column;
+                        align-items: center;
+                        gap: 8px;
+                        align-self: stretch;
+                        margin: 0 auto;
+
+                        .heading {
+                            color: var(--ws-base-white);
+                            text-align: center;
+                            font-size: 24px;
+                            font-weight: 600;
+                            line-height: 32px;
+                        }
+
+                        .content {
+                            color: var(--ws-base-white);
+                            text-align: center;
+                            font-size: 18px;
+                            font-weight: 300;
+                            line-height: 20px;
+                        }
+                    }
+
+                    .contact-us-button {
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        gap: 6px;
+                        border: 1px solid var(--ws-gray-light-300);
+                        background: var(--ws-base-white);
+                        color: var(--ws-gray-light-700);
+                        font-size: 16px;
+                        font-weight: 600;
+                        line-height: 24px;
+                        min-height: 40px;
+                        text-transform: none;
+                        z-index: 1;
+                    }
+                }
+            }
+        }
+
+    }
+}

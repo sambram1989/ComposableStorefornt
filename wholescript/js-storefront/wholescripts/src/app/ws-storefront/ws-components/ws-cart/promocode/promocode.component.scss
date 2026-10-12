@@ -1,0 +1,126 @@
+.h-45px {
+    height: 45px;
+}
+
+.g-10px {
+    gap: 10px;
+}
+
+.placeholder-style::placeholder {
+    font-size: 13px;
+}
+
+.error {
+    border: 1px solid var(--ws-error-800);
+}
+.card-header {
+    background: var(--cx-color-background-alt) !important;
+    border-bottom: 0px;
+    position: relative;
+    z-index: 1;
+    padding: 20px 20px 20px 20px;
+    border: 1px solid var(--ws-gray-light-200);
+    .card-title {
+        font-size: 14px !important;
+        color: var(--ws-table-heading) !important;
+        font-weight: 700;
+    }
+}
+
+a {
+
+    &:hover,
+    &:focus {
+        color: var(--cx-color-primary) !important;
+    }
+}
+
+.promo-container {
+    display: flex;
+    gap: 24px;
+    input {
+        margin-bottom: 0;
+        border-radius: 4px;
+        border: 1px solid var(--ws-gray-light-300);
+        background: var(--cx-color-inverse);
+        box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
+        &::placeholder {
+            color: var(--ws-gray-light-500);
+            font-weight: 300;
+        }
+        &:hover {
+            border: 1px solid var( --ws-gray-light-500)
+        }
+        &:focus-visible {
+            border: 2px solid var(--cx-color-link-primary);
+            box-shadow: 0px 0px 8px 2px var(--Colors-Effects-Shadows-shadow-3xl-color, rgba(198, 187, 219, 0.9));
+        }
+    }
+    
+    button {
+        background-color: var(--cx-color-inverse);
+        cursor: pointer;
+        opacity: inherit;
+        &:focus {
+            background-color: white;
+            color: var(--cx-color-primary) !important;
+          }
+          &:hover {
+            color: white !important;
+          }
+    }
+}
+
+.promo-codes-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+    align-self: stretch;
+
+    .applied-promos-text {
+        color: var(--ws-gray-light-900);
+        font-size: 14px;
+        font-weight: 600;
+        line-height: 20px;
+        padding-top: 16px;
+    }
+
+    .each-promo-code-wrapper {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        align-self: stretch;
+        gap: 6px;
+        .promo-code {
+            color: var(--ws-gray-light-600);
+            font-size: 14px;
+            font-weight: 300;
+            line-height: 20px;
+        }
+
+        .promo-code-actions {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+
+            .see-details {
+                color: var(--ws-brand-700);
+                font-size: 14px;
+                font-weight: 600;
+                line-height: 20px;
+                text-decoration-line: underline;
+                text-decoration-style: solid;
+            }
+
+            .remove {
+                color: var(--ws-error-700);
+                font-size: 14px;
+                font-weight: 600;
+                line-height: 20px;
+                text-decoration-line: underline;
+                text-decoration-style: solid;
+            }
+        }
+    }
+}

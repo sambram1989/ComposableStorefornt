@@ -1,0 +1,26 @@
+# -----------------------------------------------------------------------
+# Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+# -----------------------------------------------------------------------
+#
+# Create the BaseStore
+#
+
+$productCatalog=Catalog_1710_10
+$currencies=USD
+$net=true
+$storeUid=wholescripts
+$defaultCurrency=USD
+$languages=en
+$defaultLanguage=en
+$deliveryCountries=US
+$billingCountries=US
+$orderProcessCode=order-process
+$customerAllowedToIgnoreSuggestions=true
+$paymentProvider=Mockup
+$checkoutFlowGroup=defaultCheckoutGroup
+$classificationCatalog=ERP_CLASSIFICATION_001,ERP_CLASSIFICATION_023,PIMClassification
+
+# Base Store
+INSERT_UPDATE BaseStore; uid[unique=true]; catalogs(id)                                   ; currencies(isocode); net  ; taxGroup(code); storelocatorDistanceUnit(code); defaultCurrency(isocode); languages(isocode); defaultLanguage(isocode); deliveryCountries(isocode); billingCountries(isocode); submitOrderProcessCode; pickupInStoreMode(code); customerAllowedToIgnoreSuggestions  ; paymentProvider  ; checkoutFlowGroup  ;
+                       ; $storeUid       ; $productCatalog,$classificationCatalog ; $currencies        ; $net ;               ; miles                            ; $defaultCurrency        ; $languages        ; $defaultLanguage        ; $deliveryCountries        ; $billingCountries        ; $orderProcessCode     ;                        ; $customerAllowedToIgnoreSuggestions ; $paymentProvider ; $checkoutFlowGroup ;
+

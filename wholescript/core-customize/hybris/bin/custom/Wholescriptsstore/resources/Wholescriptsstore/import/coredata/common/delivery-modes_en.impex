@@ -1,0 +1,22 @@
+# -----------------------------------------------------------------------
+# Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+# -----------------------------------------------------------------------
+#
+# Import Delivery Modes / Zones
+#
+
+# Language
+$lang=en
+
+# Zone Delivery Modes
+UPDATE ZoneDeliveryMode ; code[unique=true] ; name[lang=$lang]     ; description[lang=$lang]
+                        ; 01                ; "Standard Delivery"  ; "shipped via UPS or USPS"
+                        ; 03                ; "USPS Priority Mail" ; "not a guaranteed service for expedited shipping"
+                        ; 06                ; "UPS Ground"         ;
+                        ; 2D                ; "UPS 2nd Day Air"    ; "business days only"
+                        ; 3D                ; "UPS 3 Day Select"   ; "business days only"
+
+
+UPDATE PickUpDeliveryMode; code[unique = true]; name[lang = $lang]                 ; description[lang = $lang]
+                         ; 02                 ; "Pick Up At Wholescripts Pharmacy" ; "Orders not picked up after 5 business days will be canceled, except for MedPax orders. MedPax orders not picked up will be shipped to the address on the order, and any applicable shipping charges will apply."
+                          

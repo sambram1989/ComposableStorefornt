@@ -1,0 +1,71 @@
+<div class="modal-container p-3">
+  <div class="d-flex col-12 modal-header">
+    <div class="col-10 bolder text-uppercase text-center heading">
+      medpax supplement Facts
+    </div>
+    <div
+      class="col-2 bolder d-flex justify-content-end close"
+      (click)="closeModal()"
+      tabindex="0"
+      (keypress)="closeModal()"
+    >
+      x
+    </div>
+  </div>
+
+  <div class="card rounded supFacts p-3">
+    <p>
+      <span class="bolder">Currently showing:</span>
+      <span>
+        @for(data of productName(); track data ;let id = $index){
+        {{ data }}@if(productName().length){,} }</span
+      >
+    </p>
+    <div class="ws-custom-medpax-chip">
+        <ws-custom-medpax-chip
+        *ngFor="let name of productName(); let i = index"
+        [data]="name"
+        [isSelected]="selectedProductIds().includes(productIds()[i])"
+        (toggleChip)="toggleProductCode(productIds()[i])"
+      ></ws-custom-medpax-chip>
+    </div>
+    <div class="black-line"></div>
+
+    <div *ngIf="!loading">
+      <div class="row">
+        <div class="col-7"></div>
+        <div class="col-3 text-right">Amount Per</div>
+        <div class="col-2 text-right">% DV</div>
+      </div>
+      @for( facts of supplementFacts; track facts){
+      <section *ngFor="let ingredient of facts.ingredientList">
+        <div class="row ingredient m-0 pt-3">
+          <div class="col-8 pr-0 pr-5">
+            {{ ingredient?.name }}
+          </div>
+          <div class="col-2 text-right">
+            {{ ingredient?.ingredientReferenceUnit }} {{ ingredient?.unit }}
+          </div>
+          <div class="col-2 text-right">
+            {{ ingredient?.percentageDV ? ingredient?.percentageDV + '%' : '**' }}
+          </div>
+        </div>
+      </section>
+      }
+    </div>
+    <div *ngIf="loading" class="d-flex justify-content-center align-center">
+      <cx-spinner></cx-spinner>
+    </div>
+
+    <div class="black-line"></div>
+  </div>
+
+  <div class="close-modal-btn">
+    <button
+      class="btn btn-outline-primary btn-rounded float-right mt-3 bolder"
+      (click)="closeModal()"
+    >
+      Close
+    </button>
+  </div>
+</div>

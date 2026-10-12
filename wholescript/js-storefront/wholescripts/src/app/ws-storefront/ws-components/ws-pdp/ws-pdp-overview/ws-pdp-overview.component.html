@@ -1,0 +1,173 @@
+<div class="ws-product-overview-container" *ngIf="product$ | async as product">
+    <div *ngIf="!isMobile" class="desktop-view-container">
+        <div class="main-heading">Product overview</div>
+    
+        <div class="row">
+            <div class="col-md-6">
+                <div class="product-overview-left">
+                    <div class="row related-categories" *ngIf="product?.categories">
+                        <div class="col-md-4 heading">
+                            Related health categories:
+                        </div>
+                        <div class="related-categories-content" *ngFor="let categories of product?.categories">
+                            <a [routerLink]="categories?.categoryUrl" class="product-title"
+                                [innerHTML]="categories?.name" tabindex="0"> </a>
+                        </div>
+                    </div>
+
+                    <div class="row downloadable-contetnt" *ngIf="product?.doctorReferenceSheet">
+                        <div class="col-md-4 heading">
+                            Downloadable contetnt:
+                        </div>
+                        <div class="col-md-8">
+                            <i class="fa-solid fa-file-pdf"></i>
+                            <a class="download-link" (click)="downloadPdf()" tabindex="0" (keydown.enter)="downloadPdf()"> Doctor
+                                Reference Sheet </a>
+                        </div>
+                    </div>
+
+                    <div class="row label-info">
+                        <div class="col-md-4 heading">
+                            Label Information
+                        </div>
+                        <div class="col">
+                            <div class="sku">
+                                UPC #: {{ $any(product).sapEAN }}
+                            </div>
+                            <div class="upc">
+                                SKU #: {{ product?.code }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row suppliment-facts" *ngIf="product?.supplementFacts">
+                        <div class="col">
+                            <div class="heading">
+                                Supplement Facts:
+                            </div>
+
+                            <div class="supp-facts-image">
+                                <img [src]="supplementFactsUrl" aria-label="Supplement facts image"/>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="product-overview-right" *ngFor="let feature of filteredFeatures">
+                    <div class="heading col-4" [innerHTML]="feature?.name+':'">
+                    </div>
+                    <div class="content col-8" [innerHTML]=" feature?.featureValues[0]?.value">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="isMobile" class="mobile-view-container">
+        <div class="main-heading">Product overview</div>
+        <div *ngIf="product?.categories">
+            <accordion>
+                <accordion-group>
+                    <button class="heading-mobile" accordion-heading type="button"
+                        [attr.aria-expanded]="isAccordionOpen('relatedCategories')" aria-controls="relatedCategories"
+                        (click)="toggleAccordion('relatedCategories')">
+                        <div class="td-u pull-left float-left">
+                            Related health categories
+                        </div>
+                        <i class="fas"
+                            [ngClass]="isAccordionOpen('relatedCategories') ? 'fa-chevron-up' : 'fa-chevron-down'"
+                            aria-hidden="true"></i>
+                    </button>
+                    <div class="related-categories-container">
+                        <div class="related-categories-content" *ngFor="let categories of product?.categories">
+                            <a [routerLink]="categories?.categoryUrl" class="product-title" [innerHTML]="categories?.name"
+                            tabindex="0"></a>
+                        </div>
+                    </div>
+                </accordion-group>
+            </accordion>
+        </div>
+
+        <div *ngIf="product?.doctorReferenceSheet">
+            <accordion>
+                <accordion-group>
+                    <button class="heading-mobile" accordion-heading type="button"
+                        [attr.aria-expanded]="isAccordionOpen('referenceSheetPDF')" aria-controls="referenceSheetPDF"
+                        (click)="toggleAccordion('referenceSheetPDF')">
+                        <div class="td-u pull-left float-left">
+                            Downloadable content
+                        </div>
+                        <i class="fas"
+                            [ngClass]="isAccordionOpen('referenceSheetPDF') ? 'fa-chevron-up' : 'fa-chevron-down'"
+                            aria-hidden="true"></i>
+                    </button>
+                    <div class="d-flex">
+                        <i class="fa-solid fa-file-pdf"></i>
+                        <a class="download-link" (click)="downloadPdf()">Doctor Reference Sheet</a>
+                    </div>
+                </accordion-group>
+            </accordion>
+        </div>
+
+        <div *ngIf="product?.sapEAN || product?.code">
+            <accordion>
+                <accordion-group>
+                    <button class="heading-mobile" accordion-heading type="button"
+                        [attr.aria-expanded]="isAccordionOpen('labelInfo')" aria-controls="labelInfo"
+                        (click)="toggleAccordion('labelInfo')">
+                        <div class="td-u pull-left float-left">
+                            Label Information
+                        </div>
+                        <i class="fas" [ngClass]="isAccordionOpen('labelInfo') ? 'fa-chevron-up' : 'fa-chevron-down'"
+                            aria-hidden="true"></i>
+                    </button>
+                    <div>
+                        <div *ngIf="product?.sapEAN" class="sku">UPC #: {{ product?.sapEAN }}</div>
+                        <div *ngIf="product?.code" class="upc">SKU #: {{ product?.code }}</div>
+                    </div>
+                </accordion-group>
+            </accordion>
+        </div>
+
+        <div *ngIf="product?.supplementFacts">
+            <accordion>
+                <accordion-group>
+                    <button class="heading-mobile" accordion-heading type="button"
+                        [attr.aria-expanded]="isAccordionOpen('supplementFacts')" aria-controls="supplementFacts"
+                        (click)="toggleAccordion('supplementFacts')">
+                        <div class="td-u pull-left float-left">
+                            Supplement Facts
+                        </div>
+                        <i class="fas" [ngClass]="isAccordionOpen('supplementFacts') ? 'fa-chevron-up' : 'fa-chevron-down'"
+                            aria-hidden="true"></i>
+                    </button>
+                    <div class="supp-facts-image">
+                        <img [src]="supplementFactsUrl" aria-label="Supplement facts image" />
+                    </div>
+                </accordion-group>
+            </accordion>
+        </div>
+
+        <div *ngFor="let feature of filteredFeatures; let i = index">
+            <accordion>
+                <accordion-group>
+                    <button class="heading-mobile" accordion-heading type="button"
+                        [attr.aria-expanded]="isAccordionOpen('feature' + i)" aria-controls="'feature' + i"
+                        (click)="toggleAccordion('feature' + i)">
+                        <div class="td-u pull-left float-left">
+                            {{ feature?.name }}
+                        </div>
+                        <i class="fas" [ngClass]="isAccordionOpen('feature' + i) ? 'fa-chevron-up' : 'fa-chevron-down'"
+                            aria-hidden="true"></i>
+                    </button>
+                    <div class="content" *ngIf="isAccordionOpen('feature' + i)"
+                        [innerHTML]="feature?.featureValues[0]?.value">
+                    </div>
+                </accordion-group>
+            </accordion>
+        </div>
+    </div>
+</div>

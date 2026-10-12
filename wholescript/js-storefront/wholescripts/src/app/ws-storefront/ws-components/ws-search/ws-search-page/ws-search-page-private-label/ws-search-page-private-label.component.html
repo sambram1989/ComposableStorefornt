@@ -1,0 +1,35 @@
+<div class="search-page-private-label">
+    <div *ngIf="searchData?.products?.length > 0">
+        <ws-search-page-common-heading [totalResultsCount]="searchData?.pagination?.totalResults || 0"
+            [heading]="'Private label'" [viewAllFlag]="viewAllFlag" (showNumberOfResults)="showNumberOfResults($event)"
+            (viewAll)="viewAllEmit()"></ws-search-page-common-heading>
+        <div class="search-private-label-wrapper">
+            <div class="search-each-private-label" *ngFor="let product of searchData?.products">
+                <div class="private-label-image">
+                    <cx-media *ngIf="product?.images" [container]="product?.images" format="product"></cx-media>
+                    <img *ngIf="!product?.images" src="../../../../../assets/images/private-label/pvtLabel.jpg">
+                </div>
+                <div class="private-label-details-section">
+                    <div class="name" [innerHTML]="product?.name">
+                    </div>
+                    <div class="desc-container pt-1">
+                        <div class="icon">PL</div>
+                        <div class="desc" [innerHTML]="product?.productDescription" role="button" tabindex="0"></div>
+                    </div>
+                    <p class="private-label-sku">SKU: {{product?.code}}</p>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <ws-search-page-common-pagination [currentPage]="currentPage" *ngIf="searchData?.pagination?.totalPages > 1"
+            [totalPageCount]="searchData?.pagination?.totalPages || 0"
+            (setCurrentPage)="setCurrentPage($event)"></ws-search-page-common-pagination>
+    </div>
+    <div class="table-empty" *ngIf="searchData?.products?.length == 0 && viewAllFlag">
+       <div>
+          <h4 class="table-empty__h">No results found</h4>
+          <div>We couldn't find any matches for <span style="font-weight:900">{{searchTerm}}</span></div>
+          <div>Please try reducing your filters or searching with another term</div>
+       </div>
+    </div>  
+</div>

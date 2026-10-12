@@ -1,0 +1,207 @@
+.container-fluid {
+    padding: 0;
+}
+.main {
+    flex-direction: row;
+    width: clamp(90%, 80%, 1300px);
+    max-width: 1300px;
+    margin: 40px auto 0 auto;
+    justify-content: space-between;
+    gap: 10%;
+    display: flex;
+
+    cx-media {
+        width: 80%;
+        margin: 160px auto 0 auto;
+        max-width: 485px;
+    }
+
+    .right-section {
+        max-width: 600px;
+        margin: 160px auto 0 auto;
+
+        p {
+            color: var(--ws-card-description);
+        }
+
+        p:nth-child(1) {
+            font-size: 30px;
+            font-weight: 900;
+            margin: 0 2%;
+        }
+
+        p:nth-child(2) {
+            font-size: 24px;
+            font-weight: 500;
+            margin: 20px 2% 0 2%;
+            line-height: 30px;
+        }
+
+        p:nth-child(3) {
+            font-weight: 500;
+            font-size: 18px;
+            margin: 50px 2% 0 2%;
+            line-height: 32px;
+        }
+
+        p:nth-child(4),
+        p:nth-child(5) {
+            margin: 20px 2% 0 2%;
+            font-weight: 500;
+            font-size: 18px;
+            line-height: 32px;
+        }
+    }
+}
+
+@media (max-width: 576px) {
+    .main {
+        cx-media {
+            width: 100% !important;
+            padding: 0 16px !important;
+            max-width: 100%;
+            margin: 0 !important;
+        }
+
+        .right-section {
+            margin: 40px 16px !important;
+            width: 94% !important;
+        }
+    }
+}
+
+@media (max-width: 1024px) {
+    .container-fluid {
+        padding: 0;
+        max-height: fit-content;
+    }
+
+    .main {
+        flex-direction: column;
+        width: 100%;
+        justify-content: center;
+
+        cx-media {
+            width: 80%;
+            margin: 160px auto 0 auto;
+            max-width: 100%;
+        }
+    }
+
+    .right-section {
+        width: 80%;
+        margin: 40px auto 0 auto !important;
+        max-width: 100% !important;
+    }
+
+    .AboutUsSection3 {
+        max-width: 900px !important;
+        height: 790px;
+    }
+}
+
+::ng-deep .AboutUsSection3 {
+    max-width: 1300px;
+    margin: 60px auto 0 auto;
+    justify-content: space-around;
+    display: flex;
+    gap: 5%;
+    height: 550px;
+
+    cx-banner:nth-child(1) {
+        width: 458px;
+    }
+
+    cx-banner:nth-child(2) {
+        width: 590px;
+    }
+
+    cx-banner {
+        margin: 0 2%;
+        text-align: center;
+        margin-top: 70px;
+
+        @media (min-width: 576px) and (max-width: 1024px) {
+            width: 290px !important;
+        }
+
+        cx-media {
+            width: 96px;
+            margin: 0 auto;
+        }
+
+        p {
+            color: var(--ws-card-description);
+            text-shadow: none !important;
+            padding: 50px 0 !important;
+            line-height: 32px;
+            text-align: left !important;
+        }
+
+        .headline {
+            font-weight: 900;
+            font-size: 20px;
+            margin-top: 30px;
+            top: 52px;
+        }
+
+        .content {
+            font-size: 18px;
+            line-height: 32px;
+            top: 35%;
+            padding: 24px 0 !important;
+        }
+    }
+
+    @media (max-width: 576px) {
+        flex-wrap: wrap;
+        margin-top: 0;
+        height: 25% !important;
+        gap: 0 !important;
+        padding: 0 16px !important;
+
+        cx-banner {
+            width: 100% !important;
+            margin-top: 0;
+            height: 400px;
+
+            cx-media {
+                margin-top: 32px;
+            }
+        }
+
+        .headline {
+            top: 52px !important;
+            text-align: center !important;
+        }
+
+        .content {
+            top: 45% !important;
+            text-align: center !important;
+        }
+    }
+}
+
+::ng-deep .main {
+    @media screen and (min-width: 320px) and (max-width: 767.7px) {
+    .right-section {
+        p:nth-child(5) {
+            a {
+                display: inline;
+                white-space: nowrap;
+            }
+        }
+
+    }
+}
+
+a {
+    font-weight: 900;
+    color: var(--cx-color-primary);
+
+    &:hover {
+        text-decoration: underline;
+        color: var(--cx-color-primary);
+    }
+}
+}

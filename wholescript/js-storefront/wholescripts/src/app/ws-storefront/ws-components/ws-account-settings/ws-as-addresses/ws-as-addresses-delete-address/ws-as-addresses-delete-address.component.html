@@ -1,0 +1,66 @@
+<div class="modal fade slide-right show" id="deleteAddressModal" tabindex="-1" role="dialog"
+    aria-labelledby="deleteAddressModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content-wrapper">
+            <div class="container-xs-height full-height">
+                <div class="row-xs-height">
+                    <div class="modal-content col-xs-height" (keydown)="handleTab($event)">
+
+                        <div class="modal-header clearfix " *ngIf="!loading">
+                            <button #firstElement type="button" class="close" data-dismiss="modal" aria-hidden="true" tabindex="0"
+                                aria-label="Close" (click)="closeModal()">
+                                <i class="fa fa-close fs-14"></i>
+                            </button>
+                            <h4 class="modal-title bolder">
+                                DELETE ADDRESS
+                            </h4>
+                        </div>
+                        <div class="modal-body" *ngIf="!loading">
+                            <hr>
+                            <div class="card ws-address-card">
+                                <div class="address-name">
+                                    {{addressToDelete?.addressDescription}}
+                                </div>
+
+                                <div class="name">
+                                    {{addressToDelete?.firstName}} {{addressToDelete?.lastName}}
+                                </div>
+
+                                <div class="address1">
+                                    {{addressToDelete?.line1}}
+                                </div>
+
+                                <div class="address2">
+                                    {{addressToDelete?.line2}}
+                                </div>
+
+                                <div class="rest">
+                                    {{addressToDelete?.town}} {{addressToDelete?.region?.isocode}} {{addressToDelete?.postalCode}}
+                                </div>
+                            </div>
+
+                            <hr>
+
+                            <div class="text-center bolder delete-confirm-text">
+                                Are you sure you want to delete this address?
+                            </div>
+                            <div *ngIf="addressToDelete?.isCardAvailable" class="credit-card-message-section">
+                                Deleting this address will remove all associated credit cards. If you need to manage your credit cards, <a [routerLink]="'/accounts-settings/Payment'">click here</a>.
+                            </div>
+                        </div>
+
+                        <div class="modal-footer" *ngIf="!loading">
+                            <button type="submit" (click)="closeModal()"
+                                class="btn btn-secondary btn-rounded btn-cons">Cancel</button>
+                            <button #lastElement type="submit" (click)="deleteAddress()"
+                                class="btn btn-secondary btn-rounded btn-cons">Yes, Delete</button>
+                        </div>
+                        <div *ngIf="loading" class="d-flex align-items-center justify-content-center">
+                            <cx-spinner></cx-spinner>
+                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,269 @@
+.acc-head {
+    font-size: 2rem;
+    font-weight: 900;
+    color: var(--cx-color-secondary);
+    margin-block: 10px;
+    @media(max-width: 768px) {
+        padding-left: 24px;
+    }
+}
+
+.acc-text {
+    font-size: 16px !important;
+    line-height: 1.5;
+    font-weight: 500 !important;
+}
+
+.total-savings-amount {
+    @extend .acc-text;
+    color: var(--cx-color-text);
+}
+
+.table-condensed {
+    margin-bottom: 0 !important;
+    tr:last-child {
+        border-bottom: none !important;
+    }
+    th {
+        font-size: 14px;
+        color: rgba(44, 44, 44, 0.7);
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        padding: 20px;
+    }
+    td {
+        padding: 5px 15px !important;
+        color: var(--ws-card-description);
+        @extend .acc-text;
+    }
+}
+::ng-deep .alert-info {
+    p {
+        font-size: 16px;
+        font-weight: 500;
+        line-height: 1.5;
+        text-align: center;
+        color: var(--cx-color-secondary);
+    }
+}
+
+.card-default,
+.card-standard,
+.card-progress {
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    padding: 30px 20px;
+    background-color: white;
+    border-radius: 0.25rem;
+}
+.default-level {
+    width: 4%;
+}
+.item01-level {
+    width: 25%;
+}
+.item02-level {
+    width: 50%;
+}
+.item03-level {
+    width: 75%;
+}
+.item04-level {
+    width: 100%;
+}
+
+.rewards-card__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.progress .progress-bar-success {
+    background-color: var(--ws-progress-bar-success);
+    background-image: none;
+}
+
+.alert-msg {
+    border: 2px solid;
+    border-radius: 5px;
+    padding: 15px 20px;
+    margin: 20px 0 0 0 !important;
+    width: 100%;
+    text-align: center;
+    background-color: var(--ws-cyan-25);
+    color: var(--cx-color-secondary);
+    border-color: var(--ws-cyan-700);
+    margin-inline: 0 !important;
+}
+
+.gap-10 {
+    gap: 10px;
+}
+
+.gap-15 {
+    gap: 15px;
+}
+
+.gap-r-20 {
+    row-gap: 20px;
+}
+
+.card-header {
+    background-color: unset;
+    color: var(--cx-color-text);
+    padding: unset;
+    border-bottom: unset !important;
+}
+
+.border-b-unset {
+    border-bottom: unset;
+}
+
+.progress-border-0 {
+    border-radius: 0px;
+    background-color: rgba(98, 98, 98, 0.2);
+}
+
+::ng-deep .Section3B {
+    cx-paragraph {
+        p {
+            opacity: 0.7;
+        }
+    }
+}
+::ng-deep .Section4 {
+    cx-paragraph {
+        p {
+            @extend .acc-text;
+            font-size: 12px !important;
+            color: var(--ws-card-description);
+        }
+        p:nth-child(1) {
+            padding-top: 16px;
+        }
+    }
+}
+::ng-deep .Section1 {
+    padding: 16px 24px;
+}
+::ng-deep .Section3C {
+    display: flex;
+    cx-paragraph {
+        flex: 1 1 33.3%;
+        height: fit-content;
+        div {
+            background-color: var(--ws-base-white);
+            height: 100%;
+            border: 1px solid rgba(0, 0, 0, 0.125);
+            border-radius: 0.25rem;
+        }
+        h4 {
+            color: var(--cx-color-text);
+            font-size: 14px !important;
+            margin-bottom: 12px;
+            padding: 20px 20px 0 20px;
+            font-weight: 700;
+            letter-spacing: 0.035rem !important;
+            transition: opacity 0.3s ease;
+            line-height: normal;
+        }
+        h5 {
+            font-style: italic;
+            color: var(--ws-card-description);
+            padding: 16px 24px 0;
+            @extend .acc-text;
+        }
+        p {
+            padding: 8px 24px 24px;
+            color: var(--ws-card-description);
+            @extend .acc-text;
+        }
+    }
+    cx-paragraph:not(:first-child) {
+        padding-left: 1rem;
+    }
+    cx-paragraph:last-child {
+        p:last-child {
+            font-size: 14px !important;
+            font-weight: 400;
+        }
+    }
+    @media(max-width: 768px) {
+        cx-paragraph:not(:first-child) {
+            padding-left: 0 !important;
+            padding-top: 24px;
+            flex: 1 1 100%;
+        }
+    }
+}
+
+.btn-h {
+    font-size: 16px;
+    min-height: unset !important;
+    height: 40px !important;
+}
+.card-ty {
+    padding: 20px 20px 7px 20px;
+}
+.shared-reward-plans .card{
+    height: 100%;
+}
+
+.b-right {
+    border-right: 1px solid rgb(226, 226, 226);
+}
+
+.days-table-left {
+    // border: 1px solid rgba(0, 0, 0, 0.07);
+    background-color: white;
+}
+
+.days-table-right {
+    border: 1px solid rgba(0, 0, 0, 0.07);
+    padding: 30px 20px;
+    background-color: white;
+}
+.b-r-red{
+    border-right: 2px solid var(--ws-error-600);
+}
+.account-balance {
+    width: 100%;
+    margin-inline: auto;
+    padding-top: 8px;
+    padding-bottom: 100px;
+    .reward-level {
+        padding-left: 1rem;
+        .card-title {
+            text-transform: inherit !important;
+            font-weight: 700 !important;
+            font-size: 14px !important;
+            letter-spacing: 0.035rem !important;
+            color: var(--cx-color-text);
+        }
+    }
+
+    @media(max-width: 768px) {
+        padding-right: 24px;
+        .reward-level {
+            padding-left: 0;
+        }
+    }
+
+    td:nth-child(2) {
+        font-weight: 400;
+    }
+    th {
+        text-transform: none !important;
+    }
+    .reward-level {
+        color: var(--cx-color-text);
+        @extend .acc-text;
+        &:nth-child(1) {
+            visibility: hidden;
+        }
+    }
+}
+@media (max-width: 767px) {
+    .reward-level-text-container {
+      gap: 10px;
+    }
+}
+  

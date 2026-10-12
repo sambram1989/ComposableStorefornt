@@ -1,0 +1,99 @@
+<nav [attr.aria-label]="navAriaLabel">
+  <ul>
+    <li
+      *ngIf="flyout && (node?.children?.length ?? 0) > 1"
+      class="back is-open"
+    >
+      <button (click)="back()">
+        <cx-icon [type]="iconType.CARET_LEFT"></cx-icon>
+        {{ 'common.back' | cxTranslate }}
+      </button>
+    </li>
+
+    <ng-container *ngFor="let child of node?.children">
+      <ng-container *ngTemplateOutlet="nav; context: { node: child, depth: 0 }">
+      </ng-container>
+    </ng-container>
+  </ul>
+</nav>
+<!-- we generate links in a recursive manner -->
+
+<ng-template #nav let-node="node" let-depth="depth">
+  <li *ngIf="node">
+    <cx-generic-link
+      *ngIf="
+        node.url && (!node.children || node.children?.length === 0);
+        else heading
+      "
+      [url]="node.url"
+      [target]="node.target"
+      [style]="node.styleAttributes"
+      [class]="node.styleClasses"
+      (click)="closeIfClickedTheSameLink(node)"
+      class="menu-li-link"
+    >
+    <ng-container *ngIf="node.media">
+      <cx-media [container]="node.media"></cx-media>
+    </ng-container>
+      {{ node.title }}
+    </cx-generic-link>
+
+    <ng-template #heading>
+      <ng-container *ngIf="flyout && node.children?.length > 0; else title">
+        <cx-generic-link
+          *ngIf="node.url"
+          [url]="node.url"
+          [target]="node.target"
+          (click)="closeIfClickedTheSameLink(node)"
+        >
+          {{ node.title }}
+        </cx-generic-link>
+        <button
+          [attr.tabindex]="depth < 1 ? 0 : -1"
+          [attr.aria-haspopup]="true"
+          [attr.aria-expanded]="false"
+          [attr.aria-label]="node.title || 'Expand menu'"
+          (click)="removeHiddenClass();toggleOpen($any($event));closeIfClickedTheSameLink(node)"
+          (keydown.esc)="back()"
+        >
+          <ng-container *ngIf="!node.url">
+            {{ node.title }}
+          </ng-container>
+          <ng-container *ngIf="user$ | async as user;">
+            <div class="cx-login-greet">
+              Hi {{ (user?.firstName || user?.name)?.slice(0, 40) }}!
+             </div>
+          </ng-container>
+          <cx-icon [type]="isOpen ? iconType.CARET_UP : iconType.CARET_DOWN"></cx-icon>
+          <img class="user-circle" src="/assets/images/home/user-circle.svg" alt="user-icon">
+        </button>
+      </ng-container>
+      <ng-template #title>
+        <span *ngIf="node.title" [attr.tabindex]="-1">
+          {{ node.title }}
+        </span>
+      </ng-template>
+    </ng-template>
+
+    <!-- we add a wrapper to allow for better layout handling in CSS -->
+    <div #wrapper class="wrapper" *ngIf="node.children && node.children.length > 0">
+      <ul
+        class="childs"
+        [attr.tabindex]="shouldAddTabindex ? '0' : null"
+        [attr.depth]="getTotalDepth(node)"
+        [attr.wrap-after]="node.children.length > wrapAfter ? wrapAfter : null"
+        [attr.columns]="getColumnCount(node.children.length)"
+      >
+      <li class = "account" *ngIf = "currentUserData | async as current">
+        Account ID: {{$any(current).orgUnit?.uid }}
+      </li>
+        <ng-container *ngFor="let child of node.children">
+          <ng-container
+            *ngTemplateOutlet="nav; context: { node: child, depth: depth + 1 }"
+          >
+          </ng-container>
+        </ng-container>
+      </ul>
+    </div>
+  </li>
+</ng-template>

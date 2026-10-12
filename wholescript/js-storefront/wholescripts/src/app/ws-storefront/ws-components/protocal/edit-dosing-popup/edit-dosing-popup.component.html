@@ -1,0 +1,81 @@
+<div class="modal-header p-0">
+    <h3 class="modal-title mx-auto bolder" id="removeDosingModalLabel">EDIT DOSING</h3>
+    <button type="button" class="close" (click)="bsModalRef.hide()">x</button>
+</div>
+
+<div class="modal-body text-black p-0">
+    <div class="row">
+        <div class="col-3">
+
+        </div>
+        <div class="col-9">
+            <span class="bolder">{{doseResponse.productName}}</span>
+            <br>
+            <span>Label Dosing: {{doseResponse.labelDosing}}</span> <br>
+            <a  [attr.tabindex]="0"
+            role="button"
+            aria-label="Reset to label" class="span-btn bolder text-danger btn-link" (click)="onClickReset()">Reset to Label</a>
+        </div>
+    </div>
+
+    <div class="row mt-3" *ngIf="doseItemDetails?.length">
+        <div class="col-12">
+            <span class="bolder">Dosing</span>
+        </div>
+        <div class="row mt-3" *ngFor="let doseItem of doseItemDetails; let doseIndex = index">
+            <div class="col-4 qty">{{doseItem.qty}}</div>
+            <div class="col-6 row dosing">
+                <button role="button" [attr.tabindex]="0" (keypress)="onClickDosing(doseItem, i)" (click)="onClickDosing(doseItem, i)" class="col-3 text-center dosing-btn-rd" *ngFor="let timeItem of doseItem.doseTimeItems;let i = index;">
+                    <input type="radio" [id]="timeItem.id" name="dosages-1-0"
+                        [checked]="timeItem.checked" />
+                    <label [for]="timeItem.id">
+                        <span>{{timeItem.time}}</span>
+                        <img [src]="timeItem.imageSrc" [alt]="timeItem.id" class="img-icon-lg" />
+                    </label>
+                </button>
+            </div>
+            <div class="col-2 text-right" *ngIf="doseItemDetails?.length > 1">
+                <a role="button" [attr.tabindex]="0" class="text-danger bolder edit-dose-del del"  (click)="addRemoveDose('remove', doseIndex)" (keypress)="addRemoveDose('remove', doseIndex)">x</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row my-3" style="align-items:center;">
+        <div class="col-6">
+            <a role="button" [attr.tabindex]="0" (keypress)="addRemoveDose('add', -1)" *ngIf="!(doseItemDetails?.length > 3)" class="btn btn-outline-primary btn-rounded ng-scope"
+                (click)="addRemoveDose('add', -1)">
+                + More dosing times
+            </a>
+        </div>
+        <div class="col-6 text-right">
+            <a class="text-link bolder">
+                <i class="fa fa-download"></i>Save as custom
+            </a>
+        </div>
+
+    </div>
+
+    <div style="border-top: solid 1px #E3E3E5;">
+        <div class="mt-3 mb-0 bolder">Duration</div>
+        <div class="row mt-3">
+            <div class="col-5"></div>
+            <div class="col-7 qty" id="unitsQtyDiv"></div>
+        </div>
+        <hr>
+        <p class="bolder mb-0">Notes:</p>
+        <textarea placeholder="Type your notes here" class="w-100 rounded note" rows="4"
+            value="{{doseResponse?.notes}}">
+        </textarea>
+
+        <div class="row mt-3">
+            <div class="col-sm-5">
+                <h6>{{doseResponse.TotalRetailPrice}}</h6><br>
+                <h6>MSRP: {{doseResponse.TotalWholesalePrice}}</h6>
+            </div>
+            <div class="col-sm-7 modal-btns">
+                <a role="button" [attr.tabindex]="0" tabindex="0" class="btn btn-outline-primary btn-rounded">Cancel</a>
+                <a role="button" [attr.tabindex]="0" tabindex="0" class="btn btn-primary btn-rounded">+ Add</a>
+            </div>
+        </div>
+    </div>
+</div>

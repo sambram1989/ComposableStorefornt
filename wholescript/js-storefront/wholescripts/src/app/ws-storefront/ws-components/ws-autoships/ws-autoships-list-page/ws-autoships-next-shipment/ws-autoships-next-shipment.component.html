@@ -1,0 +1,60 @@
+<div id="ws-autoships-next-shipment" [ngClass]="isPractioner ? '' : 'patient-tab'">
+    <div class="next-shipment-heading-and-total">
+        <div class="next-shipment-heading">
+            <h4>Next shipment:</h4>
+            <p *ngIf="nextShipmendDate">{{nextShipmendDate | date: 'longDate'}}</p>
+        </div>
+        <div class="next-shipment-total">
+            <h6>Total:</h6>
+            <p>{{nextShipmentTotalPrice | currency : (currency$ | async) }}</p>
+        </div>
+    </div>
+    <div class="products-wrapper" [class.none]="toggleListViewMoreFlag" *ngIf="nextShipmentProducts?.length > 0">
+        <div class="each-product" *ngFor="let detail of nextShipmentProducts">
+            <div class="product-details-wrapper">
+                <div class="product-image-wrapper">
+                    <cx-media [container]="detail?.image ? detail?.image : null"
+                        [alt]="detail?.image?.altText"></cx-media>
+                </div>
+                <div class="product-details">
+                    <div class="out-of-stock" *ngIf="detail?.stock?.stockLevelStatus === 'outOfStock'">Out of stock
+                    </div>
+                    <div class="product-name">{{detail?.matDesc}}</div>
+                    <div class="quantity">Qty: {{Number(detail?.reqQty)}}</div>
+                    <div class="autoship-frequency">AutoShip frequency: Every {{detail?.frequency ?
+                        Number(detail?.frequency) : 0}} days</div>
+                    <div class="autoship-order-number">
+                        <a tabindex="0" role="button" (click)="goToAutoShipDetails(detail?.orderNumber)" (keydown)="onKeydown($event, detail?.orderNumber)">AutoShip #: {{detail?.orderNumber}}</a>
+                    </div>
+                </div>
+                <div class="product-price">
+                    <div class="total-price">{{detail?.overallTotalSum || detail?.price * Number(detail?.reqQty) | currency : (currency$ | async)
+                        }}</div>
+                    <div class="each-price">Each: {{Number(detail?.overallTotalSum || detail?.price) | currency : (currency$ | async) }}</div>
+                </div>
+            </div>
+            <div class="medpax-details-wrapper" *ngIf="detail?.isMedPax">
+                @for(key of objectKeys(detail?.packetDetails);track key){
+                @for( entry of detail?.packetDetails[key]?.entries;track
+                entry){
+                <div class="medpax-detail">
+                    <div class="medpax-product-name">{{ entry?.matDesc }}</div>
+                    <div class="medpax-product-time">{{ entry?.reqQty / 30 | number : "1.0-0" }} in {{ key }}</div>
+                </div>
+                } }
+            </div>
+        </div>
+    </div>
+    <div class="bottom-section">
+        <div class="view-more-wrapper" *ngIf="toggleListViewMoreFlag"
+            (click)="toggleListViewMoreFlag = !toggleListViewMoreFlag">
+            <div class="view-more-text">View more</div>
+            <span><i class="fas fa-chevron-down"></i></span>
+        </div>
+        <div class="view-less-wrapper" *ngIf="!toggleListViewMoreFlag"
+            (click)="toggleListViewMoreFlag = !toggleListViewMoreFlag">
+            <div class="view-less-text">View less</div>
+            <span><i class="fas fa-chevron-up"></i></span>
+        </div>
+    </div>
+</div>

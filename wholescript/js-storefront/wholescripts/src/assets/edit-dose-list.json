@@ -1,0 +1,45 @@
+{
+    "duration":"Ongoing",
+    "units":3,
+    "TotalRetailPrice": 92.97,
+    "TotalWholesalePrice": 152.99,
+    "productId": 123,
+    "productName": "Omega MonoPure® 1300 EC 120 Softgels",
+    "productImage":"",
+    "labelDosing":"1 in AM",
+    "doseDetailsList": [
+        {
+            "qty": 1,
+            "doseTimeItems": [
+                {
+                    "id": "AM-10",
+                    "name":"dosages-1-0",
+                    "time": "AM",
+                    "imageSrc": "/assets/icons/protocols/black-dosing-am.png",
+                    "checked": true
+                },
+                {
+                    "id": "PM-10",
+                    "name":"dosages-1-0",
+                    "time": "PM",
+                    "imageSrc": "/assets/icons/protocols/black-dosing-pm.png",
+                    "checked": false
+                },
+                {
+                    "id": "Daily-10",
+                    "name":"dosages-1-0",
+                    "time": "Daily",
+                    "imageSrc": "/assets/icons/protocols/black-dosing-daily.png",
+                    "checked": false
+                },
+                {
+                    "id": "Bedtime-10",
+                    "name":"dosages-1-0",
+                    "time": "Bedtime",
+                    "imageSrc": "/assets/icons/protocols/black-dosing-bedtime.png",
+                    "checked": false
+                }
+            ]
+        }
+    ]
+}

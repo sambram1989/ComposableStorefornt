@@ -1,0 +1,120 @@
+div {
+    max-width: 1440px;
+    margin: auto;
+    padding: 48px 32px 128px 32px;
+    @media(min-width: 1441px) {
+        padding: 48px 0 128px 0;
+    }
+    @media (max-width: 768px) {
+        padding: 40px 32px 80px 32px;
+    }
+    @media (max-width: 578px) {
+        padding: 32px 16px 64px 16px;
+    }
+    .nav-link {
+      color: var(--cx-color-secondary);
+      border: none !important;
+      margin: 2px;
+      &.active {
+        border-radius: 4px;
+        margin-top: 2px;
+        margin-bottom: 2px;
+        font-weight: 700 !important;
+        background-color: var(--ws-gray-light-100);
+        &:hover{
+          background-color: var(--ws-gray-light-100);
+        }
+      }
+      &:hover{
+        border-radius: 4px;
+        background-color: var(--ws-gray-blue-200);
+      }
+      &:focus-visible {
+      outline: 3px solid var(--cx-color-darkest) !important;
+      outline-offset: 2px !important;
+      box-shadow: unset;
+  }
+    }
+  .page-heading {
+    color: var(--ws-gray-light-900);
+    font-size: 23px !important;
+    font-weight: 900 !important;
+    margin-bottom: 0 !important;
+  }
+  .desc {
+    font-size: 16px !important;
+    font-weight: 300;
+    color: var(--ws-gray-light-600);
+    margin-bottom: 40px;
+  }
+  .tab-content {
+    border-top: 1.5px solid var(--ws-gray-light-200);
+    padding-top: 32px;
+  }
+
+  .new-referral {
+    font-size: 14px;
+    padding: 10px 14px;
+  }
+h3 {
+  font-size: 18px !important;
+  line-height: 28px;
+  color: var(--cx-color-secondary);
+  font-weight: 700 !important;
+}
+span {
+  color: var(--cx-color-secondary);
+  font-size: 14px;
+  font-weight: 300;
+}
+ul {
+  background: white;
+    width: max-content;
+    border: 1px solid var(--ws-gray-light-200);
+    border-radius: 4px;
+    margin-bottom: 32px;
+    display: flex;
+    cursor: pointer;
+}
+  .mobile-tab {
+    display: none;
+  }
+
+  @media(max-width: 578px) {
+    .mobile-tab {
+      border-radius: 3px;
+      border: 1px solid var(--ws-gray-light-300);
+      background-color: white;
+      width: 100%;
+      text-align: left;
+      position: relative;
+      font-size: 16px;
+      padding: 8px;
+      cursor: pointer;
+      display:block;
+  }
+    ul {
+      flex-direction: column;
+      width: 100%;
+      text-align: left;
+      align-items: flex-start;
+      li {
+        width: 100%;
+      }
+    }
+    .ul-visible {
+      display: block;
+    }
+    .ul-hide {
+      display: none;
+    }
+    .action-buttons {
+      justify-content: space-between !important;
+      padding-top: 16px !important;
+      padding-left: 8px;
+      .export {
+        margin-right: 0;
+      }
+    }
+  }
+}

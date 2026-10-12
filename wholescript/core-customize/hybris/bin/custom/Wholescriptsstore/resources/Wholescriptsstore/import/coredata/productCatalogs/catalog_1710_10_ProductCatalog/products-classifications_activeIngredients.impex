@@ -1,0 +1,24 @@
+# -----------------------------------------------------------------------
+# Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+# -----------------------------------------------------------------------
+# ImpEx for Importing Category Classifications into Wholescripts Store
+
+# Macros / Replacement Parameter definitions
+###############################localized impex
+#% impex.setLocale(Locale.ENGLISH);
+# Macros / Replacement Parameter definitions
+$productCatalog = Default
+$catalogVersion = catalogversion(catalog(id[default = $productCatalog]), version[default = 'Staged'])[unique = true, default = $productCatalog:Staged]
+$clAttrModifiers = system = 'PIMClassification', version = '1.0', translator = de.hybris.platform.catalog.jalo.classification.impex.ClassificationAttributeTranslator, lang = en
+
+
+$activeIngredients=@activeIngredients[$clAttrModifiers];
+
+
+UPDATE Product; code[unique = true]; $activeIngredients; $catalogVersion
+;	000000000500070042    ; "<h4>Drainage</h4> <p>Equal parts of Cynara 6x, Solidago 6x, Taraxacum 6x, Benzoicum ac. 15x, Berber. vulg. 15x, Bryonia 15x, Cantharis 15x, Carduus ben. 15x, Carduus mar. 15x, Ceanothus 15x, Chelidonium maj. 15x, Chionanthus 15x, Cinchona 15x, Dioscorea 15x, Dolichos 15x, Iris vers. 15x, Juniperus com. 15x, Nux vom. 15x, Ptelea 15x, Taraxacum 15x, Uricum ac. 15x.</p>"
+;	000000000300000574    ; "Equal parts of Cynara 6x, Solidago 6x, Taraxacum 6x, Benzoicum ac. 15x, Berber. vulg. 15x, Bryonia 15x, Cantharis 15x, Carduus ben. 15x, Carduus mar. 15x, Ceanothus 15x, Chelidonium maj. 15x, Chionanthus 15x, Cinchona 15x, Dioscorea 15x, Dolichos 15x, Iris vers. 15x, Juniperus com. 15x, Nux vom. 15x, Ptelea 15x, Taraxacum 15x, Uricum ac. 15x."
+;	000000000300103562    ; "Menthol USP, 4 % ........Topical analgesic"
+;	000000000300103561    ; "Camphor USP, 3.1 % ........ Topical analgesic <br> Menthol USP, 7% ........ Topical analgesic"
+;	000000000300103560    ; "Camphor USP, 11 % ........ Topical analgesic <br> Menthol USP, 16% ........ Topical analgesic"
+;	000000000300103558    ; "Camphor USP, 11 % ........ Topical analgesic <br> Menthol USP, 16% ........Topical analgesic"

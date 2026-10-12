@@ -1,0 +1,53 @@
+<svg width="28" height="32" viewBox="0 0 28 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect width="28" height="32" fill="#F4F5F7"/>
+<g id="1920 - Product detail page main" clip-path="url(#clip0_3133_38284)">
+<rect width="1920" height="4510" transform="translate(-994 -1163)" fill="#FAFAFA"/>
+<g id="page content">
+<g id="Section">
+<g id="Background pattern" clip-path="url(#clip1_3133_38284)">
+</g>
+<g id="container">
+<g id="product info panel">
+<g id="notification container">
+<mask id="path-1-inside-1_3133_38284" fill="white">
+<path d="M-18 -16H686V132H-18V-16Z"/>
+</mask>
+<path d="M686 131H-18V133H686V131Z" fill="#E3E3E5" mask="url(#path-1-inside-1_3133_38284)"/>
+<g id="Alert">
+<path d="M-17.5 -8C-17.5 -12.1421 -14.1421 -15.5 -10 -15.5H678C682.142 -15.5 685.5 -12.1421 685.5 -8V92C685.5 96.1421 682.142 99.5 678 99.5H-10C-14.1421 99.5 -17.5 96.1421 -17.5 92V-8Z" fill="#F5FEFF"/>
+<path d="M-17.5 -8C-17.5 -12.1421 -14.1421 -15.5 -10 -15.5H678C682.142 -15.5 685.5 -12.1421 685.5 -8V92C685.5 96.1421 682.142 99.5 678 99.5H-10C-14.1421 99.5 -17.5 96.1421 -17.5 92V-8Z" stroke="#0E7090"/>
+<g id="Featured icon">
+<g id="Background">
+<mask id="mask0_3133_38284" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="-2" y="0" width="32" height="32">
+<g id="Mask">
+<rect width="32" height="32" transform="translate(-2)" fill="url(#paint0_linear_3133_38284)"/>
+</g>
+</mask>
+<g mask="url(#mask0_3133_38284)">
+<path id="Background color" d="M12.25 1.58771C13.3329 0.962498 14.6671 0.962498 15.75 1.58771L25.6064 7.27831C26.6893 7.90353 27.3564 9.05897 27.3564 10.3094V21.6906C27.3564 22.941 26.6893 24.0965 25.6064 24.7217L15.75 30.4123C14.6671 31.0375 13.3329 31.0375 12.25 30.4123L2.39359 24.7217C1.31069 24.0965 0.643594 22.941 0.643594 21.6906V10.3094C0.643594 9.05897 1.31069 7.90353 2.39359 7.27831L12.25 1.58771Z" fill="#ECFDFF" stroke="#0E7090"/>
+</g>
+</g>
+<g id="FAsm">
+<path id="FAsm_2" d="M7.875 10.9375C7.875 10.2266 8.44922 9.625 9.1875 9.65234H13.2617C13.7266 9.65234 14.1641 9.81641 14.4922 10.1445L19.3047 14.957C19.9883 15.6406 19.9883 16.7617 19.3047 17.4453L15.668 21.082C14.9844 21.7656 13.8633 21.7656 13.1797 21.082L8.36719 16.2695C8.03906 15.9414 7.875 15.5039 7.875 15.0391V10.9375ZM10.9375 11.8125C10.4453 11.8125 10.0625 12.2227 10.0625 12.6875C10.0625 13.1797 10.4453 13.5625 10.9375 13.5625C11.4023 13.5625 11.8125 13.1797 11.8125 12.6875C11.8125 12.2227 11.4023 11.8125 10.9375 11.8125Z" fill="#155B75"/>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+<defs>
+<linearGradient id="paint0_linear_3133_38284" x1="16" y1="0" x2="16" y2="30.5" gradientUnits="userSpaceOnUse">
+<stop/>
+<stop offset="1" stop-opacity="0"/>
+</linearGradient>
+<clipPath id="clip0_3133_38284">
+<rect width="1920" height="4510" fill="white" transform="translate(-994 -1163)"/>
+</clipPath>
+<clipPath id="clip1_3133_38284">
+<rect width="1920" height="1938" fill="white" transform="translate(-994 -1011)"/>
+</clipPath>
+</defs>
+</svg>

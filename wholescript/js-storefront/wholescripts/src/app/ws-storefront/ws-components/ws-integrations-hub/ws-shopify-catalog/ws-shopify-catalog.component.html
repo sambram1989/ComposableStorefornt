@@ -1,0 +1,142 @@
+
+<div *ngIf="loader" class="d-flex align-center justify-content-center">
+  <cx-spinner role="alert" aria-live="assertive"></cx-spinner>
+</div>
+<div *ngIf="!loader">
+
+  <div class="shopify-catalog-container">
+    <div class="shopify-catalog-header-section">
+      <div class="heading" *ngIf="shopifyCatalogHeading$ | async as heading" [innerHTML]="heading?.content" tabindex="0" role="heading" aria-level="1"></div>
+      <div class="para" *ngIf="shopifyCatalogPara$ | async as para" [innerHTML]="para?.content" tabindex="0" role="region" aria-label="Shopify Catalog Description"></div>
+      <div class="pt-4">
+        <a *ngIf="shopifyDownloadGuidePdf$ | async as downloadPdf" class="btn btn-rounded download-guide" [href]="occ?.backend?.occ?.baseUrl + downloadPdf?.pdfFile?.url" target="_blank" target="_blank" aria-label="Download Shopify Guide as PDF">Download Guide</a>
+      </div>
+    </div>
+  </div>
+  
+  <div *ngFor="let alert of alerts">
+    <alert [type]="alert.type" [dismissOnTimeout]="alert.timeout" (onClosed)="onClosed(alert)" role="alert">{{ alert.msg }}</alert>
+  </div>
+  <div class="container">
+    <!-- Products Section -->
+    <main class="products">
+      <div class="row action-btns d-flex align-items-end justify-content-center  align-sb">
+        <div class="col-md-3 mb-10 w-100">
+          <ws-search-box (searchChange)="updateSearch($event)" aria-label="Search box"
+            [placeholder]="'Search Shopify products'" [attr.aria-placeholder]="'Search'">
+          </ws-search-box>
+        </div>
+        <div class="col-md-9">
+          <div class="import-btns">
+            <button class="btn btn-primary btn-rounded" *ngIf="!filterImportValue || filterImportValue == 'Not Imported'" (click)="importAllProduct(filterByImportArray, 'all products')">Import all products ({{filterByImportArray?.length}})+</button>
+            <button class="d-flex align-items-center btn btn-outline-danger btn-rounded col-md-6" *ngIf="filterImportValue == 'Pending Import'" (click)="removeAllProduct(filterByImportArray)">Remove all products ({{filterByImportArray?.length}})+</button>
+            <button class="btn btn-primary btn-rounded col-md-6" *ngIf="filterImportValue == 'Failed to Import'" (click)="importAllProduct(filterByImportArray, 'all products')">Retry all products ({{filterByImportArray?.length}})+</button>
+            <button class="btn btn-primary btn-rounded col-md-6" *ngIf="filterImportValue == 'Imported Products'" (click)="importAllProduct(filterByImportArray, 'all products')">Resync all products ({{filterByImportArray?.length}})+</button>
+            <button class="btn btn-primary btn-rounded" *ngIf="!filterImportValue || filterImportValue == 'Not Imported'" (click)="importAllProduct(shopifyProductsList, 'page product')">
+              Import all products ({{shopifyProductsList?.length}}) on this page +
+            </button>
+          </div>
+        </div>
+      </div>
+  
+      <div class="results-actions col-12 pt-5">
+        <div class="action-controls">
+          <div class="form-group" style="position: relative">
+            <select (change)="sortProducts(select.value, 'sort')" class="form-control select-style" id="sortProducts" #select aria-label="Sort Products">
+              <option *ngFor="let sort of sortOptions" [selected]="sort.selected" [value]="sort?.code">
+                {{ sort?.name }}
+              </option>
+            </select>
+            <label class="label1 select-lable" for="sortProducts"> Sort By </label>
+          </div>
+  
+          <div class="form-group" style="position: relative">
+            <select (change)="getProductsCount($event)" [(ngModel)]="itemsPerPage" class="form-control select-style select-show" id="sort" #select aria-label="Sort Product Count">
+              <option *ngFor="let val of [12, 24, 36]" [value]="val">{{ val }}</option>
+            </select>
+            <label class="label1 select-lable" for="sort"> Show </label>
+          </div>
+  
+          <div class="view-icons ml-2">
+            <button (click)="showView(false)" id="list-view" [ngClass]="!showGridView && 'active'" aria-label="List View">
+              <i class="fas fa-list"></i>
+            </button>
+            <button (click)="showView(true)" id="grid-view" [ngClass]="showGridView && 'active'" aria-label="Grid View">
+              <i class="fa fa-th-large" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Grid View -->
+  
+      <div class="shopify-products-facets-container">
+        <div class="">
+          <ws-shopify-facets (emitImportFilterValues)="filterByImportStatus()"></ws-shopify-facets>
+        </div>
+        <!-- <div  [ngClass]="showGridView ? 'shopify-product-list' : 'products-lt'" > -->
+        <!-- Grid View -->
+         <div>
+        @if(showGridView){
+        <ws-shopify-catalog-grid-view [shopifyProductsList]="shopifyProductsList" [favoriteList]="favoriteList"
+          [isLoggedIn]="isLoggedIn" (updateFavorites)="updateFavorites($event)"
+          (deleteProducts)="deleteProducts($event, 'Product removed from import list.')"
+          (importProducts)="importProducts($event, 'Product added to import list.')"></ws-shopify-catalog-grid-view>
+                <ng-container *ngTemplateOutlet="pagination" ></ng-container>
+        }@else {
+        <!-- List View -->
+        <ws-shopify-catalog-list-view [shopifyProductsList]="shopifyProductsList" [favoriteList]="favoriteList"
+          [isLoggedIn]="isLoggedIn" (updateFavorites)="updateFavorites($event)"
+          (deleteProducts)="deleteProducts($event, 'Product removed from import list.')"
+          (importProducts)="importProducts($event, 'Product added to import list.')"></ws-shopify-catalog-list-view>
+          <ng-container *ngTemplateOutlet="pagination" ></ng-container>
+        }
+
+        <div *ngIf="!loader && !shopifyProductsList?.length" class="ws-empty-state">
+          <div class="ws-empty-state-inner">
+            <img src="../../../../../assets/images/plp/magnifying.svg" alt="Expand_image">
+            <h6 class="ws-empty-state-title bolder">No results found</h6>
+            <ng-container *ngIf="searchTerm">
+              <div>
+                We couldn't find any matches for
+                <span class="bolder">{{ searchTerm }}</span>
+              </div>
+              <div>Please try searching with another term</div>
+            </ng-container>
+          </div>
+        </div>
+        </div>
+      </div>
+  
+    </main>
+  </div>
+  <ng-template #pagination>
+    <div class="col-12 p-0 d-flex justify-content-end  pt-3">
+      <div class="col-12 justify-content-between pagination p-0">
+        <div class="d-flex gap-3 align-items-baseline">
+          <span> Showing<b> {{ start + 1 }} to {{ end }}</b> of {{ isFiltered ? filteredArray?.length : filterByImportArray?.length }} entries
+          </span>
+          <div class="form-group ml-3"style="position: relative">
+            <select (change)="getProductsCount($event)" [(ngModel)]="itemsPerPage" class="form-control select-style select-show" id="productCount" #select aria-label="Product Count">
+              <option *ngFor="let val of [12, 24, 36]" [value]="val">{{ val }}</option>
+            </select>
+            <label class="label1 select-lable" for="productCount"> Show </label>
+          </div>
+        </div>
+        <!-- <div class="form-group mb-0 ml-2" style="position:relative;">
+            <ng-container *ngTemplateOutlet="pagination?.pageSize" ></ng-container>
+        </div> -->
+        <ng-container *ngIf="showPagination">
+          <ws-pagination
+            [resetReposition]="true"
+            [itemsPerPage]="itemsPerPage"
+            (currentPageChange)="pageChanged($event)"
+            [totalItems]="isFiltered ? filteredArray?.length : filterByImportArray?.length"
+            [numberOfPagesNeedTOBeShown]="5"
+            aria-label="Pagination controls">
+          </ws-pagination>
+        </ng-container>
+      </div>
+    </div>
+  </ng-template>
+</div>

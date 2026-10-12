@@ -1,0 +1,59 @@
+:host{
+    border: solid 1px #DADADC;
+    padding: 10px;
+}
+ .radio-Selection-Section{
+    border: 1px solid var(--ws-base-black);
+    border-radius: 4px;
+    width:100px;
+    height: 150px;
+    label{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        img{
+            width: 40px;
+            margin-top: 30px;
+        }
+    }
+ }
+
+ .packet-name-given {
+    text-transform: uppercase;
+    overflow-wrap: break-word;
+    line-height: 40px !important;
+ }
+
+ .packet-pill-btn {
+    border: 3px solid;
+ }
+
+ .selected-radio{
+    border: 3px solid var(--cx-color-primary);
+    background-color: var(--ws-brand-25);
+    color: #3B3B3B;
+}
+.link-text-ws{
+    color: var(--cx-color-primary);
+}
+
+.card-body{
+    border-left: 1px solid #DADADC;
+    border-right: 1px solid #DADADC;
+}
+
+// style re-work{
+.mt--23{
+    margin-top: -23px;
+}
+.bg-white{
+    background-color:var(--ws-base-white);
+}
+.bg-trans{
+    background-color: transparent;
+}
+.fsw {
+    font-size: 24px;
+    font-weight: 900;
+}

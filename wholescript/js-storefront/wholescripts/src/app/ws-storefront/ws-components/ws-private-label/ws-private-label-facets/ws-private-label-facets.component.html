@@ -1,0 +1,31 @@
+<div  class="filter-section">
+  <div class="filter-container">
+    <div class="filter-header">
+        <h3><svg width="13" height="20" viewBox="0 0 13 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M0 5.375C0 4.91016 0.382812 4.5 0.875 4.5H11.375C11.8398 4.5 12.25 4.91016 12.25 5.375C12.25 5.86719 11.8398 6.25 11.375 6.25H0.875C0.382812 6.25 0 5.86719 0 5.375ZM1.75 9.75C1.75 9.28516 2.13281 8.875 2.625 8.875H9.625C10.0898 8.875 10.5 9.28516 10.5 9.75C10.5 10.2422 10.0898 10.625 9.625 10.625H2.625C2.13281 10.625 1.75 10.2422 1.75 9.75ZM7.875 14.125C7.875 14.6172 7.46484 15 7 15H5.25C4.75781 15 4.375 14.6172 4.375 14.125C4.375 13.6602 4.75781 13.25 5.25 13.25H7C7.46484 13.25 7.875 13.6602 7.875 14.125Z"
+                    fill="#101828" />
+            </svg>
+            Filters</h3>
+        <button (click)="ClearFilters()">Reset filters</button>
+    </div>
+  </div>
+  <div *ngFor = " let filter of facetFilters" class="filtersOptions">
+    <button class="filter-toggle" (click)="filter.visible = !filter.visible">
+      Filter by {{ filter.name.toLowerCase() }}
+      <i class="fa float-right" [ngClass]="filter.visible ? 'fa-chevron-up': 'fa-chevron-down'"></i>
+    </button>
+    <div *ngIf="filter.visible && filter.name !== 'allCategories'" class="filter-options">
+      <div class="checkbox-wrapper" *ngFor = " let option of filter.values">
+        <div *ngIf="option.name && option.name !== 'Full Catalog'">
+            <input [id] = "option.name" tabindex="0" (keypress)="setOption(option)" (change)="setFilterChange(option)" wsCheckbox type="checkbox" [(ngModel)]="option.selected" [value] = "option.selected"><label [for] = "option.name"> {{ option.name }}</label>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="filter.visible && filter.name === 'allCategories'" class="filter-options allcategories">
+      <div *ngFor = " let option of filter.values ; let i = index">
+      <label [for] = "option.name"><input tabindex="0" [id]="option.name" (keypress)="setOption(option)" (change)="setFilterChange(option)" type="checkbox" [(ngModel)]="option.selected" [value] = "option.selected"> {{ option.name }}</label>
+      </div>
+    </div>
+  </div>
+</div>
